@@ -18,7 +18,7 @@ Marque [x] ao concluir (o comando /fim faz isso). A próxima tarefa é a primeir
 Venda inicial por links do Mercado Pago; o checkout integrado da Sprint 2 substitui os links sem refazer a página.
 
 - [x] Rotas e página de vendas com textos provisórios ("/" pública, "/app" da aluna, preços por data, lazy loading, PWA, meta tags)
-- [ ] Cadastro de interessadas
+- [x] Cadastro de interessadas
 - [ ] Botões de pagamento (links do Mercado Pago), aceite e páginas legais (termos e privacidade)
 
 ## Sprint 1: painel e área base (até 11/10)

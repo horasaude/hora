@@ -6,3 +6,5 @@ Passo a passo para problemas em produção. Serão escritos na Sprint 2 e antes 
 - restaurar backup
 - voltar deploy
 - troca de chave vazada
+
+Já escritos: interessadas.md (publicar o cadastro de interessadas).

@@ -47,3 +47,7 @@ export function tempoRestanteOferta(agora: Date): TempoRestante | null {
     segundos: total % 60,
   }
 }
+
+/** Formas de pagamento oferecidas na página. Mesma lista do banco (interessadas.plano_escolhido). */
+export const PLANOS = ['pix', 'parcelado', 'recorrente'] as const
+export type Plano = (typeof PLANOS)[number]

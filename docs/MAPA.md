@@ -1,7 +1,7 @@
 # Mapa do projeto
 
 Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim).
-Última atualização: página de vendas, parte 1 (rotas e layout).
+Última atualização: cadastro de interessadas.
 
 ## Rotas
 
@@ -22,10 +22,11 @@ Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim)
 
 ## Regras de negócio (src/domain)
 
-| Arquivo   | Regra                                                  |
-| --------- | ------------------------------------------------------ |
-| oferta.ts | oferta do ORA válida até 24/10/2026 23h59 de Brasília  |
-| precos.ts | preços vigentes (oferta ou cheio) e contagem da oferta |
+| Arquivo   | Regra                                                         |
+| --------- | ------------------------------------------------------------- |
+| oferta.ts | oferta do ORA válida até 24/10/2026 23h59 de Brasília         |
+| precos.ts | preços vigentes (oferta ou cheio), contagem da oferta, PLANOS |
+| termos.ts | versão e caminho do contrato aceito no cadastro               |
 
 ## Utilitários (src/lib)
 
@@ -37,6 +38,8 @@ Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim)
 | env.ts         | valida variáveis de ambiente               |
 | datas.ts       | dia e datas no fuso de Brasília            |
 | moeda.ts       | centavos para reais                        |
+| telefone.ts    | máscara de telefone e só dígitos           |
+| utm.ts         | lê UTMs da URL e guarda na sessão          |
 | queryClient.ts | configuração do TanStack Query             |
 
 ## Componentes compartilhados (src/components)
@@ -47,16 +50,20 @@ Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim)
 
 ## Banco (supabase)
 
-| Objeto                    | Tipo                  | Migração                    |
-| ------------------------- | --------------------- | --------------------------- |
-| perfis                    | tabela (RLS)          | 20261004000000_criar_perfis |
-| papel                     | enum (aluna, admin)   | 20261004000000_criar_perfis |
-| eh_admin()                | função                | 20261004000000_criar_perfis |
-| criar_perfil_novo_usuario | trigger em auth.users | 20261004000000_criar_perfis |
+| Objeto                    | Tipo                   | Migração                          |
+| ------------------------- | ---------------------- | --------------------------------- |
+| perfis                    | tabela (RLS)           | 20261004000000_criar_perfis       |
+| papel                     | enum (aluna, admin)    | 20261004000000_criar_perfis       |
+| eh_admin()                | função                 | 20261004000000_criar_perfis       |
+| criar_perfil_novo_usuario | trigger em auth.users  | 20261004000000_criar_perfis       |
+| interessadas              | tabela (RLS, admin lê) | 20261004120000_criar_interessadas |
 
 ## Edge Functions
 
-Nenhuma ainda.
+| Função                | Faz                                                     | JWT       |
+| --------------------- | ------------------------------------------------------- | --------- |
+| cadastrar-interessada | valida e grava interessada (honeypot, origem permitida) | desligado |
+| \_shared/cors.ts      | CORS pela lista ORIGENS_PERMITIDAS                      |           |
 
 ## Infraestrutura
 
