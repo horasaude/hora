@@ -5,10 +5,12 @@ Marque [x] ao concluir (o comando /fim faz isso). A próxima tarefa é a primeir
 ## Sprint 0: fundação (até 04/10, ajustado para 06 a 08/10)
 
 - [x] Estrutura do projeto, lint, testes, CI, docs
-- [ ] Criar repositório privado no GitHub e fazer o primeiro push
-- [ ] Criar projetos Supabase hora-staging e hora-prod
-- [ ] Conectar a Vercel ao repositório e configurar variáveis (Production = prod, Preview = staging)
-- [ ] Rodar Supabase local, aplicar migração e passar no db:test
+- [x] Criar repositório privado no GitHub e fazer o primeiro push
+- [x] Criar projeto Supabase (um só, decisão em ARQUITETURA)
+- [x] Conectar a Vercel ao repositório e configurar variáveis
+- [x] Testes de banco em PGlite (db:test) e migração aplicada com db push
+- [ ] Configurar Site URL e Redirect URL do Auth no Supabase (hora-snowy.vercel.app)
+- [ ] Tela de erro quando falta variável de ambiente (hoje fica em branco)
 - [ ] Backup diário e keep-alive (GitHub Actions)
 
 ## Sprint 1: painel e área base (até 11/10)

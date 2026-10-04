@@ -3,7 +3,7 @@
 | Pasta       | Conteúdo                                                                     |
 | ----------- | ---------------------------------------------------------------------------- |
 | migrations/ | Uma migração por assunto, em ordem. Nunca edite uma já aplicada: crie outra. |
-| tests/      | Testes pgTAP de RLS e funções (npm run db:test)                              |
+| tests/      | Testes de RLS e funções em PGlite, sem Docker (npm run db:test)              |
 | functions/  | Edge Functions (uma pasta por função; comum em _shared)                      |
 | seed.sql    | Dados de desenvolvimento                                                     |
 

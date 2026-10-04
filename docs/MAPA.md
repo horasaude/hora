@@ -1,7 +1,7 @@
 # Mapa do projeto
 
 Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim).
-Última atualização: Sprint 0, estrutura inicial.
+Última atualização: Sprint 0, banco em PGlite e infraestrutura conectada.
 
 ## Rotas
 
@@ -43,10 +43,10 @@ Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim)
 
 | Objeto                    | Tipo                  | Migração                    |
 | ------------------------- | --------------------- | --------------------------- |
-| perfis                    | tabela (RLS)          | 20261006000000_criar_perfis |
-| papel                     | enum (aluna, admin)   | 20261006000000_criar_perfis |
-| eh_admin()                | função                | 20261006000000_criar_perfis |
-| criar_perfil_novo_usuario | trigger em auth.users | 20261006000000_criar_perfis |
+| perfis                    | tabela (RLS)          | 20261004000000_criar_perfis |
+| papel                     | enum (aluna, admin)   | 20261004000000_criar_perfis |
+| eh_admin()                | função                | 20261004000000_criar_perfis |
+| criar_perfil_novo_usuario | trigger em auth.users | 20261004000000_criar_perfis |
 
 ## Edge Functions
 
@@ -54,8 +54,11 @@ Nenhuma ainda.
 
 ## Infraestrutura
 
-| Item   | Onde                     |
-| ------ | ------------------------ |
-| CI     | .github/workflows/ci.yml |
-| Deploy | Vercel (vercel.json)     |
-| PWA    | vite.config.ts (VitePWA) |
+| Item            | Onde                                                       |
+| --------------- | ---------------------------------------------------------- |
+| CI              | .github/workflows/ci.yml                                   |
+| Deploy          | Vercel (vercel.json), time hora3, hora-snowy.vercel.app    |
+| Banco           | Supabase zijtjwhvnhfarmfscmnr (sa-east-1), um projeto só   |
+| Testes de banco | supabase/tests (harness.mjs em PGlite, rodar.mjs)          |
+| Git             | github.com/horasaude/hora, chave SSH própria (~/.ssh/hora) |
+| PWA             | vite.config.ts (VitePWA)                                   |

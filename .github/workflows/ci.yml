@@ -27,8 +27,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: supabase/setup-cli@v1
+      - uses: actions/setup-node@v4
         with:
-          version: latest
-      - run: supabase db start
-      - run: supabase test db
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run db:test

@@ -4,24 +4,24 @@ Plataforma da comunidade HORA. React + Vite + TypeScript + Supabase.
 
 ## Rodar localmente
 
-Pré-requisitos: Node 20 ou mais, Docker (para o Supabase local) e Supabase CLI.
+Pré-requisitos: Node 20 ou mais e Supabase CLI (sem Docker; decisão 0002).
 
 ```bash
 npm install
-npm run db:start          # sobe o Supabase local e mostra a URL e a anon key
-cp .env.example .env.local  # cole a URL e a anon key
-npm run db:reset          # aplica migrações e seed
-npm run gen:types         # gera os tipos do banco
+cp .env.example .env.local  # cole a chave pública do projeto (Supabase > Settings > API Keys)
+supabase link --project-ref zijtjwhvnhfarmfscmnr
+npm run db:test           # testes de banco em PGlite
 npm run dev
 ```
 
 ## Comandos
 
-| Comando         | Faz                              |
-| --------------- | -------------------------------- |
-| npm run check   | typecheck, lint e testes         |
-| npm run build   | build de produção                |
-| npm run db:test | testes de RLS e funções do banco |
+| Comando         | Faz                                  |
+| --------------- | ------------------------------------ |
+| npm run check   | typecheck, lint e testes             |
+| npm run build   | build de produção                    |
+| npm run db:test | testes de RLS e funções do banco     |
+| npm run db:push | aplica migrações no projeto Supabase |
 
 ## Onde está cada coisa
 

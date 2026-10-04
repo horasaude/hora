@@ -1,5 +1,3 @@
--- Perfis das usuárias, papel e função de permissão de admin.
-
 create type public.papel as enum ('aluna', 'admin');
 
 create table public.perfis (
@@ -30,8 +28,6 @@ $$;
 create policy "perfil: dona lê o seu" on public.perfis
   for select using (id = auth.uid() or public.eh_admin());
 
--- A aluna edita só os próprios dados básicos. O papel (aluna/admin) não pode ser alterado pelo app:
--- mudança de papel será feita por função própria, com registro em log.
 revoke update on public.perfis from authenticated;
 grant update (nome, apelido, ocultar_ranking, consentimento_saude_em, updated_at) on public.perfis to authenticated;
 
@@ -41,7 +37,6 @@ create policy "perfil: dona edita o seu" on public.perfis
 create policy "perfil: admin edita todos" on public.perfis
   for update using (public.eh_admin());
 
--- Cria o perfil automaticamente quando um usuário é criado no Auth.
 create or replace function public.criar_perfil_novo_usuario()
 returns trigger
 language plpgsql

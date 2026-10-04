@@ -58,7 +58,8 @@ Stack: React + Vite + TypeScript, Tailwind, TanStack Query, Zod, Supabase (Postg
 ## Comandos
 
 - npm run dev | npm run check (typecheck + lint + testes) | npm run build
-- npm run db:start | npm run db:reset | npm run db:test | npm run gen:types
+- npm run db:test (testes de banco em PGlite, sem Docker) | npm run db:push (aplica migrações no projeto ligado) | npm run gen:types
+- Supabase CLI só para o remoto (link, db push, functions deploy, gen types). Nada de Supabase local nem Docker (decisão 0002).
 
 ## Forma de trabalhar
 

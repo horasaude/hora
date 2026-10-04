@@ -28,4 +28,4 @@ pendente > ativa > (encerrada | reembolsada | em_atraso > suspensa > cancelada);
 
 ## Ambientes
 
-local (Supabase CLI) · staging (hora-staging, credenciais de teste do MP) · produção (hora-prod).
+Um projeto Supabase só (zijtjwhvnhfarmfscmnr, plano gratuito), usado para desenvolvimento e produção; a Vercel aponta Production e Preview para ele. Testes de banco locais em PGlite. Mercado Pago com credenciais de teste até o go-live; na troca pelas reais, apagar os pedidos de teste.
