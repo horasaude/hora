@@ -6,6 +6,6 @@ export function useLogin() {
   const navegar = useNavigate()
   return useMutation({
     mutationFn: entrarComSenha,
-    onSuccess: () => navegar('/', { replace: true }),
+    onSuccess: () => navegar('/app', { replace: true }),
   })
 }

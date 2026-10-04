@@ -10,6 +10,10 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
+      // O service worker cuida só da área da aluna e é registrado por ela (src/lib/pwa.ts).
+      // Assim a página de vendas vem sempre da rede e não baixa o app em segundo plano.
+      injectRegister: false,
+      scope: '/app/',
       manifest: {
         name: 'HORA',
         short_name: 'HORA',
@@ -18,7 +22,8 @@ export default defineConfig({
         theme_color: '#2C4C44',
         background_color: '#FFFFFF',
         display: 'standalone',
-        start_url: '/',
+        start_url: '/app',
+        scope: '/app/',
         icons: [{ src: '/icone.svg', sizes: 'any', type: 'image/svg+xml' }],
       },
     }),

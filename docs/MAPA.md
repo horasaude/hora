@@ -1,14 +1,16 @@
 # Mapa do projeto
 
 Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim).
-Última atualização: Sprint 0, banco em PGlite e infraestrutura conectada.
+Última atualização: página de vendas, parte 1 (rotas e layout).
 
 ## Rotas
 
-| Rota    | Página     | Feature | Acesso  |
-| ------- | ---------- | ------- | ------- |
-| /entrar | LoginPage  | auth    | público |
-| /       | InicioPage | inicio  | logada  |
+| Rota    | Página     | Feature | Acesso  | Carga                    |
+| ------- | ---------- | ------- | ------- | ------------------------ |
+| /       | VendasPage | vendas  | público | pacote inicial           |
+| /entrar | LoginPage  | auth    | público | lazy (com ComProvedores) |
+| /app    | InicioPage | inicio  | logada  | lazy (AreaAluna + PWA)   |
+| \*      | vai para / |         |         |                          |
 
 ## Features (src/features)
 
@@ -16,22 +18,26 @@ Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim)
 | ------- | ----------------------------------- | ----------------------------------- |
 | auth    | login, sessão, rota protegida       | LoginPage, RotaProtegida, useSessao |
 | inicio  | tela inicial da aluna (placeholder) | InicioPage                          |
+| vendas  | página de vendas pública, preços    | VendasPage                          |
 
 ## Regras de negócio (src/domain)
 
-| Arquivo   | Regra                                                 |
-| --------- | ----------------------------------------------------- |
-| oferta.ts | oferta do ORA válida até 24/10/2026 23h59 de Brasília |
+| Arquivo   | Regra                                                  |
+| --------- | ------------------------------------------------------ |
+| oferta.ts | oferta do ORA válida até 24/10/2026 23h59 de Brasília  |
+| precos.ts | preços vigentes (oferta ou cheio) e contagem da oferta |
 
 ## Utilitários (src/lib)
 
-| Arquivo        | Faz                             |
-| -------------- | ------------------------------- |
-| supabase.ts    | cliente Supabase tipado         |
-| env.ts         | valida variáveis de ambiente    |
-| datas.ts       | dia e datas no fuso de Brasília |
-| moeda.ts       | centavos para reais             |
-| queryClient.ts | configuração do TanStack Query  |
+| Arquivo        | Faz                                        |
+| -------------- | ------------------------------------------ |
+| supabase.ts    | cliente Supabase tipado                    |
+| pwa.ts         | registra o service worker (/app/)          |
+| pwaAntigo.ts   | remove o service worker antigo de escopo / |
+| env.ts         | valida variáveis de ambiente               |
+| datas.ts       | dia e datas no fuso de Brasília            |
+| moeda.ts       | centavos para reais                        |
+| queryClient.ts | configuração do TanStack Query             |
 
 ## Componentes compartilhados (src/components)
 
@@ -61,4 +67,5 @@ Nenhuma ainda.
 | Banco           | Supabase zijtjwhvnhfarmfscmnr (sa-east-1), um projeto só   |
 | Testes de banco | supabase/tests (harness.mjs em PGlite, rodar.mjs)          |
 | Git             | github.com/horasaude/hora, chave SSH própria (~/.ssh/hora) |
-| PWA             | vite.config.ts (VitePWA)                                   |
+| PWA             | vite.config.ts (VitePWA), escopo /app/, decisão 0003       |
+| Meta tags       | index.html, imagem public/og-hora.png                      |
