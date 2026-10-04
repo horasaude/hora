@@ -1,0 +1,2 @@
+-- Dados iniciais para desenvolvimento local (rodam no npm run db:reset).
+-- Na Sprint 2 entram: planos, regras de pontos, hábitos e contrato v1.
