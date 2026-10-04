@@ -15,3 +15,7 @@ Rodar nesta ordem, na pasta do projeto. O push na main vai por último: se a pá
 6. `git push`
 
 Conferir: abrir hora-snowy.vercel.app, cadastrar um teste e ver a linha em Table Editor > interessadas. Apagar a linha de teste ali mesmo.
+
+## Página nova sem contrato (2026-10-05)
+
+Ordem: `supabase functions deploy cadastrar-interessada --no-verify-jwt --use-api`, depois `npm run db:push` (remove as colunas de contrato), `npm run gen:types` e `git push`. Entre a função e a migração há alguns segundos em que um cadastro falharia; a página nova redireciona para o pagamento mesmo assim.

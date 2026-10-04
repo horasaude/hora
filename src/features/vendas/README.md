@@ -1,26 +1,35 @@
 # feature: vendas
 
-Página de vendas pública (rota /), feita para tráfego pago no celular. Não importa Supabase nem nada da área da aluna: o login e o app carregam sob demanda.
+Página de vendas pública (rota /), feita para tráfego pago no celular. Estrutura no estilo da Comunidade Subido de Tráfego, visual no estilo PAIN, nas cores do ORA. Não importa Supabase nem nada da área da aluna.
 
-| Arquivo                     | Faz                                                          |
-| --------------------------- | ------------------------------------------------------------ |
-| pages/VendasPage.tsx        | Monta as seções na ordem da página                           |
-| components/Topo.tsx         | Logo, promessa e botão para os preços                        |
-| components/Conteudo.tsx     | O que é a HORA, as três profissionais e como funciona        |
-| components/Precos.tsx       | Preços vigentes (src/domain/precos.ts) e contagem regressiva |
-| components/Cadastro.tsx     | Formulário de interessada (lazy), honeypot e aceite          |
-| components/EscolhaPlano.tsx | Cartões de preço como opções do formulário                   |
-| components/opcoes.ts        | As três formas de pagar com o valor vigente                  |
-| hooks/useCadastro.ts        | React Hook Form, máscara do WhatsApp, devolve o plano        |
-| api/cadastrarInteressada.ts | fetch para a Edge Function cadastrar-interessada             |
-| schemas/cadastro.ts         | zod do formulário, com as mensagens de erro                  |
-| components/Final.tsx        | Garantia e fidelidade, perguntas frequentes e rodapé         |
-| components/Secao.tsx        | Moldura das seções e botão em forma de link                  |
-| hooks/useAgora.ts           | Hora atual a cada segundo                                    |
-| textos.ts                   | Toda a copy da página (provisória). Trocar texto é só aqui   |
+| Arquivo                          | Faz                                                                    |
+| -------------------------------- | ---------------------------------------------------------------------- |
+| pages/VendasPage.tsx             | Monta os blocos na ordem da página e guarda as UTMs                    |
+| pages/ObrigadaPage.tsx           | /obrigada, para onde o Mercado Pago devolve depois do pagamento        |
+| pages/DocumentoPage.tsx          | /termos e /privacidade (textos em textos/legal.ts)                     |
+| components/Faixa.tsx             | Faixa fixa da oferta com contagem; some no fim da oferta               |
+| components/Abertura.tsx          | Primeira dobra, números de prova e o problema                          |
+| components/Produto.tsx           | O que é a HORA e como funciona                                         |
+| components/Pessoas.tsx           | As três profissionais (iniciais até chegar a foto) e depoimentos       |
+| components/Oferta.tsx            | Para quem é e tudo o que recebe (selos BÔNUS)                          |
+| components/Preco.tsx             | Preço ancorado; troca sozinho no fim da oferta                         |
+| components/Confianca.tsx         | Prêmios do ranking, garantia e perguntas (acordeão)                    |
+| components/Fechamento.tsx        | CTA final e rodapé                                                     |
+| components/WhatsAppFlutuante.tsx | Botão flutuante; some sem VITE_WHATSAPP_NUMERO                         |
+| components/Destaque.tsx          | `*palavra*` no texto vira serifa itálica colorida                      |
+| components/Secao.tsx             | Moldura dos blocos (branco, areia ou verde)                            |
+| components/BotaoCompra.tsx       | Todo botão de compra: abre o popup                                     |
+| components/compra/CompraProvider | Popup (`<dialog>` nativo), trava a rolagem, pré-carrega o formulário   |
+| components/compra/CompraForm     | Forma de pagamento, nome, e-mail, WhatsApp e a linha de termos (lazy)  |
+| hooks/useCompraForm.ts           | Grava o lead e vai para o link do Mercado Pago do plano                |
+| hooks/useEmOferta.ts, usePrecos  | Oferta e preços vigentes, trocam sozinhos no fim da oferta             |
+| api/registrarLead.ts             | Edge Function cadastrar-interessada; nunca lança, espera no máximo 4 s |
+| api/pagamento.ts                 | Links VITE_MP_LINK_PIX, _PARCELADO e _RECORRENTE                       |
+| flags.ts                         | LOJA_PARCEIRA_CONFIRMADA (bônus da loja, desligado)                    |
+| textos.ts e textos/              | Toda a copy. Itens com TODO(clientes) dependem das três                |
 
-Preços: até FIM_OFERTA_ORA vale a condição do ORA (13 meses de acesso); depois, os preços cheios entram sozinhos, sem deploy.
-Cadastro: sem importar o Supabase; o fetch vai direto para a Edge Function, que é quem grava. Depois de gravar, Precos guarda o plano escolhido e mostra a próxima etapa.
-Pagamento: o botão fica desativado até a tarefa 3 (links do Mercado Pago). Fotos das profissionais: hoje mostram as iniciais.
+Compra: o lead é gravado antes de sair, mas a venda nunca depende dele. Se a função falhar ou demorar, o redirecionamento acontece do mesmo jeito. Sem link configurado, o popup avisa e oferece o WhatsApp.
+Mercado Pago: cada link precisa ter a página de retorno apontando para /obrigada.
+Fotos das profissionais: colocar em public/profissionais/ e preencher `foto` em textos/produto.ts.
 
-Exporta (index.ts): VendasPage.
+Exporta (index.ts): VendasPage, ObrigadaPage, TermosPage, PrivacidadePage.

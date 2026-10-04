@@ -15,8 +15,6 @@ const esquema = z.object({
     .transform((v) => v.replace(/\D/g, ''))
     .pipe(z.string().regex(/^[0-9]{10,11}$/)),
   plano: z.enum(['pix', 'parcelado', 'recorrente']),
-  aceite: z.literal(true),
-  versaoTermos: texto(40).min(1),
   origem: opcional(500),
   utm: z
     .object({
@@ -34,8 +32,6 @@ export type LinhaInteressada = {
   email: string
   whatsapp: string
   plano_escolhido: 'pix' | 'parcelado' | 'recorrente'
-  aceitou_termos_em: string
-  versao_termos: string
   origem: string | null
   utm_source: string | null
   utm_medium: string | null
@@ -54,8 +50,8 @@ function ehRobo(corpo: unknown): boolean {
   return typeof site !== 'string' || site.trim() !== ''
 }
 
-/** Decide o que fazer com o corpo recebido. O horário do aceite é o do servidor. */
-export function prepararCadastro(corpo: unknown, agora: Date): Resultado {
+/** Decide o que fazer com o corpo recebido. Campos a mais (de versões antigas da página) são ignorados. */
+export function prepararCadastro(corpo: unknown): Resultado {
   if (ehRobo(corpo)) return { tipo: 'robo' }
   const r = esquema.safeParse(corpo)
   if (!r.success) return { tipo: 'invalido' }
@@ -67,8 +63,6 @@ export function prepararCadastro(corpo: unknown, agora: Date): Resultado {
       email: d.email,
       whatsapp: d.whatsapp,
       plano_escolhido: d.plano,
-      aceitou_termos_em: agora.toISOString(),
-      versao_termos: d.versaoTermos,
       origem: d.origem,
       utm_source: d.utm.source,
       utm_medium: d.utm.medium,

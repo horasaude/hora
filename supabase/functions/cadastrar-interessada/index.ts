@@ -37,7 +37,7 @@ Deno.serve(async (req) => {
     return responder(false, 400, origem)
   }
 
-  const r = prepararCadastro(corpo, new Date())
+  const r = prepararCadastro(corpo)
   if (r.tipo === 'robo') return responder(true, 200, origem)
   if (r.tipo === 'invalido') return responder(false, 400, origem)
 

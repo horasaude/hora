@@ -2,6 +2,15 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-05 · main · Página de vendas refeita do zero
+
+- Nova página na ordem pedida: faixa fixa da oferta com contagem, primeira dobra, números, problema, o que é, como funciona, profissionais, depoimentos (some vazio), para quem é, o que recebe com selos BÔNUS, preço ancorado, prêmios, garantia, perguntas, CTA final, rodapé e WhatsApp flutuante. Títulos com uma palavra em Fraunces itálica.
+- Compra: todo botão abre um popup (dialog nativo) com forma de pagamento, nome, e-mail e WhatsApp; grava o lead (no máximo 4 s, sem travar a venda) e vai para o link do Mercado Pago do plano. Linha de Termos e Privacidade, sem checkbox. Páginas /obrigada, /termos e /privacidade.
+- Contrato fora da página: migração 20261005090000 remove aceitou_termos_em e versao_termos; função aceita o corpo antigo e ignora esses campos. termos.ts removido.
+- Preços: ancoraCentavos, DESCONTO_OFERTA_CENTAVOS e precosPara; o 13º mês some depois da oferta; bônus da loja parceira atrás de flag desligada.
+- JS da rota /: 340,9 KB (107,9 KB gzip), antes 326 KB; o aumento é a copy. Formulário, React Hook Form e zod só no pedaço do popup.
+- Pendente: publicar (função, migração, tipos, push); variáveis VITE_MP_LINK_* e VITE_WHATSAPP_NUMERO na Vercel; retorno dos links para /obrigada; conteúdo das clientes (TAREFAS).
+
 ## 2026-10-04 · main · Cadastro de interessadas
 
 - Tabela interessadas com RLS: nada para visitante e aluna, leitura só para admin (eh_admin()), gravação só pela service role; checagens de formato no banco e 13 testes em PGlite.

@@ -1,31 +1,30 @@
 import type { ReactNode } from 'react'
+import { Destaque } from './Destaque'
 
-type Props = {
-  id?: string
-  titulo: string
-  fundo?: 'branco' | 'areia'
-  children: ReactNode
+type Fundo = 'branco' | 'areia' | 'ora'
+
+type Props = { id?: string; titulo?: string; fundo?: Fundo; children: ReactNode }
+
+const fundos: Record<Fundo, string> = {
+  branco: 'bg-white',
+  areia: 'bg-areia',
+  ora: 'bg-ora text-white',
 }
 
+/** Bloco da página: muito respiro, título grande com uma palavra em destaque. */
 export function Secao({ id, titulo, fundo = 'branco', children }: Props) {
   return (
-    <section id={id} className={`px-4 py-14 ${fundo === 'areia' ? 'bg-areia' : 'bg-white'}`}>
-      <div className="mx-auto max-w-2xl">
-        <h2 className="font-titulo text-3xl leading-tight text-ora">{titulo}</h2>
-        <div className="mt-6">{children}</div>
+    <section id={id} className={`scroll-mt-16 ${fundos[fundo]}`}>
+      <div className="mx-auto max-w-3xl px-5 py-20 sm:py-28">
+        {titulo && (
+          <h2
+            className={`font-titulo text-[2.5rem] leading-[1.05] font-semibold tracking-tight sm:text-6xl ${fundo === 'ora' ? 'text-white' : 'text-ora'}`}
+          >
+            <Destaque texto={titulo} cor={fundo === 'ora' ? 'ocre' : 'terracota'} />
+          </h2>
+        )}
+        <div className={titulo ? 'mt-10' : ''}>{children}</div>
       </div>
     </section>
-  )
-}
-
-/** Botão em forma de link, para âncoras e, na tarefa 3, os links de pagamento. */
-export function LinkBotao({ href, children }: { href: string; children: ReactNode }) {
-  return (
-    <a
-      href={href}
-      className="inline-flex min-h-12 items-center justify-center rounded-lg bg-ora px-6 font-semibold text-white transition hover:opacity-90"
-    >
-      {children}
-    </a>
   )
 }
