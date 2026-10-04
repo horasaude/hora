@@ -52,8 +52,9 @@ Stack: React + Vite + TypeScript, Tailwind, TanStack Query, Zod, Supabase (Postg
 
 ## Git
 
-- Nunca commitar direto na main. Uma branch por tarefa: feat/..., fix/..., chore/...
-- Conventional Commits. Pull request com CI verde antes de juntar.
+- Trabalho direto na main, sem branch nem pull request: o push na main publica na Vercel (hora-snowy.vercel.app) e a conferência é sempre pelo link.
+- Antes de cada push: npm run check verde (e npm run db:test se mexeu no banco). Nunca enviar com falha.
+- Conventional Commits, um commit por tarefa.
 
 ## Comandos
 
