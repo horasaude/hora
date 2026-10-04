@@ -16,7 +16,6 @@ export type Database = {
     Tables: {
       interessadas: {
         Row: {
-          aceitou_termos_em: string
           created_at: string
           email: string
           id: string
@@ -28,11 +27,9 @@ export type Database = {
           utm_medium: string | null
           utm_source: string | null
           utm_term: string | null
-          versao_termos: string
           whatsapp: string
         }
         Insert: {
-          aceitou_termos_em: string
           created_at?: string
           email: string
           id?: string
@@ -44,11 +41,9 @@ export type Database = {
           utm_medium?: string | null
           utm_source?: string | null
           utm_term?: string | null
-          versao_termos: string
           whatsapp: string
         }
         Update: {
-          aceitou_termos_em?: string
           created_at?: string
           email?: string
           id?: string
@@ -60,7 +55,6 @@ export type Database = {
           utm_medium?: string | null
           utm_source?: string | null
           utm_term?: string | null
-          versao_termos?: string
           whatsapp?: string
         }
         Relationships: []
