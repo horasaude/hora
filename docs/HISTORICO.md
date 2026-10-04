@@ -2,6 +2,12 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-04 · feat/tela-entrada · Tela de entrada com a logo
+
+- Login mostra a logo ORA (public/logo-ora.png, fundo transparente) e o título "Chegou a sua HORA de começar", com e-mail e senha embaixo.
+- Arquivos: src/features/auth/pages/LoginPage.tsx, src/features/auth/textos.ts, public/logo-ora.png.
+- Pendente: logo em SVG ou maior resolução; confirmar se existe logo própria da HORA.
+
 ## 2026-10-04 · chore/banco-pglite · Infraestrutura conectada (Sprint 0, parte 2)
 
 - GitHub: repositório horasaude/hora, main enviada com chave SSH própria (core.sshCommand do repo), sem mexer no login do gh.
