@@ -54,6 +54,7 @@ describe('Cadastro de interessada', () => {
     const fetch = abrir(true)
     await preencher()
     expect(await screen.findByText('Cadastro feito!')).toBeInTheDocument()
+    expect(screen.getByRole('status')).toHaveFocus()
     expect(
       screen.getByText(/^Você escolheu 12x de R\$\s198 no cartão, parcelado\.$/),
     ).toBeInTheDocument()

@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import {
   precosVigentes,
   tempoRestanteOferta,
@@ -55,9 +55,20 @@ function ListaPrecos({ opcoes }: { opcoes: OpcaoPreco[] }) {
   )
 }
 
+/** Aparece no lugar do formulário, que é bem maior: leva a tela e o foco até a confirmação. */
 function ProximaEtapa({ opcao }: { opcao: OpcaoPreco }) {
+  const caixa = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    caixa.current?.scrollIntoView?.({ behavior: 'smooth', block: 'center' })
+    caixa.current?.focus({ preventScroll: true })
+  }, [])
   return (
-    <div role="status" className="flex flex-col gap-4 rounded-lg border-2 border-ora bg-white p-5">
+    <div
+      ref={caixa}
+      role="status"
+      tabIndex={-1}
+      className="flex flex-col gap-4 rounded-lg border-2 border-ora bg-white p-5 focus:outline-none"
+    >
       <p className="font-titulo text-2xl text-ora">{textos.cadastro.feito}</p>
       <p className="text-tinta">{textos.cadastro.escolheu(`${opcao.valor} ${opcao.rotulo}`)}</p>
       <button
