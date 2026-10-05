@@ -2,6 +2,13 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-05 · main · Página sem repetição
+
+- Embaixo dos planos: "Compra 100% segura! Receba seu acesso imediatamente após confirmação do pagamento."
+- Saem: CTA final com preços repetidos, "Fidelidade de 12 meses" e "Acesso a tudo desde o primeiro dia" nos cartões (este contradizia as aulas liberadas aos poucos), "Acesso liberado no lançamento" do topo.
+- Acesso: FAQ e /obrigada dizem que usuário e senha provisória chegam por e-mail assim que o pagamento é confirmado.
+- "Nutricionista, médica nutróloga e educadora física" só no topo; "recorrente" virou "mensal" em toda a página, popup e termos.
+
 ## 2026-10-05 · main · Página mais junta e preço com cara de venda
 
 - Espaçamento menor em todas as seções, títulos menores, "Como funciona" e "Para quem é" em cartões, texto em peso normal (mais acolhedor).

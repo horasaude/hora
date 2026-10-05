@@ -8,7 +8,7 @@ export const compra = {
   opcoes: {
     parcelado: 'no cartão, parcelado',
     pix: 'à vista no Pix',
-    recorrente: 'no cartão recorrente',
+    recorrente: 'no cartão, mês a mês',
   },
   nome: 'Seu nome',
   email: 'Seu e-mail',
@@ -28,9 +28,8 @@ export const compra = {
   obrigada: {
     titulo: 'Que bom ter você na *HORA*',
     passos: [
-      'Assim que o pagamento for confirmado, você recebe um e-mail com o seu acesso.',
-      // TODO(clientes): data do lançamento.
-      'A plataforma abre no lançamento. Fique de olho no seu e-mail e no WhatsApp.',
+      'Assim que o pagamento for confirmado, você recebe no e-mail o seu usuário e uma senha provisória.',
+      'Entre pelo link do e-mail e troque a senha no primeiro acesso.',
       'Pagou no Pix? A confirmação costuma chegar em poucos minutos.',
     ],
     duvida: 'Ficou com alguma dúvida?',

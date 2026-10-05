@@ -1,4 +1,4 @@
-// Preço, garantia, perguntas, CTA final, rodapé e WhatsApp.
+// Preço, garantia, perguntas, rodapé e WhatsApp.
 
 export const fechamento = {
   preco: {
@@ -16,23 +16,24 @@ export const fechamento = {
       parcelado: {
         nome: 'Parcelado',
         detalhe: 'no cartão de crédito',
-        itens: ['Pagamento em 12 parcelas', 'Acesso a tudo desde o primeiro dia'],
+        itens: ['Pagamento em 12 parcelas'],
       },
       pix: {
         nome: 'À vista',
         detalhe: 'no Pix',
         selo: 'Menor valor',
-        itens: ['Pagamento único', 'Acesso a tudo desde o primeiro dia'],
+        itens: ['Pagamento único'],
       },
       recorrente: {
         nome: 'Mensal',
         detalhe: 'no cartão, mês a mês',
-        itens: ['Não ocupa o limite do cartão', 'Fidelidade de 12 meses'],
+        itens: ['Não ocupa o limite do cartão'],
       },
     },
     vezes: (n: number) => `${n}x`,
     acesso: (meses: number) => `${meses} meses de acesso`,
     botao: 'Quero este',
+    seguro: 'Compra 100% segura! Receba seu acesso imediatamente após confirmação do pagamento.',
   },
   garantia: {
     selo: '7 dias',
@@ -49,16 +50,15 @@ export const fechamento = {
       },
       {
         p: 'Quando recebo o acesso?',
-        // TODO(clientes): data do lançamento.
-        r: 'Depois da confirmação do pagamento, você recebe o acesso por e-mail. A plataforma abre no lançamento.',
+        r: 'Assim que o pagamento é confirmado, você recebe no e-mail o seu usuário e uma senha provisória.',
       },
       {
-        p: 'Qual a diferença entre parcelado e recorrente?',
-        r: 'No parcelado, o valor total ocupa o limite do cartão. No recorrente, a cobrança acontece mês a mês e não ocupa o limite.',
+        p: 'Qual a diferença entre parcelado e mensal?',
+        r: 'No parcelado, o valor total ocupa o limite do cartão. No mensal, a cobrança acontece mês a mês e não ocupa o limite.',
       },
       {
-        p: 'Como funciona a fidelidade no recorrente?',
-        r: 'O plano recorrente tem fidelidade de 12 meses. Nos primeiros 7 dias você pode cancelar com devolução integral.',
+        p: 'Como funciona a fidelidade no plano mensal?',
+        r: 'O plano mensal tem fidelidade de 12 meses. Nos primeiros 7 dias você pode cancelar com devolução integral.',
       },
       {
         p: 'E se eu perder uma live?',
@@ -69,12 +69,6 @@ export const fechamento = {
         r: 'Pelo celular ou computador, com e-mail e senha. Dá para instalar como aplicativo.',
       },
     ],
-  },
-  ctaFinal: {
-    etiqueta: 'Agora',
-    titulo: 'Chegou a sua *HORA*',
-    linha: (parcelas: string, pix: string) => `${parcelas} ou ${pix} no Pix`,
-    botao: 'Quero entrar na HORA',
   },
   assinatura: 'ORA · 2026',
   rodape: {

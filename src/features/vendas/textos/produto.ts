@@ -10,7 +10,7 @@ export const produto = {
     foto: '/fotos/tres-em-pe.webp',
     fotoAlt: 'Ana Milhomem, Dra. Clara Maria e Laís Moraes juntas à beira do lago',
     texto:
-      'Doze meses de acompanhamento com uma nutricionista, uma médica nutróloga e uma educadora física, no mesmo lugar. Conteúdo, encontros ao vivo e uma comunidade que caminha junto com você.',
+      'Um ano de conteúdo, encontros ao vivo e uma comunidade que caminha junto com você. Cada uma cuida de uma parte, e as três conversam entre si.',
     pilares: [
       { nome: 'Alimentação', quem: 'com a nutricionista' },
       { nome: 'Saúde', quem: 'com a médica nutróloga' },

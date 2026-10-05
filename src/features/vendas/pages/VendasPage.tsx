@@ -3,7 +3,7 @@ import { guardarUtms } from '@/lib/utm'
 import { Hero, Numeros, Problema } from '../components/Abertura'
 import { CompraProvider } from '../components/compra/CompraProvider'
 import { Perguntas } from '../components/Confianca'
-import { CtaFinal, Rodape } from '../components/Fechamento'
+import { Rodape } from '../components/Fechamento'
 import { ParaQuem, Recebe } from '../components/Oferta'
 import { Preco } from '../components/Preco'
 import { Depoimentos, Profissionais } from '../components/Pessoas'
@@ -26,7 +26,6 @@ export function VendasPage() {
         <Recebe />
         <Preco />
         <Perguntas />
-        <CtaFinal />
       </main>
       <Rodape />
       <WhatsAppFlutuante numero={import.meta.env.VITE_WHATSAPP_NUMERO} />

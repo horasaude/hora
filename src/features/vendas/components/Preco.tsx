@@ -50,6 +50,7 @@ export function Preco() {
           <Plano key={dados.plano} {...dados} />
         ))}
       </ul>
+      <p className="mt-6 text-center text-sm font-medium text-ora">{t.seguro}</p>
       <Garantia />
     </Secao>
   )

@@ -10,7 +10,6 @@ export const abertura = {
     subtitulo:
       'Um ano com nutricionista, médica nutróloga e educadora física no mesmo lugar. Para você parar de recomeçar toda segunda.',
     botao: 'Quero entrar na HORA',
-    seguro: 'Compra segura. Acesso liberado no lançamento.',
   },
   // Provisórios (fatos do produto). TODO(clientes): trocar por números de autoridade quando vierem.
   // O layout aceita qualquer valor curto com rótulo e detalhe.
@@ -19,7 +18,7 @@ export const abertura = {
     {
       valor: '3',
       rotulo: 'especialistas',
-      detalhe: 'nutricionista, médica nutróloga e educadora física',
+      detalhe: 'cuidando de você juntas',
     },
     { valor: '12', rotulo: 'meses', detalhe: 'de acompanhamento' },
     { valor: '2', rotulo: 'lives por mês', detalhe: 'ao vivo com as três' },

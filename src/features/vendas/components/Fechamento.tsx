@@ -1,24 +1,4 @@
-import { formatarPreco } from '@/lib/moeda'
-import { usePrecos } from '../hooks/usePrecos'
 import { textos } from '../textos'
-import { BotaoCompra } from './BotaoCompra'
-import { Secao } from './Secao'
-
-export function CtaFinal() {
-  const t = textos.ctaFinal
-  const p = usePrecos()
-  const parcelas = `${p.parcelas}x de ${formatarPreco(p.parceladoCentavos)}`
-  return (
-    <Secao etiqueta={t.etiqueta} titulo={t.titulo} fundo="ora" marca>
-      <p className="text-xl text-creme/90 sm:text-2xl">
-        {t.linha(parcelas, formatarPreco(p.pixCentavos))}
-      </p>
-      <div className="mt-10">
-        <BotaoCompra variante="claro">{t.botao}</BotaoCompra>
-      </div>
-    </Secao>
-  )
-}
 
 export function Rodape() {
   const t = textos.rodape

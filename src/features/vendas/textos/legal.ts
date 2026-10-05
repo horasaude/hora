@@ -30,7 +30,7 @@ export const termos: Documento = {
     {
       titulo: 'Garantia e cancelamento',
       texto:
-        'Você pode pedir a devolução integral em até 7 dias depois da compra. No plano recorrente vale a fidelidade de 12 meses depois desse prazo. O contrato completo é enviado por e-mail depois da compra.',
+        'Você pode pedir a devolução integral em até 7 dias depois da compra. No plano mensal vale a fidelidade de 12 meses depois desse prazo. O contrato completo é enviado por e-mail depois da compra.',
     },
     {
       titulo: 'Conteúdo e saúde',

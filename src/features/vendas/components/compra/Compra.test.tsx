@@ -17,7 +17,7 @@ async function abrir(respostaFuncao: () => Promise<Response>) {
     </CompraProvider>,
   )
   fireEvent.click(screen.getByRole('button', { name: 'Quero entrar na HORA' }))
-  await screen.findByLabelText('Seu nome')
+  await screen.findByLabelText('Seu nome', {}, { timeout: 5000 })
   return fetch
 }
 

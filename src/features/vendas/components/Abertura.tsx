@@ -33,7 +33,6 @@ export function Hero() {
         <div className="mt-10 w-full sm:w-auto">
           <BotaoCompra variante="claro">{t.botao}</BotaoCompra>
         </div>
-        <p className="mt-4 text-xs tracking-wide text-creme/80">{t.seguro}</p>
       </div>
     </header>
   )
