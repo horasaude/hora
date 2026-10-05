@@ -4,38 +4,36 @@ import { Destaque } from './Destaque'
 import { Secao } from './Secao'
 import { VideoFundo } from './VideoFundo'
 
-/** Celular: vídeo em tela cheia com véu escuro. Computador: texto no creme e o vídeo em quadro alto. */
+/** Vídeo cobrindo toda a primeira dobra, com véu verde-escuro e texto centralizado por cima. */
 export function Hero() {
   const t = textos.hero
   return (
-    <header className="relative bg-creme">
-      <div className="relative mx-auto grid min-h-[calc(100svh-3.5rem)] max-w-6xl lg:min-h-0 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-12 lg:px-8 lg:py-16">
-        <div className="absolute inset-0 lg:relative lg:order-2 lg:flex lg:justify-end">
-          <VideoFundo className="h-full w-full object-cover lg:aspect-[9/16] lg:h-[78vh] lg:max-h-[760px] lg:w-auto lg:rounded-[2rem]" />
-          <div aria-hidden="true" className="absolute inset-0 bg-tinta/50 lg:hidden" />
+    <header className="relative isolate flex min-h-[calc(100svh-3.5rem)] flex-col overflow-hidden bg-ora text-creme">
+      <VideoFundo className="absolute inset-0 -z-20 h-full w-full object-cover" />
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-tinta/65" />
+      <div className="mx-auto w-full max-w-6xl px-5 pt-6 sm:px-8">
+        <img
+          src="/logo-ora.png"
+          alt={t.logo}
+          width={482}
+          height={189}
+          className="h-9 w-auto brightness-0 invert sm:h-11"
+        />
+      </div>
+      <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col items-center justify-center px-5 py-16 text-center">
+        <p className="text-[0.7rem] font-medium tracking-[0.28em] text-creme/80 uppercase italic">
+          {t.etiqueta}
+        </p>
+        <h1 className="mt-6 text-[5rem] sm:text-8xl lg:text-[9rem]">
+          <Destaque texto={t.titulo} />
+        </h1>
+        <p className="mt-6 max-w-xl text-base leading-relaxed font-light text-creme/90 sm:text-lg">
+          {t.subtitulo}
+        </p>
+        <div className="mt-10 w-full sm:w-auto">
+          <BotaoCompra variante="claro">{t.botao}</BotaoCompra>
         </div>
-        <div className="relative flex flex-col justify-end px-5 pt-20 pb-12 text-creme lg:order-1 lg:p-0 lg:text-ora">
-          <img
-            src="/logo-ora.png"
-            alt={t.logo}
-            width={482}
-            height={189}
-            className="h-10 w-auto self-start brightness-0 invert lg:brightness-100 lg:invert-0"
-          />
-          <p className="mt-10 text-[0.7rem] font-medium tracking-[0.22em] uppercase italic opacity-80">
-            {t.etiqueta}
-          </p>
-          <h1 className="mt-4 text-[4.75rem] sm:text-8xl lg:text-[7.5rem]">
-            <Destaque texto={t.titulo} />
-          </h1>
-          <p className="mt-6 max-w-md text-base leading-relaxed font-light text-creme/90 sm:text-lg lg:text-suave">
-            {t.subtitulo}
-          </p>
-          <div className="mt-10">
-            <BotaoCompra variante="heroi">{t.botao}</BotaoCompra>
-          </div>
-          <p className="mt-4 text-xs tracking-wide text-creme/80 lg:text-suave">{t.seguro}</p>
-        </div>
+        <p className="mt-4 text-xs tracking-wide text-creme/80">{t.seguro}</p>
       </div>
     </header>
   )

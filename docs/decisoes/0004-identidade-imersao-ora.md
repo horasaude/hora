@@ -13,9 +13,9 @@ A primeira versão da página usava Fraunces encorpada com itálico terracota, n
 - Fundo creme (`--color-creme`) alternado com branco; verde ora em títulos e botões. Terracota e ocre saem da página de vendas.
 - Etiqueta pequena espaçada no topo de cada bloco ("PAUSA" · "ORA · 2026") e o "A" da logo como marca d'água.
 - Fotos do ensaio de 01/10/2026 (Lightroom), em public/fotos (WebP, 30 a 105 KB).
-- Primeira dobra com vídeo de banco (Pexels, licença livre): exercício, alimentação e cuidado em sequência, sem som. No celular, tela cheia com véu escuro; no computador, quadro vertical ao lado do texto (vídeo vertical esticado ficaria borrado). Sem vídeo para quem pede menos movimento ou economia de dados.
+- Primeira dobra no estilo de carolinastaxbusiness.com: vídeo de banco (Pexels, licença livre) cobrindo toda a largura, véu escuro (tinta a 65%) e texto centralizado. Exercício, alimentação e cuidado em sequência, sem som. Tela deitada recebe os vídeos horizontais (960x540), tela em pé os verticais (540x960). Sem vídeo para quem pede menos movimento ou economia de dados.
 
 ## Consequências
 
 - Fonte de título é parecida, não idêntica à das capas. Se a designer passar o nome, trocar em index.html e index.css.
-- Vídeos somam 3,9 MB, mas só o clipe em exibição é baixado.
+- Seis vídeos (1,1 a 2,4 MB cada) em public/videos; cada aparelho baixa só o clipe em exibição do seu conjunto.

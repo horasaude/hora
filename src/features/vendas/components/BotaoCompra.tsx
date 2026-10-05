@@ -1,15 +1,13 @@
 import type { Plano } from '@/domain/precos'
 import { useAbrirCompra } from '../hooks/compraContexto'
 
-type Variante = 'escuro' | 'claro' | 'heroi'
+type Variante = 'escuro' | 'claro'
 
 type Props = { children: string; plano?: Plano; compacto?: boolean; variante?: Variante }
 
 const cores: Record<Variante, string> = {
   escuro: 'bg-ora text-creme hover:bg-[#233d37]',
   claro: 'bg-creme text-ora hover:bg-white',
-  // No celular o botão fica sobre o vídeo; no computador, sobre o creme.
-  heroi: 'bg-creme text-ora hover:bg-white lg:bg-ora lg:text-creme lg:hover:bg-[#233d37]',
 }
 
 /** Todo botão de compra abre o mesmo popup. */

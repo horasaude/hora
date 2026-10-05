@@ -2,6 +2,11 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-05 · main · Vídeo de fundo em tela cheia
+
+- Primeira dobra refeita no estilo de carolinastaxbusiness.com: vídeo cobrindo toda a largura também no computador, véu escuro e texto centralizado (antes, no computador, o vídeo ficava num quadro ao lado).
+- Versões horizontais do Pexels para tela deitada (8045817, 4360750, 12322630); verticais seguem no celular. A troca acompanha girar o aparelho.
+
 ## 2026-10-05 · main · Página de vendas na identidade da Imersão ORA
 
 - Visual trocado para o das capas e do carrossel do Drive: Italiana caixa alta + Montserrat itálico leve (Destaque), fundo creme, verde ora, etiquetas "ORA · 2026" e o "A" da logo como marca d'água (decisão 0004).
