@@ -15,6 +15,7 @@ Página de vendas pública (rota /), feita para tráfego pago no celular. Estrut
 | components/Preco.tsx             | Preço ancorado; troca sozinho no fim da oferta                         |
 | components/Confianca.tsx         | Prêmios do ranking, garantia e perguntas (acordeão)                    |
 | components/Fechamento.tsx        | CTA final e rodapé                                                     |
+| components/VideoFundo.tsx        | Vídeos de fundo da primeira dobra (public/videos), em sequência        |
 | components/WhatsAppFlutuante.tsx | Botão flutuante; some sem VITE_WHATSAPP_NUMERO                         |
 | components/Destaque.tsx          | `*palavra*` no texto vira serifa itálica colorida                      |
 | components/Secao.tsx             | Moldura dos blocos (branco, areia ou verde)                            |
@@ -30,6 +31,6 @@ Página de vendas pública (rota /), feita para tráfego pago no celular. Estrut
 
 Compra: o lead é gravado antes de sair, mas a venda nunca depende dele. Se a função falhar ou demorar, o redirecionamento acontece do mesmo jeito. Sem link configurado, o popup avisa e oferece o WhatsApp.
 Mercado Pago: cada link precisa ter a página de retorno apontando para /obrigada.
-Fotos das profissionais: colocar em public/profissionais/ e preencher `foto` em textos/produto.ts.
+Fotos: public/fotos (ensaio de 01/10/2026). Vídeos: public/videos (Pexels 8045825, 7026643, 6812958). Identidade visual: decisão 0004.
 
 Exporta (index.ts): VendasPage, ObrigadaPage, TermosPage, PrivacidadePage.
