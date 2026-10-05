@@ -1,6 +1,5 @@
 import { Campo } from '@/components/ui'
 import type { Plano } from '@/domain/precos'
-import { linkWhatsApp } from '@/lib/whatsapp'
 import { useCompraForm } from '../../hooks/useCompraForm'
 import { usePrecos } from '../../hooks/usePrecos'
 import { textos } from '../../textos'
@@ -26,20 +25,6 @@ function Concordo() {
   )
 }
 
-function SemLink() {
-  const whats = linkWhatsApp(import.meta.env.VITE_WHATSAPP_NUMERO, textos.whatsapp.mensagem)
-  return (
-    <p role="alert" className="rounded-xl bg-white p-3 text-sm text-tinta">
-      {t.semLink}{' '}
-      {whats && (
-        <a href={whats} className={`font-semibold ${link}`}>
-          {t.chamarWhatsApp}
-        </a>
-      )}
-    </p>
-  )
-}
-
 function PlanoEscolhido({ plano }: { plano: Plano }) {
   const escolhida = opcoesPagamento(usePrecos()).find((o) => o.plano === plano)
   if (!escolhida) return null
@@ -55,7 +40,7 @@ function PlanoEscolhido({ plano }: { plano: Plano }) {
 
 /** Só os três campos: o plano já veio do cartão escolhido na página. */
 export function CompraForm({ planoInicial }: { planoInicial: Plano }) {
-  const { form, enviar, whatsapp, semLink, ocupado } = useCompraForm(planoInicial)
+  const { form, enviar, whatsapp, ocupado } = useCompraForm(planoInicial)
   const { register } = form
   const erros = form.formState.errors
   return (
@@ -92,7 +77,6 @@ export function CompraForm({ planoInicial }: { planoInicial: Plano }) {
         <label htmlFor="site">{t.site}</label>
         <input id="site" type="text" tabIndex={-1} autoComplete="off" {...register('site')} />
       </div>
-      {semLink && <SemLink />}
       <button
         type="submit"
         disabled={ocupado}

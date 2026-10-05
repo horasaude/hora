@@ -1,12 +1,10 @@
-import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest'
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { irPara } from '@/lib/navegacao'
-import { linkPagamento } from '../../api/pagamento'
 import { BotaoCompra } from '../BotaoCompra'
 import { CompraProvider } from './CompraProvider'
 
 vi.mock('@/lib/navegacao', () => ({ irPara: vi.fn() }))
-vi.mock('../../api/pagamento', () => ({ linkPagamento: vi.fn() }))
 
 async function abrir(
   respostaFuncao: () => Promise<Response>,
@@ -43,13 +41,11 @@ beforeAll(async () => {
 })
 
 describe('Popup de compra', () => {
-  beforeEach(() => {
-    vi.mocked(linkPagamento).mockImplementation((plano) => `https://mp.teste/${plano}`)
-  })
   afterEach(() => {
     cleanup()
     vi.clearAllMocks()
     vi.unstubAllGlobals()
+    sessionStorage.clear()
   })
 
   it('abre com o título, o plano escolhido, só três campos e sem checkbox', async () => {
@@ -74,28 +70,26 @@ describe('Popup de compra', () => {
     expect(irPara).not.toHaveBeenCalled()
   })
 
-  it('grava o lead e vai para o link do plano escolhido', async () => {
+  it('grava o lead e vai para o checkout com os dados guardados na sessão', async () => {
     const fetch = await abrir(ok, 'pix')
     preencher()
-    await vi.waitFor(() => expect(irPara).toHaveBeenCalledWith('https://mp.teste/pix'))
+    await vi.waitFor(() => expect(irPara).toHaveBeenCalledWith('/checkout'))
+    expect(JSON.parse(sessionStorage.getItem('hora:inscricao') ?? '{}')).toEqual({
+      plano: 'pix',
+      nome: 'Maria',
+      email: 'maria@teste.com',
+      whatsapp: '(98) 98765-4321',
+    })
     const corpo = JSON.parse(
       String((fetch.mock.calls[0] as unknown as [string, RequestInit])[1].body),
     )
     expect(corpo).toMatchObject({ nome: 'Maria', whatsapp: '98987654321', plano: 'pix' })
   })
 
-  it('se a função falhar, vai para o pagamento mesmo assim', async () => {
+  it('se a função falhar, vai para o checkout mesmo assim', async () => {
     await abrir(() => Promise.reject(new TypeError('Failed to fetch')))
     preencher()
-    await vi.waitFor(() => expect(irPara).toHaveBeenCalledWith('https://mp.teste/parcelado'))
-  })
-
-  it('sem link configurado, avisa em vez de sair', async () => {
-    vi.mocked(linkPagamento).mockReturnValue(null)
-    await abrir(ok)
-    preencher()
-    expect(await screen.findByRole('alert')).toHaveTextContent('ainda não está disponível')
-    expect(irPara).not.toHaveBeenCalled()
+    await vi.waitFor(() => expect(irPara).toHaveBeenCalledWith('/checkout'))
   })
 
   it('trava a rolagem da página enquanto aberto e solta ao fechar', async () => {

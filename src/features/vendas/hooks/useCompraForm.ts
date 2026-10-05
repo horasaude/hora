@@ -1,16 +1,15 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { salvarInscricao } from '@/features/checkout'
 import type { Plano } from '@/domain/precos'
 import { irPara } from '@/lib/navegacao'
 import { mascararTelefone } from '@/lib/telefone'
-import { linkPagamento } from '../api/pagamento'
 import { registrarLead } from '../api/registrarLead'
 import { esquemaCompra, type Compra, type EntradaCompra } from '../schemas/compra'
 
-/** Grava o lead (sem travar a venda) e leva para o link do Mercado Pago do plano escolhido. */
+/** Grava o lead (sem travar a venda) e leva ao checkout já com os dados preenchidos. */
 export function useCompraForm(planoInicial: Plano) {
-  const [semLink, setSemLink] = useState(false)
   const [saindo, setSaindo] = useState(false)
   const form = useForm<EntradaCompra, unknown, Compra>({
     resolver: zodResolver(esquemaCompra),
@@ -18,12 +17,11 @@ export function useCompraForm(planoInicial: Plano) {
   })
 
   const enviar = form.handleSubmit(async (dados) => {
-    setSemLink(false)
     await registrarLead(dados)
-    const link = linkPagamento(dados.plano)
-    if (!link) return setSemLink(true)
+    const { plano, nome, email, whatsapp } = dados
+    salvarInscricao({ plano, nome, email, whatsapp })
     setSaindo(true)
-    irPara(link)
+    irPara('/checkout')
   })
 
   const whatsapp = form.register('whatsapp', {
@@ -32,5 +30,5 @@ export function useCompraForm(planoInicial: Plano) {
   })
 
   const ocupado = form.formState.isSubmitting || saindo
-  return { form, enviar, whatsapp, semLink, ocupado }
+  return { form, enviar, whatsapp, ocupado }
 }

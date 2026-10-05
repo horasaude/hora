@@ -12,17 +12,25 @@ export const Campo = forwardRef<HTMLInputElement, Props>(function Campo(
   ref,
 ) {
   const campoId = id ?? props.name
+  const erroId = campoId ? `${campoId}-erro` : undefined
   return (
-    <label htmlFor={campoId} className="flex flex-col gap-1 text-sm">
-      <span className={rotuloOculto ? 'sr-only' : 'font-medium'}>{rotulo}</span>
+    <div className="flex flex-col gap-1 text-sm">
+      <label htmlFor={campoId} className={rotuloOculto ? 'sr-only' : 'font-medium'}>
+        {rotulo}
+      </label>
       <input
         ref={ref}
         id={campoId}
         className="min-h-12 rounded-xl border border-linha bg-white px-4 placeholder:text-suave focus:border-ora focus:outline-none"
         aria-invalid={Boolean(erro)}
+        aria-describedby={erro ? erroId : undefined}
         {...props}
       />
-      {erro && <span className="text-terracota">{erro}</span>}
-    </label>
+      {erro && (
+        <span id={erroId} className="text-terracota">
+          {erro}
+        </span>
+      )}
+    </div>
   )
 })

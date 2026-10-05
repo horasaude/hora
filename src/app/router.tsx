@@ -9,6 +9,10 @@ export const router = createBrowserRouter([
   { path: '/termos', element: <TermosPage /> },
   { path: '/privacidade', element: <PrivacidadePage /> },
   {
+    path: '/checkout',
+    lazy: async () => ({ Component: (await import('@/features/checkout')).CheckoutPage }),
+  },
+  {
     lazy: async () => ({ Component: (await import('./providers')).ComProvedores }),
     children: [
       {

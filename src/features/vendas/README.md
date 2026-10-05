@@ -25,7 +25,6 @@ Página de vendas pública (rota /), feita para tráfego pago no celular. Estrut
 | hooks/useCompraForm.ts           | Grava o lead e vai para o link do Mercado Pago do plano                |
 | hooks/useEmOferta.ts, usePrecos  | Oferta e preços vigentes, trocam sozinhos no fim da oferta             |
 | api/registrarLead.ts             | Edge Function cadastrar-interessada; nunca lança, espera no máximo 4 s |
-| api/pagamento.ts                 | Links VITE_MP_LINK_PIX, _PARCELADO e _RECORRENTE                       |
 | flags.ts                         | LOJA_PARCEIRA_CONFIRMADA (bônus da loja, desligado)                    |
 | textos.ts e textos/              | Toda a copy. Itens com TODO(clientes) dependem das três                |
 

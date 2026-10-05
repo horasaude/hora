@@ -2,6 +2,14 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-05 · main · Checkout próprio (visual, pagamento desligado)
+
+- Opção 1 escolhida: checkout próprio no formato do Hotmart, na identidade do ORA (feature checkout, rota /checkout, lazy, 10 KB).
+- Popup grava o lead, guarda nome, e-mail, WhatsApp e plano na sessão do navegador (nunca na URL) e leva a /checkout, que chega preenchido.
+- Checkout: banner com foto e oferta, resumo e troca de plano, dados pessoais com CPF (máscara e dígitos verificadores em src/domain/cpf.ts), forma de pagamento conforme o plano com quadro #pagamento-mp, lateral com incluído, garantia, WhatsApp e compra segura.
+- Saem os links VITE_MP_LINK_* (env, tipos, .env.example). Campo (ui) passa a deixar o erro fora do rótulo, com aria-describedby.
+- Pendente: conta Mercado Pago da cliente; Payment Brick no #pagamento-mp e Edge Function criar-pedido (Sprint 2). Até lá "Finalizar compra" só avisa que o pagamento será liberado em breve.
+
 ## 2026-10-05 · main · Popup de inscrição
 
 - Popup só com nome, e-mail e WhatsApp (placeholders "Digite seu nome", "Digite seu melhor e-mail", "Digite seu DDD + WhatsApp"; rótulos para leitor de tela), título "Preencha os dados abaixo e garanta a sua inscrição", resumo do plano escolhido no cartão e botão "Fazer minha inscrição".

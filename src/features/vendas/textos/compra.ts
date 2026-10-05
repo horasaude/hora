@@ -23,8 +23,6 @@ export const compra = {
     whatsapp: 'Confira o WhatsApp com DDD',
     plano: 'Escolha como quer pagar',
   },
-  semLink: 'O pagamento por aqui ainda não está disponível.',
-  chamarWhatsApp: 'Falar no WhatsApp',
   obrigada: {
     titulo: 'Que bom ter você na *HORA*',
     passos: [

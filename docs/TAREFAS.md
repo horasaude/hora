@@ -20,6 +20,8 @@ Venda inicial por links do Mercado Pago; o checkout integrado da Sprint 2 substi
 - [x] Rotas e página de vendas com textos provisórios ("/" pública, "/app" da aluna, preços por data, lazy loading, PWA, meta tags)
 - [x] Cadastro de interessadas
 - [x] Página de vendas refeita: popup de compra, links do Mercado Pago, /obrigada, termos e privacidade (sem aceite de contrato)
+- [x] Checkout próprio (visual) em /checkout, popup leva até ele
+- [ ] Ligar o pagamento no checkout: Payment Brick do Mercado Pago + criar-pedido (depende da conta da cliente)
 - [ ] Conteúdo das clientes: fotos, frases, números de autoridade, depoimentos, prêmios, data de lançamento, revisão jurídica dos termos
 
 ## Sprint 1: painel e área base (até 11/10)

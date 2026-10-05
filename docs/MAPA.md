@@ -5,15 +5,16 @@ Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim)
 
 ## Rotas
 
-| Rota         | Página          | Feature | Acesso  | Carga                    |
-| ------------ | --------------- | ------- | ------- | ------------------------ |
-| /            | VendasPage      | vendas  | público | pacote inicial           |
-| /obrigada    | ObrigadaPage    | vendas  | público | pacote inicial           |
-| /termos      | TermosPage      | vendas  | público | pacote inicial           |
-| /privacidade | PrivacidadePage | vendas  | público | pacote inicial           |
-| /entrar      | LoginPage       | auth    | público | lazy (com ComProvedores) |
-| /app         | InicioPage      | inicio  | logada  | lazy (AreaAluna + PWA)   |
-| \*           | vai para /      |         |         |                          |
+| Rota         | Página                                               | Feature                       | Acesso  | Carga                    |
+| ------------ | ---------------------------------------------------- | ----------------------------- | ------- | ------------------------ |
+| /            | VendasPage                                           | vendas                        | público | pacote inicial           |
+| /obrigada    | ObrigadaPage                                         | vendas                        | público | pacote inicial           |
+| /termos      | TermosPage                                           | vendas                        | público | pacote inicial           |
+| /privacidade | PrivacidadePage                                      | vendas                        | público | pacote inicial           |
+| /entrar      | LoginPage                                            | auth                          | público | lazy (com ComProvedores) |
+| /app         | InicioPage                                           | inicio                        | logada  | lazy (AreaAluna + PWA)   |
+| checkout     | checkout próprio (resumo, dados, pagamento, lateral) | CheckoutPage, salvarInscricao |
+| \*           | vai para /                                           |                               |         |                          |
 
 ## Features (src/features)
 
@@ -27,6 +28,7 @@ Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim)
 
 | Arquivo   | Regra                                                                                   |
 | --------- | --------------------------------------------------------------------------------------- |
+| cpf.ts    | CPF válido pelos dígitos verificadores                                                  |
 | oferta.ts | oferta do ORA válida até 24/10/2026 23h59 de Brasília                                   |
 | precos.ts | preços vigentes (oferta ou cheio), âncora riscada, desconto da oferta, contagem, PLANOS |
 
@@ -43,6 +45,7 @@ Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim)
 | telefone.ts    | máscara de telefone e só dígitos           |
 | utm.ts         | lê UTMs da URL e guarda na sessão          |
 | whatsapp.ts    | link wa.me a partir do número com DDD      |
+| cpf.ts         | máscara de CPF enquanto digita             |
 | navegacao.ts   | sai do site (link de pagamento)            |
 | queryClient.ts | configuração do TanStack Query             |
 
