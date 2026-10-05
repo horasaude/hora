@@ -1,21 +1,21 @@
 // Popup de compra e página de obrigada.
 
 export const compra = {
-  titulo: 'Garanta a sua *vaga*',
+  titulo: 'Preencha os dados abaixo e garanta a sua inscrição',
+  escolhido: 'Plano escolhido',
   fechar: 'Fechar',
   carregando: 'Carregando',
-  plano: 'Como você quer pagar?',
   opcoes: {
     parcelado: 'no cartão, parcelado',
     pix: 'à vista no Pix',
     recorrente: 'no cartão, mês a mês',
   },
-  nome: 'Seu nome',
-  email: 'Seu e-mail',
-  whatsapp: 'Seu WhatsApp',
+  nome: { rotulo: 'Nome', exemplo: 'Digite seu nome' },
+  email: { rotulo: 'E-mail', exemplo: 'Digite seu melhor e-mail' },
+  whatsapp: { rotulo: 'WhatsApp', exemplo: 'Digite seu DDD + WhatsApp' },
   site: 'Deixe em branco',
-  botao: 'Ir para o pagamento',
-  indo: 'Indo para o pagamento',
+  botao: 'Fazer minha inscrição',
+  indo: 'Enviando',
   concordo: ['Ao continuar, você concorda com os ', ' e a ', '.'] as const,
   erros: {
     nome: 'Escreva seu nome',

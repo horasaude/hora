@@ -2,7 +2,6 @@ import { lazy, Suspense, useCallback, useEffect, useRef, useState, type ReactNod
 import type { Plano } from '@/domain/precos'
 import { CompraContexto } from '../../hooks/compraContexto'
 import { textos } from '../../textos'
-import { Destaque } from '../Destaque'
 
 const carregarForm = () => import('./CompraForm')
 const CompraForm = lazy(() => carregarForm().then((m) => ({ default: m.CompraForm })))
@@ -37,13 +36,13 @@ export function CompraProvider({ children }: { children: ReactNode }) {
         aria-labelledby="compra-titulo"
         onClose={aoFechar}
         onClick={(e) => e.target === e.currentTarget && fechar()}
-        className="m-auto max-h-[calc(100dvh-1.5rem)] w-[calc(100%-1.5rem)] max-w-md rounded-[2rem] bg-creme p-0 text-tinta backdrop:bg-tinta/60"
+        className="m-auto outline-none max-h-[calc(100dvh-1.5rem)] w-[calc(100%-1.5rem)] max-w-md rounded-[2rem] bg-creme p-0 text-tinta backdrop:bg-tinta/60"
       >
         {plano && (
           <div className="p-6">
             <div className="mb-5 flex items-start justify-between gap-4">
-              <h2 id="compra-titulo" className="text-5xl text-ora">
-                <Destaque texto={textos.compra.titulo} />
+              <h2 id="compra-titulo" className="text-xl leading-snug font-semibold text-ora">
+                {textos.compra.titulo}
               </h2>
               <button
                 type="button"

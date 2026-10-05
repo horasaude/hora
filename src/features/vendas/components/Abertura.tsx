@@ -1,5 +1,4 @@
 import { textos } from '../textos'
-import { BotaoCompra } from './BotaoCompra'
 import { Destaque } from './Destaque'
 import { Secao } from './Secao'
 import { VideoFundo } from './VideoFundo'
@@ -31,7 +30,12 @@ export function Hero() {
           {t.subtitulo}
         </p>
         <div className="mt-10 w-full sm:w-auto">
-          <BotaoCompra variante="claro">{t.botao}</BotaoCompra>
+          <a
+            href="#preco"
+            className="inline-flex min-h-14 w-full items-center justify-center rounded-full bg-creme px-6 text-sm font-semibold tracking-[0.1em] text-ora uppercase transition hover:bg-white sm:w-auto sm:px-10 sm:tracking-[0.16em]"
+          >
+            {t.botao}
+          </a>
         </div>
       </div>
     </header>

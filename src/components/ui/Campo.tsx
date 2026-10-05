@@ -1,19 +1,24 @@
 import { forwardRef, type InputHTMLAttributes } from 'react'
 
-type Props = InputHTMLAttributes<HTMLInputElement> & { rotulo: string; erro?: string }
+type Props = InputHTMLAttributes<HTMLInputElement> & {
+  rotulo: string
+  erro?: string
+  /** Rótulo só para leitor de tela, quando o placeholder já explica o campo. */
+  rotuloOculto?: boolean
+}
 
 export const Campo = forwardRef<HTMLInputElement, Props>(function Campo(
-  { rotulo, erro, id, ...props },
+  { rotulo, erro, rotuloOculto, id, ...props },
   ref,
 ) {
   const campoId = id ?? props.name
   return (
     <label htmlFor={campoId} className="flex flex-col gap-1 text-sm">
-      <span className="font-medium">{rotulo}</span>
+      <span className={rotuloOculto ? 'sr-only' : 'font-medium'}>{rotulo}</span>
       <input
         ref={ref}
         id={campoId}
-        className="min-h-11 rounded-lg border border-linha px-3 focus:border-ora focus:outline-none"
+        className="min-h-12 rounded-xl border border-linha bg-white px-4 placeholder:text-suave focus:border-ora focus:outline-none"
         aria-invalid={Boolean(erro)}
         {...props}
       />

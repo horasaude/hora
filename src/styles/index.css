@@ -20,3 +20,9 @@ body {
   color: var(--color-tinta);
   font-family: var(--font-texto);
 }
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}

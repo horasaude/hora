@@ -2,6 +2,13 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-05 · main · Popup de inscrição
+
+- Popup só com nome, e-mail e WhatsApp (placeholders "Digite seu nome", "Digite seu melhor e-mail", "Digite seu DDD + WhatsApp"; rótulos para leitor de tela), título "Preencha os dados abaixo e garanta a sua inscrição", resumo do plano escolhido no cartão e botão "Fazer minha inscrição".
+- O plano vem do cartão; o botão do topo rola até os planos.
+- Campo (components/ui) ganhou rotuloOculto. Teste do popup pré-carrega o formulário (evita falha por lentidão).
+- Pendente: checkout próprio no estilo Hotmart depende da conta Mercado Pago da cliente.
+
 ## 2026-10-05 · main · Página sem repetição
 
 - Embaixo dos planos: "Compra 100% segura! Receba seu acesso imediatamente após confirmação do pagamento."

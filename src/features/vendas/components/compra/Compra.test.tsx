@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { irPara } from '@/lib/navegacao'
 import { linkPagamento } from '../../api/pagamento'
@@ -8,27 +8,39 @@ import { CompraProvider } from './CompraProvider'
 vi.mock('@/lib/navegacao', () => ({ irPara: vi.fn() }))
 vi.mock('../../api/pagamento', () => ({ linkPagamento: vi.fn() }))
 
-async function abrir(respostaFuncao: () => Promise<Response>) {
+async function abrir(
+  respostaFuncao: () => Promise<Response>,
+  plano?: 'pix' | 'parcelado' | 'recorrente',
+) {
   const fetch = vi.fn(respostaFuncao)
   vi.stubGlobal('fetch', fetch)
   render(
     <CompraProvider>
-      <BotaoCompra>Quero entrar na HORA</BotaoCompra>
+      <BotaoCompra plano={plano}>Quero este</BotaoCompra>
     </CompraProvider>,
   )
-  fireEvent.click(screen.getByRole('button', { name: 'Quero entrar na HORA' }))
-  await screen.findByLabelText('Seu nome', {}, { timeout: 5000 })
+  fireEvent.click(screen.getByRole('button', { name: 'Quero este' }))
+  await screen.findByLabelText('Nome', {}, { timeout: 5000 })
   return fetch
 }
 
 function preencher() {
-  fireEvent.input(screen.getByLabelText('Seu nome'), { target: { value: 'Maria' } })
-  fireEvent.input(screen.getByLabelText('Seu e-mail'), { target: { value: 'maria@teste.com' } })
-  fireEvent.input(screen.getByLabelText('Seu WhatsApp'), { target: { value: '98987654321' } })
-  fireEvent.click(screen.getByRole('button', { name: 'Ir para o pagamento' }))
+  fireEvent.input(screen.getByPlaceholderText('Digite seu nome'), { target: { value: 'Maria' } })
+  fireEvent.input(screen.getByPlaceholderText('Digite seu melhor e-mail'), {
+    target: { value: 'maria@teste.com' },
+  })
+  fireEvent.input(screen.getByPlaceholderText('Digite seu DDD + WhatsApp'), {
+    target: { value: '98987654321' },
+  })
+  fireEvent.click(screen.getByRole('button', { name: 'Fazer minha inscrição' }))
 }
 
 const ok = () => Promise.resolve(new Response('{"ok":true}'))
+
+// O formulário carrega sob demanda; baixar antes evita que o primeiro teste pague esse custo.
+beforeAll(async () => {
+  await import('./CompraForm')
+})
 
 describe('Popup de compra', () => {
   beforeEach(() => {
@@ -40,17 +52,22 @@ describe('Popup de compra', () => {
     vi.unstubAllGlobals()
   })
 
-  it('abre com o parcelado marcado, só três campos e sem checkbox', async () => {
-    await abrir(ok)
+  it('abre com o título, o plano escolhido, só três campos e sem checkbox', async () => {
+    await abrir(ok, 'pix')
     expect(screen.getByRole('dialog', { hidden: true })).toHaveAttribute('open')
-    expect(screen.getByRole('radio', { name: /parcelado/ })).toBeChecked()
+    expect(
+      screen.getByText('Preencha os dados abaixo e garanta a sua inscrição'),
+    ).toBeInTheDocument()
+    expect(screen.getByText('Plano escolhido')).toBeInTheDocument()
+    expect(screen.queryByRole('radio')).not.toBeInTheDocument()
     expect(screen.queryByRole('checkbox')).not.toBeInTheDocument()
+    expect(screen.getAllByRole('textbox')).toHaveLength(3)
     expect(screen.getByRole('link', { name: 'Termos de uso' })).toHaveAttribute('href', '/termos')
   })
 
   it('sem preencher, mostra os erros e não sai da página', async () => {
     const fetch = await abrir(ok)
-    fireEvent.click(screen.getByRole('button', { name: 'Ir para o pagamento' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Fazer minha inscrição' }))
     expect(await screen.findByText('Escreva seu nome')).toBeInTheDocument()
     expect(screen.getByText('Confira o WhatsApp com DDD')).toBeInTheDocument()
     expect(fetch).not.toHaveBeenCalled()
@@ -58,8 +75,7 @@ describe('Popup de compra', () => {
   })
 
   it('grava o lead e vai para o link do plano escolhido', async () => {
-    const fetch = await abrir(ok)
-    fireEvent.click(screen.getByRole('radio', { name: /Pix/ }))
+    const fetch = await abrir(ok, 'pix')
     preencher()
     await vi.waitFor(() => expect(irPara).toHaveBeenCalledWith('https://mp.teste/pix'))
     const corpo = JSON.parse(
