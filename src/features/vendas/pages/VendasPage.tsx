@@ -2,8 +2,7 @@ import { useEffect } from 'react'
 import { guardarUtms } from '@/lib/utm'
 import { Hero, Numeros, Problema } from '../components/Abertura'
 import { CompraProvider } from '../components/compra/CompraProvider'
-import { Garantia, Perguntas, Premios } from '../components/Confianca'
-import { Faixa } from '../components/Faixa'
+import { Perguntas } from '../components/Confianca'
 import { CtaFinal, Rodape } from '../components/Fechamento'
 import { ParaQuem, Recebe } from '../components/Oferta'
 import { Preco } from '../components/Preco'
@@ -15,7 +14,6 @@ export function VendasPage() {
   useEffect(() => guardarUtms(window.location.search), [])
   return (
     <CompraProvider>
-      <Faixa />
       <Hero />
       <main>
         <Numeros />
@@ -27,8 +25,6 @@ export function VendasPage() {
         <ParaQuem />
         <Recebe />
         <Preco />
-        <Premios />
-        <Garantia />
         <Perguntas />
         <CtaFinal />
       </main>

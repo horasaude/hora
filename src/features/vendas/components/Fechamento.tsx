@@ -10,7 +10,7 @@ export function CtaFinal() {
   const parcelas = `${p.parcelas}x de ${formatarPreco(p.parceladoCentavos)}`
   return (
     <Secao etiqueta={t.etiqueta} titulo={t.titulo} fundo="ora" marca>
-      <p className="text-xl font-light text-creme/90 sm:text-2xl">
+      <p className="text-xl text-creme/90 sm:text-2xl">
         {t.linha(parcelas, formatarPreco(p.pixCentavos))}
       </p>
       <div className="mt-10">
@@ -23,7 +23,7 @@ export function CtaFinal() {
 export function Rodape() {
   const t = textos.rodape
   return (
-    <footer className="bg-tinta px-5 pt-14 pb-28 text-sm font-light text-creme/75">
+    <footer className="bg-tinta px-5 pt-14 pb-28 text-sm text-creme/75">
       <div className="mx-auto flex max-w-5xl flex-col gap-3 sm:px-3">
         <img
           src="/logo-ora.png"

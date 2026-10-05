@@ -1,31 +1,42 @@
-// Preço, prêmios, garantia, perguntas, CTA final, rodapé e WhatsApp.
+// Preço, garantia, perguntas, CTA final, rodapé e WhatsApp.
 
 export const fechamento = {
   preco: {
     etiqueta: 'Investimento',
-    titulo: 'Escolha como *entrar*',
+    titulo: 'Escolha o seu *plano*',
+    oferta: {
+      selo: (desconto: string) => `Oferta ORA: ${desconto} OFF`,
+      // Regra no domínio: FIM_OFERTA_ORA (24/10/2026 23h59 de Brasília).
+      prazo: 'Condição especial válida só até 24/10, às 23h59.',
+      depois: 'Depois disso, os valores voltam ao preço normal.',
+      unidades: { dias: 'dias', horas: 'horas', minutos: 'min', segundos: 'seg' },
+    },
     de: 'de',
+    planos: {
+      parcelado: {
+        nome: 'Parcelado',
+        detalhe: 'no cartão de crédito',
+        itens: ['Pagamento em 12 parcelas', 'Acesso a tudo desde o primeiro dia'],
+      },
+      pix: {
+        nome: 'À vista',
+        detalhe: 'no Pix',
+        selo: 'Menor valor',
+        itens: ['Pagamento único', 'Acesso a tudo desde o primeiro dia'],
+      },
+      recorrente: {
+        nome: 'Mensal',
+        detalhe: 'no cartão, mês a mês',
+        itens: ['Não ocupa o limite do cartão', 'Fidelidade de 12 meses'],
+      },
+    },
     vezes: (n: number) => `${n}x`,
-    parcelado: 'no cartão, parcelado',
-    pix: (valor: string) => `ou ${valor} no Pix`,
-    recorrente: (n: number, valor: string) => `ou ${n}x de ${valor} no cartão recorrente`,
     acesso: (meses: number) => `${meses} meses de acesso`,
-    botao: 'Quero entrar na HORA',
-  },
-  premios: {
-    etiqueta: 'Ranking',
-    titulo: 'Os *prêmios* do ranking',
-    // TODO(clientes): prêmios de cada posição e do ranking anual.
-    posicoes: [
-      { lugar: '1º lugar', premio: 'A definir' },
-      { lugar: '2º lugar', premio: 'A definir' },
-      { lugar: '3º lugar', premio: 'A definir' },
-    ],
-    anual: 'Prêmios do ranking anual: a definir',
+    botao: 'Quero este',
   },
   garantia: {
-    etiqueta: 'Sem risco',
-    titulo: '*7 dias* de garantia',
+    selo: '7 dias',
+    titulo: 'Garantia de 7 dias',
     texto: 'Entrou e não era para você? Peça a devolução em até 7 dias e recebe o valor integral.',
   },
   perguntas: {

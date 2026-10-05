@@ -10,13 +10,13 @@ function Lista({ titulo, itens, sim }: { titulo: string; itens: string[]; sim: b
     ? 'mt-1.5 h-3.5 w-2 shrink-0 rotate-45 border-r-2 border-b-2 border-ora'
     : 'mt-3 h-px w-4 shrink-0 bg-suave'
   return (
-    <div className="border-t border-ora/30 pt-8">
-      <h3 className="text-5xl text-ora">
+    <div className="rounded-[1.5rem] bg-white p-6">
+      <h3 className="text-4xl text-ora">
         <Destaque texto={titulo} />
       </h3>
-      <ul className="mt-8 flex flex-col gap-4">
+      <ul className="mt-5 flex flex-col gap-3">
         {itens.map((i) => (
-          <li key={i} className="flex gap-4 text-lg font-light text-tinta">
+          <li key={i} className="flex gap-4 text-lg text-tinta">
             <span aria-hidden="true" className={marca} />
             {i}
           </li>
@@ -30,7 +30,7 @@ export function ParaQuem() {
   const t = textos.paraQuem
   return (
     <Secao etiqueta={t.etiqueta} marca>
-      <div className="grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+      <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
         <img
           src={t.foto}
           alt={t.fotoAlt}
@@ -39,7 +39,7 @@ export function ParaQuem() {
           loading="lazy"
           className="aspect-[4/5] w-full rounded-[2rem] object-cover lg:aspect-[2/3]"
         />
-        <div className="flex flex-col gap-14">
+        <div className="flex flex-col gap-6">
           <Lista titulo={t.simTitulo} itens={t.sim} sim />
           <Lista titulo={t.naoTitulo} itens={t.nao} sim={false} />
         </div>
@@ -57,7 +57,7 @@ export function Recebe() {
         {itens.map((i) => (
           <li
             key={i.texto}
-            className="flex items-center justify-between gap-4 border-t border-linha py-5 text-lg font-light text-tinta last:border-b"
+            className="flex items-center justify-between gap-4 border-t border-linha py-4 text-lg text-tinta last:border-b"
           >
             <span>{i.texto}</span>
             {i.bonus && (

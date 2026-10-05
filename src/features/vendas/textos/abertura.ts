@@ -1,12 +1,7 @@
-// Faixa, primeira dobra, números e problema.
+// Primeira dobra, números e problema.
 // Títulos no padrão das capas: "frase em itálico *PALAVRA GRANDE* complemento".
 
 export const abertura = {
-  faixa: {
-    oferta: (desconto: string) => `Oferta ORA: ${desconto} OFF até 24/10`,
-    botao: 'Quero',
-    unidades: { dias: 'd', horas: 'h', minutos: 'm', segundos: 's' },
-  },
   hero: {
     logo: 'ORA',
     etiqueta: 'Imersão ORA',

@@ -2,6 +2,13 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-05 · main · Página mais junta e preço com cara de venda
+
+- Espaçamento menor em todas as seções, títulos menores, "Como funciona" e "Para quem é" em cartões, texto em peso normal (mais acolhedor).
+- Saem: faixa fixa do topo (botão "Quero" e contagem), seção de prêmios do ranking e a seção grande de garantia.
+- Preço: aviso "Oferta ORA: R$ 300 OFF" com contagem e "válida só até 24/10, às 23h59" dentro da seção; três planos lado a lado (à vista, parcelado em destaque, mensal), cada um com o preço normal riscado na oferta e botão próprio que abre o popup com o plano marcado; selo pequeno de garantia de 7 dias embaixo.
+- Preços e contagem em Montserrat (o "1" da Italiana parecia "I").
+
 ## 2026-10-05 · main · Vídeo de fundo em tela cheia
 
 - Primeira dobra refeita no estilo de carolinastaxbusiness.com: vídeo cobrindo toda a largura também no computador, véu escuro e texto centralizado (antes, no computador, o vídeo ficava num quadro ao lado).

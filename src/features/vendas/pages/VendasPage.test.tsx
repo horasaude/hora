@@ -9,9 +9,9 @@ function abrirEm(instante: number) {
 }
 
 const normal = (s?: string | null) => (s ?? '').replace(/\s+/g, ' ').trim()
-const texto = (t: string) => screen.getByText((_, el) => normal(el?.textContent) === t)
-const semTexto = (t: string) =>
-  expect(screen.queryByText((_, el) => normal(el?.textContent) === t)).not.toBeInTheDocument()
+const achar = (t: string) => screen.queryAllByText((_, el) => normal(el?.textContent) === t)
+const tem = (t: string) => expect(achar(t).length).toBeGreaterThan(0)
+const naoTem = (t: string) => expect(achar(t)).toHaveLength(0)
 
 describe('VendasPage', () => {
   afterEach(() => {
@@ -19,31 +19,39 @@ describe('VendasPage', () => {
     vi.useRealTimers()
   })
 
-  it('na oferta: faixa com contagem, preço ancorado, 13 meses e o bônus do 13º mês', () => {
+  it('na oferta: aviso com contagem no preço, três planos com o normal riscado e o 13º mês', () => {
     abrirEm(FIM_OFERTA_ORA.getTime() - 60_000)
-    expect(texto('Oferta ORA: R$ 300 OFF até 24/10')).toBeInTheDocument()
+    tem('Oferta ORA: R$ 300 OFF')
+    tem('Condição especial válida só até 24/10, às 23h59.')
     expect(screen.getByRole('timer')).toBeInTheDocument()
-    expect(texto('de R$ 2.297')).toBeInTheDocument()
-    expect(texto('12x R$ 198')).toBeInTheDocument()
-    expect(texto('ou R$ 1.997 no Pix')).toBeInTheDocument()
-    expect(texto('ou 12x de R$ 215 no cartão recorrente')).toBeInTheDocument()
-    expect(screen.getByText('13 meses de acesso')).toBeInTheDocument()
+    tem('12x R$ 198')
+    tem('R$ 1.997')
+    tem('12x R$ 215')
+    tem('de 12x R$ 227')
+    tem('de R$ 2.297')
+    tem('de 12x R$ 247')
+    expect(screen.getAllByText('13 meses de acesso')).toHaveLength(3)
+    expect(screen.getAllByRole('button', { name: 'Quero este' })).toHaveLength(3)
     expect(screen.getByText('13º mês de acesso grátis')).toBeInTheDocument()
+    expect(screen.getByText('Garantia de 7 dias')).toBeInTheDocument()
   })
 
-  it('depois do prazo: troca sozinho para os preços cheios e some a faixa', () => {
+  it('depois do prazo: preços cheios sem riscado, sem contagem e sem o 13º mês', () => {
     abrirEm(FIM_OFERTA_ORA.getTime() + 1000)
     expect(screen.queryByRole('timer')).not.toBeInTheDocument()
-    semTexto('de R$ 2.297')
-    expect(texto('12x R$ 227')).toBeInTheDocument()
-    expect(texto('ou R$ 2.297 no Pix')).toBeInTheDocument()
-    expect(texto('ou 12x de R$ 247 no cartão recorrente')).toBeInTheDocument()
-    expect(screen.getByText('12 meses de acesso')).toBeInTheDocument()
+    naoTem('Oferta ORA: R$ 300 OFF')
+    naoTem('de R$ 2.297')
+    tem('12x R$ 227')
+    tem('R$ 2.297')
+    tem('12x R$ 247')
+    expect(screen.getAllByText('12 meses de acesso')).toHaveLength(3)
     expect(screen.queryByText('13º mês de acesso grátis')).not.toBeInTheDocument()
   })
 
-  it('não fala de contrato, esconde depoimentos vazios e a loja parceira desligada', () => {
+  it('sem faixa no topo, sem ranking, sem contrato e sem depoimentos vazios', () => {
     abrirEm(FIM_OFERTA_ORA.getTime() - 60_000)
+    expect(screen.queryByRole('button', { name: 'Quero' })).not.toBeInTheDocument()
+    expect(screen.queryByText(/prêmios do ranking/i)).not.toBeInTheDocument()
     expect(document.body.textContent).not.toMatch(/aceito o contrato/i)
     expect(screen.queryByText(/Quem já/)).not.toBeInTheDocument()
     expect(screen.queryByText(/loja parceira/)).not.toBeInTheDocument()

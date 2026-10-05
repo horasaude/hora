@@ -36,7 +36,7 @@ function Marca({ claro }: { claro: boolean }) {
   return (
     <span
       aria-hidden="true"
-      className={`pointer-events-none absolute -top-10 -right-24 font-titulo text-[30rem] leading-none select-none sm:-right-10 ${claro ? 'text-creme/[0.06]' : 'text-salvia/[0.12]'}`}
+      className={`pointer-events-none absolute -top-10 -right-24 font-titulo text-[22rem] leading-none select-none sm:-right-10 ${claro ? 'text-creme/[0.06]' : 'text-salvia/[0.12]'}`}
     >
       A
     </span>
@@ -48,16 +48,16 @@ export function Secao({ id, etiqueta, titulo, fundo = 'creme', marca, children }
   return (
     <section id={id} className={`relative scroll-mt-16 overflow-hidden ${fundos[fundo]}`}>
       {marca && <Marca claro={escuro} />}
-      <div className="relative mx-auto max-w-5xl px-5 py-20 sm:px-8 sm:py-28">
+      <div className="relative mx-auto max-w-5xl px-5 py-14 sm:px-8 sm:py-20">
         {etiqueta && <Etiqueta texto={etiqueta} claro={escuro} />}
         {titulo && (
           <h2
-            className={`mt-8 text-[3.25rem] break-words sm:text-7xl ${escuro ? 'text-creme' : 'text-ora'}`}
+            className={`mt-4 text-[2.75rem] break-words sm:text-6xl ${escuro ? 'text-creme' : 'text-ora'}`}
           >
             <Destaque texto={titulo} />
           </h2>
         )}
-        <div className={titulo ? 'mt-12' : etiqueta ? 'mt-10' : ''}>{children}</div>
+        <div className={titulo ? 'mt-8' : etiqueta ? 'mt-6' : ''}>{children}</div>
       </div>
     </section>
   )

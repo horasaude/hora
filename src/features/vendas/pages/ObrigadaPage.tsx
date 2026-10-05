@@ -16,10 +16,7 @@ export function ObrigadaPage() {
         </h1>
         <ol className="mt-10 flex flex-col">
           {t.passos.map((passo, i) => (
-            <li
-              key={passo}
-              className="flex gap-5 border-t border-linha py-5 text-lg font-light text-tinta"
-            >
+            <li key={passo} className="flex gap-5 border-t border-linha py-5 text-lg text-tinta">
               <span className="font-titulo text-4xl leading-none text-salvia">{i + 1}</span>
               {passo}
             </li>

@@ -8,7 +8,7 @@ import { VideoFundo } from './VideoFundo'
 export function Hero() {
   const t = textos.hero
   return (
-    <header className="relative isolate flex min-h-[calc(100svh-3.5rem)] flex-col overflow-hidden bg-ora text-creme">
+    <header className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-ora text-creme">
       <VideoFundo className="absolute inset-0 -z-20 h-full w-full object-cover" />
       <div aria-hidden="true" className="absolute inset-0 -z-10 bg-tinta/65" />
       <div className="mx-auto w-full max-w-6xl px-5 pt-6 sm:px-8">
@@ -27,7 +27,7 @@ export function Hero() {
         <h1 className="mt-6 text-[5rem] sm:text-8xl lg:text-[9rem]">
           <Destaque texto={t.titulo} />
         </h1>
-        <p className="mt-6 max-w-xl text-base leading-relaxed font-light text-creme/90 sm:text-lg">
+        <p className="mt-6 max-w-xl text-base leading-relaxed text-creme/90 sm:text-lg">
           {t.subtitulo}
         </p>
         <div className="mt-10 w-full sm:w-auto">
@@ -43,20 +43,18 @@ export function Hero() {
 export function Numeros() {
   return (
     <Secao etiqueta={textos.numerosEtiqueta} fundo="branco">
-      <ul className="grid gap-8 sm:grid-cols-3">
+      <ul className="grid gap-5 sm:grid-cols-3">
         {textos.numeros.map((n) => (
           <li
             key={n.rotulo}
-            className="grid grid-cols-[6.5rem_1fr] items-center gap-4 border-t border-linha pt-6 sm:block"
+            className="grid grid-cols-[6.5rem_1fr] items-center gap-4 border-t border-linha pt-4 sm:block"
           >
             <p className="font-titulo text-7xl leading-none text-ora sm:text-8xl">{n.valor}</p>
             <div>
               <p className="text-xs font-semibold tracking-[0.2em] text-ora uppercase sm:mt-4">
                 {n.rotulo}
               </p>
-              <p className="mt-1 text-sm font-light text-suave italic sm:mt-2 sm:text-base">
-                {n.detalhe}
-              </p>
+              <p className="mt-1 text-sm text-suave italic sm:mt-2 sm:text-base">{n.detalhe}</p>
             </div>
           </li>
         ))}
@@ -69,14 +67,14 @@ export function Problema() {
   const t = textos.problema
   return (
     <Secao etiqueta={t.etiqueta} titulo={t.titulo} marca>
-      <ul className="flex flex-col gap-3">
+      <ul className="flex flex-col gap-2">
         {t.frases.map((f) => (
-          <li key={f} className="text-2xl font-light text-tinta sm:text-3xl">
+          <li key={f} className="text-2xl text-tinta sm:text-3xl">
             {f}
           </li>
         ))}
       </ul>
-      <p className="mt-16 text-6xl text-ora sm:text-7xl">
+      <p className="mt-10 text-5xl text-ora sm:text-6xl">
         <Destaque texto={t.fecho} />
       </p>
     </Secao>

@@ -18,8 +18,8 @@ export function EscolhaPagamento({ opcoes, campo, erro }: Props) {
           >
             <input type="radio" value={o.plano} className="size-5 shrink-0 accent-ora" {...campo} />
             <span className="flex flex-wrap items-baseline gap-x-2">
-              <span className="font-titulo text-2xl text-ora">{o.valor}</span>
-              <span className="text-sm font-light text-suave italic">{o.rotulo}</span>
+              <span className="text-xl font-semibold text-ora">{o.valor}</span>
+              <span className="text-sm text-suave italic">{o.rotulo}</span>
             </span>
           </label>
         ))}

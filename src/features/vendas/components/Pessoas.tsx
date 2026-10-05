@@ -36,15 +36,15 @@ export function Profissionais() {
   const t = textos.profissionais
   return (
     <Secao etiqueta={t.etiqueta} titulo={t.titulo} fundo="branco">
-      <ul className="grid gap-14 sm:grid-cols-3 sm:gap-6">
+      <ul className="grid gap-10 sm:grid-cols-3 sm:gap-5">
         {t.pessoas.map((p) => (
           <li key={p.nome}>
             <Foto nome={p.nome} foto={p.foto} />
-            <p className="mt-6 text-[0.7rem] font-medium tracking-[0.22em] text-suave uppercase italic">
+            <p className="mt-4 text-[0.7rem] font-medium tracking-[0.22em] text-suave uppercase italic">
               {p.papel}
             </p>
             <p className="mt-2 font-titulo text-4xl text-ora uppercase">{p.nome}</p>
-            <p className="mt-3 leading-relaxed font-light text-tinta">{p.frase}</p>
+            <p className="mt-3 leading-relaxed text-tinta">{p.frase}</p>
           </li>
         ))}
       </ul>
@@ -61,9 +61,7 @@ export function Depoimentos() {
       <ul className="grid gap-6 sm:grid-cols-2">
         {t.itens.map((d) => (
           <li key={d.nome} className="rounded-[1.5rem] bg-white p-7">
-            <blockquote className="text-lg leading-relaxed font-light text-tinta italic">
-              {d.texto}
-            </blockquote>
+            <blockquote className="text-lg leading-relaxed text-tinta italic">{d.texto}</blockquote>
             <p className="mt-4 text-xs font-semibold tracking-[0.2em] text-ora uppercase">
               {d.nome}
             </p>
