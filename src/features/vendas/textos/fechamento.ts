@@ -2,6 +2,7 @@
 
 export const fechamento = {
   preco: {
+    etiqueta: 'Investimento',
     titulo: 'Escolha como *entrar*',
     de: 'de',
     vezes: (n: number) => `${n}x`,
@@ -12,7 +13,8 @@ export const fechamento = {
     botao: 'Quero entrar na HORA',
   },
   premios: {
-    titulo: '*Prêmios* do ranking',
+    etiqueta: 'Ranking',
+    titulo: 'Os *prêmios* do ranking',
     // TODO(clientes): prêmios de cada posição e do ranking anual.
     posicoes: [
       { lugar: '1º lugar', premio: 'A definir' },
@@ -22,11 +24,12 @@ export const fechamento = {
     anual: 'Prêmios do ranking anual: a definir',
   },
   garantia: {
-    selo: '7 dias',
-    titulo: 'Garantia de *7 dias*',
+    etiqueta: 'Sem risco',
+    titulo: '*7 dias* de garantia',
     texto: 'Entrou e não era para você? Peça a devolução em até 7 dias e recebe o valor integral.',
   },
   perguntas: {
+    etiqueta: 'Dúvidas',
     titulo: 'Perguntas *frequentes*',
     itens: [
       {
@@ -57,10 +60,12 @@ export const fechamento = {
     ],
   },
   ctaFinal: {
-    titulo: 'Chegou a sua *HORA*.',
+    etiqueta: 'Agora',
+    titulo: 'Chegou a sua *HORA*',
     linha: (parcelas: string, pix: string) => `${parcelas} ou ${pix} no Pix`,
     botao: 'Quero entrar na HORA',
   },
+  assinatura: 'ORA · 2026',
   rodape: {
     marca: 'HORA',
     cnpj: 'CNPJ 52.877.749/0001-15',

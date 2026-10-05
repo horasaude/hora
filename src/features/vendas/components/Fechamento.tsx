@@ -9,12 +9,12 @@ export function CtaFinal() {
   const p = usePrecos()
   const parcelas = `${p.parcelas}x de ${formatarPreco(p.parceladoCentavos)}`
   return (
-    <Secao titulo={t.titulo} fundo="ora">
-      <p className="text-xl text-white/90 sm:text-2xl">
+    <Secao etiqueta={t.etiqueta} titulo={t.titulo} fundo="ora" marca>
+      <p className="text-xl font-light text-creme/90 sm:text-2xl">
         {t.linha(parcelas, formatarPreco(p.pixCentavos))}
       </p>
       <div className="mt-10">
-        <BotaoCompra claro>{t.botao}</BotaoCompra>
+        <BotaoCompra variante="claro">{t.botao}</BotaoCompra>
       </div>
     </Secao>
   )
@@ -23,20 +23,27 @@ export function CtaFinal() {
 export function Rodape() {
   const t = textos.rodape
   return (
-    <footer className="bg-tinta px-5 pt-12 pb-28 text-sm text-white/80">
-      <div className="mx-auto flex max-w-3xl flex-col gap-3">
-        <p className="font-titulo text-2xl text-white">{t.marca}</p>
-        <p>{t.cnpj}</p>
+    <footer className="bg-tinta px-5 pt-14 pb-28 text-sm font-light text-creme/75">
+      <div className="mx-auto flex max-w-5xl flex-col gap-3 sm:px-3">
+        <img
+          src="/logo-ora.png"
+          alt="ORA"
+          width={482}
+          height={189}
+          loading="lazy"
+          className="h-9 w-auto self-start brightness-0 invert"
+        />
+        <p className="mt-4">{t.cnpj}</p>
         <nav className="flex flex-wrap gap-x-6 gap-y-2">
           <a
             href="/termos"
-            className="inline-flex min-h-11 items-center underline underline-offset-2"
+            className="inline-flex min-h-11 items-center underline underline-offset-4"
           >
             {t.termos}
           </a>
           <a
             href="/privacidade"
-            className="inline-flex min-h-11 items-center underline underline-offset-2"
+            className="inline-flex min-h-11 items-center underline underline-offset-4"
           >
             {t.privacidade}
           </a>

@@ -10,28 +10,30 @@ const t = textos.preco
 export function Preco() {
   const p = usePrecos()
   return (
-    <Secao id="preco" titulo={t.titulo} fundo="areia">
-      <div className="rounded-3xl border-2 border-ora bg-white p-7 sm:p-10">
+    <Secao id="preco" etiqueta={t.etiqueta} titulo={t.titulo}>
+      <div className="rounded-[2rem] border border-ora/25 bg-white p-6 sm:p-12">
         {p.ancoraCentavos !== null && (
-          <p className="text-lg text-suave">
+          <p className="text-lg font-light text-suave">
             {t.de} <s>{formatarPreco(p.ancoraCentavos)}</s>
           </p>
         )}
-        <p className="mt-2 font-titulo leading-none font-semibold text-ora">
-          <span className="text-4xl">{t.vezes(p.parcelas)} </span>
-          <span className="text-7xl sm:text-8xl">{formatarPreco(p.parceladoCentavos)}</span>
+        <p className="mt-2 leading-none text-ora">
+          <span className="text-3xl font-light">{t.vezes(p.parcelas)} </span>
+          <span className="font-titulo text-[5.5rem] sm:text-9xl">
+            {formatarPreco(p.parceladoCentavos)}
+          </span>
         </p>
-        <p className="mt-2 text-suave">{t.parcelado}</p>
-        <p className="mt-6 text-xl font-semibold text-tinta">
-          {t.pix(formatarPreco(p.pixCentavos))}
-        </p>
-        <p className="mt-1 text-tinta">
-          {t.recorrente(p.parcelas, formatarPreco(p.recorrenteCentavos))}
-        </p>
-        <p className="mt-6 inline-block rounded-full bg-areia px-4 py-1.5 text-sm font-bold text-ora">
+        <p className="mt-3 text-sm font-light text-suave italic">{t.parcelado}</p>
+        <div className="mt-8 border-t border-linha pt-6">
+          <p className="text-xl font-medium text-tinta">{t.pix(formatarPreco(p.pixCentavos))}</p>
+          <p className="mt-1 font-light text-tinta">
+            {t.recorrente(p.parcelas, formatarPreco(p.recorrenteCentavos))}
+          </p>
+        </div>
+        <p className="mt-8 inline-block rounded-full bg-creme px-4 py-1.5 text-[0.7rem] font-semibold tracking-[0.18em] text-ora uppercase">
           {t.acesso(p.mesesAcesso)}
         </p>
-        <div className="mt-8">
+        <div className="mt-10">
           <BotaoCompra>{t.botao}</BotaoCompra>
         </div>
       </div>

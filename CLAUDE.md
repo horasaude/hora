@@ -48,7 +48,7 @@ Stack: React + Vite + TypeScript, Tailwind, TanStack Query, Zod, Supabase (Postg
 - Toda tela tem estados carregando, vazio, erro e sucesso.
 - Mobile primeiro (360 px). Alvo de toque 44 px, contraste AA, rótulo em todo campo.
 - Textos em português, sem travessão, tom humano e curto, sempre no textos.ts da feature.
-- Visual: fundo branco; cores do tema em src/styles/index.css (ora, salvia, terracota, ocre, areia). Sem degradê, sem emoji, sem sombra pesada.
+- Visual: identidade da Imersão ORA (decisão 0004): fundo creme/branco, títulos em Italiana caixa alta com frase em Montserrat itálico leve (componente Destaque), verde ora. Cores em src/styles/index.css. Sem degradê, sem emoji, sem sombra pesada.
 
 ## Git
 

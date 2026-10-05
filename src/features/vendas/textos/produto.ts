@@ -5,16 +5,20 @@ export type ItemRecebe = { texto: string; bonus?: boolean; so?: 'oferta' | 'loja
 
 export const produto = {
   oQueE: {
+    etiqueta: 'A comunidade',
     titulo: 'O que é a *HORA*',
+    foto: '/fotos/tres-em-pe.webp',
+    fotoAlt: 'Ana Milhomem, Dra. Clara Maria e Laís Moraes juntas à beira do lago',
     texto:
-      'Doze meses de acompanhamento com uma nutricionista, uma médica nutróloga e uma personal trainer, no mesmo lugar. Conteúdo, encontros ao vivo e uma comunidade que caminha junto com você.',
+      'Doze meses de acompanhamento com uma nutricionista, uma médica nutróloga e uma educadora física, no mesmo lugar. Conteúdo, encontros ao vivo e uma comunidade que caminha junto com você.',
     pilares: [
       { nome: 'Alimentação', quem: 'com a nutricionista' },
       { nome: 'Saúde', quem: 'com a médica nutróloga' },
-      { nome: 'Movimento', quem: 'com a personal' },
+      { nome: 'Movimento', quem: 'com a educadora física' },
     ],
   },
   comoFunciona: {
+    etiqueta: 'O método',
     titulo: 'Como funciona na *prática*',
     passos: [
       {
@@ -44,36 +48,41 @@ export const produto = {
     ],
   },
   profissionais: {
+    etiqueta: 'Três olhares',
     titulo: 'Quem vai estar *com você*',
-    // TODO(clientes): fotos (public/profissionais/*.jpg) e frase de autoridade de cada uma.
+    // Fotos do ensaio de 01/10/2026 (Lightroom). TODO(clientes): frase de autoridade de cada uma.
     pessoas: [
       {
         nome: 'Ana Milhomem',
         papel: 'Nutricionista',
         frase: 'Cuida da alimentação possível, que cabe na sua rotina e no seu prato.',
-        foto: undefined as string | undefined,
+        foto: '/fotos/ana.webp' as string | undefined,
       },
       {
         nome: 'Dra. Clara Maria',
         papel: 'Médica nutróloga',
         frase: 'Olha para a sua saúde por inteiro, com orientação médica e responsável.',
-        foto: undefined as string | undefined,
+        foto: '/fotos/clara.webp' as string | undefined,
       },
       {
         nome: 'Laís Moraes',
-        papel: 'Personal trainer',
+        papel: 'Educadora física',
         frase: 'Coloca o corpo em movimento com treinos que respeitam o seu momento.',
-        foto: undefined as string | undefined,
+        foto: '/fotos/lais.webp' as string | undefined,
       },
     ],
   },
   depoimentos: {
+    etiqueta: 'Quem viveu',
     titulo: 'Quem já *viveu* o ORA',
     // TODO(clientes): depoimentos reais, com autorização. Enquanto vazio, a seção não aparece.
     itens: [] as Depoimento[],
   },
   paraQuem: {
     // TODO(clientes): validar as duas listas.
+    etiqueta: 'Se enxergar',
+    foto: '/fotos/tres-sentadas.webp',
+    fotoAlt: 'As três profissionais sentadas conversando num deck de madeira',
     simTitulo: 'É *pra você* se',
     sim: [
       'Você já tentou sozinha e não conseguiu manter.',
@@ -89,6 +98,7 @@ export const produto = {
     ],
   },
   recebe: {
+    etiqueta: 'Composição',
     titulo: 'Tudo o que você *recebe*',
     selo: 'BÔNUS',
     itens: [

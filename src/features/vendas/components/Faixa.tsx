@@ -13,13 +13,17 @@ export function Faixa() {
   if (!tempo) return null
   const u = t.unidades
   return (
-    <div className="sticky top-0 z-30 bg-ora text-white">
-      <div className="mx-auto flex max-w-3xl items-center justify-between gap-3 px-4 py-2">
+    <div className="sticky top-0 z-30 bg-ora text-creme">
+      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-3 px-4">
         <div className="min-w-0">
-          <p className="text-sm font-semibold">
+          <p className="text-[0.65rem] leading-tight font-semibold tracking-[0.06em] uppercase sm:text-[0.7rem] sm:tracking-[0.14em]">
             {t.oferta(formatarPreco(DESCONTO_OFERTA_CENTAVOS))}
           </p>
-          <p role="timer" aria-live="off" className="font-titulo text-lg text-ocre tabular-nums">
+          <p
+            role="timer"
+            aria-live="off"
+            className="mt-0.5 text-sm font-light tracking-wide tabular-nums"
+          >
             {tempo.dias}
             {u.dias} {dois(tempo.horas)}
             {u.horas} {dois(tempo.minutos)}
@@ -27,7 +31,7 @@ export function Faixa() {
             {u.segundos}
           </p>
         </div>
-        <BotaoCompra compacto claro>
+        <BotaoCompra compacto variante="claro">
           {t.botao}
         </BotaoCompra>
       </div>

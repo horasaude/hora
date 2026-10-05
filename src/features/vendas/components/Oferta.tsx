@@ -7,16 +7,16 @@ import { Secao } from './Secao'
 
 function Lista({ titulo, itens, sim }: { titulo: string; itens: string[]; sim: boolean }) {
   const marca = sim
-    ? 'mt-1.5 h-3.5 w-2 shrink-0 rotate-45 border-r-[3px] border-b-[3px] border-ora'
-    : 'mt-3 h-[3px] w-3.5 shrink-0 bg-terracota'
+    ? 'mt-1.5 h-3.5 w-2 shrink-0 rotate-45 border-r-2 border-b-2 border-ora'
+    : 'mt-3 h-px w-4 shrink-0 bg-suave'
   return (
-    <div className={`rounded-3xl p-7 ${sim ? 'bg-white' : 'bg-areia'}`}>
-      <h3 className="font-titulo text-3xl font-semibold text-ora">
+    <div className="border-t border-ora/30 pt-8">
+      <h3 className="text-5xl text-ora">
         <Destaque texto={titulo} />
       </h3>
-      <ul className="mt-6 flex flex-col gap-4">
+      <ul className="mt-8 flex flex-col gap-4">
         {itens.map((i) => (
-          <li key={i} className="flex gap-4 text-lg text-tinta">
+          <li key={i} className="flex gap-4 text-lg font-light text-tinta">
             <span aria-hidden="true" className={marca} />
             {i}
           </li>
@@ -29,10 +29,20 @@ function Lista({ titulo, itens, sim }: { titulo: string; itens: string[]; sim: b
 export function ParaQuem() {
   const t = textos.paraQuem
   return (
-    <Secao fundo="areia">
-      <div className="grid gap-6 sm:grid-cols-2">
-        <Lista titulo={t.simTitulo} itens={t.sim} sim />
-        <Lista titulo={t.naoTitulo} itens={t.nao} sim={false} />
+    <Secao etiqueta={t.etiqueta} marca>
+      <div className="grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+        <img
+          src={t.foto}
+          alt={t.fotoAlt}
+          width={1000}
+          height={1500}
+          loading="lazy"
+          className="aspect-[4/5] w-full rounded-[2rem] object-cover lg:aspect-[2/3]"
+        />
+        <div className="flex flex-col gap-14">
+          <Lista titulo={t.simTitulo} itens={t.sim} sim />
+          <Lista titulo={t.naoTitulo} itens={t.nao} sim={false} />
+        </div>
       </div>
     </Secao>
   )
@@ -42,16 +52,16 @@ export function Recebe() {
   const t = textos.recebe
   const itens = itensVisiveis(t.itens, useEmOferta(), LOJA_PARCEIRA_CONFIRMADA)
   return (
-    <Secao titulo={t.titulo}>
+    <Secao etiqueta={t.etiqueta} titulo={t.titulo} fundo="branco">
       <ul>
         {itens.map((i) => (
           <li
             key={i.texto}
-            className="flex items-center justify-between gap-4 border-t border-linha py-5 text-lg text-tinta last:border-b"
+            className="flex items-center justify-between gap-4 border-t border-linha py-5 text-lg font-light text-tinta last:border-b"
           >
             <span>{i.texto}</span>
             {i.bonus && (
-              <span className="shrink-0 rounded-full bg-ocre px-3 py-1 text-xs font-bold tracking-wider text-tinta">
+              <span className="shrink-0 rounded-full bg-ora px-3 py-1 text-[0.65rem] font-semibold tracking-[0.2em] text-creme">
                 {t.selo}
               </span>
             )}

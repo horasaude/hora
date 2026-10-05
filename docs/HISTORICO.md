@@ -2,6 +2,15 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-05 · main · Página de vendas na identidade da Imersão ORA
+
+- Visual trocado para o das capas e do carrossel do Drive: Italiana caixa alta + Montserrat itálico leve (Destaque), fundo creme, verde ora, etiquetas "ORA · 2026" e o "A" da logo como marca d'água (decisão 0004).
+- Primeira dobra com vídeo de fundo do Pexels (exercício, alimentação, cuidado) em sequência; quadro vertical no computador; imagem parada para menos movimento ou economia de dados.
+- Fotos reais do ensaio (Lightroom): Ana 454, Clara 46, Laís 274 e as três juntas (81 e 155), em public/fotos.
+- Laís passa a "educadora física", como nas capas.
+- JS da rota /: 345,3 KB (109,2 KB gzip). Vídeos: 1,1 a 1,5 MB cada, só o clipe em exibição é baixado.
+- Pendente: nome da fonte original das capas; dúvida sobre quem está nas fotos 460 a 546 do ensaio (macacão verde, consultório).
+
 ## 2026-10-05 · main · Página de vendas refeita do zero
 
 - Nova página na ordem pedida: faixa fixa da oferta com contagem, primeira dobra, números, problema, o que é, como funciona, profissionais, depoimentos (some vazio), para quem é, o que recebe com selos BÔNUS, preço ancorado, prêmios, garantia, perguntas, CTA final, rodapé e WhatsApp flutuante. Títulos com uma palavra em Fraunces itálica.

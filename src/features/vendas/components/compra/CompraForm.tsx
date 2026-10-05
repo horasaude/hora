@@ -30,7 +30,7 @@ function Concordo() {
 function SemLink() {
   const whats = linkWhatsApp(import.meta.env.VITE_WHATSAPP_NUMERO, textos.whatsapp.mensagem)
   return (
-    <p role="alert" className="rounded-xl bg-areia p-3 text-sm text-tinta">
+    <p role="alert" className="rounded-xl bg-white p-3 text-sm text-tinta">
       {t.semLink}{' '}
       {whats && (
         <a href={whats} className={`font-semibold ${link}`}>
@@ -73,7 +73,7 @@ export function CompraForm({ planoInicial }: { planoInicial: Plano }) {
       <button
         type="submit"
         disabled={ocupado}
-        className="min-h-14 rounded-full bg-terracota px-6 text-[1.1875rem] font-bold text-white transition hover:bg-[#b0603f] disabled:opacity-70"
+        className="min-h-14 rounded-full bg-ora px-6 text-sm font-semibold tracking-[0.16em] text-creme uppercase transition hover:bg-[#233d37] disabled:opacity-70"
       >
         {ocupado ? t.indo : t.botao}
       </button>
