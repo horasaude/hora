@@ -11,6 +11,7 @@ Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim)
 | /obrigada    | ObrigadaPage                                         | vendas                        | público | pacote inicial           |
 | /termos      | TermosPage                                           | vendas                        | público | pacote inicial           |
 | /privacidade | PrivacidadePage                                      | vendas                        | público | pacote inicial           |
+| /checkout    | CheckoutPage                                         | checkout                      | público | lazy                     |
 | /entrar      | LoginPage                                            | auth                          | público | lazy (com ComProvedores) |
 | /app         | InicioPage                                           | inicio                        | logada  | lazy (AreaAluna + PWA)   |
 | checkout     | checkout próprio (resumo, dados, pagamento, lateral) | CheckoutPage, salvarInscricao |
