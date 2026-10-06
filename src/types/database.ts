@@ -16,7 +16,7 @@ export type Database = {
     Tables: {
       alimentos: {
         Row: {
-          busca: string
+          busca: string | null
           carboidrato: number | null
           codigo_taco: number | null
           created_at: string
@@ -31,6 +31,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          busca?: string | null
           carboidrato?: number | null
           codigo_taco?: number | null
           created_at?: string
@@ -45,6 +46,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          busca?: string | null
           carboidrato?: number | null
           codigo_taco?: number | null
           created_at?: string
@@ -181,7 +183,7 @@ export type Database = {
       }
       cardapios: {
         Row: {
-          busca: string
+          busca: string | null
           created_at: string
           descricao: string
           id: string
@@ -194,6 +196,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          busca?: string | null
           created_at?: string
           descricao?: string
           id?: string
@@ -206,6 +209,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          busca?: string | null
           created_at?: string
           descricao?: string
           id?: string
@@ -527,6 +531,38 @@ export type Database = {
         }
         Relationships: []
       }
+      medidas_caseiras: {
+        Row: {
+          alimento_id: string
+          gramas: number
+          id: string
+          nome: string
+          ordem: number
+        }
+        Insert: {
+          alimento_id: string
+          gramas: number
+          id?: string
+          nome: string
+          ordem?: number
+        }
+        Update: {
+          alimento_id?: string
+          gramas?: number
+          id?: string
+          nome?: string
+          ordem?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "medidas_caseiras_alimento_id_fkey"
+            columns: ["alimento_id"]
+            isOneToOne: false
+            referencedRelation: "alimentos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       perfis: {
         Row: {
           acesso_fim_em: string | null
@@ -569,38 +605,6 @@ export type Database = {
         }
         Relationships: []
       }
-      medidas_caseiras: {
-        Row: {
-          alimento_id: string
-          gramas: number
-          id: string
-          nome: string
-          ordem: number
-        }
-        Insert: {
-          alimento_id: string
-          gramas: number
-          id?: string
-          nome: string
-          ordem?: number
-        }
-        Update: {
-          alimento_id?: string
-          gramas?: number
-          id?: string
-          nome?: string
-          ordem?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "medidas_caseiras_alimento_id_fkey"
-            columns: ["alimento_id"]
-            isOneToOne: false
-            referencedRelation: "alimentos"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       receita_itens: {
         Row: {
           alimento_id: string
@@ -642,7 +646,7 @@ export type Database = {
       }
       receitas: {
         Row: {
-          busca: string
+          busca: string | null
           calcular: boolean
           created_at: string
           foto_path: string | null
@@ -656,6 +660,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          busca?: string | null
           calcular?: boolean
           created_at?: string
           foto_path?: string | null
@@ -669,6 +674,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          busca?: string | null
           calcular?: boolean
           created_at?: string
           foto_path?: string | null
@@ -685,7 +691,7 @@ export type Database = {
       }
       refeicoes_modelo: {
         Row: {
-          busca: string
+          busca: string | null
           created_at: string
           horario: string | null
           id: string
@@ -696,6 +702,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          busca?: string | null
           created_at?: string
           horario?: string | null
           id?: string
@@ -706,6 +713,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          busca?: string | null
           created_at?: string
           horario?: string | null
           id?: string
@@ -758,6 +766,7 @@ export type Database = {
         Args: { p_desafio: string; p_perfil: string }
         Returns: number
       }
+      duplicar_alimento: { Args: { p_id: string }; Returns: string }
       eh_admin: { Args: never; Returns: boolean }
       hoje_brasilia: { Args: never; Returns: string }
       minha_trilha: {
@@ -814,11 +823,16 @@ export type Database = {
         }[]
       }
       registrar_acesso: { Args: never; Returns: undefined }
-      duplicar_alimento: { Args: { p_id: string }; Returns: string }
-      salvar_alimento: { Args: { p_alimento: Json; p_medidas: Json }; Returns: string }
-      salvar_receita_itens: { Args: { p_itens: Json; p_receita: string }; Returns: undefined }
-      texto_busca: { Args: { valor: string }; Returns: string }
+      salvar_alimento: {
+        Args: { p_alimento: Json; p_medidas: Json }
+        Returns: string
+      }
+      salvar_receita_itens: {
+        Args: { p_itens: Json; p_receita: string }
+        Returns: undefined
+      }
       tem_acesso_ativo: { Args: never; Returns: boolean }
+      texto_busca: { Args: { valor: string }; Returns: string }
       vencedoras_desafio: {
         Args: { p_desafio: string }
         Returns: {
@@ -833,7 +847,14 @@ export type Database = {
       papel: "aluna" | "admin"
       publico_desafio: "todas" | "inscritas"
       tipo_checkin: "sim_nao" | "foto" | "numero"
-      tipo_refeicao: "cafe" | "lanche" | "almoco" | "jantar" | "ceia" | "pre_treino" | "pos_treino"
+      tipo_refeicao:
+        | "cafe"
+        | "lanche"
+        | "almoco"
+        | "jantar"
+        | "ceia"
+        | "pre_treino"
+        | "pos_treino"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -964,7 +985,15 @@ export const Constants = {
       papel: ["aluna", "admin"],
       publico_desafio: ["todas", "inscritas"],
       tipo_checkin: ["sim_nao", "foto", "numero"],
-      tipo_refeicao: ["cafe", "lanche", "almoco", "jantar", "ceia", "pre_treino", "pos_treino"],
+      tipo_refeicao: [
+        "cafe",
+        "lanche",
+        "almoco",
+        "jantar",
+        "ceia",
+        "pre_treino",
+        "pos_treino",
+      ],
     },
   },
 } as const
