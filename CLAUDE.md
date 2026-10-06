@@ -16,7 +16,7 @@ Stack: React + Vite + TypeScript, Tailwind, TanStack Query, Zod, Supabase (Postg
 ## Regras de negócio que nunca podem quebrar
 
 - Regra crítica (acesso, pontos, pagamento, liberação de conteúdo) roda no banco ou em Edge Function, nunca só no front.
-- Acesso só é criado depois do webhook do Mercado Pago e da confirmação do pagamento na API.
+- Acesso só é criado depois do webhook do Mercado Pago e da confirmação do pagamento na API. O acesso começa no dia da aprovação (perfis.acesso_inicio, dia 1). Cada aula libera no seu dia_liberacao: 1 = na compra, 8 = depois de 7 dias (dia de calendário, Brasília).
 - Webhook, criação de pedido e pontos são idempotentes. Repetição não gera acesso, cobrança ou ponto em dobro.
 - Pontos só via função conceder_pontos. Nunca insert direto em lancamentos_pontos. Correção é novo lançamento.
 - Peso e medidas nunca entram em ranking.

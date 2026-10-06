@@ -27,7 +27,7 @@ Venda inicial por links do Mercado Pago; o checkout integrado da Sprint 2 substi
 ## Sprint 1: painel e área base (até 11/10)
 
 - [x] Tabelas temas, etapas, aulas, lives, avisos com RLS
-- [ ] Painel admin: CRUD de temas, etapas e aulas
+- [ ] Painel admin: CRUD de temas, etapas e aulas (na aula, escolha simples "Liberada na compra" = dia 1 ou "Depois de 7 dias" = dia 8, com opção de outro dia)
 - [ ] Painel admin: lives e avisos
 - [ ] Primeiro acesso com consentimento e apelido
 - [ ] Início, trilha base e aula, com liberação por dia
@@ -36,7 +36,7 @@ Venda inicial por links do Mercado Pago; o checkout integrado da Sprint 2 substi
 
 - [ ] Planos, pedidos, pagamentos, eventos_webhook, contratos, aceites, assinaturas
 - [ ] Edge Function criar-pedido (Pix, parcelado, recorrente)
-- [ ] Edge Function mp-webhook idempotente e criação de acesso
+- [ ] Edge Function mp-webhook idempotente e criação de acesso (pagamento aprovado grava perfis.acesso_inicio = data da aprovação em Brasília e acesso_fim pelo plano)
 - [ ] tem_acesso_ativo() e RLS de conteúdo
 - [ ] E-mails (boas-vindas e contrato), reembolso, tela de obrigado
 
