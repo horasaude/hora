@@ -42,7 +42,7 @@ export async function criarAcao(r: Omit<DadosRegra, 'acao' | 'ativo'> & { nome: 
       p_nome: r.nome,
       p_pontos: r.pontos,
       p_limite_tipo: r.limite_tipo,
-      p_limite_qtd: r.limite_qtd,
+      p_limite_qtd: r.limite_qtd ?? 0,
     }),
   )
 }

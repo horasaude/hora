@@ -953,8 +953,8 @@ export type Database = {
           limite_tipo: string
           nome: string
           ordem: number
-          propria: boolean
           pontos: number
+          propria: boolean
           updated_at: string
         }
         Insert: {
@@ -964,8 +964,8 @@ export type Database = {
           limite_tipo: string
           nome: string
           ordem?: number
-          propria?: boolean
           pontos: number
+          propria?: boolean
           updated_at?: string
         }
         Update: {
@@ -975,8 +975,8 @@ export type Database = {
           limite_tipo?: string
           nome?: string
           ordem?: number
-          propria?: boolean
           pontos?: number
+          propria?: boolean
           updated_at?: string
         }
         Relationships: []
@@ -1035,10 +1035,18 @@ export type Database = {
       }
       confirmar_indicacoes: { Args: never; Returns: number }
       criar_acao: {
-        Args: { p_limite_qtd: number | null; p_limite_tipo: string; p_nome: string; p_pontos: number }
+        Args: {
+          p_limite_qtd: number
+          p_limite_tipo: string
+          p_nome: string
+          p_pontos: number
+        }
         Returns: string
       }
-      dar_pontos_acao: { Args: { p_acao: string; p_perfis: string[] }; Returns: number }
+      dar_pontos_acao: {
+        Args: { p_acao: string; p_perfis: string[] }
+        Returns: number
+      }
       dia_de_acesso: { Args: never; Returns: number }
       dias_cumpridos: {
         Args: { p_desafio: string; p_perfil: string }
