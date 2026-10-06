@@ -2,17 +2,18 @@ import { useEffect, useRef, useState } from 'react'
 
 type Clipe = { src: string; poster: string }
 
-// Pexels (licença livre, sem crédito obrigatório). Verticais para tela em pé, horizontais para tela deitada.
-const PADRAO: Clipe = { src: '/videos/exercicio.mp4', poster: '/videos/exercicio.webp' } // 8045825
+// Pexels (licença livre, sem crédito obrigatório): corrida, salada e yoga.
+// Verticais para tela em pé, horizontais para tela deitada.
+const PADRAO: Clipe = { src: '/videos/corrida.mp4', poster: '/videos/corrida.webp' } // 7884055
 const VERTICAIS: Clipe[] = [
   PADRAO,
-  { src: '/videos/alimentacao.mp4', poster: '/videos/alimentacao.webp' }, // 7026643
-  { src: '/videos/cuidado.mp4', poster: '/videos/cuidado.webp' }, // 6812958
+  { src: '/videos/salada.mp4', poster: '/videos/salada.webp' }, // 6162045
+  { src: '/videos/exercicio.mp4', poster: '/videos/exercicio.webp' }, // 8045825
 ]
 const HORIZONTAIS: Clipe[] = [
+  { src: '/videos/corrida-largo.mp4', poster: '/videos/corrida-largo.webp' }, // 7884028
+  { src: '/videos/salada-largo.mp4', poster: '/videos/salada-largo.webp' }, // 8802441
   { src: '/videos/exercicio-largo.mp4', poster: '/videos/exercicio-largo.webp' }, // 8045817
-  { src: '/videos/alimentacao-largo.mp4', poster: '/videos/alimentacao-largo.webp' }, // 4360750
-  { src: '/videos/cuidado-largo.mp4', poster: '/videos/cuidado-largo.webp' }, // 12322630
 ]
 const TELA_DEITADA = '(min-aspect-ratio: 1/1)'
 
@@ -43,7 +44,7 @@ function useClipes(): Clipe[] {
   return deitada ? HORIZONTAIS : VERTICAIS
 }
 
-/** Exercício, alimentação e cuidado, em sequência, sem som, cobrindo todo o fundo. */
+/** Corrida, alimentação e yoga, em sequência, sem som, cobrindo todo o fundo. */
 export function VideoFundo({ className }: { className: string }) {
   const clipes = useClipes()
   const [indice, setIndice] = useState(0)

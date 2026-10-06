@@ -53,11 +53,11 @@ export function Recebe() {
   const itens = itensVisiveis(t.itens, useEmOferta(), LOJA_PARCEIRA_CONFIRMADA)
   return (
     <Secao etiqueta={t.etiqueta} titulo={t.titulo} fundo="branco">
-      <ul>
+      <ul className="grid sm:grid-cols-2 sm:gap-x-10">
         {itens.map((i) => (
           <li
             key={i.texto}
-            className="flex items-center justify-between gap-4 border-t border-linha py-4 text-lg text-tinta last:border-b"
+            className="flex items-center justify-between gap-4 border-t border-linha py-3 text-base text-tinta sm:text-lg"
           >
             <span>{i.texto}</span>
             {i.bonus && (

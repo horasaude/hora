@@ -2,6 +2,12 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-06 · main · Vídeos de saúde, movimento e página mais cheia
+
+- Vídeos de fundo: corrida (7884055/7884028), salada (6162045/8802441) e yoga (8045825/8045817). Saem autocuidado de rosto e torrada. VideoFundo foi para src/components/shared e também roda atrás do banner do checkout.
+- Movimento: src/lib/revelar.ts (blocos sobem e aparecem ao rolar, cartões em sequência), entrada animada do topo, botões sobem levemente no hover. Nada disso com "reduzir movimento".
+- Menos vazio: números viram faixa compacta abaixo do vídeo; "Você já tentou" e perguntas em duas colunas no computador; "O que você recebe" em duas colunas; respiro das seções menor.
+
 ## 2026-10-05 · main · Mês grátis em destaque e checkout com a marca
 
 - Oferta: "Compre 12 meses e ganhe 1 mês grátis" vira o título do aviso; selo "+1 mês grátis" nos três planos; "12 meses + 1 mês grátis" no lugar de "13 meses de acesso".

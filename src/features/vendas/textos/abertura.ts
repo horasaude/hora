@@ -13,7 +13,6 @@ export const abertura = {
   },
   // Provisórios (fatos do produto). TODO(clientes): trocar por números de autoridade quando vierem.
   // O layout aceita qualquer valor curto com rótulo e detalhe.
-  numerosEtiqueta: 'Em números',
   numeros: [
     {
       valor: '3',

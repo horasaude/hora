@@ -26,3 +26,36 @@ body {
     scroll-behavior: smooth;
   }
 }
+
+/* Movimento ao rolar (src/lib/revelar.ts) e entrada do topo. Sem nada disso para quem pede menos movimento. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-revelar]:not(.revelado) {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  [data-revelar] {
+    transition:
+      opacity 0.7s ease-out,
+      transform 0.7s ease-out;
+  }
+  .entrada {
+    animation: entrada 1s ease-out both;
+  }
+  .entrada-2 {
+    animation: entrada 1s ease-out 0.25s both;
+  }
+  .entrada-3 {
+    animation: entrada 1s ease-out 0.5s both;
+  }
+}
+
+@keyframes entrada {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

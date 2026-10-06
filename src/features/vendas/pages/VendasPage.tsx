@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { iniciarRevelar } from '@/lib/revelar'
 import { guardarUtms } from '@/lib/utm'
 import { Hero, Numeros, Problema } from '../components/Abertura'
 import { CompraProvider } from '../components/compra/CompraProvider'
@@ -12,6 +13,7 @@ import { WhatsAppFlutuante } from '../components/WhatsAppFlutuante'
 
 export function VendasPage() {
   useEffect(() => guardarUtms(window.location.search), [])
+  useEffect(() => iniciarRevelar(), [])
   return (
     <CompraProvider>
       <Hero />

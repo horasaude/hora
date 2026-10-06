@@ -37,8 +37,8 @@ export function Profissionais() {
   return (
     <Secao etiqueta={t.etiqueta} titulo={t.titulo} fundo="branco">
       <ul className="grid gap-10 sm:grid-cols-3 sm:gap-5">
-        {t.pessoas.map((p) => (
-          <li key={p.nome}>
+        {t.pessoas.map((p, i) => (
+          <li key={p.nome} data-revelar style={{ transitionDelay: `${i * 140}ms` }}>
             <Foto nome={p.nome} foto={p.foto} />
             <p className="mt-4 text-[0.7rem] font-medium tracking-[0.22em] text-suave uppercase italic">
               {p.papel}

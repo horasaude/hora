@@ -10,6 +10,8 @@ type Props = {
   titulo?: string
   fundo?: Fundo
   marca?: boolean
+  /** No computador, título à esquerda e conteúdo à direita (menos espaço vazio). */
+  lateral?: boolean
   children: ReactNode
 }
 
@@ -43,21 +45,27 @@ function Marca({ claro }: { claro: boolean }) {
   )
 }
 
-export function Secao({ id, etiqueta, titulo, fundo = 'creme', marca, children }: Props) {
+export function Secao({ id, etiqueta, titulo, fundo = 'creme', marca, lateral, children }: Props) {
   const escuro = fundo === 'ora'
   return (
     <section id={id} className={`relative scroll-mt-16 overflow-hidden ${fundos[fundo]}`}>
       {marca && <Marca claro={escuro} />}
-      <div className="relative mx-auto max-w-5xl px-5 py-14 sm:px-8 sm:py-20">
+      <div data-revelar className="relative mx-auto max-w-5xl px-5 py-10 sm:px-8 sm:py-14">
         {etiqueta && <Etiqueta texto={etiqueta} claro={escuro} />}
-        {titulo && (
-          <h2
-            className={`mt-4 text-[2.75rem] break-words sm:text-6xl ${escuro ? 'text-creme' : 'text-ora'}`}
-          >
-            <Destaque texto={titulo} />
-          </h2>
-        )}
-        <div className={titulo ? 'mt-8' : etiqueta ? 'mt-6' : ''}>{children}</div>
+        <div
+          className={lateral ? 'lg:grid lg:grid-cols-[0.8fr_1.2fr] lg:items-start lg:gap-12' : ''}
+        >
+          {titulo && (
+            <h2
+              className={`mt-3 text-[2.5rem] break-words sm:text-5xl lg:text-6xl ${escuro ? 'text-creme' : 'text-ora'}`}
+            >
+              <Destaque texto={titulo} />
+            </h2>
+          )}
+          <div className={titulo ? (lateral ? 'mt-6 lg:mt-4' : 'mt-6') : etiqueta ? 'mt-5' : ''}>
+            {children}
+          </div>
+        </div>
       </div>
     </section>
   )

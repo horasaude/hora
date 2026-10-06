@@ -11,6 +11,7 @@ export type DadosPlano = {
   destaque?: boolean
   mesGratis: boolean
   ordem: string
+  atraso?: number
 }
 
 const t = textos.preco
@@ -43,11 +44,14 @@ export function Plano({
   destaque,
   mesGratis,
   ordem,
+  atraso = 0,
 }: DadosPlano) {
   const info = t.planos[plano]
   const selo = 'selo' in info ? info.selo : null
   return (
     <li
+      data-revelar
+      style={{ transitionDelay: `${atraso}ms` }}
       className={`relative flex flex-col rounded-[1.75rem] p-6 ${ordem} ${destaque ? 'bg-ora text-creme shadow-lg md:-my-3 md:py-9' : 'border border-ora/15 bg-white text-tinta'}`}
     >
       <Selos mesGratis={mesGratis} selo={selo} destaque={destaque} />

@@ -5,7 +5,7 @@ export function OQueE() {
   const t = textos.oQueE
   return (
     <Secao etiqueta={t.etiqueta} titulo={t.titulo} fundo="branco">
-      <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
+      <div className="grid gap-8 lg:grid-cols-2 lg:items-start">
         <div>
           <p className="text-xl leading-relaxed text-tinta sm:text-2xl">{t.texto}</p>
           <ul className="mt-8 flex flex-col">
@@ -26,7 +26,7 @@ export function OQueE() {
           width={1000}
           height={1500}
           loading="lazy"
-          className="aspect-[2/3] w-full rounded-[2rem] object-cover"
+          className="aspect-[4/5] w-full rounded-[2rem] object-cover object-[50%_35%]"
         />
       </div>
     </Secao>
@@ -39,7 +39,12 @@ export function ComoFunciona() {
     <Secao etiqueta={t.etiqueta} titulo={t.titulo} marca>
       <ol className="grid gap-3 sm:grid-cols-2">
         {t.passos.map((p, i) => (
-          <li key={p.titulo} className="flex gap-4 rounded-[1.5rem] bg-white p-5">
+          <li
+            key={p.titulo}
+            data-revelar
+            style={{ transitionDelay: `${(i % 2) * 120}ms` }}
+            className="flex gap-4 rounded-[1.5rem] bg-white p-5"
+          >
             <span className="w-12 shrink-0 font-titulo text-5xl leading-none text-salvia tabular-nums">
               {String(i + 1).padStart(2, '0')}
             </span>

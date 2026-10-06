@@ -56,7 +56,7 @@ function Ajuda() {
 
 export function Lateral() {
   return (
-    <aside className="flex flex-col gap-4">
+    <aside data-revelar style={{ transitionDelay: '150ms' }} className="flex flex-col gap-4">
       <Inclui />
       <Garantia />
       <Ajuda />

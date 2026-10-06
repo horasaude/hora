@@ -48,9 +48,9 @@ export function Preco() {
   return (
     <Secao id="preco" etiqueta={t.etiqueta} titulo={t.titulo}>
       <ContagemOferta />
-      <ul className="mt-10 grid gap-6 md:grid-cols-3 md:items-center md:gap-4">
-        {planos.map((dados) => (
-          <Plano key={dados.plano} {...dados} />
+      <ul className="mt-8 grid gap-6 md:grid-cols-3 md:items-center md:gap-4">
+        {planos.map((dados, i) => (
+          <Plano key={dados.plano} {...dados} atraso={i * 120} />
         ))}
       </ul>
       <p className="mt-6 text-center text-sm font-medium text-ora">{t.seguro}</p>

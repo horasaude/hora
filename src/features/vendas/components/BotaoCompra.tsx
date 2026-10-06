@@ -20,7 +20,7 @@ export function BotaoCompra({ children, plano, compacto, variante = 'escuro' }: 
     <button
       type="button"
       onClick={() => abrir(plano)}
-      className={`inline-flex items-center justify-center rounded-full font-semibold uppercase transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ora ${tamanho} ${cores[variante]}`}
+      className={`inline-flex items-center justify-center rounded-full font-semibold uppercase transition hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ora ${tamanho} ${cores[variante]}`}
     >
       {children}
     </button>
