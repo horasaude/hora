@@ -21,7 +21,7 @@ export function Estado({ tipo, texto, tentar, acao }: Props) {
     return (
       <div
         role="alert"
-        className="rounded-[22px] bg-white p-5 text-center text-sm text-tinta shadow-cartao"
+        className="rounded-[18px] border border-[#ECEFED] bg-white p-5 text-center text-sm text-tinta shadow-painel"
       >
         <p>{textos.erro}</p>
         {tentar && (
@@ -37,7 +37,7 @@ export function Estado({ tipo, texto, tentar, acao }: Props) {
     )
   }
   return (
-    <div className="flex flex-col items-center gap-4 rounded-[22px] bg-white px-6 py-16 text-center shadow-cartao">
+    <div className="flex flex-col items-center gap-4 rounded-[18px] border border-[#ECEFED] bg-white px-6 py-16 text-center shadow-painel">
       <p className="text-sm text-suave">{texto}</p>
       {acao}
     </div>

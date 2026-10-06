@@ -32,7 +32,7 @@ export function Vencedoras({ id }: { id: string }) {
       <ol className="flex flex-col divide-y divide-linha rounded-2xl border border-linha">
         {lista.data?.map((v, i) => (
           <li key={v.perfil_id} className="flex items-center gap-3 px-4 py-3 text-sm">
-            <span className="brilho brilho-leve brilho-dourado grid size-7 place-items-center rounded-full text-xs font-bold">
+            <span className="brilho brilho-dourado grid size-7 place-items-center rounded-full text-xs font-bold">
               {i + 1}
             </span>
             <span className="flex-1 font-semibold text-tinta">

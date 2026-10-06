@@ -40,7 +40,7 @@ function TabelaLives({ lista, ativa }: { lista: Live[]; ativa?: string }) {
           marca={l.convidada ? <Etiqueta tom="neutro">{l.convidada}</Etiqueta> : undefined}
         >
           <td className={celula}>{formatarDataHora(new Date(l.data))}</td>
-          <td className="px-5 py-4">
+          <td className="px-3.5 py-3">
             <Situacao publicado={l.publicado} />
           </td>
         </LinhaTabela>
@@ -59,7 +59,7 @@ export function LivesPage() {
   const nova = pathname.endsWith('/nova')
   const atual = nova ? undefined : (lista.find((l) => l.id === liveId) ?? lista[0])
   const acao = (
-    <Link to="/app/admin/lives/nova" className={classeBrilho('escuro')}>
+    <Link to="/app/admin/lives/nova" className={classeBrilho('dourado')}>
       {t.nova}
     </Link>
   )

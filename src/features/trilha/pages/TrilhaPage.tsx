@@ -39,7 +39,7 @@ function Tema({ tema, aulas, dia, inicio }: Conteudo) {
   return (
     <section className="flex flex-col gap-5 lg:gap-7">
       <header>
-        <h1 className="text-[1.9rem] leading-tight font-bold tracking-tight text-verde-escuro lg:text-[2.6rem]">
+        <h1 className="text-[28px] leading-tight font-bold text-verde-escuro lg:text-[30px]">
           {preparando ? textos.preparacao.titulo : tema.titulo}
         </h1>
         {preparando && <p className="mt-1 text-sm text-suave">{textos.preparacao.subtitulo}</p>}

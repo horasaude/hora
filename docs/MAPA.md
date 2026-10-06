@@ -1,7 +1,7 @@
 # Mapa do projeto
 
 Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim).
-Última atualização: estilo-brilho no painel e na área da aluna; componentes de vidro em src/components/ui/Brilho.tsx.
+Última atualização: padrão visual oficial estilo-aluna e estilo-painel (botões delicados, painel com as cores da apresentação).
 
 ## Rotas
 
@@ -33,15 +33,16 @@ Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim)
 
 ## Referências visuais (docs/referencias)
 
-Estilo visual oficial do sistema (painel e área da aluna): estilo-brilho (estilo-brilho.png e estilo-brilho.html, com as cores, degradês e brilhos exatos). Ele substitui as cores das referências antigas. O layout das telas continua seguindo painel-apresentado.png e app-aluna.png.
+Padrão visual oficial a partir de 2026-10-06: estilo-aluna (área da aluna) e estilo-painel (painel das profissionais). Os .html têm os valores exatos de tamanho, cor e brilho; os .png mostram o resultado. Eles substituem estilo-brilho e as cores das referências antigas. O layout das telas continua seguindo painel-apresentado.png e app-aluna.png.
 
-| Arquivo                               | Vale para                                             | Onde está no código                                                             |
-| ------------------------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------- |
-| estilo-brilho.png, estilo-brilho.html | cores, vidro brilhante, cartões, barras (todo o /app) | src/styles/index.css (.brilho, .trilho-progresso), src/components/ui/Brilho.tsx |
-| painel-apresentado.png                | layout do painel das profissionais (/app/admin)       | feature admin (PainelLayout, Quadro, Tabela)                                    |
-| app-aluna.png                         | layout da área da aluna (/app)                        | LayoutAluna, inicio, trilha, primeiro-acesso                                    |
+| Arquivo                               | Vale para                                                      | Onde está no código                                              |
+| ------------------------------------- | -------------------------------------------------------------- | ---------------------------------------------------------------- |
+| estilo-aluna.png, estilo-aluna.html   | área da aluna: fundo e menu brancos, item ativo em vidro verde | LayoutAluna, NavegacaoAluna, inicio, trilha, primeiro-acesso     |
+| estilo-painel.png, estilo-painel.html | painel: menu verde escuro, resumo em tons suaves, tabela       | admin (PainelLayout, MenuLateral, Quadro, Tabela, CartaoDetalhe) |
+| painel-apresentado.png, app-aluna.png | layout das telas (organização, não cores)                      | admin e área da aluna                                            |
+| estilo-brilho.png, estilo-brilho.html | substituída pelas duas acima (fica só como histórico)          | -                                                                |
 
-Componentes do estilo (toda tela nova usa estes, não recria): BotaoBrilho, LinkBrilho, EtiquetaBrilho, BarraProgresso (dourada, com o que falta embaixo), Cartao (branco liso, sombra leve), classeBrilho(tom, tamanho, pilula) para links e elementos próprios. Tons: verde (concluído, item ativo), coral (treino, alerta), dourado (lives, sequência, prêmios, progresso), escuro (ação principal, play), cinza (ainda não feito, neutro).
+Componentes do estilo (toda tela nova usa estes): BotaoBrilho, LinkBrilho, EtiquetaBrilho (11 px), BarraProgresso (dourada, 8 px, com o que falta embaixo), Cartao, classeBrilho(tom, tamanho, pilula) em src/components/ui; classes .brilho e .brilho-* em src/styles/index.css. Botões em pílula com 13 px, brilho suave só em cima. Tons: verde (concluído, publicado, item ativo), dourado (criar algo novo, rascunho, lives, sequência, prêmios, progresso), coral (treino, tirar do ar, encerrar, alerta), escuro (editar, salvar, play), cinza (cancelar, ainda não feito).
 
 ## Regras de negócio (src/domain)
 

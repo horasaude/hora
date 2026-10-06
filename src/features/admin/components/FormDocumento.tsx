@@ -48,7 +48,7 @@ export function FormDocumento({ campo, valor }: { campo: 'termos' | 'privacidade
       <button
         type="button"
         onClick={() => setSecoes((l) => [...l, { titulo: '', texto: '' }])}
-        className={classeBrilho('cinza')}
+        className={`self-start ${classeBrilho('dourado')}`}
       >
         + {t.novaSecao}
       </button>

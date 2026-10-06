@@ -10,7 +10,7 @@ export function BotaoPublicar({ tabela, id, publicado, className = '' }: Props) 
   const { publicar } = useAcoes()
   return (
     <BotaoBrilho
-      tom={publicado ? 'cinza' : 'escuro'}
+      tom={publicado ? 'coral' : 'escuro'}
       className={className}
       disabled={publicar.isPending}
       onClick={() => publicar.mutate({ tabela, id, publicado: !publicado })}

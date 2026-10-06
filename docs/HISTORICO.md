@@ -2,6 +2,13 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-06 · main · Visual delicado (estilo-aluna e estilo-painel)
+
+- Botões em pílula com 13 px, brilho suave só em cima e sombra leve; etiquetas com 11 px; play da aula com 40 px; barra de progresso de 8 px. Valores exatos de docs/referencias/estilo-aluna.html e estilo-painel.html.
+- Painel com as cores da apresentação: menu lateral verde escuro com a logo clara (o arquivo agora é claro de verdade, sem filtro) e bolinha de cor por módulo; resumo em sálvia, menta, areia e rosado; tabela e cartão como na referência; Rascunho dourado; botões por ação (verde escuro editar e salvar, dourado criar, coral tirar do ar e encerrar).
+- Área da aluna: fundo e menu brancos, item ativo em vidro verde mais delicado, faixa da live em pílula, títulos com 30 px.
+- MAPA e CLAUDE.md: estilo-aluna e estilo-painel são o padrão visual oficial.
+
 ## 2026-10-06 · main · Estilo brilho no sistema
 
 - Painel e área da aluna no estilo-brilho (docs/referencias/estilo-brilho.*): fundo branco, cartões brancos lisos com sombra leve, menu lateral branco flutuante com a logo verde e o item ativo em vidro verde; botões, etiquetas, check-in, play e faixa da live em vidro brilhante; o que ainda não foi feito em vidro cinza.

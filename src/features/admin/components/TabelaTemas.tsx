@@ -30,7 +30,7 @@ export function TabelaTemas({ temas, ativo }: { temas: Tema[]; ativo?: string })
               }
             />
           </CelulaAcao>
-          <td className="px-5 py-4">
+          <td className="px-3.5 py-3">
             <Situacao publicado={tema.publicado} />
           </td>
         </LinhaTabela>

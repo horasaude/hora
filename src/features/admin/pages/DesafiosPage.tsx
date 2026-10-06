@@ -44,7 +44,7 @@ function TabelaDesafios({ linhas, ativo }: { linhas: Linha[]; ativo?: string }) 
         >
           <td className={celula}>{t.periodo(diaMesDeData(d.inicio), diaMesDeData(d.fim))}</td>
           <td className={celula}>{n?.participantes ?? 0}</td>
-          <td className="px-5 py-4">
+          <td className="px-3.5 py-3">
             <EtiquetaDesafio situacao={situacao} />
           </td>
         </LinhaTabela>
@@ -67,7 +67,7 @@ export function DesafiosPage() {
   }))
   const atual = novo ? undefined : (linhas.find((l) => l.desafio.id === desafioId) ?? linhas[0])
   const acao = (
-    <Link to="/app/admin/desafios/novo" className={classeBrilho('escuro')}>
+    <Link to="/app/admin/desafios/novo" className={classeBrilho('dourado')}>
       {t.novo}
     </Link>
   )

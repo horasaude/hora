@@ -10,7 +10,7 @@ export function PerfilPage() {
   const p = perfil.data
   return (
     <section className="flex flex-col gap-4 lg:max-w-lg">
-      <h1 className="text-[1.9rem] leading-tight font-bold tracking-tight text-verde-escuro lg:text-[2.6rem]">
+      <h1 className="text-[28px] leading-tight font-bold text-verde-escuro lg:text-[30px]">
         {textos.titulo}
       </h1>
       <Cartao>
@@ -22,7 +22,7 @@ export function PerfilPage() {
         </dl>
       </Cartao>
       {p?.papel === 'admin' && (
-        <Link to="/app/admin" className={classeBrilho('escuro', 'lg')}>
+        <Link to="/app/admin" className={`${classeBrilho('escuro', 'lg')} self-start`}>
           {textos.painel}
         </Link>
       )}
@@ -30,7 +30,7 @@ export function PerfilPage() {
         type="button"
         onClick={() => sair.mutate()}
         disabled={sair.isPending}
-        className={classeBrilho('cinza', 'lg')}
+        className={`${classeBrilho('cinza', 'lg')} self-start`}
       >
         {sair.isPending ? textos.saindo : textos.sair}
       </button>

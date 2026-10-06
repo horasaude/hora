@@ -5,10 +5,7 @@ const PROPORCAO = 785 / 2385
 
 type Props = { largura: number; clara?: boolean; className?: string }
 
-/**
- * clara: para fundo verde. O arquivo logo-hora-clara.svg veio na mesma cor verde da escura,
- * então o filtro deixa a imagem branca; com um arquivo claro de verdade, o filtro pode sair.
- */
+/** clara: versão para fundo verde (logo-hora-clara.svg). */
 export function LogoHora({ largura, clara = false, className = '' }: Props) {
   return (
     <img
@@ -17,7 +14,7 @@ export function LogoHora({ largura, clara = false, className = '' }: Props) {
       width={largura}
       height={Math.round(largura * PROPORCAO)}
       style={{ width: largura, height: 'auto' }}
-      className={`block max-w-none ${clara ? 'brightness-0 invert' : ''} ${className}`}
+      className={`block max-w-none ${className}`}
     />
   )
 }

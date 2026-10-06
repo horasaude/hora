@@ -17,7 +17,10 @@ export function ModuloVazioPage({ modulo }: { modulo: ModuloVazio }) {
     >
       <Tabela colunas={m.colunas}>
         <tr>
-          <td colSpan={m.colunas.length} className="px-5 py-16 text-center text-sm text-suave">
+          <td
+            colSpan={m.colunas.length}
+            className="px-3.5 py-16 text-center text-[13px] text-suave"
+          >
             {textos.vazios.mensagem}
           </td>
         </tr>

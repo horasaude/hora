@@ -33,7 +33,7 @@ export function BarraInferior() {
               {({ isActive }) => (
                 <>
                   <span
-                    className={`grid h-9 w-11 place-items-center rounded-xl ${ativo(isActive, i.para) ? 'brilho brilho-leve brilho-verde' : 'text-suave'}`}
+                    className={`grid h-9 w-11 place-items-center rounded-xl ${ativo(isActive, i.para) ? 'brilho brilho-verde' : 'text-suave'}`}
                   >
                     <IconeNavegacao nome={i.icone} />
                   </span>
@@ -63,7 +63,7 @@ export function BarraLateral({ nome }: { nome: string }) {
               <NavLink to={i.para} end={i.fim}>
                 {({ isActive }) => (
                   <span
-                    className={`flex min-h-12 items-center gap-3 rounded-2xl px-3.5 text-[0.95rem] transition ${ativo(isActive, i.para) ? 'brilho brilho-verde font-bold' : 'text-tinta hover:bg-trilho'}`}
+                    className={`flex min-h-10 items-center gap-2.5 rounded-[14px] px-3.5 text-[15px] transition ${ativo(isActive, i.para) ? 'brilho brilho-verde font-bold' : 'text-tinta hover:bg-trilho'}`}
                   >
                     {!ativo(isActive, i.para) && (
                       <span className={`size-2 shrink-0 rounded-full ${i.cor}`} aria-hidden />

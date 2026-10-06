@@ -71,7 +71,11 @@ export function ConteudoPage() {
   const lista = temas.data ?? []
   const { ativo, detalhe } = useDetalhe(lista, criandoEm === pathname, () => setCriandoEm(null))
   const novo = (
-    <button type="button" className={classeBrilho('escuro')} onClick={() => setCriandoEm(pathname)}>
+    <button
+      type="button"
+      className={classeBrilho('dourado')}
+      onClick={() => setCriandoEm(pathname)}
+    >
       {t.novo}
     </button>
   )

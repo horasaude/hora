@@ -28,7 +28,7 @@ function TabelaAvisos({ lista, ativo }: { lista: Aviso[]; ativo?: string }) {
           titulo={a.titulo}
         >
           <td className={celula}>{formatarDataHora(new Date(a.publicar_em))}</td>
-          <td className="px-5 py-4">
+          <td className="px-3.5 py-3">
             <Situacao publicado={a.publicado} />
           </td>
         </LinhaTabela>
@@ -47,7 +47,7 @@ export function AvisosPage() {
   const novo = pathname.endsWith('/novo')
   const atual = novo ? undefined : (lista.find((a) => a.id === avisoId) ?? lista[0])
   const acao = (
-    <Link to="/app/admin/avisos/novo" className={classeBrilho('escuro')}>
+    <Link to="/app/admin/avisos/novo" className={classeBrilho('dourado')}>
       {t.novo}
     </Link>
   )

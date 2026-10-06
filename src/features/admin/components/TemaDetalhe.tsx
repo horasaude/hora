@@ -37,15 +37,8 @@ function SobreTema({ tema, etapas, aulas }: { tema: Tema; etapas: number; aulas:
         ]}
       />
       <div className="flex gap-2">
-        <BotaoPublicar
-          tabela="temas"
-          id={tema.id}
-          publicado={tema.publicado}
-          className="flex-1 text-sm"
-        />
-        <BotaoBrilho tom="cinza" onClick={() => setEditando(true)}>
-          {textos.editar}
-        </BotaoBrilho>
+        <BotaoPublicar tabela="temas" id={tema.id} publicado={tema.publicado} />
+        <BotaoBrilho onClick={() => setEditando(true)}>{textos.editar}</BotaoBrilho>
       </div>
     </>
   )
@@ -65,7 +58,7 @@ export function TemaDetalhe({ temaId }: { temaId: string }) {
       <div className="flex items-center justify-between gap-3 border-t border-linha pt-5">
         <h3 className="text-[1.35rem] leading-snug font-bold text-ora">{textos.etapas.titulo}</h3>
         {!novaEtapa && (
-          <BotaoBrilho tom="cinza" onClick={() => setNovaEtapa(true)}>
+          <BotaoBrilho tom="dourado" onClick={() => setNovaEtapa(true)}>
             {textos.etapas.nova}
           </BotaoBrilho>
         )}

@@ -37,7 +37,7 @@ export function FormNome({ rotulo, inicial, aoSalvar, aoCancelar }: Props) {
         </p>
       )}
       <div className="flex gap-2">
-        <BotaoBrilho type="submit" disabled={form.formState.isSubmitting} className="flex-1">
+        <BotaoBrilho type="submit" disabled={form.formState.isSubmitting}>
           {form.formState.isSubmitting ? textos.salvando : textos.salvar}
         </BotaoBrilho>
         <BotaoBrilho type="button" tom="cinza" onClick={aoCancelar}>

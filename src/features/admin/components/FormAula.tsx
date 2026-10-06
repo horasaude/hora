@@ -139,7 +139,7 @@ export function FormAula({ inicial, aoSalvar, aoCancelar }: Props) {
         </p>
       )}
       <div className="flex gap-2">
-        <BotaoBrilho type="submit" disabled={formState.isSubmitting} className="flex-1">
+        <BotaoBrilho type="submit" disabled={formState.isSubmitting}>
           {formState.isSubmitting ? textos.salvando : textos.salvar}
         </BotaoBrilho>
         <BotaoBrilho type="button" tom="cinza" onClick={aoCancelar}>

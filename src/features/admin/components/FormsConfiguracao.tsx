@@ -44,7 +44,7 @@ export function Salvar({
           {t.salvo}
         </p>
       )}
-      <BotaoBrilho type="submit" disabled={estado === 'salvando'}>
+      <BotaoBrilho type="submit" disabled={estado === 'salvando'} className="self-start">
         {estado === 'salvando' ? textos.salvando : textos.salvar}
       </BotaoBrilho>
     </form>

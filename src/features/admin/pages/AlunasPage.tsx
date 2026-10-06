@@ -47,7 +47,7 @@ function TabelaAlunas({ linhas, ativa, agora }: { linhas: Linha[]; ativa?: strin
           <td className={nowrap}>
             {a.ultimo_acesso_em ? quandoFoi(new Date(a.ultimo_acesso_em), agora) : t.nunca}
           </td>
-          <td className="px-5 py-4">
+          <td className="px-3.5 py-3">
             <EtiquetaAluna status={status} />
           </td>
         </LinhaTabela>

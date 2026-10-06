@@ -8,7 +8,7 @@ type Estilo = { tom?: TomBrilho; tamanho?: TamanhoBrilho; pilula?: boolean }
 export function BotaoBrilho({
   tom = 'escuro',
   tamanho = 'md',
-  pilula = false,
+  pilula = true,
   className = '',
   type = 'button',
   ...props
@@ -26,7 +26,7 @@ export function BotaoBrilho({
 export function LinkBrilho({
   tom = 'escuro',
   tamanho = 'md',
-  pilula = false,
+  pilula = true,
   className = '',
   ...props
 }: LinkProps & Estilo) {
@@ -37,7 +37,7 @@ export function LinkBrilho({
 export function EtiquetaBrilho({ tom, children }: { tom: TomBrilho; children: ReactNode }) {
   return (
     <span
-      className={`brilho brilho-leve ${classeTom(tom)} inline-flex min-h-6 items-center rounded-full px-2.5 text-xs font-bold whitespace-nowrap`}
+      className={`brilho ${classeTom(tom)} inline-flex items-center rounded-full px-2.5 py-[3px] text-[11px] leading-tight font-bold whitespace-nowrap`}
     >
       {children}
     </span>
@@ -67,7 +67,7 @@ export function BarraProgresso({
       >
         <div className="preenchimento-dourado" style={{ width: `${valor}%` }} />
       </div>
-      <p className="text-[0.8rem] text-suave">{legenda}</p>
+      <p className="text-[13px] text-suave">{legenda}</p>
     </div>
   )
 }

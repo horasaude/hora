@@ -16,21 +16,19 @@ const CARTAO: Record<Estado, string> = {
 function Marca({ estado }: { estado: Estado }) {
   if (estado === 'concluida')
     return (
-      <span className="brilho brilho-leve brilho-verde grid size-9 shrink-0 place-items-center rounded-full">
+      <span className="brilho brilho-verde grid size-9 shrink-0 place-items-center rounded-full">
         <IconeCheck />
       </span>
     )
   if (estado === 'fechada')
     return (
-      <span className="brilho brilho-leve brilho-cinza grid size-9 shrink-0 place-items-center rounded-full">
+      <span className="brilho brilho-cinza grid size-9 shrink-0 place-items-center rounded-full">
         <span className="size-1 rounded-full bg-suave" />
       </span>
     )
   const cor = estado === 'proxima' ? 'brilho-escuro' : 'brilho-cinza text-verde-escuro'
   return (
-    <span
-      className={`brilho brilho-leve ${cor} grid size-9 shrink-0 place-items-center rounded-full`}
-    >
+    <span className={`brilho ${cor} grid size-9 shrink-0 place-items-center rounded-full`}>
       <IconePlay className="ml-0.5 size-3.5" />
     </span>
   )

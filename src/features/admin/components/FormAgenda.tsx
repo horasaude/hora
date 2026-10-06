@@ -17,7 +17,7 @@ type Props<E extends FieldValues, S> = {
 function Botoes({ salvando, aoCancelar }: { salvando: boolean; aoCancelar: () => void }) {
   return (
     <div className="flex gap-2">
-      <BotaoBrilho type="submit" disabled={salvando} className="flex-1">
+      <BotaoBrilho type="submit" disabled={salvando}>
         {salvando ? textos.salvando : textos.salvar}
       </BotaoBrilho>
       <BotaoBrilho type="button" tom="cinza" onClick={aoCancelar}>

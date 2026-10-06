@@ -89,7 +89,7 @@ function Resumo({ desafio: d, situacao, numeros }: Required<Props>) {
       />
       <Andamento desafio={d} situacao={situacao} />
       <div className="flex gap-2">
-        <BotaoPublicar tabela="desafios" id={d.id} publicado={d.publicado} className="flex-1" />
+        <BotaoPublicar tabela="desafios" id={d.id} publicado={d.publicado} />
         {situacao !== 'encerrado' && <BotaoEncerrar id={d.id} />}
       </div>
       {situacao === 'encerrado' && <Vencedoras id={d.id} />}

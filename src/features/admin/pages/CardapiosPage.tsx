@@ -32,7 +32,7 @@ function TabelaCardapios({ lista, ativo }: { lista: Cardapio[]; ativo?: string }
           marca={<Etiqueta tom="neutro">{c.objetivo}</Etiqueta>}
         >
           <td className={celula}>{t.refeicoes(refeicoesPreenchidas(c))}</td>
-          <td className="px-5 py-4">
+          <td className="px-3.5 py-3">
             <Situacao publicado={c.publicado} />
           </td>
         </LinhaTabela>
@@ -49,7 +49,7 @@ export function CardapiosPage() {
   const lista = cardapios.data ?? []
   const atual = novo ? undefined : (lista.find((c) => c.id === cardapioId) ?? lista[0])
   const acao = (
-    <Link to="/app/admin/cardapios/novo" className={classeBrilho('escuro')}>
+    <Link to="/app/admin/cardapios/novo" className={classeBrilho('dourado')}>
       {t.novo}
     </Link>
   )

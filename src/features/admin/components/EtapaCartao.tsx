@@ -52,7 +52,7 @@ function ListaAulas({
       </ul>
       <Link
         to={`/app/admin/aulas/nova?etapa=${etapaId}&tema=${temaId}`}
-        className={`mt-1 ${classeBrilho('cinza')}`}
+        className={`mt-1 self-start ${classeBrilho('dourado')}`}
       >
         + {textos.aulas.nova}
       </Link>

@@ -14,7 +14,7 @@ export function AbasEtapas({ etapas, ativa, aoEscolher }: Props) {
           role="tab"
           aria-selected={e.id === ativa}
           onClick={() => aoEscolher(e.id)}
-          className={`${classeBrilho(e.id === ativa ? 'verde' : 'cinza', 'md')} min-h-12 px-2 text-xs leading-tight`}
+          className={`${classeBrilho(e.id === ativa ? 'verde' : 'cinza', 'md')} px-3`}
         >
           {e.titulo}
         </button>

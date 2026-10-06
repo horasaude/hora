@@ -11,8 +11,8 @@ export function AulaDeHoje({ aula }: { aula: Aula }) {
   return (
     <Link to={`/app/aula/${aula.id}`} aria-label={textos.aula.abrir(aula.titulo)}>
       <Cartao className="flex items-center gap-4">
-        <span className="brilho brilho-escuro grid size-14 shrink-0 place-items-center rounded-full">
-          <IconePlay className="ml-0.5 size-5" />
+        <span className="brilho brilho-escuro grid size-10 shrink-0 place-items-center rounded-full">
+          <IconePlay className="ml-0.5 size-3.5" />
         </span>
         <span className="min-w-0">
           <span className="block text-base font-bold text-tinta">{textos.aula.titulo}</span>
@@ -29,7 +29,7 @@ export function AulaDeHoje({ aula }: { aula: Aula }) {
 /** Faixa ocre clara com a próxima live. */
 export function FaixaLive({ live }: { live: ProximaLive }) {
   return (
-    <p className="brilho brilho-dourado rounded-2xl px-5 py-3.5 text-sm font-bold">
+    <p className="brilho brilho-dourado self-start rounded-full px-3.5 py-2 text-[13px] font-bold">
       {textos.live(diaSemanaEHora(new Date(live.data)), live.tema)}
     </p>
   )
@@ -41,7 +41,7 @@ export function CartaoRanking() {
   return (
     <Cartao>
       <p className="text-sm text-suave">{t.voce}</p>
-      <p className="text-[2.4rem] leading-tight font-bold tracking-tight text-verde-escuro">
+      <p className="text-[40px] leading-tight font-bold text-verde-escuro">
         {t.lugar(exemplo.posicao)}
       </p>
       <p className="text-sm font-semibold text-terracota-escuro">

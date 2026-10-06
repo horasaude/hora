@@ -35,7 +35,7 @@ function Concluir({ id }: { id: string }) {
         disabled={concluida.isPending || marcar.isPending}
         onClick={() => marcar.mutate(!feita)}
         aria-pressed={feita}
-        className={`${classeBrilho(feita ? 'verde' : 'escuro', 'lg')} w-full`}
+        className={`${classeBrilho(feita ? 'verde' : 'escuro', 'lg')} self-start`}
       >
         {feita && <IconeCheck />}
         {feita ? t.desmarcar : t.marcar}
@@ -58,7 +58,7 @@ function Acoes({ aula }: { aula: AulaAberta }) {
           href={aula.material_url}
           target="_blank"
           rel="noreferrer"
-          className={`${classeBrilho('cinza')} w-full`}
+          className={`${classeBrilho('cinza')} self-start`}
         >
           {t.material}
         </a>
@@ -95,9 +95,7 @@ export function AulaPage() {
     .join(' · ')
   const cabecalho = (
     <header>
-      <h1 className="text-[1.8rem] leading-tight font-bold tracking-tight text-verde-escuro lg:text-[2.2rem]">
-        {a.titulo}
-      </h1>
+      <h1 className="text-[26px] leading-tight font-bold text-verde-escuro">{a.titulo}</h1>
       {detalhe && <p className="mt-1 text-sm text-suave">{detalhe}</p>}
     </header>
   )
