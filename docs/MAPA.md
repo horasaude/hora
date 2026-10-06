@@ -1,7 +1,7 @@
 # Mapa do projeto
 
 Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim).
-Última atualização: visual do painel admin igual à apresentação (barra lateral, resumo, tabela e cartão à direita).
+Última atualização: referências visuais em docs/referencias.
 
 ## Rotas
 
@@ -20,12 +20,21 @@ Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim)
 
 ## Features (src/features)
 
-| Feature | O que faz                                                         | Exporta                                               |
-| ------- | ----------------------------------------------------------------- | ----------------------------------------------------- |
-| admin   | painel das profissionais: temas, etapas, aulas, lives, avisos     | PainelLayout, ConteudoPage, LivesPage, AvisosPage     |
-| auth    | login, sessão, rota protegida                                     | LoginPage, RotaProtegida, useSessao                   |
-| inicio  | tela inicial da aluna (placeholder)                               | InicioPage                                            |
-| vendas  | página de vendas, popup de compra, obrigada, termos e privacidade | VendasPage, ObrigadaPage, TermosPage, PrivacidadePage |
+| Feature | O que faz                                                         | Exporta                                                |
+| ------- | ----------------------------------------------------------------- | ------------------------------------------------------ |
+| admin   | painel das profissionais: temas, etapas, aulas, lives, avisos     | PainelLayout, ConteudoPage, LivesPage, AvisosPage      |
+| auth    | login, sessão, rota protegida                                     | LoginPage, RotaProtegida, useSessao, usePapel, useNome |
+| inicio  | tela inicial da aluna (placeholder)                               | InicioPage                                             |
+| vendas  | página de vendas, popup de compra, obrigada, termos e privacidade | VendasPage, ObrigadaPage, TermosPage, PrivacidadePage  |
+
+## Referências visuais (docs/referencias)
+
+Telas apresentadas às clientes. Toda tela nova ou refeita segue a referência dela: mesmo layout, cores e componentes. Não inventar outro visual.
+
+| Arquivo                | Vale para                             | Onde já foi aplicada                         |
+| ---------------------- | ------------------------------------- | -------------------------------------------- |
+| painel-apresentado.png | painel das profissionais (/app/admin) | feature admin (PainelLayout, Quadro, Tabela) |
+| app-aluna.png          | área da aluna (/app)                  | ainda não aplicada                           |
 
 ## Regras de negócio (src/domain)
 
