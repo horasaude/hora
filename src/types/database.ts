@@ -70,6 +70,39 @@ export type Database = {
           },
         ]
       }
+      aulas_concluidas: {
+        Row: {
+          aula_id: string
+          created_at: string
+          perfil_id: string
+        }
+        Insert: {
+          aula_id: string
+          created_at?: string
+          perfil_id?: string
+        }
+        Update: {
+          aula_id?: string
+          created_at?: string
+          perfil_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "aulas_concluidas_aula_id_fkey"
+            columns: ["aula_id"]
+            isOneToOne: false
+            referencedRelation: "aulas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "aulas_concluidas_perfil_id_fkey"
+            columns: ["perfil_id"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       avisos: {
         Row: {
           created_at: string
@@ -98,12 +131,6 @@ export type Database = {
           titulo?: string
           updated_at?: string
         }
-        Relationships: []
-      }
-      aulas_concluidas: {
-        Row: { aula_id: string; created_at: string; perfil_id: string }
-        Insert: { aula_id: string; created_at?: string; perfil_id?: string }
-        Update: { aula_id?: string; created_at?: string; perfil_id?: string }
         Relationships: []
       }
       etapas: {
@@ -310,14 +337,14 @@ export type Database = {
         Returns: {
           concluida: boolean
           dia_liberacao: number
-          duracao_minutos: number | null
+          duracao_minutos: number
           etapa_id: string
           etapa_ordem: number
           etapa_titulo: string
           id: string
           liberada: boolean
           ordem: number
-          profissional: string | null
+          profissional: string
           tema_id: string
           tema_ordem: number
           tema_titulo: string
