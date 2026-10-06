@@ -1,9 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { buscarAviso, buscarLive, listarAvisos, listarLives } from '../api/agenda.api'
+import { listarAvisos, listarLives } from '../api/agenda.api'
 import {
   alternarPublicado,
   buscarAula,
   buscarTema,
+  listarSituacaoAulas,
   listarTemas,
   mover,
   type TabelaConteudo,
@@ -12,14 +13,12 @@ import {
 export const useTemas = () => useQuery({ queryKey: ['temas'], queryFn: listarTemas })
 export const useTema = (id: string) =>
   useQuery({ queryKey: ['tema', id], queryFn: () => buscarTema(id) })
+export const useSituacaoAulas = () =>
+  useQuery({ queryKey: ['aulas-situacao'], queryFn: listarSituacaoAulas })
 export const useAula = (id?: string) =>
   useQuery({ queryKey: ['aula', id], queryFn: () => buscarAula(id ?? ''), enabled: Boolean(id) })
 export const useLives = () => useQuery({ queryKey: ['lives'], queryFn: listarLives })
-export const useLive = (id?: string) =>
-  useQuery({ queryKey: ['live', id], queryFn: () => buscarLive(id ?? ''), enabled: Boolean(id) })
 export const useAvisos = () => useQuery({ queryKey: ['avisos'], queryFn: listarAvisos })
-export const useAviso = (id?: string) =>
-  useQuery({ queryKey: ['aviso', id], queryFn: () => buscarAviso(id ?? ''), enabled: Boolean(id) })
 
 /** Publicar, tirar do ar e mudar a ordem; depois atualiza as listas. */
 export function useAcoes() {

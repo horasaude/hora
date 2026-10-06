@@ -6,18 +6,18 @@ import { ObrigadaPage, PrivacidadePage, TermosPage, VendasPage } from '@/feature
 const admin = () => import('@/features/admin')
 
 // Painel das profissionais (/app/admin): só papel admin; tudo carrega sob demanda.
+const conteudo = async () => ({ Component: (await admin()).ConteudoPage })
+const lives = async () => ({ Component: (await admin()).LivesPage })
+const avisos = async () => ({ Component: (await admin()).AvisosPage })
+// O detalhe abre num cartão ao lado da lista, então cada endereço mostra a mesma tela.
 const rotasAdmin: RouteObject[] = [
   { index: true, element: <Navigate to="conteudo" replace /> },
-  { path: 'conteudo', lazy: async () => ({ Component: (await admin()).ConteudoPage }) },
-  { path: 'conteudo/:temaId', lazy: async () => ({ Component: (await admin()).TemaPage }) },
-  { path: 'aulas/nova', lazy: async () => ({ Component: (await admin()).AulaPage }) },
-  { path: 'aulas/:aulaId', lazy: async () => ({ Component: (await admin()).AulaPage }) },
-  { path: 'lives', lazy: async () => ({ Component: (await admin()).LivesPage }) },
-  { path: 'lives/nova', lazy: async () => ({ Component: (await admin()).LivePage }) },
-  { path: 'lives/:liveId', lazy: async () => ({ Component: (await admin()).LivePage }) },
-  { path: 'avisos', lazy: async () => ({ Component: (await admin()).AvisosPage }) },
-  { path: 'avisos/novo', lazy: async () => ({ Component: (await admin()).AvisoPage }) },
-  { path: 'avisos/:avisoId', lazy: async () => ({ Component: (await admin()).AvisoPage }) },
+  ...['conteudo', 'conteudo/:temaId', 'aulas/nova', 'aulas/:aulaId'].map((path) => ({
+    path,
+    lazy: conteudo,
+  })),
+  ...['lives', 'lives/nova', 'lives/:liveId'].map((path) => ({ path, lazy: lives })),
+  ...['avisos', 'avisos/novo', 'avisos/:avisoId'].map((path) => ({ path, lazy: avisos })),
 ]
 
 export const router = createBrowserRouter([

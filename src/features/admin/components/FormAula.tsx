@@ -87,7 +87,7 @@ export function FormAula({ inicial, aoSalvar, aoCancelar }: Props) {
     }
   })
   return (
-    <form onSubmit={enviar} noValidate className="flex flex-col gap-4 rounded-2xl bg-white p-4">
+    <form onSubmit={enviar} noValidate className="flex flex-col gap-4">
       <Campo rotulo={t.campoTitulo} erro={erros.titulo?.message} {...register('titulo')} />
       <Campo
         rotulo={t.campoVideo}
@@ -111,10 +111,19 @@ export function FormAula({ inicial, aoSalvar, aoCancelar }: Props) {
         </p>
       )}
       <div className="flex gap-2">
-        <Botao type="submit" disabled={formState.isSubmitting} className="flex-1">
+        <Botao
+          type="submit"
+          disabled={formState.isSubmitting}
+          className="flex-1 rounded-xl text-sm"
+        >
           {formState.isSubmitting ? textos.salvando : textos.salvar}
         </Botao>
-        <Botao type="button" variante="secundario" onClick={aoCancelar}>
+        <Botao
+          type="button"
+          variante="secundario"
+          className="rounded-xl text-sm"
+          onClick={aoCancelar}
+        >
           {textos.cancelar}
         </Botao>
       </div>

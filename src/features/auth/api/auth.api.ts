@@ -21,3 +21,16 @@ export async function buscarPapel(): Promise<string | null> {
   if (error) throw error
   return data.papel
 }
+
+/** Nome da usuária logada, para mostrar no painel. */
+export async function buscarNome(): Promise<string | null> {
+  const { data: sessao } = await supabase.auth.getUser()
+  if (!sessao.user) return null
+  const { data, error } = await supabase
+    .from('perfis')
+    .select('nome')
+    .eq('id', sessao.user.id)
+    .single()
+  if (error) throw error
+  return data.nome
+}

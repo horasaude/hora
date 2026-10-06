@@ -28,7 +28,7 @@ export function FormNome({ rotulo, inicial, aoSalvar, aoCancelar }: Props) {
     }
   })
   return (
-    <form onSubmit={enviar} noValidate className="flex flex-col gap-3 rounded-2xl bg-white p-4">
+    <form onSubmit={enviar} noValidate className="flex flex-col gap-3">
       <Campo rotulo={rotulo} erro={erros.titulo?.message} {...form.register('titulo')} />
       <CampoArea rotulo={textos.temas.campoDescricao} rows={3} {...form.register('descricao')} />
       {erros.root && (
@@ -37,10 +37,19 @@ export function FormNome({ rotulo, inicial, aoSalvar, aoCancelar }: Props) {
         </p>
       )}
       <div className="flex gap-2">
-        <Botao type="submit" disabled={form.formState.isSubmitting} className="flex-1">
+        <Botao
+          type="submit"
+          disabled={form.formState.isSubmitting}
+          className="flex-1 rounded-xl text-sm"
+        >
           {form.formState.isSubmitting ? textos.salvando : textos.salvar}
         </Botao>
-        <Botao type="button" variante="secundario" onClick={aoCancelar}>
+        <Botao
+          type="button"
+          variante="secundario"
+          className="rounded-xl text-sm"
+          onClick={aoCancelar}
+        >
           {textos.cancelar}
         </Botao>
       </div>

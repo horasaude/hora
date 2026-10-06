@@ -1,7 +1,7 @@
 # Mapa do projeto
 
 Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim).
-Última atualização: painel admin (/app/admin) e funções de ordem.
+Última atualização: visual do painel admin igual à apresentação (barra lateral, resumo, tabela e cartão à direita).
 
 ## Rotas
 
@@ -22,7 +22,7 @@ Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim)
 
 | Feature | O que faz                                                         | Exporta                                               |
 | ------- | ----------------------------------------------------------------- | ----------------------------------------------------- |
-| admin   | painel das profissionais: temas, etapas, aulas, lives, avisos     | PainelLayout e páginas                                |
+| admin   | painel das profissionais: temas, etapas, aulas, lives, avisos     | PainelLayout, ConteudoPage, LivesPage, AvisosPage     |
 | auth    | login, sessão, rota protegida                                     | LoginPage, RotaProtegida, useSessao                   |
 | inicio  | tela inicial da aluna (placeholder)                               | InicioPage                                            |
 | vendas  | página de vendas, popup de compra, obrigada, termos e privacidade | VendasPage, ObrigadaPage, TermosPage, PrivacidadePage |

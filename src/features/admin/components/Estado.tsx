@@ -1,9 +1,15 @@
+import type { ReactNode } from 'react'
 import { textos } from '../textos'
 
-type Props = { tipo: 'carregando' | 'erro' | 'vazio'; texto?: string; tentar?: () => void }
+type Props = {
+  tipo: 'carregando' | 'erro' | 'vazio'
+  texto?: string
+  tentar?: () => void
+  acao?: ReactNode
+}
 
-/** Carregando, erro (com tentar de novo) e lista vazia. */
-export function Estado({ tipo, texto, tentar }: Props) {
+/** Carregando, erro (com tentar de novo) e lista vazia com o botão de criar no centro. */
+export function Estado({ tipo, texto, tentar, acao }: Props) {
   if (tipo === 'carregando') {
     return (
       <p role="status" className="py-10 text-center text-sm text-suave">
@@ -28,8 +34,9 @@ export function Estado({ tipo, texto, tentar }: Props) {
     )
   }
   return (
-    <p className="rounded-2xl border border-dashed border-linha p-5 text-center text-sm text-suave">
-      {texto}
-    </p>
+    <div className="flex flex-col items-center gap-4 rounded-2xl border border-linha bg-white px-6 py-16 text-center">
+      <p className="text-sm text-suave">{texto}</p>
+      {acao}
+    </div>
   )
 }

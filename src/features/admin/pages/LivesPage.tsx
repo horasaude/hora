@@ -1,90 +1,82 @@
-import { Link, useNavigate, useParams } from 'react-router-dom'
-import { zodResolver } from '@hookform/resolvers/zod'
-import type { z } from 'zod'
-import { formatarDataHora, paraCampoBrasilia } from '@/lib/datas'
-import { salvarLive } from '../api/agenda.api'
+import { useState, type ReactNode } from 'react'
+import { Link, useLocation, useParams } from 'react-router-dom'
+import { formatarDataHora } from '@/lib/datas'
+import type { Live } from '../api/agenda.api'
 import { Estado } from '../components/Estado'
-import { FormAgenda, type CampoDef } from '../components/FormAgenda'
-import { Linha } from '../components/Linha'
-import { useAcoes, useLive, useLives, useSalvar } from '../hooks/usePainel'
-import { esquemaLive } from '../schemas/formularios'
+import { LiveDetalhe } from '../components/LiveDetalhe'
+import { botaoPrincipal, Divisao, Quadro, type Numero } from '../components/Quadro'
+import { celula, Etiqueta, LinhaTabela, Situacao, Tabela } from '../components/Tabela'
+import { useLives } from '../hooks/usePainel'
 import { textos } from '../textos'
 
 const t = textos.lives
-type Entrada = z.input<typeof esquemaLive>
-const CAMPOS: CampoDef<Entrada>[] = [
-  { nome: 'tema', rotulo: t.campoTema },
-  { nome: 'data', rotulo: t.campoData, tipo: 'datahora' },
-  { nome: 'convidada', rotulo: t.campoConvidada },
-  { nome: 'link_url', rotulo: t.campoLink, tipo: 'link' },
-  { nome: 'gravacao_url', rotulo: t.campoGravacao, tipo: 'link' },
-]
+const semAno = (d: Date) => formatarDataHora(d).replace(/\/\d{4}/, '')
 
-export function LivesPage() {
-  const lives = useLives()
-  const { publicar } = useAcoes()
-  const lista = lives.data ?? []
+function numeros(lista: Live[], agora: number): Numero[] {
+  const futuras = lista
+    .filter((l) => l.publicado && new Date(l.data).getTime() > agora)
+    .sort((a, b) => a.data.localeCompare(b.data))
+  const proxima = futuras[0]
+  return [
+    {
+      valor: proxima ? semAno(new Date(proxima.data)) : t.nenhuma,
+      rotulo: t.proxima,
+      tom: 'salvia',
+    },
+    { valor: String(futuras.length), rotulo: t.agendadas, tom: 'ocre' },
+  ]
+}
+
+function TabelaLives({ lista, ativa }: { lista: Live[]; ativa?: string }) {
   return (
-    <section className="flex flex-col gap-4">
-      <div className="flex items-center justify-between gap-3">
-        <h1 className="font-titulo text-3xl text-ora">{t.titulo}</h1>
-        <Link
-          to="nova"
-          className="inline-flex min-h-11 items-center rounded-lg bg-ora px-5 font-semibold text-white"
+    <Tabela colunas={[t.coluna, t.colunaData, textos.status]}>
+      {lista.map((l) => (
+        <LinhaTabela
+          key={l.id}
+          ativa={l.id === ativa}
+          para={`/app/admin/lives/${l.id}`}
+          titulo={l.tema}
+          marca={l.convidada ? <Etiqueta tom="ocre">{l.convidada}</Etiqueta> : undefined}
         >
-          {t.nova}
-        </Link>
-      </div>
-      {lives.isPending && <Estado tipo="carregando" />}
-      {lives.isError && <Estado tipo="erro" tentar={() => lives.refetch()} />}
-      {lives.isSuccess && lista.length === 0 && <Estado tipo="vazio" texto={t.vazio} />}
-      <ul className="flex flex-col gap-2">
-        {lista.map((l) => (
-          <Linha
-            key={l.id}
-            titulo={l.tema}
-            detalhe={[formatarDataHora(new Date(l.data)), l.convidada].filter(Boolean).join(' · ')}
-            publicado={l.publicado}
-            para={l.id}
-            ocupado={publicar.isPending}
-            aoPublicar={() =>
-              publicar.mutate({ tabela: 'lives', id: l.id, publicado: !l.publicado })
-            }
-          />
-        ))}
-      </ul>
-    </section>
+          <td className={celula}>{formatarDataHora(new Date(l.data))}</td>
+          <td className="px-5 py-4">
+            <Situacao publicado={l.publicado} />
+          </td>
+        </LinhaTabela>
+      ))}
+    </Tabela>
   )
 }
 
-export function LivePage() {
+/** Lives: resumo, tabela e a live aberta à direita (ou o formulário de nova). */
+export function LivesPage() {
+  const lives = useLives()
   const { liveId } = useParams()
-  const live = useLive(liveId)
-  const salvar = useSalvar(salvarLive)
-  const navegar = useNavigate()
-  if (liveId && live.isPending) return <Estado tipo="carregando" />
-  if (liveId && live.isError) return <Estado tipo="erro" tentar={() => live.refetch()} />
-  const l = live.data
-  const inicial: Entrada = {
-    tema: l?.tema ?? '',
-    data: l ? paraCampoBrasilia(new Date(l.data)) : '',
-    convidada: l?.convidada ?? '',
-    link_url: l?.link_url ?? '',
-    gravacao_url: l?.gravacao_url ?? '',
+  const { pathname } = useLocation()
+  const [agora] = useState(() => Date.now())
+  const lista = lives.data ?? []
+  const nova = pathname.endsWith('/nova')
+  const atual = nova ? undefined : (lista.find((l) => l.id === liveId) ?? lista[0])
+  const acao = (
+    <Link to="/app/admin/lives/nova" className={botaoPrincipal}>
+      {t.nova}
+    </Link>
+  )
+  let corpo: ReactNode
+  if (lives.isPending) corpo = <Estado tipo="carregando" />
+  else if (lives.isError) corpo = <Estado tipo="erro" tentar={() => lives.refetch()} />
+  else if (lista.length === 0 && !nova) corpo = <Estado tipo="vazio" texto={t.vazio} acao={acao} />
+  else {
+    corpo = (
+      <Divisao
+        tabela={lista.length ? <TabelaLives lista={lista} ativa={atual?.id} /> : null}
+        detalhe={<LiveDetalhe key={atual?.id ?? 'nova'} live={atual} />}
+      />
+    )
   }
   return (
-    <section className="flex flex-col gap-4">
-      <h1 className="font-titulo text-3xl text-ora">{liveId ? t.editar : t.nova}</h1>
-      <FormAgenda<Entrada, z.output<typeof esquemaLive>>
-        campos={CAMPOS}
-        inicial={inicial}
-        resolver={zodResolver(esquemaLive)}
-        aoCancelar={() => navegar('/app/admin/lives')}
-        aoSalvar={async (d) => {
-          await salvar.mutateAsync({ ...d, id: liveId })
-          navegar('/app/admin/lives')
-        }}
-      />
-    </section>
+    <Quadro titulo={t.pagina} acao={acao} numeros={numeros(lista, agora)}>
+      {corpo}
+    </Quadro>
   )
 }

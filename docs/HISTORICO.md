@@ -2,6 +2,14 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-06 · main · Visual do painel igual à apresentação
+
+- Painel refeito sobre docs/referencias/painel-apresentado.png: barra lateral verde fixa (HORA em ocre, itens com bolinha colorida, item ativo com fundo claro, "Logada como" com o nome da perfis), fundo areia, título em Playfair, cartões de resumo (sálvia, ocre, terracota), tabela branca com cabeçalho em caixa alta pequena e etiquetas Publicado (verde) e Rascunho (ocre).
+- Clicar numa linha abre o item num cartão branco à direita, sem sair da tela: tema (publicar, editar, etapas e aulas), aula (formulário com prévia do vídeo), live e aviso (dados, publicar e formulário). Lista vazia: mensagem curta e botão de criar no centro. No celular a barra vira menu aberto por botão.
+- Resumos: temas publicados, aulas publicadas e em rascunho; próxima live e lives agendadas; avisos ativos.
+- Rotas de detalhe apontam para a página da lista. Nada mudou no banco. useNome novo na feature auth.
+- Prints feitos com build local apontando para um servidor falso com dados de exemplo (produção está vazia e nada foi gravado lá).
+
 ## 2026-10-06 · main · Painel admin
 
 - /app/admin só para papel admin (usePapel na feature auth; quem não é admin volta para /app). Mobile primeiro, abas fixas embaixo: Conteúdo, Lives, Avisos.

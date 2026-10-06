@@ -1,64 +1,65 @@
-import { Link, Navigate, NavLink, Outlet } from 'react-router-dom'
+import { useState } from 'react'
+import { Navigate, Outlet } from 'react-router-dom'
 import { usePapel } from '@/features/auth'
 import { textos } from '../textos'
 import { Estado } from './Estado'
+import { MenuLateral } from './MenuLateral'
 
-const ABAS = [
-  { para: 'conteudo', nome: textos.abas.conteudo },
-  { para: 'lives', nome: textos.abas.lives },
-  { para: 'avisos', nome: textos.abas.avisos },
-] as const
+function BarraCelular({ aoAbrir }: { aoAbrir: () => void }) {
+  return (
+    <header className="sticky top-0 z-20 flex h-14 items-center justify-between bg-ora px-4 lg:hidden">
+      <span className="font-titulo text-2xl font-bold text-ocre">{textos.marca}</span>
+      <button
+        type="button"
+        onClick={aoAbrir}
+        aria-label={textos.menu}
+        className="grid size-11 place-items-center rounded-xl text-white"
+      >
+        <span className="flex w-5 flex-col gap-1">
+          <span className="h-0.5 rounded bg-current" />
+          <span className="h-0.5 rounded bg-current" />
+          <span className="h-0.5 rounded bg-current" />
+        </span>
+      </button>
+    </header>
+  )
+}
 
-/** Moldura do painel: só para papel admin. No celular, abas fixas embaixo. */
+function Gaveta({ aoFechar }: { aoFechar: () => void }) {
+  return (
+    <div className="fixed inset-0 z-30 lg:hidden" role="dialog" aria-modal="true">
+      <button
+        type="button"
+        aria-label={textos.fecharMenu}
+        onClick={aoFechar}
+        className="absolute inset-0 bg-tinta/40"
+      />
+      <aside className="absolute inset-y-0 left-0 w-72 bg-ora">
+        <MenuLateral aoNavegar={aoFechar} />
+      </aside>
+    </div>
+  )
+}
+
+/** Moldura do painel, só para papel admin: barra lateral fixa no computador, menu no celular. */
 export function PainelLayout() {
   const papel = usePapel()
+  const [menuAberto, setMenuAberto] = useState(false)
   if (papel.isPending) return <Estado tipo="carregando" />
   if (papel.isError) return <Estado tipo="erro" tentar={() => papel.refetch()} />
   if (papel.data !== 'admin') return <Navigate to="/app" replace />
   return (
-    <div className="min-h-dvh bg-creme pb-24 text-tinta">
-      <header className="sticky top-0 z-20 border-b border-linha bg-creme/90 backdrop-blur">
-        <div className="mx-auto flex h-14 max-w-3xl items-center justify-between px-5">
-          <span className="flex items-center gap-3">
-            <img src="/logo-ora.png" alt="ORA" width={482} height={189} className="h-6 w-auto" />
-            <span className="text-xs font-semibold tracking-[0.18em] text-ora uppercase">
-              {textos.painel}
-            </span>
-          </span>
-          <Link
-            to="/app"
-            className="inline-flex min-h-11 items-center text-xs text-suave underline underline-offset-4"
-          >
-            {textos.sair}
-          </Link>
+    <div className="min-h-dvh bg-areia text-tinta">
+      <aside className="fixed inset-y-0 left-0 hidden w-64 bg-ora lg:block">
+        <MenuLateral />
+      </aside>
+      <BarraCelular aoAbrir={() => setMenuAberto(true)} />
+      {menuAberto && <Gaveta aoFechar={() => setMenuAberto(false)} />}
+      <main className="px-4 py-6 sm:px-6 lg:ml-64 lg:px-10 lg:py-10">
+        <div className="mx-auto max-w-[1180px]">
+          <Outlet />
         </div>
-      </header>
-      <main className="mx-auto max-w-3xl px-5 py-6">
-        <Outlet />
       </main>
-      <nav className="fixed inset-x-0 bottom-0 z-20 border-t border-linha bg-white">
-        <ul className="mx-auto grid max-w-3xl grid-cols-3">
-          {ABAS.map((a) => (
-            <li key={a.para}>
-              <NavLink
-                to={a.para}
-                className={({ isActive }) =>
-                  `flex min-h-16 flex-col items-center justify-center gap-1 text-xs font-semibold ${isActive ? 'text-ora' : 'text-suave'}`
-                }
-              >
-                {({ isActive }) => (
-                  <>
-                    <span
-                      className={`h-1 w-8 rounded-full ${isActive ? 'bg-ora' : 'bg-transparent'}`}
-                    />
-                    {a.nome}
-                  </>
-                )}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
-      </nav>
     </div>
   )
 }

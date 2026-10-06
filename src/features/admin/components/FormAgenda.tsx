@@ -17,6 +17,25 @@ type Props<E extends FieldValues, S> = {
   aoCancelar: () => void
 }
 
+/** Salvar e cancelar, no rodapé do formulário. */
+function Botoes({ salvando, aoCancelar }: { salvando: boolean; aoCancelar: () => void }) {
+  return (
+    <div className="flex gap-2">
+      <Botao type="submit" disabled={salvando} className="flex-1 rounded-xl text-sm">
+        {salvando ? textos.salvando : textos.salvar}
+      </Botao>
+      <Botao
+        type="button"
+        variante="secundario"
+        className="rounded-xl text-sm"
+        onClick={aoCancelar}
+      >
+        {textos.cancelar}
+      </Botao>
+    </div>
+  )
+}
+
 /** Formulário simples para live e aviso: lista de campos, salvar e cancelar. */
 export function FormAgenda<E extends FieldValues, S>({
   campos,
@@ -35,7 +54,7 @@ export function FormAgenda<E extends FieldValues, S>({
     }
   })
   return (
-    <form onSubmit={enviar} noValidate className="flex flex-col gap-4 rounded-2xl bg-white p-4">
+    <form onSubmit={enviar} noValidate className="flex flex-col gap-4">
       {campos.map((c) =>
         c.tipo === 'area' ? (
           <CampoArea
@@ -60,14 +79,7 @@ export function FormAgenda<E extends FieldValues, S>({
           {erros.root.message}
         </p>
       )}
-      <div className="flex gap-2">
-        <Botao type="submit" disabled={form.formState.isSubmitting} className="flex-1">
-          {form.formState.isSubmitting ? textos.salvando : textos.salvar}
-        </Botao>
-        <Botao type="button" variante="secundario" onClick={aoCancelar}>
-          {textos.cancelar}
-        </Botao>
-      </div>
+      <Botoes salvando={form.formState.isSubmitting} aoCancelar={aoCancelar} />
     </form>
   )
 }

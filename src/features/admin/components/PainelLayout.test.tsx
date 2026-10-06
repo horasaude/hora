@@ -4,7 +4,10 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { usePapel } from '@/features/auth'
 import { PainelLayout } from './PainelLayout'
 
-vi.mock('@/features/auth', () => ({ usePapel: vi.fn() }))
+vi.mock('@/features/auth', () => ({
+  usePapel: vi.fn(),
+  useNome: () => ({ data: 'Ana Milhomem' }),
+}))
 
 function abrir(papel: string | null) {
   vi.mocked(usePapel).mockReturnValue({
@@ -34,9 +37,10 @@ describe('PainelLayout', () => {
     expect(screen.queryByText('Conteúdo do painel')).not.toBeInTheDocument()
   })
 
-  it('admin vê o painel com as abas', () => {
+  it('admin vê o painel com o menu lateral e quem está logada', () => {
     abrir('admin')
     expect(screen.getByText('Conteúdo do painel')).toBeInTheDocument()
+    expect(screen.getByText('Ana Milhomem')).toBeInTheDocument()
     for (const aba of ['Conteúdo', 'Lives', 'Avisos']) {
       expect(screen.getByRole('link', { name: aba })).toBeInTheDocument()
     }

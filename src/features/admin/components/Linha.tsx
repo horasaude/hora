@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { textos } from '../textos'
+import { Ordem } from './Ordem'
 
 type Props = {
   titulo: string
@@ -12,40 +13,8 @@ type Props = {
   ocupado?: boolean
 }
 
-const botao =
-  'grid size-11 place-items-center rounded-xl border border-linha bg-white text-ora disabled:opacity-30'
-
-function Ordem({
-  titulo,
-  aoSubir,
-  aoDescer,
-  ocupado,
-}: Pick<Props, 'titulo' | 'aoSubir' | 'aoDescer' | 'ocupado'>) {
-  return (
-    <div className="flex flex-col gap-1">
-      <button
-        type="button"
-        aria-label={`${textos.subir}: ${titulo}`}
-        onClick={aoSubir}
-        disabled={!aoSubir || ocupado}
-        className={botao}
-      >
-        <span className="mt-1 size-2.5 rotate-45 border-t-2 border-l-2 border-current" />
-      </button>
-      <button
-        type="button"
-        aria-label={`${textos.descer}: ${titulo}`}
-        onClick={aoDescer}
-        disabled={!aoDescer || ocupado}
-        className={botao}
-      >
-        <span className="mb-1 size-2.5 rotate-45 border-r-2 border-b-2 border-current" />
-      </button>
-    </div>
-  )
-}
-
-function Situacao({
+/** Etiqueta de situação que também publica ou tira do ar ao clicar. */
+export function BotaoSituacao({
   publicado,
   aoPublicar,
   ocupado,
@@ -56,9 +25,9 @@ function Situacao({
       onClick={aoPublicar}
       disabled={ocupado}
       aria-pressed={publicado}
-      className={`mt-1 inline-flex min-h-9 items-center gap-2 rounded-full px-3 text-xs font-semibold ${publicado ? 'bg-salvia-suave text-ora' : 'bg-creme text-suave'}`}
+      title={publicado ? textos.despublicar : textos.publicar}
+      className={`inline-flex min-h-8 items-center rounded-full px-3 text-xs font-semibold whitespace-nowrap disabled:opacity-50 ${publicado ? 'bg-salvia-suave text-ora' : 'bg-ocre-suave text-[#80591c]'}`}
     >
-      <span className={`size-2 rounded-full ${publicado ? 'bg-salvia' : 'bg-suave/50'}`} />
       {publicado
         ? `${textos.publicado} · ${textos.despublicar}`
         : `${textos.rascunho} · ${textos.publicar}`}
@@ -66,7 +35,7 @@ function Situacao({
   )
 }
 
-/** Linha de lista: título (abre a edição), situação, publicar e mudar a ordem. */
+/** Linha compacta dentro do cartão: título (abre a edição), situação e ordem. */
 export function Linha({
   titulo,
   detalhe,
@@ -79,25 +48,25 @@ export function Linha({
 }: Props) {
   const conteudo = (
     <>
-      <span className="block font-semibold text-ora">{titulo}</span>
+      <span className="block text-sm font-semibold text-tinta">{titulo}</span>
       {detalhe && <span className="block text-xs text-suave">{detalhe}</span>}
     </>
   )
   return (
-    <li className="flex items-center gap-3 rounded-2xl bg-white p-3">
-      <div className="min-w-0 flex-1">
-        {para ? (
-          <Link to={para} className="block min-h-11 py-1">
-            {conteudo}
-          </Link>
-        ) : (
-          <div className="py-1">{conteudo}</div>
-        )}
-        <Situacao publicado={publicado} aoPublicar={aoPublicar} ocupado={ocupado} />
-      </div>
-      {(aoSubir || aoDescer) && (
-        <Ordem titulo={titulo} aoSubir={aoSubir} aoDescer={aoDescer} ocupado={ocupado} />
+    <li className="flex flex-col gap-1 py-2">
+      {para ? (
+        <Link to={para} className="block py-1 hover:underline">
+          {conteudo}
+        </Link>
+      ) : (
+        <div className="py-1">{conteudo}</div>
       )}
+      <div className="flex items-center justify-between gap-2">
+        <BotaoSituacao publicado={publicado} aoPublicar={aoPublicar} ocupado={ocupado} />
+        {(aoSubir || aoDescer) && (
+          <Ordem titulo={titulo} aoSubir={aoSubir} aoDescer={aoDescer} ocupado={ocupado} />
+        )}
+      </div>
     </li>
   )
 }

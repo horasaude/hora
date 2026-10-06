@@ -22,11 +22,11 @@ function ListaAulas({
   const ocupado = publicar.isPending || ordenar.isPending
   return (
     <>
-      <p className="px-1 text-[0.7rem] font-semibold tracking-[0.16em] text-suave uppercase">
+      <p className="mt-2 text-[0.7rem] font-semibold tracking-[0.14em] text-suave uppercase">
         {textos.aulas.titulo}
       </p>
-      {aulas.length === 0 && <p className="px-1 text-sm text-suave">{textos.aulas.vazio}</p>}
-      <ul className="flex flex-col gap-2">
+      {aulas.length === 0 && <p className="text-sm text-suave">{textos.aulas.vazio}</p>}
+      <ul className="flex flex-col divide-y divide-linha">
         {aulas.map((a, i) => (
           <Linha
             key={a.id}
@@ -51,7 +51,7 @@ function ListaAulas({
       </ul>
       <Link
         to={`/app/admin/aulas/nova?etapa=${etapaId}&tema=${temaId}`}
-        className="inline-flex min-h-11 items-center justify-center rounded-xl border border-dashed border-ora/40 text-sm font-semibold text-ora"
+        className="mt-1 inline-flex min-h-11 items-center justify-center rounded-xl border border-ora bg-white text-sm font-semibold text-ora hover:bg-salvia-suave"
       >
         + {textos.aulas.nova}
       </Link>
@@ -66,7 +66,7 @@ export function EtapaCartao({ etapa, aulas, temaId, primeira, ultima }: Props) {
   const [editando, setEditando] = useState(false)
   const ocupado = publicar.isPending || ordenar.isPending
   return (
-    <li className="flex flex-col gap-2 rounded-[1.5rem] border border-linha bg-[#fbfaf7] p-3">
+    <li className="flex flex-col gap-1 rounded-xl border border-linha bg-areia px-4 py-3">
       {editando ? (
         <FormNome
           rotulo={textos.etapas.campoTitulo}
@@ -103,7 +103,7 @@ export function EtapaCartao({ etapa, aulas, temaId, primeira, ultima }: Props) {
           <button
             type="button"
             onClick={() => setEditando(true)}
-            className="min-h-11 self-start px-2 text-sm font-semibold text-ora underline underline-offset-4"
+            className="min-h-11 self-start text-xs font-semibold text-ora underline underline-offset-4"
           >
             {textos.editar}
           </button>

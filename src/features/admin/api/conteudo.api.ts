@@ -89,3 +89,8 @@ export async function mover(tipo: 'tema' | 'etapa' | 'aula', id: string, direcao
   const { error } = await supabase.rpc(nome, { p_id: id, p_direcao: direcao })
   if (error) throw error
 }
+
+/** Só a situação de cada aula, para os números do resumo. */
+export async function listarSituacaoAulas(): Promise<{ publicado: boolean }[]> {
+  return ok(await supabase.from('aulas').select('publicado'))
+}
