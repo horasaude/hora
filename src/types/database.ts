@@ -218,8 +218,8 @@ export type Database = {
       }
       perfis: {
         Row: {
-          acesso_fim: string | null
-          acesso_inicio: string | null
+          acesso_fim_em: string | null
+          acesso_inicio_em: string | null
           apelido: string | null
           consentimento_saude_em: string | null
           created_at: string
@@ -230,8 +230,8 @@ export type Database = {
           updated_at: string
         }
         Insert: {
-          acesso_fim?: string | null
-          acesso_inicio?: string | null
+          acesso_fim_em?: string | null
+          acesso_inicio_em?: string | null
           apelido?: string | null
           consentimento_saude_em?: string | null
           created_at?: string
@@ -242,8 +242,8 @@ export type Database = {
           updated_at?: string
         }
         Update: {
-          acesso_fim?: string | null
-          acesso_inicio?: string | null
+          acesso_fim_em?: string | null
+          acesso_inicio_em?: string | null
           apelido?: string | null
           consentimento_saude_em?: string | null
           created_at?: string

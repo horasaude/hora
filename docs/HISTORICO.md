@@ -7,6 +7,7 @@ Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquiv
 - Pedido da dona do projeto: os 7 dias contam a partir da hora da confirmação do pagamento, não por calendário.
 - Migração 20261006150000_acesso_por_hora: perfis.acesso_inicio/acesso_fim (data) viram acesso_inicio_em/acesso_fim_em (com hora); tem_acesso_ativo e dia_de_acesso recalculadas (dia N começa após (N-1) x 24 h).
 - Teste novo: um minuto antes de completar 7 dias a aula de dia 8 segue fechada; ao completar, libera. 79 checagens no PGlite.
+- Aplicada no banco remoto e tipos gerados (perfis só com acesso_inicio_em e acesso_fim_em).
 
 ## 2026-10-06 · main · Regra de liberação registrada
 
