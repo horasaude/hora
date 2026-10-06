@@ -1,11 +1,17 @@
 // Copy do checkout. Os componentes só leem daqui.
 
 export const textos = {
-  oferta: (desconto: string) => `Oferta ORA: ${desconto} OFF até 24/10`,
+  oferta: (desconto: string) => `Oferta ORA: ${desconto} OFF + 1 mês grátis`,
+  banner: {
+    etiqueta: 'Comunidade',
+    nome: 'HORA',
+    frase: '12 meses de nutrição, saúde e movimento, com quem entende do assunto',
+  },
   produto: {
     nome: 'Comunidade HORA',
     autoras: 'Ana Milhomem, Dra. Clara Maria e Laís Moraes',
     acesso: (meses: number) => `${meses} meses de acesso`,
+    vantagem: '12 meses + 1 mês grátis',
   },
   plano: {
     titulo: 'Seu plano',

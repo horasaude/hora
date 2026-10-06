@@ -18,7 +18,8 @@ export function ContagemOferta() {
   ] as const
   return (
     <div className="rounded-[1.75rem] bg-ora px-5 py-6 text-center text-creme sm:px-8">
-      <p className="text-sm font-semibold tracking-[0.18em] uppercase">
+      <p className="text-2xl leading-snug font-semibold sm:text-3xl">{t.vantagem}</p>
+      <p className="mt-2 text-sm font-semibold tracking-[0.18em] uppercase">
         {t.selo(formatarPreco(DESCONTO_OFERTA_CENTAVOS))}
       </p>
       <p className="mt-1 text-sm text-creme/85">{t.prazo}</p>

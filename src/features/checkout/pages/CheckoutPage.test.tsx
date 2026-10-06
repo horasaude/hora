@@ -35,7 +35,8 @@ describe('CheckoutPage', () => {
     expect(campo('WhatsApp').value).toBe('(98) 98765-4321')
     expect(screen.getByRole('radio', { name: /À vista/ })).toBeChecked()
     tem('Pix')
-    tem('Oferta ORA: R$ 300 OFF até 24/10')
+    tem('Oferta ORA: R$ 300 OFF + 1 mês grátis')
+    tem('12 meses + 1 mês grátis')
   })
 
   it('trocar o plano muda a forma de pagamento e o total', () => {

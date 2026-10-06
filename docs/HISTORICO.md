@@ -2,6 +2,11 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-05 · main · Mês grátis em destaque e checkout com a marca
+
+- Oferta: "Compre 12 meses e ganhe 1 mês grátis" vira o título do aviso; selo "+1 mês grátis" nos três planos; "12 meses + 1 mês grátis" no lugar de "13 meses de acesso".
+- Checkout: logo ORA no resumo (no lugar da foto) e banner do programa (creme, "A" de marca d'água, Comunidade HORA, oferta + 1 mês grátis).
+
 ## 2026-10-05 · main · Checkout próprio (visual, pagamento desligado)
 
 - Opção 1 escolhida: checkout próprio no formato do Hotmart, na identidade do ORA (feature checkout, rota /checkout, lazy, 10 KB).

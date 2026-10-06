@@ -5,6 +5,7 @@ export const fechamento = {
     etiqueta: 'Investimento',
     titulo: 'Escolha o seu *plano*',
     oferta: {
+      vantagem: 'Compre 12 meses e ganhe 1 mês grátis',
       selo: (desconto: string) => `Oferta ORA: ${desconto} OFF`,
       // Regra no domínio: FIM_OFERTA_ORA (24/10/2026 23h59 de Brasília).
       prazo: 'Condição especial válida só até 24/10, às 23h59.',
@@ -31,7 +32,9 @@ export const fechamento = {
       },
     },
     vezes: (n: number) => `${n}x`,
-    acesso: (meses: number) => `${meses} meses de acesso`,
+    acesso: (meses: number) =>
+      meses > 12 ? '12 meses + 1 mês grátis' : `${meses} meses de acesso`,
+    mesGratis: '+1 mês grátis',
     botao: 'Quero este',
     seguro: 'Compra 100% segura! Receba seu acesso imediatamente após confirmação do pagamento.',
   },

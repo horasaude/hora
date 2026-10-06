@@ -12,16 +12,26 @@ export function Resumo({ precos, plano, campo }: Props) {
   return (
     <section>
       <div className="flex gap-4">
-        <img
-          src="/fotos/tres-sentadas.webp"
-          alt=""
-          className="size-20 shrink-0 rounded-2xl object-cover object-[50%_60%]"
-        />
+        <div className="grid size-20 shrink-0 place-items-center rounded-2xl bg-ora p-3">
+          <img
+            src="/logo-ora.png"
+            alt="ORA"
+            width={482}
+            height={189}
+            className="w-full brightness-0 invert"
+          />
+        </div>
         <div>
           <h1 className="text-lg font-semibold text-ora">{textos.produto.nome}</h1>
           <p className="text-xs text-suave">{textos.produto.autoras}</p>
           <p className="mt-1 text-xl font-semibold text-tinta">{valorDoPlano(precos, plano)}</p>
-          <p className="text-xs text-suave">{textos.produto.acesso(precos.mesesAcesso)}</p>
+          {precos.emOferta ? (
+            <p className="mt-1 inline-block rounded-full bg-ora px-3 py-1 text-[0.65rem] font-semibold tracking-[0.14em] text-creme uppercase">
+              {textos.produto.vantagem}
+            </p>
+          ) : (
+            <p className="text-xs text-suave">{textos.produto.acesso(precos.mesesAcesso)}</p>
+          )}
         </div>
       </div>
       <fieldset className="mt-6">

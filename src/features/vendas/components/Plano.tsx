@@ -9,24 +9,48 @@ export type DadosPlano = {
   riscado: string | null
   acesso: string
   destaque?: boolean
+  mesGratis: boolean
   ordem: string
 }
 
 const t = textos.preco
 
+type PropsSelos = { mesGratis: boolean; selo: string | null; destaque?: boolean }
+
+/** "+1 mês grátis" na oferta (à direita) e "Menor valor" no Pix (à esquerda). */
+function Selos({ mesGratis, selo, destaque }: PropsSelos) {
+  const base =
+    'absolute -top-3 rounded-full px-3 py-1 text-[0.65rem] font-semibold tracking-[0.18em] uppercase'
+  return (
+    <>
+      {mesGratis && (
+        <span className={`${base} right-6 ${destaque ? 'bg-creme text-ora' : 'bg-ora text-creme'}`}>
+          {t.mesGratis}
+        </span>
+      )}
+      {selo && <span className={`${base} left-6 bg-salvia text-white`}>{selo}</span>}
+    </>
+  )
+}
+
 /** Cartão de um plano. O destaque fica em verde, com o botão claro. */
-export function Plano({ plano, valor, vezes, riscado, acesso, destaque, ordem }: DadosPlano) {
+export function Plano({
+  plano,
+  valor,
+  vezes,
+  riscado,
+  acesso,
+  destaque,
+  mesGratis,
+  ordem,
+}: DadosPlano) {
   const info = t.planos[plano]
   const selo = 'selo' in info ? info.selo : null
   return (
     <li
       className={`relative flex flex-col rounded-[1.75rem] p-6 ${ordem} ${destaque ? 'bg-ora text-creme shadow-lg md:-my-3 md:py-9' : 'border border-ora/15 bg-white text-tinta'}`}
     >
-      {selo && (
-        <span className="absolute -top-3 left-6 rounded-full bg-salvia px-3 py-1 text-[0.65rem] font-semibold tracking-[0.18em] text-white uppercase">
-          {selo}
-        </span>
-      )}
+      <Selos mesGratis={mesGratis} selo={selo} destaque={destaque} />
       <p
         className={`text-xs font-semibold tracking-[0.2em] uppercase ${destaque ? 'text-creme/80' : 'text-ora'}`}
       >

@@ -23,6 +23,7 @@ export function Preco() {
       valor: formatarPreco(p.parceladoCentavos),
       riscado: riscar(`${vezes} ${formatarPreco(cheio.parceladoCentavos)}`),
       acesso,
+      mesGratis: p.emOferta,
       destaque: true,
       ordem: 'md:order-2',
     },
@@ -31,6 +32,7 @@ export function Preco() {
       valor: formatarPreco(p.pixCentavos),
       riscado: riscar(formatarPreco(cheio.pixCentavos)),
       acesso,
+      mesGratis: p.emOferta,
       ordem: 'md:order-1',
     },
     {
@@ -39,6 +41,7 @@ export function Preco() {
       valor: formatarPreco(p.recorrenteCentavos),
       riscado: riscar(`${vezes} ${formatarPreco(cheio.recorrenteCentavos)}`),
       acesso,
+      mesGratis: p.emOferta,
       ordem: 'md:order-3',
     },
   ]
