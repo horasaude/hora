@@ -4,7 +4,7 @@ Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquiv
 
 ## 2026-10-06 · main · Fórum completo (aluna e painel)
 
-- Banco (20261007220000_forum, 52 checagens no PGlite): dúvidas, respostas, curtidas e denúncias; cada dúvida numa aula ou no geral, com categoria e prazo de 72 h; aluna aparece só pelo apelido; tudo pela funções forum_*. Enviar dúvida dá 5 pontos (até 2 por dia) e útil dá 10, pelo motor de pontos; ocultar estorna.
+- Banco (20261007220000_forum, 52 checagens no PGlite): dúvidas, respostas, curtidas e denúncias; cada dúvida numa aula ou no geral, com categoria e prazo de 72 h; aluna aparece só pelo apelido; tudo pelas funções forum_*. Enviar dúvida dá 5 pontos (até 2 por dia) e útil dá 10, pelo motor de pontos; ocultar estorna.
 - Aluna: Dúvidas desta aula embaixo do vídeo (resposta das profissionais em destaque com foto, nome, título e Resposta útil), Enviar dúvida com categoria e aviso das 72 h, fórum geral com busca, categoria e Minhas dúvidas, responder, curtir, denunciar, regras na primeira entrada e aviso no Início quando a dúvida é respondida. Fórum no menu do computador; no celular entra pelo Início e pela aula (a barra segue com 5 ícones).
 - Painel: resumo (abertas, perto de vencer, vencidas, respondidas na semana), fila pelo prazo com etiqueta verde, dourada ou coral, filtros de categoria, aula, situação e Para mim, dúvida aberta na tela com Responder, Marcar como útil e Ocultar com motivo, aba Denúncias com Manter e Ocultar, e Meu perfil (nome, especialidade, título e foto).
 

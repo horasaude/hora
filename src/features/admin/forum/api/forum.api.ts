@@ -1,5 +1,5 @@
 import type { Categoria, Especialidade } from '@/domain/forum'
-import { supabase } from '@/lib/supabase'
+import { semValor, supabase } from '@/lib/supabase'
 import type { Tables } from '@/types/database'
 import { ok } from '../../api/conteudo.api'
 
@@ -57,8 +57,8 @@ export async function marcarUtil(topico: string) {
 export async function ocultar(d: { topico?: string; resposta?: string; motivo: string }) {
   ok(
     await supabase.rpc('forum_ocultar', {
-      p_topico: d.topico ?? null,
-      p_resposta: d.resposta ?? null,
+      p_topico: d.topico ?? semValor,
+      p_resposta: d.resposta ?? semValor,
       p_motivo: d.motivo,
     }),
   )
@@ -67,8 +67,8 @@ export async function ocultar(d: { topico?: string; resposta?: string; motivo: s
 export async function manter(d: { topico?: string; resposta?: string }) {
   ok(
     await supabase.rpc('forum_manter', {
-      p_topico: d.resposta ? null : (d.topico ?? null),
-      p_resposta: d.resposta ?? null,
+      p_topico: d.resposta ? semValor : (d.topico ?? semValor),
+      p_resposta: d.resposta ?? semValor,
     }),
   )
 }
@@ -112,9 +112,9 @@ export async function salvarPerfilEquipe(d: PerfilEquipe & { arquivo?: File }) {
   ok(
     await supabase.rpc('salvar_perfil_equipe', {
       p_nome: d.nome,
-      p_especialidade: d.especialidade,
-      p_titulo: d.titulo_profissional,
-      p_foto_path: foto,
+      p_especialidade: d.especialidade ?? semValor,
+      p_titulo: d.titulo_profissional ?? semValor,
+      p_foto_path: foto ?? semValor,
     }),
   )
 }

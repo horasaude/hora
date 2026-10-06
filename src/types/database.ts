@@ -1018,10 +1018,6 @@ export type Database = {
       }
       perfis: {
         Row: {
-          especialidade: string | null
-          foto_path: string | null
-          forum_regras_em: string | null
-          titulo_profissional: string | null
           acesso_fim_em: string | null
           acesso_inicio_em: string | null
           apelido: string | null
@@ -1029,18 +1025,18 @@ export type Database = {
           consentimento_saude_em: string | null
           cpf: string | null
           created_at: string
+          especialidade: string | null
+          forum_regras_em: string | null
+          foto_path: string | null
           id: string
           nome: string
           ocultar_ranking: boolean
           papel: Database["public"]["Enums"]["papel"]
+          titulo_profissional: string | null
           ultimo_acesso_em: string | null
           updated_at: string
         }
         Insert: {
-          especialidade?: string | null
-          foto_path?: string | null
-          forum_regras_em?: string | null
-          titulo_profissional?: string | null
           acesso_fim_em?: string | null
           acesso_inicio_em?: string | null
           apelido?: string | null
@@ -1048,18 +1044,18 @@ export type Database = {
           consentimento_saude_em?: string | null
           cpf?: string | null
           created_at?: string
+          especialidade?: string | null
+          forum_regras_em?: string | null
+          foto_path?: string | null
           id: string
           nome?: string
           ocultar_ranking?: boolean
           papel?: Database["public"]["Enums"]["papel"]
+          titulo_profissional?: string | null
           ultimo_acesso_em?: string | null
           updated_at?: string
         }
         Update: {
-          especialidade?: string | null
-          foto_path?: string | null
-          forum_regras_em?: string | null
-          titulo_profissional?: string | null
           acesso_fim_em?: string | null
           acesso_inicio_em?: string | null
           apelido?: string | null
@@ -1067,10 +1063,14 @@ export type Database = {
           consentimento_saude_em?: string | null
           cpf?: string | null
           created_at?: string
+          especialidade?: string | null
+          forum_regras_em?: string | null
+          foto_path?: string | null
           id?: string
           nome?: string
           ocultar_ranking?: boolean
           papel?: Database["public"]["Enums"]["papel"]
+          titulo_profissional?: string | null
           ultimo_acesso_em?: string | null
           updated_at?: string
         }
@@ -1267,75 +1267,6 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      forum_aceitar_regras: { Args: never; Returns: undefined }
-      forum_curtir: { Args: { p_curtir: boolean; p_resposta: string }; Returns: undefined }
-      forum_denunciar: {
-        Args: { p_motivo?: string; p_resposta: string | null; p_topico: string | null }
-        Returns: undefined
-      }
-      forum_exigir_acesso: { Args: never; Returns: boolean }
-      forum_listar: {
-        Args: {
-          p_aula?: string
-          p_busca?: string
-          p_categoria?: string
-          p_id?: string
-          p_limite?: number
-          p_minhas?: boolean
-        }
-        Returns: {
-          autora: string
-          aula_id: string | null
-          aula_titulo: string | null
-          categoria: string
-          created_at: string
-          id: string
-          minha: boolean
-          oculto: boolean
-          prazo_em: string
-          respondida_em: string | null
-          respostas: Json
-          texto: string
-          total_respostas: number
-          util: boolean
-        }[]
-      }
-      forum_manter: { Args: { p_resposta: string | null; p_topico: string | null }; Returns: undefined }
-      forum_marcar_util: { Args: { p_topico: string }; Returns: boolean }
-      forum_marcar_vista: { Args: { p_topico: string }; Returns: undefined }
-      forum_minhas_respondidas: {
-        Args: never
-        Returns: { id: string; respondida_em: string; texto: string }[]
-      }
-      forum_ocultar: {
-        Args: { p_motivo: string; p_resposta: string | null; p_topico: string | null }
-        Returns: undefined
-      }
-      forum_perguntar: {
-        Args: { p_aula?: string; p_categoria: string; p_texto: string }
-        Returns: string
-      }
-      forum_responder: { Args: { p_texto: string; p_topico: string }; Returns: string }
-      painel_denuncias_forum: {
-        Args: never
-        Returns: {
-          autora: string
-          motivos: string[]
-          resposta_id: string | null
-          texto: string
-          topico_id: string
-          total: number
-          ultima: string
-        }[]
-      }
-      painel_forum: {
-        Args: never
-        Returns: { abertas: number; perto: number; respondidas_semana: number; vencidas: number }[]
-      }
-      salvar_perfil_equipe: {
-        Args: { p_especialidade: string | null; p_foto_path: string | null; p_nome: string; p_titulo: string | null }
-        Returns: undefined
-      }
       alunas_em_desafios_ativos: { Args: never; Returns: number }
       cancelar_indicacao: {
         Args: { p_indicacao: string; p_motivo: string }
@@ -1380,6 +1311,68 @@ export type Database = {
       }
       fazer_checkin: {
         Args: { p_foto_path?: string; p_tipo: string; p_tipo_treino?: string }
+        Returns: string
+      }
+      forum_aceitar_regras: { Args: never; Returns: undefined }
+      forum_curtir: {
+        Args: { p_curtir: boolean; p_resposta: string }
+        Returns: undefined
+      }
+      forum_denunciar: {
+        Args: { p_motivo?: string; p_resposta: string; p_topico: string }
+        Returns: undefined
+      }
+      forum_exigir_acesso: { Args: never; Returns: boolean }
+      forum_listar: {
+        Args: {
+          p_aula?: string
+          p_busca?: string
+          p_categoria?: string
+          p_id?: string
+          p_limite?: number
+          p_minhas?: boolean
+        }
+        Returns: {
+          aula_id: string
+          aula_titulo: string
+          autora: string
+          categoria: string
+          created_at: string
+          id: string
+          minha: boolean
+          oculto: boolean
+          prazo_em: string
+          respondida_em: string
+          respostas: Json
+          texto: string
+          total_respostas: number
+          util: boolean
+        }[]
+      }
+      forum_manter: {
+        Args: { p_resposta: string; p_topico: string }
+        Returns: undefined
+      }
+      forum_marcar_util: { Args: { p_topico: string }; Returns: boolean }
+      forum_marcar_vista: { Args: { p_topico: string }; Returns: undefined }
+      forum_minhas_respondidas: {
+        Args: never
+        Returns: {
+          id: string
+          respondida_em: string
+          texto: string
+        }[]
+      }
+      forum_ocultar: {
+        Args: { p_motivo: string; p_resposta: string; p_topico: string }
+        Returns: undefined
+      }
+      forum_perguntar: {
+        Args: { p_aula?: string; p_categoria: string; p_texto: string }
+        Returns: string
+      }
+      forum_responder: {
+        Args: { p_texto: string; p_topico: string }
         Returns: string
       }
       hoje_brasilia: { Args: never; Returns: string }
@@ -1437,12 +1430,33 @@ export type Database = {
           ultimo_acesso_em: string
         }[]
       }
+      painel_denuncias_forum: {
+        Args: never
+        Returns: {
+          autora: string
+          motivos: string[]
+          resposta_id: string
+          texto: string
+          topico_id: string
+          total: number
+          ultima: string
+        }[]
+      }
       painel_desafios: {
         Args: never
         Returns: {
           concluintes: number
           id: string
           participantes: number
+        }[]
+      }
+      painel_forum: {
+        Args: never
+        Returns: {
+          abertas: number
+          perto: number
+          respondidas_semana: number
+          vencidas: number
         }[]
       }
       painel_pontos: {
@@ -1478,6 +1492,15 @@ export type Database = {
       salvar_alimento: {
         Args: { p_alimento: Json; p_medidas: Json }
         Returns: string
+      }
+      salvar_perfil_equipe: {
+        Args: {
+          p_especialidade: string
+          p_foto_path: string
+          p_nome: string
+          p_titulo: string
+        }
+        Returns: undefined
       }
       salvar_receita_itens: {
         Args: { p_itens: Json; p_receita: string }

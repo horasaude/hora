@@ -1,5 +1,5 @@
 import type { Categoria } from '@/domain/forum'
-import { supabase } from '@/lib/supabase'
+import { semValor, supabase } from '@/lib/supabase'
 import type { Database } from '@/types/database'
 
 type Linha = Database['public']['Functions']['forum_listar']['Returns'][number]
@@ -73,8 +73,8 @@ export async function curtir(d: { resposta: string; curtir: boolean }) {
 
 export async function denunciar(d: { topico?: string; resposta?: string; motivo: string }) {
   const { error } = await supabase.rpc('forum_denunciar', {
-    p_topico: d.topico ?? null,
-    p_resposta: d.resposta ?? null,
+    p_topico: d.topico ?? semValor,
+    p_resposta: d.resposta ?? semValor,
     p_motivo: d.motivo,
   })
   if (error) throw error

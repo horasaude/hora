@@ -3,3 +3,6 @@ import type { Database } from '@/types/database'
 import { env } from './env'
 
 export const supabase = createClient<Database>(env.VITE_SUPABASE_URL, env.VITE_SUPABASE_ANON_KEY)
+
+/** Null para argumento de função do banco que aceita vazio (o gerador de tipos marca todos como texto). */
+export const semValor = null as unknown as string
