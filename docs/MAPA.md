@@ -1,7 +1,7 @@
 # Mapa do projeto
 
 Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim).
-Última atualização: página de vendas refeita (popup de compra, Mercado Pago, obrigada, termos e privacidade).
+Última atualização: tabelas de conteúdo com RLS (temas, etapas, aulas, lives, avisos).
 
 ## Rotas
 
@@ -58,13 +58,20 @@ Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim)
 
 ## Banco (supabase)
 
-| Objeto                    | Tipo                                            | Migração                                                                    |
-| ------------------------- | ----------------------------------------------- | --------------------------------------------------------------------------- |
-| perfis                    | tabela (RLS)                                    | 20261004000000_criar_perfis                                                 |
-| papel                     | enum (aluna, admin)                             | 20261004000000_criar_perfis                                                 |
-| eh_admin()                | função                                          | 20261004000000_criar_perfis                                                 |
-| criar_perfil_novo_usuario | trigger em auth.users                           | 20261004000000_criar_perfis                                                 |
-| interessadas              | tabela (RLS, admin lê), sem colunas de contrato | 20261004120000_criar_interessadas, 20261005090000_interessadas_sem_contrato |
+| Objeto                    | Tipo                                                                 | Migração                                                                    |
+| ------------------------- | -------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| perfis                    | tabela (RLS)                                                         | 20261004000000_criar_perfis                                                 |
+| papel                     | enum (aluna, admin)                                                  | 20261004000000_criar_perfis                                                 |
+| eh_admin()                | função                                                               | 20261004000000_criar_perfis                                                 |
+| criar_perfil_novo_usuario | trigger em auth.users                                                | 20261004000000_criar_perfis                                                 |
+| interessadas              | tabela (RLS, admin lê), sem colunas de contrato                      | 20261004120000_criar_interessadas, 20261005090000_interessadas_sem_contrato |
+| perfis.acesso_inicio/fim  | colunas (período de acesso; só service role ou admin pelo banco)     | 20261006120000_conteudo                                                     |
+| hoje_brasilia()           | função (data de hoje em Brasília)                                    | 20261006120000_conteudo                                                     |
+| tem_acesso_ativo()        | função (acesso dentro do período)                                    | 20261006120000_conteudo                                                     |
+| dia_de_acesso()           | função (dia 1 = data de início)                                      | 20261006120000_conteudo                                                     |
+| temas, etapas             | tabelas (RLS: admin escreve; aluna com acesso lê publicados)         | 20261006120000_conteudo                                                     |
+| aulas                     | tabela (RLS: aluna lê publicadas com dia_liberacao <= dia_de_acesso) | 20261006120000_conteudo                                                     |
+| lives, avisos             | tabelas (RLS: aluna lê publicadas; aviso só depois de publicar_em)   | 20261006120000_conteudo                                                     |
 
 ## Edge Functions
 

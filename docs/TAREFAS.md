@@ -26,7 +26,7 @@ Venda inicial por links do Mercado Pago; o checkout integrado da Sprint 2 substi
 
 ## Sprint 1: painel e área base (até 11/10)
 
-- [ ] Tabelas temas, etapas, aulas, lives, avisos com RLS
+- [x] Tabelas temas, etapas, aulas, lives, avisos com RLS
 - [ ] Painel admin: CRUD de temas, etapas e aulas
 - [ ] Painel admin: lives e avisos
 - [ ] Primeiro acesso com consentimento e apelido

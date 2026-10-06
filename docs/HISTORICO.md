@@ -2,6 +2,14 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-06 · main · Tabelas de conteúdo com RLS
+
+- Migração 20261006120000_conteudo: temas, etapas (ordem única por tema), aulas (título, descrição, vídeo, material, dia_liberacao), lives (data, tema, convidada, link, gravação) e avisos (publicar_em); todas com "publicado" e updated_at automático.
+- Acesso: perfis.acesso_inicio/acesso_fim (a aluna não altera), hoje_brasilia(), tem_acesso_ativo() e dia_de_acesso() (dia 1 = início, fuso de Brasília). Funções fora do alcance do anônimo.
+- RLS: admin escreve e lê tudo; aluna com acesso ativo lê só o publicado (aulas só até o dia de liberação, e com etapa e tema publicados; avisos só depois de publicar_em); sem acesso, acesso futuro ou vencido não vê nada; anônimo não lê nada.
+- 44 checagens no PGlite (anônimo, aluna no dia 6, sem acesso, acesso futuro, acesso vencido, admin, validações).
+- Pendente: aplicar no banco remoto e gerar os tipos (pede confirmação); quem preenche acesso_inicio é o pagamento (Sprint 2).
+
 ## 2026-10-06 · main · FAQ do acesso, termos no checkout e novas tarefas
 
 - FAQ "Quando recebo o acesso?": usuário e senha assim que o pagamento é confirmado; boas-vindas e 7 dias de preparação; no 8º dia a escolha do tema.
