@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom'
 import { classeBrilho, IconeCheck } from '@/components/ui'
+import { DuvidasDaAula } from '@/features/forum'
 import { linkDeIncorporacao } from '@/lib/video'
 import type { AulaAberta } from '../api/trilha.api'
 import { EstadoAluna } from '../components/EstadoAluna'
@@ -111,6 +112,7 @@ export function AulaPage() {
               {a.descricao}
             </p>
           )}
+          <DuvidasDaAula aula={a.id} />
         </div>
         <aside className="flex flex-col gap-4 lg:sticky lg:top-8">
           <div className="hidden lg:block">{cabecalho}</div>

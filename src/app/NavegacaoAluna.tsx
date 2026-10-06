@@ -8,6 +8,7 @@ const ITENS = [
   { para: '/app/trilha', nome: t.nav.trilha, icone: 'trilha', fim: false, cor: 'bg-terracota' },
   { para: '/app/desafios', nome: t.nav.desafios, icone: 'desafios', fim: false, cor: 'bg-ocre' },
   { para: '/app/ranking', nome: t.nav.ranking, icone: 'ranking', fim: false, cor: 'bg-[#8fa7c0]' },
+  { para: '/app/forum', nome: t.nav.forum, icone: 'forum', fim: false, cor: 'bg-[#e0a48f]' },
   { para: '/app/perfil', nome: t.nav.perfil, icone: 'perfil', fim: false, cor: 'bg-[#b9a2c4]' },
 ] as const
 
@@ -17,13 +18,16 @@ function useAtivo() {
   return (isActive: boolean, para: string) => isActive || (emAula && para === '/app/trilha')
 }
 
+/** No celular a barra tem 5 ícones; o Fórum entra pelo Início e pela aula. */
+const NO_CELULAR = ITENS.filter((i) => i.icone !== 'forum')
+
 /** Celular: barra fixa embaixo com os 5 ícones. */
 export function BarraInferior() {
   const ativo = useAtivo()
   return (
     <nav className="fixed inset-x-0 bottom-0 z-20 border-t border-linha bg-white pb-[env(safe-area-inset-bottom)] lg:hidden">
       <ul className="mx-auto grid max-w-xl grid-cols-5">
-        {ITENS.map((i) => (
+        {NO_CELULAR.map((i) => (
           <li key={i.para}>
             <NavLink
               to={i.para}

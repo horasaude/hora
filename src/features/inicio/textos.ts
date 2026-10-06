@@ -2,6 +2,7 @@
 
 export const textos = {
   painel: 'Painel das profissionais',
+  forum: 'Ir para o fórum',
   checkin: {
     titulo: 'Check-in de hoje',
     habitos: [

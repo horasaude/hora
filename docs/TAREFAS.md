@@ -34,7 +34,7 @@ Venda inicial por links do Mercado Pago; o checkout integrado da Sprint 2 substi
 - [ ] Check-in de verdade (hoje o cartão do Início é só visual), sequência de dias e ranking com dados do banco
 - [ ] Apelido único no ranking (hoje não há trava no banco)
 - [x] Painel completo: menu de 11 módulos, cardápios, desafios e prêmios, alunas, configurações
-- [ ] Ligar Pontos e indicações, Fórum, Financeiro e Loja quando as funções da aluna e o pagamento existirem
+- [ ] Ligar Financeiro e Loja quando as funções da aluna e o pagamento existirem
 - [ ] Textos da página de vendas que citam "24/10" e "R$ 300" são fixos: ligar à configuração se a data ou o preço mudarem
 
 ## Sprint 2: pagamento e contrato (até 16/10)
@@ -53,7 +53,8 @@ Venda inicial por links do Mercado Pago; o checkout integrado da Sprint 2 substi
 - [x] Aplicar 20261007180000_pontos_indicacoes, publicar limpar-fotos e criar segredo do cron (CRON_SEGREDO e vault cron_segredo)
 - [ ] Tela de check-in da aluna chamando fazer_checkin (foto no bucket checkins)
 - [ ] Pedido do Mercado Pago registra indicação (indicacaoGuardada) e cancela no reembolso
-- [ ] Fórum na aula
+- [x] Fórum na aula e fórum geral, com fila e denúncias no painel
+- [ ] Cada profissional preencher Meu perfil no Fórum (especialidade e foto) depois de ganhar a conta
 - [ ] Medidas e consentimento
 - [ ] PWA instalável e notificação
 

@@ -11,6 +11,7 @@ export const textosAluna = {
     trilha: 'Trilha',
     desafios: 'Desafios',
     ranking: 'Ranking',
+    forum: 'Fórum',
     perfil: 'Perfil',
   },
 }

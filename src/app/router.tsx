@@ -18,7 +18,9 @@ const pagina =
       | 'ReceitasPage'
       | 'ReceitaPage'
       | 'AlimentosPage'
-      | 'PontosPage',
+      | 'PontosPage'
+      | 'ForumPainelPage'
+      | 'DuvidaPainelPage',
   ) =>
   async () => ({
     Component: (await admin())[nome],
@@ -26,7 +28,7 @@ const pagina =
 const desafios = async () => ({ Component: (await admin()).DesafiosPage })
 const alunas = async () => ({ Component: (await admin()).AlunasPage })
 const configuracoes = async () => ({ Component: (await admin()).ConfiguracoesPage })
-const vazio = (modulo: 'pontos' | 'forum' | 'financeiro' | 'loja') => async () => {
+const vazio = (modulo: 'financeiro' | 'loja') => async () => {
   const { ModuloVazioPage } = await admin()
   return { Component: () => <ModuloVazioPage modulo={modulo} /> }
 }
@@ -53,11 +55,14 @@ const rotasAdmin: RouteObject[] = [
   ...['alunas', 'alunas/:alunaId'].map((path) => ({ path, lazy: alunas })),
   ...['configuracoes', 'configuracoes/:item'].map((path) => ({ path, lazy: configuracoes })),
   { path: 'pontos', lazy: pagina('PontosPage') },
-  ...(['forum', 'financeiro', 'loja'] as const).map((m) => ({ path: m, lazy: vazio(m) })),
+  { path: 'forum', lazy: pagina('ForumPainelPage') },
+  { path: 'forum/:duvidaId', lazy: pagina('DuvidaPainelPage') },
+  ...(['financeiro', 'loja'] as const).map((m) => ({ path: m, lazy: vazio(m) })),
 ]
 
 // Área da aluna (/app): moldura com a barra de baixo; cada tela carrega sob demanda.
 const trilha = () => import('@/features/trilha')
+const forum = () => import('@/features/forum')
 const emBreve = (titulo: string) => async () => {
   const { EmBrevePage } = await import('./EmBrevePage')
   return { Component: () => <EmBrevePage titulo={titulo} /> }
@@ -71,6 +76,8 @@ const rotasAluna: RouteObject[] = [
   { path: 'aula/:aulaId', lazy: async () => ({ Component: (await trilha()).AulaPage }) },
   { path: 'desafios', lazy: emBreve('Desafios') },
   { path: 'ranking', lazy: emBreve('Ranking') },
+  { path: 'forum', lazy: async () => ({ Component: (await forum()).ForumPage }) },
+  { path: 'forum/:duvidaId', lazy: async () => ({ Component: (await forum()).DuvidaPage }) },
   {
     path: 'perfil',
     lazy: async () => ({ Component: (await import('@/features/perfil')).PerfilPage }),

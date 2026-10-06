@@ -1,0 +1,7 @@
+export { ForumPage } from './pages/ForumPage'
+export { DuvidaPage } from './pages/DuvidaPage'
+export { DuvidasDaAula } from './components/DuvidasDaAula'
+export { AvisoRespondida } from './components/AvisoRespondida'
+export { Conversa } from './components/Duvida'
+export { buscarDuvida, type Duvida, type RespostaForum } from './api/forum.api'
+export { Responder } from './components/Responder'

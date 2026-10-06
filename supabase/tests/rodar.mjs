@@ -7,6 +7,7 @@ import { testarTrilha } from './trilha.test.mjs'
 import { testarPainel } from './painel.test.mjs'
 import { testarPlano } from './plano.test.mjs'
 import { testarPontos } from './pontos.test.mjs'
+import { testarForum } from './forum.test.mjs'
 
 const suites = [
   testarPerfis,
@@ -17,6 +18,7 @@ const suites = [
   testarPainel,
   testarPlano,
   testarPontos,
+  testarForum,
 ]
 let falhas = 0
 for (const suite of suites) falhas += await suite()

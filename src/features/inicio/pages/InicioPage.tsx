@@ -4,6 +4,7 @@ import { Cartao, classeBrilho } from '@/components/ui'
 import { saudacaoPorHora } from '@/domain/saudacao'
 import { aulaDeHoje } from '@/domain/trilha'
 import { useMeuPerfil } from '@/features/auth'
+import { AvisoRespondida } from '@/features/forum'
 import { useTrilha } from '@/features/trilha'
 import { horaEmBrasilia } from '@/lib/datas'
 import { AulaDeHoje, CartaoRanking, FaixaLive } from '../components/Cartoes'
@@ -57,12 +58,16 @@ export function InicioPage() {
       ) : (
         <div className="grid items-start gap-4 lg:grid-cols-2 lg:gap-6">
           <div className="flex flex-col gap-4 lg:gap-6">
+            <AvisoRespondida />
             <Checkin />
             {aula && <AulaDeHoje aula={aula} />}
           </div>
           <div className="flex flex-col gap-4 lg:gap-6">
             {live.data && <FaixaLive live={live.data} />}
             <CartaoRanking />
+            <Link to="/app/forum" className={`${classeBrilho('cinza')} self-start lg:hidden`}>
+              {textos.forum}
+            </Link>
           </div>
         </div>
       )}

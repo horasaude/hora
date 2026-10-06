@@ -41,6 +41,12 @@ const DESENHOS = {
       <path d="M5 20v-6h4.5v6M9.5 20V8.5h5V20M14.5 20v-4H19v4" />
     </Svg>
   ),
+  forum: (
+    <Svg>
+      <path d="M4.5 6.5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v7.5a2 2 0 0 1-2 2H11l-4 3.5V16H6.5a2 2 0 0 1-2-2z" />
+      <path d="M8.5 9h7M8.5 12h4.5" />
+    </Svg>
+  ),
   perfil: (
     <Svg>
       <circle cx="12" cy="8.5" r="3.5" />

@@ -543,6 +543,245 @@ export type Database = {
           },
         ]
       }
+      forum_curtidas: {
+        Row: {
+          created_at: string
+          perfil_id: string
+          resposta_id: string
+        }
+        Insert: {
+          created_at?: string
+          perfil_id: string
+          resposta_id: string
+        }
+        Update: {
+          created_at?: string
+          perfil_id?: string
+          resposta_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "forum_curtidas_perfil_id_fkey"
+            columns: ["perfil_id"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "forum_curtidas_resposta_id_fkey"
+            columns: ["resposta_id"]
+            isOneToOne: false
+            referencedRelation: "forum_respostas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      forum_denuncias: {
+        Row: {
+          created_at: string
+          id: string
+          motivo: string | null
+          perfil_id: string
+          resolucao: string | null
+          resolvida_em: string | null
+          resposta_id: string | null
+          topico_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          motivo?: string | null
+          perfil_id: string
+          resolucao?: string | null
+          resolvida_em?: string | null
+          resposta_id?: string | null
+          topico_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          motivo?: string | null
+          perfil_id?: string
+          resolucao?: string | null
+          resolvida_em?: string | null
+          resposta_id?: string | null
+          topico_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "forum_denuncias_perfil_id_fkey"
+            columns: ["perfil_id"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "forum_denuncias_resposta_id_fkey"
+            columns: ["resposta_id"]
+            isOneToOne: false
+            referencedRelation: "forum_respostas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "forum_denuncias_topico_id_fkey"
+            columns: ["topico_id"]
+            isOneToOne: false
+            referencedRelation: "forum_topicos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      forum_respostas: {
+        Row: {
+          created_at: string
+          da_equipe: boolean
+          id: string
+          motivo_ocultar: string | null
+          oculto_em: string | null
+          oculto_por: string | null
+          perfil_id: string
+          texto: string
+          topico_id: string
+        }
+        Insert: {
+          created_at?: string
+          da_equipe?: boolean
+          id?: string
+          motivo_ocultar?: string | null
+          oculto_em?: string | null
+          oculto_por?: string | null
+          perfil_id: string
+          texto: string
+          topico_id: string
+        }
+        Update: {
+          created_at?: string
+          da_equipe?: boolean
+          id?: string
+          motivo_ocultar?: string | null
+          oculto_em?: string | null
+          oculto_por?: string | null
+          perfil_id?: string
+          texto?: string
+          topico_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "forum_respostas_oculto_por_fkey"
+            columns: ["oculto_por"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "forum_respostas_perfil_id_fkey"
+            columns: ["perfil_id"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "forum_respostas_topico_id_fkey"
+            columns: ["topico_id"]
+            isOneToOne: false
+            referencedRelation: "forum_topicos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      forum_topicos: {
+        Row: {
+          aula_id: string | null
+          categoria: string
+          created_at: string
+          id: string
+          motivo_ocultar: string | null
+          oculto_em: string | null
+          oculto_por: string | null
+          perfil_id: string
+          prazo_em: string
+          respondida_em: string | null
+          respondida_por: string | null
+          resposta_vista_em: string | null
+          texto: string
+          ultima_resposta_equipe_em: string | null
+          util_em: string | null
+          util_por: string | null
+        }
+        Insert: {
+          aula_id?: string | null
+          categoria: string
+          created_at?: string
+          id?: string
+          motivo_ocultar?: string | null
+          oculto_em?: string | null
+          oculto_por?: string | null
+          perfil_id: string
+          prazo_em?: string
+          respondida_em?: string | null
+          respondida_por?: string | null
+          resposta_vista_em?: string | null
+          texto: string
+          ultima_resposta_equipe_em?: string | null
+          util_em?: string | null
+          util_por?: string | null
+        }
+        Update: {
+          aula_id?: string | null
+          categoria?: string
+          created_at?: string
+          id?: string
+          motivo_ocultar?: string | null
+          oculto_em?: string | null
+          oculto_por?: string | null
+          perfil_id?: string
+          prazo_em?: string
+          respondida_em?: string | null
+          respondida_por?: string | null
+          resposta_vista_em?: string | null
+          texto?: string
+          ultima_resposta_equipe_em?: string | null
+          util_em?: string | null
+          util_por?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "forum_topicos_aula_id_fkey"
+            columns: ["aula_id"]
+            isOneToOne: false
+            referencedRelation: "aulas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "forum_topicos_oculto_por_fkey"
+            columns: ["oculto_por"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "forum_topicos_perfil_id_fkey"
+            columns: ["perfil_id"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "forum_topicos_respondida_por_fkey"
+            columns: ["respondida_por"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "forum_topicos_util_por_fkey"
+            columns: ["util_por"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       indicacoes: {
         Row: {
           compra_confirmada_em: string
@@ -779,6 +1018,10 @@ export type Database = {
       }
       perfis: {
         Row: {
+          especialidade: string | null
+          foto_path: string | null
+          forum_regras_em: string | null
+          titulo_profissional: string | null
           acesso_fim_em: string | null
           acesso_inicio_em: string | null
           apelido: string | null
@@ -794,6 +1037,10 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          especialidade?: string | null
+          foto_path?: string | null
+          forum_regras_em?: string | null
+          titulo_profissional?: string | null
           acesso_fim_em?: string | null
           acesso_inicio_em?: string | null
           apelido?: string | null
@@ -809,6 +1056,10 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          especialidade?: string | null
+          foto_path?: string | null
+          forum_regras_em?: string | null
+          titulo_profissional?: string | null
           acesso_fim_em?: string | null
           acesso_inicio_em?: string | null
           apelido?: string | null
@@ -1016,6 +1267,75 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      forum_aceitar_regras: { Args: never; Returns: undefined }
+      forum_curtir: { Args: { p_curtir: boolean; p_resposta: string }; Returns: undefined }
+      forum_denunciar: {
+        Args: { p_motivo?: string; p_resposta: string | null; p_topico: string | null }
+        Returns: undefined
+      }
+      forum_exigir_acesso: { Args: never; Returns: boolean }
+      forum_listar: {
+        Args: {
+          p_aula?: string
+          p_busca?: string
+          p_categoria?: string
+          p_id?: string
+          p_limite?: number
+          p_minhas?: boolean
+        }
+        Returns: {
+          autora: string
+          aula_id: string | null
+          aula_titulo: string | null
+          categoria: string
+          created_at: string
+          id: string
+          minha: boolean
+          oculto: boolean
+          prazo_em: string
+          respondida_em: string | null
+          respostas: Json
+          texto: string
+          total_respostas: number
+          util: boolean
+        }[]
+      }
+      forum_manter: { Args: { p_resposta: string | null; p_topico: string | null }; Returns: undefined }
+      forum_marcar_util: { Args: { p_topico: string }; Returns: boolean }
+      forum_marcar_vista: { Args: { p_topico: string }; Returns: undefined }
+      forum_minhas_respondidas: {
+        Args: never
+        Returns: { id: string; respondida_em: string; texto: string }[]
+      }
+      forum_ocultar: {
+        Args: { p_motivo: string; p_resposta: string | null; p_topico: string | null }
+        Returns: undefined
+      }
+      forum_perguntar: {
+        Args: { p_aula?: string; p_categoria: string; p_texto: string }
+        Returns: string
+      }
+      forum_responder: { Args: { p_texto: string; p_topico: string }; Returns: string }
+      painel_denuncias_forum: {
+        Args: never
+        Returns: {
+          autora: string
+          motivos: string[]
+          resposta_id: string | null
+          texto: string
+          topico_id: string
+          total: number
+          ultima: string
+        }[]
+      }
+      painel_forum: {
+        Args: never
+        Returns: { abertas: number; perto: number; respondidas_semana: number; vencidas: number }[]
+      }
+      salvar_perfil_equipe: {
+        Args: { p_especialidade: string | null; p_foto_path: string | null; p_nome: string; p_titulo: string | null }
+        Returns: undefined
+      }
       alunas_em_desafios_ativos: { Args: never; Returns: number }
       cancelar_indicacao: {
         Args: { p_indicacao: string; p_motivo: string }
