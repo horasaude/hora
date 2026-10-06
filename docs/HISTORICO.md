@@ -2,6 +2,12 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-06 · main · App colorido e revisão no celular
+
+- App na página colorido com a família ORA (terracota, sálvia, ocre, verde; tons suaves novos em index.css), mapa em components/app/cores.ts; selos alternando as cores.
+- Checkout: véu do vídeo mais claro (tinta 40%) com sombra no texto, banner mais alto; selos da oferta sem sombra e sem quebrar linha.
+- Revisão no celular (360 px, página inteira quadro a quadro): celular do app passava da tela pequena e cortava o texto ao lado; corrigido. Nenhuma página passa da largura da tela.
+
 ## 2026-10-06 · main · Página mais moderna: app por dentro, barra fixa e esteira
 
 - Referências: nutrium.com/pt-br/employees e o documento do app (artifact "Proposta", nome antigo Constância, agora ORA).

@@ -26,7 +26,7 @@ export function Resumo({ precos, plano, campo }: Props) {
           <p className="text-xs text-suave">{textos.produto.autoras}</p>
           <p className="mt-1 text-xl font-semibold text-tinta">{valorDoPlano(precos, plano)}</p>
           {precos.emOferta ? (
-            <p className="mt-1 inline-block rounded-full bg-ora px-3 py-1 text-[0.65rem] font-semibold tracking-[0.14em] text-creme uppercase">
+            <p className="mt-1 inline-block rounded-full bg-ora px-3 py-1 text-[0.6rem] font-semibold tracking-[0.08em] whitespace-nowrap text-creme uppercase">
               {textos.produto.vantagem}
             </p>
           ) : (

@@ -16,20 +16,20 @@ export function Celular({ aba, escolher }: { aba: Aba; escolher: (a: Aba) => voi
     PONTOS_BASE + t.hoje.habitos.reduce((soma, h, i) => soma + (feitos[i] ? h.pts : 0), 0)
   const alternar = (i: number) => setFeitos((f) => f.map((v, k) => (k === i ? !v : v)))
   return (
-    <div className="relative mx-auto h-[600px] w-[300px] rounded-[2.75rem] bg-tinta p-2.5 shadow-2xl">
+    <div className="relative mx-auto h-[600px] w-full max-w-[300px] rounded-[2.75rem] bg-tinta p-2.5 shadow-2xl">
       <div className="absolute top-4 left-1/2 z-10 h-5 w-20 -translate-x-1/2 rounded-full bg-tinta" />
       <div className="flex h-full flex-col overflow-hidden rounded-[2.25rem] bg-[#fbfaf7]">
-        <div className="flex items-center justify-between px-4 pt-10 pb-3">
+        <div className="flex items-center justify-between bg-salvia-suave px-4 pt-10 pb-3">
           <div>
             <p className="font-titulo text-xl leading-none text-ora">{t.hoje.ola}</p>
             <p className="mt-1 text-[0.6rem] text-suave">{t.hoje.dia}</p>
           </div>
-          <span className="flex items-center gap-1.5 rounded-full bg-ora px-2.5 py-1 text-[0.65rem] font-semibold text-creme tabular-nums">
-            <span className="size-1.5 rounded-full bg-[#c99a4f]" />
+          <span className="flex items-center gap-1.5 rounded-full bg-[#a77a32] px-2.5 py-1 text-[0.65rem] font-semibold text-white tabular-nums">
+            <span className="size-1.5 rounded-full bg-white" />
             {pontos} {t.hoje.pontos}
           </span>
         </div>
-        <div key={aba} className="entrada flex-1 overflow-y-auto px-3 pb-3">
+        <div key={aba} className="entrada flex-1 overflow-y-auto px-3 pt-3 pb-3">
           {aba === 'hoje' && <TelaHoje feitos={feitos} alternar={alternar} />}
           {aba === 'plano' && <TelaPlano />}
           {aba === 'desafios' && <TelaDesafios />}

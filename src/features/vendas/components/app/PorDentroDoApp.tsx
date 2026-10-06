@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { textos } from '../../textos'
 import { Secao } from '../Secao'
 import { Celular, type Aba } from './Celular'
+import { cores, SEQUENCIA } from './cores'
 
 const t = textos.app
 const POSICOES = [
@@ -18,7 +19,7 @@ function Selos() {
       {t.selos.map((s, i) => (
         <div
           key={s.texto}
-          className={`flutuar absolute flex items-center gap-2 rounded-2xl px-3 py-2 shadow-lg ${POSICOES[i]} ${i % 2 ? 'bg-white text-ora' : 'bg-ora text-creme'}`}
+          className={`flutuar absolute flex items-center gap-2 rounded-2xl px-3 py-2 shadow-lg ${POSICOES[i]} ${cores[SEQUENCIA[i % SEQUENCIA.length] ?? 'ora'].forte} text-white`}
           style={{ animationDelay: `${i * -1.5}s` }}
         >
           <span className="text-lg font-semibold">{s.pts}</span>
@@ -58,12 +59,15 @@ export function PorDentroDoApp() {
   const atual = t.abas.find((a) => a.id === aba)
   return (
     <Secao etiqueta={t.etiqueta} titulo={t.titulo} fundo="branco">
-      <div className="grid gap-10 lg:grid-cols-[auto_1fr] lg:items-center lg:gap-16">
-        <div className="relative mx-auto px-6" onPointerDown={() => escolher(aba)}>
+      <div className="grid min-w-0 gap-10 lg:grid-cols-[auto_1fr] lg:items-center lg:gap-16">
+        <div
+          className="relative mx-auto w-full max-w-[300px] sm:max-w-none sm:px-6"
+          onPointerDown={() => escolher(aba)}
+        >
           <Selos />
           <Celular aba={aba} escolher={escolher} />
         </div>
-        <div className="flex flex-col gap-5">
+        <div className="flex min-w-0 flex-col gap-5">
           <p className="text-lg text-tinta">{t.texto}</p>
           <p className="text-[0.7rem] font-semibold tracking-[0.18em] text-suave uppercase">
             {t.dica}
