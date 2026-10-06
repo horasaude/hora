@@ -2,6 +2,11 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-06 · main · Vídeos em cortes curtos e botão em cada seção
+
+- Vídeo de fundo: corrida, academia (6326781/32239227), salada e refeição (9034023/8171533), cada um no máximo 6 s (TAKE_SEGUNDOS). Sai o yoga na piscina. Teste garante a ordem e que vários avisos de tempo não pulam clipes.
+- Botão "Quero entrar na HORA" no fim de cada seção levando a #preco (Secao, exceto a de planos: semBotao).
+
 ## 2026-10-06 · main · Oferta só no dia do evento (24/10)
 
 - Regra nova (pedido da dona do projeto): R$ 300 OFF + 1 mês grátis só em 24/10/2026, 00h00 a 23h59 de Brasília. src/domain/oferta.ts ganhou INICIO_OFERTA_ORA e estadoOferta (antes, durante, depois); precos.ts troca tempoRestanteOferta por contagemOferta (conta até começar ou até acabar).

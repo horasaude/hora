@@ -46,7 +46,7 @@ export function Preco() {
     },
   ]
   return (
-    <Secao id="preco" etiqueta={t.etiqueta} titulo={t.titulo}>
+    <Secao id="preco" etiqueta={t.etiqueta} titulo={t.titulo} semBotao>
       <ContagemOferta />
       <ul className="mt-8 grid gap-6 md:grid-cols-3 md:items-center md:gap-4">
         {planos.map((dados, i) => (

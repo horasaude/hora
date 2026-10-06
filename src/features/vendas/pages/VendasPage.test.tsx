@@ -75,3 +75,18 @@ describe('VendasPage', () => {
     expect(screen.queryByText(/loja parceira/)).not.toBeInTheDocument()
   })
 })
+
+describe('VendasPage: caminhos para os planos', () => {
+  afterEach(() => {
+    cleanup()
+    vi.useRealTimers()
+  })
+
+  it('tem botão para os planos no topo e no fim de cada seção', () => {
+    abrirEm(FIM_OFERTA_ORA.getTime() - 60_000)
+    const botoes = screen
+      .getAllByRole('link', { name: 'Quero entrar na HORA' })
+      .filter((a) => a.getAttribute('href') === '#preco')
+    expect(botoes.length).toBeGreaterThanOrEqual(9)
+  })
+})

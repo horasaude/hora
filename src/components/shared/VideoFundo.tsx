@@ -2,19 +2,23 @@ import { useEffect, useRef, useState } from 'react'
 
 type Clipe = { src: string; poster: string }
 
-// Pexels (licença livre, sem crédito obrigatório): corrida, salada e yoga.
+// Pexels (licença livre, sem crédito obrigatório): corrida, academia, salada e refeição.
 // Verticais para tela em pé, horizontais para tela deitada.
 const PADRAO: Clipe = { src: '/videos/corrida.mp4', poster: '/videos/corrida.webp' } // 7884055
 const VERTICAIS: Clipe[] = [
   PADRAO,
+  { src: '/videos/academia.mp4', poster: '/videos/academia.webp' }, // 6326781
   { src: '/videos/salada.mp4', poster: '/videos/salada.webp' }, // 6162045
-  { src: '/videos/exercicio.mp4', poster: '/videos/exercicio.webp' }, // 8045825
+  { src: '/videos/refeicao.mp4', poster: '/videos/refeicao.webp' }, // 9034023
 ]
 const HORIZONTAIS: Clipe[] = [
   { src: '/videos/corrida-largo.mp4', poster: '/videos/corrida-largo.webp' }, // 7884028
+  { src: '/videos/academia-largo.mp4', poster: '/videos/academia-largo.webp' }, // 32239227
   { src: '/videos/salada-largo.mp4', poster: '/videos/salada-largo.webp' }, // 8802441
-  { src: '/videos/exercicio-largo.mp4', poster: '/videos/exercicio-largo.webp' }, // 8045817
+  { src: '/videos/refeicao-largo.mp4', poster: '/videos/refeicao-largo.webp' }, // 8171533
 ]
+/** Cada vídeo passa no máximo este tempo antes do próximo: cortes curtos, mais ritmo. */
+const TAKE_SEGUNDOS = 6
 const TELA_DEITADA = '(min-aspect-ratio: 1/1)'
 
 type Conexao = { connection?: { saveData?: boolean } }
@@ -44,7 +48,7 @@ function useClipes(): Clipe[] {
   return deitada ? HORIZONTAIS : VERTICAIS
 }
 
-/** Corrida, alimentação e yoga, em sequência, sem som, cobrindo todo o fundo. */
+/** Corrida, academia, salada e refeição, em cortes curtos, sem som, cobrindo todo o fundo. */
 export function VideoFundo({ className }: { className: string }) {
   const clipes = useClipes()
   const [indice, setIndice] = useState(0)
@@ -61,6 +65,10 @@ export function VideoFundo({ className }: { className: string }) {
     if (tocando && typeof tocando.catch === 'function') tocando.catch(() => {})
   }, [clipe.src])
 
+  // Só avança a partir do clipe atual: vários avisos seguidos de tempo não pulam clipes.
+  const atual = indice
+  const avancar = () => setIndice((i) => (i === atual ? (i + 1) % clipes.length : i))
+
   if (!comVideo) return <img src={clipe.poster} alt="" className={className} />
   return (
     <video
@@ -74,7 +82,8 @@ export function VideoFundo({ className }: { className: string }) {
       playsInline
       preload="auto"
       aria-hidden="true"
-      onEnded={() => setIndice((i) => (i + 1) % clipes.length)}
+      onEnded={avancar}
+      onTimeUpdate={(e) => e.currentTarget.currentTime >= TAKE_SEGUNDOS && avancar()}
     />
   )
 }

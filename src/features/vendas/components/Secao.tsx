@@ -12,6 +12,8 @@ type Props = {
   marca?: boolean
   /** No computador, título à esquerda e conteúdo à direita (menos espaço vazio). */
   lateral?: boolean
+  /** Sem o botão "Quero entrar na HORA" no fim (só na própria seção de planos). */
+  semBotao?: boolean
   children: ReactNode
 }
 
@@ -33,6 +35,20 @@ export function Etiqueta({ texto, claro }: { texto: string; claro?: boolean }) {
   )
 }
 
+/** Botão no fim de cada seção que leva direto aos planos. */
+function IrParaPlanos({ claro }: { claro: boolean }) {
+  return (
+    <div className="mt-10 flex justify-center">
+      <a
+        href="#preco"
+        className={`inline-flex min-h-14 w-full items-center justify-center rounded-full px-6 text-sm font-semibold tracking-[0.1em] uppercase transition hover:-translate-y-0.5 sm:w-auto sm:px-10 sm:tracking-[0.16em] ${claro ? 'bg-creme text-ora hover:bg-white' : 'bg-ora text-creme hover:bg-[#233d37]'}`}
+      >
+        {textos.hero.botao}
+      </a>
+    </div>
+  )
+}
+
 /** O "A" da logo, enorme e clarinho, como marca d'água das lâminas. */
 function Marca({ claro }: { claro: boolean }) {
   return (
@@ -45,7 +61,16 @@ function Marca({ claro }: { claro: boolean }) {
   )
 }
 
-export function Secao({ id, etiqueta, titulo, fundo = 'creme', marca, lateral, children }: Props) {
+export function Secao({
+  id,
+  etiqueta,
+  titulo,
+  fundo = 'creme',
+  marca,
+  lateral,
+  semBotao,
+  children,
+}: Props) {
   const escuro = fundo === 'ora'
   return (
     <section id={id} className={`relative scroll-mt-16 overflow-hidden ${fundos[fundo]}`}>
@@ -66,6 +91,7 @@ export function Secao({ id, etiqueta, titulo, fundo = 'creme', marca, lateral, c
             {children}
           </div>
         </div>
+        {!semBotao && <IrParaPlanos claro={escuro} />}
       </div>
     </section>
   )
