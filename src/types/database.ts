@@ -14,6 +14,127 @@ export type Database = {
   }
   public: {
     Tables: {
+      aulas: {
+        Row: {
+          created_at: string
+          descricao: string
+          dia_liberacao: number
+          etapa_id: string
+          id: string
+          material_url: string | null
+          ordem: number
+          publicado: boolean
+          titulo: string
+          updated_at: string
+          video_url: string
+        }
+        Insert: {
+          created_at?: string
+          descricao?: string
+          dia_liberacao: number
+          etapa_id: string
+          id?: string
+          material_url?: string | null
+          ordem?: number
+          publicado?: boolean
+          titulo: string
+          updated_at?: string
+          video_url: string
+        }
+        Update: {
+          created_at?: string
+          descricao?: string
+          dia_liberacao?: number
+          etapa_id?: string
+          id?: string
+          material_url?: string | null
+          ordem?: number
+          publicado?: boolean
+          titulo?: string
+          updated_at?: string
+          video_url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "aulas_etapa_id_fkey"
+            columns: ["etapa_id"]
+            isOneToOne: false
+            referencedRelation: "etapas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      avisos: {
+        Row: {
+          created_at: string
+          id: string
+          publicado: boolean
+          publicar_em: string
+          texto: string
+          titulo: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          publicado?: boolean
+          publicar_em?: string
+          texto: string
+          titulo: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          publicado?: boolean
+          publicar_em?: string
+          texto?: string
+          titulo?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      etapas: {
+        Row: {
+          created_at: string
+          descricao: string
+          id: string
+          ordem: number
+          publicado: boolean
+          tema_id: string
+          titulo: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          descricao?: string
+          id?: string
+          ordem: number
+          publicado?: boolean
+          tema_id: string
+          titulo: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          descricao?: string
+          id?: string
+          ordem?: number
+          publicado?: boolean
+          tema_id?: string
+          titulo?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "etapas_tema_id_fkey"
+            columns: ["tema_id"]
+            isOneToOne: false
+            referencedRelation: "temas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       interessadas: {
         Row: {
           created_at: string
@@ -59,8 +180,46 @@ export type Database = {
         }
         Relationships: []
       }
+      lives: {
+        Row: {
+          convidada: string | null
+          created_at: string
+          data: string
+          gravacao_url: string | null
+          id: string
+          link_url: string | null
+          publicado: boolean
+          tema: string
+          updated_at: string
+        }
+        Insert: {
+          convidada?: string | null
+          created_at?: string
+          data: string
+          gravacao_url?: string | null
+          id?: string
+          link_url?: string | null
+          publicado?: boolean
+          tema: string
+          updated_at?: string
+        }
+        Update: {
+          convidada?: string | null
+          created_at?: string
+          data?: string
+          gravacao_url?: string | null
+          id?: string
+          link_url?: string | null
+          publicado?: boolean
+          tema?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       perfis: {
         Row: {
+          acesso_fim: string | null
+          acesso_inicio: string | null
           apelido: string | null
           consentimento_saude_em: string | null
           created_at: string
@@ -71,6 +230,8 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          acesso_fim?: string | null
+          acesso_inicio?: string | null
           apelido?: string | null
           consentimento_saude_em?: string | null
           created_at?: string
@@ -81,6 +242,8 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          acesso_fim?: string | null
+          acesso_inicio?: string | null
           apelido?: string | null
           consentimento_saude_em?: string | null
           created_at?: string
@@ -92,12 +255,45 @@ export type Database = {
         }
         Relationships: []
       }
+      temas: {
+        Row: {
+          created_at: string
+          descricao: string
+          id: string
+          ordem: number
+          publicado: boolean
+          titulo: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          descricao?: string
+          id?: string
+          ordem?: number
+          publicado?: boolean
+          titulo: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          descricao?: string
+          id?: string
+          ordem?: number
+          publicado?: boolean
+          titulo?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      dia_de_acesso: { Args: never; Returns: number }
       eh_admin: { Args: never; Returns: boolean }
+      hoje_brasilia: { Args: never; Returns: string }
+      tem_acesso_ativo: { Args: never; Returns: boolean }
     }
     Enums: {
       papel: "aluna" | "admin"

@@ -8,7 +8,8 @@ Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquiv
 - Acesso: perfis.acesso_inicio/acesso_fim (a aluna não altera), hoje_brasilia(), tem_acesso_ativo() e dia_de_acesso() (dia 1 = início, fuso de Brasília). Funções fora do alcance do anônimo.
 - RLS: admin escreve e lê tudo; aluna com acesso ativo lê só o publicado (aulas só até o dia de liberação, e com etapa e tema publicados; avisos só depois de publicar_em); sem acesso, acesso futuro ou vencido não vê nada; anônimo não lê nada.
 - 44 checagens no PGlite (anônimo, aluna no dia 6, sem acesso, acesso futuro, acesso vencido, admin, validações).
-- Pendente: aplicar no banco remoto e gerar os tipos (pede confirmação); quem preenche acesso_inicio é o pagamento (Sprint 2).
+- Aplicada no banco remoto (zijtjwhvnhfarmfscmnr) e tipos gerados; conferido lá: RLS ligada nas 5 tabelas, 2 policies cada, anônimo sem leitura e sem as funções de acesso.
+- Pendente: quem preenche acesso_inicio é o pagamento (Sprint 2).
 
 ## 2026-10-06 · main · FAQ do acesso, termos no checkout e novas tarefas
 
