@@ -1,10 +1,11 @@
+import { classeBrilho } from '@/components/ui'
 import { useState, type ReactNode } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import { formatarDataHora } from '@/lib/datas'
 import type { Live } from '../api/agenda.api'
 import { Estado } from '../components/Estado'
 import { LiveDetalhe } from '../components/LiveDetalhe'
-import { botaoPrincipal, Divisao, Quadro, type Numero } from '../components/Quadro'
+import { Divisao, Quadro, type Numero } from '../components/Quadro'
 import { celula, Etiqueta, LinhaTabela, Situacao, Tabela } from '../components/Tabela'
 import { useLives } from '../hooks/usePainel'
 import { textos } from '../textos'
@@ -36,7 +37,7 @@ function TabelaLives({ lista, ativa }: { lista: Live[]; ativa?: string }) {
           ativa={l.id === ativa}
           para={`/app/admin/lives/${l.id}`}
           titulo={l.tema}
-          marca={l.convidada ? <Etiqueta tom="ocre">{l.convidada}</Etiqueta> : undefined}
+          marca={l.convidada ? <Etiqueta tom="neutro">{l.convidada}</Etiqueta> : undefined}
         >
           <td className={celula}>{formatarDataHora(new Date(l.data))}</td>
           <td className="px-5 py-4">
@@ -58,7 +59,7 @@ export function LivesPage() {
   const nova = pathname.endsWith('/nova')
   const atual = nova ? undefined : (lista.find((l) => l.id === liveId) ?? lista[0])
   const acao = (
-    <Link to="/app/admin/lives/nova" className={botaoPrincipal}>
+    <Link to="/app/admin/lives/nova" className={classeBrilho('escuro')}>
       {t.nova}
     </Link>
   )

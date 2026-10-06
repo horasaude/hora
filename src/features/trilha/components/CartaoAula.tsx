@@ -7,28 +7,30 @@ type Estado = 'concluida' | 'proxima' | 'liberada' | 'fechada'
 type Props = { aula: AulaTrilha; estado: Estado; abre?: string }
 
 const CARTAO: Record<Estado, string> = {
-  concluida: 'border-linha bg-white',
-  proxima: 'border-terracota bg-terracota-suave',
-  liberada: 'border-linha bg-white',
-  fechada: 'border-linha bg-white opacity-55',
+  concluida: '',
+  proxima: 'ring-2 ring-verde-vivo/45',
+  liberada: '',
+  fechada: 'opacity-55',
 }
 
 function Marca({ estado }: { estado: Estado }) {
   if (estado === 'concluida')
     return (
-      <span className="grid size-8 shrink-0 place-items-center rounded-full bg-salvia text-white">
+      <span className="brilho brilho-leve brilho-verde grid size-9 shrink-0 place-items-center rounded-full">
         <IconeCheck />
       </span>
     )
   if (estado === 'fechada')
     return (
-      <span className="grid size-8 shrink-0 place-items-center rounded-full bg-areia">
+      <span className="brilho brilho-leve brilho-cinza grid size-9 shrink-0 place-items-center rounded-full">
         <span className="size-1 rounded-full bg-suave" />
       </span>
     )
-  const cor = estado === 'proxima' ? 'bg-terracota text-white' : 'border border-linha text-ora'
+  const cor = estado === 'proxima' ? 'brilho-escuro' : 'brilho-cinza text-verde-escuro'
   return (
-    <span className={`grid size-8 shrink-0 place-items-center rounded-full ${cor}`}>
+    <span
+      className={`brilho brilho-leve ${cor} grid size-9 shrink-0 place-items-center rounded-full`}
+    >
       <IconePlay className="ml-0.5 size-3.5" />
     </span>
   )
@@ -50,7 +52,7 @@ export function CartaoAula({ aula, estado, abre }: Props) {
       </span>
     </>
   )
-  const classe = `flex min-h-16 items-center gap-3 rounded-[1.1rem] border px-4 py-3 ${CARTAO[estado]}`
+  const classe = `flex min-h-16 items-center gap-3 rounded-[18px] bg-white px-4 py-3 shadow-cartao ${CARTAO[estado]}`
   return (
     <li>
       {estado === 'fechada' ? (

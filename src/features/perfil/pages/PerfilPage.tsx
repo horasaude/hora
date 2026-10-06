@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Cartao } from '@/components/ui'
+import { Cartao, classeBrilho } from '@/components/ui'
 import { useMeuPerfil, useSair } from '@/features/auth'
 import { textos } from '../textos'
 
@@ -10,7 +10,7 @@ export function PerfilPage() {
   const p = perfil.data
   return (
     <section className="flex flex-col gap-4 lg:max-w-lg">
-      <h1 className="text-[1.9rem] leading-tight font-bold tracking-tight text-ora lg:text-[2.6rem]">
+      <h1 className="text-[1.9rem] leading-tight font-bold tracking-tight text-verde-escuro lg:text-[2.6rem]">
         {textos.titulo}
       </h1>
       <Cartao>
@@ -22,10 +22,7 @@ export function PerfilPage() {
         </dl>
       </Cartao>
       {p?.papel === 'admin' && (
-        <Link
-          to="/app/admin"
-          className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-ora text-sm font-semibold text-white"
-        >
+        <Link to="/app/admin" className={classeBrilho('escuro', 'lg')}>
           {textos.painel}
         </Link>
       )}
@@ -33,7 +30,7 @@ export function PerfilPage() {
         type="button"
         onClick={() => sair.mutate()}
         disabled={sair.isPending}
-        className="min-h-12 rounded-2xl border border-linha text-sm font-semibold text-tinta"
+        className={classeBrilho('cinza', 'lg')}
       >
         {sair.isPending ? textos.saindo : textos.sair}
       </button>

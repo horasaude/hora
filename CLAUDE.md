@@ -50,7 +50,8 @@ Stack: React + Vite + TypeScript, Tailwind, TanStack Query, Zod, Supabase (Postg
 - Alvo de toque 44 px, contraste AA, rótulo em todo campo.
 - Textos em português, sem travessão, tom humano e curto, sempre no textos.ts da feature.
 - A fonte do sistema (painel das profissionais e área da aluna, tudo em /app) é Arial: títulos em Arial negrito verde ORA, textos em Arial normal com 16 px no corpo e boa entrelinha, números dos cartões de resumo em Arial negrito grande. Nada de fonte serifada no sistema. Aplicada pela classe font-sistema na raiz de /app (src/app/AreaAluna.tsx). No sistema a marca é a logo da HORA (componente LogoHora em src/components/ui, sempre o SVG de public/, sem esticar): clara no menu verde do painel, verde no topo da área da aluna e na tela de entrar. A página de vendas e o checkout seguem com a logo do ORA.
-- Visual: identidade da Imersão ORA (decisão 0004), cores em src/styles/index.css. Sem degradê, sem emoji, sem sombra pesada. Só a página de vendas, o checkout e o login usam Playfair Display nos títulos e Montserrat nos textos.
+- Estilo visual oficial do sistema (painel e área da aluna): estilo-brilho (docs/referencias/estilo-brilho.png e .html). Ele substitui as cores das referências antigas; o layout segue painel-apresentado.png e app-aluna.png. Fundo branco puro; cartões brancos e lisos com sombra leve; vidro brilhante só em botões, etiquetas e destaques (verde concluído e item ativo, coral treino, dourado lives, sequência, prêmios e barras de progresso, verde escuro ação principal e play, cinza o que ainda não foi feito). Usar sempre BotaoBrilho, LinkBrilho, EtiquetaBrilho, BarraProgresso e Cartao de src/components/ui; não recriar botão ou barra na mão. Sem emoji.
+- Página de vendas, checkout e login seguem a identidade da Imersão ORA (decisão 0004): Playfair Display nos títulos, Montserrat nos textos, sem degradê.
 
 ## Git
 

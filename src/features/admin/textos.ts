@@ -1,6 +1,7 @@
 // Textos do painel das profissionais. Os componentes só leem daqui.
 
-import { alunas, cardapios, configuracoes, desafios, vazios } from './textos/modulos'
+import { alunas, cardapios, configuracoes, desafios } from './textos/modulos'
+import { vazios } from './textos/vazios'
 
 export const textos = {
   painel: 'Painel',

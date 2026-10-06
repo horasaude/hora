@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { BarraProgresso } from '@/components/ui'
 import { useMeuPerfil } from '@/features/auth'
 import { diaEMes } from '@/lib/datas'
 import {
@@ -12,7 +13,7 @@ import {
   type TemaTrilha,
 } from '@/domain/trilha'
 import { CartaoAula } from '../components/CartaoAula'
-import { AbasEtapas, BarraProgresso } from '../components/Etapas'
+import { AbasEtapas } from '../components/Etapas'
 import { EstadoAluna } from '../components/EstadoAluna'
 import { useTrilha } from '../hooks/useTrilha'
 import { textos } from '../textos'
@@ -24,6 +25,9 @@ function Tema({ tema, aulas, dia, inicio }: Conteudo) {
   const etapa = tema.etapas.find((e) => e.id === aba) ?? tema.etapas[0]
   const proxima = aulaDeHoje(aulas)
   const preparando = dia <= DIAS_DE_PREPARACAO
+  const daEtapa = etapa?.aulas ?? []
+  const pct = progresso(daEtapa)
+  const faltam = daEtapa.filter((a) => !a.concluida).length
   const estado = (a: AulaTrilha) =>
     !a.liberada
       ? 'fechada'
@@ -35,7 +39,7 @@ function Tema({ tema, aulas, dia, inicio }: Conteudo) {
   return (
     <section className="flex flex-col gap-5 lg:gap-7">
       <header>
-        <h1 className="text-[1.9rem] leading-tight font-bold tracking-tight text-ora lg:text-[2.6rem]">
+        <h1 className="text-[1.9rem] leading-tight font-bold tracking-tight text-verde-escuro lg:text-[2.6rem]">
           {preparando ? textos.preparacao.titulo : tema.titulo}
         </h1>
         {preparando && <p className="mt-1 text-sm text-suave">{textos.preparacao.subtitulo}</p>}
@@ -43,8 +47,9 @@ function Tema({ tema, aulas, dia, inicio }: Conteudo) {
       <div className="flex flex-col gap-5 lg:max-w-2xl">
         <AbasEtapas etapas={tema.etapas} ativa={etapa?.id ?? ''} aoEscolher={setAba} />
         <BarraProgresso
-          pct={progresso(etapa?.aulas ?? [])}
-          legenda={textos.progresso(progresso(etapa?.aulas ?? []), semanaDoAcesso(dia))}
+          pct={pct}
+          rotulo={textos.rotuloProgresso}
+          legenda={textos.progresso(pct, semanaDoAcesso(dia), faltam)}
         />
       </div>
       <ul className="grid gap-3 lg:grid-cols-2 lg:gap-4">

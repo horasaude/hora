@@ -64,6 +64,12 @@ export const desafios = {
   vencedoras: 'Vencedoras',
   semVencedoras: 'Nenhuma aluna concluiu este desafio.',
   dias: (n: number) => `${n} dias`,
+  progresso: 'Andamento',
+  andamento: (dia: number, total: number, faltam: number) =>
+    faltam === 0
+      ? `Dia ${dia} de ${total} · último dia`
+      : `Dia ${dia} de ${total} · faltam ${faltam} dias`,
+  comeca: (data: string) => `Começa em ${data}`,
   erros: {
     periodo: 'O fim não pode ser antes do início',
     metaDias: 'A meta não pode passar dos dias do desafio',
@@ -91,7 +97,10 @@ export const alunas = {
   dadoUltimo: 'Último acesso',
   dadoStatus: 'Status',
   progresso: 'Progresso nas aulas',
-  aulas: (feitas: number, liberadas: number) => `${feitas} de ${liberadas} aulas liberadas`,
+  aulas: (feitas: number, liberadas: number) =>
+    liberadas - feitas > 0
+      ? `${feitas} de ${liberadas} aulas liberadas · faltam ${liberadas - feitas}`
+      : `${feitas} de ${liberadas} aulas liberadas`,
 }
 
 export const configuracoes = {
@@ -122,28 +131,4 @@ export const configuracoes = {
   remover: 'Remover',
   salvo: 'Salvo',
   erros: { valor: 'Informe um valor', fim: 'O fim tem que ser depois do início' },
-}
-
-export const vazios = {
-  mensagem: 'Nenhum registro ainda',
-  pontos: {
-    titulo: 'Pontos e indicações',
-    numeros: ['Pontos dados hoje', 'Indicações no mês', 'Indicações que compraram'],
-    colunas: ['Aluna', 'Ação', 'Pontos', 'Quando'],
-  },
-  forum: {
-    titulo: 'Fórum',
-    numeros: ['Dúvidas abertas', 'Respondidas na semana', 'Passaram de 72 h'],
-    colunas: ['Dúvida', 'Aula', 'Aluna', 'Status'],
-  },
-  financeiro: {
-    titulo: 'Financeiro',
-    numeros: ['Vendas no mês', 'Receita do mês', 'Reembolsos'],
-    colunas: ['Aluna', 'Plano', 'Valor', 'Status'],
-  },
-  loja: {
-    titulo: 'Loja',
-    numeros: ['Produtos', 'Pedidos no mês', 'Resgates com pontos'],
-    colunas: ['Produto', 'Preço', 'Estoque', 'Status'],
-  },
 }

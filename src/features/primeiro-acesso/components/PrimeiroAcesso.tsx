@@ -6,7 +6,7 @@ import { esquemaApelido } from '../schemas/apelido'
 import { textos } from '../textos'
 import { Moldura } from './Moldura'
 
-const titulo = 'text-[2rem] leading-tight font-bold tracking-tight text-ora'
+const titulo = 'text-[2rem] leading-tight font-bold tracking-tight text-verde-escuro'
 
 function Aceite({ aceito, aoMudar }: { aceito: boolean; aoMudar: (v: boolean) => void }) {
   const t = textos.saude
@@ -14,7 +14,7 @@ function Aceite({ aceito, aoMudar }: { aceito: boolean; aoMudar: (v: boolean) =>
     <>
       <h1 className={titulo}>{t.titulo}</h1>
       <p className="text-base leading-relaxed text-tinta">{t.texto}</p>
-      <label className="flex items-start gap-3 rounded-[1.25rem] border border-linha bg-areia p-4 text-sm text-tinta has-checked:border-ora">
+      <label className="flex items-start gap-3 rounded-[22px] bg-white p-4 text-sm text-tinta shadow-cartao has-checked:ring-2 has-checked:ring-verde-vivo/45">
         <input
           type="checkbox"
           checked={aceito}

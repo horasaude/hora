@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Campo } from '@/components/ui'
+import { Campo, classeBrilho } from '@/components/ui'
 import type { Json } from '@/types/database'
 import { lerSecoes, type Secao } from '../secoes'
 import { useSalvarConfiguracoes } from '../hooks/useModulos'
@@ -21,7 +21,7 @@ export function FormDocumento({ campo, valor }: { campo: 'termos' | 'privacidade
       {secoes.map((s, i) => (
         <fieldset
           key={i}
-          className="flex flex-col gap-2 rounded-xl border border-linha bg-areia p-3"
+          className="flex flex-col gap-2 rounded-2xl border border-linha bg-white p-3"
         >
           <Campo
             rotulo={`${t.secaoTitulo} ${i + 1}`}
@@ -48,7 +48,7 @@ export function FormDocumento({ campo, valor }: { campo: 'termos' | 'privacidade
       <button
         type="button"
         onClick={() => setSecoes((l) => [...l, { titulo: '', texto: '' }])}
-        className="min-h-11 rounded-xl border border-ora text-sm font-semibold text-ora"
+        className={classeBrilho('cinza')}
       >
         + {t.novaSecao}
       </button>

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { classeBrilho } from '@/components/ui'
 import type { Aula, Etapa } from '../api/conteudo.api'
 import { salvarEtapa } from '../api/conteudo.api'
 import { useAcoes, useSalvar } from '../hooks/usePainel'
@@ -51,7 +52,7 @@ function ListaAulas({
       </ul>
       <Link
         to={`/app/admin/aulas/nova?etapa=${etapaId}&tema=${temaId}`}
-        className="mt-1 inline-flex min-h-11 items-center justify-center rounded-xl border border-ora bg-white text-sm font-semibold text-ora hover:bg-salvia-suave"
+        className={`mt-1 ${classeBrilho('cinza')}`}
       >
         + {textos.aulas.nova}
       </Link>
@@ -66,7 +67,7 @@ export function EtapaCartao({ etapa, aulas, temaId, primeira, ultima }: Props) {
   const [editando, setEditando] = useState(false)
   const ocupado = publicar.isPending || ordenar.isPending
   return (
-    <li className="flex flex-col gap-1 rounded-xl border border-linha bg-areia px-4 py-3">
+    <li className="flex flex-col gap-1 rounded-2xl border border-linha bg-white px-4 py-3">
       {editando ? (
         <FormNome
           rotulo={textos.etapas.campoTitulo}

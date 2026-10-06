@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { classeBrilho } from '@/components/ui'
 import { textos } from '../textos'
 
 type Props = {
@@ -20,13 +21,13 @@ export function Moldura({ passo, total, children, podeSeguir, ocupado, aoContinu
         e.preventDefault()
         if (podeSeguir && !ocupado) aoContinuar()
       }}
-      className="flex min-h-dvh flex-col px-6 pt-6 pb-8 sm:mx-auto sm:max-w-lg lg:my-[8vh] lg:min-h-0 lg:rounded-[1.75rem] lg:border lg:border-linha lg:bg-white lg:p-12"
+      className="flex min-h-dvh flex-col px-6 pt-6 pb-8 sm:mx-auto sm:max-w-lg lg:my-[8vh] lg:min-h-0 lg:rounded-[24px] lg:bg-white lg:p-12 lg:shadow-cartao"
     >
       <div className="flex gap-1.5" role="img" aria-label={textos.passo(passo, total)}>
         {Array.from({ length: total }, (_, i) => (
           <span
             key={i}
-            className={`h-1 flex-1 rounded-full ${i < passo ? 'bg-ora' : 'bg-linha'}`}
+            className={`h-1 flex-1 rounded-full ${i < passo ? 'bg-verde-vivo' : 'bg-trilho'}`}
           />
         ))}
       </div>
@@ -41,7 +42,7 @@ export function Moldura({ passo, total, children, podeSeguir, ocupado, aoContinu
       <button
         type="submit"
         disabled={!podeSeguir || ocupado}
-        className="min-h-14 rounded-2xl bg-ora text-base font-semibold text-white disabled:opacity-40"
+        className={classeBrilho('escuro', 'lg')}
       >
         {ocupado ? textos.salvando : textos.continuar}
       </button>

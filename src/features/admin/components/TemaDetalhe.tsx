@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Botao } from '@/components/ui'
+import { BotaoBrilho } from '@/components/ui'
 import { salvarEtapa, salvarTema, type Aula, type Tema } from '../api/conteudo.api'
 import { useSalvar, useTema } from '../hooks/usePainel'
 import { textos } from '../textos'
@@ -43,13 +43,9 @@ function SobreTema({ tema, etapas, aulas }: { tema: Tema; etapas: number; aulas:
           publicado={tema.publicado}
           className="flex-1 text-sm"
         />
-        <Botao
-          variante="secundario"
-          className="rounded-xl text-sm"
-          onClick={() => setEditando(true)}
-        >
+        <BotaoBrilho tom="cinza" onClick={() => setEditando(true)}>
           {textos.editar}
-        </Botao>
+        </BotaoBrilho>
       </div>
     </>
   )
@@ -69,13 +65,9 @@ export function TemaDetalhe({ temaId }: { temaId: string }) {
       <div className="flex items-center justify-between gap-3 border-t border-linha pt-5">
         <h3 className="text-[1.35rem] leading-snug font-bold text-ora">{textos.etapas.titulo}</h3>
         {!novaEtapa && (
-          <Botao
-            variante="secundario"
-            className="rounded-xl text-sm"
-            onClick={() => setNovaEtapa(true)}
-          >
+          <BotaoBrilho tom="cinza" onClick={() => setNovaEtapa(true)}>
             {textos.etapas.nova}
-          </Botao>
+          </BotaoBrilho>
         )}
       </div>
       {novaEtapa && (

@@ -8,13 +8,13 @@ import { MenuLateral } from './MenuLateral'
 
 function BarraCelular({ aoAbrir }: { aoAbrir: () => void }) {
   return (
-    <header className="sticky top-0 z-20 flex h-14 items-center justify-between bg-ora px-4 lg:hidden">
-      <LogoHora clara largura={96} />
+    <header className="sticky top-0 z-20 flex h-14 items-center justify-between border-b border-linha bg-white px-4 lg:hidden">
+      <LogoHora largura={96} />
       <button
         type="button"
         onClick={aoAbrir}
         aria-label={textos.menu}
-        className="grid size-11 place-items-center rounded-xl text-white"
+        className="grid size-11 place-items-center rounded-xl text-verde-escuro"
       >
         <span className="flex w-5 flex-col gap-1">
           <span className="h-0.5 rounded bg-current" />
@@ -35,7 +35,7 @@ function Gaveta({ aoFechar }: { aoFechar: () => void }) {
         onClick={aoFechar}
         className="absolute inset-0 bg-tinta/40"
       />
-      <aside className="absolute inset-y-0 left-0 w-72 bg-ora">
+      <aside className="absolute inset-y-0 left-0 w-72 bg-white shadow-menu">
         <MenuLateral aoNavegar={aoFechar} />
       </aside>
     </div>
@@ -50,13 +50,13 @@ export function PainelLayout() {
   if (papel.isError) return <Estado tipo="erro" tentar={() => papel.refetch()} />
   if (papel.data !== 'admin') return <Navigate to="/app" replace />
   return (
-    <div className="min-h-dvh bg-areia text-tinta">
-      <aside className="fixed inset-y-0 left-0 hidden w-64 bg-ora lg:block">
+    <div className="min-h-dvh bg-white text-tinta">
+      <aside className="fixed top-4 bottom-4 left-4 hidden w-60 rounded-[24px] border border-linha/60 bg-white shadow-menu lg:block">
         <MenuLateral />
       </aside>
       <BarraCelular aoAbrir={() => setMenuAberto(true)} />
       {menuAberto && <Gaveta aoFechar={() => setMenuAberto(false)} />}
-      <main className="px-4 py-6 sm:px-6 lg:ml-64 lg:px-10 lg:py-10">
+      <main className="px-4 py-6 sm:px-6 lg:ml-[17rem] lg:px-10 lg:py-10">
         <div className="mx-auto max-w-[1180px]">
           <Outlet />
         </div>

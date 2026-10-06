@@ -1,3 +1,4 @@
+import { BarraProgresso } from '@/components/ui'
 import type { StatusAluna } from '@/domain/painel'
 import { formatarData, quandoFoi } from '@/lib/datas'
 import type { AlunaPainel } from '../api/modulos.api'
@@ -42,17 +43,11 @@ export function AlunaDetalhe({
       />
       <section className="flex flex-col gap-2 border-t border-linha pt-5">
         <h3 className="text-sm font-semibold text-suave">{t.progresso}</h3>
-        <div
-          role="progressbar"
-          aria-valuenow={pct}
-          aria-valuemin={0}
-          aria-valuemax={100}
-          aria-label={t.progresso}
-          className="h-3 overflow-hidden rounded-full bg-linha"
-        >
-          <div className="h-full rounded-full bg-salvia" style={{ width: `${pct}%` }} />
-        </div>
-        <p className="text-sm text-tinta">{t.aulas(a.aulas_concluidas, a.aulas_liberadas)}</p>
+        <BarraProgresso
+          pct={pct}
+          rotulo={t.progresso}
+          legenda={t.aulas(a.aulas_concluidas, a.aulas_liberadas)}
+        />
       </section>
     </CartaoDetalhe>
   )

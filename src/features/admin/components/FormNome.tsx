@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Botao, Campo } from '@/components/ui'
+import { BotaoBrilho, Campo } from '@/components/ui'
 import { esquemaTema } from '../schemas/formularios'
 import { textos } from '../textos'
 import { CampoArea } from './CampoArea'
@@ -37,21 +37,12 @@ export function FormNome({ rotulo, inicial, aoSalvar, aoCancelar }: Props) {
         </p>
       )}
       <div className="flex gap-2">
-        <Botao
-          type="submit"
-          disabled={form.formState.isSubmitting}
-          className="flex-1 rounded-xl text-sm"
-        >
+        <BotaoBrilho type="submit" disabled={form.formState.isSubmitting} className="flex-1">
           {form.formState.isSubmitting ? textos.salvando : textos.salvar}
-        </Botao>
-        <Botao
-          type="button"
-          variante="secundario"
-          className="rounded-xl text-sm"
-          onClick={aoCancelar}
-        >
+        </BotaoBrilho>
+        <BotaoBrilho type="button" tom="cinza" onClick={aoCancelar}>
           {textos.cancelar}
-        </Botao>
+        </BotaoBrilho>
       </div>
     </form>
   )

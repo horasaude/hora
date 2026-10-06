@@ -57,7 +57,7 @@ describe('TrilhaPage', () => {
   it('depois do dia 7 mostra o tema; aula fechada sem link e com a data em que abre', () => {
     abrir(9)
     expect(screen.getByRole('heading', { name: 'Emagreci Agora' })).toBeInTheDocument()
-    expect(screen.getByText('33% da etapa · semana 2')).toBeInTheDocument()
+    expect(screen.getByText('33% da etapa · semana 2 · faltam 2 aulas')).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /Hormônios e fome/ })).toHaveAttribute(
       'href',
       '/app/aula/Hormônios e fome',

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Cartao } from '@/components/ui'
+import { Cartao, classeBrilho } from '@/components/ui'
 import { saudacaoPorHora } from '@/domain/saudacao'
 import { aulaDeHoje } from '@/domain/trilha'
 import { useMeuPerfil } from '@/features/auth'
@@ -20,7 +20,7 @@ function Saudacao({ nome }: { nome: string }) {
   const [hora] = useState(() => horaEmBrasilia(new Date()))
   return (
     <header className="flex items-center justify-between gap-3">
-      <h1 className="text-[1.9rem] leading-tight font-bold tracking-tight text-ora lg:text-[2.6rem]">
+      <h1 className="text-[1.9rem] leading-tight font-bold tracking-tight text-verde-escuro lg:text-[2.6rem]">
         {saudacaoPorHora(hora)}
         {nome && `, ${nome}`}
       </h1>
@@ -48,10 +48,7 @@ export function InicioPage() {
     <section className="flex flex-col gap-4 lg:gap-8">
       <Saudacao nome={nome} />
       {perfil.data?.papel === 'admin' && (
-        <Link
-          to="/app/admin"
-          className="inline-flex min-h-11 items-center justify-center rounded-2xl bg-ora px-5 text-sm font-semibold text-white lg:self-start"
-        >
+        <Link to="/app/admin" className={`${classeBrilho('escuro')} lg:self-start`}>
           {textos.painel}
         </Link>
       )}

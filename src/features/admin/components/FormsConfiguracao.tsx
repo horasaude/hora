@@ -1,5 +1,5 @@
 import { useState, type FormEvent, type ReactNode } from 'react'
-import { Botao, Campo } from '@/components/ui'
+import { BotaoBrilho, Campo } from '@/components/ui'
 import { deCampoBrasilia, paraCampoBrasilia } from '@/lib/datas'
 import type { Configuracoes } from '../api/modulos.api'
 import { useSalvarConfiguracoes } from '../hooks/useModulos'
@@ -44,9 +44,9 @@ export function Salvar({
           {t.salvo}
         </p>
       )}
-      <Botao type="submit" disabled={estado === 'salvando'} className="rounded-xl text-sm">
+      <BotaoBrilho type="submit" disabled={estado === 'salvando'}>
         {estado === 'salvando' ? textos.salvando : textos.salvar}
-      </Botao>
+      </BotaoBrilho>
     </form>
   )
 }

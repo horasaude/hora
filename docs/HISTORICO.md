@@ -2,6 +2,13 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-06 · main · Estilo brilho no sistema
+
+- Painel e área da aluna no estilo-brilho (docs/referencias/estilo-brilho.*): fundo branco, cartões brancos lisos com sombra leve, menu lateral branco flutuante com a logo verde e o item ativo em vidro verde; botões, etiquetas, check-in, play e faixa da live em vidro brilhante; o que ainda não foi feito em vidro cinza.
+- Componentes reutilizáveis em src/components/ui/Brilho.tsx (BotaoBrilho, LinkBrilho, EtiquetaBrilho, BarraProgresso) e classes .brilho-* em src/styles/index.css, com as cores exatas da referência. Cartao virou branco com sombra.
+- Barras douradas com o que falta: etapa da trilha (faltam N aulas), progresso da aluna no painel e andamento do desafio (novo: Dia X de Y · faltam Z dias, regra progressoDesafio em src/domain/painel.ts).
+- Login segue com o botão antigo; vendas e checkout sem mudança.
+
 ## 2026-10-06 · main · Logo da HORA no sistema
 
 - LogoHora (src/components/ui): SVG de public/ com a proporção travada. Painel: logo clara (140 px) no topo do menu verde e na barra do celular. Área da aluna: barra no topo com a logo verde à esquerda, no computador e no celular. Entrar: logo verde centralizada no lugar da do ORA. Vendas, checkout, ícone e favicon sem mudança.

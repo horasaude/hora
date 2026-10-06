@@ -1,3 +1,4 @@
+import { classeBrilho } from '@/components/ui'
 import { useState, type ReactNode } from 'react'
 import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { salvarTema, type Tema } from '../api/conteudo.api'
@@ -5,7 +6,7 @@ import { AulaDetalhe } from '../components/AulaDetalhe'
 import { CartaoDetalhe } from '../components/CartaoDetalhe'
 import { Estado } from '../components/Estado'
 import { FormNome } from '../components/FormNome'
-import { botaoPrincipal, Divisao, Quadro, type Numero } from '../components/Quadro'
+import { Divisao, Quadro, type Numero } from '../components/Quadro'
 import { TabelaTemas } from '../components/TabelaTemas'
 import { TemaDetalhe } from '../components/TemaDetalhe'
 import { useSalvar, useSituacaoAulas, useTemas } from '../hooks/usePainel'
@@ -70,7 +71,7 @@ export function ConteudoPage() {
   const lista = temas.data ?? []
   const { ativo, detalhe } = useDetalhe(lista, criandoEm === pathname, () => setCriandoEm(null))
   const novo = (
-    <button type="button" className={botaoPrincipal} onClick={() => setCriandoEm(pathname)}>
+    <button type="button" className={classeBrilho('escuro')} onClick={() => setCriandoEm(pathname)}>
       {t.novo}
     </button>
   )

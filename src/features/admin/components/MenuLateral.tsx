@@ -20,14 +20,14 @@ const ITENS = [
   { para: 'configuracoes', nome: a.configuracoes, cor: 'bg-salvia' },
 ] as const
 
-/** Barra lateral verde: marca, itens com bolinha colorida e quem está logada. */
+/** Menu lateral branco: logo, itens com bolinha colorida (o aberto em vidro verde) e quem está logada. */
 export function MenuLateral({ aoNavegar }: { aoNavegar?: () => void }) {
   const nome = useNome()
   // Aula é parte do Conteúdo, mesmo com endereço próprio.
   const emAula = useLocation().pathname.startsWith('/app/admin/aulas')
   return (
     <div className="flex h-full flex-col px-4 py-8">
-      <LogoHora clara largura={140} className="mx-3 mt-2 mb-2" />
+      <LogoHora largura={130} className="mx-2 mt-1 mb-2" />
       <nav className="mt-6 min-h-0 flex-1 overflow-y-auto">
         <ul className="flex flex-col gap-1">
           {ITENS.map((i) => (
@@ -37,24 +37,30 @@ export function MenuLateral({ aoNavegar }: { aoNavegar?: () => void }) {
                 onClick={aoNavegar}
                 className={({ isActive: ativo }) => {
                   const isActive = ativo || (emAula && i.para === 'conteudo')
-                  return `flex min-h-11 items-center gap-3 rounded-xl px-3 text-[0.95rem] text-white transition ${isActive ? 'bg-white/12 font-semibold' : 'hover:bg-white/6'}`
+                  return `flex min-h-11 items-center gap-3 rounded-2xl px-3.5 text-[0.95rem] transition ${isActive ? 'brilho brilho-verde font-bold' : 'text-tinta hover:bg-trilho'}`
                 }}
               >
-                <span className={`size-2 rounded-full ${i.cor}`} aria-hidden />
-                {i.nome}
+                {({ isActive }) => (
+                  <>
+                    {!(isActive || (emAula && i.para === 'conteudo')) && (
+                      <span className={`size-2 shrink-0 rounded-full ${i.cor}`} aria-hidden />
+                    )}
+                    {i.nome}
+                  </>
+                )}
               </NavLink>
             </li>
           ))}
         </ul>
       </nav>
       <div className="mt-4 flex flex-col gap-2 px-3">
-        <span className="text-xs text-white/60">{textos.logadaComo}</span>
-        <span className="rounded-lg bg-white/10 px-3 py-2 text-sm text-white">
+        <span className="text-xs text-suave">{textos.logadaComo}</span>
+        <span className="rounded-xl bg-trilho px-3 py-2 text-sm text-tinta">
           {nome.data ?? '...'}
         </span>
         <Link
           to="/app"
-          className="mt-2 inline-flex min-h-11 items-center text-xs text-white/70 underline underline-offset-4"
+          className="mt-2 inline-flex min-h-11 items-center text-xs text-suave underline underline-offset-4"
         >
           {textos.sair}
         </Link>

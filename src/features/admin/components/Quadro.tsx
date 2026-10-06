@@ -2,18 +2,16 @@ import type { ReactNode } from 'react'
 
 export type Numero = { valor: string; rotulo: string; tom: 'salvia' | 'ocre' | 'terracota' }
 
-const FUNDO = { salvia: 'bg-salvia-suave', ocre: 'bg-ocre-suave', terracota: 'bg-terracota-suave' }
-
 /** Cartões coloridos de resumo, lado a lado no topo da tela. */
 export function Resumo({ numeros }: { numeros: Numero[] }) {
   return (
     <ul className="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
       {numeros.map((n) => (
-        <li key={n.rotulo} className={`rounded-2xl px-5 py-4 ${FUNDO[n.tom]}`}>
-          <span className="block text-[2.6rem] leading-none font-bold tracking-tight text-ora">
+        <li key={n.rotulo} className="rounded-[22px] bg-white px-6 py-5 shadow-cartao">
+          <span className="block text-[2.6rem] leading-none font-bold tracking-tight text-verde-escuro">
             {n.valor}
           </span>
-          <span className="mt-1 block text-sm font-semibold text-tinta">{n.rotulo}</span>
+          <span className="mt-2 block text-sm text-suave">{n.rotulo}</span>
         </li>
       ))}
     </ul>
@@ -27,7 +25,7 @@ export function Quadro({ titulo, acao, numeros, children }: Props) {
   return (
     <section className="flex flex-col gap-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-[2rem] leading-tight font-bold tracking-tight text-ora lg:text-[2.4rem]">
+        <h1 className="text-[2rem] leading-tight font-bold tracking-tight text-verde-escuro lg:text-[2.4rem]">
           {titulo}
         </h1>
         {acao}
@@ -58,6 +56,3 @@ export function Divisao({
     </div>
   )
 }
-
-export const botaoPrincipal =
-  'inline-flex min-h-11 items-center justify-center rounded-xl bg-ora px-5 text-sm font-semibold text-white transition hover:opacity-90 disabled:opacity-50'

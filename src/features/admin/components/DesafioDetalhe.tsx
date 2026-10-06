@@ -1,8 +1,10 @@
 import { useNavigate } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { z } from 'zod'
-import type { SituacaoDesafio } from '@/domain/painel'
-import { diaMesDeData } from '@/lib/datas'
+import { useState } from 'react'
+import { BarraProgresso } from '@/components/ui'
+import { progressoDesafio, type SituacaoDesafio } from '@/domain/painel'
+import { diaEmBrasilia, diaMesDeData } from '@/lib/datas'
 import { salvarDesafio, type Desafio, type NumerosDesafio } from '../api/modulos.api'
 import { useSalvar } from '../hooks/usePainel'
 import { esquemaDesafio } from '../schemas/modulos'
@@ -50,6 +52,22 @@ function inicial(d?: Desafio): Entrada {
   }
 }
 
+/** Barra dourada do período: em que dia está e quantos faltam. */
+function Andamento({ desafio: d, situacao }: { desafio: Desafio; situacao: SituacaoDesafio }) {
+  const [hoje] = useState(() => diaEmBrasilia(new Date()))
+  if (situacao === 'rascunho') return null
+  if (situacao === 'agendado')
+    return <p className="text-sm text-suave">{t.comeca(diaMesDeData(d.inicio))}</p>
+  const p = progressoDesafio(d, hoje)
+  return (
+    <BarraProgresso
+      pct={p.pct}
+      rotulo={t.progresso}
+      legenda={t.andamento(p.dia, p.total, p.faltam)}
+    />
+  )
+}
+
 type Props = { desafio?: Desafio; situacao?: SituacaoDesafio; numeros?: NumerosDesafio }
 
 function Resumo({ desafio: d, situacao, numeros }: Required<Props>) {
@@ -69,6 +87,7 @@ function Resumo({ desafio: d, situacao, numeros }: Required<Props>) {
           [textos.status, <EtiquetaDesafio key="s" situacao={situacao} />],
         ]}
       />
+      <Andamento desafio={d} situacao={situacao} />
       <div className="flex gap-2">
         <BotaoPublicar tabela="desafios" id={d.id} publicado={d.publicado} className="flex-1" />
         {situacao !== 'encerrado' && <BotaoEncerrar id={d.id} />}

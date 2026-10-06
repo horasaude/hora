@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { acessoAtivo, situacaoDesafio, statusAluna } from './painel'
+import { acessoAtivo, progressoDesafio, situacaoDesafio, statusAluna } from './painel'
 
 describe('situacaoDesafio', () => {
   const d = { publicado: true, inicio: '2026-11-01', fim: '2026-11-21', encerrado_em: null }
@@ -41,5 +41,16 @@ describe('statusAluna', () => {
         agora,
       ),
     ).toBe(false)
+  })
+})
+
+describe('progressoDesafio', () => {
+  const d = { inicio: '2026-11-01', fim: '2026-11-21' }
+  it('dia 15 de 21 deixa 6 dias faltando', () => {
+    expect(progressoDesafio(d, '2026-11-15')).toEqual({ dia: 15, total: 21, faltam: 6, pct: 71 })
+  })
+  it('antes do início é 0; depois do fim fica no último dia', () => {
+    expect(progressoDesafio(d, '2026-10-30').dia).toBe(0)
+    expect(progressoDesafio(d, '2026-12-01')).toMatchObject({ dia: 21, faltam: 0, pct: 100 })
   })
 })

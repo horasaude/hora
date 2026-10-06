@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom'
-import { IconeCheck } from '@/components/ui'
+import { classeBrilho, IconeCheck } from '@/components/ui'
 import { linkDeIncorporacao } from '@/lib/video'
 import type { AulaAberta } from '../api/trilha.api'
 import { EstadoAluna } from '../components/EstadoAluna'
@@ -12,7 +12,7 @@ function Video({ aula }: { aula: AulaAberta }) {
   const link = linkDeIncorporacao(aula.video_url)
   if (!link) return <EstadoAluna tipo="aviso" texto={t.semVideo} />
   return (
-    <div className="-mx-5 aspect-video overflow-hidden bg-tinta sm:mx-0 sm:rounded-[1.25rem]">
+    <div className="-mx-5 aspect-video overflow-hidden bg-tinta sm:mx-0 sm:rounded-[22px] sm:shadow-cartao">
       <iframe
         src={link}
         title={aula.titulo}
@@ -35,7 +35,7 @@ function Concluir({ id }: { id: string }) {
         disabled={concluida.isPending || marcar.isPending}
         onClick={() => marcar.mutate(!feita)}
         aria-pressed={feita}
-        className={`inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl text-base font-semibold disabled:opacity-60 ${feita ? 'bg-salvia-suave text-ora' : 'bg-terracota-escuro text-white'}`}
+        className={`${classeBrilho(feita ? 'verde' : 'escuro', 'lg')} w-full`}
       >
         {feita && <IconeCheck />}
         {feita ? t.desmarcar : t.marcar}
@@ -58,7 +58,7 @@ function Acoes({ aula }: { aula: AulaAberta }) {
           href={aula.material_url}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-ocre bg-ocre-suave px-4 text-sm font-semibold text-[#80591c]"
+          className={`${classeBrilho('cinza')} w-full`}
         >
           {t.material}
         </a>
@@ -95,7 +95,7 @@ export function AulaPage() {
     .join(' · ')
   const cabecalho = (
     <header>
-      <h1 className="text-[1.8rem] leading-tight font-bold tracking-tight text-ora lg:text-[2.2rem]">
+      <h1 className="text-[1.8rem] leading-tight font-bold tracking-tight text-verde-escuro lg:text-[2.2rem]">
         {a.titulo}
       </h1>
       {detalhe && <p className="mt-1 text-sm text-suave">{detalhe}</p>}

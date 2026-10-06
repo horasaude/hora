@@ -1,4 +1,4 @@
-import { Botao } from '@/components/ui'
+import { BotaoBrilho } from '@/components/ui'
 import type { TabelaConteudo } from '../api/conteudo.api'
 import { useAcoes } from '../hooks/usePainel'
 import { textos } from '../textos'
@@ -9,12 +9,13 @@ type Props = { tabela: TabelaConteudo; id: string; publicado: boolean; className
 export function BotaoPublicar({ tabela, id, publicado, className = '' }: Props) {
   const { publicar } = useAcoes()
   return (
-    <Botao
-      className={`rounded-xl text-sm ${className}`}
+    <BotaoBrilho
+      tom={publicado ? 'cinza' : 'escuro'}
+      className={className}
       disabled={publicar.isPending}
       onClick={() => publicar.mutate({ tabela, id, publicado: !publicado })}
     >
       {publicado ? textos.despublicar : textos.publicar}
-    </Botao>
+    </BotaoBrilho>
   )
 }

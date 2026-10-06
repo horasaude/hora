@@ -3,8 +3,10 @@ import type { ReactNode } from 'react'
 /** Cartão branco à direita com o detalhe e o formulário do item aberto. */
 export function CartaoDetalhe({ titulo, children }: { titulo: string; children: ReactNode }) {
   return (
-    <article className="flex flex-col gap-5 rounded-2xl border border-linha bg-white p-6">
-      <h2 className="text-[1.6rem] leading-snug font-bold tracking-tight text-ora">{titulo}</h2>
+    <article className="flex flex-col gap-5 rounded-[22px] bg-white p-6 shadow-cartao">
+      <h2 className="text-[1.6rem] leading-snug font-bold tracking-tight text-verde-escuro">
+        {titulo}
+      </h2>
       {children}
     </article>
   )

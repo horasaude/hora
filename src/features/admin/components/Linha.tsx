@@ -26,7 +26,7 @@ export function BotaoSituacao({
       disabled={ocupado}
       aria-pressed={publicado}
       title={publicado ? textos.despublicar : textos.publicar}
-      className={`inline-flex min-h-8 items-center rounded-full px-3 text-xs font-semibold whitespace-nowrap disabled:opacity-50 ${publicado ? 'bg-salvia-suave text-ora' : 'bg-ocre-suave text-[#80591c]'}`}
+      className={`brilho brilho-leve ${publicado ? 'brilho-verde' : 'brilho-cinza'} inline-flex min-h-8 items-center rounded-full px-3 text-xs font-bold whitespace-nowrap disabled:opacity-50`}
     >
       {publicado
         ? `${textos.publicado} · ${textos.despublicar}`

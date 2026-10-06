@@ -1,5 +1,5 @@
 import { useForm, useWatch, type FieldValues, type Resolver } from 'react-hook-form'
-import { Botao } from '@/components/ui'
+import { BotaoBrilho } from '@/components/ui'
 import { textos } from '../textos'
 import { CampoDoForm, type CampoDef } from './CampoDoForm'
 
@@ -17,17 +17,12 @@ type Props<E extends FieldValues, S> = {
 function Botoes({ salvando, aoCancelar }: { salvando: boolean; aoCancelar: () => void }) {
   return (
     <div className="flex gap-2">
-      <Botao type="submit" disabled={salvando} className="flex-1 rounded-xl text-sm">
+      <BotaoBrilho type="submit" disabled={salvando} className="flex-1">
         {salvando ? textos.salvando : textos.salvar}
-      </Botao>
-      <Botao
-        type="button"
-        variante="secundario"
-        className="rounded-xl text-sm"
-        onClick={aoCancelar}
-      >
+      </BotaoBrilho>
+      <BotaoBrilho type="button" tom="cinza" onClick={aoCancelar}>
         {textos.cancelar}
-      </Botao>
+      </BotaoBrilho>
     </div>
   )
 }

@@ -1,9 +1,10 @@
+import { classeBrilho } from '@/components/ui'
 import type { ReactNode } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import type { Cardapio } from '../api/modulos.api'
 import { CardapioDetalhe } from '../components/CardapioDetalhe'
 import { Estado } from '../components/Estado'
-import { botaoPrincipal, Divisao, Quadro, type Numero } from '../components/Quadro'
+import { Divisao, Quadro, type Numero } from '../components/Quadro'
 import { celula, Etiqueta, LinhaTabela, Situacao, Tabela } from '../components/Tabela'
 import { useCardapios } from '../hooks/useModulos'
 import { refeicoesPreenchidas } from '../refeicoes'
@@ -28,7 +29,7 @@ function TabelaCardapios({ lista, ativo }: { lista: Cardapio[]; ativo?: string }
           ativa={c.id === ativo}
           para={`/app/admin/cardapios/${c.id}`}
           titulo={c.titulo}
-          marca={<Etiqueta tom="ocre">{c.objetivo}</Etiqueta>}
+          marca={<Etiqueta tom="neutro">{c.objetivo}</Etiqueta>}
         >
           <td className={celula}>{t.refeicoes(refeicoesPreenchidas(c))}</td>
           <td className="px-5 py-4">
@@ -48,7 +49,7 @@ export function CardapiosPage() {
   const lista = cardapios.data ?? []
   const atual = novo ? undefined : (lista.find((c) => c.id === cardapioId) ?? lista[0])
   const acao = (
-    <Link to="/app/admin/cardapios/novo" className={botaoPrincipal}>
+    <Link to="/app/admin/cardapios/novo" className={classeBrilho('escuro')}>
       {t.novo}
     </Link>
   )

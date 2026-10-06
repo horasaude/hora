@@ -36,3 +36,16 @@ export function statusAluna(a: Aluna, agora: Date): StatusAluna {
   if (dias >= 3) return 'atencao'
   return 'em_dia'
 }
+
+export type ProgressoDesafio = { dia: number; total: number; faltam: number; pct: number }
+
+/** Em que dia do desafio estamos (hoje em AAAA-MM-DD), quantos faltam e a porcentagem do período. */
+export function progressoDesafio(
+  d: Pick<Desafio, 'inicio' | 'fim'>,
+  hoje: string,
+): ProgressoDesafio {
+  const dias = (a: string, b: string) => Math.round((Date.parse(b) - Date.parse(a)) / DIA_MS)
+  const total = dias(d.inicio, d.fim) + 1
+  const dia = Math.min(Math.max(dias(d.inicio, hoje) + 1, 0), total)
+  return { dia, total, faltam: total - dia, pct: Math.round((dia / total) * 100) }
+}

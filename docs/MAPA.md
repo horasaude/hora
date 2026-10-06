@@ -1,7 +1,7 @@
 # Mapa do projeto
 
 Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim).
-Última atualização: área da aluna para computador (barra lateral) e celular (barra embaixo); src/app/NavegacaoAluna.tsx.
+Última atualização: estilo-brilho no painel e na área da aluna; componentes de vidro em src/components/ui/Brilho.tsx.
 
 ## Rotas
 
@@ -33,12 +33,15 @@ Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim)
 
 ## Referências visuais (docs/referencias)
 
-Telas apresentadas às clientes. Toda tela nova ou refeita segue a referência dela: mesmo layout, cores e componentes. Não inventar outro visual.
+Estilo visual oficial do sistema (painel e área da aluna): estilo-brilho (estilo-brilho.png e estilo-brilho.html, com as cores, degradês e brilhos exatos). Ele substitui as cores das referências antigas. O layout das telas continua seguindo painel-apresentado.png e app-aluna.png.
 
-| Arquivo                | Vale para                             | Onde já foi aplicada                         |
-| ---------------------- | ------------------------------------- | -------------------------------------------- |
-| painel-apresentado.png | painel das profissionais (/app/admin) | feature admin (PainelLayout, Quadro, Tabela) |
-| app-aluna.png          | área da aluna (/app)                  | LayoutAluna, inicio, trilha, primeiro-acesso |
+| Arquivo                               | Vale para                                             | Onde está no código                                                             |
+| ------------------------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------- |
+| estilo-brilho.png, estilo-brilho.html | cores, vidro brilhante, cartões, barras (todo o /app) | src/styles/index.css (.brilho, .trilho-progresso), src/components/ui/Brilho.tsx |
+| painel-apresentado.png                | layout do painel das profissionais (/app/admin)       | feature admin (PainelLayout, Quadro, Tabela)                                    |
+| app-aluna.png                         | layout da área da aluna (/app)                        | LayoutAluna, inicio, trilha, primeiro-acesso                                    |
+
+Componentes do estilo (toda tela nova usa estes, não recria): BotaoBrilho, LinkBrilho, EtiquetaBrilho, BarraProgresso (dourada, com o que falta embaixo), Cartao (branco liso, sombra leve), classeBrilho(tom, tamanho, pilula) para links e elementos próprios. Tons: verde (concluído, item ativo), coral (treino, alerta), dourado (lives, sequência, prêmios, progresso), escuro (ação principal, play), cinza (ainda não feito, neutro).
 
 ## Regras de negócio (src/domain)
 

@@ -1,37 +1,27 @@
 import type { ReactNode } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { EtiquetaBrilho } from '@/components/ui'
 import { textos } from '../textos'
 
-const TOM = {
-  verde: 'bg-salvia-suave text-ora',
-  ocre: 'bg-ocre-suave text-[#80591c]',
-  rosa: 'bg-terracota-suave text-terracota-escuro',
-  neutro: 'bg-creme text-suave',
-}
+const TOM = { verde: 'verde', ocre: 'dourado', rosa: 'coral', neutro: 'cinza' } as const
 
-/** Etiqueta arredondada colorida. */
+/** Etiqueta em vidro: verde feito, dourado destaque, coral alerta, cinza ainda não feito ou neutro. */
 export function Etiqueta({ tom, children }: { tom: keyof typeof TOM; children: ReactNode }) {
-  return (
-    <span
-      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${TOM[tom]}`}
-    >
-      {children}
-    </span>
-  )
+  return <EtiquetaBrilho tom={TOM[tom]}>{children}</EtiquetaBrilho>
 }
 
 export function Situacao({ publicado }: { publicado: boolean }) {
   return publicado ? (
     <Etiqueta tom="verde">{textos.publicado}</Etiqueta>
   ) : (
-    <Etiqueta tom="ocre">{textos.rascunho}</Etiqueta>
+    <Etiqueta tom="neutro">{textos.rascunho}</Etiqueta>
   )
 }
 
 /** Tabela branca arredondada com cabeçalho em caixa alta pequena. */
 export function Tabela({ colunas, children }: { colunas: string[]; children: ReactNode }) {
   return (
-    <div className="overflow-x-auto rounded-2xl border border-linha bg-white">
+    <div className="overflow-x-auto rounded-[22px] bg-white shadow-cartao">
       <table className="w-full min-w-[34rem] text-left text-sm">
         <thead>
           <tr className="border-b border-linha">
@@ -67,7 +57,7 @@ export function LinhaTabela({ ativa, para, titulo, marca, semQuebra, children }:
   return (
     <tr
       onClick={() => navegar(para)}
-      className={`cursor-pointer border-b border-linha last:border-b-0 ${ativa ? 'bg-salvia-suave/70' : 'hover:bg-areia'}`}
+      className={`cursor-pointer border-b border-linha last:border-b-0 ${ativa ? 'bg-[#e9f7f0]' : 'hover:bg-[#f6f8f7]'}`}
     >
       <td className={`px-5 py-4 ${semQuebra ? 'whitespace-nowrap' : ''}`}>
         <Link

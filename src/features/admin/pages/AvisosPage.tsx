@@ -1,10 +1,11 @@
+import { classeBrilho } from '@/components/ui'
 import { useState, type ReactNode } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import { formatarDataHora } from '@/lib/datas'
 import type { Aviso } from '../api/agenda.api'
 import { AvisoDetalhe } from '../components/AvisoDetalhe'
 import { Estado } from '../components/Estado'
-import { botaoPrincipal, Divisao, Quadro, type Numero } from '../components/Quadro'
+import { Divisao, Quadro, type Numero } from '../components/Quadro'
 import { celula, LinhaTabela, Situacao, Tabela } from '../components/Tabela'
 import { useAvisos } from '../hooks/usePainel'
 import { textos } from '../textos'
@@ -46,7 +47,7 @@ export function AvisosPage() {
   const novo = pathname.endsWith('/novo')
   const atual = novo ? undefined : (lista.find((a) => a.id === avisoId) ?? lista[0])
   const acao = (
-    <Link to="/app/admin/avisos/novo" className={botaoPrincipal}>
+    <Link to="/app/admin/avisos/novo" className={classeBrilho('escuro')}>
       {t.novo}
     </Link>
   )

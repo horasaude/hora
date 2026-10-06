@@ -29,16 +29,16 @@ export function LayoutAluna() {
           </button>
         </div>
       ) : falta ? (
-        <div className="min-h-dvh lg:bg-areia lg:py-px">
+        <div className="min-h-dvh lg:py-px">
           <PrimeiroAcesso apelidoAtual={p.apelido} />
         </div>
       ) : (
         <>
           <BarraLateral nome={p?.apelido || p?.nome || ''} />
-          <header className="flex h-16 items-center border-b border-linha px-5 sm:px-8 lg:ml-64 lg:h-20 lg:px-12">
+          <header className="flex h-16 items-center border-b border-linha px-5 sm:px-8 lg:hidden">
             <LogoHora largura={120} />
           </header>
-          <main className="px-5 pt-6 pb-28 sm:px-8 lg:ml-64 lg:px-12 lg:pt-10 lg:pb-16">
+          <main className="px-5 pt-6 pb-28 sm:px-8 lg:ml-[17rem] lg:px-12 lg:pt-12 lg:pb-16">
             <div className="mx-auto max-w-5xl">
               <Outlet />
             </div>

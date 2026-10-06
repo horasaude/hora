@@ -1,13 +1,14 @@
 import { NavLink, useLocation } from 'react-router-dom'
+import { LogoHora } from '@/components/ui'
 import { IconeNavegacao } from './IconesNavegacao'
 import { textosAluna as t } from './textosAluna'
 
 const ITENS = [
-  { para: '/app', nome: t.nav.inicio, icone: 'inicio', fim: true },
-  { para: '/app/trilha', nome: t.nav.trilha, icone: 'trilha', fim: false },
-  { para: '/app/desafios', nome: t.nav.desafios, icone: 'desafios', fim: false },
-  { para: '/app/ranking', nome: t.nav.ranking, icone: 'ranking', fim: false },
-  { para: '/app/perfil', nome: t.nav.perfil, icone: 'perfil', fim: false },
+  { para: '/app', nome: t.nav.inicio, icone: 'inicio', fim: true, cor: 'bg-salvia' },
+  { para: '/app/trilha', nome: t.nav.trilha, icone: 'trilha', fim: false, cor: 'bg-terracota' },
+  { para: '/app/desafios', nome: t.nav.desafios, icone: 'desafios', fim: false, cor: 'bg-ocre' },
+  { para: '/app/ranking', nome: t.nav.ranking, icone: 'ranking', fim: false, cor: 'bg-[#8fa7c0]' },
+  { para: '/app/perfil', nome: t.nav.perfil, icone: 'perfil', fim: false, cor: 'bg-[#b9a2c4]' },
 ] as const
 
 /** Item ativo: a rota dele, e a Trilha também quando a aluna está numa aula. */
@@ -32,11 +33,11 @@ export function BarraInferior() {
               {({ isActive }) => (
                 <>
                   <span
-                    className={`grid h-9 w-11 place-items-center rounded-xl ${ativo(isActive, i.para) ? 'bg-ora text-white' : 'text-suave'}`}
+                    className={`grid h-9 w-11 place-items-center rounded-xl ${ativo(isActive, i.para) ? 'brilho brilho-leve brilho-verde' : 'text-suave'}`}
                   >
                     <IconeNavegacao nome={i.icone} />
                   </span>
-                  <span className={ativo(isActive, i.para) ? 'text-ora' : 'text-suave'}>
+                  <span className={ativo(isActive, i.para) ? 'text-verde-escuro' : 'text-suave'}>
                     {i.nome}
                   </span>
                 </>
@@ -49,11 +50,12 @@ export function BarraInferior() {
   )
 }
 
-/** Computador: barra lateral verde no mesmo padrão do painel, com quem está logada embaixo. */
+/** Computador: menu lateral branco com a logo, o item aberto em vidro verde e quem está logada embaixo. */
 export function BarraLateral({ nome }: { nome: string }) {
   const ativo = useAtivo()
   return (
-    <aside className="fixed inset-y-0 left-0 hidden w-64 flex-col bg-ora px-4 py-8 lg:flex">
+    <aside className="fixed top-4 bottom-4 left-4 hidden w-60 flex-col rounded-[24px] border border-linha/60 bg-white px-4 py-6 shadow-menu lg:flex">
+      <LogoHora largura={120} className="mx-2 mt-1 mb-7" />
       <nav>
         <ul className="flex flex-col gap-1">
           {ITENS.map((i) => (
@@ -61,9 +63,11 @@ export function BarraLateral({ nome }: { nome: string }) {
               <NavLink to={i.para} end={i.fim}>
                 {({ isActive }) => (
                   <span
-                    className={`flex min-h-12 items-center gap-3 rounded-xl px-3 text-[0.95rem] text-white transition ${ativo(isActive, i.para) ? 'bg-white/12 font-semibold' : 'hover:bg-white/6'}`}
+                    className={`flex min-h-12 items-center gap-3 rounded-2xl px-3.5 text-[0.95rem] transition ${ativo(isActive, i.para) ? 'brilho brilho-verde font-bold' : 'text-tinta hover:bg-trilho'}`}
                   >
-                    <IconeNavegacao nome={i.icone} />
+                    {!ativo(isActive, i.para) && (
+                      <span className={`size-2 shrink-0 rounded-full ${i.cor}`} aria-hidden />
+                    )}
                     {i.nome}
                   </span>
                 )}
@@ -73,8 +77,8 @@ export function BarraLateral({ nome }: { nome: string }) {
         </ul>
       </nav>
       <div className="mt-auto flex flex-col gap-2 px-3">
-        <span className="text-xs text-white/60">{t.logadaComo}</span>
-        <span className="rounded-lg bg-white/10 px-3 py-2 text-sm text-white">{nome}</span>
+        <span className="text-xs text-suave">{t.logadaComo}</span>
+        <span className="rounded-xl bg-trilho px-3 py-2 text-sm text-tinta">{nome}</span>
       </div>
     </aside>
   )

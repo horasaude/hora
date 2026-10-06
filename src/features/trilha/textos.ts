@@ -7,7 +7,14 @@ export const textos = {
   semAcesso: 'Seu acesso começa assim que o pagamento for confirmado.',
   vazio: 'As aulas aparecem aqui assim que forem liberadas.',
   preparacao: { titulo: 'Comece por aqui', subtitulo: '7 dias de preparação' },
-  progresso: (pct: number, semana: number) => `${pct}% da etapa · semana ${semana}`,
+  progresso: (pct: number, semana: number, faltam: number) =>
+    `${pct}% da etapa · semana ${semana}` +
+    (faltam === 0
+      ? ' · etapa completa'
+      : faltam === 1
+        ? ' · falta 1 aula'
+        : ` · faltam ${faltam} aulas`),
+  rotuloProgresso: 'Progresso da etapa',
   abreEm: (data: string) => `Abre em ${data}`,
   minutos: (n: number) => `${n} min`,
   assistir: (titulo: string) => `Assistir: ${titulo}`,

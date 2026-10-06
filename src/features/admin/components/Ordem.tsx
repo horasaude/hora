@@ -3,7 +3,7 @@ import { textos } from '../textos'
 type Props = { titulo: string; aoSubir?: () => void; aoDescer?: () => void; ocupado?: boolean }
 
 const botao =
-  'grid size-9 place-items-center rounded-lg border border-linha bg-white text-ora hover:bg-areia disabled:opacity-30'
+  'brilho brilho-leve brilho-cinza grid size-9 place-items-center rounded-xl text-verde-escuro disabled:opacity-30'
 
 /** Setas para subir e descer um item na ordem. */
 export function Ordem({ titulo, aoSubir, aoDescer, ocupado }: Props) {

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Botao } from '@/components/ui'
+import { BotaoBrilho } from '@/components/ui'
 import { useEncerrar, useVencedoras } from '../hooks/useModulos'
 import { textos } from '../textos'
 
@@ -10,14 +10,14 @@ export function BotaoEncerrar({ id }: { id: string }) {
   const encerrar = useEncerrar()
   const [confirmando, setConfirmando] = useState(false)
   return (
-    <Botao
-      variante="secundario"
-      className="rounded-xl border-terracota-escuro text-sm text-terracota-escuro"
+    <BotaoBrilho
+      tom="coral"
+
       disabled={encerrar.isPending}
       onClick={() => (confirmando ? encerrar.mutate(id) : setConfirmando(true))}
     >
       {confirmando ? `${t.encerrar}?` : t.encerrar}
-    </Botao>
+    </BotaoBrilho>
   )
 }
 
@@ -29,10 +29,10 @@ export function Vencedoras({ id }: { id: string }) {
       <h3 className="text-[1.35rem] leading-snug font-bold text-ora">{t.vencedoras}</h3>
       {lista.isPending && <p className="text-sm text-suave">{textos.carregando}</p>}
       {lista.data?.length === 0 && <p className="text-sm text-suave">{t.semVencedoras}</p>}
-      <ol className="flex flex-col divide-y divide-linha rounded-xl border border-linha">
+      <ol className="flex flex-col divide-y divide-linha rounded-2xl border border-linha">
         {lista.data?.map((v, i) => (
           <li key={v.perfil_id} className="flex items-center gap-3 px-4 py-3 text-sm">
-            <span className="grid size-7 place-items-center rounded-full bg-ocre-suave text-xs font-semibold text-[#80591c]">
+            <span className="brilho brilho-leve brilho-dourado grid size-7 place-items-center rounded-full text-xs font-bold">
               {i + 1}
             </span>
             <span className="flex-1 font-semibold text-tinta">

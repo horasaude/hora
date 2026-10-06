@@ -1,3 +1,4 @@
+import { classeBrilho } from '@/components/ui'
 import { useState, type ReactNode } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import { situacaoDesafio, type SituacaoDesafio } from '@/domain/painel'
@@ -5,7 +6,7 @@ import { diaEmBrasilia, diaMesDeData } from '@/lib/datas'
 import type { Desafio, NumerosDesafio } from '../api/modulos.api'
 import { DesafioDetalhe } from '../components/DesafioDetalhe'
 import { Estado } from '../components/Estado'
-import { botaoPrincipal, Divisao, Quadro, type Numero } from '../components/Quadro'
+import { Divisao, Quadro, type Numero } from '../components/Quadro'
 import { EtiquetaDesafio } from '../components/SituacaoDesafio'
 import { celula, Etiqueta, LinhaTabela, Tabela } from '../components/Tabela'
 import { useDesafios, useNumerosDesafios } from '../hooks/useModulos'
@@ -39,7 +40,7 @@ function TabelaDesafios({ linhas, ativo }: { linhas: Linha[]; ativo?: string }) 
           ativa={d.id === ativo}
           para={`/app/admin/desafios/${d.id}`}
           titulo={d.nome}
-          marca={<Etiqueta tom="ocre">{t.tipos[d.tipo_checkin]}</Etiqueta>}
+          marca={<Etiqueta tom="neutro">{t.tipos[d.tipo_checkin]}</Etiqueta>}
         >
           <td className={celula}>{t.periodo(diaMesDeData(d.inicio), diaMesDeData(d.fim))}</td>
           <td className={celula}>{n?.participantes ?? 0}</td>
@@ -66,7 +67,7 @@ export function DesafiosPage() {
   }))
   const atual = novo ? undefined : (linhas.find((l) => l.desafio.id === desafioId) ?? linhas[0])
   const acao = (
-    <Link to="/app/admin/desafios/novo" className={botaoPrincipal}>
+    <Link to="/app/admin/desafios/novo" className={classeBrilho('escuro')}>
       {t.novo}
     </Link>
   )
