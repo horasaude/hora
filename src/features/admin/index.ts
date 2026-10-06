@@ -1,0 +1,6 @@
+export { PainelLayout } from './components/PainelLayout'
+export { ConteudoPage } from './pages/ConteudoPage'
+export { TemaPage } from './pages/TemaPage'
+export { AulaPage } from './pages/AulaPage'
+export { LivesPage, LivePage } from './pages/LivesPage'
+export { AvisosPage, AvisoPage } from './pages/AvisosPage'

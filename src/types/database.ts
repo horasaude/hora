@@ -293,6 +293,18 @@ export type Database = {
       dia_de_acesso: { Args: never; Returns: number }
       eh_admin: { Args: never; Returns: boolean }
       hoje_brasilia: { Args: never; Returns: string }
+      mover_aula: {
+        Args: { p_direcao: number; p_id: string }
+        Returns: undefined
+      }
+      mover_etapa: {
+        Args: { p_direcao: number; p_id: string }
+        Returns: undefined
+      }
+      mover_tema: {
+        Args: { p_direcao: number; p_id: string }
+        Returns: undefined
+      }
       tem_acesso_ativo: { Args: never; Returns: boolean }
     }
     Enums: {

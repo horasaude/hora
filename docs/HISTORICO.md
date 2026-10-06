@@ -2,6 +2,16 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-06 · main · Painel admin
+
+- /app/admin só para papel admin (usePapel na feature auth; quem não é admin volta para /app). Mobile primeiro, abas fixas embaixo: Conteúdo, Lives, Avisos.
+- Conteúdo: temas, etapas e aulas com criar, editar, publicar/tirar do ar e reordenar (botões subir/descer). Aula: prévia do vídeo ao colar o link (src/lib/video.ts: YouTube, Vimeo, Google Drive), material e liberação "Liberada na compra" (dia 1), "Depois de 7 dias" (dia 8) ou outro dia.
+- Lives e avisos com datas no horário de Brasília (paraCampoBrasilia/deCampoBrasilia em src/lib/datas.ts).
+- Migração 20261006180000_ordem_conteudo (aplicada): mover_tema/etapa/aula só para admin; unique de etapas adiável. 16 checagens novas no PGlite.
+- Conta admin de teste criada no banco (admin.teste@exemplo.com); senha só no arquivo local ~/HORA-admin-teste.txt, fora do repositório. Login, papel e RLS conferidos por API.
+- Atalho "Painel das profissionais" na tela inicial para admins. Pacote do painel: 25 KB, só carrega em /app/admin.
+- Pendente: excluir (por enquanto, tirar do ar); apagar a conta de teste depois dos testes.
+
 ## 2026-10-06 · main · Liberação em horas exatas desde a confirmação
 
 - Pedido da dona do projeto: os 7 dias contam a partir da hora da confirmação do pagamento, não por calendário.

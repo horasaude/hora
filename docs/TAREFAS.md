@@ -27,8 +27,8 @@ Venda inicial por links do Mercado Pago; o checkout integrado da Sprint 2 substi
 ## Sprint 1: painel e área base (até 11/10)
 
 - [x] Tabelas temas, etapas, aulas, lives, avisos com RLS
-- [ ] Painel admin: CRUD de temas, etapas e aulas (na aula, escolha simples "Liberada na compra" = dia 1 ou "Depois de 7 dias" = dia 8, com opção de outro dia)
-- [ ] Painel admin: lives e avisos
+- [x] Painel admin: CRUD de temas, etapas e aulas (na aula, escolha simples "Liberada na compra" = dia 1 ou "Depois de 7 dias" = dia 8, com opção de outro dia)
+- [x] Painel admin: lives e avisos
 - [ ] Primeiro acesso com consentimento e apelido
 - [ ] Início, trilha base e aula, com liberação por dia
 

@@ -1,26 +1,28 @@
 # Mapa do projeto
 
 Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim).
-Última atualização: tabelas de conteúdo com RLS (temas, etapas, aulas, lives, avisos).
+Última atualização: painel admin (/app/admin) e funções de ordem.
 
 ## Rotas
 
-| Rota         | Página                                               | Feature                       | Acesso  | Carga                    |
-| ------------ | ---------------------------------------------------- | ----------------------------- | ------- | ------------------------ |
-| /            | VendasPage                                           | vendas                        | público | pacote inicial           |
-| /obrigada    | ObrigadaPage                                         | vendas                        | público | pacote inicial           |
-| /termos      | TermosPage                                           | vendas                        | público | pacote inicial           |
-| /privacidade | PrivacidadePage                                      | vendas                        | público | pacote inicial           |
-| /checkout    | CheckoutPage                                         | checkout                      | público | lazy                     |
-| /entrar      | LoginPage                                            | auth                          | público | lazy (com ComProvedores) |
-| /app         | InicioPage                                           | inicio                        | logada  | lazy (AreaAluna + PWA)   |
-| checkout     | checkout próprio (resumo, dados, pagamento, lateral) | CheckoutPage, salvarInscricao |
-| \*           | vai para /                                           |                               |         |                          |
+| Rota           | Página                                               | Feature                       | Acesso      | Carga                    |
+| -------------- | ---------------------------------------------------- | ----------------------------- | ----------- | ------------------------ |
+| /              | VendasPage                                           | vendas                        | público     | pacote inicial           |
+| /obrigada      | ObrigadaPage                                         | vendas                        | público     | pacote inicial           |
+| /termos        | TermosPage                                           | vendas                        | público     | pacote inicial           |
+| /privacidade   | PrivacidadePage                                      | vendas                        | público     | pacote inicial           |
+| /checkout      | CheckoutPage                                         | checkout                      | público     | lazy                     |
+| /entrar        | LoginPage                                            | auth                          | público     | lazy (com ComProvedores) |
+| /app           | InicioPage                                           | inicio                        | logada      | lazy (AreaAluna + PWA)   |
+| /app/admin/... | painel (conteúdo, lives, avisos)                     | admin                         | papel admin | lazy (admin, 25 KB)      |
+| checkout       | checkout próprio (resumo, dados, pagamento, lateral) | CheckoutPage, salvarInscricao |
+| \*             | vai para /                                           |                               |             |                          |
 
 ## Features (src/features)
 
 | Feature | O que faz                                                         | Exporta                                               |
 | ------- | ----------------------------------------------------------------- | ----------------------------------------------------- |
+| admin   | painel das profissionais: temas, etapas, aulas, lives, avisos     | PainelLayout e páginas                                |
 | auth    | login, sessão, rota protegida                                     | LoginPage, RotaProtegida, useSessao                   |
 | inicio  | tela inicial da aluna (placeholder)                               | InicioPage                                            |
 | vendas  | página de vendas, popup de compra, obrigada, termos e privacidade | VendasPage, ObrigadaPage, TermosPage, PrivacidadePage |
@@ -35,20 +37,22 @@ Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim)
 
 ## Utilitários (src/lib)
 
-| Arquivo        | Faz                                        |
-| -------------- | ------------------------------------------ |
-| supabase.ts    | cliente Supabase tipado                    |
-| pwa.ts         | registra o service worker (/app/)          |
-| pwaAntigo.ts   | remove o service worker antigo de escopo / |
-| env.ts         | valida variáveis de ambiente               |
-| datas.ts       | dia e datas no fuso de Brasília            |
-| moeda.ts       | centavos para reais                        |
-| telefone.ts    | máscara de telefone e só dígitos           |
-| utm.ts         | lê UTMs da URL e guarda na sessão          |
-| whatsapp.ts    | link wa.me a partir do número com DDD      |
-| cpf.ts         | máscara de CPF enquanto digita             |
-| navegacao.ts   | sai do site (link de pagamento)            |
-| queryClient.ts | configuração do TanStack Query             |
+| Arquivo        | Faz                                                |
+| -------------- | -------------------------------------------------- |
+| supabase.ts    | cliente Supabase tipado                            |
+| pwa.ts         | registra o service worker (/app/)                  |
+| pwaAntigo.ts   | remove o service worker antigo de escopo /         |
+| env.ts         | valida variáveis de ambiente                       |
+| datas.ts       | dia e datas no fuso de Brasília                    |
+| moeda.ts       | centavos para reais                                |
+| telefone.ts    | máscara de telefone e só dígitos                   |
+| utm.ts         | lê UTMs da URL e guarda na sessão                  |
+| whatsapp.ts    | link wa.me a partir do número com DDD              |
+| cpf.ts         | máscara de CPF enquanto digita                     |
+| video.ts       | link de prévia (YouTube, Vimeo, Google Drive)      |
+| datas.ts (+)   | campo datetime-local em Brasília e data/hora curta |
+| navegacao.ts   | sai do site (link de pagamento)                    |
+| queryClient.ts | configuração do TanStack Query                     |
 
 ## Componentes compartilhados (src/components)
 
@@ -69,6 +73,7 @@ Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim)
 | hoje_brasilia()                | função (data de hoje em Brasília)                                                           | 20261006120000_conteudo                                                     |
 | tem_acesso_ativo()             | função (acesso dentro do período)                                                           | 20261006120000_conteudo                                                     |
 | dia_de_acesso()                | função (dia 1 = confirmação; muda a cada 24 h exatas)                                       | 20261006150000_acesso_por_hora                                              |
+| mover_tema/etapa/aula()        | funções (reordenar; só admin; etapas com ordem única adiável)                               | 20261006180000_ordem_conteudo                                               |
 | temas, etapas                  | tabelas (RLS: admin escreve; aluna com acesso lê publicados)                                | 20261006120000_conteudo                                                     |
 | aulas                          | tabela (RLS: aluna lê publicadas com dia_liberacao <= dia_de_acesso)                        | 20261006120000_conteudo                                                     |
 | lives, avisos                  | tabelas (RLS: aluna lê publicadas; aviso só depois de publicar_em)                          | 20261006120000_conteudo                                                     |

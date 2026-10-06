@@ -1,3 +1,4 @@
 export { LoginPage } from './pages/LoginPage'
 export { RotaProtegida } from './components/RotaProtegida'
 export { useSessao } from './hooks/useSessao'
+export { usePapel } from './hooks/usePapel'
