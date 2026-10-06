@@ -260,7 +260,22 @@ export type Database = {
           perfil_id?: string
           valor?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "desafio_checkins_desafio_id_fkey"
+            columns: ["desafio_id"]
+            isOneToOne: false
+            referencedRelation: "desafios"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "desafio_checkins_perfil_id_fkey"
+            columns: ["perfil_id"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       desafio_participantes: {
         Row: {
@@ -278,7 +293,22 @@ export type Database = {
           entrou_em?: string
           perfil_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "desafio_participantes_desafio_id_fkey"
+            columns: ["desafio_id"]
+            isOneToOne: false
+            referencedRelation: "desafios"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "desafio_participantes_perfil_id_fkey"
+            columns: ["perfil_id"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       desafios: {
         Row: {
@@ -472,8 +502,8 @@ export type Database = {
           id: string
           nome: string
           ocultar_ranking: boolean
-          ultimo_acesso_em: string | null
           papel: Database["public"]["Enums"]["papel"]
+          ultimo_acesso_em: string | null
           updated_at: string
         }
         Insert: {
@@ -485,8 +515,8 @@ export type Database = {
           id: string
           nome?: string
           ocultar_ranking?: boolean
-          ultimo_acesso_em?: string | null
           papel?: Database["public"]["Enums"]["papel"]
+          ultimo_acesso_em?: string | null
           updated_at?: string
         }
         Update: {
@@ -498,8 +528,8 @@ export type Database = {
           id?: string
           nome?: string
           ocultar_ranking?: boolean
-          ultimo_acesso_em?: string | null
           papel?: Database["public"]["Enums"]["papel"]
+          ultimo_acesso_em?: string | null
           updated_at?: string
         }
         Relationships: []
@@ -539,7 +569,12 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      alunas_em_desafios_ativos: { Args: never; Returns: number }
       dia_de_acesso: { Args: never; Returns: number }
+      dias_cumpridos: {
+        Args: { p_desafio: string; p_perfil: string }
+        Returns: number
+      }
       eh_admin: { Args: never; Returns: boolean }
       hoje_brasilia: { Args: never; Returns: string }
       minha_trilha: {
@@ -576,29 +611,36 @@ export type Database = {
       painel_alunas: {
         Args: never
         Returns: {
-          acesso_fim_em: string | null
-          acesso_inicio_em: string | null
-          apelido: string | null
+          acesso_fim_em: string
+          acesso_inicio_em: string
+          apelido: string
           aulas_concluidas: number
           aulas_liberadas: number
-          dia: number | null
+          dia: number
           id: string
           nome: string
-          ultimo_acesso_em: string | null
+          ultimo_acesso_em: string
         }[]
       }
       painel_desafios: {
         Args: never
-        Returns: { concluintes: number; id: string; participantes: number }[]
+        Returns: {
+          concluintes: number
+          id: string
+          participantes: number
+        }[]
       }
       registrar_acesso: { Args: never; Returns: undefined }
+      tem_acesso_ativo: { Args: never; Returns: boolean }
       vencedoras_desafio: {
         Args: { p_desafio: string }
-        Returns: { apelido: string | null; dias: number; nome: string; perfil_id: string }[]
+        Returns: {
+          apelido: string
+          dias: number
+          nome: string
+          perfil_id: string
+        }[]
       }
-      alunas_em_desafios_ativos: { Args: never; Returns: number }
-      dias_cumpridos: { Args: { p_desafio: string; p_perfil: string }; Returns: number }
-      tem_acesso_ativo: { Args: never; Returns: boolean }
     }
     Enums: {
       papel: "aluna" | "admin"
