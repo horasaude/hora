@@ -10,7 +10,7 @@ export function PerfilPage() {
   const p = perfil.data
   return (
     <section className="flex flex-col gap-4 lg:max-w-lg">
-      <h1 className="font-titulo text-[1.7rem] leading-tight text-ora lg:text-[2.4rem]">
+      <h1 className="text-[1.9rem] leading-tight font-bold tracking-tight text-ora lg:text-[2.6rem]">
         {textos.titulo}
       </h1>
       <Cartao>

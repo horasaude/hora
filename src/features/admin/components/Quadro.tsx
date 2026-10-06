@@ -10,7 +10,7 @@ export function Resumo({ numeros }: { numeros: Numero[] }) {
     <ul className="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
       {numeros.map((n) => (
         <li key={n.rotulo} className={`rounded-2xl px-5 py-4 ${FUNDO[n.tom]}`}>
-          <span className="block font-titulo text-4xl font-bold text-ora lining-nums">
+          <span className="block text-[2.6rem] leading-none font-bold tracking-tight text-ora">
             {n.valor}
           </span>
           <span className="mt-1 block text-sm font-semibold text-tinta">{n.rotulo}</span>
@@ -27,7 +27,9 @@ export function Quadro({ titulo, acao, numeros, children }: Props) {
   return (
     <section className="flex flex-col gap-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="font-titulo text-3xl font-semibold text-ora lg:text-[2.1rem]">{titulo}</h1>
+        <h1 className="text-[2rem] leading-tight font-bold tracking-tight text-ora lg:text-[2.4rem]">
+          {titulo}
+        </h1>
         {acao}
       </div>
       <Resumo numeros={numeros} />

@@ -6,14 +6,14 @@ import { esquemaApelido } from '../schemas/apelido'
 import { textos } from '../textos'
 import { Moldura } from './Moldura'
 
-const titulo = 'font-titulo text-[1.8rem] leading-tight text-ora'
+const titulo = 'text-[2rem] leading-tight font-bold tracking-tight text-ora'
 
 function Aceite({ aceito, aoMudar }: { aceito: boolean; aoMudar: (v: boolean) => void }) {
   const t = textos.saude
   return (
     <>
       <h1 className={titulo}>{t.titulo}</h1>
-      <p className="text-[0.95rem] leading-relaxed text-tinta">{t.texto}</p>
+      <p className="text-base leading-relaxed text-tinta">{t.texto}</p>
       <label className="flex items-start gap-3 rounded-[1.25rem] border border-linha bg-areia p-4 text-sm text-tinta has-checked:border-ora">
         <input
           type="checkbox"
@@ -54,7 +54,7 @@ export function PrimeiroAcesso({ apelidoAtual }: { apelidoAtual?: string | null 
           className="h-14 w-auto self-start"
         />
         <h1 className={titulo}>{textos.boasVindas.titulo}</h1>
-        <p className="text-[0.95rem] leading-relaxed text-tinta">{textos.boasVindas.texto}</p>
+        <p className="text-base leading-relaxed text-tinta">{textos.boasVindas.texto}</p>
       </Moldura>
     )
   if (passo === 2)

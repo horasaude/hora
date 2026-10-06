@@ -26,7 +26,7 @@ export function Vencedoras({ id }: { id: string }) {
   const lista = useVencedoras(id, true)
   return (
     <section className="flex flex-col gap-2">
-      <h3 className="font-titulo text-xl font-semibold text-ora">{t.vencedoras}</h3>
+      <h3 className="text-[1.35rem] leading-snug font-bold text-ora">{t.vencedoras}</h3>
       {lista.isPending && <p className="text-sm text-suave">{textos.carregando}</p>}
       {lista.data?.length === 0 && <p className="text-sm text-suave">{t.semVencedoras}</p>}
       <ol className="flex flex-col divide-y divide-linha rounded-xl border border-linha">

@@ -95,7 +95,7 @@ export function AulaPage() {
     .join(' · ')
   const cabecalho = (
     <header>
-      <h1 className="font-titulo text-[1.6rem] leading-tight text-ora lg:text-[2rem]">
+      <h1 className="text-[1.8rem] leading-tight font-bold tracking-tight text-ora lg:text-[2.2rem]">
         {a.titulo}
       </h1>
       {detalhe && <p className="mt-1 text-sm text-suave">{detalhe}</p>}
@@ -109,7 +109,7 @@ export function AulaPage() {
           <Video aula={a} />
           <div className="lg:hidden">{cabecalho}</div>
           {a.descricao && (
-            <p className="text-[0.95rem] leading-relaxed whitespace-pre-line text-tinta">
+            <p className="text-base leading-relaxed whitespace-pre-line text-tinta">
               {a.descricao}
             </p>
           )}

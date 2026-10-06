@@ -8,7 +8,7 @@ import { MenuLateral } from './MenuLateral'
 function BarraCelular({ aoAbrir }: { aoAbrir: () => void }) {
   return (
     <header className="sticky top-0 z-20 flex h-14 items-center justify-between bg-ora px-4 lg:hidden">
-      <span className="font-titulo text-2xl font-bold text-ocre">{textos.marca}</span>
+      <span className="text-2xl font-bold text-ocre">{textos.marca}</span>
       <button
         type="button"
         onClick={aoAbrir}

@@ -15,9 +15,7 @@ export function AulaDeHoje({ aula }: { aula: Aula }) {
           <IconePlay className="ml-0.5 size-5" />
         </span>
         <span className="min-w-0">
-          <span className="block text-[0.95rem] font-semibold text-tinta">
-            {textos.aula.titulo}
-          </span>
+          <span className="block text-base font-bold text-tinta">{textos.aula.titulo}</span>
           <span className="block text-sm text-suave">
             {aula.titulo}
             {aula.duracao_minutos ? ` · ${aula.duracao_minutos} min` : ''}
@@ -43,7 +41,7 @@ export function CartaoRanking() {
   return (
     <Cartao className="border-transparent bg-salvia-suave">
       <p className="text-sm text-tinta">{t.voce}</p>
-      <p className="font-titulo text-[1.8rem] leading-tight font-semibold text-ora lining-nums">
+      <p className="text-[2.2rem] leading-tight font-bold tracking-tight text-ora">
         {t.lugar(exemplo.posicao)}
       </p>
       <p className="text-sm font-semibold text-terracota-escuro">

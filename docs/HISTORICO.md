@@ -2,6 +2,10 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-06 · main · Fonte Arial no sistema
+
+- Painel e área da aluna (tudo em /app) em Arial: classe font-sistema na raiz de /app (src/app/AreaAluna.tsx), 16 px e entrelinha relaxada; títulos em Arial negrito verde ORA, um pouco maiores; números do resumo em Arial negrito grande. Sem Playfair no sistema. Página de vendas, checkout e login sem mudança. Regra no CLAUDE.md.
+
 ## 2026-10-06 · main · Área da aluna para computador
 
 - Todo o sistema é feito para computador e responsivo para celular (regra no CLAUDE.md). Área da aluna: no computador, barra lateral verde no padrão do painel (HORA em ocre, 5 itens com ícone, logada como) e conteúdo na largura da tela; no celular, barra fixa embaixo com 5 ícones.

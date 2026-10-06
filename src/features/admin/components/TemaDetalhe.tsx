@@ -67,7 +67,7 @@ export function TemaDetalhe({ temaId }: { temaId: string }) {
     <CartaoDetalhe titulo={tema.titulo}>
       <SobreTema tema={tema} etapas={etapas.length} aulas={aulas} />
       <div className="flex items-center justify-between gap-3 border-t border-linha pt-5">
-        <h3 className="font-titulo text-xl font-semibold text-ora">{textos.etapas.titulo}</h3>
+        <h3 className="text-[1.35rem] leading-snug font-bold text-ora">{textos.etapas.titulo}</h3>
         {!novaEtapa && (
           <Botao
             variante="secundario"

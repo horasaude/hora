@@ -4,7 +4,7 @@ import type { ReactNode } from 'react'
 export function CartaoDetalhe({ titulo, children }: { titulo: string; children: ReactNode }) {
   return (
     <article className="flex flex-col gap-5 rounded-2xl border border-linha bg-white p-6">
-      <h2 className="font-titulo text-2xl font-semibold text-ora">{titulo}</h2>
+      <h2 className="text-[1.6rem] leading-snug font-bold tracking-tight text-ora">{titulo}</h2>
       {children}
     </article>
   )

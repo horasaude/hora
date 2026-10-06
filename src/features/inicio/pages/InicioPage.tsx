@@ -20,7 +20,7 @@ function Saudacao({ nome }: { nome: string }) {
   const [hora] = useState(() => horaEmBrasilia(new Date()))
   return (
     <header className="flex items-center justify-between gap-3">
-      <h1 className="font-titulo text-[1.7rem] leading-tight text-ora lg:text-[2.4rem]">
+      <h1 className="text-[1.9rem] leading-tight font-bold tracking-tight text-ora lg:text-[2.6rem]">
         {saudacaoPorHora(hora)}
         {nome && `, ${nome}`}
       </h1>

@@ -15,7 +15,7 @@ export function Checkin() {
     setFeitos((f) => (f.includes(id) ? f.filter((x) => x !== id) : [...f, id]))
   return (
     <Cartao className="flex flex-col gap-4">
-      <h2 className="text-[0.95rem] font-semibold text-tinta">{t.titulo}</h2>
+      <h2 className="text-base font-bold text-tinta">{t.titulo}</h2>
       <ul className="flex flex-wrap gap-2">
         {t.habitos.map((h) => {
           const feito = feitos.includes(h.id)
