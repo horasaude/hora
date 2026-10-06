@@ -52,7 +52,7 @@ function Foto({ nome, foto, cartao }: { nome: string; foto?: string; cartao: Car
 export function Profissionais() {
   const t = textos.profissionais
   return (
-    <Secao etiqueta={t.etiqueta} titulo={t.titulo} fundo="branco">
+    <Secao cta={t.cta} etiqueta={t.etiqueta} titulo={t.titulo} fundo="branco">
       <ul className="grid gap-10 sm:grid-cols-3 sm:gap-5">
         {t.pessoas.map((p, i) => (
           <li key={p.nome} data-revelar style={{ transitionDelay: `${i * 140}ms` }}>
@@ -74,7 +74,7 @@ export function Depoimentos() {
   const t = textos.depoimentos
   if (!t.itens.length) return null
   return (
-    <Secao etiqueta={t.etiqueta} titulo={t.titulo}>
+    <Secao cta={t.cta} etiqueta={t.etiqueta} titulo={t.titulo}>
       <ul className="grid gap-6 sm:grid-cols-2">
         {t.itens.map((d) => (
           <li key={d.nome} className="rounded-[1.5rem] bg-white p-7">

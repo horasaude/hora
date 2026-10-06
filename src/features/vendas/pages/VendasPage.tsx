@@ -4,7 +4,6 @@ import { guardarUtms } from '@/lib/utm'
 import { Hero, Numeros, Problema } from '../components/Abertura'
 import { PorDentroDoApp } from '../components/app/PorDentroDoApp'
 import { BarraTopo } from '../components/BarraTopo'
-import { Esteira } from '../components/Esteira'
 import { CompraProvider } from '../components/compra/CompraProvider'
 import { Perguntas } from '../components/Confianca'
 import { Rodape } from '../components/Fechamento'
@@ -23,7 +22,6 @@ export function VendasPage() {
       <Hero />
       <main>
         <Numeros />
-        <Esteira />
         <Problema />
         <OQueE />
         <ComoFunciona />

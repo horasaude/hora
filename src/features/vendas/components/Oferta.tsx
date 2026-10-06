@@ -29,7 +29,7 @@ function Lista({ titulo, itens, sim }: { titulo: string; itens: string[]; sim: b
 export function ParaQuem() {
   const t = textos.paraQuem
   return (
-    <Secao etiqueta={t.etiqueta} marca>
+    <Secao cta={t.cta} etiqueta={t.etiqueta} marca>
       <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
         <img
           src={t.foto}
@@ -52,7 +52,7 @@ export function Recebe() {
   const t = textos.recebe
   const itens = itensVisiveis(t.itens, useEmOferta(), LOJA_PARCEIRA_CONFIRMADA)
   return (
-    <Secao etiqueta={t.etiqueta} titulo={t.titulo} fundo="branco">
+    <Secao cta={t.cta} etiqueta={t.etiqueta} titulo={t.titulo} fundo="branco">
       <ul className="grid sm:grid-cols-2 sm:gap-x-10">
         {itens.map((i) => (
           <li

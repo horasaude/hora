@@ -12,9 +12,6 @@ function telaEmPe() {
   vi.spyOn(HTMLMediaElement.prototype, 'play').mockResolvedValue()
 }
 
-const ativo = (c: HTMLElement) => c.querySelector<HTMLVideoElement>('video[data-ativo]')!
-const fonte = (c: HTMLElement) => ativo(c).getAttribute('src')
-
 describe('VideoFundo', () => {
   afterEach(() => {
     cleanup()
@@ -22,27 +19,41 @@ describe('VideoFundo', () => {
     vi.restoreAllMocks()
   })
 
-  it('corta cada vídeo em 6 segundos e segue a ordem corrida, academia, salada, refeição', () => {
+  it('usa um só vídeo, corta em 6 s e segue corrida, academia, salada, refeição', () => {
     telaEmPe()
     const { container } = render(<VideoFundo className="" />)
-    expect(fonte(container)).toBe('/videos/corrida.mp4')
-    const montados = [...container.querySelectorAll('video')].map((v) => v.getAttribute('src'))
-    expect(montados).toContain('/videos/academia.mp4')
+    expect(container.querySelectorAll('video')).toHaveLength(1)
+    const v = container.querySelector('video')!
+    expect(v).toHaveAttribute('muted')
     const passar = (s: number) => {
-      const v = ativo(container)
       Object.defineProperty(v, 'currentTime', { value: s, configurable: true })
       fireEvent.timeUpdate(v)
     }
+    expect(v.getAttribute('src')).toBe('/videos/corrida.mp4')
     passar(3)
-    expect(fonte(container)).toBe('/videos/corrida.mp4')
+    expect(v.getAttribute('src')).toBe('/videos/corrida.mp4')
     passar(6)
-    expect(fonte(container)).toBe('/videos/academia.mp4')
-    fireEvent.ended(ativo(container))
-    expect(fonte(container)).toBe('/videos/salada.mp4')
+    expect(v.getAttribute('src')).toBe('/videos/academia.mp4')
+    fireEvent.ended(v)
+    expect(v.getAttribute('src')).toBe('/videos/salada.mp4')
     passar(6.1)
-    expect(fonte(container)).toBe('/videos/refeicao.mp4')
+    expect(v.getAttribute('src')).toBe('/videos/refeicao.mp4')
     passar(7)
-    expect(fonte(container)).toBe('/videos/corrida.mp4')
+    expect(v.getAttribute('src')).toBe('/videos/corrida.mp4')
+  })
+
+  it('a imagem do próximo cobre a troca e some quando o vídeo começa', () => {
+    telaEmPe()
+    const { container } = render(<VideoFundo className="" />)
+    const v = container.querySelector('video')!
+    expect(container.querySelector('img[data-cobertura]')).not.toBeNull()
+    fireEvent.playing(v)
+    expect(container.querySelector('img[data-cobertura]')).toBeNull()
+    fireEvent.ended(v)
+    expect(container.querySelector('img[data-cobertura]')).toHaveAttribute(
+      'src',
+      '/videos/academia.webp',
+    )
   })
 
   it('sem matchMedia (ou com menos movimento), mostra só a imagem', () => {

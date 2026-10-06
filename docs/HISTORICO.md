@@ -2,6 +2,12 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-06 · main · Vídeo contínuo no iPhone, sem faixa de palavras, chamadas por seção
+
+- VideoFundo volta a um único vídeo que troca de arquivo (no iPhone o vídeo já liberado continua tocando os próximos; os escondidos não tocavam e a troca ficava preta). A primeira imagem do próximo cobre a troca e some no evento playing; prefetch do próximo arquivo (Chrome/Android).
+- Sai a faixa de palavras passando (Esteira).
+- Cada seção com chamada própria no botão para os planos (Secao cta, textos por seção); teste garante que nenhuma se repete.
+
 ## 2026-10-06 · main · Títulos em Playfair Display
 
 - Italiana sai; títulos em Playfair Display 500 (escolha entre quatro opções comparadas lado a lado). Nenhum título passa da largura de 360 px. Decisão 0004 e CLAUDE.md atualizados.

@@ -55,9 +55,6 @@ body {
   .flutuar {
     animation: flutuar 6s ease-in-out infinite;
   }
-  .esteira {
-    animation: esteira 28s linear infinite;
-  }
 }
 
 @keyframes flutuar {
@@ -67,12 +64,6 @@ body {
   }
   50% {
     translate: 0 -10px;
-  }
-}
-
-@keyframes esteira {
-  to {
-    transform: translateX(-50%);
   }
 }
 

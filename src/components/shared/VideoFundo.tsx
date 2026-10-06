@@ -67,59 +67,68 @@ function tocar(v: HTMLVideoElement) {
 
 /**
  * Corrida, academia, salada e refeição, em cortes curtos, sem som, cobrindo todo o fundo.
- * O próximo vídeo já fica carregando escondido; na troca, um aparece enquanto o outro some.
+ * Um único vídeo que só troca de arquivo: no iPhone, o vídeo que já começou continua liberado
+ * para tocar os próximos. Enquanto o próximo carrega, a primeira imagem dele fica por cima e
+ * some quando ele começa, para a troca nunca ficar preta.
  */
 export function VideoFundo({ className }: { className: string }) {
   const clipes = useClipes()
   const [indice, setIndice] = useState(0)
+  const [carregando, setCarregando] = useState(true)
   const [comVideo] = useState(podeTocarVideo)
-  const videos = useRef(new Map<string, HTMLVideoElement>())
+  const video = useRef<HTMLVideoElement | null>(null)
   const n = clipes.length
   const atual = indice % n
-  const proximo = (atual + 1) % n
-  const anterior = (atual + n - 1) % n
   const clipe = clipes[atual] ?? PADRAO
 
   useEffect(() => {
-    videos.current.forEach((v, src) => {
-      if (src !== clipe.src) return v.pause()
-      v.currentTime = 0
-      tocar(v)
-    })
+    if (video.current) tocar(video.current)
   }, [clipe.src])
 
+  // Pede ao navegador para adiantar o próximo arquivo (Chrome e Android; o iPhone ignora).
+  const seguinte = clipes[(atual + 1) % n]?.src
+  useEffect(() => {
+    if (!seguinte || !comVideo) return
+    const link = document.createElement('link')
+    link.rel = 'prefetch'
+    link.href = seguinte
+    document.head.appendChild(link)
+    return () => link.remove()
+  }, [seguinte, comVideo])
+
   // Só avança a partir do clipe atual: vários avisos seguidos de tempo não pulam clipes.
-  const avancar = () => setIndice((i) => (i % n === atual ? proximo : i))
+  const avancar = () => {
+    setCarregando(true)
+    setIndice((i) => (i % n === atual ? (atual + 1) % n : i))
+  }
 
   if (!comVideo) return <img src={clipe.poster} alt="" className={className} />
   return (
     <>
-      {clipes.map((c, i) => {
-        if (i !== atual && i !== proximo && i !== anterior) return null
-        const ativo = i === atual
-        return (
-          <video
-            key={c.src}
-            ref={(el) => {
-              if (el) videos.current.set(c.src, el)
-              else videos.current.delete(c.src)
-            }}
-            data-ativo={ativo ? '' : undefined}
-            className={`${className} transition-opacity duration-700 ${ativo ? 'opacity-100' : 'opacity-0'}`}
-            src={c.src}
-            poster={c.poster}
-            autoPlay={ativo}
-            muted
-            playsInline
-            preload="auto"
-            aria-hidden="true"
-            onEnded={ativo ? avancar : undefined}
-            onTimeUpdate={
-              ativo ? (e) => e.currentTarget.currentTime >= TAKE_SEGUNDOS && avancar() : undefined
-            }
-          />
-        )
-      })}
+      <video
+        ref={(el) => {
+          video.current = el
+          if (el) el.setAttribute('muted', '')
+        }}
+        className={className}
+        src={clipe.src}
+        poster={clipe.poster}
+        autoPlay
+        muted
+        playsInline
+        preload="auto"
+        aria-hidden="true"
+        onPlaying={() => setCarregando(false)}
+        onEnded={avancar}
+        onTimeUpdate={(e) => e.currentTarget.currentTime >= TAKE_SEGUNDOS && avancar()}
+      />
+      <img
+        src={clipe.poster}
+        alt=""
+        aria-hidden="true"
+        data-cobertura={carregando ? '' : undefined}
+        className={`${className} pointer-events-none transition-opacity duration-500 ${carregando ? 'opacity-100' : 'opacity-0'}`}
+      />
     </>
   )
 }

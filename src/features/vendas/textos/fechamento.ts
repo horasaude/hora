@@ -49,6 +49,7 @@ export const fechamento = {
   },
   perguntas: {
     etiqueta: 'Dúvidas',
+    cta: 'Tirei minhas dúvidas, quero entrar',
     titulo: 'Perguntas *frequentes*',
     itens: [
       {

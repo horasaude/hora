@@ -82,11 +82,14 @@ describe('VendasPage: caminhos para os planos', () => {
     vi.useRealTimers()
   })
 
-  it('tem botão para os planos no topo e no fim de cada seção', () => {
+  it('tem botão para os planos no topo e no fim de cada seção, cada um com sua chamada', () => {
     abrirEm(FIM_OFERTA_ORA.getTime() - 60_000)
-    const botoes = screen
-      .getAllByRole('link', { name: 'Quero entrar na HORA' })
-      .filter((a) => a.getAttribute('href') === '#preco')
-    expect(botoes.length).toBeGreaterThanOrEqual(9)
+    const textos = screen
+      .getAllByRole('link')
+      .filter((a) => a.getAttribute('href') === '#preco' && !a.textContent?.includes('Ver planos'))
+      .map((a) => a.textContent)
+    expect(textos.length).toBeGreaterThanOrEqual(9)
+    expect(new Set(textos).size).toBe(textos.length)
+    expect(textos).toContain('Quero ser acompanhada por elas')
   })
 })

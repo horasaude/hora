@@ -3,6 +3,7 @@
 
 export const app = {
   etiqueta: 'Por dentro do app',
+  cta: 'Quero meu acesso ao app',
   titulo: 'Tudo na palma da *mão*',
   texto:
     'Em cinco segundos você sabe o que fazer hoje. Cada hábito cumprido vira ponto, e as três acompanham você de perto.',
@@ -119,6 +120,5 @@ export const app = {
       { nome: 'Fome', valor: 40 },
     ],
   },
-  esteira: ['Nutrição', 'Saúde', 'Movimento', 'Comunidade', 'Constância'],
   barra: { botao: 'Ver planos' },
 }

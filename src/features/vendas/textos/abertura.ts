@@ -24,6 +24,7 @@ export const abertura = {
   ],
   problema: {
     etiqueta: 'Pausa',
+    cta: 'Quero ter companhia nessa',
     titulo: 'Você já *tentou*',
     frases: [
       'Baixou a dieta.',

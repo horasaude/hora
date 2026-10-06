@@ -69,7 +69,7 @@ export function Numeros() {
 export function Problema() {
   const t = textos.problema
   return (
-    <Secao etiqueta={t.etiqueta} titulo={t.titulo} marca lateral>
+    <Secao cta={t.cta} etiqueta={t.etiqueta} titulo={t.titulo} marca lateral>
       <ul className="flex flex-col gap-1.5">
         {t.frases.map((f) => (
           <li key={f} className="text-2xl text-tinta sm:text-3xl">

@@ -58,7 +58,7 @@ export function PorDentroDoApp() {
   const { aba, escolher } = useAbaAutomatica()
   const atual = t.abas.find((a) => a.id === aba)
   return (
-    <Secao etiqueta={t.etiqueta} titulo={t.titulo} fundo="branco">
+    <Secao cta={t.cta} etiqueta={t.etiqueta} titulo={t.titulo} fundo="branco">
       <div className="grid min-w-0 gap-10 lg:grid-cols-[auto_1fr] lg:items-center lg:gap-16">
         <div
           className="relative mx-auto w-full max-w-[300px] sm:max-w-none sm:px-6"

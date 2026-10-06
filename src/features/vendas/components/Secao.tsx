@@ -14,6 +14,8 @@ type Props = {
   lateral?: boolean
   /** Sem o botão "Quero entrar na HORA" no fim (só na própria seção de planos). */
   semBotao?: boolean
+  /** Chamada do botão para os planos, própria de cada seção. */
+  cta?: string
   children: ReactNode
 }
 
@@ -36,14 +38,14 @@ export function Etiqueta({ texto, claro }: { texto: string; claro?: boolean }) {
 }
 
 /** Botão no fim de cada seção que leva direto aos planos. */
-function IrParaPlanos({ claro }: { claro: boolean }) {
+function IrParaPlanos({ texto, claro }: { texto: string; claro: boolean }) {
   return (
     <div className="mt-10 flex justify-center">
       <a
         href="#preco"
-        className={`inline-flex min-h-14 w-full items-center justify-center rounded-full px-6 text-sm font-semibold tracking-[0.1em] uppercase transition hover:-translate-y-0.5 sm:w-auto sm:px-10 sm:tracking-[0.16em] ${claro ? 'bg-creme text-ora hover:bg-white' : 'bg-ora text-creme hover:bg-[#233d37]'}`}
+        className={`inline-flex min-h-14 w-full items-center justify-center rounded-full px-6 py-3 text-center text-sm leading-snug font-semibold tracking-[0.06em] uppercase transition hover:-translate-y-0.5 sm:w-auto sm:px-10 sm:tracking-[0.16em] ${claro ? 'bg-creme text-ora hover:bg-white' : 'bg-ora text-creme hover:bg-[#233d37]'}`}
       >
-        {textos.hero.botao}
+        {texto}
       </a>
     </div>
   )
@@ -69,6 +71,7 @@ export function Secao({
   marca,
   lateral,
   semBotao,
+  cta = textos.hero.botao,
   children,
 }: Props) {
   const escuro = fundo === 'ora'
@@ -91,7 +94,7 @@ export function Secao({
             {children}
           </div>
         </div>
-        {!semBotao && <IrParaPlanos claro={escuro} />}
+        {!semBotao && <IrParaPlanos texto={cta} claro={escuro} />}
       </div>
     </section>
   )

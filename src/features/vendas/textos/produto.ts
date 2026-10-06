@@ -6,6 +6,7 @@ export type ItemRecebe = { texto: string; bonus?: boolean; so?: 'oferta' | 'loja
 export const produto = {
   oQueE: {
     etiqueta: 'A comunidade',
+    cta: 'Quero fazer parte da HORA',
     titulo: 'O que é a *HORA*',
     foto: '/fotos/tres-em-pe.webp',
     fotoAlt: 'Ana Milhomem, Dra. Clara Maria e Laís Moraes juntas à beira do lago',
@@ -19,6 +20,7 @@ export const produto = {
   },
   comoFunciona: {
     etiqueta: 'O método',
+    cta: 'Quero começar minha preparação',
     titulo: 'Como funciona na *prática*',
     passos: [
       {
@@ -49,6 +51,7 @@ export const produto = {
   },
   profissionais: {
     etiqueta: 'Três olhares',
+    cta: 'Quero ser acompanhada por elas',
     titulo: 'Quem vai estar *com você*',
     // Fotos do ensaio de 01/10/2026 (Lightroom). TODO(clientes): frase de autoridade de cada uma.
     pessoas: [
@@ -77,6 +80,7 @@ export const produto = {
   },
   depoimentos: {
     etiqueta: 'Quem viveu',
+    cta: 'Quero viver isso também',
     titulo: 'Quem já *viveu* o ORA',
     // TODO(clientes): depoimentos reais, com autorização. Enquanto vazio, a seção não aparece.
     itens: [] as Depoimento[],
@@ -84,6 +88,7 @@ export const produto = {
   paraQuem: {
     // TODO(clientes): validar as duas listas.
     etiqueta: 'Se enxergar',
+    cta: 'É pra mim, quero entrar',
     foto: '/fotos/tres-sentadas.webp',
     fotoAlt: 'As três profissionais sentadas conversando num deck de madeira',
     simTitulo: 'É *pra você* se',
@@ -102,6 +107,7 @@ export const produto = {
   },
   recebe: {
     etiqueta: 'Composição',
+    cta: 'Quero tudo isso',
     titulo: 'Tudo o que você *recebe*',
     selo: 'BÔNUS',
     itens: [

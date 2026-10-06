@@ -4,7 +4,7 @@ import { Secao } from './Secao'
 export function OQueE() {
   const t = textos.oQueE
   return (
-    <Secao etiqueta={t.etiqueta} titulo={t.titulo} fundo="branco">
+    <Secao cta={t.cta} etiqueta={t.etiqueta} titulo={t.titulo} fundo="branco">
       <div className="grid gap-8 lg:grid-cols-2 lg:items-start">
         <div>
           <p className="text-xl leading-relaxed text-tinta sm:text-2xl">{t.texto}</p>
@@ -36,7 +36,7 @@ export function OQueE() {
 export function ComoFunciona() {
   const t = textos.comoFunciona
   return (
-    <Secao etiqueta={t.etiqueta} titulo={t.titulo} marca>
+    <Secao cta={t.cta} etiqueta={t.etiqueta} titulo={t.titulo} marca>
       <ol className="grid gap-3 sm:grid-cols-2">
         {t.passos.map((p, i) => (
           <li

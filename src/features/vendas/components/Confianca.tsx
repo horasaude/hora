@@ -4,7 +4,7 @@ import { Secao } from './Secao'
 export function Perguntas() {
   const t = textos.perguntas
   return (
-    <Secao etiqueta={t.etiqueta} titulo={t.titulo} fundo="branco" lateral>
+    <Secao cta={t.cta} etiqueta={t.etiqueta} titulo={t.titulo} fundo="branco" lateral>
       <div>
         {t.itens.map((item) => (
           <details key={item.p} className="group border-t border-ora/20 last:border-b">
