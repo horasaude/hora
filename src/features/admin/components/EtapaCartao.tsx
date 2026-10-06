@@ -68,8 +68,9 @@ export function EtapaCartao({ etapa, aulas, temaId, primeira, ultima }: Props) {
   const ocupado = publicar.isPending || ordenar.isPending
   return (
     <li className="flex flex-col gap-1 rounded-2xl border border-linha bg-white px-4 py-3">
-      {editando ? (
+      {editando && (
         <FormNome
+          titulo={textos.etapas.editar}
           rotulo={textos.etapas.campoTitulo}
           inicial={{ titulo: etapa.titulo, descricao: etapa.descricao }}
           aoCancelar={() => setEditando(false)}
@@ -78,38 +79,33 @@ export function EtapaCartao({ etapa, aulas, temaId, primeira, ultima }: Props) {
             setEditando(false)
           }}
         />
-      ) : (
-        <>
-          <ul>
-            <Linha
-              titulo={`${etapa.ordem}. ${etapa.titulo}`}
-              detalhe={etapa.descricao}
-              publicado={etapa.publicado}
-              ocupado={ocupado}
-              aoPublicar={() =>
-                publicar.mutate({ tabela: 'etapas', id: etapa.id, publicado: !etapa.publicado })
-              }
-              aoSubir={
-                primeira
-                  ? undefined
-                  : () => ordenar.mutate({ tipo: 'etapa', id: etapa.id, direcao: -1 })
-              }
-              aoDescer={
-                ultima
-                  ? undefined
-                  : () => ordenar.mutate({ tipo: 'etapa', id: etapa.id, direcao: 1 })
-              }
-            />
-          </ul>
-          <button
-            type="button"
-            onClick={() => setEditando(true)}
-            className="min-h-11 self-start text-xs font-semibold text-ora underline underline-offset-4"
-          >
-            {textos.editar}
-          </button>
-        </>
       )}
+      <ul>
+        <Linha
+          titulo={`${etapa.ordem}. ${etapa.titulo}`}
+          detalhe={etapa.descricao}
+          publicado={etapa.publicado}
+          ocupado={ocupado}
+          aoPublicar={() =>
+            publicar.mutate({ tabela: 'etapas', id: etapa.id, publicado: !etapa.publicado })
+          }
+          aoSubir={
+            primeira
+              ? undefined
+              : () => ordenar.mutate({ tipo: 'etapa', id: etapa.id, direcao: -1 })
+          }
+          aoDescer={
+            ultima ? undefined : () => ordenar.mutate({ tipo: 'etapa', id: etapa.id, direcao: 1 })
+          }
+        />
+      </ul>
+      <button
+        type="button"
+        onClick={() => setEditando(true)}
+        className="min-h-9 self-start text-xs font-bold text-verde-escuro underline underline-offset-4"
+      >
+        {textos.editar}
+      </button>
       <ListaAulas aulas={aulas} temaId={temaId} etapaId={etapa.id} />
     </li>
   )

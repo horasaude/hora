@@ -1,11 +1,13 @@
+import { useId } from 'react'
 import { useForm, useWatch, type Control, type UseFormRegister } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { z } from 'zod'
-import { BotaoBrilho, Campo } from '@/components/ui'
+import { Campo, Janela } from '@/components/ui'
 import { esquemaAula } from '../schemas/formularios'
 import { textos } from '../textos'
 import { CampoArea } from './CampoArea'
 import { PreviaVideo } from './PreviaVideo'
+import { ErroForm, RodapeForm } from './RodapeForm'
 
 const t = textos.aulas
 export type EntradaAula = z.input<typeof esquemaAula>
@@ -65,7 +67,7 @@ function Previa({ control }: { control: Control<EntradaAula, unknown, DadosAula>
   return <PreviaVideo link={useWatch({ control, name: 'video_url' }) ?? ''} />
 }
 
-/** Profissional e duração, lado a lado. */
+/** Profissional e duração (as duas colunas da janela). */
 function QuemEQuanto({
   register,
   erro,
@@ -74,7 +76,7 @@ function QuemEQuanto({
   erro?: string
 }) {
   return (
-    <div className="grid gap-4 sm:grid-cols-2">
+    <>
       <Campo
         rotulo={t.campoProfissional}
         placeholder={t.exemploProfissional}
@@ -88,18 +90,20 @@ function QuemEQuanto({
         erro={erro}
         {...register('duracao')}
       />
-    </div>
+    </>
   )
 }
 
 type Props = {
+  titulo: string
   inicial: EntradaAula
   aoSalvar: (d: DadosAula) => Promise<unknown>
   aoCancelar: () => void
 }
 
-/** Aula: título, descrição, vídeo com prévia, material e quando libera. */
-export function FormAula({ inicial, aoSalvar, aoCancelar }: Props) {
+/** Aula numa janela: título e vídeo com prévia, profissional e duração, texto, material e quando libera. */
+export function FormAula({ titulo, inicial, aoSalvar, aoCancelar }: Props) {
+  const id = useId()
   const form = useForm<EntradaAula, unknown, DadosAula>({
     resolver: zodResolver(esquemaAula),
     defaultValues: inicial,
@@ -114,38 +118,39 @@ export function FormAula({ inicial, aoSalvar, aoCancelar }: Props) {
     }
   })
   return (
-    <form onSubmit={enviar} noValidate className="flex flex-col gap-4">
-      <Campo rotulo={t.campoTitulo} erro={erros.titulo?.message} {...register('titulo')} />
-      <Campo
-        rotulo={t.campoVideo}
-        placeholder={t.exemploVideo}
-        inputMode="url"
-        erro={erros.video_url?.message}
-        {...register('video_url')}
-      />
-      <Previa control={control} />
-      <QuemEQuanto register={register} erro={erros.duracao?.message} />
-      <CampoArea rotulo={t.campoDescricao} {...register('descricao')} />
-      <Campo
-        rotulo={t.campoMaterial}
-        inputMode="url"
-        erro={erros.material_url?.message}
-        {...register('material_url')}
-      />
-      <Liberacao control={control} register={register} erroDia={erros.dia?.message} />
-      {erros.root && (
-        <p role="alert" className="text-sm text-terracota-escuro">
-          {erros.root.message}
-        </p>
-      )}
-      <div className="flex gap-2">
-        <BotaoBrilho type="submit" disabled={formState.isSubmitting}>
-          {formState.isSubmitting ? textos.salvando : textos.salvar}
-        </BotaoBrilho>
-        <BotaoBrilho type="button" tom="cinza" onClick={aoCancelar}>
-          {textos.cancelar}
-        </BotaoBrilho>
-      </div>
-    </form>
+    <Janela
+      titulo={titulo}
+      aoFechar={aoCancelar}
+      rotuloFechar={textos.fechar}
+      rodape={<RodapeForm formId={id} salvando={formState.isSubmitting} aoCancelar={aoCancelar} />}
+    >
+      <form id={id} onSubmit={enviar} noValidate className="grid gap-4 sm:grid-cols-2">
+        <Campo rotulo={t.campoTitulo} erro={erros.titulo?.message} {...register('titulo')} />
+        <Campo
+          rotulo={t.campoVideo}
+          placeholder={t.exemploVideo}
+          inputMode="url"
+          erro={erros.video_url?.message}
+          {...register('video_url')}
+        />
+        <div className="sm:col-span-2">
+          <Previa control={control} />
+        </div>
+        <QuemEQuanto register={register} erro={erros.duracao?.message} />
+        <div className="sm:col-span-2">
+          <CampoArea rotulo={t.campoDescricao} {...register('descricao')} />
+        </div>
+        <Campo
+          rotulo={t.campoMaterial}
+          inputMode="url"
+          erro={erros.material_url?.message}
+          {...register('material_url')}
+        />
+        <div className="flex flex-col gap-3">
+          <Liberacao control={control} register={register} erroDia={erros.dia?.message} />
+        </div>
+        <ErroForm mensagem={erros.root?.message} />
+      </form>
+    </Janela>
   )
 }

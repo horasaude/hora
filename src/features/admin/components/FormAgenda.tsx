@@ -1,11 +1,14 @@
+import { useId } from 'react'
 import { useForm, useWatch, type FieldValues, type Resolver } from 'react-hook-form'
-import { BotaoBrilho } from '@/components/ui'
+import { Janela } from '@/components/ui'
 import { textos } from '../textos'
 import { CampoDoForm, type CampoDef } from './CampoDoForm'
+import { ErroForm, RodapeForm } from './RodapeForm'
 
 export type { CampoDef }
 
 type Props<E extends FieldValues, S> = {
+  titulo: string
   campos: CampoDef<E>[]
   inicial: E
   resolver: Resolver<E, unknown, S>
@@ -13,28 +16,19 @@ type Props<E extends FieldValues, S> = {
   aoCancelar: () => void
 }
 
-/** Salvar e cancelar, no rodapé do formulário. */
-function Botoes({ salvando, aoCancelar }: { salvando: boolean; aoCancelar: () => void }) {
-  return (
-    <div className="flex gap-2">
-      <BotaoBrilho type="submit" disabled={salvando}>
-        {salvando ? textos.salvando : textos.salvar}
-      </BotaoBrilho>
-      <BotaoBrilho type="button" tom="cinza" onClick={aoCancelar}>
-        {textos.cancelar}
-      </BotaoBrilho>
-    </div>
-  )
-}
+const inteira = <E,>(c: CampoDef<E>) =>
+  (c.largura ?? (c.tipo === 'area' ? 'inteira' : 'meia')) === 'inteira'
 
-/** Formulário genérico do painel (live, aviso, cardápio, desafio): lista de campos, salvar e cancelar. */
+/** Formulário genérico do painel numa janela: campos em duas colunas, Cancelar e Salvar no rodapé. */
 export function FormAgenda<E extends FieldValues, S>({
+  titulo,
   campos,
   inicial,
   resolver,
   aoSalvar,
   aoCancelar,
 }: Props<E, S>) {
+  const id = useId()
   const form = useForm<E, unknown, S>({ resolver, defaultValues: inicial as never })
   const erros = form.formState.errors as Record<string, { message?: string } | undefined>
   const valores = useWatch({ control: form.control }) as E
@@ -47,21 +41,22 @@ export function FormAgenda<E extends FieldValues, S>({
     }
   })
   return (
-    <form onSubmit={enviar} noValidate className="flex flex-col gap-4">
-      {visiveis.map((c) => (
-        <CampoDoForm
-          key={c.nome}
-          campo={c}
-          register={form.register}
-          erro={erros[c.nome]?.message}
-        />
-      ))}
-      {erros.root && (
-        <p role="alert" className="text-sm text-terracota-escuro">
-          {erros.root.message}
-        </p>
-      )}
-      <Botoes salvando={form.formState.isSubmitting} aoCancelar={aoCancelar} />
-    </form>
+    <Janela
+      titulo={titulo}
+      aoFechar={aoCancelar}
+      rotuloFechar={textos.fechar}
+      rodape={
+        <RodapeForm formId={id} salvando={form.formState.isSubmitting} aoCancelar={aoCancelar} />
+      }
+    >
+      <form id={id} onSubmit={enviar} noValidate className="grid gap-4 sm:grid-cols-2">
+        {visiveis.map((c) => (
+          <div key={c.nome} className={inteira(c) ? 'sm:col-span-2' : ''}>
+            <CampoDoForm campo={c} register={form.register} erro={erros[c.nome]?.message} />
+          </div>
+        ))}
+        <ErroForm mensagem={erros.root?.message} />
+      </form>
+    </Janela>
   )
 }

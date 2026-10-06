@@ -5,23 +5,35 @@ import { lerSecoes, type Secao } from '../secoes'
 import { useSalvarConfiguracoes } from '../hooks/useModulos'
 import { textos } from '../textos'
 import { CampoArea } from './CampoArea'
-import { Salvar } from './FormsConfiguracao'
+import { JanelaSalvar } from './FormsConfiguracao'
 
 const t = textos.configuracoes
 
 /** Termos ou privacidade: seções com título e texto; adicionar, remover e salvar. */
-export function FormDocumento({ campo, valor }: { campo: 'termos' | 'privacidade'; valor: Json }) {
+export function FormDocumento({
+  campo,
+  valor,
+  aoFechar,
+}: {
+  campo: 'termos' | 'privacidade'
+  valor: Json
+  aoFechar: () => void
+}) {
   const salvar = useSalvarConfiguracoes()
   const [secoes, setSecoes] = useState(() => lerSecoes(valor))
   const mudar = (i: number, parte: Partial<Secao>) =>
     setSecoes((l) => l.map((s, j) => (j === i ? { ...s, ...parte } : s)))
   const limpas = secoes.filter((s) => s.titulo.trim() || s.texto.trim())
   return (
-    <Salvar aoSalvar={() => salvar.mutateAsync({ [campo]: limpas })}>
+    <JanelaSalvar
+      titulo={t.itens[campo]}
+      aoFechar={aoFechar}
+      aoSalvar={() => salvar.mutateAsync({ [campo]: limpas })}
+    >
       {secoes.map((s, i) => (
         <fieldset
           key={i}
-          className="flex flex-col gap-2 rounded-2xl border border-linha bg-white p-3"
+          className="flex flex-col gap-2 rounded-2xl border border-[#ECEFED] bg-white p-3"
         >
           <Campo
             rotulo={`${t.secaoTitulo} ${i + 1}`}
@@ -39,7 +51,7 @@ export function FormDocumento({ campo, valor }: { campo: 'termos' | 'privacidade
             type="button"
             aria-label={t.removerSecao(i + 1)}
             onClick={() => setSecoes((l) => l.filter((_, j) => j !== i))}
-            className="min-h-11 self-start text-xs font-semibold text-terracota-escuro underline underline-offset-4"
+            className="min-h-9 self-start text-xs font-bold text-terracota-escuro underline underline-offset-4"
           >
             {t.remover}
           </button>
@@ -52,6 +64,6 @@ export function FormDocumento({ campo, valor }: { campo: 'termos' | 'privacidade
       >
         + {t.novaSecao}
       </button>
-    </Salvar>
+    </JanelaSalvar>
   )
 }

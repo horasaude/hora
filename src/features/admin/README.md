@@ -2,6 +2,8 @@
 
 Painel das profissionais em /app/admin, só para papel admin (o banco garante com RLS; a tela só esconde). Visual igual ao apresentado às clientes (docs/referencias/painel-apresentado.png): barra lateral verde fixa no computador (menu com botão no celular), título grande, cartões de resumo coloridos, tabela branca e o item aberto num cartão à direita, sem sair da tela.
 
+Criar e editar sempre abrem a Janela (src/components/ui/Janela.tsx) com os formulários *Form (LiveForm, AvisoForm, CardapioForm, DesafioForm, FormNome, FormAula via AulaJanela, configurações via ConfigDetalhe); o cartão da direita só mostra detalhes. /nova e /novo abrem a janela por cima da lista.
+
 Cada endereço de detalhe (/conteudo/:temaId, /aulas/nova, /aulas/:aulaId, /lives/:id, /lives/nova, /avisos/:id, /avisos/novo) abre a mesma tela da lista com o cartão certo à direita. Sem item escolhido, abre o primeiro.
 
 | Arquivo                      | Faz                                                                  |

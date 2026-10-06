@@ -1,7 +1,7 @@
 # Mapa do projeto
 
 Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim).
-Última atualização: padrão visual oficial estilo-aluna e estilo-painel (botões delicados, painel com as cores da apresentação).
+Última atualização: painel com Janela de criar e editar (src/components/ui/Janela.tsx); cartão da direita só detalhes.
 
 ## Rotas
 

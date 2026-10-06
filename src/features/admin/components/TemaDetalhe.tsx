@@ -13,21 +13,21 @@ import { Situacao } from './Tabela'
 function SobreTema({ tema, etapas, aulas }: { tema: Tema; etapas: number; aulas: Aula[] }) {
   const salvar = useSalvar(salvarTema)
   const [editando, setEditando] = useState(false)
-  if (editando) {
-    return (
-      <FormNome
-        rotulo={textos.temas.campoTitulo}
-        inicial={{ titulo: tema.titulo, descricao: tema.descricao }}
-        aoCancelar={() => setEditando(false)}
-        aoSalvar={async (d) => {
-          await salvar.mutateAsync({ ...d, id: tema.id })
-          setEditando(false)
-        }}
-      />
-    )
-  }
+  const janela = editando && (
+    <FormNome
+      titulo={textos.temas.editar}
+      rotulo={textos.temas.campoTitulo}
+      inicial={{ titulo: tema.titulo, descricao: tema.descricao }}
+      aoCancelar={() => setEditando(false)}
+      aoSalvar={async (d) => {
+        await salvar.mutateAsync({ ...d, id: tema.id })
+        setEditando(false)
+      }}
+    />
+  )
   return (
     <>
+      {janela}
       {tema.descricao && <p className="text-sm text-suave">{tema.descricao}</p>}
       <Dados
         itens={[
@@ -36,9 +36,9 @@ function SobreTema({ tema, etapas, aulas }: { tema: Tema; etapas: number; aulas:
           [textos.status, <Situacao key="s" publicado={tema.publicado} />],
         ]}
       />
-      <div className="flex gap-2">
-        <BotaoPublicar tabela="temas" id={tema.id} publicado={tema.publicado} />
+      <div className="flex flex-wrap gap-2">
         <BotaoBrilho onClick={() => setEditando(true)}>{textos.editar}</BotaoBrilho>
+        <BotaoPublicar tabela="temas" id={tema.id} publicado={tema.publicado} />
       </div>
     </>
   )
@@ -55,16 +55,15 @@ export function TemaDetalhe({ temaId }: { temaId: string }) {
   return (
     <CartaoDetalhe titulo={tema.titulo}>
       <SobreTema tema={tema} etapas={etapas.length} aulas={aulas} />
-      <div className="flex items-center justify-between gap-3 border-t border-linha pt-5">
-        <h3 className="text-[1.35rem] leading-snug font-bold text-ora">{textos.etapas.titulo}</h3>
-        {!novaEtapa && (
-          <BotaoBrilho tom="dourado" onClick={() => setNovaEtapa(true)}>
-            {textos.etapas.nova}
-          </BotaoBrilho>
-        )}
+      <div className="flex items-center justify-between gap-3 border-t border-[#F0F2F1] pt-4">
+        <h3 className="text-base font-bold text-verde-escuro">{textos.etapas.titulo}</h3>
+        <BotaoBrilho tom="dourado" onClick={() => setNovaEtapa(true)}>
+          {textos.etapas.nova}
+        </BotaoBrilho>
       </div>
       {novaEtapa && (
         <FormNome
+          titulo={textos.etapas.nova}
           rotulo={textos.etapas.campoTitulo}
           aoCancelar={() => setNovaEtapa(false)}
           aoSalvar={async (d) => {
@@ -73,9 +72,7 @@ export function TemaDetalhe({ temaId }: { temaId: string }) {
           }}
         />
       )}
-      {etapas.length === 0 && !novaEtapa && (
-        <p className="text-sm text-suave">{textos.etapas.vazio}</p>
-      )}
+      {etapas.length === 0 && <p className="text-sm text-suave">{textos.etapas.vazio}</p>}
       <ul className="flex flex-col gap-3">
         {etapas.map((etapa, i) => (
           <EtapaCartao

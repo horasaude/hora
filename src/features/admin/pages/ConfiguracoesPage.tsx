@@ -3,10 +3,8 @@ import { useParams } from 'react-router-dom'
 import { diaEMes, formatarData, formatarDataHora } from '@/lib/datas'
 import { formatarPreco } from '@/lib/moeda'
 import type { Configuracoes } from '../api/modulos.api'
-import { CartaoDetalhe } from '../components/CartaoDetalhe'
+import { ConfigDetalhe } from '../components/ConfigDetalhe'
 import { Estado } from '../components/Estado'
-import { FormDocumento } from '../components/FormDocumento'
-import { FormOferta, FormPrecos } from '../components/FormsConfiguracao'
 import { Divisao, Quadro, type Numero } from '../components/Quadro'
 import { celula, LinhaTabela, Tabela } from '../components/Tabela'
 import { useConfiguracoes } from '../hooks/useModulos'
@@ -34,13 +32,7 @@ function numeros(c?: Configuracoes): Numero[] {
   ]
 }
 
-function Formulario({ item, c }: { item: Item; c: Configuracoes }) {
-  if (item === 'precos') return <FormPrecos config={c} />
-  if (item === 'oferta') return <FormOferta config={c} />
-  return <FormDocumento campo={item} valor={c[item]} />
-}
-
-/** Configurações: preços, oferta do ORA, termos e privacidade, editados no cartão da direita. */
+/** Configurações: preços, oferta do ORA, termos e privacidade; o cartão mostra, a janela edita. */
 export function ConfiguracoesPage() {
   const config = useConfiguracoes()
   const { item: param } = useParams()
@@ -66,11 +58,7 @@ export function ConfiguracoesPage() {
             ))}
           </Tabela>
         }
-        detalhe={
-          <CartaoDetalhe titulo={t.itens[item]}>
-            <Formulario key={`${item}-${c.updated_at}`} item={item} c={c} />
-          </CartaoDetalhe>
-        }
+        detalhe={<ConfigDetalhe key={item} item={item} c={c} />}
       />
     )
   }

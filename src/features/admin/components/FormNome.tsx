@@ -1,20 +1,24 @@
+import { useId } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { BotaoBrilho, Campo } from '@/components/ui'
+import { Campo, Janela } from '@/components/ui'
 import { esquemaTema } from '../schemas/formularios'
 import { textos } from '../textos'
 import { CampoArea } from './CampoArea'
+import { ErroForm, RodapeForm } from './RodapeForm'
 
 type Dados = { titulo: string; descricao: string }
 type Props = {
+  titulo: string
   rotulo: string
   inicial?: Dados
   aoSalvar: (dados: Dados) => Promise<unknown>
   aoCancelar: () => void
 }
 
-/** Formulário de nome e descrição, usado em tema e etapa. */
-export function FormNome({ rotulo, inicial, aoSalvar, aoCancelar }: Props) {
+/** Nome e descrição numa janela, usado em tema e etapa. */
+export function FormNome({ titulo, rotulo, inicial, aoSalvar, aoCancelar }: Props) {
+  const id = useId()
   const form = useForm<Dados>({
     resolver: zodResolver(esquemaTema),
     defaultValues: inicial ?? { titulo: '', descricao: '' },
@@ -28,22 +32,19 @@ export function FormNome({ rotulo, inicial, aoSalvar, aoCancelar }: Props) {
     }
   })
   return (
-    <form onSubmit={enviar} noValidate className="flex flex-col gap-3">
-      <Campo rotulo={rotulo} erro={erros.titulo?.message} {...form.register('titulo')} />
-      <CampoArea rotulo={textos.temas.campoDescricao} rows={3} {...form.register('descricao')} />
-      {erros.root && (
-        <p role="alert" className="text-sm text-terracota-escuro">
-          {erros.root.message}
-        </p>
-      )}
-      <div className="flex gap-2">
-        <BotaoBrilho type="submit" disabled={form.formState.isSubmitting}>
-          {form.formState.isSubmitting ? textos.salvando : textos.salvar}
-        </BotaoBrilho>
-        <BotaoBrilho type="button" tom="cinza" onClick={aoCancelar}>
-          {textos.cancelar}
-        </BotaoBrilho>
-      </div>
-    </form>
+    <Janela
+      titulo={titulo}
+      aoFechar={aoCancelar}
+      rotuloFechar={textos.fechar}
+      rodape={
+        <RodapeForm formId={id} salvando={form.formState.isSubmitting} aoCancelar={aoCancelar} />
+      }
+    >
+      <form id={id} onSubmit={enviar} noValidate className="flex flex-col gap-4">
+        <Campo rotulo={rotulo} erro={erros.titulo?.message} {...form.register('titulo')} />
+        <CampoArea rotulo={textos.temas.campoDescricao} rows={4} {...form.register('descricao')} />
+        <ErroForm mensagem={erros.root?.message} />
+      </form>
+    </Janela>
   )
 }

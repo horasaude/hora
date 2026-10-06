@@ -1,8 +1,9 @@
 import { classeBrilho } from '@/components/ui'
 import type { ReactNode } from 'react'
-import { Link, useLocation, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import type { Cardapio } from '../api/modulos.api'
 import { CardapioDetalhe } from '../components/CardapioDetalhe'
+import { CardapioForm } from '../components/CardapioForm'
 import { Estado } from '../components/Estado'
 import { Divisao, Quadro, type Numero } from '../components/Quadro'
 import { celula, Etiqueta, LinhaTabela, Situacao, Tabela } from '../components/Tabela'
@@ -41,13 +42,14 @@ function TabelaCardapios({ lista, ativo }: { lista: Cardapio[]; ativo?: string }
   )
 }
 
-/** Cardápios por objetivo: resumo, tabela e o cardápio aberto à direita. */
+/** Cardápios por objetivo: resumo, tabela e o cardápio aberto à direita; criar e editar abrem a janela. */
 export function CardapiosPage() {
   const cardapios = useCardapios()
   const { cardapioId } = useParams()
+  const navegar = useNavigate()
   const novo = useLocation().pathname.endsWith('/novo')
   const lista = cardapios.data ?? []
-  const atual = novo ? undefined : (lista.find((c) => c.id === cardapioId) ?? lista[0])
+  const atual = lista.find((c) => c.id === cardapioId) ?? lista[0]
   const acao = (
     <Link to="/app/admin/cardapios/novo" className={classeBrilho('dourado')}>
       {t.novo}
@@ -56,18 +58,19 @@ export function CardapiosPage() {
   let corpo: ReactNode
   if (cardapios.isPending) corpo = <Estado tipo="carregando" />
   else if (cardapios.isError) corpo = <Estado tipo="erro" tentar={() => cardapios.refetch()} />
-  else if (lista.length === 0 && !novo) corpo = <Estado tipo="vazio" texto={t.vazio} acao={acao} />
+  else if (!atual) corpo = <Estado tipo="vazio" texto={t.vazio} acao={acao} />
   else {
     corpo = (
       <Divisao
-        tabela={lista.length ? <TabelaCardapios lista={lista} ativo={atual?.id} /> : null}
-        detalhe={<CardapioDetalhe key={atual?.id ?? 'novo'} cardapio={atual} />}
+        tabela={<TabelaCardapios lista={lista} ativo={atual.id} />}
+        detalhe={<CardapioDetalhe key={atual.id} cardapio={atual} />}
       />
     )
   }
   return (
     <Quadro titulo={t.pagina} acao={acao} numeros={numeros(lista)}>
       {corpo}
+      {novo && <CardapioForm aoFechar={() => navegar('/app/admin/cardapios')} />}
     </Quadro>
   )
 }

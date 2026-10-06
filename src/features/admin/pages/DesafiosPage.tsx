@@ -1,10 +1,11 @@
 import { classeBrilho } from '@/components/ui'
 import { useState, type ReactNode } from 'react'
-import { Link, useLocation, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { situacaoDesafio, type SituacaoDesafio } from '@/domain/painel'
 import { diaEmBrasilia, diaMesDeData } from '@/lib/datas'
 import type { Desafio, NumerosDesafio } from '../api/modulos.api'
 import { DesafioDetalhe } from '../components/DesafioDetalhe'
+import { DesafioForm } from '../components/DesafioForm'
 import { Estado } from '../components/Estado'
 import { Divisao, Quadro, type Numero } from '../components/Quadro'
 import { EtiquetaDesafio } from '../components/SituacaoDesafio'
@@ -58,6 +59,7 @@ export function DesafiosPage() {
   const desafios = useDesafios()
   const contas = useNumerosDesafios()
   const { desafioId } = useParams()
+  const navegar = useNavigate()
   const novo = useLocation().pathname.endsWith('/novo')
   const [hoje] = useState(() => diaEmBrasilia(new Date()))
   const linhas: Linha[] = (desafios.data ?? []).map((d) => ({
@@ -65,7 +67,7 @@ export function DesafiosPage() {
     situacao: situacaoDesafio(d, hoje),
     numeros: contas.data?.porDesafio.find((n) => n.id === d.id),
   }))
-  const atual = novo ? undefined : (linhas.find((l) => l.desafio.id === desafioId) ?? linhas[0])
+  const atual = linhas.find((l) => l.desafio.id === desafioId) ?? linhas[0]
   const acao = (
     <Link to="/app/admin/desafios/novo" className={classeBrilho('dourado')}>
       {t.novo}
@@ -74,17 +76,17 @@ export function DesafiosPage() {
   let corpo: ReactNode
   if (desafios.isPending) corpo = <Estado tipo="carregando" />
   else if (desafios.isError) corpo = <Estado tipo="erro" tentar={() => desafios.refetch()} />
-  else if (linhas.length === 0 && !novo) corpo = <Estado tipo="vazio" texto={t.vazio} acao={acao} />
+  else if (!atual) corpo = <Estado tipo="vazio" texto={t.vazio} acao={acao} />
   else {
     corpo = (
       <Divisao
-        tabela={linhas.length ? <TabelaDesafios linhas={linhas} ativo={atual?.desafio.id} /> : null}
+        tabela={<TabelaDesafios linhas={linhas} ativo={atual.desafio.id} />}
         detalhe={
           <DesafioDetalhe
-            key={atual?.desafio.id ?? 'novo'}
-            desafio={atual?.desafio}
-            situacao={atual?.situacao}
-            numeros={atual?.numeros}
+            key={atual.desafio.id}
+            desafio={atual.desafio}
+            situacao={atual.situacao}
+            numeros={atual.numeros ?? { id: atual.desafio.id, participantes: 0, concluintes: 0 }}
           />
         }
       />
@@ -93,6 +95,7 @@ export function DesafiosPage() {
   return (
     <Quadro titulo={t.pagina} acao={acao} numeros={numeros(linhas, contas.data?.alunas ?? 0)}>
       {corpo}
+      {novo && <DesafioForm aoFechar={() => navegar('/app/admin/desafios')} />}
     </Quadro>
   )
 }

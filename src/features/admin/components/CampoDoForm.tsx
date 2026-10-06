@@ -8,6 +8,8 @@ export type CampoDef<E> = {
   tipo?: 'texto' | 'area' | 'datahora' | 'link' | 'data' | 'numero' | 'escolha'
   opcoes?: { valor: string; nome: string }[]
   sugestoes?: string[]
+  /** Na janela: 'meia' divide a linha com outro campo; 'inteira' ocupa a linha. Texto longo é inteira por padrão. */
+  largura?: 'meia' | 'inteira'
   /** Mostra o campo só quando a condição vale para o que já foi preenchido. */
   quando?: (valores: E) => boolean
 }

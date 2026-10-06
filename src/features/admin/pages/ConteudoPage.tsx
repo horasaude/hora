@@ -2,8 +2,7 @@ import { classeBrilho } from '@/components/ui'
 import { useState, type ReactNode } from 'react'
 import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { salvarTema, type Tema } from '../api/conteudo.api'
-import { AulaDetalhe } from '../components/AulaDetalhe'
-import { CartaoDetalhe } from '../components/CartaoDetalhe'
+import { AulaJanela } from '../components/AulaJanela'
 import { Estado } from '../components/Estado'
 import { FormNome } from '../components/FormNome'
 import { Divisao, Quadro, type Numero } from '../components/Quadro'
@@ -23,53 +22,49 @@ function numeros(temas: Tema[], aulas: { publicado: boolean }[]): Numero[] {
   ]
 }
 
-function NovoTema({ aoCancelar }: { aoCancelar: () => void }) {
+function NovoTema({ aoFechar }: { aoFechar: () => void }) {
   const salvar = useSalvar(salvarTema)
   const navegar = useNavigate()
   return (
-    <CartaoDetalhe titulo={t.novo}>
-      <FormNome
-        rotulo={t.campoTitulo}
-        aoCancelar={aoCancelar}
-        aoSalvar={async (dados) => {
-          const novo = await salvar.mutateAsync(dados)
-          aoCancelar()
-          navegar(`/app/admin/conteudo/${novo.id}`)
-        }}
-      />
-    </CartaoDetalhe>
+    <FormNome
+      titulo={t.novo}
+      rotulo={t.campoTitulo}
+      aoCancelar={aoFechar}
+      aoSalvar={async (dados) => {
+        const novo = await salvar.mutateAsync(dados)
+        aoFechar()
+        navegar(`/app/admin/conteudo/${novo.id}`)
+      }}
+    />
   )
 }
 
-/** Abre à direita: tema novo, aula (nova ou em edição) ou o tema escolhido. */
-function useDetalhe(lista: Tema[], criando: boolean, fecharNovo: () => void) {
+/** Tema aberto à direita (só detalhes) e a janela da aula quando o endereço é de aula. */
+function useDetalhe(lista: Tema[]) {
   const { temaId, aulaId } = useParams()
   const [busca] = useSearchParams()
   const { pathname } = useLocation()
   const ativo = temaId ?? busca.get('tema') ?? lista[0]?.id
-  let detalhe: ReactNode = null
-  if (criando) detalhe = <NovoTema aoCancelar={fecharNovo} />
-  else if (pathname.includes('/aulas/')) {
-    detalhe = (
-      <AulaDetalhe
-        key={aulaId ?? `nova-${busca.get('etapa')}`}
-        aulaId={aulaId}
-        etapaId={busca.get('etapa') ?? ''}
-        temaId={busca.get('tema')}
-      />
-    )
-  } else if (ativo) detalhe = <TemaDetalhe key={ativo} temaId={ativo} />
-  return { ativo, detalhe }
+  const detalhe: ReactNode = ativo ? <TemaDetalhe key={ativo} temaId={ativo} /> : null
+  const aula = pathname.includes('/aulas/') ? (
+    <AulaJanela
+      key={aulaId ?? `nova-${busca.get('etapa')}`}
+      aulaId={aulaId}
+      etapaId={busca.get('etapa') ?? ''}
+      temaId={busca.get('tema')}
+    />
+  ) : null
+  return { ativo, detalhe, aula }
 }
 
-/** Conteúdo: resumo, temas em tabela e o tema aberto à direita com etapas e aulas. */
+/** Conteúdo: resumo, temas em tabela, o tema aberto à direita; criar e editar abrem a janela. */
 export function ConteudoPage() {
   const temas = useTemas()
   const aulas = useSituacaoAulas()
   const { pathname } = useLocation()
   const [criandoEm, setCriandoEm] = useState<string | null>(null)
   const lista = temas.data ?? []
-  const { ativo, detalhe } = useDetalhe(lista, criandoEm === pathname, () => setCriandoEm(null))
+  const { ativo, detalhe, aula } = useDetalhe(lista)
   const novo = (
     <button
       type="button"
@@ -82,15 +77,15 @@ export function ConteudoPage() {
   let corpo: ReactNode
   if (temas.isPending) corpo = <Estado tipo="carregando" />
   else if (temas.isError) corpo = <Estado tipo="erro" tentar={() => temas.refetch()} />
-  else if (lista.length === 0 && !detalhe)
-    corpo = <Estado tipo="vazio" texto={t.vazio} acao={novo} />
+  else if (lista.length === 0) corpo = <Estado tipo="vazio" texto={t.vazio} acao={novo} />
   else {
-    const tabela = lista.length ? <TabelaTemas temas={lista} ativo={ativo} /> : null
-    corpo = <Divisao tabela={tabela} detalhe={detalhe} />
+    corpo = <Divisao tabela={<TabelaTemas temas={lista} ativo={ativo} />} detalhe={detalhe} />
   }
   return (
     <Quadro titulo={t.pagina} acao={novo} numeros={numeros(lista, aulas.data ?? [])}>
       {corpo}
+      {criandoEm === pathname && <NovoTema aoFechar={() => setCriandoEm(null)} />}
+      {aula}
     </Quadro>
   )
 }

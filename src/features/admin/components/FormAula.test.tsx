@@ -17,7 +17,7 @@ describe('FormAula', () => {
   afterEach(cleanup)
 
   it('colar o link mostra a prévia do vídeo', async () => {
-    render(<FormAula inicial={VAZIA} aoSalvar={vi.fn()} aoCancelar={vi.fn()} />)
+    render(<FormAula titulo="Nova aula" inicial={VAZIA} aoSalvar={vi.fn()} aoCancelar={vi.fn()} />)
     fireEvent.input(screen.getByLabelText('Link do vídeo'), {
       target: { value: 'https://youtu.be/dQw4w9WgXcQ' },
     })
@@ -29,7 +29,7 @@ describe('FormAula', () => {
 
   it('"Outro dia" mostra o campo do dia; "Depois de 7 dias" salva como dia 8', async () => {
     const aoSalvar = vi.fn().mockResolvedValue(undefined)
-    render(<FormAula inicial={VAZIA} aoSalvar={aoSalvar} aoCancelar={vi.fn()} />)
+    render(<FormAula titulo="Nova aula" inicial={VAZIA} aoSalvar={aoSalvar} aoCancelar={vi.fn()} />)
     expect(screen.queryByLabelText('Dia de liberação')).not.toBeInTheDocument()
     fireEvent.click(screen.getByRole('radio', { name: 'Outro dia' }))
     expect(await screen.findByLabelText('Dia de liberação')).toBeInTheDocument()

@@ -1,10 +1,11 @@
 import { classeBrilho } from '@/components/ui'
 import { useState, type ReactNode } from 'react'
-import { Link, useLocation, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { formatarDataHora } from '@/lib/datas'
 import type { Live } from '../api/agenda.api'
 import { Estado } from '../components/Estado'
 import { LiveDetalhe } from '../components/LiveDetalhe'
+import { LiveForm } from '../components/LiveForm'
 import { Divisao, Quadro, type Numero } from '../components/Quadro'
 import { celula, Etiqueta, LinhaTabela, Situacao, Tabela } from '../components/Tabela'
 import { useLives } from '../hooks/usePainel'
@@ -49,15 +50,16 @@ function TabelaLives({ lista, ativa }: { lista: Live[]; ativa?: string }) {
   )
 }
 
-/** Lives: resumo, tabela e a live aberta à direita (ou o formulário de nova). */
+/** Lives: resumo, tabela e a live aberta à direita; criar e editar abrem a janela. */
 export function LivesPage() {
   const lives = useLives()
   const { liveId } = useParams()
   const { pathname } = useLocation()
   const [agora] = useState(() => Date.now())
   const lista = lives.data ?? []
+  const navegar = useNavigate()
   const nova = pathname.endsWith('/nova')
-  const atual = nova ? undefined : (lista.find((l) => l.id === liveId) ?? lista[0])
+  const atual = lista.find((x) => x.id === liveId) ?? lista[0]
   const acao = (
     <Link to="/app/admin/lives/nova" className={classeBrilho('dourado')}>
       {t.nova}
@@ -66,18 +68,19 @@ export function LivesPage() {
   let corpo: ReactNode
   if (lives.isPending) corpo = <Estado tipo="carregando" />
   else if (lives.isError) corpo = <Estado tipo="erro" tentar={() => lives.refetch()} />
-  else if (lista.length === 0 && !nova) corpo = <Estado tipo="vazio" texto={t.vazio} acao={acao} />
+  else if (!atual) corpo = <Estado tipo="vazio" texto={t.vazio} acao={acao} />
   else {
     corpo = (
       <Divisao
-        tabela={lista.length ? <TabelaLives lista={lista} ativa={atual?.id} /> : null}
-        detalhe={<LiveDetalhe key={atual?.id ?? 'nova'} live={atual} />}
+        tabela={<TabelaLives lista={lista} ativa={atual.id} />}
+        detalhe={<LiveDetalhe key={atual.id} live={atual} />}
       />
     )
   }
   return (
     <Quadro titulo={t.pagina} acao={acao} numeros={numeros(lista, agora)}>
       {corpo}
+      {nova && <LiveForm aoFechar={() => navegar('/app/admin/lives')} />}
     </Quadro>
   )
 }

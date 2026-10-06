@@ -2,6 +2,12 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-06 · main · Painel com janela de criar e editar
+
+- Janela (src/components/ui/Janela.tsx): 760 px centralizada, fundo escurecido, título, X, conteúdo que rola, Cancelar e Salvar fixos no rodapé; fecha com Esc e clique fora; tela inteira no celular. Testada.
+- Criar e editar tema, etapa, aula, cardápio, live, desafio, aviso e configurações abrem a janela, com campos em duas colunas (objetivo e título lado a lado, refeições em duas colunas, preços cheio e oferta lado a lado). O cartão da direita virou só detalhes (cardápio mostra as refeições e a lista de compras; aviso mostra o texto; configurações mostram os valores).
+- Conteúdo até 1280 px; lista vazia com mensagem e botão no centro; menu lateral rola com "Logada como" fixo. Conferido em 1440 e 1280 px.
+
 ## 2026-10-06 · main · Visual delicado (estilo-aluna e estilo-painel)
 
 - Botões em pílula com 13 px, brilho suave só em cima e sombra leve; etiquetas com 11 px; play da aula com 40 px; barra de progresso de 8 px. Valores exatos de docs/referencias/estilo-aluna.html e estilo-painel.html.

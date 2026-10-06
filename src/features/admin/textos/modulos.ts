@@ -4,6 +4,7 @@ export const cardapios = {
   titulo: 'Cardápios',
   pagina: 'Cardápios da comunidade',
   novo: 'Novo cardápio',
+  editar: 'Editar cardápio',
   vazio: 'Nenhum cardápio ainda.',
   coluna: 'Cardápio',
   colunaRefeicoes: 'Refeições',
@@ -27,6 +28,7 @@ export const desafios = {
   titulo: 'Desafios e prêmios',
   pagina: 'Desafios e prêmios',
   novo: 'Novo desafio',
+  editar: 'Editar desafio',
   vazio: 'Nenhum desafio ainda.',
   coluna: 'Desafio',
   colunaPeriodo: 'Período',
@@ -129,6 +131,6 @@ export const configuracoes = {
   novaSecao: 'Adicionar seção',
   removerSecao: (n: number) => `Remover a seção ${n}`,
   remover: 'Remover',
-  salvo: 'Salvo',
+  atualizado: (data: string) => `Atualizado em ${data}`,
   erros: { valor: 'Informe um valor', fim: 'O fim tem que ser depois do início' },
 }

@@ -50,7 +50,7 @@ export function MenuLateral({ aoNavegar }: { aoNavegar?: () => void }) {
           ))}
         </ul>
       </nav>
-      <div className="mt-4 flex flex-col gap-2 px-3">
+      <div className="mt-3 flex shrink-0 flex-col gap-2 border-t border-white/10 px-3 pt-4">
         <span className="text-xs text-white/60">{textos.logadaComo}</span>
         <span className="rounded-xl bg-white/10 px-3 py-2 text-sm text-white">
           {nome.data ?? '...'}

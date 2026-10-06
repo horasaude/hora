@@ -57,7 +57,7 @@ export function PainelLayout() {
       <BarraCelular aoAbrir={() => setMenuAberto(true)} />
       {menuAberto && <Gaveta aoFechar={() => setMenuAberto(false)} />}
       <main className="px-4 py-6 sm:px-6 lg:ml-[230px] lg:px-[34px] lg:py-[30px]">
-        <div className="mx-auto max-w-[1180px]">
+        <div className="max-w-[1280px]">
           <Outlet />
         </div>
       </main>

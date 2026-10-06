@@ -37,7 +37,7 @@ export function Estado({ tipo, texto, tentar, acao }: Props) {
     )
   }
   return (
-    <div className="flex flex-col items-center gap-4 rounded-[18px] border border-[#ECEFED] bg-white px-6 py-16 text-center shadow-painel">
+    <div className="flex min-h-[55vh] flex-col items-center justify-center gap-4 rounded-[18px] border border-[#ECEFED] bg-white px-6 py-16 text-center shadow-painel">
       <p className="text-sm text-suave">{texto}</p>
       {acao}
     </div>

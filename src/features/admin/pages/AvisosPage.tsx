@@ -1,9 +1,10 @@
 import { classeBrilho } from '@/components/ui'
 import { useState, type ReactNode } from 'react'
-import { Link, useLocation, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { formatarDataHora } from '@/lib/datas'
 import type { Aviso } from '../api/agenda.api'
 import { AvisoDetalhe } from '../components/AvisoDetalhe'
+import { AvisoForm } from '../components/AvisoForm'
 import { Estado } from '../components/Estado'
 import { Divisao, Quadro, type Numero } from '../components/Quadro'
 import { celula, LinhaTabela, Situacao, Tabela } from '../components/Tabela'
@@ -37,15 +38,16 @@ function TabelaAvisos({ lista, ativo }: { lista: Aviso[]; ativo?: string }) {
   )
 }
 
-/** Avisos: resumo, tabela e o aviso aberto à direita (ou o formulário de novo). */
+/** Avisos: resumo, tabela e o aviso aberto à direita; criar e editar abrem a janela. */
 export function AvisosPage() {
   const avisos = useAvisos()
   const { avisoId } = useParams()
   const { pathname } = useLocation()
   const [agora] = useState(() => Date.now())
   const lista = avisos.data ?? []
+  const navegar = useNavigate()
   const novo = pathname.endsWith('/novo')
-  const atual = novo ? undefined : (lista.find((a) => a.id === avisoId) ?? lista[0])
+  const atual = lista.find((x) => x.id === avisoId) ?? lista[0]
   const acao = (
     <Link to="/app/admin/avisos/novo" className={classeBrilho('dourado')}>
       {t.novo}
@@ -54,18 +56,19 @@ export function AvisosPage() {
   let corpo: ReactNode
   if (avisos.isPending) corpo = <Estado tipo="carregando" />
   else if (avisos.isError) corpo = <Estado tipo="erro" tentar={() => avisos.refetch()} />
-  else if (lista.length === 0 && !novo) corpo = <Estado tipo="vazio" texto={t.vazio} acao={acao} />
+  else if (!atual) corpo = <Estado tipo="vazio" texto={t.vazio} acao={acao} />
   else {
     corpo = (
       <Divisao
-        tabela={lista.length ? <TabelaAvisos lista={lista} ativo={atual?.id} /> : null}
-        detalhe={<AvisoDetalhe key={atual?.id ?? 'novo'} aviso={atual} />}
+        tabela={<TabelaAvisos lista={lista} ativo={atual.id} />}
+        detalhe={<AvisoDetalhe key={atual.id} aviso={atual} />}
       />
     )
   }
   return (
     <Quadro titulo={t.pagina} acao={acao} numeros={numeros(lista, agora)}>
       {corpo}
+      {novo && <AvisoForm aoFechar={() => navegar('/app/admin/avisos')} />}
     </Quadro>
   )
 }
