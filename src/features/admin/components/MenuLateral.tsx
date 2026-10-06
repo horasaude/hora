@@ -1,13 +1,14 @@
-import { Link, NavLink, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { LogoHora } from '@/components/ui'
 import { useNome } from '@/features/auth'
 import { textos } from '../textos'
+import { GrupoPlano, ItemMenu } from './MenuItens'
 
 const a = textos.abas
 // Bolinhas com as cores da referência do painel (docs/referencias/estilo-painel.html).
 const ITENS = [
   { para: 'conteudo', nome: a.conteudo, cor: '#F2A922' },
-  { para: 'cardapios', nome: a.cardapios, cor: '#F2643A' },
+  { para: 'plano', nome: a.plano, cor: '#F2643A' },
   { para: 'lives', nome: a.lives, cor: '#7FB89E' },
   { para: 'desafios', nome: a.desafios, cor: '#F2A922' },
   { para: 'pontos', nome: a.pontos, cor: '#6E9BC9' },
@@ -19,35 +20,21 @@ const ITENS = [
   { para: 'configuracoes', nome: a.configuracoes, cor: '#B9C3BF' },
 ] as const
 
-/** Menu lateral verde escuro: logo clara, itens com bolinha de cor própria e quem está logada. */
+/** Menu lateral verde escuro: logo clara, itens com bolinha de cor própria, o grupo Plano alimentar e quem está logada. */
 export function MenuLateral({ aoNavegar }: { aoNavegar?: () => void }) {
   const nome = useNome()
-  // Aula é parte do Conteúdo, mesmo com endereço próprio.
-  const emAula = useLocation().pathname.startsWith('/app/admin/aulas')
   return (
     <div className="flex h-full flex-col px-3.5 py-6">
       <LogoHora clara largura={118} className="mx-2.5 mb-2" />
       <nav className="mt-6 min-h-0 flex-1 overflow-y-auto">
         <ul className="flex flex-col gap-1">
-          {ITENS.map((i) => (
-            <li key={i.para}>
-              <NavLink
-                to={i.para}
-                onClick={aoNavegar}
-                className={({ isActive: ativo }) => {
-                  const isActive = ativo || (emAula && i.para === 'conteudo')
-                  return `flex min-h-10 items-center gap-2.5 rounded-xl px-3 text-sm text-[#E9EFEC] transition ${isActive ? 'bg-white/12 font-bold' : 'hover:bg-white/6'}`
-                }}
-              >
-                <span
-                  className="size-2 shrink-0 rounded-full shadow-[inset_0_1px_1px_rgb(255_255_255/0.6)]"
-                  style={{ background: i.cor }}
-                  aria-hidden
-                />
-                {i.nome}
-              </NavLink>
-            </li>
-          ))}
+          {ITENS.map((i) =>
+            i.para === 'plano' ? (
+              <GrupoPlano key={i.para} aoNavegar={aoNavegar} />
+            ) : (
+              <ItemMenu key={i.para} i={i} aoNavegar={aoNavegar} />
+            ),
+          )}
         </ul>
       </nav>
       <div className="mt-3 flex shrink-0 flex-col gap-2 border-t border-white/10 px-3 pt-4">

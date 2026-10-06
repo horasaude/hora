@@ -1,29 +1,5 @@
 // Textos dos módulos novos do painel (cardápios, desafios, alunas, configurações e os que ainda não ligaram).
 
-export const cardapios = {
-  titulo: 'Cardápios',
-  pagina: 'Cardápios da comunidade',
-  novo: 'Novo cardápio',
-  editar: 'Editar cardápio',
-  vazio: 'Nenhum cardápio ainda.',
-  coluna: 'Cardápio',
-  colunaRefeicoes: 'Refeições',
-  refeicoes: (n: number) => `${n} de 6`,
-  publicados: 'Cardápios publicados',
-  rascunhos: 'Em rascunho',
-  campoObjetivo: 'Objetivo',
-  objetivos: ['Emagrecimento', 'Ganho de massa', 'Manutenção', 'Mais energia'],
-  campoTitulo: 'Título',
-  campoDescricao: 'Descrição',
-  cafe: 'Café da manhã',
-  lancheManha: 'Lanche da manhã',
-  almoco: 'Almoço',
-  lancheTarde: 'Lanche da tarde',
-  jantar: 'Jantar',
-  ceia: 'Ceia',
-  listaCompras: 'Lista de compras',
-}
-
 export const desafios = {
   titulo: 'Desafios e prêmios',
   pagina: 'Desafios e prêmios',

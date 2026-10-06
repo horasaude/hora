@@ -9,7 +9,19 @@ const admin = () => import('@/features/admin')
 const conteudo = async () => ({ Component: (await admin()).ConteudoPage })
 const lives = async () => ({ Component: (await admin()).LivesPage })
 const avisos = async () => ({ Component: (await admin()).AvisosPage })
-const cardapios = async () => ({ Component: (await admin()).CardapiosPage })
+const pagina =
+  (
+    nome:
+      | 'CardapiosPage'
+      | 'CardapioPage'
+      | 'RefeicoesPage'
+      | 'ReceitasPage'
+      | 'ReceitaPage'
+      | 'AlimentosPage',
+  ) =>
+  async () => ({
+    Component: (await admin())[nome],
+  })
 const desafios = async () => ({ Component: (await admin()).DesafiosPage })
 const alunas = async () => ({ Component: (await admin()).AlunasPage })
 const configuracoes = async () => ({ Component: (await admin()).ConfiguracoesPage })
@@ -26,10 +38,16 @@ const rotasAdmin: RouteObject[] = [
   })),
   ...['lives', 'lives/nova', 'lives/:liveId'].map((path) => ({ path, lazy: lives })),
   ...['avisos', 'avisos/novo', 'avisos/:avisoId'].map((path) => ({ path, lazy: avisos })),
-  ...['cardapios', 'cardapios/novo', 'cardapios/:cardapioId'].map((path) => ({
-    path,
-    lazy: cardapios,
-  })),
+  { path: 'cardapios/*', element: <Navigate to="/app/admin/plano/cardapios" replace /> },
+  { path: 'plano', element: <Navigate to="cardapios" replace /> },
+  { path: 'plano/cardapios', lazy: pagina('CardapiosPage') },
+  { path: 'plano/cardapios/novo', lazy: pagina('CardapioPage') },
+  { path: 'plano/cardapios/:cardapioId', lazy: pagina('CardapioPage') },
+  { path: 'plano/refeicoes', lazy: pagina('RefeicoesPage') },
+  { path: 'plano/receitas', lazy: pagina('ReceitasPage') },
+  { path: 'plano/receitas/nova', lazy: pagina('ReceitaPage') },
+  { path: 'plano/receitas/:receitaId', lazy: pagina('ReceitaPage') },
+  { path: 'plano/alimentos', lazy: pagina('AlimentosPage') },
   ...['desafios', 'desafios/novo', 'desafios/:desafioId'].map((path) => ({ path, lazy: desafios })),
   ...['alunas', 'alunas/:alunaId'].map((path) => ({ path, lazy: alunas })),
   ...['configuracoes', 'configuracoes/:item'].map((path) => ({ path, lazy: configuracoes })),

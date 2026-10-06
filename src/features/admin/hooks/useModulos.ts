@@ -3,14 +3,12 @@ import {
   buscarConfiguracoes,
   encerrarDesafio,
   listarAlunas,
-  listarCardapios,
   listarDesafios,
   listarVencedoras,
   numerosDesafios,
   salvarConfiguracoes,
 } from '../api/modulos.api'
 
-export const useCardapios = () => useQuery({ queryKey: ['cardapios'], queryFn: listarCardapios })
 export const useDesafios = () => useQuery({ queryKey: ['desafios'], queryFn: listarDesafios })
 export const useNumerosDesafios = () =>
   useQuery({ queryKey: ['desafios-numeros'], queryFn: numerosDesafios })

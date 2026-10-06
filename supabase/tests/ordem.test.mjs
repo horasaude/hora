@@ -11,7 +11,10 @@ const ordemAulas = `select string_agg(titulo, ',' order by ordem) from public.au
 export async function testarOrdem() {
   const t = await criarBanco()
   const { db, esperaValor, esperaErro } = t
-  await db.query(`insert into auth.users (id, email) values ($1, 'adm@t.com'), ($2, 'aluna@t.com')`, [ADMIN, ALUNA])
+  await db.query(
+    `insert into auth.users (id, email) values ($1, 'adm@t.com'), ($2, 'aluna@t.com')`,
+    [ADMIN, ALUNA],
+  )
   await db.exec(`
     update public.perfis set papel = 'admin' where id = '${ADMIN}';
     insert into public.temas (id, titulo, ordem) values ('${ID(11)}', 'A', 0), ('${ID(12)}', 'B', 0), ('${ID(13)}', 'C', 0);
@@ -25,7 +28,11 @@ export async function testarOrdem() {
 
   await t.comoAluna(ALUNA)
   await esperaErro('aluna não reordena temas', `select public.mover_tema('${ID(12)}', -1)`, '42501')
-  await esperaErro('aluna não reordena etapas', `select public.mover_etapa('${ID(22)}', -1)`, '42501')
+  await esperaErro(
+    'aluna não reordena etapas',
+    `select public.mover_etapa('${ID(22)}', -1)`,
+    '42501',
+  )
   await esperaErro('aluna não reordena aulas', `select public.mover_aula('${ID(32)}', 1)`, '42501')
   await t.comoAnon()
   await esperaErro('anônimo não reordena', `select public.mover_tema('${ID(12)}', -1)`, '42501')

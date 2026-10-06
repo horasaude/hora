@@ -7,7 +7,12 @@ type Props = {
   rodape: ReactNode
   children: ReactNode
   rotuloFechar?: string
+  /** Janela larga (960 px) para conteúdo com listas, como a refeição. */
+  larga?: boolean
 }
+
+/** Janelas abertas, da mais antiga para a de cima (uma janela pode abrir outra). */
+const pilha: symbol[] = []
 
 const FOCAVEL = 'input, select, textarea, button, a[href], [tabindex]:not([tabindex="-1"])'
 
@@ -18,17 +23,20 @@ function useComportamento(aoFechar: () => void, painel: React.RefObject<HTMLDivE
     fechar.current = aoFechar
   })
   useEffect(() => {
+    const eu = Symbol('janela')
+    pilha.push(eu)
     const antes = document.activeElement as HTMLElement | null
     const overflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
     const corpo = painel.current?.querySelector<HTMLElement>('[data-corpo]')
     ;(corpo?.querySelector<HTMLElement>(FOCAVEL) ?? painel.current)?.focus()
     const tecla = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') fechar.current()
+      if (e.key === 'Escape' && pilha.at(-1) === eu) fechar.current()
     }
     document.addEventListener('keydown', tecla)
     return () => {
       document.removeEventListener('keydown', tecla)
+      pilha.splice(pilha.indexOf(eu), 1)
       document.body.style.overflow = overflow
       antes?.focus()
     }
@@ -39,7 +47,15 @@ function useComportamento(aoFechar: () => void, painel: React.RefObject<HTMLDivE
  * Janela grande centralizada (760 px) para criar e editar: fundo escurecido, título, X,
  * conteúdo que rola e rodapé fixo. No celular ocupa a tela inteira. Fecha com X, Esc ou clique fora.
  */
-export function Janela({ titulo, aoFechar, rodape, children, rotuloFechar = 'Fechar' }: Props) {
+export function Janela({
+  titulo,
+  aoFechar,
+  rodape,
+  children,
+  rotuloFechar = 'Fechar',
+  larga = false,
+}: Props) {
+  const largura = larga ? 'sm:max-w-[960px]' : 'sm:max-w-[760px]'
   const id = useId()
   const painel = useRef<HTMLDivElement>(null)
   useComportamento(aoFechar, painel)
@@ -56,7 +72,7 @@ export function Janela({ titulo, aoFechar, rodape, children, rotuloFechar = 'Fec
         aria-modal="true"
         aria-labelledby={id}
         tabIndex={-1}
-        className="flex h-full w-full flex-col bg-white font-sistema text-tinta outline-none sm:h-auto sm:max-h-[90vh] sm:max-w-[760px] sm:rounded-[20px] sm:shadow-[0_24px_60px_rgb(15_42_36/0.25)]"
+        className={`flex h-full w-full flex-col bg-white font-sistema text-tinta outline-none sm:h-auto sm:max-h-[90vh] ${largura} sm:rounded-[20px] sm:shadow-[0_24px_60px_rgb(15_42_36/0.25)]`}
       >
         <header className="flex items-center justify-between gap-4 border-b border-[#ECEFED] px-6 py-4">
           <h2 id={id} className="text-[19px] font-bold text-verde-escuro">

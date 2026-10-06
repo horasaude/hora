@@ -1,7 +1,7 @@
 # Mapa do projeto
 
 Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim).
-Última atualização: painel com Janela de criar e editar (src/components/ui/Janela.tsx); cartão da direita só detalhes.
+Última atualização: plano alimentar (cardápios, refeições, receitas, alimentos com TACO) em src/features/admin/plano.
 
 ## Rotas
 
@@ -24,12 +24,12 @@ Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim)
 
 ## Features (src/features)
 
-| Feature | O que faz                                                         | Exporta                                                                       |
-| ------- | ----------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| admin   | painel das profissionais: temas, etapas, aulas, lives, avisos     | PainelLayout, ConteudoPage, LivesPage, AvisosPage                             |
-| auth    | login, sessão, rota protegida, perfil logado                      | LoginPage, RotaProtegida, useSessao, usePapel, useNome, useMeuPerfil, useSair |
-| inicio  | tela inicial da aluna (placeholder)                               | InicioPage                                                                    |
-| vendas  | página de vendas, popup de compra, obrigada, termos e privacidade | VendasPage, ObrigadaPage, TermosPage, PrivacidadePage                         |
+| Feature | O que faz                                                                                                      | Exporta                                                                       |
+| ------- | -------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| admin   | painel das profissionais: temas, etapas, aulas, lives, avisos; plano alimentar em admin/plano (README próprio) | PainelLayout, ConteudoPage, LivesPage, AvisosPage                             |
+| auth    | login, sessão, rota protegida, perfil logado                                                                   | LoginPage, RotaProtegida, useSessao, usePapel, useNome, useMeuPerfil, useSair |
+| inicio  | tela inicial da aluna (placeholder)                                                                            | InicioPage                                                                    |
+| vendas  | página de vendas, popup de compra, obrigada, termos e privacidade                                              | VendasPage, ObrigadaPage, TermosPage, PrivacidadePage                         |
 
 ## Referências visuais (docs/referencias)
 

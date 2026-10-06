@@ -2,7 +2,6 @@ import { supabase } from '@/lib/supabase'
 import type { Tables, TablesInsert, TablesUpdate } from '@/types/database'
 import { ok } from './conteudo.api'
 
-export type Cardapio = Tables<'cardapios'>
 export type Desafio = Tables<'desafios'>
 export type Configuracoes = Tables<'configuracoes'>
 export type NumerosDesafio = { id: string; participantes: number; concluintes: number }
@@ -17,18 +16,6 @@ export type AlunaPainel = {
   dia: number | null
   aulas_liberadas: number
   aulas_concluidas: number
-}
-
-export async function listarCardapios(): Promise<Cardapio[]> {
-  return ok(await supabase.from('cardapios').select('*').order('objetivo').order('titulo'))
-}
-
-export async function salvarCardapio(dados: TablesInsert<'cardapios'>): Promise<Cardapio> {
-  const { id, ...campos } = dados
-  const consulta = id
-    ? supabase.from('cardapios').update(campos).eq('id', id)
-    : supabase.from('cardapios').insert(campos)
-  return ok(await consulta.select('*').single())
 }
 
 export async function listarDesafios(): Promise<Desafio[]> {

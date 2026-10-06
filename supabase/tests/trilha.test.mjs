@@ -33,32 +33,96 @@ async function aluna(t) {
   const { esperaValor, esperaErro } = t
   await t.comoAluna(ALUNA)
   await esperaValor('trilha mostra só aulas publicadas de etapa e tema publicados', trilha, 3)
-  await esperaValor('aula do dia 8 aparece fechada', `select count(*)::int from public.minha_trilha() where not liberada`, 1)
-  await esperaValor('função existe com as colunas da trilha', `select count(*)::int from pg_proc where proname = 'minha_trilha' and 'liberada' = any(proargnames)`, 1)
-  await esperaValor('trilha não entrega link de vídeo', `select count(*)::int from pg_proc where proname = 'minha_trilha' and 'video_url' = any(proargnames)`, 0)
-  await esperaValor('aula fechada não abre pela tabela', `select count(*)::int from public.aulas where id = '${ID(33)}'`, 0)
-  await esperaValor('aluna marca aula liberada', `insert into public.aulas_concluidas (aula_id) values ('${ID(31)}') returning 1`, 1)
-  await esperaValor('trilha mostra a aula concluída', `select count(*)::int from public.minha_trilha() where concluida`, 1)
-  await esperaErro('aluna não marca aula fechada', `insert into public.aulas_concluidas (aula_id) values ('${ID(33)}')`, '42501')
-  await esperaErro('aluna não marca aula em nome de outra', `insert into public.aulas_concluidas (perfil_id, aula_id) values ('${OUTRA}', '${ID(32)}')`, '42501')
-  await esperaErro('aluna não marca a mesma aula duas vezes', `insert into public.aulas_concluidas (aula_id) values ('${ID(31)}')`, '23505')
-  await esperaValor('aluna altera apelido e consentimento', `update public.perfis set apelido = 'mari', consentimento_saude_em = now() where id = '${ALUNA}' returning 1`, 1)
+  await esperaValor(
+    'aula do dia 8 aparece fechada',
+    `select count(*)::int from public.minha_trilha() where not liberada`,
+    1,
+  )
+  await esperaValor(
+    'função existe com as colunas da trilha',
+    `select count(*)::int from pg_proc where proname = 'minha_trilha' and 'liberada' = any(proargnames)`,
+    1,
+  )
+  await esperaValor(
+    'trilha não entrega link de vídeo',
+    `select count(*)::int from pg_proc where proname = 'minha_trilha' and 'video_url' = any(proargnames)`,
+    0,
+  )
+  await esperaValor(
+    'aula fechada não abre pela tabela',
+    `select count(*)::int from public.aulas where id = '${ID(33)}'`,
+    0,
+  )
+  await esperaValor(
+    'aluna marca aula liberada',
+    `insert into public.aulas_concluidas (aula_id) values ('${ID(31)}') returning 1`,
+    1,
+  )
+  await esperaValor(
+    'trilha mostra a aula concluída',
+    `select count(*)::int from public.minha_trilha() where concluida`,
+    1,
+  )
+  await esperaErro(
+    'aluna não marca aula fechada',
+    `insert into public.aulas_concluidas (aula_id) values ('${ID(33)}')`,
+    '42501',
+  )
+  await esperaErro(
+    'aluna não marca aula em nome de outra',
+    `insert into public.aulas_concluidas (perfil_id, aula_id) values ('${OUTRA}', '${ID(32)}')`,
+    '42501',
+  )
+  await esperaErro(
+    'aluna não marca a mesma aula duas vezes',
+    `insert into public.aulas_concluidas (aula_id) values ('${ID(31)}')`,
+    '23505',
+  )
+  await esperaValor(
+    'aluna altera apelido e consentimento',
+    `update public.perfis set apelido = 'mari', consentimento_saude_em = now() where id = '${ALUNA}' returning 1`,
+    1,
+  )
   await t.comoAluna(OUTRA)
-  await esperaValor('outra aluna não vê as conclusões dela', `select count(*)::int from public.aulas_concluidas`, 0)
-  await esperaValor('outra aluna não vê o concluído dela na trilha', `select count(*)::int from public.minha_trilha() where concluida`, 0)
+  await esperaValor(
+    'outra aluna não vê as conclusões dela',
+    `select count(*)::int from public.aulas_concluidas`,
+    0,
+  )
+  await esperaValor(
+    'outra aluna não vê o concluído dela na trilha',
+    `select count(*)::int from public.minha_trilha() where concluida`,
+    0,
+  )
   await t.db.query(`delete from public.aulas_concluidas`)
   await t.comoAluna(ALUNA)
-  await esperaValor('outra aluna não apaga a conclusão dela', `select count(*)::int from public.aulas_concluidas`, 1)
-  await esperaValor('aluna desmarca a aula', `delete from public.aulas_concluidas where aula_id = '${ID(31)}' returning 1`, 1)
+  await esperaValor(
+    'outra aluna não apaga a conclusão dela',
+    `select count(*)::int from public.aulas_concluidas`,
+    1,
+  )
+  await esperaValor(
+    'aluna desmarca a aula',
+    `delete from public.aulas_concluidas where aula_id = '${ID(31)}' returning 1`,
+    1,
+  )
 }
 
 async function semAcesso(t) {
   await t.comoAluna(SEM_ACESSO)
   await t.esperaValor('sem acesso, trilha vazia', trilha, 0)
-  await t.esperaErro('sem acesso, não marca aula', `insert into public.aulas_concluidas (aula_id) values ('${ID(31)}')`, '42501')
+  await t.esperaErro(
+    'sem acesso, não marca aula',
+    `insert into public.aulas_concluidas (aula_id) values ('${ID(31)}')`,
+    '42501',
+  )
   await t.comoAnon()
   await t.esperaErro('anônimo não usa minha_trilha', trilha, '42501')
-  await t.esperaErro('anônimo não lê conclusões', `select count(*)::int from public.aulas_concluidas`, '42501')
+  await t.esperaErro(
+    'anônimo não lê conclusões',
+    `select count(*)::int from public.aulas_concluidas`,
+    '42501',
+  )
 }
 
 export async function testarTrilha() {

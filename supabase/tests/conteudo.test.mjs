@@ -47,7 +47,11 @@ async function anonimo(t) {
   for (const tabela of TABELAS) {
     await t.esperaErro(`anônimo não lê ${tabela}`, contar(tabela), '42501')
   }
-  await t.esperaErro('anônimo não usa tem_acesso_ativo', 'select public.tem_acesso_ativo()', '42501')
+  await t.esperaErro(
+    'anônimo não usa tem_acesso_ativo',
+    'select public.tem_acesso_ativo()',
+    '42501',
+  )
 }
 
 async function alunaComAcesso(t) {
@@ -57,21 +61,37 @@ async function alunaComAcesso(t) {
   await esperaValor('aluna vê só o tema publicado', contar('temas'), 1)
   await esperaValor('aluna vê só a etapa publicada de tema publicado', contar('etapas'), 1)
   await esperaValor('aluna vê só as aulas liberadas até o dia 6', contar('aulas'), 2)
-  await esperaValor('aula do dia 7 ainda não aparece', `select count(*)::int from public.aulas where dia_liberacao = 7`, 0)
+  await esperaValor(
+    'aula do dia 7 ainda não aparece',
+    `select count(*)::int from public.aulas where dia_liberacao = 7`,
+    0,
+  )
   await esperaValor('aluna vê só a live publicada', contar('lives'), 1)
   await esperaValor('aluna vê só o aviso publicado e já no ar', contar('avisos'), 1)
   await esperaErro('aluna não cria tema', `insert into public.temas (titulo) values ('x')`, '42501')
-  await esperaErro('aluna não mexe no próprio acesso', `update public.perfis set acesso_fim_em = now() + interval '999 days' where id = '${ALUNA}'`, '42501')
+  await esperaErro(
+    'aluna não mexe no próprio acesso',
+    `update public.perfis set acesso_fim_em = now() + interval '999 days' where id = '${ALUNA}'`,
+    '42501',
+  )
   await t.db.query(`update public.aulas set titulo = 'hackeado'`)
   await t.db.query(`delete from public.lives`)
   await t.comoDono()
-  await esperaValor('aluna não altera aula', `select count(*)::int from public.aulas where titulo = 'hackeado'`, 0)
+  await esperaValor(
+    'aluna não altera aula',
+    `select count(*)::int from public.aulas where titulo = 'hackeado'`,
+    0,
+  )
   await esperaValor('aluna não apaga live', contar('lives'), 2)
 }
 
 async function semAcesso(t) {
   const { esperaValor } = t
-  for (const [nome, id] of [['sem acesso', SEM_ACESSO], ['com acesso só a partir de amanhã', FUTURA], ['com acesso vencido', VENCIDA]]) {
+  for (const [nome, id] of [
+    ['sem acesso', SEM_ACESSO],
+    ['com acesso só a partir de amanhã', FUTURA],
+    ['com acesso vencido', VENCIDA],
+  ]) {
     await t.comoAluna(id)
     await esperaValor(`aluna ${nome} não vê temas`, contar('temas'), 0)
     await esperaValor(`aluna ${nome} não vê aulas`, contar('aulas'), 0)
@@ -88,30 +108,66 @@ async function admin(t) {
   await esperaValor('admin vê todas as aulas', contar('aulas'), 6)
   await esperaValor('admin vê todas as lives', contar('lives'), 2)
   await esperaValor('admin vê todos os avisos', contar('avisos'), 3)
-  await esperaValor('admin cria tema', `insert into public.temas (titulo, publicado) values ('Energia', true) returning 1`, 1)
+  await esperaValor(
+    'admin cria tema',
+    `insert into public.temas (titulo, publicado) values ('Energia', true) returning 1`,
+    1,
+  )
   await db.query(`update public.aulas set dia_liberacao = 8 where id = '${ID(33)}'`)
-  await esperaValor('admin altera aula', `select dia_liberacao from public.aulas where id = '${ID(33)}'`, 8)
+  await esperaValor(
+    'admin altera aula',
+    `select dia_liberacao from public.aulas where id = '${ID(33)}'`,
+    8,
+  )
   await db.query(`delete from public.avisos where id = '${ID(53)}'`)
   await esperaValor('admin apaga aviso', contar('avisos'), 2)
-  await esperaErro('link de vídeo precisa ser https', `insert into public.aulas (etapa_id, titulo, video_url, dia_liberacao) values ('${ID(21)}', 'x', 'http://v.t', 1)`, '23514')
-  await esperaErro('dia de liberação começa no 1', `insert into public.aulas (etapa_id, titulo, video_url, dia_liberacao) values ('${ID(21)}', 'x', 'https://v.t', 0)`, '23514')
-  await esperaErro('ordem da etapa não se repete no tema', `insert into public.etapas (tema_id, titulo, ordem) values ('${ID(11)}', 'dup', 1)`, '23505')
+  await esperaErro(
+    'link de vídeo precisa ser https',
+    `insert into public.aulas (etapa_id, titulo, video_url, dia_liberacao) values ('${ID(21)}', 'x', 'http://v.t', 1)`,
+    '23514',
+  )
+  await esperaErro(
+    'dia de liberação começa no 1',
+    `insert into public.aulas (etapa_id, titulo, video_url, dia_liberacao) values ('${ID(21)}', 'x', 'https://v.t', 0)`,
+    '23514',
+  )
+  await esperaErro(
+    'ordem da etapa não se repete no tema',
+    `insert into public.etapas (tema_id, titulo, ordem) values ('${ID(11)}', 'dup', 1)`,
+    '23505',
+  )
 }
 
 /** 7 dias exatos a partir da confirmação do pagamento: dia 8 libera só quando completar 7 x 24 h. */
 async function seteDiasExatos(t) {
   const { db, esperaValor } = t
   await t.comoDono()
-  await db.query(`update public.perfis set acesso_inicio_em = now() - interval '7 days' + interval '1 minute' where id = '${ALUNA}'`)
+  await db.query(
+    `update public.perfis set acesso_inicio_em = now() - interval '7 days' + interval '1 minute' where id = '${ALUNA}'`,
+  )
   await db.query(`update public.aulas set dia_liberacao = 8 where id = '${ID(33)}'`)
   await t.comoAluna(ALUNA)
-  await esperaValor('faltando 1 minuto para 7 dias, ainda é o dia 7', 'select public.dia_de_acesso()', 7)
-  await esperaValor('aula de 7 dias ainda fechada um minuto antes', `select count(*)::int from public.aulas where id = '${ID(33)}'`, 0)
+  await esperaValor(
+    'faltando 1 minuto para 7 dias, ainda é o dia 7',
+    'select public.dia_de_acesso()',
+    7,
+  )
+  await esperaValor(
+    'aula de 7 dias ainda fechada um minuto antes',
+    `select count(*)::int from public.aulas where id = '${ID(33)}'`,
+    0,
+  )
   await t.comoDono()
-  await db.query(`update public.perfis set acesso_inicio_em = now() - interval '7 days' where id = '${ALUNA}'`)
+  await db.query(
+    `update public.perfis set acesso_inicio_em = now() - interval '7 days' where id = '${ALUNA}'`,
+  )
   await t.comoAluna(ALUNA)
   await esperaValor('completados 7 dias, é o dia 8', 'select public.dia_de_acesso()', 8)
-  await esperaValor('aula de 7 dias libera na hora exata', `select count(*)::int from public.aulas where id = '${ID(33)}'`, 1)
+  await esperaValor(
+    'aula de 7 dias libera na hora exata',
+    `select count(*)::int from public.aulas where id = '${ID(33)}'`,
+    1,
+  )
 }
 
 export async function testarConteudo() {

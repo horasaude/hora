@@ -71,3 +71,6 @@ Venda inicial por links do Mercado Pago; o checkout integrado da Sprint 2 substi
 ## Sprint 5: extras (novembro)
 
 - [ ] Loja Active Life, botões de consulta e MFIT, relatórios
+
+- [x] Plano alimentar no painel: cardápios, refeições, receitas, alimentos (TACO)
+- [ ] Tela da aluna para cardápios e receitas publicados (banco já pronto)

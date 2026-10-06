@@ -14,19 +14,6 @@ const inteiro = (min: number) =>
     .refine((n) => n >= min, d.inteiro)
 const data = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, d.data)
 
-export const esquemaCardapio = z.object({
-  objetivo: obrigatorio(80),
-  titulo: obrigatorio(120),
-  descricao: texto(2000),
-  cafe: texto(2000),
-  lanche_manha: texto(2000),
-  almoco: texto(2000),
-  lanche_tarde: texto(2000),
-  jantar: texto(2000),
-  ceia: texto(2000),
-  lista_compras: texto(5000),
-})
-
 const DIA_MS = 86_400_000
 const diasEntre = (inicio: string, fim: string) =>
   Math.round((Date.parse(fim) - Date.parse(inicio)) / DIA_MS) + 1

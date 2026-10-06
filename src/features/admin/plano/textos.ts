@@ -1,0 +1,100 @@
+// Textos do plano alimentar (cardápios, refeições, receitas e alimentos). Os componentes só leem daqui.
+
+export const TIPOS_REFEICAO = {
+  cafe: 'Café da manhã',
+  lanche: 'Lanche',
+  almoco: 'Almoço',
+  jantar: 'Jantar',
+  ceia: 'Ceia',
+  pre_treino: 'Pré-treino',
+  pos_treino: 'Pós-treino',
+} as const
+
+export const OBJETIVOS = [
+  'Emagrecimento',
+  'Composição corporal',
+  'Lipedema',
+  'Menopausa',
+  'Ganho de massa',
+] as const
+
+export const textos = {
+  grupo: 'Plano alimentar',
+  buscar: 'Buscar por nome',
+  todos: 'Todos',
+  semResultado: 'Nada encontrado.',
+  kcal: (n: number) => `${Math.round(n)} kcal`,
+  gramas: (n: number) => `${Math.round(n)} g`,
+  acoes: (nome: string) => `Ações de ${nome}`,
+  editar: 'Editar',
+  duplicar: 'Duplicar',
+  remover: 'Remover',
+  confirmarRemover: 'Remover mesmo?',
+  emUso: 'Este item está em uso numa receita e não pode ser removido.',
+  salvar: 'Salvar',
+  salvando: 'Salvando',
+  cancelar: 'Cancelar',
+  fechar: 'Fechar',
+  voltar: 'Voltar',
+  publicar: 'Publicar',
+  tirarDoAr: 'Tirar do ar',
+  visualizar: 'Visualizar',
+  erro: 'Não foi possível salvar. Tente de novo.',
+  salvo: 'Salvo',
+  naoSalvo: 'Alterações não salvas',
+  porPagina: 'Por página',
+  pagina: (atual: number, total: number) => `Página ${atual} de ${total}`,
+  anterior: 'Anterior',
+  proxima: 'Próxima',
+  macros: {
+    proteina: 'Proteína',
+    carboidrato: 'Carboidrato',
+    gordura: 'Gordura',
+    fibra: 'Fibra',
+    kcal: 'Energia',
+  },
+}
+
+export const tAlimentos = {
+  titulo: 'Alimentos',
+  abas: { proprio: 'Meus alimentos', taco: 'TACO' },
+  adicionar: 'Adicionar alimento',
+  editar: 'Editar alimento',
+  colunas: ['Alimento', 'Grupo', 'kcal por 100 g', ''],
+  meus: 'Meus alimentos',
+  naTaco: 'Na TACO',
+  comMedida: 'Com medida caseira',
+  vazio: 'Nenhum alimento seu ainda.',
+  fonte:
+    'Tabela Brasileira de Composição de Alimentos (TACO), 4ª edição, NEPA/Unicamp. Só leitura.',
+  campoNome: 'Nome',
+  campoGrupo: 'Grupo',
+  por100: 'Valores por 100 g',
+  medidas: 'Medidas caseiras',
+  medidaNome: 'Medida',
+  medidaExemplo: '1 colher de sopa',
+  medidaGramas: 'Gramas',
+  novaMedida: 'Adicionar medida',
+  removerMedida: (n: number) => `Remover a medida ${n}`,
+  erroNome: 'Escreva o nome',
+  erroNumero: 'Use um número de 0 a 9999',
+}
+
+/** Grupos da TACO (4ª edição), usados também nos alimentos próprios. */
+export const GRUPOS_TACO = [
+  'Cereais e derivados',
+  'Verduras, hortaliças e derivados',
+  'Frutas e derivados',
+  'Gorduras e óleos',
+  'Pescados e frutos do mar',
+  'Carnes e derivados',
+  'Leite e derivados',
+  'Bebidas (alcoólicas e não alcoólicas)',
+  'Ovos e derivados',
+  'Produtos açucarados',
+  'Miscelâneas',
+  'Outros alimentos industrializados',
+  'Alimentos preparados',
+  'Leguminosas e derivados',
+  'Nozes e sementes',
+] as const

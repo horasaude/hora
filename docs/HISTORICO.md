@@ -2,6 +2,13 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-06 · main · Plano alimentar (modelo Dietbox)
+
+- Menu: grupo "Plano alimentar" que abre e fecha, com Cardápios, Refeições, Receitas e Alimentos (src/features/admin/plano, README próprio).
+- Alimentos: TACO 4ª edição importada da planilha oficial do NEPA/Unicamp (597 alimentos, só leitura; NA, Tr e * viram vazio), alimentos próprios com medidas caseiras, busca sem acento palavra por palavra, paginação.
+- Receitas em página inteira (foto em bucket privado, editor com negrito e listas, HTML limpo por src/lib/html.ts, porções, tags, cálculo por porção). Refeições modelo com "ou" e Salvar e continuar. Cardápios em página inteira com blocos, substituições, resumo de nutrientes (rosca P coral, C dourado, G sálvia), texto livre, lista de compras da semana editável, visualizar como aluna, PDF pela impressão, publicar.
+- Migração 20261007150000_plano_alimentar (36 checagens no PGlite). Cálculo em src/domain/nutricao.ts e listaCompras.ts com testes.
+
 ## 2026-10-06 · main · Painel com janela de criar e editar
 
 - Janela (src/components/ui/Janela.tsx): 760 px centralizada, fundo escurecido, título, X, conteúdo que rola, Cancelar e Salvar fixos no rodapé; fecha com Esc e clique fora; tela inteira no celular. Testada.

@@ -14,6 +14,52 @@ export type Database = {
   }
   public: {
     Tables: {
+      alimentos: {
+        Row: {
+          busca: string
+          carboidrato: number | null
+          codigo_taco: number | null
+          created_at: string
+          fibra: number | null
+          gordura: number | null
+          grupo: string
+          id: string
+          kcal: number | null
+          nome: string
+          origem: string
+          proteina: number | null
+          updated_at: string
+        }
+        Insert: {
+          carboidrato?: number | null
+          codigo_taco?: number | null
+          created_at?: string
+          fibra?: number | null
+          gordura?: number | null
+          grupo?: string
+          id?: string
+          kcal?: number | null
+          nome: string
+          origem?: string
+          proteina?: number | null
+          updated_at?: string
+        }
+        Update: {
+          carboidrato?: number | null
+          codigo_taco?: number | null
+          created_at?: string
+          fibra?: number | null
+          gordura?: number | null
+          grupo?: string
+          id?: string
+          kcal?: number | null
+          nome?: string
+          origem?: string
+          proteina?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       aulas: {
         Row: {
           created_at: string
@@ -135,50 +181,39 @@ export type Database = {
       }
       cardapios: {
         Row: {
-          almoco: string
-          cafe: string
-          ceia: string
+          busca: string
           created_at: string
           descricao: string
           id: string
-          jantar: string
-          lanche_manha: string
-          lanche_tarde: string
-          lista_compras: string
+          lista_compras: Json
+          modelo: string
           objetivo: string
           publicado: boolean
+          refeicoes: Json
           titulo: string
           updated_at: string
         }
         Insert: {
-          almoco?: string
-          cafe?: string
-          ceia?: string
           created_at?: string
           descricao?: string
           id?: string
-          jantar?: string
-          lanche_manha?: string
-          lanche_tarde?: string
-          lista_compras?: string
+          lista_compras?: Json
+          modelo?: string
           objetivo: string
           publicado?: boolean
+          refeicoes?: Json
           titulo: string
           updated_at?: string
         }
         Update: {
-          almoco?: string
-          cafe?: string
-          ceia?: string
           created_at?: string
           descricao?: string
           id?: string
-          jantar?: string
-          lanche_manha?: string
-          lanche_tarde?: string
-          lista_compras?: string
+          lista_compras?: Json
+          modelo?: string
           objetivo?: string
           publicado?: boolean
+          refeicoes?: Json
           titulo?: string
           updated_at?: string
         }
@@ -534,6 +569,154 @@ export type Database = {
         }
         Relationships: []
       }
+      medidas_caseiras: {
+        Row: {
+          alimento_id: string
+          gramas: number
+          id: string
+          nome: string
+          ordem: number
+        }
+        Insert: {
+          alimento_id: string
+          gramas: number
+          id?: string
+          nome: string
+          ordem?: number
+        }
+        Update: {
+          alimento_id?: string
+          gramas?: number
+          id?: string
+          nome?: string
+          ordem?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "medidas_caseiras_alimento_id_fkey"
+            columns: ["alimento_id"]
+            isOneToOne: false
+            referencedRelation: "alimentos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      receita_itens: {
+        Row: {
+          alimento_id: string
+          gramas: number
+          id: string
+          ordem: number
+          receita_id: string
+        }
+        Insert: {
+          alimento_id: string
+          gramas: number
+          id?: string
+          ordem?: number
+          receita_id: string
+        }
+        Update: {
+          alimento_id?: string
+          gramas?: number
+          id?: string
+          ordem?: number
+          receita_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "receita_itens_alimento_id_fkey"
+            columns: ["alimento_id"]
+            isOneToOne: false
+            referencedRelation: "alimentos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "receita_itens_receita_id_fkey"
+            columns: ["receita_id"]
+            isOneToOne: false
+            referencedRelation: "receitas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      receitas: {
+        Row: {
+          busca: string
+          calcular: boolean
+          created_at: string
+          foto_path: string | null
+          id: string
+          ingredientes: string
+          nome: string
+          porcoes: number
+          preparo: string
+          publicado: boolean
+          tags: string[]
+          updated_at: string
+        }
+        Insert: {
+          calcular?: boolean
+          created_at?: string
+          foto_path?: string | null
+          id?: string
+          ingredientes?: string
+          nome: string
+          porcoes?: number
+          preparo?: string
+          publicado?: boolean
+          tags?: string[]
+          updated_at?: string
+        }
+        Update: {
+          calcular?: boolean
+          created_at?: string
+          foto_path?: string | null
+          id?: string
+          ingredientes?: string
+          nome?: string
+          porcoes?: number
+          preparo?: string
+          publicado?: boolean
+          tags?: string[]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      refeicoes_modelo: {
+        Row: {
+          busca: string
+          created_at: string
+          horario: string | null
+          id: string
+          itens: Json
+          nome: string
+          observacao: string
+          tipo: Database["public"]["Enums"]["tipo_refeicao"]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          horario?: string | null
+          id?: string
+          itens?: Json
+          nome: string
+          observacao?: string
+          tipo: Database["public"]["Enums"]["tipo_refeicao"]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          horario?: string | null
+          id?: string
+          itens?: Json
+          nome?: string
+          observacao?: string
+          tipo?: Database["public"]["Enums"]["tipo_refeicao"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       temas: {
         Row: {
           created_at: string
@@ -631,6 +814,10 @@ export type Database = {
         }[]
       }
       registrar_acesso: { Args: never; Returns: undefined }
+      duplicar_alimento: { Args: { p_id: string }; Returns: string }
+      salvar_alimento: { Args: { p_alimento: Json; p_medidas: Json }; Returns: string }
+      salvar_receita_itens: { Args: { p_itens: Json; p_receita: string }; Returns: undefined }
+      texto_busca: { Args: { valor: string }; Returns: string }
       tem_acesso_ativo: { Args: never; Returns: boolean }
       vencedoras_desafio: {
         Args: { p_desafio: string }
@@ -646,6 +833,7 @@ export type Database = {
       papel: "aluna" | "admin"
       publico_desafio: "todas" | "inscritas"
       tipo_checkin: "sim_nao" | "foto" | "numero"
+      tipo_refeicao: "cafe" | "lanche" | "almoco" | "jantar" | "ceia" | "pre_treino" | "pos_treino"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -776,6 +964,7 @@ export const Constants = {
       papel: ["aluna", "admin"],
       publico_desafio: ["todas", "inscritas"],
       tipo_checkin: ["sim_nao", "foto", "numero"],
+      tipo_refeicao: ["cafe", "lanche", "almoco", "jantar", "ceia", "pre_treino", "pos_treino"],
     },
   },
 } as const

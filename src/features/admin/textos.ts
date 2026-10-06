@@ -1,6 +1,6 @@
 // Textos do painel das profissionais. Os componentes só leem daqui.
 
-import { alunas, cardapios, configuracoes, desafios } from './textos/modulos'
+import { alunas, configuracoes, desafios } from './textos/modulos'
 import { vazios } from './textos/vazios'
 
 export const textos = {
@@ -13,7 +13,11 @@ export const textos = {
   ordem: 'Ordem',
   abas: {
     conteudo: 'Conteúdo',
+    plano: 'Plano alimentar',
     cardapios: 'Cardápios',
+    refeicoes: 'Refeições',
+    receitas: 'Receitas',
+    alimentos: 'Alimentos',
     lives: 'Lives',
     desafios: 'Desafios e prêmios',
     pontos: 'Pontos e indicações',
@@ -24,7 +28,6 @@ export const textos = {
     loja: 'Loja',
     configuracoes: 'Configurações',
   },
-  cardapios,
   desafios,
   alunas,
   configuracoes,
