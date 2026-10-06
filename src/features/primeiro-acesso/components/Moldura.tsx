@@ -20,7 +20,7 @@ export function Moldura({ passo, total, children, podeSeguir, ocupado, aoContinu
         e.preventDefault()
         if (podeSeguir && !ocupado) aoContinuar()
       }}
-      className="flex min-h-dvh flex-col px-6 pt-6 pb-8"
+      className="flex min-h-dvh flex-col px-6 pt-6 pb-8 sm:mx-auto sm:max-w-lg lg:my-[8vh] lg:min-h-0 lg:rounded-[1.75rem] lg:border lg:border-linha lg:bg-white lg:p-12"
     >
       <div className="flex gap-1.5" role="img" aria-label={textos.passo(passo, total)}>
         {Array.from({ length: total }, (_, i) => (
@@ -30,7 +30,9 @@ export function Moldura({ passo, total, children, podeSeguir, ocupado, aoContinu
           />
         ))}
       </div>
-      <div className="flex flex-1 flex-col justify-center gap-5 py-10">{children}</div>
+      <div className="flex flex-1 flex-col justify-center gap-5 py-10 lg:min-h-[22rem]">
+        {children}
+      </div>
       {erro && (
         <p role="alert" className="mb-3 text-center text-sm text-terracota-escuro">
           {erro}

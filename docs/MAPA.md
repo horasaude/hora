@@ -1,7 +1,7 @@
 # Mapa do projeto
 
 Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim).
-Última atualização: painel completo (11 módulos), configurações no banco (preços, oferta, termos).
+Última atualização: área da aluna para computador (barra lateral) e celular (barra embaixo); src/app/NavegacaoAluna.tsx.
 
 ## Rotas
 

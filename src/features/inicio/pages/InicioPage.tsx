@@ -20,14 +20,14 @@ function Saudacao({ nome }: { nome: string }) {
   const [hora] = useState(() => horaEmBrasilia(new Date()))
   return (
     <header className="flex items-center justify-between gap-3">
-      <h1 className="font-titulo text-[1.7rem] leading-tight text-ora">
+      <h1 className="font-titulo text-[1.7rem] leading-tight text-ora lg:text-[2.4rem]">
         {saudacaoPorHora(hora)}
         {nome && `, ${nome}`}
       </h1>
       {nome && (
         <span
           aria-hidden
-          className="grid size-11 shrink-0 place-items-center rounded-full bg-terracota-suave font-semibold text-terracota-escuro"
+          className="grid size-11 shrink-0 place-items-center rounded-full bg-terracota-suave font-semibold text-terracota-escuro lg:size-14 lg:text-lg"
         >
           {nome[0]?.toUpperCase()}
         </span>
@@ -45,12 +45,12 @@ export function InicioPage() {
   const aula = trilha.data ? aulaDeHoje(trilha.data.aulas) : null
   const semAcesso = trilha.isSuccess && trilha.data.dia === null
   return (
-    <section className="flex flex-col gap-4">
+    <section className="flex flex-col gap-4 lg:gap-8">
       <Saudacao nome={nome} />
       {perfil.data?.papel === 'admin' && (
         <Link
           to="/app/admin"
-          className="inline-flex min-h-11 items-center justify-center rounded-2xl bg-ora px-5 text-sm font-semibold text-white"
+          className="inline-flex min-h-11 items-center justify-center rounded-2xl bg-ora px-5 text-sm font-semibold text-white lg:self-start"
         >
           {textos.painel}
         </Link>
@@ -58,12 +58,16 @@ export function InicioPage() {
       {semAcesso ? (
         <Cartao className="text-sm text-tinta">{textos.semAcesso}</Cartao>
       ) : (
-        <>
-          <Checkin />
-          {aula && <AulaDeHoje aula={aula} />}
-          {live.data && <FaixaLive live={live.data} />}
-          <CartaoRanking />
-        </>
+        <div className="grid items-start gap-4 lg:grid-cols-2 lg:gap-6">
+          <div className="flex flex-col gap-4 lg:gap-6">
+            <Checkin />
+            {aula && <AulaDeHoje aula={aula} />}
+          </div>
+          <div className="flex flex-col gap-4 lg:gap-6">
+            {live.data && <FaixaLive live={live.data} />}
+            <CartaoRanking />
+          </div>
+        </div>
       )}
     </section>
   )

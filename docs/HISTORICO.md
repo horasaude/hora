@@ -2,6 +2,11 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-06 · main · Área da aluna para computador
+
+- Todo o sistema é feito para computador e responsivo para celular (regra no CLAUDE.md). Área da aluna: no computador, barra lateral verde no padrão do painel (HORA em ocre, 5 itens com ícone, logada como) e conteúdo na largura da tela; no celular, barra fixa embaixo com 5 ícones.
+- Início em duas colunas, trilha com aulas em grade, aula com vídeo grande e a lateral com título, material e concluir; primeiro acesso num cartão centralizado.
+
 ## 2026-10-06 · main · Painel completo
 
 - Menu com 11 módulos na ordem pedida, cada um com bolinha colorida, todos no visual da referência.

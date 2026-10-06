@@ -46,7 +46,8 @@ Stack: React + Vite + TypeScript, Tailwind, TanStack Query, Zod, Supabase (Postg
 
 - TypeScript estrito, sem any. Zod valida toda entrada.
 - Toda tela tem estados carregando, vazio, erro e sucesso.
-- Mobile primeiro (360 px). Alvo de toque 44 px, contraste AA, rótulo em todo campo.
+- Todo o sistema é feito para computador e responsivo para celular. Nenhuma tela é só para celular. No computador, usar a largura da tela, com menu na lateral nas áreas logadas (painel e área da aluna); no celular, o layout se adapta (na área da aluna, o menu vira a barra fixa embaixo com 5 ícones). Conferir em 1440 px e em 360 px.
+- Alvo de toque 44 px, contraste AA, rótulo em todo campo.
 - Textos em português, sem travessão, tom humano e curto, sempre no textos.ts da feature.
 - Visual: identidade da Imersão ORA (decisão 0004): fundo creme/branco, títulos em Playfair Display caixa alta com frase em Montserrat itálico leve (componente Destaque), verde ora. Cores em src/styles/index.css. Sem degradê, sem emoji, sem sombra pesada.
 

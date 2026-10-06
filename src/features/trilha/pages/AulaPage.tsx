@@ -49,6 +49,25 @@ function Concluir({ id }: { id: string }) {
   )
 }
 
+/** Material para baixar e marcar como concluída. */
+function Acoes({ aula }: { aula: AulaAberta }) {
+  return (
+    <>
+      {aula.material_url && (
+        <a
+          href={aula.material_url}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-ocre bg-ocre-suave px-4 text-sm font-semibold text-[#80591c]"
+        >
+          {t.material}
+        </a>
+      )}
+      <Concluir id={aula.id} />
+    </>
+  )
+}
+
 /** Aula: vídeo no topo, título, profissional e duração, texto de apoio, material e concluir. */
 export function AulaPage() {
   const { aulaId = '' } = useParams()
@@ -74,30 +93,32 @@ export function AulaPage() {
   const detalhe = [a.profissional, a.duracao_minutos && textos.minutos(a.duracao_minutos)]
     .filter(Boolean)
     .join(' · ')
+  const cabecalho = (
+    <header>
+      <h1 className="font-titulo text-[1.6rem] leading-tight text-ora lg:text-[2rem]">
+        {a.titulo}
+      </h1>
+      {detalhe && <p className="mt-1 text-sm text-suave">{detalhe}</p>}
+    </header>
+  )
   return (
     <article className="flex flex-col gap-5">
       {voltar}
-      <Video aula={a} />
-      <header>
-        <h1 className="font-titulo text-[1.6rem] leading-tight text-ora">{a.titulo}</h1>
-        {detalhe && <p className="mt-1 text-sm text-suave">{detalhe}</p>}
-      </header>
-      {a.descricao && (
-        <p className="text-[0.95rem] leading-relaxed whitespace-pre-line text-tinta">
-          {a.descricao}
-        </p>
-      )}
-      {a.material_url && (
-        <a
-          href={a.material_url}
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-ocre bg-ocre-suave px-4 text-sm font-semibold text-[#80591c]"
-        >
-          {t.material}
-        </a>
-      )}
-      <Concluir id={a.id} />
+      <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start lg:gap-10">
+        <div className="flex flex-col gap-5">
+          <Video aula={a} />
+          <div className="lg:hidden">{cabecalho}</div>
+          {a.descricao && (
+            <p className="text-[0.95rem] leading-relaxed whitespace-pre-line text-tinta">
+              {a.descricao}
+            </p>
+          )}
+        </div>
+        <aside className="flex flex-col gap-4 lg:sticky lg:top-8">
+          <div className="hidden lg:block">{cabecalho}</div>
+          <Acoes aula={a} />
+        </aside>
+      </div>
     </article>
   )
 }

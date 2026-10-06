@@ -33,19 +33,21 @@ function Tema({ tema, aulas, dia, inicio }: Conteudo) {
           ? 'proxima'
           : 'liberada'
   return (
-    <section className="flex flex-col gap-5">
+    <section className="flex flex-col gap-5 lg:gap-7">
       <header>
-        <h1 className="font-titulo text-[1.7rem] leading-tight text-ora">
+        <h1 className="font-titulo text-[1.7rem] leading-tight text-ora lg:text-[2.4rem]">
           {preparando ? textos.preparacao.titulo : tema.titulo}
         </h1>
         {preparando && <p className="mt-1 text-sm text-suave">{textos.preparacao.subtitulo}</p>}
       </header>
-      <AbasEtapas etapas={tema.etapas} ativa={etapa?.id ?? ''} aoEscolher={setAba} />
-      <BarraProgresso
-        pct={progresso(etapa?.aulas ?? [])}
-        legenda={textos.progresso(progresso(etapa?.aulas ?? []), semanaDoAcesso(dia))}
-      />
-      <ul className="flex flex-col gap-3">
+      <div className="flex flex-col gap-5 lg:max-w-2xl">
+        <AbasEtapas etapas={tema.etapas} ativa={etapa?.id ?? ''} aoEscolher={setAba} />
+        <BarraProgresso
+          pct={progresso(etapa?.aulas ?? [])}
+          legenda={textos.progresso(progresso(etapa?.aulas ?? []), semanaDoAcesso(dia))}
+        />
+      </div>
+      <ul className="grid gap-3 lg:grid-cols-2 lg:gap-4">
         {etapa?.aulas.map((a) => (
           <CartaoAula
             key={a.id}
