@@ -43,6 +43,7 @@ Venda inicial por links do Mercado Pago; o checkout integrado da Sprint 2 substi
 ## Sprint 3: engajamento base (até 18/10)
 
 - [ ] Check-in de hábitos com foto (compressão e storage privado)
+- [ ] Check-in de foto da refeição: +5 pontos, no máximo 1 por dia
 - [ ] regras_pontos, lancamentos_pontos, conceder_pontos()
 - [ ] Fórum na aula
 - [ ] Medidas e consentimento
@@ -58,6 +59,8 @@ Venda inicial por links do Mercado Pago; o checkout integrado da Sprint 2 substi
 
 - [ ] Escolha de tema e etapas com regra 80% + 30 dias
 - [ ] Cardápios, desafios editáveis, ranking mensal e anual
+- [ ] Níveis da aluna (por pontos acumulados)
+- [ ] Lives gravadas: gravação disponível na área da aluna depois do ao vivo
 - [ ] Indicação, fórum geral, gráfico de evolução
 
 ## Sprint 5: extras (novembro)

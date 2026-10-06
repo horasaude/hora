@@ -3,6 +3,26 @@ import { textos } from '../textos'
 
 type Props = { plano: Plano; valor: string; aguardando: boolean }
 
+const link = 'text-ora underline underline-offset-2'
+
+/** Aceite dos termos sem checkbox, em letra pequena logo abaixo do botão. */
+function Concordo() {
+  const [antes, meio, fim] = textos.pagamento.concordo
+  return (
+    <p className="text-center text-xs leading-relaxed text-suave">
+      {antes}
+      <a href="/termos" target="_blank" rel="noopener" className={link}>
+        {textos.pagamento.termos}
+      </a>
+      {meio}
+      <a href="/privacidade" target="_blank" rel="noopener" className={link}>
+        {textos.pagamento.privacidade}
+      </a>
+      {fim}
+    </p>
+  )
+}
+
 const t = textos.pagamento
 
 /**
@@ -41,6 +61,7 @@ export function Pagamento({ plano, valor, aguardando }: Props) {
       >
         {t.botao}
       </button>
+      <Concordo />
     </section>
   )
 }

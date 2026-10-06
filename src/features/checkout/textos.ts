@@ -37,6 +37,9 @@ export const textos = {
     },
     emBreve: 'O pagamento será liberado em breve.',
     botao: 'Finalizar compra',
+    concordo: ['Ao finalizar, você concorda com os ', ' e a ', '.'] as const,
+    termos: 'Termos de uso',
+    privacidade: 'Política de privacidade',
     total: 'Total',
   },
   lateral: {

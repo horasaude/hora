@@ -62,7 +62,7 @@ export const fechamento = {
       },
       {
         p: 'Quando recebo o acesso?',
-        r: 'Assim que o pagamento é confirmado, você recebe no e-mail o seu usuário e uma senha provisória.',
+        r: 'Assim que o pagamento é confirmado, você recebe seu usuário e senha. Você começa pelas boas-vindas e pelos 7 dias de preparação, e no 8º dia escolhe o seu tema.',
       },
       {
         p: 'Qual a diferença entre parcelado e mensal?',

@@ -2,6 +2,12 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-06 · main · FAQ do acesso, termos no checkout e novas tarefas
+
+- FAQ "Quando recebo o acesso?": usuário e senha assim que o pagamento é confirmado; boas-vindas e 7 dias de preparação; no 8º dia a escolha do tema.
+- Checkout: "Ao finalizar, você concorda com os Termos de uso e a Política de privacidade" em letra pequena abaixo de "Finalizar compra", com links, sem checkbox (teste novo).
+- TAREFAS: check-in de foto da refeição (+5, 1 por dia) na Sprint 3; níveis da aluna e lives gravadas na Sprint 4.
+
 ## 2026-10-06 · main · Checkout conferido no celular
 
 - Checkout em 360 e 390 px: nada passa da largura da tela; estados normal, com erros e com aviso de pagamento conferidos por captura.

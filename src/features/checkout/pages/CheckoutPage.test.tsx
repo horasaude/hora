@@ -79,3 +79,21 @@ describe('CheckoutPage', () => {
     expect(await screen.findByText('Escreva seu nome completo')).toBeInTheDocument()
   })
 })
+
+describe('CheckoutPage: aceite dos termos', () => {
+  afterEach(() => {
+    cleanup()
+    vi.useRealTimers()
+  })
+
+  it('mostra a linha de termos com links abaixo do botão, sem checkbox', () => {
+    abrir()
+    expect(screen.getByText(/Ao finalizar, você concorda com os/)).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Termos de uso' })).toHaveAttribute('href', '/termos')
+    expect(screen.getByRole('link', { name: 'Política de privacidade' })).toHaveAttribute(
+      'href',
+      '/privacidade',
+    )
+    expect(screen.queryByRole('checkbox')).not.toBeInTheDocument()
+  })
+})
