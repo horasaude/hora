@@ -29,8 +29,10 @@ Venda inicial por links do Mercado Pago; o checkout integrado da Sprint 2 substi
 - [x] Tabelas temas, etapas, aulas, lives, avisos com RLS
 - [x] Painel admin: CRUD de temas, etapas e aulas (na aula, escolha simples "Liberada na compra" = dia 1 ou "Depois de 7 dias" = dia 8, com opção de outro dia)
 - [x] Painel admin: lives e avisos
-- [ ] Primeiro acesso com consentimento e apelido
-- [ ] Início, trilha base e aula, com liberação por dia
+- [x] Primeiro acesso com consentimento e apelido
+- [x] Início, trilha base e aula, com liberação por dia
+- [ ] Check-in de verdade (hoje o cartão do Início é só visual), sequência de dias e ranking com dados do banco
+- [ ] Apelido único no ranking (hoje não há trava no banco)
 
 ## Sprint 2: pagamento e contrato (até 16/10)
 

@@ -48,3 +48,38 @@ export function formatarDataHora(instante: Date): string {
     timeStyle: 'short',
   }).format(instante)
 }
+
+/** Hora (0 a 23) no fuso de Brasília. */
+export function horaEmBrasilia(instante: Date): number {
+  return Number(
+    new Intl.DateTimeFormat('en-US', { timeZone: FUSO, hour: 'numeric', hourCycle: 'h23' }).format(
+      instante,
+    ),
+  )
+}
+
+/** Dia da semana e hora curtos, ex.: "quinta, 19h" ou "quinta, 19h30". */
+export function diaSemanaEHora(instante: Date): string {
+  const p = Object.fromEntries(
+    new Intl.DateTimeFormat('pt-BR', {
+      timeZone: FUSO,
+      weekday: 'long',
+      hour: '2-digit',
+      minute: '2-digit',
+      hourCycle: 'h23',
+    })
+      .formatToParts(instante)
+      .map((x) => [x.type, x.value]),
+  )
+  const dia = String(p.weekday).replace('-feira', '')
+  return `${dia}, ${Number(p.hour)}h${p.minute === '00' ? '' : p.minute}`
+}
+
+/** Dia e mês, ex.: 13/10. */
+export function diaEMes(instante: Date): string {
+  return new Intl.DateTimeFormat('pt-BR', {
+    timeZone: FUSO,
+    day: '2-digit',
+    month: '2-digit',
+  }).format(instante)
+}

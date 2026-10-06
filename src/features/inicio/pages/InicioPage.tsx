@@ -1,21 +1,70 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { usePapel } from '@/features/auth'
+import { Cartao } from '@/components/ui'
+import { saudacaoPorHora } from '@/domain/saudacao'
+import { aulaDeHoje } from '@/domain/trilha'
+import { useMeuPerfil } from '@/features/auth'
+import { useTrilha } from '@/features/trilha'
+import { horaEmBrasilia } from '@/lib/datas'
+import { AulaDeHoje, CartaoRanking, FaixaLive } from '../components/Cartoes'
+import { Checkin } from '../components/Checkin'
+import { useProximaLive } from '../hooks/useProximaLive'
 import { textos } from '../textos'
 
-export function InicioPage() {
-  const papel = usePapel()
+/** Primeiro nome; sem nome, o apelido. */
+function primeiroNome(nome?: string, apelido?: string | null) {
+  return nome?.trim().split(/\s+/)[0] || apelido || ''
+}
+
+function Saudacao({ nome }: { nome: string }) {
+  const [hora] = useState(() => horaEmBrasilia(new Date()))
   return (
-    <main className="mx-auto max-w-2xl px-4 py-10">
-      <h1 className="font-titulo text-3xl text-ora">{textos.titulo}</h1>
-      <p className="mt-2 text-suave">{textos.subtitulo}</p>
-      {papel.data === 'admin' && (
+    <header className="flex items-center justify-between gap-3">
+      <h1 className="font-titulo text-[1.7rem] leading-tight text-ora">
+        {saudacaoPorHora(hora)}
+        {nome && `, ${nome}`}
+      </h1>
+      {nome && (
+        <span
+          aria-hidden
+          className="grid size-11 shrink-0 place-items-center rounded-full bg-terracota-suave font-semibold text-terracota-escuro"
+        >
+          {nome[0]?.toUpperCase()}
+        </span>
+      )}
+    </header>
+  )
+}
+
+/** Início da aluna: saudação, check-in, aula de hoje, próxima live e ranking. */
+export function InicioPage() {
+  const perfil = useMeuPerfil()
+  const trilha = useTrilha()
+  const live = useProximaLive()
+  const nome = primeiroNome(perfil.data?.nome, perfil.data?.apelido)
+  const aula = trilha.data ? aulaDeHoje(trilha.data.aulas) : null
+  const semAcesso = trilha.isSuccess && trilha.data.dia === null
+  return (
+    <section className="flex flex-col gap-4">
+      <Saudacao nome={nome} />
+      {perfil.data?.papel === 'admin' && (
         <Link
           to="/app/admin"
-          className="mt-6 inline-flex min-h-12 items-center rounded-full bg-ora px-6 text-sm font-semibold tracking-[0.12em] text-creme uppercase"
+          className="inline-flex min-h-11 items-center justify-center rounded-2xl bg-ora px-5 text-sm font-semibold text-white"
         >
           {textos.painel}
         </Link>
       )}
-    </main>
+      {semAcesso ? (
+        <Cartao className="text-sm text-tinta">{textos.semAcesso}</Cartao>
+      ) : (
+        <>
+          <Checkin />
+          {aula && <AulaDeHoje aula={aula} />}
+          {live.data && <FaixaLive live={live.data} />}
+          <CartaoRanking />
+        </>
+      )}
+    </section>
   )
 }

@@ -7,6 +7,8 @@ const VAZIA: EntradaAula = {
   descricao: '',
   video_url: '',
   material_url: '',
+  profissional: '',
+  duracao: '',
   liberacao: 'compra',
   dia: '1',
 }

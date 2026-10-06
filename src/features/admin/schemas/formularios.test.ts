@@ -6,6 +6,8 @@ const aula = {
   descricao: '',
   video_url: 'https://youtu.be/dQw4w9WgXcQ',
   material_url: '',
+  profissional: '',
+  duracao: '',
   liberacao: 'compra' as const,
   dia: '',
 }

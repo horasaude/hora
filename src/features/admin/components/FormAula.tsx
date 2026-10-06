@@ -65,6 +65,33 @@ function Previa({ control }: { control: Control<EntradaAula, unknown, DadosAula>
   return <PreviaVideo link={useWatch({ control, name: 'video_url' }) ?? ''} />
 }
 
+/** Profissional e duração, lado a lado. */
+function QuemEQuanto({
+  register,
+  erro,
+}: {
+  register: UseFormRegister<EntradaAula>
+  erro?: string
+}) {
+  return (
+    <div className="grid gap-4 sm:grid-cols-2">
+      <Campo
+        rotulo={t.campoProfissional}
+        placeholder={t.exemploProfissional}
+        {...register('profissional')}
+      />
+      <Campo
+        rotulo={t.campoDuracao}
+        type="number"
+        min={1}
+        inputMode="numeric"
+        erro={erro}
+        {...register('duracao')}
+      />
+    </div>
+  )
+}
+
 type Props = {
   inicial: EntradaAula
   aoSalvar: (d: DadosAula) => Promise<unknown>
@@ -97,6 +124,7 @@ export function FormAula({ inicial, aoSalvar, aoCancelar }: Props) {
         {...register('video_url')}
       />
       <Previa control={control} />
+      <QuemEQuanto register={register} erro={erros.duracao?.message} />
       <CampoArea rotulo={t.campoDescricao} {...register('descricao')} />
       <Campo
         rotulo={t.campoMaterial}

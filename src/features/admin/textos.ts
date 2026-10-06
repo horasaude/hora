@@ -56,6 +56,9 @@ export const textos = {
     exemploVideo: 'Cole o link do vídeo',
     semPrevia: 'Não foi possível mostrar a prévia desse link.',
     campoMaterial: 'Link do material (opcional)',
+    campoProfissional: 'Profissional (opcional)',
+    exemploProfissional: 'Ana, Clara ou Laís',
+    campoDuracao: 'Duração em minutos (opcional)',
     liberacao: 'Quando libera',
     naCompra: 'Liberada na compra',
     seteDias: 'Depois de 7 dias',
@@ -100,5 +103,6 @@ export const textos = {
     data: 'Escolha a data e a hora',
     dia: 'Use um dia de 1 em diante',
     texto: 'Escreva o texto',
+    duracao: 'Use minutos inteiros, de 1 a 999',
   },
 }

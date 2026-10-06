@@ -1,5 +1,13 @@
 import { describe, expect, it } from 'vitest'
-import { deCampoBrasilia, diaEmBrasilia, formatarDataHora, paraCampoBrasilia } from './datas'
+import {
+  deCampoBrasilia,
+  diaEMes,
+  diaEmBrasilia,
+  diaSemanaEHora,
+  formatarDataHora,
+  horaEmBrasilia,
+  paraCampoBrasilia,
+} from './datas'
 
 describe('diaEmBrasilia', () => {
   it('23h50 em Brasília continua no mesmo dia, mesmo já sendo o dia seguinte em UTC', () => {
@@ -24,5 +32,15 @@ describe('campo de data e hora em Brasília', () => {
 
   it('formata data e hora curtas', () => {
     expect(formatarDataHora(new Date('2026-10-24T22:00:00Z'))).toBe('24/10/2026, 19:00')
+  })
+})
+
+describe('formatos da área da aluna', () => {
+  it('hora, dia da semana e dia/mês no horário de Brasília', () => {
+    const quinta19h = new Date('2026-10-15T22:00:00Z')
+    expect(horaEmBrasilia(quinta19h)).toBe(19)
+    expect(diaSemanaEHora(quinta19h)).toBe('quinta, 19h')
+    expect(diaSemanaEHora(new Date('2026-10-17T22:30:00Z'))).toBe('sábado, 19h30')
+    expect(diaEMes(quinta19h)).toBe('15/10')
   })
 })

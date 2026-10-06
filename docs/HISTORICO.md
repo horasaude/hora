@@ -2,6 +2,15 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-06 · main · Área da aluna
+
+- Seguindo docs/referencias/app-aluna.png: largura de celular (centralizada no computador), barra fixa com 5 ícones desenhados (Início, Trilha, Desafios, Ranking, Perfil), cartões areia, títulos Playfair verde ORA.
+- Primeiro acesso (sem apelido ou sem consentimento): boas-vindas com a logo, apelido do ranking, aceite do uso dos dados de saúde; grava apelido e consentimento_saude_em.
+- Início: saudação pela hora de Brasília e inicial, check-in (só visual, valores de exemplo), aula de hoje, próxima live, ranking (exemplo).
+- Trilha: tema da aula de hoje (dias 1 a 7: "Comece por aqui · 7 dias de preparação"), etapas em abas, progresso da etapa e semana, aulas concluídas, próxima e fechadas com a data em que abrem. Aula: vídeo, profissional e duração, texto, material, marcar como concluída.
+- Migração 20261007090000_trilha_aluna: aulas.duracao_minutos e profissional (campos novos no painel), aulas_concluidas com RLS, minha_trilha() sem link de vídeo. 26 checagens no PGlite. Regras em src/domain/trilha.ts com testes.
+- Desafios e Ranking ficam "Chega em breve" nesta etapa. Perfil mostra nome, apelido e sair.
+
 ## 2026-10-06 · main · Visual do painel igual à apresentação
 
 - Painel refeito sobre docs/referencias/painel-apresentado.png: barra lateral verde fixa (HORA em ocre, itens com bolinha colorida, item ativo com fundo claro, "Logada como" com o nome da perfis), fundo areia, título em Playfair, cartões de resumo (sálvia, ocre, terracota), tabela branca com cabeçalho em caixa alta pequena e etiquetas Publicado (verde) e Rascunho (ocre).

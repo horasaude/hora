@@ -12,6 +12,8 @@ const VAZIA: EntradaAula = {
   descricao: '',
   video_url: '',
   material_url: '',
+  profissional: '',
+  duracao: '',
   liberacao: 'compra',
   dia: '1',
 }
@@ -34,6 +36,8 @@ export function AulaDetalhe({ aulaId, etapaId, temaId }: Props) {
         descricao: aula.data.descricao,
         video_url: aula.data.video_url,
         material_url: aula.data.material_url ?? '',
+        profissional: aula.data.profissional ?? '',
+        duracao: aula.data.duracao_minutos ? String(aula.data.duracao_minutos) : '',
         ...liberacaoDoDia(aula.data.dia_liberacao),
       }
     : VAZIA

@@ -19,10 +19,12 @@ export type Database = {
           created_at: string
           descricao: string
           dia_liberacao: number
+          duracao_minutos: number | null
           etapa_id: string
           id: string
           material_url: string | null
           ordem: number
+          profissional: string | null
           publicado: boolean
           titulo: string
           updated_at: string
@@ -32,10 +34,12 @@ export type Database = {
           created_at?: string
           descricao?: string
           dia_liberacao: number
+          duracao_minutos?: number | null
           etapa_id: string
           id?: string
           material_url?: string | null
           ordem?: number
+          profissional?: string | null
           publicado?: boolean
           titulo: string
           updated_at?: string
@@ -45,10 +49,12 @@ export type Database = {
           created_at?: string
           descricao?: string
           dia_liberacao?: number
+          duracao_minutos?: number | null
           etapa_id?: string
           id?: string
           material_url?: string | null
           ordem?: number
+          profissional?: string | null
           publicado?: boolean
           titulo?: string
           updated_at?: string
@@ -92,6 +98,12 @@ export type Database = {
           titulo?: string
           updated_at?: string
         }
+        Relationships: []
+      }
+      aulas_concluidas: {
+        Row: { aula_id: string; created_at: string; perfil_id: string }
+        Insert: { aula_id: string; created_at?: string; perfil_id?: string }
+        Update: { aula_id?: string; created_at?: string; perfil_id?: string }
         Relationships: []
       }
       etapas: {
@@ -293,6 +305,25 @@ export type Database = {
       dia_de_acesso: { Args: never; Returns: number }
       eh_admin: { Args: never; Returns: boolean }
       hoje_brasilia: { Args: never; Returns: string }
+      minha_trilha: {
+        Args: never
+        Returns: {
+          concluida: boolean
+          dia_liberacao: number
+          duracao_minutos: number | null
+          etapa_id: string
+          etapa_ordem: number
+          etapa_titulo: string
+          id: string
+          liberada: boolean
+          ordem: number
+          profissional: string | null
+          tema_id: string
+          tema_ordem: number
+          tema_titulo: string
+          titulo: string
+        }[]
+      }
       mover_aula: {
         Args: { p_direcao: number; p_id: string }
         Returns: undefined

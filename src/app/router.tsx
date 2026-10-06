@@ -20,6 +20,27 @@ const rotasAdmin: RouteObject[] = [
   ...['avisos', 'avisos/novo', 'avisos/:avisoId'].map((path) => ({ path, lazy: avisos })),
 ]
 
+// Área da aluna (/app): moldura com a barra de baixo; cada tela carrega sob demanda.
+const trilha = () => import('@/features/trilha')
+const emBreve = (titulo: string) => async () => {
+  const { EmBrevePage } = await import('./EmBrevePage')
+  return { Component: () => <EmBrevePage titulo={titulo} /> }
+}
+const rotasAluna: RouteObject[] = [
+  {
+    index: true,
+    lazy: async () => ({ Component: (await import('@/features/inicio')).InicioPage }),
+  },
+  { path: 'trilha', lazy: async () => ({ Component: (await trilha()).TrilhaPage }) },
+  { path: 'aula/:aulaId', lazy: async () => ({ Component: (await trilha()).AulaPage }) },
+  { path: 'desafios', lazy: emBreve('Desafios') },
+  { path: 'ranking', lazy: emBreve('Ranking') },
+  {
+    path: 'perfil',
+    lazy: async () => ({ Component: (await import('@/features/perfil')).PerfilPage }),
+  },
+]
+
 export const router = createBrowserRouter([
   { path: '/', element: <VendasPage /> },
   { path: '/obrigada', element: <ObrigadaPage /> },
@@ -41,8 +62,8 @@ export const router = createBrowserRouter([
         lazy: async () => ({ Component: (await import('./AreaAluna')).AreaAluna }),
         children: [
           {
-            index: true,
-            lazy: async () => ({ Component: (await import('@/features/inicio')).InicioPage }),
+            lazy: async () => ({ Component: (await import('./LayoutAluna')).LayoutAluna }),
+            children: rotasAluna,
           },
           {
             path: 'admin',

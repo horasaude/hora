@@ -31,6 +31,16 @@ export const esquemaAula = z
     descricao: z.string().trim().max(5000),
     video_url: linkObrigatorio,
     material_url: linkOpcional,
+    profissional: z
+      .string()
+      .trim()
+      .max(80)
+      .transform((v) => v || null),
+    duracao: z
+      .string()
+      .trim()
+      .refine((v) => v === '' || /^[1-9]\d{0,2}$/.test(v), e.duracao)
+      .transform((v) => (v ? Number(v) : null)),
     liberacao: z.enum(['compra', 'sete', 'outro']),
     dia: z.string(),
   })
@@ -38,8 +48,9 @@ export const esquemaAula = z
     path: ['dia'],
     message: e.dia,
   })
-  .transform(({ liberacao, dia, ...resto }) => ({
+  .transform(({ liberacao, dia, duracao, ...resto }) => ({
     ...resto,
+    duracao_minutos: duracao,
     dia_liberacao: liberacao === 'compra' ? 1 : liberacao === 'sete' ? 8 : Number(dia),
   }))
 

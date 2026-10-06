@@ -34,3 +34,24 @@ export async function buscarNome(): Promise<string | null> {
   if (error) throw error
   return data.nome
 }
+
+export type MeuPerfil = {
+  nome: string
+  apelido: string | null
+  papel: string
+  consentimento_saude_em: string | null
+  acesso_inicio_em: string | null
+}
+
+/** Perfil da usuária logada: nome, apelido, consentimento e início do acesso. */
+export async function buscarMeuPerfil(): Promise<MeuPerfil | null> {
+  const { data: sessao } = await supabase.auth.getUser()
+  if (!sessao.user) return null
+  const { data, error } = await supabase
+    .from('perfis')
+    .select('nome, apelido, papel, consentimento_saude_em, acesso_inicio_em')
+    .eq('id', sessao.user.id)
+    .single()
+  if (error) throw error
+  return data
+}
