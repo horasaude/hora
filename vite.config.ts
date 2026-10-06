@@ -14,6 +14,21 @@ export default defineConfig({
       // Assim a página de vendas vem sempre da rede e não baixa o app em segundo plano.
       injectRegister: false,
       scope: '/app/',
+      // A página do app vem sempre da rede quando há internet (cache só sem conexão).
+      // Antes ela vinha do cache e uma versão velha mandava endereços novos para a página de vendas.
+      workbox: {
+        navigateFallback: null,
+        cleanupOutdatedCaches: true,
+        clientsClaim: true,
+        skipWaiting: true,
+        runtimeCaching: [
+          {
+            urlPattern: ({ request }) => request.mode === 'navigate',
+            handler: 'NetworkFirst',
+            options: { cacheName: 'paginas', networkTimeoutSeconds: 4 },
+          },
+        ],
+      },
       manifest: {
         name: 'HORA',
         short_name: 'HORA',
