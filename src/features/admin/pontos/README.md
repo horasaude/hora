@@ -6,6 +6,7 @@ Página /app/admin/pontos, com abas por ?aba= (regras, historico, fotos, indicac
 | ---------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
 | PontosPage.tsx                                             | cartões, abas                                                                                   |
 | components/AbaRegras.tsx, RegraJanela.tsx, Interruptor.tsx | tabela de regras com ligar e desligar; editar pontos e limite na Janela (vale dali para frente) |
+| components/RegraCampos.tsx, DarPontosJanela.tsx            | Nova ação (nome, pontos, limite) e Dar pontos para as alunas marcadas, só em ações próprias     |
 | components/AbaHistorico.tsx, AjusteJanela.tsx              | histórico com filtros aluna, ação e mês; Lançar ajuste com motivo obrigatório                   |
 | components/AbaFotos.tsx, FotoJanela.tsx                    | grade de fotos de treino (link assinado); foto aberta grande, Invalidar foto estorna os pontos  |
 | components/AbaIndicacoes.tsx                               | indicações com Aguardando garantia, Confirmada, Cancelada                                       |

@@ -44,10 +44,30 @@ export const t = {
         ? qtd === 1
           ? '1 por dia'
           : `Até ${qtd} por dia`
-        : (POR_ITEM[acao] ?? '1 por item'),
+        : (POR_ITEM[acao] ?? (acao.startsWith('extra_') ? 'Uma vez por aluna' : '1 por item')),
   regras: {
     colunas: ['Ação', 'Valor', 'Limite', 'Ativa', ''],
     editar: 'Editar regra',
+    nova: 'Nova ação',
+    nome: 'Nome da ação',
+    tiposPropria: {
+      por_dia: 'Por dia',
+      por_referencia: 'Uma vez por aluna',
+      sem_limite: 'Sem limite',
+    },
+    erroNome: 'Escreva o nome da ação (até 80 letras)',
+    darPontos: 'Dar pontos',
+    darTitulo: (nome: string) => `Dar pontos: ${nome}`,
+    buscar: 'Buscar aluna',
+    marcadas: (n: number) => (n === 1 ? '1 aluna marcada' : `${n} alunas marcadas`),
+    semAlunas: 'Nenhuma aluna encontrada.',
+    erroMarcar: 'Marque pelo menos uma aluna',
+    dados: (n: number) =>
+      n === 0
+        ? 'Ninguém recebeu: já tinham os pontos ou passou do limite.'
+        : n === 1
+          ? 'Pontos dados para 1 aluna.'
+          : `Pontos dados para ${n} alunas.`,
     pontos: 'Pontos',
     limiteTipo: 'Limite',
     tipos: { por_dia: 'Por dia', por_referencia: 'Uma vez por item', sem_limite: 'Sem limite' },

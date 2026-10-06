@@ -9,10 +9,19 @@ import {
   resumoPontos,
   type FiltroHistorico,
 } from '../api/pontos.api'
+import { ACOES } from '../textos'
 
 export const useResumoPontos = () =>
   useQuery({ queryKey: ['pontos-resumo'], queryFn: resumoPontos })
 export const useRegras = () => useQuery({ queryKey: ['regras-pontos'], queryFn: listarRegras })
+/** Nomes de todas as ações: as fixas e as criadas no painel. */
+export function useNomesAcoes(): Record<string, string> {
+  const regras = useRegras().data ?? []
+  return {
+    ...ACOES,
+    ...Object.fromEntries(regras.filter((r) => r.propria).map((r) => [r.acao, r.nome])),
+  }
+}
 export const useLancamentos = (f: FiltroHistorico) =>
   useQuery({
     queryKey: ['lancamentos', f],

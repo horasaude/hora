@@ -5,8 +5,8 @@ import { Estado } from '../../components/Estado'
 import { Tabela } from '../../components/Tabela'
 import { Paginacao } from '../../plano/components/Ferramentas'
 import type { FiltroHistorico, Lancamento } from '../api/pontos.api'
-import { useAlunasSimples, useLancamentos } from '../hooks/usePontos'
-import { ACOES, t } from '../textos'
+import { useAlunasSimples, useLancamentos, useNomesAcoes } from '../hooks/usePontos'
+import { t } from '../textos'
 import { AjusteJanela } from './AjusteJanela'
 
 const h = t.historico
@@ -21,6 +21,7 @@ function Filtros({
   mudar: (p: Partial<FiltroHistorico>) => void
 }) {
   const alunas = useAlunasSimples().data ?? []
+  const nomes = useNomesAcoes()
   return (
     <div className="flex flex-wrap gap-2">
       <select
@@ -47,7 +48,7 @@ function Filtros({
         <option value="">
           {h.acao}: {h.todas}
         </option>
-        {Object.entries(ACOES).map(([v, n]) => (
+        {Object.entries(nomes).map(([v, n]) => (
           <option key={v} value={v}>
             {n}
           </option>
@@ -65,13 +66,14 @@ function Filtros({
 }
 
 function TabelaHistorico({ lista, total }: { lista: Lancamento[]; total: number }) {
+  const nomes = useNomesAcoes()
   return (
     <Tabela colunas={h.colunas}>
       {lista.map((l) => (
         <tr key={l.id} className="border-b border-[#F4F5F4] last:border-b-0">
           <td className="px-3.5 py-3 font-bold text-tinta">{l.perfis?.nome ?? '-'}</td>
           <td className="px-3.5 py-3">
-            {ACOES[l.acao] ?? l.acao}
+            {nomes[l.acao] ?? l.acao}
             {l.motivo && <span className="block text-xs text-suave">{l.motivo}</span>}
           </td>
           <td

@@ -191,12 +191,63 @@ async function indicacoes(t) {
   )
 }
 
+async function acoesProprias(t) {
+  const { esperaValor, esperaErro, db } = t
+  await t.comoAluna(ALUNA)
+  await esperaErro(
+    'aluna não cria ação',
+    `select public.criar_acao('Post', 20, 'sem_limite', null)`,
+  )
+  await t.comoAluna(ADMIN)
+  const acao = (
+    await db.query(
+      `select public.criar_acao(' Post no Instagram ', 20, 'por_referencia', null) as a`,
+    )
+  ).rows[0].a
+  await esperaValor(
+    'ação nova nasce própria e ativa',
+    `select propria and ativo and nome = 'Post no Instagram' from public.regras_pontos where acao = '${acao}'`,
+    true,
+  )
+  await esperaValor(
+    'admin renomeia a ação',
+    `with u as (update public.regras_pontos set nome = 'Post da HORA' where acao = '${acao}' returning 1) select count(*)::int from u`,
+    1,
+  )
+  const antes = (await db.query(soma(ALUNA))).rows[0].coalesce
+  await esperaValor(
+    'dar pontos para duas alunas',
+    `select public.dar_pontos_acao('${acao}', array['${ALUNA}', '${AMIGA}', '${ADMIN}']::uuid[])`,
+    2,
+  )
+  await esperaValor('aluna recebe 20', soma(ALUNA), antes + 20)
+  await esperaValor(
+    'uma vez só não repete',
+    `select public.dar_pontos_acao('${acao}', array['${ALUNA}']::uuid[])`,
+    0,
+  )
+  await esperaErro(
+    'ação pronta não recebe pontos pelo painel',
+    `select public.dar_pontos_acao('agua', array['${ALUNA}']::uuid[])`,
+  )
+  await esperaErro(
+    'nome de ação fora do padrão é recusado',
+    `insert into public.regras_pontos (acao, nome, pontos, limite_tipo) values ('qualquer', 'X', 1, 'sem_limite')`,
+  )
+  await t.comoAluna(ALUNA)
+  await esperaErro(
+    'aluna não dá pontos',
+    `select public.dar_pontos_acao('${acao}', array['${ALUNA}']::uuid[])`,
+  )
+}
+
 export async function testarPontos() {
   const t = await criarBanco()
   await montar(t.db)
   await checkins(t)
   await admin(t)
   await indicacoes(t)
+  await acoesProprias(t)
   await t.comoDono()
   return t.fim('pontos e indicações')
 }

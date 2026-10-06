@@ -24,11 +24,32 @@ export async function listarRegras(): Promise<Regra[]> {
   return ok(await supabase.from('regras_pontos').select('*').order('ordem'))
 }
 
-export async function salvarRegra(
-  r: Pick<Regra, 'acao' | 'pontos' | 'limite_tipo' | 'limite_qtd' | 'ativo'>,
-) {
-  const { acao, ...campos } = r
+export type DadosRegra = Pick<Regra, 'acao' | 'pontos' | 'limite_tipo' | 'limite_qtd' | 'ativo'> & {
+  nome?: string
+}
+
+/** Só os campos que o banco deixa mudar (pontos, limite, ligada e nome). */
+export async function salvarRegra(r: DadosRegra) {
+  const { acao, pontos, limite_tipo, limite_qtd, ativo, nome } = r
+  const campos = { pontos, limite_tipo, limite_qtd, ativo, ...(nome ? { nome } : {}) }
   ok(await supabase.from('regras_pontos').update(campos).eq('acao', acao))
+}
+
+/** Ação criada pelas profissionais; o banco gera o código (extra_...). */
+export async function criarAcao(r: Omit<DadosRegra, 'acao' | 'ativo'> & { nome: string }) {
+  return ok(
+    await supabase.rpc('criar_acao', {
+      p_nome: r.nome,
+      p_pontos: r.pontos,
+      p_limite_tipo: r.limite_tipo,
+      p_limite_qtd: r.limite_qtd,
+    }),
+  )
+}
+
+/** Dá os pontos de uma ação própria às alunas marcadas; volta quantas receberam. */
+export async function darPontosAcao(d: { acao: string; perfis: string[] }) {
+  return ok(await supabase.rpc('dar_pontos_acao', { p_acao: d.acao, p_perfis: d.perfis }))
 }
 
 export type FiltroHistorico = {

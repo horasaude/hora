@@ -953,6 +953,7 @@ export type Database = {
           limite_tipo: string
           nome: string
           ordem: number
+          propria: boolean
           pontos: number
           updated_at: string
         }
@@ -963,6 +964,7 @@ export type Database = {
           limite_tipo: string
           nome: string
           ordem?: number
+          propria?: boolean
           pontos: number
           updated_at?: string
         }
@@ -973,6 +975,7 @@ export type Database = {
           limite_tipo?: string
           nome?: string
           ordem?: number
+          propria?: boolean
           pontos?: number
           updated_at?: string
         }
@@ -1031,6 +1034,11 @@ export type Database = {
         Returns: string
       }
       confirmar_indicacoes: { Args: never; Returns: number }
+      criar_acao: {
+        Args: { p_limite_qtd: number | null; p_limite_tipo: string; p_nome: string; p_pontos: number }
+        Returns: string
+      }
+      dar_pontos_acao: { Args: { p_acao: string; p_perfis: string[] }; Returns: number }
       dia_de_acesso: { Args: never; Returns: number }
       dias_cumpridos: {
         Args: { p_desafio: string; p_perfil: string }

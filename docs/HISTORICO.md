@@ -2,6 +2,12 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-06 · main · Ações próprias em Pontos e indicações
+
+- Botão Nova ação na aba Regras: nome, pontos e limite (por dia, uma vez por aluna ou sem limite). No menu da ação, Dar pontos abre a lista de alunas para marcar quem cumpriu; o banco respeita o limite e devolve quantas receberam.
+- Migração 20261007200000_acoes_proprias (10 checagens novas no PGlite). Histórico e filtro mostram o nome das ações próprias.
+- Corrigido: ligar e desligar regra mandava colunas que o banco não deixa mudar e falhava; agora vão só pontos, limite, ligada e nome.
+
 ## 2026-10-06 · main · Pontos e indicações, ajustes em Desafios
 
 - Banco (20261007180000_pontos_indicacoes, 47 checagens no PGlite): regras_pontos com as 10 regras iniciais, lancamentos_pontos imutável (estorno e ajuste são lançamentos novos), checkins com foto em bucket privado, denúncias, indicações com 7 dias de garantia e sem autoindicação por e-mail ou CPF. Pontos de aula concluída e de desafio por gatilho. Cron confirma indicações (03:15) e a Edge Function limpar-fotos apaga fotos com mais de 90 dias (03:30), sem tirar pontos.
