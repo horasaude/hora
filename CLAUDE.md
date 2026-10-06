@@ -65,6 +65,6 @@ Stack: React + Vite + TypeScript, Tailwind, TanStack Query, Zod, Supabase (Postg
 ## Forma de trabalhar
 
 - Use /inicio no começo da sessão, /tarefa <descrição> para trabalhar e /fim ao terminar.
-- Plano antes de código; espere aprovação. Uma tarefa por vez, sem mexer fora do escopo dela.
+- Sem plano antes de código: execute direto (pedido da dona do projeto, 2026-10-06). Pergunte só quando houver decisão em aberto ou ação em produção. Uma tarefa por vez, sem mexer fora do escopo dela.
 - Biblioteca nova só com justificativa.
 - Ao terminar: npm run check verde e lista de arquivos alterados com número de linhas.
