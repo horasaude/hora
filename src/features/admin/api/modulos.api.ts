@@ -60,3 +60,7 @@ export async function buscarConfiguracoes(): Promise<Configuracoes> {
 export async function salvarConfiguracoes(campos: TablesUpdate<'configuracoes'>): Promise<void> {
   ok(await supabase.from('configuracoes').update(campos).eq('id', true))
 }
+
+export async function listarParticipantes(desafio: string) {
+  return ok(await supabase.rpc('participantes_desafio', { p_desafio: desafio }))
+}

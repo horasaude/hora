@@ -17,7 +17,8 @@ const pagina =
       | 'RefeicoesPage'
       | 'ReceitasPage'
       | 'ReceitaPage'
-      | 'AlimentosPage',
+      | 'AlimentosPage'
+      | 'PontosPage',
   ) =>
   async () => ({
     Component: (await admin())[nome],
@@ -51,7 +52,8 @@ const rotasAdmin: RouteObject[] = [
   ...['desafios', 'desafios/novo', 'desafios/:desafioId'].map((path) => ({ path, lazy: desafios })),
   ...['alunas', 'alunas/:alunaId'].map((path) => ({ path, lazy: alunas })),
   ...['configuracoes', 'configuracoes/:item'].map((path) => ({ path, lazy: configuracoes })),
-  ...(['pontos', 'forum', 'financeiro', 'loja'] as const).map((m) => ({ path: m, lazy: vazio(m) })),
+  { path: 'pontos', lazy: pagina('PontosPage') },
+  ...(['forum', 'financeiro', 'loja'] as const).map((m) => ({ path: m, lazy: vazio(m) })),
 ]
 
 // Área da aluna (/app): moldura com a barra de baixo; cada tela carrega sob demanda.

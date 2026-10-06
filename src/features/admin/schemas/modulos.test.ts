@@ -13,6 +13,7 @@ const base = {
   pontos_por_dia: '10',
   bonus_conclusao: '100',
   premio: 'Caixa surpresa',
+  premio_surpresa: true,
   publico: 'todas' as const,
 }
 

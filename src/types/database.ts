@@ -223,6 +223,56 @@ export type Database = {
         }
         Relationships: []
       }
+      checkins: {
+        Row: {
+          created_at: string
+          dia: string
+          foto_apagada_em: string | null
+          foto_path: string | null
+          id: string
+          invalidado_em: string | null
+          invalidado_por: string | null
+          motivo_invalidacao: string | null
+          perfil_id: string
+          tipo: string
+          tipo_treino: string | null
+        }
+        Insert: {
+          created_at?: string
+          dia?: string
+          foto_apagada_em?: string | null
+          foto_path?: string | null
+          id?: string
+          invalidado_em?: string | null
+          invalidado_por?: string | null
+          motivo_invalidacao?: string | null
+          perfil_id: string
+          tipo: string
+          tipo_treino?: string | null
+        }
+        Update: {
+          created_at?: string
+          dia?: string
+          foto_apagada_em?: string | null
+          foto_path?: string | null
+          id?: string
+          invalidado_em?: string | null
+          invalidado_por?: string | null
+          motivo_invalidacao?: string | null
+          perfil_id?: string
+          tipo?: string
+          tipo_treino?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "checkins_perfil_id_fkey"
+            columns: ["perfil_id"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       configuracoes: {
         Row: {
           id: boolean
@@ -273,6 +323,32 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      denuncias_checkin: {
+        Row: {
+          checkin_id: string
+          created_at: string
+          perfil_id: string
+        }
+        Insert: {
+          checkin_id: string
+          created_at?: string
+          perfil_id?: string
+        }
+        Update: {
+          checkin_id?: string
+          created_at?: string
+          perfil_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "denuncias_checkin_checkin_id_fkey"
+            columns: ["checkin_id"]
+            isOneToOne: false
+            referencedRelation: "checkins"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       desafio_checkins: {
         Row: {
@@ -363,6 +439,7 @@ export type Database = {
           nome: string
           pontos_por_dia: number
           premio: string
+          premio_surpresa: boolean
           publicado: boolean
           publico: Database["public"]["Enums"]["publico_desafio"]
           tipo_checkin: Database["public"]["Enums"]["tipo_checkin"]
@@ -382,6 +459,7 @@ export type Database = {
           nome: string
           pontos_por_dia?: number
           premio?: string
+          premio_surpresa?: boolean
           publicado?: boolean
           publico?: Database["public"]["Enums"]["publico_desafio"]
           tipo_checkin: Database["public"]["Enums"]["tipo_checkin"]
@@ -401,6 +479,7 @@ export type Database = {
           nome?: string
           pontos_por_dia?: number
           premio?: string
+          premio_surpresa?: boolean
           publicado?: boolean
           publico?: Database["public"]["Enums"]["publico_desafio"]
           tipo_checkin?: Database["public"]["Enums"]["tipo_checkin"]
@@ -450,6 +529,63 @@ export type Database = {
           },
         ]
       }
+      indicacoes: {
+        Row: {
+          compra_confirmada_em: string
+          created_at: string
+          garantia_ate: string
+          id: string
+          indicada_cpf: string | null
+          indicada_email: string
+          indicada_id: string | null
+          indicada_nome: string
+          indicadora_id: string
+          motivo_cancelamento: string | null
+          status: string
+        }
+        Insert: {
+          compra_confirmada_em?: string
+          created_at?: string
+          garantia_ate?: string
+          id?: string
+          indicada_cpf?: string | null
+          indicada_email: string
+          indicada_id?: string | null
+          indicada_nome?: string
+          indicadora_id: string
+          motivo_cancelamento?: string | null
+          status?: string
+        }
+        Update: {
+          compra_confirmada_em?: string
+          created_at?: string
+          garantia_ate?: string
+          id?: string
+          indicada_cpf?: string | null
+          indicada_email?: string
+          indicada_id?: string | null
+          indicada_nome?: string
+          indicadora_id?: string
+          motivo_cancelamento?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "indicacoes_indicadora_id_fkey"
+            columns: ["indicadora_id"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "indicacoes_indicada_id_fkey"
+            columns: ["indicada_id"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       interessadas: {
         Row: {
           created_at: string
@@ -494,6 +630,56 @@ export type Database = {
           whatsapp?: string
         }
         Relationships: []
+      }
+      lancamentos_pontos: {
+        Row: {
+          acao: string
+          created_at: string
+          criado_por: string | null
+          dia: string
+          estorna: string | null
+          id: string
+          motivo: string | null
+          origem: string
+          perfil_id: string
+          pontos: number
+          referencia: string | null
+        }
+        Insert: {
+          acao: string
+          created_at?: string
+          criado_por?: string | null
+          dia?: string
+          estorna?: string | null
+          id?: string
+          motivo?: string | null
+          origem: string
+          perfil_id: string
+          pontos: number
+          referencia?: string | null
+        }
+        Update: {
+          acao?: string
+          created_at?: string
+          criado_por?: string | null
+          dia?: string
+          estorna?: string | null
+          id?: string
+          motivo?: string | null
+          origem?: string
+          perfil_id?: string
+          pontos?: number
+          referencia?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lancamentos_pontos_perfil_id_fkey"
+            columns: ["perfil_id"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       lives: {
         Row: {
@@ -568,7 +754,9 @@ export type Database = {
           acesso_fim_em: string | null
           acesso_inicio_em: string | null
           apelido: string | null
+          codigo_indicacao: string
           consentimento_saude_em: string | null
+          cpf: string | null
           created_at: string
           id: string
           nome: string
@@ -581,7 +769,9 @@ export type Database = {
           acesso_fim_em?: string | null
           acesso_inicio_em?: string | null
           apelido?: string | null
+          codigo_indicacao?: string
           consentimento_saude_em?: string | null
+          cpf?: string | null
           created_at?: string
           id: string
           nome?: string
@@ -594,7 +784,9 @@ export type Database = {
           acesso_fim_em?: string | null
           acesso_inicio_em?: string | null
           apelido?: string | null
+          codigo_indicacao?: string
           consentimento_saude_em?: string | null
+          cpf?: string | null
           created_at?: string
           id?: string
           nome?: string
@@ -725,6 +917,39 @@ export type Database = {
         }
         Relationships: []
       }
+      regras_pontos: {
+        Row: {
+          acao: string
+          ativo: boolean
+          limite_qtd: number | null
+          limite_tipo: string
+          nome: string
+          ordem: number
+          pontos: number
+          updated_at: string
+        }
+        Insert: {
+          acao: string
+          ativo?: boolean
+          limite_qtd?: number | null
+          limite_tipo: string
+          nome: string
+          ordem?: number
+          pontos: number
+          updated_at?: string
+        }
+        Update: {
+          acao?: string
+          ativo?: boolean
+          limite_qtd?: number | null
+          limite_tipo?: string
+          nome?: string
+          ordem?: number
+          pontos?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       temas: {
         Row: {
           created_at: string
@@ -830,6 +1055,17 @@ export type Database = {
       salvar_receita_itens: {
         Args: { p_itens: Json; p_receita: string }
         Returns: undefined
+      }
+      fazer_checkin: { Args: { p_foto_path?: string; p_tipo: string; p_tipo_treino?: string }; Returns: string }
+      invalidar_checkin: { Args: { p_checkin: string; p_motivo: string }; Returns: number }
+      lancar_ajuste: { Args: { p_motivo: string; p_perfil: string; p_pontos: number }; Returns: string }
+      painel_pontos: {
+        Args: never
+        Returns: { checkins_hoje: number; fotos_denunciadas: number; indicacoes_mes: number; pontos_mes: number }[]
+      }
+      participantes_desafio: {
+        Args: { p_desafio: string }
+        Returns: { apelido: string | null; dias: number; meta: number; nome: string; perfil_id: string }[]
       }
       tem_acesso_ativo: { Args: never; Returns: boolean }
       texto_busca: { Args: { valor: string }; Returns: string }

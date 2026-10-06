@@ -31,6 +31,7 @@ export const esquemaDesafio = z
     pontos_por_dia: inteiro(0),
     bonus_conclusao: inteiro(0),
     premio: texto(500),
+    premio_surpresa: z.boolean(),
     publico: z.enum(['todas', 'inscritas']),
   })
   .refine((v) => v.fim >= v.inicio, { path: ['fim'], message: d.periodo })

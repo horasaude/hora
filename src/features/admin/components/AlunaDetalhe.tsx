@@ -2,6 +2,8 @@ import { BarraProgresso } from '@/components/ui'
 import type { StatusAluna } from '@/domain/painel'
 import { formatarData, quandoFoi } from '@/lib/datas'
 import type { AlunaPainel } from '../api/modulos.api'
+import { useCodigoIndicacao } from '../pontos/hooks/usePontos'
+import { linkIndicacao, t as tPontos } from '../pontos/textos'
 import { textos } from '../textos'
 import { CartaoDetalhe, Dados } from './CartaoDetalhe'
 import { Etiqueta } from './Tabela'
@@ -11,6 +13,11 @@ const TOM = { em_dia: 'verde', atencao: 'ocre', sumiu: 'rosa', sem_acesso: 'neut
 
 export function EtiquetaAluna({ status }: { status: StatusAluna }) {
   return <Etiqueta tom={TOM[status]}>{t.status[status]}</Etiqueta>
+}
+
+function LinkIndicacao({ perfil }: { perfil: string }) {
+  const codigo = useCodigoIndicacao(perfil).data
+  return codigo ? <span className="break-all">{linkIndicacao(codigo)}</span> : '-'
 }
 
 const data = (iso: string | null) => (iso ? formatarData(new Date(iso)) : '-')
@@ -39,6 +46,7 @@ export function AlunaDetalhe({
             a.ultimo_acesso_em ? quandoFoi(new Date(a.ultimo_acesso_em), agora) : t.nunca,
           ],
           [t.dadoStatus, <EtiquetaAluna key="s" status={status} />],
+          [tPontos.link, <LinkIndicacao key="l" perfil={a.id} />],
         ]}
       />
       <section className="flex flex-col gap-2 border-t border-linha pt-5">

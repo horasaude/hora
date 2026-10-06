@@ -7,6 +7,7 @@ import { textos } from '../textos'
 import { BotaoPublicar } from './BotaoPublicar'
 import { CartaoDetalhe, Dados } from './CartaoDetalhe'
 import { DesafioForm } from './DesafioForm'
+import { Participantes } from './Participantes'
 import { EtiquetaDesafio } from './SituacaoDesafio'
 import { BotaoEncerrar, Vencedoras } from './Vencedoras'
 
@@ -40,7 +41,14 @@ function Resumo({ desafio: d, situacao, numeros, aoEditar }: Props & { aoEditar:
           [t.campoTipo, t.tipos[d.tipo_checkin]],
           [t.dadoMeta, t.meta(d.meta_dias, diaria)],
           [t.dadoPontos, t.pontos(d.pontos_por_dia, d.bonus_conclusao)],
-          ...(d.premio ? [[t.dadoPremio, d.premio] as [string, string]] : []),
+          ...(d.premio || d.premio_surpresa
+            ? [
+                [
+                  t.dadoPremio,
+                  [d.premio, d.premio_surpresa ? t.surpresa : ''].filter(Boolean).join(' · '),
+                ] as [string, string],
+              ]
+            : []),
           [t.campoPublico, t.publicos[d.publico]],
           [t.dadoGente, String(numeros.participantes)],
           [t.dadoConcluiram, String(numeros.concluintes)],
@@ -54,6 +62,7 @@ function Resumo({ desafio: d, situacao, numeros, aoEditar }: Props & { aoEditar:
         {situacao !== 'encerrado' && <BotaoEncerrar id={d.id} />}
       </div>
       {situacao === 'encerrado' && <Vencedoras id={d.id} />}
+      {situacao !== 'rascunho' && <Participantes desafio={d.id} />}
     </>
   )
 }

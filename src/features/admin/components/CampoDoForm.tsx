@@ -5,7 +5,7 @@ import { CampoArea } from './CampoArea'
 export type CampoDef<E> = {
   nome: Path<E & FieldValues>
   rotulo: string
-  tipo?: 'texto' | 'area' | 'datahora' | 'link' | 'data' | 'numero' | 'escolha'
+  tipo?: 'texto' | 'area' | 'datahora' | 'link' | 'data' | 'numero' | 'escolha' | 'marcar'
   opcoes?: { valor: string; nome: string }[]
   sugestoes?: string[]
   /** Na janela: 'meia' divide a linha com outro campo; 'inteira' ocupa a linha. Texto longo é inteira por padrão. */
@@ -26,6 +26,13 @@ type Props<E extends FieldValues> = {
 export function CampoDoForm<E extends FieldValues>({ campo: c, register, erro }: Props<E>) {
   const reg = register(c.nome as Path<E>)
   if (c.tipo === 'area') return <CampoArea rotulo={c.rotulo} erro={erro} {...reg} />
+  if (c.tipo === 'marcar')
+    return (
+      <label className="flex min-h-12 items-center gap-3 text-sm font-medium">
+        <input type="checkbox" className="size-5 accent-ora" {...reg} />
+        {c.rotulo}
+      </label>
+    )
   if (c.tipo === 'escolha')
     return (
       <div className="flex flex-col gap-1 text-sm">

@@ -4,6 +4,7 @@ import {
   encerrarDesafio,
   listarAlunas,
   listarDesafios,
+  listarParticipantes,
   listarVencedoras,
   numerosDesafios,
   salvarConfiguracoes,
@@ -14,6 +15,8 @@ export const useNumerosDesafios = () =>
   useQuery({ queryKey: ['desafios-numeros'], queryFn: numerosDesafios })
 export const useVencedoras = (id: string, ligado: boolean) =>
   useQuery({ queryKey: ['vencedoras', id], queryFn: () => listarVencedoras(id), enabled: ligado })
+export const useParticipantes = (desafio: string) =>
+  useQuery({ queryKey: ['participantes', desafio], queryFn: () => listarParticipantes(desafio) })
 export const useAlunas = () => useQuery({ queryKey: ['alunas'], queryFn: listarAlunas })
 export const useConfiguracoes = () =>
   useQuery({ queryKey: ['configuracoes'], queryFn: buscarConfiguracoes })

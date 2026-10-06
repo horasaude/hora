@@ -33,6 +33,6 @@ Cada endereço de detalhe (/conteudo/:temaId, /aulas/nova, /aulas/:aulaId, /live
 
 Reordenar troca duas posições numa função do banco (etapas com ordem única adiável), então nunca fica ordem repetida no meio da troca. Prévia de vídeo: src/lib/video.ts (YouTube, Vimeo, Google Drive). Sem exclusão nesta versão: tirar do ar é o caminho.
 
-Menu na ordem: Conteúdo, Cardápios, Lives, Desafios e prêmios, Pontos e indicações, Fórum, Avisos, Alunas, Financeiro, Loja, Configurações. Status da aluna e situação do desafio em src/domain/painel.ts.
+Menu na ordem: Conteúdo, Cardápios, Lives, Desafios e prêmios, Pontos e indicações, Fórum, Avisos, Alunas, Financeiro, Loja, Configurações. Status da aluna e situação do desafio em src/domain/painel.ts. Pontos e indicações em pontos/ (README próprio). Desafio aberto mostra participantes com barra dourada (Participantes.tsx, rpc participantes_desafio); prêmio pode ser caixa surpresa. No detalhe da aluna aparece o link de indicação.
 
 Exporta (index.ts): PainelLayout e as páginas de cada módulo (carregadas sob demanda pelo router).

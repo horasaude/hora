@@ -24,6 +24,7 @@ const CAMPOS: CampoDef<Entrada>[] = [
   { nome: 'pontos_por_dia', rotulo: t.campoPontos, tipo: 'numero' },
   { nome: 'bonus_conclusao', rotulo: t.campoBonus, tipo: 'numero' },
   { nome: 'premio', rotulo: t.campoPremio },
+  { nome: 'premio_surpresa', rotulo: t.campoSurpresa, tipo: 'marcar' },
   { nome: 'publico', rotulo: t.campoPublico, tipo: 'escolha', opcoes: opcoes(t.publicos) },
 ]
 
@@ -40,6 +41,7 @@ function inicial(d?: Desafio): Entrada {
     pontos_por_dia: String(d?.pontos_por_dia ?? 10),
     bonus_conclusao: String(d?.bonus_conclusao ?? 0),
     premio: d?.premio ?? '',
+    premio_surpresa: d?.premio_surpresa ?? false,
     publico: d?.publico ?? 'todas',
   }
 }
