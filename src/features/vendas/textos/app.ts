@@ -46,7 +46,7 @@ export const app = {
     dia: 'Dia 12 · Semana 2',
     live: {
       rotulo: 'Próxima live',
-      tema: 'Seus exames estão em dia?',
+      tema: 'Mais energia no dia a dia',
       quando: 'Quinta, 19h · Dra. Clara',
       botao: 'Lembrar de mim',
     },

@@ -64,7 +64,7 @@ export const produto = {
         papel: 'Médica nutróloga',
         frase: 'Olha para a sua saúde por inteiro, com orientação médica e responsável.',
         foto: '/fotos/clara.webp' as string | undefined,
-        cartao: { titulo: 'Live quinta, 19h', texto: 'Seus exames estão em dia?' },
+        cartao: { titulo: 'Live quinta, 19h', texto: 'Mais energia no dia a dia' },
       },
       {
         nome: 'Laís Moraes',

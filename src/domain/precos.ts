@@ -1,4 +1,4 @@
-import { FIM_OFERTA_ORA, ofertaOraDisponivel } from './oferta'
+import { estadoOferta, FIM_OFERTA_ORA, INICIO_OFERTA_ORA, ofertaOraDisponivel } from './oferta'
 
 /** Valores em centavos. As parcelas são o valor de cada uma das 12. */
 export type Precos = {
@@ -47,17 +47,24 @@ export function precosPara(emOferta: boolean): Precos {
 
 export type TempoRestante = { dias: number; horas: number; minutos: number; segundos: number }
 
-/** Quanto falta para o fim da oferta, ou null se já acabou. */
-export function tempoRestanteOferta(agora: Date): TempoRestante | null {
-  const ms = FIM_OFERTA_ORA.getTime() - agora.getTime()
-  if (ms < 0) return null
-  const total = Math.floor(ms / 1000)
+/** Contagem da oferta: até começar (antes do dia) ou até acabar (no dia). Depois, null. */
+export type Contagem = { estado: 'antes' | 'durante'; tempo: TempoRestante }
+
+function quebrar(ms: number): TempoRestante {
+  const total = Math.max(0, Math.floor(ms / 1000))
   return {
     dias: Math.floor(total / 86400),
     horas: Math.floor((total % 86400) / 3600),
     minutos: Math.floor((total % 3600) / 60),
     segundos: total % 60,
   }
+}
+
+export function contagemOferta(agora: Date): Contagem | null {
+  const estado = estadoOferta(agora)
+  if (estado === 'depois') return null
+  const alvo = estado === 'antes' ? INICIO_OFERTA_ORA : FIM_OFERTA_ORA
+  return { estado, tempo: quebrar(alvo.getTime() - agora.getTime()) }
 }
 
 /** Formas de pagamento oferecidas na página. Mesma lista do banco (interessadas.plano_escolhido). */

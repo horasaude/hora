@@ -20,7 +20,7 @@ export const termos: Documento = {
     {
       titulo: 'O que você contrata',
       texto:
-        'Acesso por 12 meses (13 meses nas compras feitas durante a oferta do ORA) a trilhas de conteúdo, lives, check-ins, ranking e comunidade. O acesso é pessoal e não pode ser compartilhado.',
+        'Acesso por 12 meses (13 meses nas compras feitas no dia 24/10, durante a oferta do ORA) a trilhas de conteúdo, lives, check-ins, ranking e comunidade. O acesso é pessoal e não pode ser compartilhado.',
     },
     {
       titulo: 'Pagamento',

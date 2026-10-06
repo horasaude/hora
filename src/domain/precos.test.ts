@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { FIM_OFERTA_ORA } from './oferta'
-import { DESCONTO_OFERTA_CENTAVOS, precosPara, precosVigentes, tempoRestanteOferta } from './precos'
+import { FIM_OFERTA_ORA, INICIO_OFERTA_ORA } from './oferta'
+import { contagemOferta, DESCONTO_OFERTA_CENTAVOS, precosPara, precosVigentes } from './precos'
 
 const segundos = (s: number) => new Date(FIM_OFERTA_ORA.getTime() + s * 1000)
 
@@ -47,18 +47,33 @@ describe('DESCONTO_OFERTA_CENTAVOS', () => {
   })
 })
 
-describe('tempoRestanteOferta', () => {
-  it('quebra o tempo em dias, horas, minutos e segundos', () => {
+describe('antes do dia do evento', () => {
+  it('vale o preço cheio, sem âncora e com 12 meses', () => {
+    const p = precosVigentes(new Date(INICIO_OFERTA_ORA.getTime() - 1000))
+    expect(p.emOferta).toBe(false)
+    expect(p.parceladoCentavos).toBe(22700)
+    expect(p.ancoraCentavos).toBeNull()
+    expect(p.mesesAcesso).toBe(12)
+  })
+})
+
+describe('contagemOferta', () => {
+  it('antes do dia, conta até a oferta começar', () => {
     const faltam = 2 * 86400 + 3 * 3600 + 4 * 60 + 5
-    expect(tempoRestanteOferta(segundos(-faltam))).toEqual({
-      dias: 2,
-      horas: 3,
-      minutos: 4,
-      segundos: 5,
+    expect(contagemOferta(new Date(INICIO_OFERTA_ORA.getTime() - faltam * 1000))).toEqual({
+      estado: 'antes',
+      tempo: { dias: 2, horas: 3, minutos: 4, segundos: 5 },
     })
   })
 
-  it('devolve null quando a oferta acabou', () => {
-    expect(tempoRestanteOferta(segundos(1))).toBeNull()
+  it('no dia, conta até a oferta acabar', () => {
+    expect(contagemOferta(segundos(-90))).toEqual({
+      estado: 'durante',
+      tempo: { dias: 0, horas: 0, minutos: 1, segundos: 30 },
+    })
+  })
+
+  it('depois do dia, não há contagem', () => {
+    expect(contagemOferta(segundos(1))).toBeNull()
   })
 })

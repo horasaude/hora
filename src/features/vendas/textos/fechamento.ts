@@ -7,9 +7,13 @@ export const fechamento = {
     oferta: {
       vantagem: 'Compre 12 meses e ganhe 1 mês grátis',
       selo: (desconto: string) => `Oferta ORA: ${desconto} OFF`,
-      // Regra no domínio: FIM_OFERTA_ORA (24/10/2026 23h59 de Brasília).
-      prazo: 'Condição especial válida só até 24/10, às 23h59.',
-      depois: 'Depois disso, os valores voltam ao preço normal.',
+      // Regra no domínio: só no dia 24/10/2026, de 00h00 a 23h59 de Brasília (src/domain/oferta.ts).
+      prazo: { antes: 'Só no dia 24/10, no evento ORA.', durante: 'É só hoje, até as 23h59.' },
+      contagem: { antes: 'Começa em', durante: 'Termina em' },
+      depois: {
+        antes: 'Até lá, valem os preços normais abaixo.',
+        durante: 'Depois disso, os valores voltam ao preço normal.',
+      },
       unidades: { dias: 'dias', horas: 'horas', minutos: 'min', segundos: 'seg' },
     },
     de: 'de',
@@ -50,6 +54,10 @@ export const fechamento = {
       {
         p: 'Preciso ter participado do ORA?',
         r: 'Não. A HORA é aberta para quem quer começar agora.',
+      },
+      {
+        p: 'Quando vale a oferta do ORA?',
+        r: 'Somente no dia 24/10, no evento ORA, até as 23h59 (horário de Brasília). Nesse dia: R$ 300 de desconto e 1 mês grátis.',
       },
       {
         p: 'Quando recebo o acesso?',

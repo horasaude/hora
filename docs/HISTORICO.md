@@ -2,6 +2,13 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-06 · main · Oferta só no dia do evento (24/10)
+
+- Regra nova (pedido da dona do projeto): R$ 300 OFF + 1 mês grátis só em 24/10/2026, 00h00 a 23h59 de Brasília. src/domain/oferta.ts ganhou INICIO_OFERTA_ORA e estadoOferta (antes, durante, depois); precos.ts troca tempoRestanteOferta por contagemOferta (conta até começar ou até acabar).
+- Página: antes do dia mostra preço cheio e o aviso "Só no dia 24/10, no evento ORA" com contagem "Começa em"; no dia, preços da oferta, riscado, +1 mês grátis e "Termina em"; depois, preço cheio sem aviso. useEstadoOferta vira sozinho nas duas viradas. Nova pergunta "Quando vale a oferta do ORA?".
+- Checkout segue a mesma regra (selo e mês grátis só no dia). Termos e CLAUDE.md atualizados.
+- Tema "Seus exames estão em dia?" removido (a médica não avalia exames): agora "Mais energia no dia a dia" no app e no cartão da Dra. Clara.
+
 ## 2026-10-06 · main · App colorido e revisão no celular
 
 - App na página colorido com a família ORA (terracota, sálvia, ocre, verde; tons suaves novos em index.css), mapa em components/app/cores.ts; selos alternando as cores.
