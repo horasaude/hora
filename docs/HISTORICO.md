@@ -2,6 +2,10 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-06 · main · Títulos em Playfair Display
+
+- Italiana sai; títulos em Playfair Display 500 (escolha entre quatro opções comparadas lado a lado). Nenhum título passa da largura de 360 px. Decisão 0004 e CLAUDE.md atualizados.
+
 ## 2026-10-06 · main · Vídeo sem engasgo e respiro no celular
 
 - VideoFundo mantém montados o vídeo atual, o próximo (carregando escondido) e o anterior; a troca é um esmaecimento de 0,7 s, sem piscar a imagem parada. Força o "mudo" que o iPhone exige e, se o navegador recusar tocar sozinho (economia de bateria), tenta de novo no primeiro toque. Com "Reduzir movimento" ligado continua só a imagem.

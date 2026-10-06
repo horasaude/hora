@@ -10,7 +10,10 @@ export function Destaque({ texto }: { texto: string }) {
       {partes.map((parte, i) => {
         if (!parte) return null
         return i % 2 ? (
-          <span key={i} className="block font-titulo leading-[0.95] tracking-[0.01em] uppercase">
+          <span
+            key={i}
+            className="block font-titulo leading-[0.95] font-medium tracking-[0.01em] uppercase"
+          >
             {parte}
           </span>
         ) : (

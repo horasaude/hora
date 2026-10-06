@@ -19,3 +19,7 @@ A primeira versão da página usava Fraunces encorpada com itálico terracota, n
 
 - Fonte de título é parecida, não idêntica à das capas. Se a designer passar o nome, trocar em index.html e index.css.
 - Seis vídeos (1,1 a 2,4 MB cada) em public/videos; cada aparelho baixa só o clipe em exibição do seu conjunto.
+
+## Atualização 2026-10-06
+
+A Italiana não agradou. Os títulos passam a usar Playfair Display (peso 500), escolhida pela dona do projeto entre Playfair, Cormorant Garamond, Bodoni Moda e DM Serif Display. O resto da identidade continua igual.
