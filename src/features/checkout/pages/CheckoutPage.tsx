@@ -38,7 +38,10 @@ export function CheckoutPage() {
           </form>
           <Lateral />
         </div>
-        <a href="/" className="self-center text-sm text-suave underline underline-offset-4">
+        <a
+          href="/"
+          className="inline-flex min-h-11 items-center self-center text-sm text-suave underline underline-offset-4"
+        >
           {textos.voltar}
         </a>
       </div>

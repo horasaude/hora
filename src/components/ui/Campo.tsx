@@ -27,7 +27,7 @@ export const Campo = forwardRef<HTMLInputElement, Props>(function Campo(
         {...props}
       />
       {erro && (
-        <span id={erroId} className="text-terracota">
+        <span id={erroId} className="text-terracota-escuro">
           {erro}
         </span>
       )}

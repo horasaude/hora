@@ -2,6 +2,11 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-06 · main · Checkout conferido no celular
+
+- Checkout em 360 e 390 px: nada passa da largura da tela; estados normal, com erros e com aviso de pagamento conferidos por captura.
+- "Voltar para a página" com área de toque de 44 px; mensagens de erro do Campo em terracota escuro (contraste AA em texto pequeno).
+
 ## 2026-10-06 · main · Vídeo contínuo no iPhone, sem faixa de palavras, chamadas por seção
 
 - VideoFundo volta a um único vídeo que troca de arquivo (no iPhone o vídeo já liberado continua tocando os próximos; os escondidos não tocavam e a troca ficava preta). A primeira imagem do próximo cobre a troca e some no evento playing; prefetch do próximo arquivo (Chrome/Android).
