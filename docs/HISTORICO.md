@@ -2,6 +2,12 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-06 · main · Liberação em horas exatas desde a confirmação
+
+- Pedido da dona do projeto: os 7 dias contam a partir da hora da confirmação do pagamento, não por calendário.
+- Migração 20261006150000_acesso_por_hora: perfis.acesso_inicio/acesso_fim (data) viram acesso_inicio_em/acesso_fim_em (com hora); tem_acesso_ativo e dia_de_acesso recalculadas (dia N começa após (N-1) x 24 h).
+- Teste novo: um minuto antes de completar 7 dias a aula de dia 8 segue fechada; ao completar, libera. 79 checagens no PGlite.
+
 ## 2026-10-06 · main · Regra de liberação registrada
 
 - Combinado com a dona do projeto: o acesso começa na aprovação do pagamento; as aulas marcadas como dia 1 liberam na hora e as de dia 8 depois de 7 dias (calendário, Brasília). Registrado no CLAUDE.md e nas tarefas do painel e do mp-webhook.

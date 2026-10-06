@@ -36,7 +36,7 @@ Venda inicial por links do Mercado Pago; o checkout integrado da Sprint 2 substi
 
 - [ ] Planos, pedidos, pagamentos, eventos_webhook, contratos, aceites, assinaturas
 - [ ] Edge Function criar-pedido (Pix, parcelado, recorrente)
-- [ ] Edge Function mp-webhook idempotente e criação de acesso (pagamento aprovado grava perfis.acesso_inicio = data da aprovação em Brasília e acesso_fim pelo plano)
+- [ ] Edge Function mp-webhook idempotente e criação de acesso (pagamento aprovado grava perfis.acesso_inicio_em = momento da confirmação e acesso_fim_em pelo plano)
 - [ ] tem_acesso_ativo() e RLS de conteúdo
 - [ ] E-mails (boas-vindas e contrato), reembolso, tela de obrigado
 
