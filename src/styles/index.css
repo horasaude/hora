@@ -47,6 +47,28 @@ body {
   .entrada-3 {
     animation: entrada 1s ease-out 0.5s both;
   }
+  .flutuar {
+    animation: flutuar 6s ease-in-out infinite;
+  }
+  .esteira {
+    animation: esteira 28s linear infinite;
+  }
+}
+
+@keyframes flutuar {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -10px;
+  }
+}
+
+@keyframes esteira {
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 @keyframes entrada {

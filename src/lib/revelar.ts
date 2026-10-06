@@ -16,7 +16,7 @@ export function iniciarRevelar(raiz: ParentNode = document): () => void {
         observador.unobserve(e.target)
       }
     },
-    { rootMargin: '0px 0px -10% 0px', threshold: 0.1 },
+    { rootMargin: '0px 0px -8% 0px', threshold: 0 },
   )
   alvos.forEach((a) => observador.observe(a))
   return () => observador.disconnect()

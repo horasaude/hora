@@ -2,6 +2,14 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-06 · main · Página mais moderna: app por dentro, barra fixa e esteira
+
+- Referências: nutrium.com/pt-br/employees e o documento do app (artifact "Proposta", nome antigo Constância, agora ORA).
+- "Por dentro do app" (components/app): protótipo de celular com as telas Hoje (hábitos marcáveis somam pontos), Plano (cardápio com substituições e treino), Desafios, Ranking (pontos, nunca peso) e Eu; troca de tela sozinha a cada 5 s até a pessoa tocar; selos de pontos flutuando. Dados de exemplo em textos/app.ts.
+- Barra de topo translúcida com logo e "Ver planos", aparece depois do vídeo. Esteira de palavras passando (Nutrição, Saúde, Movimento, Comunidade, Constância).
+- Profissionais no estilo Nutrium: círculo atrás da foto e cartão do app flutuando em cada uma.
+- revelar.ts dispara com qualquer pixel visível (threshold 0).
+
 ## 2026-10-06 · main · Vídeos de saúde, movimento e página mais cheia
 
 - Vídeos de fundo: corrida (7884055/7884028), salada (6162045/8802441) e yoga (8045825/8045817). Saem autocuidado de rosto e torrada. VideoFundo foi para src/components/shared e também roda atrás do banner do checkout.
