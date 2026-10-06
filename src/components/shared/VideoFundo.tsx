@@ -48,42 +48,78 @@ function useClipes(): Clipe[] {
   return deitada ? HORIZONTAIS : VERTICAIS
 }
 
-/** Corrida, academia, salada e refeição, em cortes curtos, sem som, cobrindo todo o fundo. */
+/**
+ * Toca garantindo o "mudo" que o iPhone exige. Se o navegador recusar (economia de bateria),
+ * tenta de novo no primeiro toque ou clique na tela.
+ */
+function tocar(v: HTMLVideoElement) {
+  v.muted = true
+  v.defaultMuted = true
+  v.setAttribute('muted', '')
+  const tentativa = v.play()
+  if (!tentativa || typeof tentativa.catch !== 'function') return
+  tentativa.catch(() => {
+    const deNovo = () => void v.play().catch(() => {})
+    window.addEventListener('touchstart', deNovo, { once: true, passive: true })
+    window.addEventListener('click', deNovo, { once: true })
+  })
+}
+
+/**
+ * Corrida, academia, salada e refeição, em cortes curtos, sem som, cobrindo todo o fundo.
+ * O próximo vídeo já fica carregando escondido; na troca, um aparece enquanto o outro some.
+ */
 export function VideoFundo({ className }: { className: string }) {
   const clipes = useClipes()
   const [indice, setIndice] = useState(0)
   const [comVideo] = useState(podeTocarVideo)
-  const video = useRef<HTMLVideoElement>(null)
-  const clipe = clipes[indice % clipes.length] ?? PADRAO
+  const videos = useRef(new Map<string, HTMLVideoElement>())
+  const n = clipes.length
+  const atual = indice % n
+  const proximo = (atual + 1) % n
+  const anterior = (atual + n - 1) % n
+  const clipe = clipes[atual] ?? PADRAO
 
-  // iOS só toca sozinho com muted definido no elemento antes do play.
   useEffect(() => {
-    const v = video.current
-    if (!v) return
-    v.muted = true
-    const tocando = v.play()
-    if (tocando && typeof tocando.catch === 'function') tocando.catch(() => {})
+    videos.current.forEach((v, src) => {
+      if (src !== clipe.src) return v.pause()
+      v.currentTime = 0
+      tocar(v)
+    })
   }, [clipe.src])
 
   // Só avança a partir do clipe atual: vários avisos seguidos de tempo não pulam clipes.
-  const atual = indice
-  const avancar = () => setIndice((i) => (i === atual ? (i + 1) % clipes.length : i))
+  const avancar = () => setIndice((i) => (i % n === atual ? proximo : i))
 
   if (!comVideo) return <img src={clipe.poster} alt="" className={className} />
   return (
-    <video
-      key={clipe.src}
-      ref={video}
-      className={className}
-      src={clipe.src}
-      poster={clipe.poster}
-      autoPlay
-      muted
-      playsInline
-      preload="auto"
-      aria-hidden="true"
-      onEnded={avancar}
-      onTimeUpdate={(e) => e.currentTarget.currentTime >= TAKE_SEGUNDOS && avancar()}
-    />
+    <>
+      {clipes.map((c, i) => {
+        if (i !== atual && i !== proximo && i !== anterior) return null
+        const ativo = i === atual
+        return (
+          <video
+            key={c.src}
+            ref={(el) => {
+              if (el) videos.current.set(c.src, el)
+              else videos.current.delete(c.src)
+            }}
+            data-ativo={ativo ? '' : undefined}
+            className={`${className} transition-opacity duration-700 ${ativo ? 'opacity-100' : 'opacity-0'}`}
+            src={c.src}
+            poster={c.poster}
+            autoPlay={ativo}
+            muted
+            playsInline
+            preload="auto"
+            aria-hidden="true"
+            onEnded={ativo ? avancar : undefined}
+            onTimeUpdate={
+              ativo ? (e) => e.currentTarget.currentTime >= TAKE_SEGUNDOS && avancar() : undefined
+            }
+          />
+        )
+      })}
+    </>
   )
 }

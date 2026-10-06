@@ -10,7 +10,7 @@ export function Hero() {
     <header className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-ora text-creme">
       <VideoFundo className="absolute inset-0 -z-20 h-full w-full object-cover" />
       <div aria-hidden="true" className="absolute inset-0 -z-10 bg-tinta/65" />
-      <div className="mx-auto w-full max-w-6xl px-5 pt-6 sm:px-8">
+      <div className="mx-auto w-full max-w-6xl px-6 pt-10 sm:px-8 sm:pt-8">
         <img
           src="/logo-ora.png"
           alt={t.logo}
@@ -19,7 +19,7 @@ export function Hero() {
           className="h-9 w-auto brightness-0 invert sm:h-11"
         />
       </div>
-      <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col items-center justify-center px-5 py-16 text-center">
+      <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col items-center justify-center px-6 py-16 text-center">
         <p className="entrada text-[0.7rem] font-medium tracking-[0.28em] text-creme/80 uppercase italic">
           {t.etiqueta}
         </p>

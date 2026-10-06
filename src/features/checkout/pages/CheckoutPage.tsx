@@ -17,7 +17,7 @@ export function CheckoutPage() {
   const plano = form.watch('plano')
   useEffect(() => iniciarRevelar(), [])
   return (
-    <main className="min-h-dvh bg-creme px-4 py-6 sm:py-10">
+    <main className="min-h-dvh bg-creme px-5 py-8 sm:px-6 sm:py-10">
       <div className="mx-auto flex max-w-5xl flex-col gap-6">
         <Banner emOferta={precos.emOferta} />
         <div className="grid gap-6 lg:grid-cols-[1fr_340px] lg:items-start">
@@ -25,7 +25,7 @@ export function CheckoutPage() {
             data-revelar
             onSubmit={enviar}
             noValidate
-            className="flex flex-col gap-8 rounded-[1.75rem] border border-ora/10 bg-[#fbfaf7] p-5 sm:p-8"
+            className="flex flex-col gap-8 rounded-[1.75rem] border border-ora/10 bg-[#fbfaf7] p-6 sm:p-8"
           >
             <Resumo precos={precos} plano={plano} campo={form.register('plano')} />
             <DadosPessoais

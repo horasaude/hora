@@ -12,7 +12,8 @@ function telaEmPe() {
   vi.spyOn(HTMLMediaElement.prototype, 'play').mockResolvedValue()
 }
 
-const fonte = (c: HTMLElement) => c.querySelector('video')?.getAttribute('src')
+const ativo = (c: HTMLElement) => c.querySelector<HTMLVideoElement>('video[data-ativo]')!
+const fonte = (c: HTMLElement) => ativo(c).getAttribute('src')
 
 describe('VideoFundo', () => {
   afterEach(() => {
@@ -25,8 +26,10 @@ describe('VideoFundo', () => {
     telaEmPe()
     const { container } = render(<VideoFundo className="" />)
     expect(fonte(container)).toBe('/videos/corrida.mp4')
+    const montados = [...container.querySelectorAll('video')].map((v) => v.getAttribute('src'))
+    expect(montados).toContain('/videos/academia.mp4')
     const passar = (s: number) => {
-      const v = container.querySelector('video')!
+      const v = ativo(container)
       Object.defineProperty(v, 'currentTime', { value: s, configurable: true })
       fireEvent.timeUpdate(v)
     }
@@ -34,7 +37,7 @@ describe('VideoFundo', () => {
     expect(fonte(container)).toBe('/videos/corrida.mp4')
     passar(6)
     expect(fonte(container)).toBe('/videos/academia.mp4')
-    fireEvent.ended(container.querySelector('video')!)
+    fireEvent.ended(ativo(container))
     expect(fonte(container)).toBe('/videos/salada.mp4')
     passar(6.1)
     expect(fonte(container)).toBe('/videos/refeicao.mp4')

@@ -75,7 +75,7 @@ export function Secao({
   return (
     <section id={id} className={`relative scroll-mt-16 overflow-hidden ${fundos[fundo]}`}>
       {marca && <Marca claro={escuro} />}
-      <div data-revelar className="relative mx-auto max-w-5xl px-5 py-10 sm:px-8 sm:py-14">
+      <div data-revelar className="relative mx-auto max-w-5xl px-6 py-14 sm:px-8 sm:py-14">
         {etiqueta && <Etiqueta texto={etiqueta} claro={escuro} />}
         <div
           className={lateral ? 'lg:grid lg:grid-cols-[0.8fr_1.2fr] lg:items-start lg:gap-12' : ''}

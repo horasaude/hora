@@ -14,7 +14,7 @@ export function BarraTopo() {
     <div
       className={`fixed inset-x-0 top-0 z-40 border-b border-linha bg-creme/80 backdrop-blur-md transition duration-300 ${visivel ? 'translate-y-0 opacity-100' : 'pointer-events-none -translate-y-full opacity-0'}`}
     >
-      <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-5 sm:px-8">
+      <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-6 sm:px-8">
         <img src="/logo-ora.png" alt="ORA" width={482} height={189} className="h-7 w-auto" />
         <a
           href="#preco"
