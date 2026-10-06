@@ -265,6 +265,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "checkins_invalidado_por_fkey"
+            columns: ["invalidado_por"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "checkins_perfil_id_fkey"
             columns: ["perfil_id"]
             isOneToOne: false
@@ -346,6 +353,13 @@ export type Database = {
             columns: ["checkin_id"]
             isOneToOne: false
             referencedRelation: "checkins"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "denuncias_checkin_perfil_id_fkey"
+            columns: ["perfil_id"]
+            isOneToOne: false
+            referencedRelation: "perfis"
             referencedColumns: ["id"]
           },
         ]
@@ -571,15 +585,15 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "indicacoes_indicadora_id_fkey"
-            columns: ["indicadora_id"]
+            foreignKeyName: "indicacoes_indicada_id_fkey"
+            columns: ["indicada_id"]
             isOneToOne: false
             referencedRelation: "perfis"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "indicacoes_indicada_id_fkey"
-            columns: ["indicada_id"]
+            foreignKeyName: "indicacoes_indicadora_id_fkey"
+            columns: ["indicadora_id"]
             isOneToOne: false
             referencedRelation: "perfis"
             referencedColumns: ["id"]
@@ -672,6 +686,20 @@ export type Database = {
           referencia?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "lancamentos_pontos_criado_por_fkey"
+            columns: ["criado_por"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lancamentos_pontos_estorna_fkey"
+            columns: ["estorna"]
+            isOneToOne: true
+            referencedRelation: "lancamentos_pontos"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "lancamentos_pontos_perfil_id_fkey"
             columns: ["perfil_id"]
@@ -986,6 +1014,23 @@ export type Database = {
     }
     Functions: {
       alunas_em_desafios_ativos: { Args: never; Returns: number }
+      cancelar_indicacao: {
+        Args: { p_indicacao: string; p_motivo: string }
+        Returns: undefined
+      }
+      conceder_pontos: {
+        Args: {
+          p_acao: string
+          p_criado_por?: string
+          p_motivo?: string
+          p_origem: string
+          p_perfil: string
+          p_pontos?: number
+          p_referencia?: string
+        }
+        Returns: string
+      }
+      confirmar_indicacoes: { Args: never; Returns: number }
       dia_de_acesso: { Args: never; Returns: number }
       dias_cumpridos: {
         Args: { p_desafio: string; p_perfil: string }
@@ -993,7 +1038,24 @@ export type Database = {
       }
       duplicar_alimento: { Args: { p_id: string }; Returns: string }
       eh_admin: { Args: never; Returns: boolean }
+      estornar_lancamento: {
+        Args: { p_criado_por: string; p_lancamento: string; p_motivo: string }
+        Returns: string
+      }
+      fazer_checkin: {
+        Args: { p_foto_path?: string; p_tipo: string; p_tipo_treino?: string }
+        Returns: string
+      }
       hoje_brasilia: { Args: never; Returns: string }
+      invalidar_checkin: {
+        Args: { p_checkin: string; p_motivo: string }
+        Returns: number
+      }
+      lancar_ajuste: {
+        Args: { p_motivo: string; p_perfil: string; p_pontos: number }
+        Returns: string
+      }
+      marcar_fotos_apagadas: { Args: { p_ids: string[] }; Returns: undefined }
       minha_trilha: {
         Args: never
         Returns: {
@@ -1047,7 +1109,36 @@ export type Database = {
           participantes: number
         }[]
       }
+      painel_pontos: {
+        Args: never
+        Returns: {
+          checkins_hoje: number
+          fotos_denunciadas: number
+          indicacoes_mes: number
+          pontos_mes: number
+        }[]
+      }
+      participantes_desafio: {
+        Args: { p_desafio: string }
+        Returns: {
+          apelido: string
+          dias: number
+          meta: number
+          nome: string
+          perfil_id: string
+        }[]
+      }
       registrar_acesso: { Args: never; Returns: undefined }
+      registrar_indicacao: {
+        Args: {
+          p_codigo: string
+          p_cpf: string
+          p_email: string
+          p_indicada?: string
+          p_nome: string
+        }
+        Returns: string
+      }
       salvar_alimento: {
         Args: { p_alimento: Json; p_medidas: Json }
         Returns: string
@@ -1055,17 +1146,6 @@ export type Database = {
       salvar_receita_itens: {
         Args: { p_itens: Json; p_receita: string }
         Returns: undefined
-      }
-      fazer_checkin: { Args: { p_foto_path?: string; p_tipo: string; p_tipo_treino?: string }; Returns: string }
-      invalidar_checkin: { Args: { p_checkin: string; p_motivo: string }; Returns: number }
-      lancar_ajuste: { Args: { p_motivo: string; p_perfil: string; p_pontos: number }; Returns: string }
-      painel_pontos: {
-        Args: never
-        Returns: { checkins_hoje: number; fotos_denunciadas: number; indicacoes_mes: number; pontos_mes: number }[]
-      }
-      participantes_desafio: {
-        Args: { p_desafio: string }
-        Returns: { apelido: string | null; dias: number; meta: number; nome: string; perfil_id: string }[]
       }
       tem_acesso_ativo: { Args: never; Returns: boolean }
       texto_busca: { Args: { valor: string }; Returns: string }

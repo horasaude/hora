@@ -50,7 +50,7 @@ Venda inicial por links do Mercado Pago; o checkout integrado da Sprint 2 substi
 - [ ] Check-in de hábitos com foto (compressão e storage privado)
 - [ ] Check-in de foto da refeição: +5 pontos, no máximo 1 por dia
 - [x] regras_pontos, lancamentos_pontos, conceder_pontos() (painel de pontos e indicações pronto)
-- [ ] Aplicar 20261007180000_pontos_indicacoes, publicar limpar-fotos e criar segredo do cron (CRON_SEGREDO e vault cron_segredo)
+- [x] Aplicar 20261007180000_pontos_indicacoes, publicar limpar-fotos e criar segredo do cron (CRON_SEGREDO e vault cron_segredo)
 - [ ] Tela de check-in da aluna chamando fazer_checkin (foto no bucket checkins)
 - [ ] Pedido do Mercado Pago registra indicação (indicacaoGuardada) e cancela no reembolso
 - [ ] Fórum na aula

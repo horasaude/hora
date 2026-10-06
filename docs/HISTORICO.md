@@ -7,7 +7,7 @@ Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquiv
 - Banco (20261007180000_pontos_indicacoes, 47 checagens no PGlite): regras_pontos com as 10 regras iniciais, lancamentos_pontos imutável (estorno e ajuste são lançamentos novos), checkins com foto em bucket privado, denúncias, indicações com 7 dias de garantia e sem autoindicação por e-mail ou CPF. Pontos de aula concluída e de desafio por gatilho. Cron confirma indicações (03:15) e a Edge Function limpar-fotos apaga fotos com mais de 90 dias (03:30), sem tirar pontos.
 - Painel: página Pontos e indicações com cartões e abas Regras, Histórico (filtros e Lançar ajuste), Fotos de treino (foto grande, Invalidar foto estorna) e Indicações. Link de indicação no detalhe da aluna; a página de vendas guarda o código.
 - Desafios: pontos por check-in e bônus no mesmo histórico, prêmio caixa surpresa, participantes com barra dourada no desafio aberto.
-- Pendente: aplicar a migração, publicar limpar-fotos e criar o segredo do cron; ligar indicação ao pedido do Mercado Pago; telas de check-in da aluna.
+- Publicado em 06/10: migração aplicada, limpar-fotos no ar (recusa sem senha, respondeu 200 pela rotina), segredo do cron na função e no vault. Pendente: ligar indicação ao pedido do Mercado Pago; telas de check-in da aluna.
 
 ## 2026-10-06 · main · Plano alimentar (modelo Dietbox)
 
