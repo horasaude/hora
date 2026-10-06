@@ -54,8 +54,7 @@ export function BarraLateral({ nome }: { nome: string }) {
   const ativo = useAtivo()
   return (
     <aside className="fixed inset-y-0 left-0 hidden w-64 flex-col bg-ora px-4 py-8 lg:flex">
-      <span className="px-3 text-3xl font-bold tracking-wide text-ocre">{t.marca}</span>
-      <nav className="mt-8">
+      <nav>
         <ul className="flex flex-col gap-1">
           {ITENS.map((i) => (
             <li key={i.para}>

@@ -5,7 +5,6 @@ export const textosAluna = {
   erro: 'Não foi possível carregar. Tente de novo.',
   tentar: 'Tentar de novo',
   emBreve: 'Chega em breve.',
-  marca: 'HORA',
   logadaComo: 'Logada como',
   nav: {
     inicio: 'Início',

@@ -1,4 +1,5 @@
 import { Link, NavLink, useLocation } from 'react-router-dom'
+import { LogoHora } from '@/components/ui'
 import { useNome } from '@/features/auth'
 import { textos } from '../textos'
 
@@ -26,7 +27,7 @@ export function MenuLateral({ aoNavegar }: { aoNavegar?: () => void }) {
   const emAula = useLocation().pathname.startsWith('/app/admin/aulas')
   return (
     <div className="flex h-full flex-col px-4 py-8">
-      <span className="px-3 text-3xl font-bold tracking-wide text-ocre">{textos.marca}</span>
+      <LogoHora clara largura={140} className="mx-3 mt-2 mb-2" />
       <nav className="mt-6 min-h-0 flex-1 overflow-y-auto">
         <ul className="flex flex-col gap-1">
           {ITENS.map((i) => (

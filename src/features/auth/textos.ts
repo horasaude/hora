@@ -1,6 +1,5 @@
 export const textos = {
   titulo: 'Chegou a sua HORA de começar',
-  logo: 'ORA',
   email: 'E-mail',
   senha: 'Senha',
   entrar: 'Entrar',

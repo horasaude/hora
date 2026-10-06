@@ -4,7 +4,6 @@ import { alunas, cardapios, configuracoes, desafios, vazios } from './textos/mod
 
 export const textos = {
   painel: 'Painel',
-  marca: 'HORA',
   sair: 'Ir para a área da aluna',
   logadaComo: 'Logada como',
   menu: 'Abrir menu',

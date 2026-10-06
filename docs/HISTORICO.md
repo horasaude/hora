@@ -2,6 +2,11 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-06 · main · Logo da HORA no sistema
+
+- LogoHora (src/components/ui): SVG de public/ com a proporção travada. Painel: logo clara (140 px) no topo do menu verde e na barra do celular. Área da aluna: barra no topo com a logo verde à esquerda, no computador e no celular. Entrar: logo verde centralizada no lugar da do ORA. Vendas, checkout, ícone e favicon sem mudança.
+- Pendente: logo-hora-clara.svg veio verde igual à escura; por ora um filtro deixa a imagem branca no fundo verde. Com o arquivo claro de verdade, tirar o filtro em LogoHora.
+
 ## 2026-10-06 · main · Fonte Arial no sistema
 
 - Painel e área da aluna (tudo em /app) em Arial: classe font-sistema na raiz de /app (src/app/AreaAluna.tsx), 16 px e entrelinha relaxada; títulos em Arial negrito verde ORA, um pouco maiores; números do resumo em Arial negrito grande. Sem Playfair no sistema. Página de vendas, checkout e login sem mudança. Regra no CLAUDE.md.
