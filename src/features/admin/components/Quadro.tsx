@@ -37,9 +37,20 @@ export function Quadro({ titulo, acao, numeros, children }: Props) {
 }
 
 /** Tabela à esquerda e cartão de detalhe à direita (um embaixo do outro no celular). */
-export function Divisao({ tabela, detalhe }: { tabela: ReactNode; detalhe: ReactNode }) {
+export function Divisao({
+  tabela,
+  detalhe,
+  estreito = false,
+}: {
+  tabela: ReactNode
+  detalhe: ReactNode
+  estreito?: boolean
+}) {
+  const colunas = estreito
+    ? 'xl:grid-cols-[minmax(0,1fr)_minmax(0,21rem)]'
+    : 'xl:grid-cols-[minmax(0,1fr)_minmax(0,27rem)]'
   return (
-    <div className="grid items-start gap-5 xl:grid-cols-[minmax(0,1fr)_minmax(0,27rem)]">
+    <div className={`grid items-start gap-5 ${colunas}`}>
       <div className="min-w-0">{tabela}</div>
       <div className="min-w-0 xl:sticky xl:top-6">{detalhe}</div>
     </div>

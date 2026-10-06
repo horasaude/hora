@@ -7,6 +7,7 @@ import {
   formatarDataHora,
   horaEmBrasilia,
   paraCampoBrasilia,
+  quandoFoi,
 } from './datas'
 
 describe('diaEmBrasilia', () => {
@@ -42,5 +43,14 @@ describe('formatos da área da aluna', () => {
     expect(diaSemanaEHora(quinta19h)).toBe('quinta, 19h')
     expect(diaSemanaEHora(new Date('2026-10-17T22:30:00Z'))).toBe('sábado, 19h30')
     expect(diaEMes(quinta19h)).toBe('15/10')
+  })
+})
+
+describe('quandoFoi', () => {
+  const agora = new Date('2026-10-20T15:00:00Z')
+  it('conta os dias pelo calendário de Brasília', () => {
+    expect(quandoFoi(new Date('2026-10-20T12:30:00Z'), agora)).toBe('hoje, 09:30')
+    expect(quandoFoi(new Date('2026-10-20T02:00:00Z'), agora)).toBe('ontem, 23:00')
+    expect(quandoFoi(new Date('2026-10-15T12:00:00Z'), agora)).toBe('há 5 dias')
   })
 })

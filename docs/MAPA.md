@@ -1,7 +1,7 @@
 # Mapa do projeto
 
 Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim).
-Última atualização: área da aluna (primeiro acesso, início, trilha, aula) seguindo docs/referencias/app-aluna.png.
+Última atualização: painel completo (11 módulos), configurações no banco (preços, oferta, termos).
 
 ## Rotas
 
@@ -77,23 +77,28 @@ Telas apresentadas às clientes. Toda tela nova ou refeita segue a referência d
 
 ## Banco (supabase)
 
-| Objeto                         | Tipo                                                                                                | Migração                                                                    |
-| ------------------------------ | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| perfis                         | tabela (RLS)                                                                                        | 20261004000000_criar_perfis                                                 |
-| papel                          | enum (aluna, admin)                                                                                 | 20261004000000_criar_perfis                                                 |
-| eh_admin()                     | função                                                                                              | 20261004000000_criar_perfis                                                 |
-| criar_perfil_novo_usuario      | trigger em auth.users                                                                               | 20261004000000_criar_perfis                                                 |
-| interessadas                   | tabela (RLS, admin lê), sem colunas de contrato                                                     | 20261004120000_criar_interessadas, 20261005090000_interessadas_sem_contrato |
-| perfis.acesso_inicio_em/fim_em | colunas (início na confirmação do pagamento, com hora; só service role ou admin pelo banco)         | 20261006120000_conteudo, 20261006150000_acesso_por_hora                     |
-| hoje_brasilia()                | função (data de hoje em Brasília)                                                                   | 20261006120000_conteudo                                                     |
-| tem_acesso_ativo()             | função (acesso dentro do período)                                                                   | 20261006120000_conteudo                                                     |
-| dia_de_acesso()                | função (dia 1 = confirmação; muda a cada 24 h exatas)                                               | 20261006150000_acesso_por_hora                                              |
-| mover_tema/etapa/aula()        | funções (reordenar; só admin; etapas com ordem única adiável)                                       | 20261006180000_ordem_conteudo                                               |
-| temas, etapas                  | tabelas (RLS: admin escreve; aluna com acesso lê publicados)                                        | 20261006120000_conteudo                                                     |
-| aulas                          | tabela (RLS: aluna lê publicadas com dia_liberacao <= dia_de_acesso); duracao_minutos, profissional | 20261006120000_conteudo, 20261007090000_trilha_aluna                        |
-| aulas_concluidas               | tabela (RLS: aluna marca e desmarca só aula liberada, só as suas)                                   | 20261007090000_trilha_aluna                                                 |
-| minha_trilha()                 | função (trilha da aluna com aulas fechadas, sem link de vídeo; só com acesso ativo)                 | 20261007090000_trilha_aluna                                                 |
-| lives, avisos                  | tabelas (RLS: aluna lê publicadas; aviso só depois de publicar_em)                                  | 20261006120000_conteudo                                                     |
+| Objeto                                                                                | Tipo                                                                                                | Migração                                                                    |
+| ------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| perfis                                                                                | tabela (RLS)                                                                                        | 20261004000000_criar_perfis                                                 |
+| papel                                                                                 | enum (aluna, admin)                                                                                 | 20261004000000_criar_perfis                                                 |
+| eh_admin()                                                                            | função                                                                                              | 20261004000000_criar_perfis                                                 |
+| criar_perfil_novo_usuario                                                             | trigger em auth.users                                                                               | 20261004000000_criar_perfis                                                 |
+| interessadas                                                                          | tabela (RLS, admin lê), sem colunas de contrato                                                     | 20261004120000_criar_interessadas, 20261005090000_interessadas_sem_contrato |
+| perfis.acesso_inicio_em/fim_em                                                        | colunas (início na confirmação do pagamento, com hora; só service role ou admin pelo banco)         | 20261006120000_conteudo, 20261006150000_acesso_por_hora                     |
+| hoje_brasilia()                                                                       | função (data de hoje em Brasília)                                                                   | 20261006120000_conteudo                                                     |
+| tem_acesso_ativo()                                                                    | função (acesso dentro do período)                                                                   | 20261006120000_conteudo                                                     |
+| dia_de_acesso()                                                                       | função (dia 1 = confirmação; muda a cada 24 h exatas)                                               | 20261006150000_acesso_por_hora                                              |
+| mover_tema/etapa/aula()                                                               | funções (reordenar; só admin; etapas com ordem única adiável)                                       | 20261006180000_ordem_conteudo                                               |
+| temas, etapas                                                                         | tabelas (RLS: admin escreve; aluna com acesso lê publicados)                                        | 20261006120000_conteudo                                                     |
+| aulas                                                                                 | tabela (RLS: aluna lê publicadas com dia_liberacao <= dia_de_acesso); duracao_minutos, profissional | 20261006120000_conteudo, 20261007090000_trilha_aluna                        |
+| aulas_concluidas                                                                      | tabela (RLS: aluna marca e desmarca só aula liberada, só as suas)                                   | 20261007090000_trilha_aluna                                                 |
+| cardapios                                                                             | tabela (RLS: admin escreve; aluna com acesso lê publicados)                                         | 20261007120000_painel_completo                                              |
+| desafios, desafio_participantes, desafio_checkins                                     | tabelas (aluna entra e marca só o dia de hoje, no período; admin encerra)                           | 20261007120000_painel_completo                                              |
+| configuracoes                                                                         | linha única: preços, janela da oferta, termos, privacidade (todos leem; admin edita)                | 20261007120000_painel_completo                                              |
+| painel_alunas(), painel_desafios(), vencedoras_desafio(), alunas_em_desafios_ativos() | funções só admin                                                                                    | 20261007120000_painel_completo                                              |
+| registrar_acesso(), perfis.ultimo_acesso_em                                           | último acesso da aluna (grava a cada 5 min no máximo)                                               | 20261007120000_painel_completo                                              |
+| minha_trilha()                                                                        | função (trilha da aluna com aulas fechadas, sem link de vídeo; só com acesso ativo)                 | 20261007090000_trilha_aluna                                                 |
+| lives, avisos                                                                         | tabelas (RLS: aluna lê publicadas; aviso só depois de publicar_em)                                  | 20261006120000_conteudo                                                     |
 
 ## Edge Functions
 

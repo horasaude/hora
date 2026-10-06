@@ -83,3 +83,23 @@ export function diaEMes(instante: Date): string {
     month: '2-digit',
   }).format(instante)
 }
+
+/** Data AAAA-MM-DD (coluna date) como DD/MM, sem passar por fuso. */
+export function diaMesDeData(data: string): string {
+  return `${data.slice(8, 10)}/${data.slice(5, 7)}`
+}
+
+/** "hoje, 14:30", "ontem, 09:10" ou "há 5 dias", contando os dias no fuso de Brasília. */
+export function quandoFoi(instante: Date, agora: Date): string {
+  const hora = new Intl.DateTimeFormat('pt-BR', {
+    timeZone: FUSO,
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(instante)
+  const dias = Math.round(
+    (Date.parse(diaEmBrasilia(agora)) - Date.parse(diaEmBrasilia(instante))) / 86_400_000,
+  )
+  if (dias <= 0) return `hoje, ${hora}`
+  if (dias === 1) return `ontem, ${hora}`
+  return `há ${dias} dias`
+}

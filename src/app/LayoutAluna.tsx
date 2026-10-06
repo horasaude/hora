@@ -1,5 +1,5 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
-import { useMeuPerfil } from '@/features/auth'
+import { useMeuPerfil, useRegistrarAcesso } from '@/features/auth'
 import { PrimeiroAcesso } from '@/features/primeiro-acesso'
 import { IconeNavegacao } from './IconesNavegacao'
 import { textosAluna as t } from './textosAluna'
@@ -48,6 +48,7 @@ function Navegacao() {
 /** Área da aluna: largura de celular (centralizada no computador), barra fixa embaixo e primeiro acesso. */
 export function LayoutAluna() {
   const perfil = useMeuPerfil()
+  useRegistrarAcesso()
   const p = perfil.data
   const falta = p && p.papel !== 'admin' && (!p.apelido || !p.consentimento_saude_em)
   return (

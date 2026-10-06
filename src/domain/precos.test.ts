@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vitest'
 import { FIM_OFERTA_ORA, INICIO_OFERTA_ORA } from './oferta'
-import { contagemOferta, DESCONTO_OFERTA_CENTAVOS, precosPara, precosVigentes } from './precos'
+import {
+  contagemOferta,
+  descontoOferta,
+  DESCONTO_OFERTA_CENTAVOS,
+  precosPara,
+  precosVigentes,
+} from './precos'
 
 const segundos = (s: number) => new Date(FIM_OFERTA_ORA.getTime() + s * 1000)
 
@@ -75,5 +81,26 @@ describe('contagemOferta', () => {
 
   it('depois do dia, não há contagem', () => {
     expect(contagemOferta(segundos(1))).toBeNull()
+  })
+})
+
+describe('preços vindos da configuração', () => {
+  const c = {
+    cheio: { pix: 300000, parcelado: 30000, recorrente: 32000 },
+    oferta: { pix: 250000, parcelado: 25000, recorrente: 27000 },
+    ofertaInicio: new Date('2026-11-01T03:00:00Z'),
+    ofertaFim: new Date('2026-11-02T02:59:59Z'),
+  }
+  it('usa a tabela e a janela configuradas', () => {
+    expect(precosVigentes(new Date('2026-10-24T15:00:00Z'), c).pixCentavos).toBe(300000)
+    const noDia = precosVigentes(new Date('2026-11-01T15:00:00Z'), c)
+    expect(noDia).toMatchObject({
+      emOferta: true,
+      pixCentavos: 250000,
+      ancoraCentavos: 300000,
+      mesesAcesso: 13,
+    })
+    expect(descontoOferta(c)).toBe(50000)
+    expect(contagemOferta(new Date('2026-11-01T15:00:00Z'), c)?.estado).toBe('durante')
   })
 })

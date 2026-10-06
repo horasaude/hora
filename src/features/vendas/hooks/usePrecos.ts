@@ -1,7 +1,8 @@
 import { precosPara, type Precos } from '@/domain/precos'
+import { useConfiguracao } from '@/features/configuracao'
 import { useEmOferta } from './useEmOferta'
 
 /** Preços vigentes; trocam sozinhos no fim da oferta do ORA. */
 export function usePrecos(): Precos {
-  return precosPara(useEmOferta())
+  return precosPara(useEmOferta(), useConfiguracao())
 }

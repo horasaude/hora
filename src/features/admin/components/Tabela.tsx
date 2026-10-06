@@ -6,6 +6,7 @@ const TOM = {
   verde: 'bg-salvia-suave text-ora',
   ocre: 'bg-ocre-suave text-[#80591c]',
   rosa: 'bg-terracota-suave text-terracota-escuro',
+  neutro: 'bg-creme text-suave',
 }
 
 /** Etiqueta arredondada colorida. */
@@ -56,18 +57,19 @@ type Linha = {
   para: string
   titulo: string
   marca?: ReactNode
+  semQuebra?: boolean
   children: ReactNode
 }
 
 /** Linha que abre o detalhe à direita; a linha aberta fica destacada. */
-export function LinhaTabela({ ativa, para, titulo, marca, children }: Linha) {
+export function LinhaTabela({ ativa, para, titulo, marca, semQuebra, children }: Linha) {
   const navegar = useNavigate()
   return (
     <tr
       onClick={() => navegar(para)}
       className={`cursor-pointer border-b border-linha last:border-b-0 ${ativa ? 'bg-salvia-suave/70' : 'hover:bg-areia'}`}
     >
-      <td className="px-5 py-4">
+      <td className={`px-5 py-4 ${semQuebra ? 'whitespace-nowrap' : ''}`}>
         <Link
           to={para}
           aria-current={ativa ? 'true' : undefined}

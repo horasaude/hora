@@ -9,6 +9,14 @@ const admin = () => import('@/features/admin')
 const conteudo = async () => ({ Component: (await admin()).ConteudoPage })
 const lives = async () => ({ Component: (await admin()).LivesPage })
 const avisos = async () => ({ Component: (await admin()).AvisosPage })
+const cardapios = async () => ({ Component: (await admin()).CardapiosPage })
+const desafios = async () => ({ Component: (await admin()).DesafiosPage })
+const alunas = async () => ({ Component: (await admin()).AlunasPage })
+const configuracoes = async () => ({ Component: (await admin()).ConfiguracoesPage })
+const vazio = (modulo: 'pontos' | 'forum' | 'financeiro' | 'loja') => async () => {
+  const { ModuloVazioPage } = await admin()
+  return { Component: () => <ModuloVazioPage modulo={modulo} /> }
+}
 // O detalhe abre num cartão ao lado da lista, então cada endereço mostra a mesma tela.
 const rotasAdmin: RouteObject[] = [
   { index: true, element: <Navigate to="conteudo" replace /> },
@@ -18,6 +26,14 @@ const rotasAdmin: RouteObject[] = [
   })),
   ...['lives', 'lives/nova', 'lives/:liveId'].map((path) => ({ path, lazy: lives })),
   ...['avisos', 'avisos/novo', 'avisos/:avisoId'].map((path) => ({ path, lazy: avisos })),
+  ...['cardapios', 'cardapios/novo', 'cardapios/:cardapioId'].map((path) => ({
+    path,
+    lazy: cardapios,
+  })),
+  ...['desafios', 'desafios/novo', 'desafios/:desafioId'].map((path) => ({ path, lazy: desafios })),
+  ...['alunas', 'alunas/:alunaId'].map((path) => ({ path, lazy: alunas })),
+  ...['configuracoes', 'configuracoes/:item'].map((path) => ({ path, lazy: configuracoes })),
+  ...(['pontos', 'forum', 'financeiro', 'loja'] as const).map((m) => ({ path: m, lazy: vazio(m) })),
 ]
 
 // Área da aluna (/app): moldura com a barra de baixo; cada tela carrega sob demanda.

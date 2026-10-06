@@ -1,4 +1,5 @@
-import { estadoOferta, FIM_OFERTA_ORA, INICIO_OFERTA_ORA, ofertaOraDisponivel } from './oferta'
+import { CONFIGURACAO_PADRAO, type Configuracao } from './configuracao'
+import { estadoOferta, ofertaOraDisponivel } from './oferta'
 
 /** Valores em centavos. As parcelas são o valor de cada uma das 12. */
 export type Precos = {
@@ -12,37 +13,30 @@ export type Precos = {
   ancoraCentavos: number | null
 }
 
-const PRECOS_OFERTA: Precos = {
-  emOferta: true,
-  parcelas: 12,
-  parceladoCentavos: 19800,
-  recorrenteCentavos: 21500,
-  pixCentavos: 199700,
-  mesesAcesso: 13,
-  ancoraCentavos: 229700,
-}
-
-const PRECOS_CHEIOS: Precos = {
-  emOferta: false,
-  parcelas: 12,
-  parceladoCentavos: 22700,
-  recorrenteCentavos: 24700,
-  pixCentavos: 229700,
-  mesesAcesso: 12,
-  ancoraCentavos: null,
+/** Monta os preços de dentro ou de fora da oferta a partir da tabela configurada. */
+export function precosPara(emOferta: boolean, c: Configuracao = CONFIGURACAO_PADRAO): Precos {
+  const t = emOferta ? c.oferta : c.cheio
+  return {
+    emOferta,
+    parcelas: 12,
+    parceladoCentavos: t.parcelado,
+    recorrenteCentavos: t.recorrente,
+    pixCentavos: t.pix,
+    mesesAcesso: emOferta ? 13 : 12,
+    ancoraCentavos: emOferta ? c.cheio.pix : null,
+  }
 }
 
 /** Desconto da oferta do ORA no Pix (o "R$ 300 OFF" da faixa). */
-export const DESCONTO_OFERTA_CENTAVOS = PRECOS_CHEIOS.pixCentavos - PRECOS_OFERTA.pixCentavos
-
-/** Preços que valem no instante informado: oferta do ORA até FIM_OFERTA_ORA, cheios depois. */
-export function precosVigentes(agora: Date): Precos {
-  return precosPara(ofertaOraDisponivel(agora))
+export function descontoOferta(c: Configuracao = CONFIGURACAO_PADRAO): number {
+  return c.cheio.pix - c.oferta.pix
 }
 
-/** Tabela de preços dentro ou fora da oferta (para quem já sabe se a oferta vale). */
-export function precosPara(emOferta: boolean): Precos {
-  return emOferta ? PRECOS_OFERTA : PRECOS_CHEIOS
+export const DESCONTO_OFERTA_CENTAVOS = descontoOferta()
+
+/** Preços que valem no instante informado: oferta do ORA dentro da janela, cheios fora. */
+export function precosVigentes(agora: Date, c: Configuracao = CONFIGURACAO_PADRAO): Precos {
+  return precosPara(ofertaOraDisponivel(agora, c), c)
 }
 
 export type TempoRestante = { dias: number; horas: number; minutos: number; segundos: number }
@@ -60,10 +54,13 @@ function quebrar(ms: number): TempoRestante {
   }
 }
 
-export function contagemOferta(agora: Date): Contagem | null {
-  const estado = estadoOferta(agora)
+export function contagemOferta(
+  agora: Date,
+  c: Configuracao = CONFIGURACAO_PADRAO,
+): Contagem | null {
+  const estado = estadoOferta(agora, c)
   if (estado === 'depois') return null
-  const alvo = estado === 'antes' ? INICIO_OFERTA_ORA : FIM_OFERTA_ORA
+  const alvo = estado === 'antes' ? c.ofertaInicio : c.ofertaFim
   return { estado, tempo: quebrar(alvo.getTime() - agora.getTime()) }
 }
 

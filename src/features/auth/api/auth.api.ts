@@ -55,3 +55,8 @@ export async function buscarMeuPerfil(): Promise<MeuPerfil | null> {
   if (error) throw error
   return data
 }
+
+/** Marca o último acesso da aluna (o banco só grava se passou de 5 minutos). Falha não atrapalha. */
+export async function registrarAcesso(): Promise<void> {
+  await supabase.rpc('registrar_acesso')
+}

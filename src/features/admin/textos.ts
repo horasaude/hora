@@ -1,5 +1,7 @@
 // Textos do painel das profissionais. Os componentes só leem daqui.
 
+import { alunas, cardapios, configuracoes, desafios, vazios } from './textos/modulos'
+
 export const textos = {
   painel: 'Painel',
   marca: 'HORA',
@@ -9,7 +11,24 @@ export const textos = {
   fecharMenu: 'Fechar menu',
   status: 'Status',
   ordem: 'Ordem',
-  abas: { conteudo: 'Conteúdo', lives: 'Lives', avisos: 'Avisos' },
+  abas: {
+    conteudo: 'Conteúdo',
+    cardapios: 'Cardápios',
+    lives: 'Lives',
+    desafios: 'Desafios e prêmios',
+    pontos: 'Pontos e indicações',
+    forum: 'Fórum',
+    avisos: 'Avisos',
+    alunas: 'Alunas',
+    financeiro: 'Financeiro',
+    loja: 'Loja',
+    configuracoes: 'Configurações',
+  },
+  cardapios,
+  desafios,
+  alunas,
+  configuracoes,
+  vazios,
   carregando: 'Carregando',
   erro: 'Não foi possível carregar. Tente de novo.',
   tentar: 'Tentar de novo',

@@ -31,4 +31,6 @@ Cada endereço de detalhe (/conteudo/:temaId, /aulas/nova, /aulas/:aulaId, /live
 
 Reordenar troca duas posições numa função do banco (etapas com ordem única adiável), então nunca fica ordem repetida no meio da troca. Prévia de vídeo: src/lib/video.ts (YouTube, Vimeo, Google Drive). Sem exclusão nesta versão: tirar do ar é o caminho.
 
-Exporta (index.ts): PainelLayout, ConteudoPage, LivesPage e AvisosPage (carregadas sob demanda pelo router).
+Menu na ordem: Conteúdo, Cardápios, Lives, Desafios e prêmios, Pontos e indicações, Fórum, Avisos, Alunas, Financeiro, Loja, Configurações. Status da aluna e situação do desafio em src/domain/painel.ts.
+
+Exporta (index.ts): PainelLayout e as páginas de cada módulo (carregadas sob demanda pelo router).

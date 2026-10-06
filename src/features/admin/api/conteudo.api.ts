@@ -4,7 +4,8 @@ import type { Tables, TablesInsert } from '@/types/database'
 export type Tema = Tables<'temas'>
 export type Etapa = Tables<'etapas'>
 export type Aula = Tables<'aulas'>
-export type TabelaConteudo = 'temas' | 'etapas' | 'aulas' | 'lives' | 'avisos'
+export type TabelaConteudo =
+  'temas' | 'etapas' | 'aulas' | 'lives' | 'avisos' | 'cardapios' | 'desafios'
 
 /** Resposta do Supabase: devolve os dados ou lança o erro. */
 export function ok<D>({ data, error }: { data: D | null; error: unknown }): D {

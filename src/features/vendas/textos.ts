@@ -8,4 +8,4 @@ import { produto } from './textos/produto'
 
 export const textos = { ...abertura, ...produto, ...fechamento, compra, app }
 export type { Depoimento, ItemRecebe } from './textos/produto'
-export { privacidade, termos, type Documento } from './textos/legal'
+export { atualizadoEm, privacidade, termos, type Documento } from './textos/legal'

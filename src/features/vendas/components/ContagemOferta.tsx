@@ -1,4 +1,5 @@
-import { contagemOferta, DESCONTO_OFERTA_CENTAVOS } from '@/domain/precos'
+import { contagemOferta, descontoOferta } from '@/domain/precos'
+import { useConfiguracao } from '@/features/configuracao'
 import { formatarPreco } from '@/lib/moeda'
 import { useAgora } from '../hooks/useAgora'
 import { textos } from '../textos'
@@ -8,7 +9,8 @@ const dois = (n: number) => String(n).padStart(2, '0')
 
 /** Aviso da oferta do ORA: antes do dia conta até começar; no dia, até acabar; depois some. */
 export function ContagemOferta() {
-  const c = contagemOferta(useAgora())
+  const config = useConfiguracao()
+  const c = contagemOferta(useAgora(), config)
   if (!c) return null
   const { estado, tempo } = c
   const partes = [
@@ -21,7 +23,7 @@ export function ContagemOferta() {
     <div className="rounded-[1.75rem] bg-ora px-5 py-6 text-center text-creme sm:px-8">
       <p className="text-2xl leading-snug font-semibold sm:text-3xl">{t.vantagem}</p>
       <p className="mt-2 text-sm font-semibold tracking-[0.18em] uppercase">
-        {t.selo(formatarPreco(DESCONTO_OFERTA_CENTAVOS))}
+        {t.selo(formatarPreco(descontoOferta(config)))}
       </p>
       <p className="mt-1 text-sm text-creme/85">{t.prazo[estado]}</p>
       <p className="mt-4 text-[0.65rem] tracking-[0.18em] text-creme/75 uppercase">

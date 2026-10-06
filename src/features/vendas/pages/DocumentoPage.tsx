@@ -1,4 +1,17 @@
-import { privacidade, termos, type Documento } from '../textos'
+import { useConfiguracaoPublica } from '@/features/configuracao'
+import { formatarData } from '@/lib/datas'
+import { atualizadoEm, privacidade, termos, type Documento } from '../textos'
+
+/** Texto do banco (editado no painel) quando já chegou; até lá, o texto do código. */
+function useDocumento(tipo: 'termos' | 'privacidade', padrao: Documento): Documento {
+  const doBanco = useConfiguracaoPublica()?.[tipo]
+  if (!doBanco || doBanco.secoes.length === 0) return padrao
+  return {
+    titulo: padrao.titulo,
+    atualizado: atualizadoEm(formatarData(doBanco.atualizado)),
+    secoes: doBanco.secoes,
+  }
+}
 
 function DocumentoPage({ doc }: { doc: Documento }) {
   return (
@@ -26,5 +39,7 @@ function DocumentoPage({ doc }: { doc: Documento }) {
   )
 }
 
-export const TermosPage = () => <DocumentoPage doc={termos} />
-export const PrivacidadePage = () => <DocumentoPage doc={privacidade} />
+export const TermosPage = () => <DocumentoPage doc={useDocumento('termos', termos)} />
+export const PrivacidadePage = () => (
+  <DocumentoPage doc={useDocumento('privacidade', privacidade)} />
+)

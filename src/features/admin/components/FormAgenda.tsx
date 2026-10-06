@@ -1,13 +1,9 @@
-import { useForm, type FieldValues, type Path, type Resolver } from 'react-hook-form'
-import { Botao, Campo } from '@/components/ui'
+import { useForm, useWatch, type FieldValues, type Resolver } from 'react-hook-form'
+import { Botao } from '@/components/ui'
 import { textos } from '../textos'
-import { CampoArea } from './CampoArea'
+import { CampoDoForm, type CampoDef } from './CampoDoForm'
 
-export type CampoDef<E> = {
-  nome: Path<E & FieldValues>
-  rotulo: string
-  tipo?: 'texto' | 'area' | 'datahora' | 'link'
-}
+export type { CampoDef }
 
 type Props<E extends FieldValues, S> = {
   campos: CampoDef<E>[]
@@ -36,7 +32,7 @@ function Botoes({ salvando, aoCancelar }: { salvando: boolean; aoCancelar: () =>
   )
 }
 
-/** Formulário simples para live e aviso: lista de campos, salvar e cancelar. */
+/** Formulário genérico do painel (live, aviso, cardápio, desafio): lista de campos, salvar e cancelar. */
 export function FormAgenda<E extends FieldValues, S>({
   campos,
   inicial,
@@ -46,6 +42,8 @@ export function FormAgenda<E extends FieldValues, S>({
 }: Props<E, S>) {
   const form = useForm<E, unknown, S>({ resolver, defaultValues: inicial as never })
   const erros = form.formState.errors as Record<string, { message?: string } | undefined>
+  const valores = useWatch({ control: form.control }) as E
+  const visiveis = campos.filter((c) => !c.quando || c.quando(valores))
   const enviar = form.handleSubmit(async (d) => {
     try {
       await aoSalvar(d)
@@ -55,25 +53,14 @@ export function FormAgenda<E extends FieldValues, S>({
   })
   return (
     <form onSubmit={enviar} noValidate className="flex flex-col gap-4">
-      {campos.map((c) =>
-        c.tipo === 'area' ? (
-          <CampoArea
-            key={c.nome}
-            rotulo={c.rotulo}
-            erro={erros[c.nome]?.message}
-            {...form.register(c.nome)}
-          />
-        ) : (
-          <Campo
-            key={c.nome}
-            rotulo={c.rotulo}
-            type={c.tipo === 'datahora' ? 'datetime-local' : 'text'}
-            inputMode={c.tipo === 'link' ? 'url' : undefined}
-            erro={erros[c.nome]?.message}
-            {...form.register(c.nome)}
-          />
-        ),
-      )}
+      {visiveis.map((c) => (
+        <CampoDoForm
+          key={c.nome}
+          campo={c}
+          register={form.register}
+          erro={erros[c.nome]?.message}
+        />
+      ))}
       {erros.root && (
         <p role="alert" className="text-sm text-terracota-escuro">
           {erros.root.message}

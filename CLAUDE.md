@@ -20,7 +20,7 @@ Stack: React + Vite + TypeScript, Tailwind, TanStack Query, Zod, Supabase (Postg
 - Webhook, criação de pedido e pontos são idempotentes. Repetição não gera acesso, cobrança ou ponto em dobro.
 - Pontos só via função conceder_pontos. Nunca insert direto em lancamentos_pontos. Correção é novo lançamento.
 - Peso e medidas nunca entram em ranking.
-- Oferta do ORA (R$ 300 OFF + 1 mês grátis) só no dia do evento, 24/10/2026, de 00h00 a 23h59 (America/Sao_Paulo); antes e depois, preço cheio. Checada no servidor (src/domain/oferta.ts e, quando houver pedido, no banco).
+- Oferta do ORA (R$ 300 OFF + 1 mês grátis) só no dia do evento, 24/10/2026, de 00h00 a 23h59 (America/Sao_Paulo); antes e depois, preço cheio. Preços e janela ficam na tabela configuracoes (editada no painel); src/domain/configuracao.ts guarda o padrão. Quando houver pedido, o banco checa pela mesma tabela.
 
 ## Banco e segurança
 

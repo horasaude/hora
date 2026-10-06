@@ -78,3 +78,5 @@ export const privacidade: Documento = {
     { titulo: 'Contato', texto: contato },
   ],
 }
+
+export const atualizadoEm = (data: string) => `Atualizado em ${data}`

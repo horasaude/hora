@@ -1,26 +1,24 @@
 import { useEffect, useState } from 'react'
-import { estadoOferta, FIM_OFERTA_ORA, INICIO_OFERTA_ORA, type EstadoOferta } from '@/domain/oferta'
+import { estadoOferta, type EstadoOferta } from '@/domain/oferta'
+import { useConfiguracao } from '@/features/configuracao'
 
 const MAIOR_ESPERA = 2_147_483_647
 
 /** Estado da oferta do ORA; muda sozinho na virada para 24/10 e no fim do dia, sem relógio de segundo em segundo. */
 export function useEstadoOferta(): EstadoOferta {
-  const [estado, setEstado] = useState(() => estadoOferta(new Date()))
-  const [voltas, setVoltas] = useState(0)
+  const config = useConfiguracao()
+  const [agora, setAgora] = useState(() => new Date())
+  const estado = estadoOferta(agora, config)
   useEffect(() => {
     if (estado === 'depois') return
-    const alvo = estado === 'antes' ? INICIO_OFERTA_ORA : FIM_OFERTA_ORA
+    const alvo = estado === 'antes' ? config.ofertaInicio : config.ofertaFim
     const falta = alvo.getTime() - Date.now() + 1000
     const id = window.setTimeout(
-      () => {
-        const novo = estadoOferta(new Date())
-        if (novo === estado) setVoltas((v) => v + 1)
-        else setEstado(novo)
-      },
+      () => setAgora(new Date()),
       Math.min(Math.max(falta, 0), MAIOR_ESPERA),
     )
     return () => window.clearTimeout(id)
-  }, [estado, voltas])
+  }, [estado, agora, config])
   return estado
 }
 

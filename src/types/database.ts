@@ -133,6 +133,213 @@ export type Database = {
         }
         Relationships: []
       }
+      cardapios: {
+        Row: {
+          almoco: string
+          cafe: string
+          ceia: string
+          created_at: string
+          descricao: string
+          id: string
+          jantar: string
+          lanche_manha: string
+          lanche_tarde: string
+          lista_compras: string
+          objetivo: string
+          publicado: boolean
+          titulo: string
+          updated_at: string
+        }
+        Insert: {
+          almoco?: string
+          cafe?: string
+          ceia?: string
+          created_at?: string
+          descricao?: string
+          id?: string
+          jantar?: string
+          lanche_manha?: string
+          lanche_tarde?: string
+          lista_compras?: string
+          objetivo: string
+          publicado?: boolean
+          titulo: string
+          updated_at?: string
+        }
+        Update: {
+          almoco?: string
+          cafe?: string
+          ceia?: string
+          created_at?: string
+          descricao?: string
+          id?: string
+          jantar?: string
+          lanche_manha?: string
+          lanche_tarde?: string
+          lista_compras?: string
+          objetivo?: string
+          publicado?: boolean
+          titulo?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      configuracoes: {
+        Row: {
+          id: boolean
+          oferta_fim: string
+          oferta_inicio: string
+          parcelado_cheio: number
+          parcelado_oferta: number
+          pix_cheio: number
+          pix_oferta: number
+          privacidade: Json
+          privacidade_atualizado_em: string
+          recorrente_cheio: number
+          recorrente_oferta: number
+          termos: Json
+          termos_atualizado_em: string
+          updated_at: string
+        }
+        Insert: {
+          id?: boolean
+          oferta_fim: string
+          oferta_inicio: string
+          parcelado_cheio: number
+          parcelado_oferta: number
+          pix_cheio: number
+          pix_oferta: number
+          privacidade: Json
+          privacidade_atualizado_em?: string
+          recorrente_cheio: number
+          recorrente_oferta: number
+          termos: Json
+          termos_atualizado_em?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: boolean
+          oferta_fim?: string
+          oferta_inicio?: string
+          parcelado_cheio?: number
+          parcelado_oferta?: number
+          pix_cheio?: number
+          pix_oferta?: number
+          privacidade?: Json
+          privacidade_atualizado_em?: string
+          recorrente_cheio?: number
+          recorrente_oferta?: number
+          termos?: Json
+          termos_atualizado_em?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      desafio_checkins: {
+        Row: {
+          created_at: string
+          desafio_id: string
+          dia: string
+          foto_path: string | null
+          perfil_id: string
+          valor: number | null
+        }
+        Insert: {
+          created_at?: string
+          desafio_id: string
+          dia?: string
+          foto_path?: string | null
+          perfil_id?: string
+          valor?: number | null
+        }
+        Update: {
+          created_at?: string
+          desafio_id?: string
+          dia?: string
+          foto_path?: string | null
+          perfil_id?: string
+          valor?: number | null
+        }
+        Relationships: []
+      }
+      desafio_participantes: {
+        Row: {
+          desafio_id: string
+          entrou_em: string
+          perfil_id: string
+        }
+        Insert: {
+          desafio_id: string
+          entrou_em?: string
+          perfil_id?: string
+        }
+        Update: {
+          desafio_id?: string
+          entrou_em?: string
+          perfil_id?: string
+        }
+        Relationships: []
+      }
+      desafios: {
+        Row: {
+          bonus_conclusao: number
+          created_at: string
+          descricao: string
+          encerrado_em: string | null
+          fim: string
+          id: string
+          inicio: string
+          meta_diaria: number | null
+          meta_dias: number
+          nome: string
+          pontos_por_dia: number
+          premio: string
+          publicado: boolean
+          publico: Database["public"]["Enums"]["publico_desafio"]
+          tipo_checkin: Database["public"]["Enums"]["tipo_checkin"]
+          unidade: string | null
+          updated_at: string
+        }
+        Insert: {
+          bonus_conclusao?: number
+          created_at?: string
+          descricao?: string
+          encerrado_em?: string | null
+          fim: string
+          id?: string
+          inicio: string
+          meta_diaria?: number | null
+          meta_dias: number
+          nome: string
+          pontos_por_dia?: number
+          premio?: string
+          publicado?: boolean
+          publico?: Database["public"]["Enums"]["publico_desafio"]
+          tipo_checkin: Database["public"]["Enums"]["tipo_checkin"]
+          unidade?: string | null
+          updated_at?: string
+        }
+        Update: {
+          bonus_conclusao?: number
+          created_at?: string
+          descricao?: string
+          encerrado_em?: string | null
+          fim?: string
+          id?: string
+          inicio?: string
+          meta_diaria?: number | null
+          meta_dias?: number
+          nome?: string
+          pontos_por_dia?: number
+          premio?: string
+          publicado?: boolean
+          publico?: Database["public"]["Enums"]["publico_desafio"]
+          tipo_checkin?: Database["public"]["Enums"]["tipo_checkin"]
+          unidade?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       etapas: {
         Row: {
           created_at: string
@@ -265,6 +472,7 @@ export type Database = {
           id: string
           nome: string
           ocultar_ranking: boolean
+          ultimo_acesso_em: string | null
           papel: Database["public"]["Enums"]["papel"]
           updated_at: string
         }
@@ -277,6 +485,7 @@ export type Database = {
           id: string
           nome?: string
           ocultar_ranking?: boolean
+          ultimo_acesso_em?: string | null
           papel?: Database["public"]["Enums"]["papel"]
           updated_at?: string
         }
@@ -289,6 +498,7 @@ export type Database = {
           id?: string
           nome?: string
           ocultar_ranking?: boolean
+          ultimo_acesso_em?: string | null
           papel?: Database["public"]["Enums"]["papel"]
           updated_at?: string
         }
@@ -363,10 +573,37 @@ export type Database = {
         Args: { p_direcao: number; p_id: string }
         Returns: undefined
       }
+      painel_alunas: {
+        Args: never
+        Returns: {
+          acesso_fim_em: string | null
+          acesso_inicio_em: string | null
+          apelido: string | null
+          aulas_concluidas: number
+          aulas_liberadas: number
+          dia: number | null
+          id: string
+          nome: string
+          ultimo_acesso_em: string | null
+        }[]
+      }
+      painel_desafios: {
+        Args: never
+        Returns: { concluintes: number; id: string; participantes: number }[]
+      }
+      registrar_acesso: { Args: never; Returns: undefined }
+      vencedoras_desafio: {
+        Args: { p_desafio: string }
+        Returns: { apelido: string | null; dias: number; nome: string; perfil_id: string }[]
+      }
+      alunas_em_desafios_ativos: { Args: never; Returns: number }
+      dias_cumpridos: { Args: { p_desafio: string; p_perfil: string }; Returns: number }
       tem_acesso_ativo: { Args: never; Returns: boolean }
     }
     Enums: {
       papel: "aluna" | "admin"
+      publico_desafio: "todas" | "inscritas"
+      tipo_checkin: "sim_nao" | "foto" | "numero"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -495,6 +732,8 @@ export const Constants = {
   public: {
     Enums: {
       papel: ["aluna", "admin"],
+      publico_desafio: ["todas", "inscritas"],
+      tipo_checkin: ["sim_nao", "foto", "numero"],
     },
   },
 } as const

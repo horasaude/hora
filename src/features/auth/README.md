@@ -17,4 +17,4 @@ Login com e-mail e senha (Supabase Auth) e proteção de rotas.
 | schemas/login.schema.ts      | Validação do formulário                                |
 | textos.ts                    | Frases da tela                                         |
 
-Exporta (index.ts): LoginPage, RotaProtegida, useSessao, usePapel, useNome, useMeuPerfil, useSair.
+Exporta (index.ts): LoginPage, RotaProtegida, useSessao, usePapel, useNome, useMeuPerfil, useSair, useRegistrarAcesso.

@@ -1,4 +1,5 @@
 import { precosPara } from '@/domain/precos'
+import { useConfiguracao } from '@/features/configuracao'
 import { formatarPreco } from '@/lib/moeda'
 import { usePrecos } from '../hooks/usePrecos'
 import { textos } from '../textos'
@@ -12,7 +13,7 @@ const t = textos.preco
 /** Três planos lado a lado. Na oferta, o preço normal aparece riscado; depois troca sozinho. */
 export function Preco() {
   const p = usePrecos()
-  const cheio = precosPara(false)
+  const cheio = precosPara(false, useConfiguracao())
   const vezes = t.vezes(p.parcelas)
   const riscar = (texto: string) => (p.emOferta ? texto : null)
   const acesso = t.acesso(p.mesesAcesso)

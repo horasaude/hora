@@ -2,6 +2,15 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-06 · main · Painel completo
+
+- Menu com 11 módulos na ordem pedida, cada um com bolinha colorida, todos no visual da referência.
+- Cardápios por objetivo (6 refeições e lista de compras), publicar e tirar do ar. Desafios e prêmios: período, tipo de check-in (sim ou não, foto, número com unidade e meta por dia), dias para concluir, pontos por dia, bônus, prêmio, todas ou só inscritas; encerrar (dois toques) e vencedoras.
+- Alunas só leitura: início, dia, último acesso (perfis.ultimo_acesso_em, gravado ao abrir a área da aluna), status Em dia, Atenção (3 dias), Sumiu (7 dias), progresso nas aulas.
+- Configurações: preços cheios e da oferta, janela da oferta e textos de termos e privacidade saem do código para a tabela configuracoes. Página de vendas, checkout e termos leem por fetch simples, com os valores atuais como reserva.
+- Pontos e indicações, Fórum, Financeiro e Loja: visual pronto, cartões zerados e "Nenhum registro ainda".
+- Migração 20261007120000_painel_completo (45 checagens no PGlite). Tipos escritos à mão até aplicar a migração; depois, regerar com npm run gen:types.
+
 ## 2026-10-06 · main · Área da aluna
 
 - Seguindo docs/referencias/app-aluna.png: largura de celular (centralizada no computador), barra fixa com 5 ícones desenhados (Início, Trilha, Desafios, Ranking, Perfil), cartões areia, títulos Playfair verde ORA.

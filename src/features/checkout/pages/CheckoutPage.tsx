@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { precosVigentes } from '@/domain/precos'
+import { descontoOferta, precosVigentes } from '@/domain/precos'
+import { useConfiguracao } from '@/features/configuracao'
 import { iniciarRevelar } from '@/lib/revelar'
 import { Banner } from '../components/Banner'
 import { DadosPessoais } from '../components/DadosPessoais'
@@ -12,14 +13,16 @@ import { textos } from '../textos'
 
 /** Checkout próprio, no formato do Hotmart: resumo, dados, pagamento e lateral de confiança. */
 export function CheckoutPage() {
-  const [precos] = useState(() => precosVigentes(new Date()))
+  const config = useConfiguracao()
+  const [agora] = useState(() => new Date())
+  const precos = precosVigentes(agora, config)
   const { form, enviar, cpf, whatsapp, aguardando } = useCheckout()
   const plano = form.watch('plano')
   useEffect(() => iniciarRevelar(), [])
   return (
     <main className="min-h-dvh bg-creme px-5 py-8 sm:px-6 sm:py-10">
       <div className="mx-auto flex max-w-5xl flex-col gap-6">
-        <Banner emOferta={precos.emOferta} />
+        <Banner emOferta={precos.emOferta} desconto={descontoOferta(config)} />
         <div className="grid gap-6 lg:grid-cols-[1fr_340px] lg:items-start">
           <form
             data-revelar
