@@ -15,7 +15,7 @@ export const termos: Documento = {
     {
       titulo: 'Quem somos',
       texto:
-        'A HORA é uma comunidade de acompanhamento em saúde e hábitos, inscrita no CNPJ 52.877.749/0001-15. Estes termos valem para o uso deste site e da plataforma HORA.',
+        'A ORA é uma comunidade de acompanhamento em saúde e hábitos, inscrita no CNPJ 52.877.749/0001-15. Estes termos valem para o uso deste site e da plataforma ORA.',
     },
     {
       titulo: 'O que você contrata',
@@ -35,7 +35,7 @@ export const termos: Documento = {
     {
       titulo: 'Conteúdo e saúde',
       texto:
-        'O conteúdo da HORA é educativo e não substitui consulta individual. Siga as orientações do seu médico para condições de saúde específicas.',
+        'O conteúdo da ORA é educativo e não substitui consulta individual. Siga as orientações do seu médico para condições de saúde específicas.',
     },
     {
       titulo: 'Convivência',
@@ -58,17 +58,17 @@ export const privacidade: Documento = {
     {
       titulo: 'Para que usamos',
       texto:
-        'Para liberar o seu acesso, falar com você sobre a compra e a comunidade, e entender quais campanhas trazem pessoas até a HORA. Medidas e fotos de evolução são suas e nunca entram em ranking.',
+        'Para liberar o seu acesso, falar com você sobre a compra e a comunidade, e entender quais campanhas trazem pessoas até a ORA. Medidas e fotos de evolução são suas e nunca entram em ranking.',
     },
     {
       titulo: 'Com quem compartilhamos',
       texto:
-        'Com os serviços que fazem a HORA funcionar: Mercado Pago (pagamento), Supabase (banco de dados) e Vercel (hospedagem). Não vendemos seus dados.',
+        'Com os serviços que fazem a ORA funcionar: Mercado Pago (pagamento), Supabase (banco de dados) e Vercel (hospedagem). Não vendemos seus dados.',
     },
     {
       titulo: 'Pagamento',
       texto:
-        'Os dados do cartão e do Pix ficam com o Mercado Pago. A HORA não recebe nem guarda número de cartão.',
+        'Os dados do cartão e do Pix ficam com o Mercado Pago. A ORA não recebe nem guarda número de cartão.',
     },
     {
       titulo: 'Seus direitos',

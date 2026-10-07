@@ -54,7 +54,7 @@ export const fechamento = {
     itens: [
       {
         p: 'Preciso ter participado do ORA?',
-        r: 'Não. A HORA é aberta para quem quer começar agora.',
+        r: 'Não. A ORA é aberta para quem quer começar agora.',
       },
       {
         p: 'Quando vale a oferta do ORA?',
@@ -84,14 +84,14 @@ export const fechamento = {
   },
   assinatura: 'ORA · 2026',
   rodape: {
-    marca: 'HORA',
+    marca: 'ORA',
     cnpj: 'CNPJ 52.877.749/0001-15',
     termos: 'Termos de uso',
     privacidade: 'Política de privacidade',
-    direitos: '© 2026 HORA. Todos os direitos reservados.',
+    direitos: '© 2026 ORA. Todos os direitos reservados.',
   },
   whatsapp: {
     rotulo: 'Falar no WhatsApp',
-    mensagem: 'Oi! Quero saber mais sobre a HORA.',
+    mensagem: 'Oi! Quero saber mais sobre a ORA.',
   },
 }

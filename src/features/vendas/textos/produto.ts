@@ -6,8 +6,8 @@ export type ItemRecebe = { texto: string; bonus?: boolean; so?: 'oferta' | 'loja
 export const produto = {
   oQueE: {
     etiqueta: 'A comunidade',
-    cta: 'Quero fazer parte da HORA',
-    titulo: 'O que é a *HORA*',
+    cta: 'Quero fazer parte da ORA',
+    titulo: 'O que é a *ORA*',
     foto: '/fotos/tres-em-pe.webp',
     fotoAlt: 'Ana Milhomem, Dra. Clara Maria e Laís Moraes juntas à beira do lago',
     texto:

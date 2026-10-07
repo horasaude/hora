@@ -4,11 +4,11 @@ export const textos = {
   oferta: (desconto: string) => `Oferta ORA: ${desconto} OFF + 1 mês grátis`,
   banner: {
     etiqueta: 'Comunidade',
-    nome: 'HORA',
+    nome: 'ORA',
     frase: '12 meses de nutrição, saúde e movimento, com quem entende do assunto',
   },
   produto: {
-    nome: 'Comunidade HORA',
+    nome: 'Comunidade ORA',
     autoras: 'Ana Milhomem, Dra. Clara Maria e Laís Moraes',
     acesso: (meses: number) => `${meses} meses de acesso`,
     vantagem: '12 meses + 1 mês grátis',
@@ -57,7 +57,7 @@ export const textos = {
     seguro: 'Compra 100% segura',
     ajuda: 'Ficou com alguma dúvida?',
     whatsapp: 'Falar no WhatsApp',
-    mensagem: 'Oi! Estou no checkout da HORA e tenho uma dúvida.',
+    mensagem: 'Oi! Estou no checkout da ORA e tenho uma dúvida.',
   },
   erros: {
     email: 'Confira o e-mail',

@@ -5,11 +5,11 @@ export const abertura = {
   hero: {
     logo: 'ORA',
     etiqueta: 'Imersão ORA',
-    titulo: 'Chegou a sua *HORA* de cuidar de você',
+    titulo: 'Chegou a sua *hora* de cuidar de você',
     // TODO(clientes): validar a promessa e o subtítulo.
     subtitulo:
       'Um ano com nutricionista, médica nutróloga e educadora física no mesmo lugar. Para você parar de recomeçar toda segunda.',
-    botao: 'Quero entrar na HORA',
+    botao: 'Quero entrar na ORA',
   },
   // Provisórios (fatos do produto). TODO(clientes): trocar por números de autoridade quando vierem.
   // O layout aceita qualquer valor curto com rótulo e detalhe.

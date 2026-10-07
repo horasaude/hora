@@ -24,7 +24,7 @@ export const compra = {
     plano: 'Escolha como quer pagar',
   },
   obrigada: {
-    titulo: 'Que bom ter você na *HORA*',
+    titulo: 'Que bom ter você na *ORA*',
     passos: [
       'Assim que o pagamento for confirmado, você recebe no e-mail o seu usuário e uma senha provisória.',
       'Entre pelo link do e-mail e troque a senha no primeiro acesso.',

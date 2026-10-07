@@ -9,7 +9,7 @@ Página de vendas pública (rota /), feita para tráfego pago no celular. Estrut
 | pages/DocumentoPage.tsx          | /termos e /privacidade (textos em textos/legal.ts)                     |
 | components/Faixa.tsx             | Faixa fixa da oferta com contagem; some no fim da oferta               |
 | components/Abertura.tsx          | Primeira dobra, números de prova e o problema                          |
-| components/Produto.tsx           | O que é a HORA e como funciona                                         |
+| components/Produto.tsx           | O que é a ORA e como funciona                                          |
 | components/Pessoas.tsx           | As três profissionais (iniciais até chegar a foto) e depoimentos       |
 | components/Oferta.tsx            | Para quem é e tudo o que recebe (selos BÔNUS)                          |
 | components/Preco.tsx             | Preço ancorado; troca sozinho no fim da oferta                         |
