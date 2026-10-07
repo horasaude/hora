@@ -1,0 +1,28 @@
+import { classeBrilho } from './estiloBrilho'
+
+type Props<T extends string> = {
+  opcoes: readonly { id: T; nome: string }[]
+  ativa: T
+  aoEscolher: (id: T) => void
+  rotulo: string
+}
+
+/** Abas em pílulas de vidro: a escolhida fica verde, as outras cinza. */
+export function Abas<T extends string>({ opcoes, ativa, aoEscolher, rotulo }: Props<T>) {
+  return (
+    <div role="tablist" aria-label={rotulo} className="flex flex-wrap gap-2">
+      {opcoes.map((o) => (
+        <button
+          key={o.id}
+          type="button"
+          role="tab"
+          aria-selected={o.id === ativa}
+          onClick={() => aoEscolher(o.id)}
+          className={`${classeBrilho(o.id === ativa ? 'verde' : 'cinza', 'md')} min-w-20`}
+        >
+          {o.nome}
+        </button>
+      ))}
+    </div>
+  )
+}

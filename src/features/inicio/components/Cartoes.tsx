@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { Cartao, IconePlay } from '@/components/ui'
 import { diaSemanaEHora } from '@/lib/datas'
 import type { ProximaLive } from '../api/inicio.api'
-import { exemplo, textos } from '../textos'
+import { textos } from '../textos'
 
 type Aula = { id: string; titulo: string; duracao_minutos: number | null }
 
@@ -32,21 +32,5 @@ export function FaixaLive({ live }: { live: ProximaLive }) {
     <p className="brilho brilho-dourado self-start rounded-full px-3.5 py-2 text-[13px] font-bold">
       {textos.live(diaSemanaEHora(new Date(live.data)), live.tema)}
     </p>
-  )
-}
-
-/** Posição no ranking e pontos da última ação (valores de exemplo por enquanto). */
-export function CartaoRanking() {
-  const t = textos.ranking
-  return (
-    <Cartao>
-      <p className="text-sm text-suave">{t.voce}</p>
-      <p className="text-[40px] leading-tight font-bold text-verde-escuro">
-        {t.lugar(exemplo.posicao)}
-      </p>
-      <p className="text-sm font-semibold text-terracota-escuro">
-        {t.pontos(exemplo.pontosUltimaAcao)}
-      </p>
-    </Cartao>
   )
 }

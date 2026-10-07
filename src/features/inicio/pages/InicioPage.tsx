@@ -7,8 +7,11 @@ import { useMeuPerfil } from '@/features/auth'
 import { AvisoRespondida } from '@/features/forum'
 import { useTrilha } from '@/features/trilha'
 import { horaEmBrasilia } from '@/lib/datas'
-import { AulaDeHoje, CartaoRanking, FaixaLive } from '../components/Cartoes'
-import { Checkin } from '../components/Checkin'
+import { CheckinHoje, useHoje } from '@/features/checkin'
+import { CartaoDesafioAtivo } from '@/features/desafios'
+import { CartaoRankingInicio } from '@/features/ranking'
+import { AulaDeHoje, FaixaLive } from '../components/Cartoes'
+import { Resumo } from '../components/Resumo'
 import { useProximaLive } from '../hooks/useProximaLive'
 import { textos } from '../textos'
 
@@ -37,8 +40,9 @@ function Saudacao({ nome }: { nome: string }) {
   )
 }
 
-/** Início da aluna: saudação, check-in, aula de hoje, próxima live e ranking. */
+/** Início da aluna: saudação, resumo, check-in, aula de hoje, próxima live, ranking e desafio. */
 export function InicioPage() {
+  const hoje = useHoje()
   const perfil = useMeuPerfil()
   const trilha = useTrilha()
   const live = useProximaLive()
@@ -56,25 +60,29 @@ export function InicioPage() {
       {semAcesso ? (
         <Cartao className="text-sm text-tinta">{textos.semAcesso}</Cartao>
       ) : (
-        <div className="grid items-start gap-4 lg:grid-cols-2 lg:gap-6">
-          <div className="flex flex-col gap-4 lg:gap-6">
-            <AvisoRespondida />
-            <Checkin />
-            {aula && <AulaDeHoje aula={aula} />}
-          </div>
-          <div className="flex flex-col gap-4 lg:gap-6">
-            {live.data && <FaixaLive live={live.data} />}
-            <CartaoRanking />
-            <div className="flex flex-wrap gap-2 lg:hidden">
-              <Link to="/app/forum" className={classeBrilho('cinza')}>
-                {textos.forum}
-              </Link>
-              <Link to="/app/loja" className={classeBrilho('cinza')}>
-                {textos.loja}
-              </Link>
+        <>
+          <Resumo />
+          <div className="grid items-start gap-4 lg:grid-cols-[1.4fr_1fr] lg:gap-6">
+            <div className="flex flex-col gap-4 lg:gap-6">
+              <AvisoRespondida />
+              <CheckinHoje />
+              {aula && <AulaDeHoje aula={aula} />}
+              {live.data && <FaixaLive live={live.data} />}
+            </div>
+            <div className="flex flex-col gap-4 lg:gap-6">
+              <CartaoRankingInicio />
+              <CartaoDesafioAtivo hoje={hoje} />
+              <div className="flex flex-wrap gap-2 lg:hidden">
+                <Link to="/app/forum" className={classeBrilho('cinza')}>
+                  {textos.forum}
+                </Link>
+                <Link to="/app/loja" className={classeBrilho('cinza')}>
+                  {textos.loja}
+                </Link>
+              </div>
             </div>
           </div>
-        </div>
+        </>
       )}
     </section>
   )

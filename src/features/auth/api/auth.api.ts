@@ -41,15 +41,20 @@ export type MeuPerfil = {
   papel: string
   consentimento_saude_em: string | null
   acesso_inicio_em: string | null
+  ocultar_ranking: boolean
+  codigo_indicacao: string
+  avatar_path: string | null
 }
 
-/** Perfil da usuária logada: nome, apelido, consentimento e início do acesso. */
+/** Perfil da usuária logada: nome, apelido, consentimento, início do acesso, ranking, indicação e foto. */
 export async function buscarMeuPerfil(): Promise<MeuPerfil | null> {
   const { data: sessao } = await supabase.auth.getUser()
   if (!sessao.user) return null
   const { data, error } = await supabase
     .from('perfis')
-    .select('nome, apelido, papel, consentimento_saude_em, acesso_inicio_em')
+    .select(
+      'nome, apelido, papel, consentimento_saude_em, acesso_inicio_em, ocultar_ranking, codigo_indicacao, avatar_path',
+    )
     .eq('id', sessao.user.id)
     .single()
   if (error) throw error

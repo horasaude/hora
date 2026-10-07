@@ -2,6 +2,15 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-06 · main · Engajamento da aluna (check-in, desafios, ranking, perfil)
+
+- Banco (20261009090000_engajamento, 51 checagens novas no PGlite; pontos ajustado à nova assinatura): fazer_checkin com tipo e duração do treino, foto obrigatória em treino e refeição, repetido devolve 0; ranking_pontos (mês e ano), meus_desafios, entrar_desafio, checkin_desafio (devolve os pontos), ranking_desafio; tabela medidas e espaço privado evolucao; perfis.avatar_path.
+- Início: resumo (pontos no mês, dias seguidos, posição), check-in real dos 5 hábitos com "+5" que sobe e some, foto do treino (câmera no celular, tipo e duração) e da refeição, bolinhas dos 7 dias, ranking real e cartão do desafio ativo com check-in.
+- Desafios: abas Do mês e Encerrados, desafio aberto com regras, barra, calendário, check-in por tipo e ranking pelo apelido. Ranking: Mês e Ano, círculos ouro, prata e coral, linha dela em verde fixa no rodapé quando sai da tela, cartão do topo com quanto falta para subir.
+- Perfil: topo com dia e semana, resumo, Minha evolução (medidas, gráfico e lista), Indicar uma amiga (copiar, WhatsApp, lista com situação), configurações (apelido e foto, aparecer no ranking, senha, sair) e histórico de pontos paginado. Tela "em breve" removida.
+- Arquivos: src/features/checkin, desafios, ranking, perfil; src/domain/engajamento.ts; src/lib/fotos.ts; components/ui (Abas, Estados, Formulario, RodapeSalvar, PontosGanhos).
+- Pendente: aplicar a migração no banco (db push) e publicar; tipos escritos à mão até rodar gen:types depois do db push.
+
 ## 2026-10-06 · main · Loja completa (painel e aluna)
 
 - Banco (20261008120000_loja, 33 checagens no PGlite): parceiros, produtos e cliques; aluna com acesso vê só produto publicado de parceiro ativo; clique só pela função (1 por minuto por produto); Active Life já cadastrada; fotos e logos no espaço privado loja.

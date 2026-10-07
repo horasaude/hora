@@ -31,7 +31,8 @@ Venda inicial por links do Mercado Pago; o checkout integrado da Sprint 2 substi
 - [x] Painel admin: lives e avisos
 - [x] Primeiro acesso com consentimento e apelido
 - [x] Início, trilha base e aula, com liberação por dia
-- [ ] Check-in de verdade (hoje o cartão do Início é só visual), sequência de dias e ranking com dados do banco
+- [x] Check-in de verdade, sequência de dias e ranking com dados do banco
+- [x] Desafios da aluna (lista, desafio aberto, encerrados) e Perfil completo (evolução, indicação, configurações, histórico)
 - [ ] Apelido único no ranking (hoje não há trava no banco)
 - [x] Painel completo: menu de 11 módulos, cardápios, desafios e prêmios, alunas, configurações
 - [x] Loja (painel e aluna)

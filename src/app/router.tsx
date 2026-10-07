@@ -69,10 +69,7 @@ const rotasAdmin: RouteObject[] = [
 const trilha = () => import('@/features/trilha')
 const forum = () => import('@/features/forum')
 const loja = () => import('@/features/loja')
-const emBreve = (titulo: string) => async () => {
-  const { EmBrevePage } = await import('./EmBrevePage')
-  return { Component: () => <EmBrevePage titulo={titulo} /> }
-}
+const desafiosAluna = () => import('@/features/desafios')
 const rotasAluna: RouteObject[] = [
   {
     index: true,
@@ -80,8 +77,15 @@ const rotasAluna: RouteObject[] = [
   },
   { path: 'trilha', lazy: async () => ({ Component: (await trilha()).TrilhaPage }) },
   { path: 'aula/:aulaId', lazy: async () => ({ Component: (await trilha()).AulaPage }) },
-  { path: 'desafios', lazy: emBreve('Desafios') },
-  { path: 'ranking', lazy: emBreve('Ranking') },
+  { path: 'desafios', lazy: async () => ({ Component: (await desafiosAluna()).DesafiosPage }) },
+  {
+    path: 'desafios/:desafioId',
+    lazy: async () => ({ Component: (await desafiosAluna()).DesafioPage }),
+  },
+  {
+    path: 'ranking',
+    lazy: async () => ({ Component: (await import('@/features/ranking')).RankingPage }),
+  },
   { path: 'forum', lazy: async () => ({ Component: (await forum()).ForumPage }) },
   { path: 'loja', lazy: async () => ({ Component: (await loja()).LojaPage }) },
   { path: 'loja/:produtoId', lazy: async () => ({ Component: (await loja()).ProdutoPage }) },

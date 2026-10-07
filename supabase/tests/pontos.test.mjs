@@ -31,19 +31,19 @@ async function checkins(t) {
   await t.comoAluna(ALUNA)
   await esperaValor(
     'check-in de água dá 5 pontos',
-    `select (public.fazer_checkin('agua') is not null)`,
-    true,
+    `select pontos from public.fazer_checkin('agua')`,
+    5,
   )
   await esperaValor('soma 5', soma(ALUNA), 5)
-  await esperaErro(
-    'o mesmo check-in no mesmo dia não repete',
-    `select public.fazer_checkin('agua')`,
-    '23505',
-  )
   await esperaValor(
-    'treino sem foto não pontua',
-    `select (public.fazer_checkin('treino') is not null)`,
-    true,
+    'o mesmo check-in no mesmo dia não pontua de novo',
+    `select pontos from public.fazer_checkin('agua')`,
+    0,
+  )
+  await esperaErro(
+    'treino sem foto é recusado',
+    `select public.fazer_checkin('treino', null, 'corrida')`,
+    '22023',
   )
   await esperaValor('ainda 5', soma(ALUNA), 5)
   await esperaErro(
@@ -53,8 +53,8 @@ async function checkins(t) {
   )
   await esperaValor(
     'foto da refeição pontua',
-    `select (public.fazer_checkin('refeicao', '${ALUNA}/prato.jpg') is not null)`,
-    true,
+    `select pontos from public.fazer_checkin('refeicao', '${ALUNA}/prato.jpg')`,
+    5,
   )
   await esperaValor('soma 10', soma(ALUNA), 10)
   await esperaErro(
@@ -137,15 +137,15 @@ async function admin(t) {
   await t.comoAluna(ALUNA)
   await esperaValor(
     'regra desligada não pontua',
-    `select (public.fazer_checkin('cardio') is not null)`,
-    true,
+    `select pontos from public.fazer_checkin('cardio')`,
+    0,
   )
   await esperaValor('soma continua 130', soma(ALUNA), 130)
   await t.comoAluna(ADMIN)
   await esperaValor(
     'painel conta check-ins válidos de hoje (sem o invalidado)',
     `select checkins_hoje from public.painel_pontos()`,
-    3,
+    2,
   )
   await esperaValor(
     'participantes do desafio com os dias cumpridos',

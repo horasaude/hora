@@ -227,6 +227,7 @@ export type Database = {
         Row: {
           created_at: string
           dia: string
+          duracao_minutos: number | null
           foto_apagada_em: string | null
           foto_path: string | null
           id: string
@@ -240,6 +241,7 @@ export type Database = {
         Insert: {
           created_at?: string
           dia?: string
+          duracao_minutos?: number | null
           foto_apagada_em?: string | null
           foto_path?: string | null
           id?: string
@@ -253,6 +255,7 @@ export type Database = {
         Update: {
           created_at?: string
           dia?: string
+          duracao_minutos?: number | null
           foto_apagada_em?: string | null
           foto_path?: string | null
           id?: string
@@ -1150,11 +1153,51 @@ export type Database = {
           },
         ]
       }
+      medidas: {
+        Row: {
+          braco: number | null
+          cintura: number | null
+          coxa: number | null
+          created_at: string
+          dia: string
+          foto_path: string | null
+          id: string
+          perfil_id: string
+          peso: number | null
+          quadril: number | null
+        }
+        Insert: {
+          braco?: number | null
+          cintura?: number | null
+          coxa?: number | null
+          created_at?: string
+          dia?: string
+          foto_path?: string | null
+          id?: string
+          perfil_id?: string
+          peso?: number | null
+          quadril?: number | null
+        }
+        Update: {
+          braco?: number | null
+          cintura?: number | null
+          coxa?: number | null
+          created_at?: string
+          dia?: string
+          foto_path?: string | null
+          id?: string
+          perfil_id?: string
+          peso?: number | null
+          quadril?: number | null
+        }
+        Relationships: []
+      }
       perfis: {
         Row: {
           acesso_fim_em: string | null
           acesso_inicio_em: string | null
           apelido: string | null
+          avatar_path: string | null
           codigo_indicacao: string
           consentimento_saude_em: string | null
           cpf: string | null
@@ -1174,6 +1217,7 @@ export type Database = {
           acesso_fim_em?: string | null
           acesso_inicio_em?: string | null
           apelido?: string | null
+          avatar_path?: string | null
           codigo_indicacao?: string
           consentimento_saude_em?: string | null
           cpf?: string | null
@@ -1193,6 +1237,7 @@ export type Database = {
           acesso_fim_em?: string | null
           acesso_inicio_em?: string | null
           apelido?: string | null
+          avatar_path?: string | null
           codigo_indicacao?: string
           consentimento_saude_em?: string | null
           cpf?: string | null
@@ -1459,9 +1504,19 @@ export type Database = {
         Args: { p_criado_por: string; p_lancamento: string; p_motivo: string }
         Returns: string
       }
+      checkin_desafio: {
+        Args: { p_desafio: string; p_foto_path?: string; p_valor?: number }
+        Returns: number
+      }
+      entrar_desafio: { Args: { p_desafio: string }; Returns: undefined }
       fazer_checkin: {
-        Args: { p_foto_path?: string; p_tipo: string; p_tipo_treino?: string }
-        Returns: string
+        Args: {
+          p_duracao?: number
+          p_foto_path?: string
+          p_tipo: string
+          p_tipo_treino?: string
+        }
+        Returns: { id: string; pontos: number }[]
       }
       forum_aceitar_regras: { Args: never; Returns: undefined }
       forum_curtir: {
@@ -1535,6 +1590,29 @@ export type Database = {
         Returns: string
       }
       marcar_fotos_apagadas: { Args: { p_ids: string[] }; Returns: undefined }
+      meus_desafios: {
+        Args: never
+        Returns: {
+          bonus_conclusao: number
+          descricao: string
+          dias_feitos: number
+          encerrado: boolean
+          feito_hoje: boolean
+          fim: string
+          id: string
+          inicio: string
+          meta_diaria: number
+          meta_dias: number
+          nome: string
+          participando: boolean
+          participantes: number
+          pontos_por_dia: number
+          premio: string
+          premio_surpresa: boolean
+          tipo_checkin: string
+          unidade: string
+        }[]
+      }
       minha_trilha: {
         Args: never
         Returns: {
@@ -1651,6 +1729,14 @@ export type Database = {
           nome: string
           perfil_id: string
         }[]
+      }
+      ranking_desafio: {
+        Args: { p_desafio: string }
+        Returns: { apelido: string; dias: number; eu: boolean; posicao: number }[]
+      }
+      ranking_pontos: {
+        Args: { p_periodo: string }
+        Returns: { apelido: string; eu: boolean; pontos: number; posicao: number }[]
       }
       registrar_acesso: { Args: never; Returns: undefined }
       registrar_clique_loja: { Args: { p_produto: string }; Returns: undefined }

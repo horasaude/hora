@@ -1,39 +1,31 @@
-import { Link } from 'react-router-dom'
-import { Cartao, classeBrilho } from '@/components/ui'
-import { useMeuPerfil, useSair } from '@/features/auth'
-import { textos } from '../textos'
+import { Configuracoes } from '../components/Configuracoes'
+import { Evolucao } from '../components/Evolucao'
+import { Historico } from '../components/Historico'
+import { Indicar } from '../components/Indicar'
+import { Resumo } from '../components/Resumo'
+import { Topo } from '../components/Topo'
 
-/** Perfil: nome e apelido; atalho do painel para admin; sair. Edição chega numa próxima etapa. */
+/** Perfil: topo com o dia do acesso, resumo, evolução, indicação, configurações e histórico de pontos. */
 export function PerfilPage() {
-  const perfil = useMeuPerfil()
-  const sair = useSair()
-  const p = perfil.data
   return (
-    <section className="flex flex-col gap-4 lg:max-w-lg">
-      <h1 className="text-[28px] leading-tight font-bold text-verde-escuro lg:text-[30px]">
-        {textos.titulo}
-      </h1>
-      <Cartao>
-        <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-sm">
-          <dt className="text-suave">{textos.nome}</dt>
-          <dd className="text-tinta">{p?.nome}</dd>
-          <dt className="text-suave">{textos.apelido}</dt>
-          <dd className="text-tinta">{p?.apelido}</dd>
-        </dl>
-      </Cartao>
-      {p?.papel === 'admin' && (
-        <Link to="/app/admin" className={`${classeBrilho('escuro', 'lg')} self-start`}>
-          {textos.painel}
-        </Link>
-      )}
-      <button
-        type="button"
-        onClick={() => sair.mutate()}
-        disabled={sair.isPending}
-        className={`${classeBrilho('cinza', 'lg')} self-start`}
-      >
-        {sair.isPending ? textos.saindo : textos.sair}
-      </button>
+    <section className="flex flex-col gap-5 lg:gap-6">
+      <Topo />
+      <Resumo />
+      <div className="grid items-start gap-5 lg:grid-cols-2 lg:gap-6">
+        <div className="flex flex-col gap-5 lg:gap-6">
+          <Evolucao />
+          <div className="hidden lg:block">
+            <Historico />
+          </div>
+        </div>
+        <div className="flex flex-col gap-5 lg:gap-6">
+          <Indicar />
+          <Configuracoes />
+        </div>
+        <div className="lg:hidden">
+          <Historico />
+        </div>
+      </div>
     </section>
   )
 }
