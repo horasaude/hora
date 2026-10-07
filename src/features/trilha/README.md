@@ -15,7 +15,7 @@ Fluxo: dias 1 a 7 preparação (uma aula por dia) e "Comece por aqui"; no dia 8 
 | components/MeuTema.tsx          | Perfil > Meu tema: trocar com aviso de que a etapa recomeça no novo tema                                  |
 | components/Etapas.tsx           | Abas com cadeado, etapa fechada com as duas metas em barras, aviso de conquista dourado                   |
 | components/CartaoAula.tsx       | Dia, título, duração e estado: liberada, concluída (✓ verde), bloqueada (cadeado e quando libera)         |
-| components/Concluir.tsx         | Concluir aula em vidro verde (+pontos da regra, uma vez só)                                               |
+| components/Concluir.tsx         | Concluir aula em vidro verde (pontos uma vez só); depois só a tag Aula concluída                          |
 | components/Temas.tsx, corDoTema | Ícone, tag e cor de cada tema pela chave fixa                                                             |
 | api/trilha.api.ts               | trilha_aluna, aula liberada, concluir, escolher_tema                                                      |
 | api/comece.api.ts               | comece_aqui, passos feitos (medidas e foto contam pelos registros), regras de pontos                      |

@@ -4,7 +4,7 @@ Cardápios e receitas da aluna (/app/cardapios, /app/cardapios/:id, /app/cardapi
 
 | Arquivo                       | Faz                                                                                                       |
 | ----------------------------- | --------------------------------------------------------------------------------------------------------- |
-| pages/CardapiosPage.tsx       | Abas Cardápios e Receitas (?aba=receitas)                                                                 |
+| pages/CardapiosPage.tsx       | Abas sublinhadas Meu cardápio e Receitas (?aba=receitas)                                                  |
 | components/ListaCardapios.tsx | Cardápios publicados do tema dela (antes do tema, todos, com aviso)                                       |
 | pages/CardapioPage.tsx        | Refeições em ordem de horário, total do dia, Lista de compras                                             |
 | components/RefeicaoCartao.tsx | Horário, itens em medida caseira e gramas, Ver substituições, totais, Registrar refeição, link da receita |

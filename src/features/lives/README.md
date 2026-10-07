@@ -8,7 +8,7 @@ Lives da aluna (/app/lives) e o cartão de live do dia no Início.
 | components/ProximaLive.tsx | Borda dourada, foto e nome da profissional, data, contagem, Adicionar à agenda, Me lembrar             |
 | components/BotaoEntrar.tsx | "Entrar na live" (dourado) só de 30 min antes até o fim; fora disso, o horário                         |
 | components/Gravacoes.tsx   | Gravações: capa do painel (capa_url) ou foto da profissional em círculo sobre areia com play verde ORA |
-| components/LiveHoje.tsx    | Início: live de hoje com a hora e Entrar                                                               |
+| components/LiveHoje.tsx    | Início: um aviso só (card dourado da live de hoje com Entrar, ou faixa ocre da próxima live)           |
 | api/lives.api.ts           | lives publicadas, lembretes, presenças e entrar_live                                                   |
 
 Pontos: entrar_live confere a janela no banco, registra a presença e dá os pontos da regra "Entrar na live" uma vez por live. Gravação não pontua.
