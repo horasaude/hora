@@ -110,6 +110,21 @@ export const textos = {
       ],
     },
   },
+  previa: {
+    titulo: 'Pré-visualização',
+    dia: 'Dia',
+    tema: 'Tema',
+    semTema: 'Sem tema',
+    aviso: 'Nada aqui grava conclusão nem pontos.',
+    sair: 'Voltar ao painel',
+  },
+  materiais: {
+    titulo: 'Materiais da aula',
+    baixar: 'Baixar',
+    abrir: 'Abrir',
+    fechar: 'Fechar',
+    ampliar: (nome: string) => `Ampliar ${nome}`,
+  },
   aula: {
     voltar: 'Voltar para a trilha',
     fechada: 'Esta aula ainda não abriu.',

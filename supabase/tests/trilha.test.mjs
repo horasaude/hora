@@ -82,7 +82,11 @@ async function escolha(t) {
   )
   await esperaValor('Arrancada começa hoje', trilha('etapas,0,dia_na_etapa'), '1')
   await esperaValor('Constância ainda bloqueada', trilha('etapas,1,iniciada_em'), null)
-  await esperaValor('a terceira etapa se chama Para Sempre', trilha('etapas,2,titulo'), 'Para Sempre')
+  await esperaValor(
+    'a terceira etapa se chama Para Sempre',
+    trilha('etapas,2,titulo'),
+    'Para Sempre',
+  )
   await esperaValor('aula do dia 1 da etapa abre', ver(A[0]), 1)
   await esperaValor('aula do dia 5 da etapa fica fechada', ver(A[4]), 0)
   await esperaValor('aula da etapa bloqueada fica fechada', ver(C1), 0)

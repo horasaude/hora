@@ -21,7 +21,7 @@ function Marca({ feito }: { feito: boolean }) {
 }
 
 /** Checklist do Comece por aqui: cada passo com a sua ação; feito fica verde. */
-export function PassosComece({ feitos }: { feitos: ItemComece[] }) {
+export function PassosComece({ feitos, soVer = false }: { feitos: ItemComece[]; soVer?: boolean }) {
   const hoje = useHoje()
   const navegar = useNavigate()
   const marcar = useMarcarComece()
@@ -55,7 +55,7 @@ export function PassosComece({ feitos }: { feitos: ItemComece[] }) {
                 {t.itens[item].nome}
                 {feito && <span className="sr-only"> ({t.feito})</span>}
               </span>
-              {!feito && (
+              {!feito && !soVer && (
                 <span className="flex gap-1.5">
                   {item === 'foto' && (
                     <BotaoBrilho tom="cinza" tamanho="sm" onClick={() => marcar.mutate('foto')}>

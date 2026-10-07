@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { textos } from '../textos'
 import { Ordem } from './Ordem'
@@ -11,6 +12,8 @@ type Props = {
   aoSubir?: () => void
   aoDescer?: () => void
   ocupado?: boolean
+  /** Etiqueta extra ao lado do título (ex.: se a aluna vê a aula). */
+  extra?: ReactNode
 }
 
 /** Etiqueta de situação que também publica ou tira do ar ao clicar. */
@@ -45,6 +48,7 @@ export function Linha({
   aoSubir,
   aoDescer,
   ocupado,
+  extra,
 }: Props) {
   const conteudo = (
     <>
@@ -61,6 +65,7 @@ export function Linha({
       ) : (
         <div className="py-1">{conteudo}</div>
       )}
+      {extra && <span className="self-start">{extra}</span>}
       <div className="flex items-center justify-between gap-2">
         <BotaoSituacao publicado={publicado} aoPublicar={aoPublicar} ocupado={ocupado} />
         {(aoSubir || aoDescer) && (

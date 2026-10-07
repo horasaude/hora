@@ -51,9 +51,9 @@ function Player({ live, aoFechar }: { live: Live; aoFechar: () => void }) {
 
 /** Capa: a imagem cadastrada no painel ou a foto da profissional em círculo sobre areia, com play verde ORA. */
 function Capa({ live }: { live: Live }) {
-  if (live.capa_url)
+  if (live.capa)
     return (
-      <img src={live.capa_url} alt="" loading="lazy" className="aspect-video w-full object-cover" />
+      <img src={live.capa} alt="" loading="lazy" className="aspect-video w-full object-cover" />
     )
   const foto = live.profissional ? PROFISSIONAIS[live.profissional].foto : null
   return (

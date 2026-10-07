@@ -64,7 +64,7 @@ export const desafios = {
 
 export const alunas = {
   titulo: 'Alunas',
-  pagina: 'Alunas da HORA',
+  pagina: 'Alunas da ORA',
   vazio: 'Nenhuma aluna ainda.',
   colunas: ['Aluna', 'Apelido', 'Início', 'Dia', 'Último acesso', 'Status'],
   ativas: 'Alunas ativas',

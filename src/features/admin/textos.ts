@@ -1,6 +1,7 @@
 // Textos do painel das profissionais. Os componentes só leem daqui.
 
 import { alunas, configuracoes, desafios } from './textos/modulos'
+import { acesso, arquivos, visibilidade } from './textos/arquivos'
 import { vazios } from './textos/vazios'
 
 export const textos = {
@@ -58,8 +59,9 @@ export const textos = {
     aulasRascunho: 'Aulas em rascunho',
     novo: 'Novo tema',
     comece: 'Comece por aqui',
+    verComoAluna: 'Ver como aluna',
     comeceJanela: 'Comece por aqui (dia 1)',
-    comeceVideo: 'Link do vídeo de boas-vindas',
+    comeceVideo: 'Vídeo do YouTube',
     comeceTexto: 'Texto de boas-vindas',
     comeceAjuda: 'Aparece no topo da Trilha da aluna até ela completar os 5 passos.',
     editar: 'Editar tema',
@@ -82,10 +84,11 @@ export const textos = {
     vazio: 'Nenhuma aula nesta etapa.',
     campoTitulo: 'Título da aula',
     campoDescricao: 'Descrição',
-    campoVideo: 'Link do vídeo',
+    campoVideo: 'Vídeo do YouTube',
+    ajudaVideo:
+      'Cole o link do vídeo. Use o YouTube como Não listado; vídeo Privado não toca no app.',
     exemploVideo: 'Cole o link do vídeo',
     semPrevia: 'Não foi possível mostrar a prévia desse link.',
-    campoMaterial: 'Link do material (opcional)',
     campoProfissional: 'Profissional (opcional)',
     exemploProfissional: 'Ana, Clara ou Laís',
     campoDuracao: 'Duração em minutos (opcional)',
@@ -118,9 +121,9 @@ export const textos = {
     campoData: 'Data e hora',
     campoConvidada: 'Convidada (opcional)',
     campoLink: 'Link da sala (opcional)',
-    campoGravacao: 'Link da gravação (opcional)',
-    campoCapa: 'Link da imagem de capa da gravação (opcional)',
+    campoGravacao: 'Vídeo do YouTube da gravação (opcional)',
     capa: 'Capa da gravação',
+    capaEnviada: 'Imagem enviada',
   },
   avisos: {
     titulo: 'Avisos',
@@ -135,6 +138,9 @@ export const textos = {
     campoTexto: 'Texto',
     campoPublicarEm: 'Aparece a partir de',
   },
+  visibilidade,
+  arquivos,
+  acesso,
   erros: {
     titulo: 'Escreva o título',
     link: 'Use um link que comece com https://',

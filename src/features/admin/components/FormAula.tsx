@@ -1,4 +1,4 @@
-import { useId } from 'react'
+import { useId, type ReactNode } from 'react'
 import { useForm, useWatch, type Control, type UseFormRegister } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { z } from 'zod'
@@ -71,6 +71,7 @@ function QuemEQuanto({
 }
 
 type Props = {
+  materiais?: ReactNode
   preparacao?: boolean
   titulo: string
   inicial: EntradaAula
@@ -78,8 +79,15 @@ type Props = {
   aoCancelar: () => void
 }
 
-/** Aula numa janela: título e vídeo com prévia, profissional e duração, texto, material e quando libera. */
-export function FormAula({ titulo, inicial, aoSalvar, aoCancelar, preparacao = false }: Props) {
+/** Aula numa janela: título, vídeo com prévia grande, profissional e duração, texto, materiais e quando libera. */
+export function FormAula({
+  titulo,
+  inicial,
+  aoSalvar,
+  aoCancelar,
+  preparacao = false,
+  materiais,
+}: Props) {
   const id = useId()
   const form = useForm<EntradaAula, unknown, DadosAula>({
     resolver: zodResolver(esquemaAulaAte(preparacao ? 7 : 9999)),
@@ -90,8 +98,9 @@ export function FormAula({ titulo, inicial, aoSalvar, aoCancelar, preparacao = f
   const enviar = form.handleSubmit(async (d) => {
     try {
       await aoSalvar(d)
-    } catch {
-      form.setError('root', { message: textos.erroSalvar })
+    } catch (e) {
+      const esperar = e instanceof Error && e.message === textos.arquivos.esperar
+      form.setError('root', { message: esperar ? textos.arquivos.esperar : textos.erroSalvar })
     }
   })
   return (
@@ -102,14 +111,19 @@ export function FormAula({ titulo, inicial, aoSalvar, aoCancelar, preparacao = f
       rodape={<RodapeForm formId={id} salvando={formState.isSubmitting} aoCancelar={aoCancelar} />}
     >
       <form id={id} onSubmit={enviar} noValidate className="grid gap-4 sm:grid-cols-2">
-        <Campo rotulo={t.campoTitulo} erro={erros.titulo?.message} {...register('titulo')} />
-        <Campo
-          rotulo={t.campoVideo}
-          placeholder={t.exemploVideo}
-          inputMode="url"
-          erro={erros.video_url?.message}
-          {...register('video_url')}
-        />
+        <div className="sm:col-span-2">
+          <Campo rotulo={t.campoTitulo} erro={erros.titulo?.message} {...register('titulo')} />
+        </div>
+        <div className="flex flex-col gap-1 sm:col-span-2">
+          <Campo
+            rotulo={t.campoVideo}
+            placeholder={t.exemploVideo}
+            inputMode="url"
+            erro={erros.video_url?.message}
+            {...register('video_url')}
+          />
+          <span className="text-xs text-suave">{t.ajudaVideo}</span>
+        </div>
         <div className="sm:col-span-2">
           <Previa control={control} />
         </div>
@@ -117,12 +131,7 @@ export function FormAula({ titulo, inicial, aoSalvar, aoCancelar, preparacao = f
         <div className="sm:col-span-2">
           <CampoArea rotulo={t.campoDescricao} {...register('descricao')} />
         </div>
-        <Campo
-          rotulo={t.campoMaterial}
-          inputMode="url"
-          erro={erros.material_url?.message}
-          {...register('material_url')}
-        />
+        <div className="sm:col-span-2">{materiais}</div>
         <div className="flex flex-col gap-3">
           <Liberacao register={register} erroDia={erros.dia?.message} preparacao={preparacao} />
         </div>

@@ -25,7 +25,7 @@ export function gerarIcs(e: Evento, agora = new Date()): string {
   return [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//HORA//Lives//PT',
+    'PRODID:-//ORA//Lives//PT',
     'BEGIN:VEVENT',
     `UID:${e.uid}@hora`,
     `DTSTAMP:${carimbo(agora)}`,

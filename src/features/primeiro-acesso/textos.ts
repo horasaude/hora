@@ -5,7 +5,7 @@ export const textos = {
   salvando: 'Salvando',
   passo: (n: number, total: number) => `Passo ${n} de ${total}`,
   boasVindas: {
-    titulo: 'Boas-vindas à HORA',
+    titulo: 'Boas-vindas à ORA',
     texto: 'Doze meses de cuidado com a Ana, a Dra. Clara e a Laís.',
   },
   apelido: {
@@ -19,8 +19,8 @@ export const textos = {
   saude: {
     titulo: 'Seus dados de saúde',
     texto:
-      'Check-ins, fotos e medidas que você registrar ficam com você e com a equipe da HORA, só para acompanhar a sua evolução.',
-    aceite: 'Concordo com o uso dos meus dados de saúde para o meu acompanhamento na HORA.',
+      'Check-ins, fotos e medidas que você registrar ficam com você e com a equipe da ORA, só para acompanhar a sua evolução.',
+    aceite: 'Concordo com o uso dos meus dados de saúde para o meu acompanhamento na ORA.',
     politica: 'Ler a política de privacidade',
   },
   erro: 'Não foi possível salvar. Tente de novo.',

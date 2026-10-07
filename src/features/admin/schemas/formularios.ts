@@ -32,7 +32,6 @@ export const esquemaAulaAte = (maxDia: number) =>
       titulo: titulo(160),
       descricao: z.string().trim().max(5000),
       video_url: linkObrigatorio,
-      material_url: linkOpcional,
       profissional: z
         .string()
         .trim()
@@ -72,7 +71,6 @@ export const esquemaLive = z.object({
     .transform((v) => v || null),
   link_url: linkOpcional,
   gravacao_url: linkOpcional,
-  capa_url: linkOpcional,
 })
 
 export const esquemaAviso = z.object({

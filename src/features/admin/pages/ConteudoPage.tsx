@@ -1,6 +1,6 @@
 import { classeBrilho } from '@/components/ui'
 import { useState, type ReactNode } from 'react'
-import { useLocation, useParams, useSearchParams } from 'react-router-dom'
+import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom'
 import type { Tema } from '../api/conteudo.api'
 import { AulaJanela } from '../components/AulaJanela'
 import { Estado } from '../components/Estado'
@@ -48,9 +48,14 @@ export function ConteudoPage() {
   const lista = temas.data ?? []
   const { ativo, detalhe, aula } = useDetalhe(lista)
   const novo = (
-    <button type="button" className={classeBrilho('dourado')} onClick={() => setComece(true)}>
-      {t.comece}
-    </button>
+    <span className="flex flex-wrap gap-2">
+      <Link to="/app/previa?dia=1" className={classeBrilho('escuro')}>
+        {t.verComoAluna}
+      </Link>
+      <button type="button" className={classeBrilho('dourado')} onClick={() => setComece(true)}>
+        {t.comece}
+      </button>
+    </span>
   )
   let corpo: ReactNode
   if (temas.isPending) corpo = <Estado tipo="carregando" />

@@ -39,16 +39,21 @@ function Formulario({ inicial, aoFechar }: { inicial: EntradaComece; aoFechar: (
     >
       <form id={id} onSubmit={enviar} noValidate className="grid gap-4 sm:grid-cols-2">
         <p className="text-sm text-suave sm:col-span-2">{t.comeceAjuda}</p>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-1 sm:col-span-2">
           <Campo
             rotulo={t.comeceVideo}
             inputMode="url"
             erro={erros.video_url?.message}
             {...form.register('video_url')}
           />
+          <span className="text-xs text-suave">{textos.aulas.ajudaVideo}</span>
+        </div>
+        <div className="sm:col-span-2">
+          <PreviaVideo link={video} />
+        </div>
+        <div className="sm:col-span-2">
           <CampoArea rotulo={t.comeceTexto} rows={6} {...form.register('texto')} />
         </div>
-        <PreviaVideo link={video} />
         <ErroForm mensagem={erros.root?.message} />
       </form>
     </Janela>

@@ -64,6 +64,7 @@ export function TemaDetalhe({ temaId }: { temaId: string }) {
             etapa={etapa}
             aulas={aulas.filter((a) => a.etapa_id === etapa.id)}
             temaId={tema.id}
+            temaPublicado={tema.publicado}
             primeira={i === 0}
             ultima={i === etapas.length - 1}
           />

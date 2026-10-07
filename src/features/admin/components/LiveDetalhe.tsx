@@ -28,7 +28,7 @@ export function LiveDetalhe({ live }: { live: Live }) {
           ...opcional(t.convidada, live.convidada),
           ...opcional(t.link, live.link_url),
           ...opcional(t.gravacao, live.gravacao_url),
-          ...opcional(t.capa, live.capa_url),
+          ...opcional(t.capa, live.capa_path ? t.capaEnviada : null),
           [textos.status, <Situacao key="s" publicado={live.publicado} />],
         ]}
       />

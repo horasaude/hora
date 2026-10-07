@@ -14,6 +14,66 @@ export type Database = {
   }
   public: {
     Tables: {
+      aula_materiais: {
+        Row: {
+          aula_id: string
+          caminho: string
+          created_at: string
+          id: string
+          nome: string
+          ordem: number
+          tamanho: number | null
+          tipo: string
+        }
+        Insert: {
+          aula_id: string
+          caminho: string
+          created_at?: string
+          id?: string
+          nome: string
+          ordem?: number
+          tamanho?: number | null
+          tipo: string
+        }
+        Update: {
+          aula_id?: string
+          caminho?: string
+          created_at?: string
+          id?: string
+          nome?: string
+          ordem?: number
+          tamanho?: number | null
+          tipo?: string
+        }
+        Relationships: []
+      }
+      acessos_liberados: {
+        Row: {
+          created_at: string
+          fim: string
+          id: string
+          inicio: string
+          liberado_por: string | null
+          perfil_id: string
+        }
+        Insert: {
+          created_at?: string
+          fim: string
+          id?: string
+          inicio: string
+          liberado_por?: string | null
+          perfil_id: string
+        }
+        Update: {
+          created_at?: string
+          fim?: string
+          id?: string
+          inicio?: string
+          liberado_por?: string | null
+          perfil_id?: string
+        }
+        Relationships: []
+      }
       alimentos: {
         Row: {
           busca: string | null
@@ -70,7 +130,6 @@ export type Database = {
           duracao_minutos: number | null
           etapa_id: string
           id: string
-          material_url: string | null
           ordem: number
           profissional: string | null
           publicado: boolean
@@ -85,7 +144,6 @@ export type Database = {
           duracao_minutos?: number | null
           etapa_id: string
           id?: string
-          material_url?: string | null
           ordem?: number
           profissional?: string | null
           publicado?: boolean
@@ -100,7 +158,6 @@ export type Database = {
           duracao_minutos?: number | null
           etapa_id?: string
           id?: string
-          material_url?: string | null
           ordem?: number
           profissional?: string | null
           publicado?: boolean
@@ -1072,7 +1129,7 @@ export type Database = {
       }
       lives: {
         Row: {
-          capa_url: string | null
+          capa_path: string | null
           convidada: string | null
           created_at: string
           data: string
@@ -1086,7 +1143,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
-          capa_url?: string | null
+          capa_path?: string | null
           convidada?: string | null
           created_at?: string
           data: string
@@ -1100,7 +1157,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
-          capa_url?: string | null
+          capa_path?: string | null
           convidada?: string | null
           created_at?: string
           data?: string
@@ -1396,6 +1453,8 @@ export type Database = {
       }
       perfis: {
         Row: {
+          acesso_liberado_por: string | null
+          acesso_liberado_em: string | null
           acesso_fim_em: string | null
           acesso_inicio_em: string | null
           apelido: string | null
@@ -1417,6 +1476,8 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          acesso_liberado_por?: string | null
+          acesso_liberado_em?: string | null
           acesso_fim_em?: string | null
           acesso_inicio_em?: string | null
           apelido?: string | null
@@ -1438,6 +1499,8 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          acesso_liberado_por?: string | null
+          acesso_liberado_em?: string | null
           acesso_fim_em?: string | null
           acesso_inicio_em?: string | null
           apelido?: string | null
@@ -1707,6 +1770,9 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      liberar_acesso: { Args: { p_inicio: string; p_perfil: string }; Returns: undefined }
+      salvar_materiais: { Args: { p_aula: string; p_itens: Json }; Returns: undefined }
+      trilha_previa: { Args: { p_dia: number; p_tema?: string }; Returns: Json }
       alunas_em_desafios_ativos: { Args: never; Returns: number }
       atualizar_etapas: { Args: { p_perfil: string }; Returns: undefined }
       aula_liberada: { Args: { p_aula: string }; Returns: boolean }

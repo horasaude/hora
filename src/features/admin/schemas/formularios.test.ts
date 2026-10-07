@@ -5,17 +5,15 @@ const aula = {
   titulo: 'Boas-vindas',
   descricao: '',
   video_url: 'https://youtu.be/dQw4w9WgXcQ',
-  material_url: '',
   profissional: '',
   duracao: '',
   dia: '1',
 }
 
 describe('formulários do painel', () => {
-  it('o dia de liberação vira número e começa no 1; material vazio vira null', () => {
+  it('o dia de liberação vira número e começa no 1', () => {
     expect(esquemaAula.parse({ ...aula, dia: '15' }).dia_liberacao).toBe(15)
     expect(esquemaAula.safeParse({ ...aula, dia: '0' }).success).toBe(false)
-    expect(esquemaAula.parse(aula).material_url).toBeNull()
   })
 
   it('na preparação o dia vai de 1 a 7', () => {

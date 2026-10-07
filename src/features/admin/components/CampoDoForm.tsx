@@ -12,6 +12,10 @@ export type CampoDef<E> = {
   largura?: 'meia' | 'inteira'
   /** Mostra o campo só quando a condição vale para o que já foi preenchido. */
   quando?: (valores: E) => boolean
+  /** Texto de ajuda embaixo do campo. */
+  ajuda?: string
+  /** Mostra a prévia do vídeo do link digitado. */
+  previaVideo?: boolean
 }
 
 const TIPO_INPUT = { datahora: 'datetime-local', data: 'date', numero: 'number' } as const

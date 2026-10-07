@@ -29,7 +29,7 @@ export const textos = {
     copiado: 'Link copiado',
     whatsapp: 'Enviar no WhatsApp',
     mensagem: (link: string) =>
-      `Oi! Estou na comunidade HORA, com a Ana, a Dra. Clara e a Laís, e lembrei de você. Entra pelo meu link: ${link}`,
+      `Oi! Estou na comunidade ORA, com a Ana, a Dra. Clara e a Laís, e lembrei de você. Entra pelo meu link: ${link}`,
     lista: 'Suas indicações',
     vazio: 'Nenhuma indicação ainda.',
     status: { aguardando: 'Aguardando garantia', confirmada: 'Confirmada', cancelada: 'Cancelada' },

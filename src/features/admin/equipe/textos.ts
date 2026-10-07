@@ -28,7 +28,7 @@ export const t = {
   erros: {
     nome: 'Escreva o nome',
     email: 'Confira o e-mail',
-    ja_existe: 'Este e-mail já tem conta na HORA.',
+    ja_existe: 'Este e-mail já tem conta na ORA.',
     falha: 'Não foi possível concluir. Tente de novo.',
   },
   voltar: 'Voltar para Configurações',

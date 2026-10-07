@@ -22,3 +22,5 @@ Fluxo: dias 1 a 7 preparação (uma aula por dia) e "Comece por aqui"; no dia 8 
 
 Regras em src/domain/trilha.ts (condicoesDaEtapa, etapaAtual, aulasEmAndamento) e src/domain/dia.ts. O banco é quem libera: trilha_aluna abre a próxima etapa quando as metas fecham (atualizar_etapas) e a RLS de aulas usa aula_liberada.
 Exporta (index.ts): TrilhaPage, AulaPage, useTrilha, EscolhaAoAbrir, MeuTema, TagTema.
+
+Pré-visualização (painel > Ver como aluna): pages/PreviaPage.tsx com FaixaPrevia; o contexto em previa.ts troca useTrilha por trilha_previa (dia e tema no endereço) e esconde Concluir e dúvidas. Materiais da aula em components/MateriaisDaAula.tsx pela Edge Function materiais-aula.

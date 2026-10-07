@@ -1,8 +1,9 @@
-import { useId } from 'react'
+import { useId, type ReactNode } from 'react'
 import { useForm, useWatch, type FieldValues, type Resolver } from 'react-hook-form'
 import { Janela } from '@/components/ui'
 import { textos } from '../textos'
 import { CampoDoForm, type CampoDef } from './CampoDoForm'
+import { PreviaVideo } from './PreviaVideo'
 import { ErroForm, RodapeForm } from './RodapeForm'
 
 export type { CampoDef }
@@ -14,6 +15,8 @@ type Props<E extends FieldValues, S> = {
   resolver: Resolver<E, unknown, S>
   aoSalvar: (d: S) => Promise<unknown>
   aoCancelar: () => void
+  /** Parte que não é campo do formulário (ex.: envio da capa), no fim da janela. */
+  extra?: ReactNode
 }
 
 const inteira = <E,>(c: CampoDef<E>) =>
@@ -27,6 +30,7 @@ export function FormAgenda<E extends FieldValues, S>({
   resolver,
   aoSalvar,
   aoCancelar,
+  extra,
 }: Props<E, S>) {
   const id = useId()
   const form = useForm<E, unknown, S>({ resolver, defaultValues: inicial as never })
@@ -36,8 +40,9 @@ export function FormAgenda<E extends FieldValues, S>({
   const enviar = form.handleSubmit(async (d) => {
     try {
       await aoSalvar(d)
-    } catch {
-      form.setError('root', { message: textos.erroSalvar })
+    } catch (e) {
+      const esperar = e instanceof Error && e.message === textos.arquivos.esperar
+      form.setError('root', { message: esperar ? textos.arquivos.esperar : textos.erroSalvar })
     }
   })
   return (
@@ -53,8 +58,15 @@ export function FormAgenda<E extends FieldValues, S>({
         {visiveis.map((c) => (
           <div key={c.nome} className={inteira(c) ? 'sm:col-span-2' : ''}>
             <CampoDoForm campo={c} register={form.register} erro={erros[c.nome]?.message} />
+            {c.ajuda && <p className="mt-1 text-xs text-suave">{c.ajuda}</p>}
+            {c.previaVideo && (
+              <div className="mt-3">
+                <PreviaVideo link={String((valores as Record<string, unknown>)[c.nome] ?? '')} />
+              </div>
+            )}
           </div>
         ))}
+        {extra && <div className="sm:col-span-2">{extra}</div>}
         <ErroForm mensagem={erros.root?.message} />
       </form>
     </Janela>

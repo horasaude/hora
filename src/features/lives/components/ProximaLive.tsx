@@ -15,7 +15,7 @@ function adicionarNaAgenda(l: Live) {
     `live-hora-${inicio.toISOString().slice(0, 10)}`,
     gerarIcs({
       uid: l.id,
-      titulo: `Live HORA: ${l.tema}`,
+      titulo: `Live ORA: ${l.tema}`,
       inicio,
       fim: new Date(inicio.getTime() + l.duracao_minutos * 60_000),
       descricao: nome ? textos.com(nome) : undefined,

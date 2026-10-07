@@ -2,6 +2,14 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-07 · main · Conteúdo das aulas do painel até a aluna
+
+- Diagnóstico da Trilha vazia: o banco real não tinha nenhuma aula (temas e etapas existiam e estavam publicados) e a conta admin.teste não tinha acesso; criar aula pelo painel funciona (testado pela tela na demonstração).
+- Painel: etiqueta por aula (Visível para alunas, ou Não aparece: aula, etapa ou tema em rascunho); publicar aula de etapa ou tema em rascunho pergunta "Publicar tudo" ou "Só a aula". "Ver como aluna" em Conteúdo (/app/previa): trilha_previa com dia de 1 a 365 e tema, faixa ocre de Pré-visualização, só admin e sem gravar nada. "Liberar acesso" na ficha da aluna (liberar_acesso, 12 meses, registra quem e quando em acessos_liberados).
+- Vídeo do YouTube como primeiro campo com ajuda e prévia grande (aula, Comece por aqui, gravação da live). Materiais da aula: arrastar e soltar (PDF, JPG, PNG, WEBP, até 20 MB), nome editável, progresso, ordem e remover; espaço privado materiais e tabela aula_materiais; material_url migrado como link. Aluna baixa pela Edge Function materiais-aula (link assinado de 10 minutos, só de aula liberada). Capa da gravação por envio de imagem (até 5 MB, em materiais/capas).
+- Nome do app ORA no manifest, título, login, primeiro acesso, mensagens e agenda. Migração 20261012090000_materiais_previa_acesso.
+- Pendente: cadastrar as aulas reais no painel; textos da página de vendas e dos termos ainda dizem HORA (decidir com as clientes).
+
 ## 2026-10-07 · main · Ajustes da área da aluna (logo ORA, live, gravações, cardápios, aula)
 
 - Logo do ORA em todo o sistema (LogoHora aponta para logo-ora.svg e logo-ora-clara.svg), impressão do cardápio e ícones do app (icone.svg, icone-192, icone-512, apple-touch-icon).

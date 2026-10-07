@@ -1,13 +1,22 @@
 import type { Trilha } from '@/domain/trilha'
-import { supabase } from '@/lib/supabase'
+import { semValor, supabase } from '@/lib/supabase'
 import { esquemaTrilha } from '../schemas/trilha.schema'
+
+/** Trilha como a aluna veria num dia e tema escolhidos (só admin; não grava nada). */
+export async function buscarTrilhaPrevia(dia: number, tema: string | null): Promise<Trilha> {
+  const { data, error } = await supabase.rpc('trilha_previa', {
+    p_dia: dia,
+    p_tema: tema ?? semValor,
+  })
+  if (error) throw error
+  return esquemaTrilha.parse(data)
+}
 
 export type AulaAberta = {
   id: string
   titulo: string
   descricao: string
   video_url: string
-  material_url: string | null
   profissional: string | null
   duracao_minutos: number | null
 }
@@ -23,7 +32,7 @@ export async function buscarTrilha(): Promise<Trilha> {
 export async function buscarAula(id: string): Promise<AulaAberta | null> {
   const { data, error } = await supabase
     .from('aulas')
-    .select('id, titulo, descricao, video_url, material_url, profissional, duracao_minutos')
+    .select('id, titulo, descricao, video_url, profissional, duracao_minutos')
     .eq('id', id)
     .maybeSingle()
   if (error) throw error
@@ -50,4 +59,25 @@ export async function marcarConcluida(id: string, concluida: boolean): Promise<v
 export async function escolherTema(tema: string): Promise<void> {
   const { error } = await supabase.rpc('escolher_tema', { p_tema: tema })
   if (error) throw error
+}
+
+export type MaterialAula = {
+  id: string
+  tipo: 'pdf' | 'imagem' | 'link'
+  nome: string
+  tamanho: number | null
+  url: string | null
+  baixar: string | null
+}
+
+/** Materiais da aula com links assinados de curta duração (o servidor só entrega se a aula está liberada). */
+export async function buscarMateriaisAula(aula: string): Promise<MaterialAula[]> {
+  const { data, error } = await supabase.functions.invoke<{ materiais?: MaterialAula[] }>(
+    'materiais-aula',
+    {
+      body: { aula_id: aula },
+    },
+  )
+  if (error) throw error
+  return data?.materiais ?? []
 }

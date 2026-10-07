@@ -17,7 +17,7 @@ describe('PrimeiroAcesso', () => {
         <PrimeiroAcesso />
       </MemoryRouter>,
     )
-    expect(screen.getByRole('heading', { name: 'Boas-vindas à HORA' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Boas-vindas à ORA' })).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: 'Continuar' }))
     const continuar = screen.getByRole('button', { name: 'Continuar' })
     expect(continuar).toBeDisabled()

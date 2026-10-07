@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { IconeCadeado, IconeCheck, IconePlay } from '@/components/ui'
 import type { AulaTrilha } from '@/domain/trilha'
+import { useLinkAula } from '../previa'
 import { textos } from '../textos'
 
 type Props = { aula: AulaTrilha; proxima: boolean; fechadaTexto: string }
@@ -28,6 +29,7 @@ function Marca({ aula }: { aula: AulaTrilha }) {
 
 /** Aula na lista: dia, título, duração e estado (liberada, concluída com check, bloqueada com cadeado). */
 export function CartaoAula({ aula, proxima, fechadaTexto }: Props) {
+  const linkAula = useLinkAula()
   const detalhe = [aula.profissional, aula.duracao_minutos && textos.minutos(aula.duracao_minutos)]
     .filter(Boolean)
     .join(' · ')
@@ -50,10 +52,7 @@ export function CartaoAula({ aula, proxima, fechadaTexto }: Props) {
   return (
     <li>
       {aula.liberada ? (
-        <Link
-          to={`/app/trilha/aula/${aula.id}`}
-          className={`${classe} transition hover:shadow-cartao`}
-        >
+        <Link to={linkAula(aula.id)} className={`${classe} transition hover:shadow-cartao`}>
           {corpo}
         </Link>
       ) : (

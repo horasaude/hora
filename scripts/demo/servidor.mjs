@@ -3,11 +3,12 @@
 // com as regras de acesso (RLS) de verdade. Serve também o build gerado em .demo/dist.
 // Uso: npm run demo:build && node scripts/demo/servidor.mjs   (app em http://127.0.0.1:4321)
 import http from 'node:http'
-import { existsSync, readFileSync, statSync } from 'node:fs'
-import { dirname, extname, join } from 'node:path'
+import { existsSync, readFileSync } from 'node:fs'
+import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { criarBanco } from '../../supabase/tests/harness.mjs'
 import { executarRest, executarRpc, lerChaves } from './postgrest.mjs'
+import { criarSite } from './site.mjs'
 
 const AQUI = dirname(fileURLToPath(import.meta.url))
 const RAIZ = join(AQUI, '..', '..')
@@ -18,6 +19,7 @@ export const PORTA_APP = 4321
 export const ALUNAS = {
   3: { id: 'aaaaaaaa-0000-0000-0000-000000000003', email: 'bia.demo@exemplo.com' },
   40: { id: 'aaaaaaaa-0000-0000-0000-000000000040', email: 'mari.demo@exemplo.com' },
+  admin: { id: 'aaaaaaaa-0000-0000-0000-000000000099', email: 'equipe.demo@exemplo.com' },
 }
 
 async function montarBanco() {
@@ -64,6 +66,23 @@ async function comoUsuaria(db, uid) {
   await db.exec(`set role ${uid ? 'authenticated' : 'anon'}`)
 }
 
+/** Imita a Edge Function materiais-aula: lê como a aluna (só aula liberada); arquivos não existem na demonstração. */
+async function materiaisDaAula(db, req, res) {
+  const { aula_id } = (await lerCorpo(req)) ?? {}
+  const linhas = await naFila(async () => {
+    await comoUsuaria(db, usuariaDo(req))
+    const sql =
+      'select id, tipo, caminho, nome, tamanho from public.aula_materiais where aula_id = $1 order by ordem'
+    return (await db.query(sql, [aula_id])).rows
+  })
+  const materiais = linhas.map((m) => ({
+    ...m,
+    url: m.tipo === 'link' ? m.caminho : null,
+    baixar: null,
+  }))
+  responder(res, 200, { ok: true, materiais })
+}
+
 function apiDemo(db, chaves) {
   return async (req, res) => {
     const url = new URL(req.url, 'http://x')
@@ -93,6 +112,7 @@ function apiDemo(db, chaves) {
         })),
       )
     }
+    if (url.pathname === '/functions/v1/materiais-aula') return materiaisDaAula(db, req, res)
     if (!url.pathname.startsWith('/rest/v1/')) return responder(res, 404, {})
     const corpo = req.method === 'POST' || req.method === 'PATCH' ? await lerCorpo(req) : null
     const r = await naFila(async () => {
@@ -112,53 +132,13 @@ function apiDemo(db, chaves) {
   }
 }
 
-const TIPOS = {
-  '.js': 'text/javascript',
-  '.css': 'text/css',
-  '.html': 'text/html',
-  '.svg': 'image/svg+xml',
-  '.png': 'image/png',
-  '.webp': 'image/webp',
-  '.woff2': 'font/woff2',
-  '.webmanifest': 'application/manifest+json',
-}
-
-function sessao(aluna) {
-  return {
-    access_token: `demo:${aluna.id}`,
-    token_type: 'bearer',
-    expires_in: 999999,
-    expires_at: Math.floor(Date.now() / 1000) + 999999,
-    refresh_token: 'demo',
-    user: { id: aluna.id, aud: 'authenticated', role: 'authenticated', email: aluna.email },
-  }
-}
-
-/** App estático; /__entrar?aluna=40&ir=/app entra como a aluna de demonstração. */
-function app(req, res) {
-  const url = new URL(req.url, 'http://x')
-  if (url.pathname === '/__entrar') {
-    const aluna = ALUNAS[url.searchParams.get('aluna') ?? '40'] ?? ALUNAS[40]
-    res.writeHead(200, { 'content-type': 'text/html' })
-    return res.end(
-      `<script>localStorage.clear();localStorage.setItem('sb-127-auth-token', ${JSON.stringify(JSON.stringify(sessao(aluna)))});location.replace(${JSON.stringify(url.searchParams.get('ir') ?? '/app')})</script>`,
-    )
-  }
-  if (url.pathname === '/sw.js') return res.writeHead(404).end()
-  let arquivo = join(DIST, url.pathname)
-  if (!arquivo.startsWith(DIST) || !existsSync(arquivo) || statSync(arquivo).isDirectory())
-    arquivo = join(DIST, 'index.html')
-  res.writeHead(200, { 'content-type': TIPOS[extname(arquivo)] ?? 'application/octet-stream' })
-  res.end(readFileSync(arquivo))
-}
-
 /** Sobe banco, API e app; devolve o banco (só leitura nos prints) e como desligar. */
 export async function iniciarDemo() {
   if (!existsSync(join(DIST, 'index.html'))) throw new Error('Rode antes: npm run demo:build')
   const db = await montarBanco()
   const chaves = await lerChaves(db)
   const api = http.createServer(apiDemo(db, chaves)).listen(PORTA_API, '127.0.0.1')
-  const site = http.createServer(app).listen(PORTA_APP, '127.0.0.1')
+  const site = http.createServer(criarSite(DIST, ALUNAS)).listen(PORTA_APP, '127.0.0.1')
   const fechar = () => {
     api.close()
     site.close()

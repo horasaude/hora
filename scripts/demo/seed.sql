@@ -12,7 +12,9 @@ $$;
 
 insert into auth.users (id, email, raw_user_meta_data) values
   ('aaaaaaaa-0000-0000-0000-000000000003', 'bia.demo@exemplo.com', '{"nome": "Beatriz Santos"}'),
-  ('aaaaaaaa-0000-0000-0000-000000000040', 'mari.demo@exemplo.com', '{"nome": "Mariana Souza"}');
+  ('aaaaaaaa-0000-0000-0000-000000000040', 'mari.demo@exemplo.com', '{"nome": "Mariana Souza"}'),
+  ('aaaaaaaa-0000-0000-0000-000000000099', 'equipe.demo@exemplo.com', '{"nome": "Equipe ORA"}');
+update public.perfis set papel = 'admin', apelido = 'equipe' where id = 'aaaaaaaa-0000-0000-0000-000000000099';
 
 insert into auth.users (id, email, raw_user_meta_data)
 select ('aaaaaaaa-0000-0000-0000-0000000001' || lpad(n::text, 2, '0'))::uuid, 'aluna' || n || '.demo@exemplo.com', jsonb_build_object('nome', 'Aluna ' || n)
@@ -30,19 +32,19 @@ where p.id = ('aaaaaaaa-0000-0000-0000-0000000001' || lpad(n::text, 2, '0'))::uu
 
 update public.comece_aqui set video_url = 'https://www.youtube.com/watch?v=demoHORA001';
 
-insert into public.aulas (etapa_id, titulo, video_url, material_url, dia_liberacao, ordem, publicado, duracao_minutos, profissional, descricao)
-select e.id, a.titulo, 'https://www.youtube.com/watch?v=demoHORA' || lpad(a.dia::text, 3, '0'), null, a.dia, a.dia, true, a.min, a.prof,
+insert into public.aulas (etapa_id, titulo, video_url, dia_liberacao, ordem, publicado, duracao_minutos, profissional, descricao)
+select e.id, a.titulo, 'https://www.youtube.com/watch?v=demoHORA' || lpad(a.dia::text, 3, '0'), a.dia, a.dia, true, a.min, a.prof,
   'Aula de demonstração da preparação. ' || a.titulo || ' em poucos minutos, com um passo prático para hoje.'
 from public.etapas e join public.temas t on t.id = e.tema_id,
-  (values (1, 'Boas-vindas à HORA', 'Ana', 8), (2, 'Como funciona a trilha', 'Laís', 6), (3, 'O prato que sacia', 'Ana', 12),
+  (values (1, 'Boas-vindas à ORA', 'Ana', 8), (2, 'Como funciona a trilha', 'Laís', 6), (3, 'O prato que sacia', 'Ana', 12),
           (4, 'Movimento no dia a dia', 'Laís', 10), (5, 'Sono e fome', 'Clara', 11), (6, 'Água e intestino', 'Clara', 7),
           (7, 'Seu plano para o mês', 'Ana', 9)) as a(dia, titulo, prof, min)
 where t.chave = 'preparacao';
 
-insert into public.aulas (etapa_id, titulo, video_url, material_url, dia_liberacao, ordem, publicado, duracao_minutos, profissional, descricao)
+insert into public.aulas (etapa_id, titulo, video_url, dia_liberacao, ordem, publicado, duracao_minutos, profissional, descricao)
 select e.id, e.titulo || ' ' || n || ': ' || (array['Metabolismo na prática', 'Treino de 20 minutos', 'Montando o prato', 'Fome emocional',
     'Treino em casa', 'Lanches que funcionam', 'Hormônios e fome', 'Caminhada com intervalos', 'Rótulos sem mistério', 'Fechando a etapa'])[n],
-  'https://www.youtube.com/watch?v=demoHORA' || lpad((n + 100)::text, 3, '0'), 'https://exemplo.com/material-demo.pdf',
+  'https://www.youtube.com/watch?v=demoHORA' || lpad((n + 100)::text, 3, '0'),
   (array[1, 3, 6, 9, 12, 15, 18, 21, 24, 27])[n], n, true, 6 + n, (array['Clara', 'Laís', 'Ana'])[1 + n % 3],
   'Nesta aula você entende o porquê e sai com um passo simples para colocar em prática ainda hoje.'
 from public.etapas e join public.temas t on t.id = e.tema_id, generate_series(1, 10) n
@@ -191,3 +193,8 @@ insert into public.lives (tema, data, profissional, duracao_minutos, link_url, g
   ('Sono e fome', least(now() + interval '25 minutes', (public.hoje_brasilia() + 1)::timestamp at time zone 'America/Sao_Paulo' - interval '61 minutes'),
    'clara', 60, 'https://meet.google.com/demo-hora-2', null, true),
   ('Treino em casa sem equipamento', pg_temp.quando(-14, 19), 'lais', 60, null, null, true);
+
+insert into public.aula_materiais (aula_id, tipo, caminho, nome, ordem)
+select a.id, 'link', 'https://www.gov.br/saude/pt-br/assuntos/saude-brasil/eu-quero-me-alimentar-melhor', 'Guia alimentar (site do Ministério da Saúde)', 0
+from public.aulas a join public.etapas e on e.id = a.etapa_id join public.temas t on t.id = e.tema_id
+where t.chave = 'emagrecimento' and e.chave = 'arrancada' and a.dia_liberacao = 1;

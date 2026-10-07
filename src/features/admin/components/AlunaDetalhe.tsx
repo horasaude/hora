@@ -5,6 +5,7 @@ import type { AlunaPainel } from '../api/modulos.api'
 import { useCodigoIndicacao } from '../pontos/hooks/usePontos'
 import { linkIndicacao, t as tPontos } from '../pontos/textos'
 import { textos } from '../textos'
+import { LiberarAcesso } from '../acesso/LiberarAcesso'
 import { CartaoDetalhe, Dados } from './CartaoDetalhe'
 import { Etiqueta } from './Tabela'
 
@@ -57,6 +58,7 @@ export function AlunaDetalhe({
           legenda={t.aulas(a.aulas_concluidas, a.aulas_liberadas)}
         />
       </section>
+      <LiberarAcesso perfil={a.id} />
     </CartaoDetalhe>
   )
 }

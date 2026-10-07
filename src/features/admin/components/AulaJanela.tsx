@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom'
 import { BotaoBrilho, Janela } from '@/components/ui'
-import { salvarAula } from '../api/conteudo.api'
+import { salvarAula, salvarMateriais } from '../api/conteudo.api'
+import { useMateriais } from '../hooks/useMateriais'
+import { MateriaisAula } from './MateriaisAula'
 import { useAula, useSalvar, useTemas } from '../hooks/usePainel'
 import { textos } from '../textos'
 import { Estado } from './Estado'
@@ -10,7 +12,6 @@ const VAZIA: EntradaAula = {
   titulo: '',
   descricao: '',
   video_url: '',
-  material_url: '',
   profissional: '',
   duracao: '',
   dia: '1',
@@ -23,6 +24,7 @@ export function AulaJanela({ aulaId, etapaId, temaId }: Props) {
   const navegar = useNavigate()
   const aula = useAula(aulaId)
   const salvar = useSalvar(salvarAula)
+  const materiais = useMateriais(aulaId)
   const preparacao = useTemas().data?.find((x) => x.id === temaId)?.tipo === 'preparacao'
   const voltar = () => navegar(temaId ? `/app/admin/conteudo/${temaId}` : '/app/admin/conteudo')
   if (aulaId && aula.isPending) return null
@@ -48,7 +50,6 @@ export function AulaJanela({ aulaId, etapaId, temaId }: Props) {
         titulo: a.titulo,
         descricao: a.descricao,
         video_url: a.video_url,
-        material_url: a.material_url ?? '',
         profissional: a.profissional ?? '',
         duracao: a.duracao_minutos ? String(a.duracao_minutos) : '',
         dia: String(a.dia_liberacao),
@@ -60,8 +61,15 @@ export function AulaJanela({ aulaId, etapaId, temaId }: Props) {
       titulo={aulaId ? textos.aulas.editar : textos.aulas.nova}
       inicial={inicial}
       aoCancelar={voltar}
+      materiais={<MateriaisAula m={materiais} />}
       aoSalvar={async (d) => {
-        await salvar.mutateAsync({ ...d, id: aulaId, etapa_id: a?.etapa_id ?? etapaId })
+        if (materiais.enviando) throw new Error(textos.arquivos.esperar)
+        const salva = await salvar.mutateAsync({
+          ...d,
+          id: aulaId,
+          etapa_id: a?.etapa_id ?? etapaId,
+        })
+        await salvarMateriais(salva.id, materiais.paraSalvar, materiais.removidos)
         voltar()
       }}
     />

@@ -8,7 +8,8 @@ export type Live = {
   duracao_minutos: number
   link_url: string | null
   gravacao_url: string | null
-  capa_url: string | null
+  capa_path: string | null
+  capa: string | null
   lembrete: boolean
   presente: boolean
 }
@@ -18,17 +19,23 @@ export async function listarLives(): Promise<Live[]> {
   const [lives, lembretes, presencas] = await Promise.all([
     supabase
       .from('lives')
-      .select('id, tema, data, profissional, duracao_minutos, link_url, gravacao_url, capa_url')
+      .select('id, tema, data, profissional, duracao_minutos, link_url, gravacao_url, capa_path')
       .order('data'),
     supabase.from('lives_lembretes').select('live_id'),
     supabase.from('lives_presencas').select('live_id'),
   ])
   if (lives.error) throw lives.error
+  const caminhos = (lives.data ?? []).flatMap((l) => (l.capa_path ? [l.capa_path] : []))
+  const { data: assinadas } = caminhos.length
+    ? await supabase.storage.from('materiais').createSignedUrls(caminhos, 3600)
+    : { data: [] }
+  const capas = new Map((assinadas ?? []).map((a) => [a.path, a.signedUrl]))
   const lembrete = new Set((lembretes.data ?? []).map((l) => l.live_id))
   const presente = new Set((presencas.data ?? []).map((l) => l.live_id))
   return (lives.data ?? []).map((l) => ({
     ...l,
     profissional: l.profissional as Live['profissional'],
+    capa: l.capa_path ? (capas.get(l.capa_path) ?? null) : null,
     lembrete: lembrete.has(l.id),
     presente: presente.has(l.id),
   }))

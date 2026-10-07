@@ -17,6 +17,7 @@ Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim)
 | /app/trilha                                                     | TrilhaPage                                                 | trilha                        | logada      | lazy                     |
 | /app/trilha/aula/:id (/app/aula/:id redireciona)                | AulaPage                                                   | trilha                        | logada      | lazy                     |
 | /app/cardapios, /app/cardapios/:id, /:id/compras, /receitas/:id | CardapiosPage, CardapioPage, ListaComprasPage, ReceitaPage | cardapios                     | logada      | lazy                     |
+| /app/previa, /app/previa/aula/:id (Ver como aluna, só admin)    | PreviaPage, PreviaAulaPage                                 | trilha                        | admin       | lazy                     |
 | /app/lives                                                      | LivesPage                                                  | lives                         | logada      | lazy                     |
 | /app/desafios, /app/desafios/:id                                | DesafiosPage, DesafioPage                                  | desafios                      | logada      | lazy                     |
 | /app/ranking                                                    | RankingPage                                                | ranking                       | logada      | lazy                     |

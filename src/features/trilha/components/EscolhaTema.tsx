@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { AvisoErro, BotaoBrilho } from '@/components/ui'
 import type { TemaOpcao } from '@/domain/trilha'
 import { useEscolherTema } from '../hooks/useTrilha'
+import { usePrevia } from '../previa'
 import { textos } from '../textos'
 import { tomDoTema } from './corDoTema'
 import { IconeTema } from './Temas'
@@ -41,6 +42,7 @@ function CartaoTema({
 /** Cinco temas em cartões; escolher e confirmar num segundo passo. */
 export function EscolhaTema({ temas, atual, troca = false, aoConcluir }: Props) {
   const escolher = useEscolherTema()
+  const previa = usePrevia()
   const [escolhido, setEscolhido] = useState<TemaOpcao | null>(null)
   const [confirmando, setConfirmando] = useState(false)
   if (confirmando && escolhido)
@@ -57,7 +59,11 @@ export function EscolhaTema({ temas, atual, troca = false, aoConcluir }: Props) 
           <BotaoBrilho
             tom="verde"
             disabled={escolher.isPending}
-            onClick={() => escolher.mutate(escolhido.id, { onSuccess: () => aoConcluir?.() })}
+            onClick={() =>
+              previa
+                ? (previa.escolherTema(escolhido.id), aoConcluir?.())
+                : escolher.mutate(escolhido.id, { onSuccess: () => aoConcluir?.() })
+            }
           >
             {escolher.isPending ? t.confirmando : t.confirmar}
           </BotaoBrilho>

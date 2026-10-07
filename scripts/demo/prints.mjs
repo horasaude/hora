@@ -15,6 +15,7 @@ const aula =
   await um(`select a.id from aulas a join etapas e on e.id = a.etapa_id join temas t on t.id = e.tema_id
   where t.chave = 'emagrecimento' and e.chave = 'arrancada' order by a.dia_liberacao limit 1`)
 const cardapio = await um(`select id from cardapios where objetivo = 'Emagrecimento'`)
+const tema = await um(`select id from temas where chave = 'emagrecimento'`)
 
 const TELAS = [
   ['01-inicio', 40, '/app'],
@@ -27,6 +28,9 @@ const TELAS = [
   ['08-perfil-minha-evolucao', 40, '/app/perfil'],
   ['09-dia3-trilhas-temas', 3, '/app/trilha'],
   ['10-dia3-cardapio-preparacao', 3, '/app/cardapios'],
+  ['11-painel-ver-como-aluna', 'admin', `/app/previa?dia=20&tema=${tema}`],
+  ['12-painel-modal-da-aula', 'admin', `/app/admin/aulas/${aula}?tema=${tema}`],
+  ['13-painel-conteudo', 'admin', `/app/admin/conteudo/${tema}`],
 ]
 const TAMANHOS = [
   ['computador', 1440, 900, false],

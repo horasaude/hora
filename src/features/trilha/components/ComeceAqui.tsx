@@ -3,6 +3,7 @@ import { BarraProgresso, Cartao, classeBrilho } from '@/components/ui'
 import { linkDeIncorporacao } from '@/lib/video'
 import { ITENS_COMECE } from '../api/comece.api'
 import { useComeceAqui } from '../hooks/useTrilha'
+import { usePrevia } from '../previa'
 import { textos } from '../textos'
 import { PassosComece } from './PassosComece'
 
@@ -11,9 +12,11 @@ const t = textos.comece
 /** Bloco fixo no topo até completar os 5 passos; completo, vira um link pequeno que reabre. */
 export function ComeceAqui() {
   const comece = useComeceAqui()
+  const previa = usePrevia()
   const [aberto, setAberto] = useState(false)
   if (!comece.data) return null
-  const { feitos, video_url, texto } = comece.data
+  const { video_url, texto } = comece.data
+  const feitos = previa ? [] : comece.data.feitos
   const completo = feitos.length === ITENS_COMECE.length
   if (completo && !aberto)
     return (
@@ -61,7 +64,7 @@ export function ComeceAqui() {
           pct={(feitos.length / ITENS_COMECE.length) * 100}
           legenda={t.progresso(feitos.length, ITENS_COMECE.length)}
         />
-        <PassosComece feitos={feitos} />
+        <PassosComece feitos={feitos} soVer={Boolean(previa)} />
       </div>
     </Cartao>
   )

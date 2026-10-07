@@ -16,6 +16,11 @@ export const rotasAluna: RouteObject[] = [
   { path: 'trilha', lazy: async () => ({ Component: (await trilha()).TrilhaPage }) },
   { path: 'trilha/aula/:aulaId', lazy: async () => ({ Component: (await trilha()).AulaPage }) },
   { path: 'aula/:aulaId', Component: AulaAntiga },
+  { path: 'previa', lazy: async () => ({ Component: (await trilha()).PreviaPage }) },
+  {
+    path: 'previa/aula/:aulaId',
+    lazy: async () => ({ Component: (await trilha()).PreviaAulaPage }),
+  },
   { path: 'cardapios', lazy: async () => ({ Component: (await cardapios()).CardapiosPage }) },
   {
     path: 'cardapios/receitas/:receitaId',

@@ -16,6 +16,7 @@ export function linkDeIncorporacao(entrada: string): string | null {
     valor && /^[\w-]{6,}$/.test(valor) ? valor : null
 
   if (host === 'youtu.be') return youtube(id(partes[0]))
+  if (host === 'youtube-nocookie.com' && partes[0] === 'embed') return youtube(id(partes[1]))
   if (host === 'youtube.com') {
     if (partes[0] === 'watch') return youtube(id(url.searchParams.get('v')))
     if (['shorts', 'embed', 'live'].includes(partes[0] ?? '')) return youtube(id(partes[1]))

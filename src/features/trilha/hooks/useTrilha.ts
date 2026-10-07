@@ -1,14 +1,24 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { usePrevia } from '../previa'
 import { buscarComeceAqui, buscarRegras, marcarComece, type ItemComece } from '../api/comece.api'
 import {
   aulaConcluida,
   buscarAula,
+  buscarMateriaisAula,
   buscarTrilha,
+  buscarTrilhaPrevia,
   escolherTema,
   marcarConcluida,
 } from '../api/trilha.api'
 
-export const useTrilha = () => useQuery({ queryKey: ['trilha'], queryFn: buscarTrilha })
+/** Trilha da aluna; dentro da pré-visualização do painel, a do dia e tema escolhidos. */
+export function useTrilha() {
+  const previa = usePrevia()
+  return useQuery({
+    queryKey: previa ? ['trilha-previa', previa.dia, previa.tema] : ['trilha'],
+    queryFn: () => (previa ? buscarTrilhaPrevia(previa.dia, previa.tema) : buscarTrilha()),
+  })
+}
 
 export const useAula = (id: string) =>
   useQuery({ queryKey: ['aula-aluna', id], queryFn: () => buscarAula(id) })
@@ -59,3 +69,13 @@ export function useMarcarComece() {
 }
 
 export const useRegras = () => useQuery({ queryKey: ['regras-pontos'], queryFn: buscarRegras })
+
+/** Links assinados valem 10 minutos: renova antes de vencer. */
+export const useMateriaisAula = (id: string, ativo: boolean) =>
+  useQuery({
+    queryKey: ['materiais-aula', id],
+    queryFn: () => buscarMateriaisAula(id),
+    enabled: ativo,
+    staleTime: 5 * 60_000,
+    refetchInterval: 8 * 60_000,
+  })

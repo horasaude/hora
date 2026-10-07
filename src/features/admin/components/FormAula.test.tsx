@@ -6,7 +6,6 @@ const VAZIA: EntradaAula = {
   titulo: '',
   descricao: '',
   video_url: '',
-  material_url: '',
   profissional: '',
   duracao: '',
   dia: '1',
@@ -17,7 +16,7 @@ describe('FormAula', () => {
 
   it('colar o link mostra a prévia do vídeo', async () => {
     render(<FormAula titulo="Nova aula" inicial={VAZIA} aoSalvar={vi.fn()} aoCancelar={vi.fn()} />)
-    fireEvent.input(screen.getByLabelText('Link do vídeo'), {
+    fireEvent.input(screen.getByLabelText('Vídeo do YouTube'), {
       target: { value: 'https://youtu.be/dQw4w9WgXcQ' },
     })
     expect(await screen.findByTitle('Prévia do vídeo')).toHaveAttribute(
@@ -31,7 +30,7 @@ describe('FormAula', () => {
     render(<FormAula titulo="Nova aula" inicial={VAZIA} aoSalvar={aoSalvar} aoCancelar={vi.fn()} />)
     fireEvent.input(screen.getByLabelText('Dia da etapa em que libera'), { target: { value: '8' } })
     fireEvent.input(screen.getByLabelText('Título da aula'), { target: { value: 'Treino 1' } })
-    fireEvent.input(screen.getByLabelText('Link do vídeo'), {
+    fireEvent.input(screen.getByLabelText('Vídeo do YouTube'), {
       target: { value: 'https://youtu.be/dQw4w9WgXcQ' },
     })
     fireEvent.click(screen.getByRole('button', { name: 'Salvar' }))
@@ -39,7 +38,6 @@ describe('FormAula', () => {
     expect(aoSalvar.mock.calls[0]?.[0]).toMatchObject({
       titulo: 'Treino 1',
       dia_liberacao: 8,
-      material_url: null,
     })
   })
 

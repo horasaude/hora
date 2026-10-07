@@ -1,13 +1,15 @@
 import { useParams } from 'react-router-dom'
-import { classeBrilho, LinkBrilho } from '@/components/ui'
+import { LinkBrilho } from '@/components/ui'
 import { DuvidasDaAula } from '@/features/forum'
 import { linkDeIncorporacao } from '@/lib/video'
 import type { AulaAberta } from '../api/trilha.api'
 import { Concluir } from '../components/Concluir'
+import { MateriaisDaAula } from '../components/MateriaisDaAula'
 import { EstadoAluna } from '../components/EstadoAluna'
 import { aulasDaMesmaLista } from '@/domain/trilha'
 import { NavegacaoAulas, ProximaAula } from '../components/NavegacaoAulas'
 import { useAula, useTrilha } from '../hooks/useTrilha'
+import { usePrevia } from '../previa'
 import { textos } from '../textos'
 
 const t = textos.aula
@@ -43,10 +45,16 @@ function Cabecalho({ a }: { a: AulaAberta }) {
 /** Aula: vídeo grande, descrição, material, concluir, próxima e as aulas da etapa ao lado. */
 export function AulaPage() {
   const { aulaId = '' } = useParams()
+  const previa = usePrevia()
   const aula = useAula(aulaId)
   const lista = aulasDaMesmaLista(useTrilha().data, aulaId)
   const voltar = (
-    <LinkBrilho to="/app/trilha" tom="cinza" tamanho="sm" className="self-start">
+    <LinkBrilho
+      to={previa ? `/app/previa${previa.sufixo}` : '/app/trilha'}
+      tom="cinza"
+      tamanho="sm"
+      className="self-start"
+    >
       {t.voltar}
     </LinkBrilho>
   )
@@ -68,7 +76,7 @@ export function AulaPage() {
           <Video aula={a} />
           <Cabecalho a={a} />
           <div className="flex flex-wrap items-center gap-3">
-            <Concluir id={a.id} />
+            {!previa && <Concluir id={a.id} />}
             <ProximaAula aulas={lista} id={a.id} />
           </div>
           {a.descricao && (
@@ -76,18 +84,8 @@ export function AulaPage() {
               {a.descricao}
             </p>
           )}
-          {a.material_url && (
-            <a
-              href={a.material_url}
-              target="_blank"
-              rel="noreferrer"
-              download
-              className={`${classeBrilho('cinza')} self-start`}
-            >
-              {t.material}
-            </a>
-          )}
-          <DuvidasDaAula aula={a.id} />
+          <MateriaisDaAula aula={a.id} />
+          {!previa && <DuvidasDaAula aula={a.id} />}
         </div>
         <aside className="lg:sticky lg:top-8">
           <NavegacaoAulas aulas={lista} id={a.id} />

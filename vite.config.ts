@@ -30,9 +30,9 @@ export default defineConfig({
         ],
       },
       manifest: {
-        name: 'HORA',
-        short_name: 'HORA',
-        description: 'Comunidade HORA',
+        name: 'ORA',
+        short_name: 'ORA',
+        description: 'Comunidade ORA',
         lang: 'pt-BR',
         theme_color: '#2C4C44',
         background_color: '#FFFFFF',
