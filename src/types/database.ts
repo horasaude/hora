@@ -1899,6 +1899,7 @@ export type Database = {
         Args: { p_direcao: number; p_id: string }
         Returns: undefined
       }
+      objetivo_da_aluna: { Args: never; Returns: string }
       painel_alunas: {
         Args: never
         Returns: {
