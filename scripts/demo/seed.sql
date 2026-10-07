@@ -30,10 +30,10 @@ update public.perfis p set consentimento_saude_em = now(), acesso_inicio_em = pg
 from generate_series(1, 10) n
 where p.id = ('aaaaaaaa-0000-0000-0000-0000000001' || lpad(n::text, 2, '0'))::uuid;
 
-update public.comece_aqui set video_url = 'https://www.youtube.com/watch?v=demoHORA001';
+update public.comece_aqui set video_url = 'https://www.youtube.com/watch?v=demoORA001';
 
 insert into public.aulas (etapa_id, titulo, video_url, dia_liberacao, ordem, publicado, duracao_minutos, profissional, descricao)
-select e.id, a.titulo, 'https://www.youtube.com/watch?v=demoHORA' || lpad(a.dia::text, 3, '0'), a.dia, a.dia, true, a.min, a.prof,
+select e.id, a.titulo, 'https://www.youtube.com/watch?v=demoORA' || lpad(a.dia::text, 3, '0'), a.dia, a.dia, true, a.min, a.prof,
   'Aula de demonstração da preparação. ' || a.titulo || ' em poucos minutos, com um passo prático para hoje.'
 from public.etapas e join public.temas t on t.id = e.tema_id,
   (values (1, 'Boas-vindas à ORA', 'Ana', 8), (2, 'Como funciona a trilha', 'Laís', 6), (3, 'O prato que sacia', 'Ana', 12),
@@ -44,7 +44,7 @@ where t.chave = 'preparacao';
 insert into public.aulas (etapa_id, titulo, video_url, dia_liberacao, ordem, publicado, duracao_minutos, profissional, descricao)
 select e.id, e.titulo || ' ' || n || ': ' || (array['Metabolismo na prática', 'Treino de 20 minutos', 'Montando o prato', 'Fome emocional',
     'Treino em casa', 'Lanches que funcionam', 'Hormônios e fome', 'Caminhada com intervalos', 'Rótulos sem mistério', 'Fechando a etapa'])[n],
-  'https://www.youtube.com/watch?v=demoHORA' || lpad((n + 100)::text, 3, '0'),
+  'https://www.youtube.com/watch?v=demoORA' || lpad((n + 100)::text, 3, '0'),
   (array[1, 3, 6, 9, 12, 15, 18, 21, 24, 27])[n], n, true, 6 + n, (array['Clara', 'Laís', 'Ana'])[1 + n % 3],
   'Nesta aula você entende o porquê e sai com um passo simples para colocar em prática ainda hoje.'
 from public.etapas e join public.temas t on t.id = e.tema_id, generate_series(1, 10) n
@@ -189,9 +189,9 @@ select 'aaaaaaaa-0000-0000-0000-000000000040', c.id, i
 from public.cardapios c, unnest(array['Feijão, carioca, cozido', 'Mamão, Formosa, cru']) i where c.objetivo = 'Emagrecimento';
 
 insert into public.lives (tema, data, profissional, duracao_minutos, link_url, gravacao_url, publicado) values
-  ('Rótulos sem mistério', pg_temp.quando(12, 19), 'ana', 60, 'https://meet.google.com/demo-hora-1', 'https://drive.google.com/file/d/demoHORAlive/view', true),
+  ('Rótulos sem mistério', pg_temp.quando(12, 19), 'ana', 60, 'https://meet.google.com/demo-ora-1', 'https://drive.google.com/file/d/demoORAlive/view', true),
   ('Sono e fome', least(now() + interval '25 minutes', (public.hoje_brasilia() + 1)::timestamp at time zone 'America/Sao_Paulo' - interval '61 minutes'),
-   'clara', 60, 'https://meet.google.com/demo-hora-2', null, true),
+   'clara', 60, 'https://meet.google.com/demo-ora-2', null, true),
   ('Treino em casa sem equipamento', pg_temp.quando(-14, 19), 'lais', 60, null, null, true);
 
 insert into public.aula_materiais (aula_id, tipo, caminho, nome, ordem)
