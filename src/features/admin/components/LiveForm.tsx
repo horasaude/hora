@@ -27,7 +27,8 @@ const CAMPOS: CampoDef<Entrada>[] = [
   { nome: 'duracao_minutos', rotulo: t.campoDuracao, tipo: 'numero' },
   { nome: 'convidada', rotulo: t.campoConvidada },
   { nome: 'link_url', rotulo: t.campoLink, tipo: 'link' },
-  { nome: 'gravacao_url', rotulo: t.campoGravacao, tipo: 'link', largura: 'inteira' },
+  { nome: 'gravacao_url', rotulo: t.campoGravacao, tipo: 'link' },
+  { nome: 'capa_url', rotulo: t.campoCapa, tipo: 'link' },
 ]
 
 /** Janela de criar ou editar live. Ao criar, abre a live nova na lista. */
@@ -46,6 +47,7 @@ export function LiveForm({ live, aoFechar }: { live?: Live; aoFechar: () => void
         convidada: live?.convidada ?? '',
         link_url: live?.link_url ?? '',
         gravacao_url: live?.gravacao_url ?? '',
+        capa_url: live?.capa_url ?? '',
       }}
       resolver={zodResolver(esquemaLive)}
       aoCancelar={aoFechar}

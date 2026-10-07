@@ -31,7 +31,7 @@ export function Evolucao() {
           <h2 className="text-[19px] font-bold text-verde-escuro">{t.titulo}</h2>
           <p className="text-[13px] text-suave">{t.privado}</p>
         </div>
-        <BotaoBrilho tom="dourado" onClick={() => setAbrir(true)}>
+        <BotaoBrilho tom="escuro" onClick={() => setAbrir(true)}>
           {t.novo}
         </BotaoBrilho>
       </div>

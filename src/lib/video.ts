@@ -38,10 +38,3 @@ export function linkDeIncorporacao(entrada: string): string | null {
 function youtube(id: string | null): string | null {
   return id ? `https://www.youtube-nocookie.com/embed/${id}` : null
 }
-
-/** Miniatura do vídeo (só YouTube tem imagem pública); outros devolvem null. */
-export function miniaturaDoVideo(entrada: string): string | null {
-  const link = linkDeIncorporacao(entrada)
-  const id = link?.match(/youtube-nocookie\.com\/embed\/([\w-]+)/)?.[1]
-  return id ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : null
-}

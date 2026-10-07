@@ -7,7 +7,7 @@ export { BarraProgresso, BotaoBrilho, EtiquetaBrilho, LinkBrilho } from './Brilh
 export { classeBrilho, classeTom, type TamanhoBrilho, type TomBrilho } from './estiloBrilho'
 export { Janela } from './Janela'
 export { PontosGanhos } from './PontosGanhos'
-export { Abas } from './Abas'
+export { Abas, AbasSublinhadas } from './Abas'
 export { Carregando, ErroCarregar, Vazio } from './Estados'
 export { AvisoErro, EscolherFoto, Paginacao } from './Formulario'
 export { RodapeSalvar } from './RodapeSalvar'

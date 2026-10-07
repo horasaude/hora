@@ -1,6 +1,12 @@
 import { useState } from 'react'
 import { Cartao, classeBrilho, Vazio } from '@/components/ui'
-import { diasParaEscolha, etapaAtual, precisaEscolherTema, type Trilha } from '@/domain/trilha'
+import {
+  diasParaEscolha,
+  etapaAtual,
+  metaDaEtapa,
+  precisaEscolherTema,
+  type Trilha,
+} from '@/domain/trilha'
 import { ListaAulas } from '../components/CartaoAula'
 import { ComeceAqui } from '../components/ComeceAqui'
 import { EscolhaTema } from '../components/EscolhaTema'
@@ -70,7 +76,12 @@ export function TrilhaPage() {
   const atual = etapaAtual(t.etapas)
   return (
     <section className="flex flex-col gap-6 lg:gap-8">
-      <TopoTrilha dia={t.dia} tema={tema} aulas={tema ? (atual?.aulas ?? []) : t.preparacao} />
+      <TopoTrilha
+        dia={t.dia}
+        tema={tema}
+        aulas={tema ? (atual?.aulas ?? []) : t.preparacao}
+        meta={tema ? metaDaEtapa(t.etapas) : null}
+      />
       <ComeceAqui />
       {tema ? (
         <DoTema trilha={t} />

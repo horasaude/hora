@@ -4,7 +4,7 @@ const n = (v: number) => Math.round(v).toLocaleString('pt-BR')
 
 export const textos = {
   titulo: 'Cardápios',
-  abas: { cardapios: 'Cardápios', receitas: 'Receitas' },
+  abas: { meu: 'Meu cardápio', receitas: 'Receitas' },
   abasRotulo: 'Cardápios ou receitas',
   carregando: 'Carregando',
   erro: 'Não foi possível carregar.',

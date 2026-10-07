@@ -1,16 +1,16 @@
-// Logo da HORA no sistema (painel, área da aluna, entrar). A página de vendas usa a logo do ORA.
-// Proporção do SVG: 2385 x 785. A altura sai da largura, então a logo nunca estica.
+// Logo do sistema (painel, área da aluna, entrar): a do ORA, a mesma da página de vendas.
+// Proporção do SVG: 1919 x 785. A altura sai da largura, então a logo nunca estica.
 
-const PROPORCAO = 785 / 2385
+const PROPORCAO = 785 / 1919
 
 type Props = { largura: number; clara?: boolean; className?: string }
 
-/** clara: versão para fundo verde (logo-hora-clara.svg). */
+/** clara: versão para fundo verde (logo-ora-clara.svg); senão, para fundo branco (logo-ora.svg). */
 export function LogoHora({ largura, clara = false, className = '' }: Props) {
   return (
     <img
-      src={clara ? '/logo-hora-clara.svg' : '/logo-hora.svg'}
-      alt="HORA"
+      src={clara ? '/logo-ora-clara.svg' : '/logo-ora.svg'}
+      alt="ORA"
       width={largura}
       height={Math.round(largura * PROPORCAO)}
       style={{ width: largura, height: 'auto' }}

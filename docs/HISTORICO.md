@@ -2,6 +2,13 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-07 · main · Ajustes da área da aluna (logo ORA, live, gravações, cardápios, aula)
+
+- Logo do ORA em todo o sistema (LogoHora aponta para logo-ora.svg e logo-ora-clara.svg), impressão do cardápio e ícones do app (icone.svg, icone-192, icone-512, apple-touch-icon).
+- Início: um aviso de live só (card dourado da live de hoje ou faixa ocre #F6EBD3 da próxima, que leva para Lives); saiu a fileira de atalhos do celular.
+- Gravações: capa cadastrada no painel (lives.capa_url, migração 20261011120000_capa_da_live) ou foto da profissional em círculo sobre areia com play verde ORA.
+- Cardápios: abas internas sublinhadas Meu cardápio e Receitas. Aula concluída sem Desfazer. "Tenho uma dúvida" em terracota e Registrar medidas em verde escuro (dourado só para lives, progresso e prêmios). Barra da etapa: "Faltam X aulas e Y dias para abrir ..." (metaDaEtapa em src/domain/trilha.ts); na última etapa, só a porcentagem.
+
 ## 2026-10-06 · main · Navegação em 5 abas, Para Sempre, cardápio de Preparação e demonstração
 
 - Navegação da aluna em 5 abas iguais no celular e no computador (Início, Trilhas, Desafios, Comunidade, Perfil), definidas em src/app/navegacao.ts; no computador a aba ativa abre as suas telas recuadas com bolinha; dentro de cada aba, pílulas no topo (verde ORA ativa, areia com borda fina). Rotas antigas mantidas. Ponto dourado pulsando em Comunidade e em Lives quando há live hoje. Perfil dividido em Minha evolução (/app/perfil) e Minha conta (/app/perfil/conta).

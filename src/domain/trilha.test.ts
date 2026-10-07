@@ -4,6 +4,7 @@ import {
   condicoesDaEtapa,
   diasParaEscolha,
   etapaAtual,
+  metaDaEtapa,
   precisaEscolherTema,
   progresso,
   semanaDoAcesso,
@@ -82,5 +83,41 @@ describe('outras regras', () => {
       aulas: [],
     })
     expect(etapaAtual([e('1', '2026-10-01'), e('2', '2026-10-31'), e('3', null)])?.id).toBe('2')
+  })
+})
+
+describe('meta da etapa', () => {
+  const etapa = (
+    ordem: number,
+    titulo: string,
+    iniciada: boolean,
+    aulas: AulaTrilha[],
+    dia: number | null,
+  ) => ({
+    id: String(ordem),
+    chave: null,
+    titulo,
+    ordem,
+    iniciada_em: iniciada ? '2026-10-01' : null,
+    dia_na_etapa: dia,
+    aulas,
+  })
+  const dez = (feitas: number) =>
+    Array.from({ length: 10 }, (_, i) => aula(String(i), { concluida: i < feitas }))
+  it('diz quantas aulas e dias faltam para abrir a próxima', () => {
+    expect(
+      metaDaEtapa([
+        etapa(1, 'Constância', true, dez(0), 8),
+        etapa(2, 'Para Sempre', false, [], null),
+      ]),
+    ).toEqual({
+      pct: 0,
+      faltamAulas: 8,
+      faltamDias: 22,
+      proxima: 'Para Sempre',
+    })
+  })
+  it('na última etapa não há próxima', () => {
+    expect(metaDaEtapa([etapa(1, 'Para Sempre', true, dez(5), 40)])?.proxima).toBeNull()
   })
 })

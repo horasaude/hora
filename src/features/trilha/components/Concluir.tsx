@@ -5,7 +5,7 @@ import { textos } from '../textos'
 
 const t = textos.aula
 
-/** Concluir aula (vidro verde); a pontuação é dada uma vez só pelo banco. */
+/** Concluir aula (vidro verde); depois, só a tag "Aula concluída". Os pontos saem uma vez só, pelo banco. */
 export function Concluir({ id }: { id: string }) {
   const concluida = useConcluida(id)
   const marcar = useMarcarConcluida(id)
@@ -14,23 +14,13 @@ export function Concluir({ id }: { id: string }) {
   const pontos = regras.data?.find((r) => r.acao === 'aula_concluida')?.pontos ?? 0
   if (concluida.data)
     return (
-      <div className="flex items-center gap-3">
+      <span className="relative">
         <EtiquetaBrilho tom="verde">
           <IconeCheck className="mr-1 size-3" />
           {t.concluida}
         </EtiquetaBrilho>
-        <button
-          type="button"
-          disabled={marcar.isPending}
-          onClick={() => marcar.mutate(false)}
-          className="text-sm text-suave underline"
-        >
-          {t.desfazer}
-        </button>
-        <span className="relative">
-          <PontosGanhos pontos={ganho.pontos} chave={ganho.chave} />
-        </span>
-      </div>
+        <PontosGanhos pontos={ganho.pontos} chave={ganho.chave} />
+      </span>
     )
   return (
     <div className="flex flex-col gap-2">

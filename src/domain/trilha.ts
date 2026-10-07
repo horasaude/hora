@@ -99,3 +99,25 @@ export function aulasDaMesmaLista(trilha: Trilha | undefined, id: string): AulaT
   if (trilha.preparacao.some((a) => a.id === id)) return trilha.preparacao
   return trilha.etapas.find((e) => e.aulas.some((a) => a.id === id))?.aulas ?? []
 }
+
+export type MetaDaEtapa = {
+  pct: number
+  faltamAulas: number
+  faltamDias: number
+  proxima: string | null
+}
+
+/** Barra da etapa atual: % concluída e o que falta (aulas para 80% e dias para 30) para abrir a próxima. */
+export function metaDaEtapa(etapas: EtapaTrilha[]): MetaDaEtapa | null {
+  const atual = etapaAtual(etapas)
+  if (!atual) return null
+  const proxima = etapas.find((e) => e.ordem > atual.ordem) ?? null
+  const feitas = atual.aulas.filter((a) => a.concluida).length
+  const c = condicoesDaEtapa(atual.aulas.length, feitas, atual.dia_na_etapa ?? 0)
+  return {
+    pct: progresso(atual.aulas),
+    faltamAulas: c.faltamAulas,
+    faltamDias: Math.max(0, DIAS_DA_ETAPA - c.dia),
+    proxima: proxima?.titulo ?? null,
+  }
+}

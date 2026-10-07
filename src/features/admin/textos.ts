@@ -119,6 +119,8 @@ export const textos = {
     campoConvidada: 'Convidada (opcional)',
     campoLink: 'Link da sala (opcional)',
     campoGravacao: 'Link da gravação (opcional)',
+    campoCapa: 'Link da imagem de capa da gravação (opcional)',
+    capa: 'Capa da gravação',
   },
   avisos: {
     titulo: 'Avisos',

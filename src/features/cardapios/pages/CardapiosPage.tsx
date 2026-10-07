@@ -1,11 +1,11 @@
 import { useSearchParams } from 'react-router-dom'
-import { Abas } from '@/components/ui'
+import { AbasSublinhadas } from '@/components/ui'
 import { ListaCardapios } from '../components/ListaCardapios'
 import { ListaReceitas } from '../components/ListaReceitas'
 import { textos } from '../textos'
 
 const ABAS = [
-  { id: 'cardapios', nome: textos.abas.cardapios },
+  { id: 'cardapios', nome: textos.abas.meu },
   { id: 'receitas', nome: textos.abas.receitas },
 ] as const
 
@@ -18,7 +18,7 @@ export function CardapiosPage() {
       <h1 className="text-[28px] leading-tight font-bold text-verde-escuro lg:text-[30px]">
         {textos.titulo}
       </h1>
-      <Abas
+      <AbasSublinhadas
         opcoes={ABAS}
         ativa={aba}
         aoEscolher={(id) =>

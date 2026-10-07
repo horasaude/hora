@@ -15,6 +15,14 @@ export const textos = {
         ? ' · falta 1 aula'
         : ` · faltam ${faltam} aulas`),
   rotuloProgresso: 'Progresso da etapa',
+  meta: (pct: number, aulas: number, dias: number, proxima: string | null) => {
+    const partes = [
+      aulas > 0 && (aulas === 1 ? '1 aula' : `${aulas} aulas`),
+      dias > 0 && (dias === 1 ? '1 dia' : `${dias} dias`),
+    ].filter(Boolean)
+    if (!proxima || partes.length === 0) return `${pct}% da etapa`
+    return `Faltam ${partes.join(' e ')} para abrir ${proxima}`
+  },
   minutos: (n: number) => `${n} min`,
   diaN: (n: number) => `Dia ${n}`,
   concluida: 'Concluída',
@@ -108,7 +116,6 @@ export const textos = {
     material: 'Baixar material (PDF)',
     concluir: 'Concluir aula',
     concluida: 'Aula concluída',
-    desfazer: 'Desfazer',
     proxima: 'Próxima aula',
     erroMarcar: 'Não foi possível salvar. Tente de novo.',
     semVideo: 'Não foi possível mostrar este vídeo.',

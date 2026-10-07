@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { BotaoBrilho, EtiquetaBrilho, Janela, Vazio } from '@/components/ui'
+import { BotaoBrilho, EtiquetaBrilho, IconePlay, Janela, Vazio } from '@/components/ui'
 import { PROFISSIONAIS } from '@/domain/lives'
 import { formatarData } from '@/lib/datas'
-import { linkDeIncorporacao, miniaturaDoVideo } from '@/lib/video'
+import { linkDeIncorporacao } from '@/lib/video'
 import type { Live } from '../api/lives.api'
 import { textos } from '../textos'
 
@@ -49,15 +49,22 @@ function Player({ live, aoFechar }: { live: Live; aoFechar: () => void }) {
   )
 }
 
-function Miniatura({ live }: { live: Live }) {
-  const img = live.gravacao_url ? miniaturaDoVideo(live.gravacao_url) : null
-  return img ? (
-    <img src={img} alt="" loading="lazy" className="aspect-video w-full object-cover" />
-  ) : (
-    <div
-      aria-hidden
-      className="aspect-video w-full bg-gradient-to-br from-ocre-suave to-salvia-suave"
-    />
+/** Capa: a imagem cadastrada no painel ou a foto da profissional em círculo sobre areia, com play verde ORA. */
+function Capa({ live }: { live: Live }) {
+  if (live.capa_url)
+    return (
+      <img src={live.capa_url} alt="" loading="lazy" className="aspect-video w-full object-cover" />
+    )
+  const foto = live.profissional ? PROFISSIONAIS[live.profissional].foto : null
+  return (
+    <div aria-hidden className="grid aspect-video w-full place-items-center bg-[#F7F3EC]">
+      <span className="relative grid place-items-center">
+        {foto && <img src={foto} alt="" className="size-28 rounded-full object-cover object-top" />}
+        <span className="brilho brilho-escuro absolute grid size-12 place-items-center rounded-full">
+          <IconePlay className="ml-0.5 size-4" />
+        </span>
+      </span>
+    </div>
   )
 }
 
@@ -71,7 +78,7 @@ export function Gravacoes({ lives }: { lives: Live[] }) {
         {lives.map((l) => {
           const conteudo = (
             <div className="flex h-full flex-col gap-2 overflow-hidden rounded-[22px] bg-white text-left shadow-cartao">
-              <Miniatura live={l} />
+              <Capa live={l} />
               <div className="flex flex-col gap-1 px-5 pb-5">
                 <span className="self-start">
                   <EtiquetaBrilho tom={l.gravacao_url ? 'verde' : 'cinza'}>

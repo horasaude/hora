@@ -17,8 +17,8 @@ export function Impressao({ f, aoTerminar }: { f: FormCardapio; aoTerminar: () =
   return createPortal(
     <div className="area-impressao font-sistema">
       <img
-        src="/logo-hora.svg"
-        alt="HORA"
+        src="/logo-ora.svg"
+        alt="ORA"
         width={120}
         height={40}
         style={{ width: 120, height: 'auto' }}

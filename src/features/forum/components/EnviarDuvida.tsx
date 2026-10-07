@@ -66,7 +66,7 @@ export function EnviarDuvida({ aula }: { aula?: string }) {
   const id = useId()
   return (
     <>
-      <BotaoBrilho tom="dourado" onClick={() => setAberta(true)}>
+      <BotaoBrilho tom="coral" onClick={() => setAberta(true)}>
         {aula ? t.tenhoDuvida : t.enviar}
       </BotaoBrilho>
       {aberta && (

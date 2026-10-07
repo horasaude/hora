@@ -11,9 +11,8 @@ import { CheckinHoje, useHoje } from '@/features/checkin'
 import { CartaoDesafioAtivo } from '@/features/desafios'
 import { LiveHoje } from '@/features/lives'
 import { CartaoRankingInicio } from '@/features/ranking'
-import { AulaDeHoje, FaixaLive } from '../components/Cartoes'
+import { AulaDeHoje } from '../components/Cartoes'
 import { Resumo } from '../components/Resumo'
-import { useProximaLive } from '../hooks/useProximaLive'
 import { textos } from '../textos'
 
 /** Primeiro nome; sem nome, o apelido. */
@@ -46,7 +45,6 @@ export function InicioPage() {
   const hoje = useHoje()
   const perfil = useMeuPerfil()
   const trilha = useTrilha()
-  const live = useProximaLive()
   const nome = primeiroNome(perfil.data?.nome, perfil.data?.apelido)
   const aula = trilha.data ? aulaDeHoje(aulasEmAndamento(trilha.data)) : null
   const semAcesso = trilha.isSuccess && trilha.data.dia === null
@@ -68,26 +66,11 @@ export function InicioPage() {
               <AvisoRespondida />
               <CheckinHoje />
               {aula && <AulaDeHoje aula={aula} />}
-              {live.data && <FaixaLive live={live.data} />}
+              <LiveHoje />
             </div>
             <div className="flex flex-col gap-4 lg:gap-6">
-              <LiveHoje />
               <CartaoRankingInicio />
               <CartaoDesafioAtivo hoje={hoje} />
-              <div className="flex flex-wrap gap-2 lg:hidden">
-                <Link to="/app/forum" className={classeBrilho('cinza')}>
-                  {textos.forum}
-                </Link>
-                <Link to="/app/loja" className={classeBrilho('cinza')}>
-                  {textos.loja}
-                </Link>
-                <Link to="/app/cardapios" className={classeBrilho('cinza')}>
-                  {textos.cardapios}
-                </Link>
-                <Link to="/app/lives" className={classeBrilho('cinza')}>
-                  {textos.lives}
-                </Link>
-              </div>
             </div>
           </div>
         </>

@@ -36,6 +36,7 @@ export const textos = {
   semSala: 'O link da sala ainda não foi colocado. Tente de novo perto do horário.',
   erroEntrar: 'Não deu para entrar agora. Confira o horário e tente de novo.',
   hoje: (hora: string) => `Live hoje às ${hora}`,
+  faixa: (quando: string, tema: string) => `Live ${quando} · ${tema}`,
   com: (nome: string) => `com ${nome}`,
   duracao: (n: number) => `${n} min`,
 }

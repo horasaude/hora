@@ -26,3 +26,23 @@ export function Abas<T extends string>({ opcoes, ativa, aoEscolher, rotulo }: Pr
     </div>
   )
 }
+
+/** Abas discretas sublinhadas (dentro de uma tela que já tem pílulas no topo). */
+export function AbasSublinhadas<T extends string>({ opcoes, ativa, aoEscolher, rotulo }: Props<T>) {
+  return (
+    <div role="tablist" aria-label={rotulo} className="flex gap-6 border-b border-linha">
+      {opcoes.map((o) => (
+        <button
+          key={o.id}
+          type="button"
+          role="tab"
+          aria-selected={o.id === ativa}
+          onClick={() => aoEscolher(o.id)}
+          className={`-mb-px min-h-10 border-b-2 text-[15px] transition ${o.id === ativa ? 'border-ora font-bold text-verde-escuro' : 'border-transparent text-suave hover:text-tinta'}`}
+        >
+          {o.nome}
+        </button>
+      ))}
+    </div>
+  )
+}
