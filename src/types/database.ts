@@ -984,38 +984,6 @@ export type Database = {
         }
         Relationships: []
       }
-      medidas_caseiras: {
-        Row: {
-          alimento_id: string
-          gramas: number
-          id: string
-          nome: string
-          ordem: number
-        }
-        Insert: {
-          alimento_id: string
-          gramas: number
-          id?: string
-          nome: string
-          ordem?: number
-        }
-        Update: {
-          alimento_id?: string
-          gramas?: number
-          id?: string
-          nome?: string
-          ordem?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "medidas_caseiras_alimento_id_fkey"
-            columns: ["alimento_id"]
-            isOneToOne: false
-            referencedRelation: "alimentos"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       loja_cliques: {
         Row: {
           created_at: string
@@ -1025,13 +993,13 @@ export type Database = {
         }
         Insert: {
           created_at?: string
-          id?: number
+          id?: never
           perfil_id: string
           produto_id: string
         }
         Update: {
           created_at?: string
-          id?: number
+          id?: never
           perfil_id?: string
           produto_id?: string
         }
@@ -1089,9 +1057,7 @@ export type Database = {
           updated_at?: string
           whatsapp?: string | null
         }
-        Relationships: [
-
-        ]
+        Relationships: []
       }
       loja_produtos: {
         Row: {
@@ -1148,6 +1114,38 @@ export type Database = {
             columns: ["parceiro_id"]
             isOneToOne: false
             referencedRelation: "loja_parceiros"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      medidas_caseiras: {
+        Row: {
+          alimento_id: string
+          gramas: number
+          id: string
+          nome: string
+          ordem: number
+        }
+        Insert: {
+          alimento_id: string
+          gramas: number
+          id?: string
+          nome: string
+          ordem?: number
+        }
+        Update: {
+          alimento_id?: string
+          gramas?: number
+          id?: string
+          nome?: string
+          ordem?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "medidas_caseiras_alimento_id_fkey"
+            columns: ["alimento_id"]
+            isOneToOne: false
+            referencedRelation: "alimentos"
             referencedColumns: ["id"]
           },
         ]
@@ -1403,25 +1401,17 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      registrar_clique_loja: { Args: { p_produto: string }; Returns: undefined }
-      painel_loja: {
-        Args: never
-        Returns: {
-          cliques_mes: number
-          mais_clicado: string | null
-          mais_clicado_cliques: number
-          parceiros_ativos: number
-          publicados: number
-        }[]
-      }
-      cliques_por_semana: {
-        Args: { p_produto: string; p_semanas?: number }
-        Returns: { cliques: number; semana: string }[]
-      }
       alunas_em_desafios_ativos: { Args: never; Returns: number }
       cancelar_indicacao: {
         Args: { p_indicacao: string; p_motivo: string }
         Returns: undefined
+      }
+      cliques_por_semana: {
+        Args: { p_produto: string; p_semanas?: number }
+        Returns: {
+          cliques: number
+          semana: string
+        }[]
       }
       conceder_pontos: {
         Args: {
@@ -1633,6 +1623,16 @@ export type Database = {
           vencidas: number
         }[]
       }
+      painel_loja: {
+        Args: never
+        Returns: {
+          cliques_mes: number
+          mais_clicado: string
+          mais_clicado_cliques: number
+          parceiros_ativos: number
+          publicados: number
+        }[]
+      }
       painel_pontos: {
         Args: never
         Returns: {
@@ -1653,6 +1653,7 @@ export type Database = {
         }[]
       }
       registrar_acesso: { Args: never; Returns: undefined }
+      registrar_clique_loja: { Args: { p_produto: string }; Returns: undefined }
       registrar_indicacao: {
         Args: {
           p_codigo: string
