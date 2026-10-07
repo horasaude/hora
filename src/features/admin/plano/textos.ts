@@ -1,22 +1,6 @@
 // Textos do plano alimentar (cardápios, refeições, receitas e alimentos). Os componentes só leem daqui.
 
-export const TIPOS_REFEICAO = {
-  cafe: 'Café da manhã',
-  lanche: 'Lanche',
-  almoco: 'Almoço',
-  jantar: 'Jantar',
-  ceia: 'Ceia',
-  pre_treino: 'Pré-treino',
-  pos_treino: 'Pós-treino',
-} as const
-
-export const OBJETIVOS = [
-  'Emagrecimento',
-  'Composição corporal',
-  'Lipedema',
-  'Menopausa',
-  'Ganho de massa',
-] as const
+export { OBJETIVOS, TIPOS_REFEICAO } from '@/domain/plano'
 
 export const textos = {
   grupo: 'Plano alimentar',

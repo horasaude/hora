@@ -93,3 +93,13 @@ export function porPorcao(
     1 / Math.max(porcoes, 1),
   )
 }
+
+const fmt = (n: number) => n.toLocaleString('pt-BR', { maximumFractionDigits: 2 })
+
+/** Como a quantidade aparece: "120 g", "2 x 1 colher de sopa (44 g)" ou "1 porção". */
+export function rotuloOpcao(o: Opcao): string {
+  if (o.tipo === 'receita')
+    return `${fmt(o.quantidade)} ${o.quantidade === 1 ? 'porção' : 'porções'}`
+  if (o.medida === 'g') return `${fmt(o.gramas)} g`
+  return `${fmt(o.quantidade)} x ${o.medida} (${fmt(o.gramas)} g)`
+}

@@ -6,6 +6,14 @@ import { textosAluna as t } from './textosAluna'
 const ITENS = [
   { para: '/app', nome: t.nav.inicio, icone: 'inicio', fim: true, cor: 'bg-salvia' },
   { para: '/app/trilha', nome: t.nav.trilha, icone: 'trilha', fim: false, cor: 'bg-terracota' },
+  {
+    para: '/app/cardapios',
+    nome: t.nav.cardapios,
+    icone: 'cardapios',
+    fim: false,
+    cor: 'bg-salvia',
+  },
+  { para: '/app/lives', nome: t.nav.lives, icone: 'lives', fim: false, cor: 'bg-dourado' },
   { para: '/app/desafios', nome: t.nav.desafios, icone: 'desafios', fim: false, cor: 'bg-ocre' },
   { para: '/app/ranking', nome: t.nav.ranking, icone: 'ranking', fim: false, cor: 'bg-[#8fa7c0]' },
   { para: '/app/forum', nome: t.nav.forum, icone: 'forum', fim: false, cor: 'bg-[#e0a48f]' },
@@ -19,8 +27,9 @@ function useAtivo() {
   return (isActive: boolean, para: string) => isActive || (emAula && para === '/app/trilha')
 }
 
-/** No celular a barra tem 5 ícones; Fórum e Loja entram pelo Início. */
-const NO_CELULAR = ITENS.filter((i) => i.icone !== 'forum' && i.icone !== 'loja')
+/** No celular a barra tem 5 ícones; Fórum, Loja, Cardápios e Lives entram pelo Início. */
+const SO_NO_COMPUTADOR = ['forum', 'loja', 'cardapios', 'lives']
+const NO_CELULAR = ITENS.filter((i) => !SO_NO_COMPUTADOR.includes(i.icone))
 
 /** Celular: barra fixa embaixo com os 5 ícones. */
 export function BarraInferior() {

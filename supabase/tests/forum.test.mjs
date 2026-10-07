@@ -20,7 +20,8 @@ async function montar(db) {
     update public.perfis set papel = 'admin', nome = 'Laís Moraes' where id = '${ADMIN}';
     update public.perfis set acesso_inicio_em = now() - interval '2 days', nome = 'Maria Silva', apelido = 'mari' where id = '${ALUNA}';
     update public.perfis set acesso_inicio_em = now() - interval '2 days', nome = 'Ana Souza', apelido = 'aninha' where id = '${AMIGA}';
-    insert into public.temas (id, titulo, publicado) values ('${ID(11)}', 'T', true);
+    delete from public.temas;
+    insert into public.temas (id, titulo, publicado, tipo) values ('${ID(11)}', 'T', true, 'preparacao');
     insert into public.etapas (id, tema_id, titulo, ordem, publicado) values ('${ID(21)}', '${ID(11)}', 'E', 1, true);
     insert into public.aulas (id, etapa_id, titulo, video_url, dia_liberacao, publicado) values ('${AULA}', '${ID(21)}', 'Treino 1', 'https://v.t', 1, true);
   `)

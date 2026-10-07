@@ -1,21 +1,15 @@
 // Lista de compras do cardápio: soma as quantidades da semana por alimento e agrupa por tipo.
 import type { Refeicao } from './nutricao'
 
-export const GRUPOS_COMPRA = [
-  'Hortifruti',
-  'Carnes e ovos',
-  'Laticínios',
-  'Grãos',
-  'Outros',
-] as const
+export const GRUPOS_COMPRA = ['Hortifruti', 'Proteínas', 'Laticínios', 'Grãos', 'Outros'] as const
 export type GrupoCompra = (typeof GRUPOS_COMPRA)[number]
 
 const MAPA: Record<string, GrupoCompra> = {
   'Verduras, hortaliças e derivados': 'Hortifruti',
   'Frutas e derivados': 'Hortifruti',
-  'Carnes e derivados': 'Carnes e ovos',
-  'Pescados e frutos do mar': 'Carnes e ovos',
-  'Ovos e derivados': 'Carnes e ovos',
+  'Carnes e derivados': 'Proteínas',
+  'Pescados e frutos do mar': 'Proteínas',
+  'Ovos e derivados': 'Proteínas',
   'Leite e derivados': 'Laticínios',
   'Cereais e derivados': 'Grãos',
   'Leguminosas e derivados': 'Grãos',

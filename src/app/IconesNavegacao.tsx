@@ -53,6 +53,17 @@ const DESENHOS = {
       <path d="M9 10V7a3 3 0 0 1 6 0v3" />
     </Svg>
   ),
+  cardapios: (
+    <Svg>
+      <path d="M6 3v7a2 2 0 0 0 4 0V3M8 10v11M16 21V3c-2 1-3 4-3 7h3" />
+    </Svg>
+  ),
+  lives: (
+    <Svg>
+      <rect x="3" y="6" width="13" height="12" rx="2.5" />
+      <path d="m16 10.5 5-3v9l-5-3" />
+    </Svg>
+  ),
   perfil: (
     <Svg>
       <circle cx="12" cy="8.5" r="3.5" />

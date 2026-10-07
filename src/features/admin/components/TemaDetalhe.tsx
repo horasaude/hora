@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { BotaoBrilho } from '@/components/ui'
-import { salvarEtapa, salvarTema, type Aula, type Tema } from '../api/conteudo.api'
+import { salvarTema, type Aula, type Tema } from '../api/conteudo.api'
 import { useSalvar, useTema } from '../hooks/usePainel'
 import { textos } from '../textos'
 import { BotaoPublicar } from './BotaoPublicar'
@@ -47,31 +47,15 @@ function SobreTema({ tema, etapas, aulas }: { tema: Tema; etapas: number; aulas:
 /** Cartão do tema aberto: dados, publicar, editar e as etapas com as aulas. */
 export function TemaDetalhe({ temaId }: { temaId: string }) {
   const consulta = useTema(temaId)
-  const salvar = useSalvar(salvarEtapa)
-  const [novaEtapa, setNovaEtapa] = useState(false)
   if (consulta.isPending) return <Estado tipo="carregando" />
   if (consulta.isError) return <Estado tipo="erro" tentar={() => consulta.refetch()} />
   const { tema, etapas, aulas } = consulta.data
   return (
     <CartaoDetalhe titulo={tema.titulo}>
       <SobreTema tema={tema} etapas={etapas.length} aulas={aulas} />
-      <div className="flex items-center justify-between gap-3 border-t border-[#F0F2F1] pt-4">
-        <h3 className="text-base font-bold text-verde-escuro">{textos.etapas.titulo}</h3>
-        <BotaoBrilho tom="dourado" onClick={() => setNovaEtapa(true)}>
-          {textos.etapas.nova}
-        </BotaoBrilho>
-      </div>
-      {novaEtapa && (
-        <FormNome
-          titulo={textos.etapas.nova}
-          rotulo={textos.etapas.campoTitulo}
-          aoCancelar={() => setNovaEtapa(false)}
-          aoSalvar={async (d) => {
-            await salvar.mutateAsync({ ...d, tema_id: tema.id, ordem: 1 })
-            setNovaEtapa(false)
-          }}
-        />
-      )}
+      <h3 className="border-t border-[#F0F2F1] pt-4 text-base font-bold text-verde-escuro">
+        {textos.etapas.titulo}
+      </h3>
       {etapas.length === 0 && <p className="text-sm text-suave">{textos.etapas.vazio}</p>}
       <ul className="flex flex-col gap-3">
         {etapas.map((etapa, i) => (

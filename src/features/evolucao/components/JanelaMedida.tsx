@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { AvisoErro, EscolherFoto, Janela, RodapeSalvar } from '@/components/ui'
 import type { CampoMedida } from '../api/medidas.api'
-import { useRegistrarMedida } from '../hooks/usePerfil'
+import { useRegistrarMedida } from '../hooks/useMedidas'
 import { esquemaMedida } from '../schemas/medida.schema'
 import { textos } from '../textos'
 import { CamposMedida } from './CamposMedida'

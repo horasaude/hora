@@ -31,7 +31,7 @@ export function DuvidaPage() {
         {([d]) =>
           d && (
             <Cartao className="flex max-w-4xl flex-col gap-6 lg:p-8">
-              <Conversa d={d} linkAula={d.aula_id ? `/app/aula/${d.aula_id}` : undefined} />
+              <Conversa d={d} linkAula={d.aula_id ? `/app/trilha/aula/${d.aula_id}` : undefined} />
               <Responder topico={d.id} />
             </Cartao>
           )

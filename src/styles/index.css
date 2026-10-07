@@ -96,6 +96,12 @@
   .brilho-prata {
     background: radial-gradient(120% 140% at 50% 110%, #e9edf0 0%, #aab4bb 55%, #77838c 100%);
   }
+  .brilho-lilas {
+    background: radial-gradient(120% 140% at 50% 110%, #c7b5ea 0%, #8f74c9 55%, #5e4596 100%);
+  }
+  .brilho-rosa {
+    background: radial-gradient(120% 140% at 50% 110%, #f6b5c6 0%, #df7895 55%, #a8476a 100%);
+  }
   .brilho-cinza {
     background: radial-gradient(120% 140% at 50% 110%, #ffffff 0%, #eef1ef 55%, #d5dbd8 100%);
     color: #5b6762;
@@ -204,5 +210,39 @@ body {
   }
   100% {
     opacity: 0;
+  }
+}
+
+/* Modo de preparo da receita na área da aluna: passos sempre numerados. */
+.preparo-numerado {
+  counter-reset: passo;
+}
+.preparo-numerado > p:not(:empty)::before {
+  counter-increment: passo;
+  content: counter(passo) '. ';
+  font-weight: 700;
+  color: var(--color-verde-escuro);
+}
+.preparo-numerado ul {
+  list-style: decimal;
+}
+
+/* Esqueleto de carregamento: cinza claro que pulsa devagar (parado para quem pede menos movimento). */
+.esqueleto {
+  display: block;
+  background: #eef1ef;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .esqueleto {
+    animation: esqueleto 1.4s ease-in-out infinite;
+  }
+}
+@keyframes esqueleto {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
   }
 }

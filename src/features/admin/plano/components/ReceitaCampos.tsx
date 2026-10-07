@@ -5,6 +5,7 @@ import { Bloco } from './BarraTopo'
 import { EditorTexto } from './EditorTexto'
 import { FotoReceita } from './FotoReceita'
 import { IngredientesCalculados } from './IngredientesCalculados'
+import { ReceitaMarcas } from './ReceitaMarcas'
 
 type Props = { f: FormReceita; mudar: (p: Partial<FormReceita>) => void; erroNome: boolean }
 
@@ -35,6 +36,14 @@ export function ReceitaLateral({ f, mudar }: Omit<Props, 'erroNome'>) {
     <Bloco className="lg:sticky lg:top-6">
       <div className="grid grid-cols-2 gap-3">
         <Campo
+          rotulo={t.tempo}
+          type="number"
+          min={1}
+          inputMode="numeric"
+          value={f.tempo}
+          onChange={(e) => mudar({ tempo: e.target.value })}
+        />
+        <Campo
           rotulo={t.porcoes}
           type="number"
           min={1}
@@ -49,6 +58,7 @@ export function ReceitaLateral({ f, mudar }: Omit<Props, 'erroNome'>) {
           onChange={(e) => mudar({ tags: e.target.value })}
         />
       </div>
+      <ReceitaMarcas f={f} mudar={mudar} />
       <label className="flex items-center gap-3 text-sm font-medium">
         <input
           type="checkbox"

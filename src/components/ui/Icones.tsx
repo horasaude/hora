@@ -27,3 +27,18 @@ export function IconeCheck({ className = 'size-4' }: Props) {
     </svg>
   )
 }
+
+export function IconeCadeado({ className = 'size-4' }: Props) {
+  return (
+    <svg viewBox="0 0 16 16" aria-hidden className={className}>
+      <path
+        d="M4.5 7.5V5.5a3.5 3.5 0 0 1 7 0v2M3.5 7.5h9v6h-9z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}

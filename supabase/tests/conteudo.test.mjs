@@ -14,10 +14,11 @@ async function montar(db) {
   )
   await db.exec(`
     update public.perfis set papel = 'admin' where id = '${ADMIN}';
-    update public.perfis set acesso_inicio_em = now() - interval '5 days 1 hour' where id = '${ALUNA}';
+    update public.perfis set acesso_inicio_em = (public.hoje_brasilia() - 5)::timestamp at time zone 'America/Sao_Paulo' where id = '${ALUNA}';
+    delete from public.temas;
     update public.perfis set acesso_inicio_em = now() + interval '1 hour' where id = '${FUTURA}';
     update public.perfis set acesso_inicio_em = now() - interval '400 days', acesso_fim_em = now() - interval '1 minute' where id = '${VENCIDA}';
-    insert into public.temas (id, titulo, publicado) values ('${ID(11)}', 'Comece por aqui', true), ('${ID(12)}', 'Rascunho', false);
+    insert into public.temas (id, titulo, publicado, tipo) values ('${ID(11)}', 'Preparação', true, 'preparacao'), ('${ID(12)}', 'Rascunho', false, 'tema');
     insert into public.etapas (id, tema_id, titulo, ordem, publicado) values
       ('${ID(21)}', '${ID(11)}', 'Etapa 1', 1, true),
       ('${ID(22)}', '${ID(11)}', 'Etapa 2', 2, false),
@@ -138,34 +139,44 @@ async function admin(t) {
   )
 }
 
-/** 7 dias exatos a partir da confirmação do pagamento: dia 8 libera só quando completar 7 x 24 h. */
-async function seteDiasExatos(t) {
+/** Dia da aluna pelo calendário de Brasília: muda à meia-noite, não a cada 24 h. */
+async function viradaDoDia(t) {
   const { db, esperaValor } = t
   await t.comoDono()
-  await db.query(
-    `update public.perfis set acesso_inicio_em = now() - interval '7 days' + interval '1 minute' where id = '${ALUNA}'`,
-  )
   await db.query(`update public.aulas set dia_liberacao = 8 where id = '${ID(33)}'`)
-  await t.comoAluna(ALUNA)
-  await esperaValor(
-    'faltando 1 minuto para 7 dias, ainda é o dia 7',
-    'select public.dia_de_acesso()',
-    7,
+  await db.query(
+    `update public.perfis set acesso_inicio_em = (public.hoje_brasilia() - 6)::timestamp at time zone 'America/Sao_Paulo' where id = '${ALUNA}'`,
   )
+  await t.comoAluna(ALUNA)
+  await esperaValor('seis dias depois da adesão é o dia 7', 'select public.dia_de_acesso()', 7)
   await esperaValor(
-    'aula de 7 dias ainda fechada um minuto antes',
+    'aula do dia 8 ainda fechada no dia 7',
     `select count(*)::int from public.aulas where id = '${ID(33)}'`,
     0,
   )
   await t.comoDono()
   await db.query(
-    `update public.perfis set acesso_inicio_em = now() - interval '7 days' where id = '${ALUNA}'`,
+    `update public.perfis set acesso_inicio_em = (public.hoje_brasilia() - 7)::timestamp at time zone 'America/Sao_Paulo' + interval '23 hours 59 minutes' where id = '${ALUNA}'`,
   )
   await t.comoAluna(ALUNA)
-  await esperaValor('completados 7 dias, é o dia 8', 'select public.dia_de_acesso()', 8)
   await esperaValor(
-    'aula de 7 dias libera na hora exata',
+    'adesão às 23h59 de sete dias atrás: hoje é o dia 8',
+    'select public.dia_de_acesso()',
+    8,
+  )
+  await esperaValor(
+    'aula do dia 8 libera no dia 8, sem esperar 24 h',
     `select count(*)::int from public.aulas where id = '${ID(33)}'`,
+    1,
+  )
+  await esperaValor(
+    'virada da meia-noite em Brasília muda o dia',
+    `select public.dia_atual_de('2026-10-05 23:59-03', '2026-10-06 00:00-03')`,
+    2,
+  )
+  await esperaValor(
+    'mesmo dia em Brasília continua dia 1, mesmo virando em UTC',
+    `select public.dia_atual_de('2026-10-05 20:00-03', '2026-10-05 23:30-03')`,
     1,
   )
 }
@@ -176,7 +187,7 @@ export async function testarConteudo() {
   await anonimo(t)
   await alunaComAcesso(t)
   await semAcesso(t)
-  await seteDiasExatos(t)
+  await viradaDoDia(t)
   await admin(t)
   await t.comoDono()
   return t.fim('conteudo')

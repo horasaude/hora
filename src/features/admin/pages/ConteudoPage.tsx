@@ -1,14 +1,14 @@
 import { classeBrilho } from '@/components/ui'
 import { useState, type ReactNode } from 'react'
-import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { salvarTema, type Tema } from '../api/conteudo.api'
+import { useLocation, useParams, useSearchParams } from 'react-router-dom'
+import type { Tema } from '../api/conteudo.api'
 import { AulaJanela } from '../components/AulaJanela'
 import { Estado } from '../components/Estado'
-import { FormNome } from '../components/FormNome'
+import { ComeceAquiJanela } from '../components/ComeceAquiJanela'
 import { Divisao, Quadro, type Numero } from '../components/Quadro'
 import { TabelaTemas } from '../components/TabelaTemas'
 import { TemaDetalhe } from '../components/TemaDetalhe'
-import { useSalvar, useSituacaoAulas, useTemas } from '../hooks/usePainel'
+import { useSituacaoAulas, useTemas } from '../hooks/usePainel'
 import { textos } from '../textos'
 
 const t = textos.temas
@@ -20,23 +20,6 @@ function numeros(temas: Tema[], aulas: { publicado: boolean }[]): Numero[] {
     { valor: String(publicadas), rotulo: t.aulasPublicadas, tom: 'ocre' },
     { valor: String(aulas.length - publicadas), rotulo: t.aulasRascunho, tom: 'terracota' },
   ]
-}
-
-function NovoTema({ aoFechar }: { aoFechar: () => void }) {
-  const salvar = useSalvar(salvarTema)
-  const navegar = useNavigate()
-  return (
-    <FormNome
-      titulo={t.novo}
-      rotulo={t.campoTitulo}
-      aoCancelar={aoFechar}
-      aoSalvar={async (dados) => {
-        const novo = await salvar.mutateAsync(dados)
-        aoFechar()
-        navegar(`/app/admin/conteudo/${novo.id}`)
-      }}
-    />
-  )
 }
 
 /** Tema aberto à direita (só detalhes) e a janela da aula quando o endereço é de aula. */
@@ -61,17 +44,12 @@ function useDetalhe(lista: Tema[]) {
 export function ConteudoPage() {
   const temas = useTemas()
   const aulas = useSituacaoAulas()
-  const { pathname } = useLocation()
-  const [criandoEm, setCriandoEm] = useState<string | null>(null)
+  const [comece, setComece] = useState(false)
   const lista = temas.data ?? []
   const { ativo, detalhe, aula } = useDetalhe(lista)
   const novo = (
-    <button
-      type="button"
-      className={classeBrilho('dourado')}
-      onClick={() => setCriandoEm(pathname)}
-    >
-      {t.novo}
+    <button type="button" className={classeBrilho('dourado')} onClick={() => setComece(true)}>
+      {t.comece}
     </button>
   )
   let corpo: ReactNode
@@ -84,7 +62,7 @@ export function ConteudoPage() {
   return (
     <Quadro titulo={t.pagina} acao={novo} numeros={numeros(lista, aulas.data ?? [])}>
       {corpo}
-      {criandoEm === pathname && <NovoTema aoFechar={() => setCriandoEm(null)} />}
+      {comece && <ComeceAquiJanela aoFechar={() => setComece(false)} />}
       {aula}
     </Quadro>
   )

@@ -1,45 +1,50 @@
 # Mapa do projeto
 
 Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim).
-Última atualização: engajamento da aluna (checkin, desafios, ranking, perfil completo).
+Última atualização: Parte 2 da aluna (trilha por tema e etapas, cardápios e receitas, lives).
 
 ## Rotas
 
-| Rota                             | Página                                                  | Feature                       | Acesso      | Carga                    |
-| -------------------------------- | ------------------------------------------------------- | ----------------------------- | ----------- | ------------------------ |
-| /                                | VendasPage                                              | vendas                        | público     | pacote inicial           |
-| /obrigada                        | ObrigadaPage                                            | vendas                        | público     | pacote inicial           |
-| /termos                          | TermosPage                                              | vendas                        | público     | pacote inicial           |
-| /privacidade                     | PrivacidadePage                                         | vendas                        | público     | pacote inicial           |
-| /checkout                        | CheckoutPage                                            | checkout                      | público     | lazy                     |
-| /entrar                          | LoginPage                                               | auth                          | público     | lazy (com ComProvedores) |
-| /app                             | InicioPage (dentro do LayoutAluna, com primeiro acesso) | inicio                        | logada      | lazy (AreaAluna + PWA)   |
-| /app/trilha                      | TrilhaPage                                              | trilha                        | logada      | lazy                     |
-| /app/aula/:id                    | AulaPage                                                | trilha                        | logada      | lazy                     |
-| /app/desafios, /app/desafios/:id | DesafiosPage, DesafioPage                               | desafios                      | logada      | lazy                     |
-| /app/ranking                     | RankingPage                                             | ranking                       | logada      | lazy                     |
-| /app/forum, /app/forum/:id       | ForumPage, DuvidaPage                                   | forum                         | logada      | lazy                     |
-| /definir-senha                   | DefinirSenhaPage (link de convite ou nova senha)        | auth                          | link        | lazy                     |
-| /app/loja, /app/loja/:id         | LojaPage, ProdutoPage                                   | loja                          | logada      | lazy                     |
-| /app/perfil                      | PerfilPage                                              | perfil                        | logada      | lazy                     |
-| /app/admin/...                   | painel (conteúdo, lives, avisos)                        | admin                         | papel admin | lazy (admin, 25 KB)      |
-| checkout                         | checkout próprio (resumo, dados, pagamento, lateral)    | CheckoutPage, salvarInscricao |
-| \*                               | vai para /                                              |                               |             |                          |
+| Rota                                                            | Página                                                     | Feature                       | Acesso      | Carga                    |
+| --------------------------------------------------------------- | ---------------------------------------------------------- | ----------------------------- | ----------- | ------------------------ |
+| /                                                               | VendasPage                                                 | vendas                        | público     | pacote inicial           |
+| /obrigada                                                       | ObrigadaPage                                               | vendas                        | público     | pacote inicial           |
+| /termos                                                         | TermosPage                                                 | vendas                        | público     | pacote inicial           |
+| /privacidade                                                    | PrivacidadePage                                            | vendas                        | público     | pacote inicial           |
+| /checkout                                                       | CheckoutPage                                               | checkout                      | público     | lazy                     |
+| /entrar                                                         | LoginPage                                                  | auth                          | público     | lazy (com ComProvedores) |
+| /app                                                            | InicioPage (dentro do LayoutAluna, com primeiro acesso)    | inicio                        | logada      | lazy (AreaAluna + PWA)   |
+| /app/trilha                                                     | TrilhaPage                                                 | trilha                        | logada      | lazy                     |
+| /app/trilha/aula/:id (/app/aula/:id redireciona)                | AulaPage                                                   | trilha                        | logada      | lazy                     |
+| /app/cardapios, /app/cardapios/:id, /:id/compras, /receitas/:id | CardapiosPage, CardapioPage, ListaComprasPage, ReceitaPage | cardapios                     | logada      | lazy                     |
+| /app/lives                                                      | LivesPage                                                  | lives                         | logada      | lazy                     |
+| /app/desafios, /app/desafios/:id                                | DesafiosPage, DesafioPage                                  | desafios                      | logada      | lazy                     |
+| /app/ranking                                                    | RankingPage                                                | ranking                       | logada      | lazy                     |
+| /app/forum, /app/forum/:id                                      | ForumPage, DuvidaPage                                      | forum                         | logada      | lazy                     |
+| /definir-senha                                                  | DefinirSenhaPage (link de convite ou nova senha)           | auth                          | link        | lazy                     |
+| /app/loja, /app/loja/:id                                        | LojaPage, ProdutoPage                                      | loja                          | logada      | lazy                     |
+| /app/perfil                                                     | PerfilPage                                                 | perfil                        | logada      | lazy                     |
+| /app/admin/...                                                  | painel (conteúdo, lives, avisos)                           | admin                         | papel admin | lazy (admin, 25 KB)      |
+| checkout                                                        | checkout próprio (resumo, dados, pagamento, lateral)       | CheckoutPage, salvarInscricao |
+| \*                                                              | vai para /                                                 |                               |             |                          |
 
 ## Features (src/features)
 
-| Feature  | O que faz                                                                                                                                                                                                                            | Exporta                                                                       |
-| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------- |
-| admin    | painel das profissionais: temas, etapas, aulas, lives, avisos; plano alimentar em admin/plano, pontos em admin/pontos, fórum em admin/forum (fila, dúvida aberta, denúncias, Meu perfil), equipe em admin/equipe, loja em admin/loja | PainelLayout, ConteudoPage, LivesPage, AvisosPage                             |
-| forum    | fórum da aluna: lista, conversa, dúvidas da aula, regras, aviso no Início (README próprio)                                                                                                                                           | ForumPage, DuvidaPage, DuvidasDaAula, AvisoRespondida, Conversa, Responder    |
-| loja     | vitrine da aluna e produto aberto com cupom e Comprar com desconto (README próprio)                                                                                                                                                  | LojaPage, ProdutoPage                                                         |
-| auth     | login, sessão, rota protegida, perfil logado                                                                                                                                                                                         | LoginPage, RotaProtegida, useSessao, usePapel, useNome, useMeuPerfil, useSair |
-| inicio   | tela inicial da aluna: resumo, check-in, aula, live, ranking e desafio ativo                                                                                                                                                         | InicioPage                                                                    |
-| checkin  | check-in de hoje (Água, Treino, Cardio, Tarefa, Refeição), foto do treino e da refeição, sequência (README próprio)                                                                                                                  | CheckinHoje, useSequencia, useHoje                                            |
-| desafios | lista, desafio aberto, calendário, check-in por tipo, ranking do desafio, encerrados (README próprio)                                                                                                                                | DesafiosPage, DesafioPage, CartaoDesafioAtivo, useDesafios                    |
-| ranking  | ranking do mês e do ano, posição dela, cartão do Início (README próprio)                                                                                                                                                             | RankingPage, CartaoRankingInicio, ListaRanking, useMinhaPosicao               |
-| perfil   | topo, resumo, evolução (medidas e gráfico), indicação, configurações, histórico de pontos (README próprio)                                                                                                                           | PerfilPage                                                                    |
-| vendas   | página de vendas, popup de compra, obrigada, termos e privacidade                                                                                                                                                                    | VendasPage, ObrigadaPage, TermosPage, PrivacidadePage                         |
+| Feature   | O que faz                                                                                                                                                                                                                            | Exporta                                                                       |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------- |
+| admin     | painel das profissionais: temas, etapas, aulas, lives, avisos; plano alimentar em admin/plano, pontos em admin/pontos, fórum em admin/forum (fila, dúvida aberta, denúncias, Meu perfil), equipe em admin/equipe, loja em admin/loja | PainelLayout, ConteudoPage, LivesPage, AvisosPage                             |
+| forum     | fórum da aluna: lista, conversa, dúvidas da aula, regras, aviso no Início (README próprio)                                                                                                                                           | ForumPage, DuvidaPage, DuvidasDaAula, AvisoRespondida, Conversa, Responder    |
+| loja      | vitrine da aluna e produto aberto com cupom e Comprar com desconto (README próprio)                                                                                                                                                  | LojaPage, ProdutoPage                                                         |
+| auth      | login, sessão, rota protegida, perfil logado                                                                                                                                                                                         | LoginPage, RotaProtegida, useSessao, usePapel, useNome, useMeuPerfil, useSair |
+| inicio    | tela inicial da aluna: resumo, check-in, aula, live, ranking e desafio ativo                                                                                                                                                         | InicioPage                                                                    |
+| evolucao  | Minha evolução: medidas, gráfico e lista (README próprio)                                                                                                                                                                            | Evolucao, JanelaMedida, useMedidas                                            |
+| cardapios | cardápios do tema, refeições, substituições, lista de compras, receitas e favoritas (README próprio)                                                                                                                                 | CardapiosPage, CardapioPage, ListaComprasPage, ReceitaPage                    |
+| lives     | próxima live, agenda .ics, lembrete no app, entrar com pontos, gravações (README próprio)                                                                                                                                            | LivesPage, LiveHoje                                                           |
+| checkin   | check-in de hoje (Água, Treino, Cardio, Tarefa, Refeição), foto do treino e da refeição, sequência (README próprio)                                                                                                                  | CheckinHoje, useSequencia, useHoje                                            |
+| desafios  | lista, desafio aberto, calendário, check-in por tipo, ranking do desafio, encerrados (README próprio)                                                                                                                                | DesafiosPage, DesafioPage, CartaoDesafioAtivo, useDesafios                    |
+| ranking   | ranking do mês e do ano, posição dela, cartão do Início (README próprio)                                                                                                                                                             | RankingPage, CartaoRankingInicio, ListaRanking, useMinhaPosicao               |
+| perfil    | topo, resumo, evolução (medidas e gráfico), indicação, configurações, histórico de pontos (README próprio)                                                                                                                           | PerfilPage                                                                    |
+| vendas    | página de vendas, popup de compra, obrigada, termos e privacidade                                                                                                                                                                    | VendasPage, ObrigadaPage, TermosPage, PrivacidadePage                         |
 
 ## Referências visuais (docs/referencias)
 
@@ -56,21 +61,26 @@ Componentes do estilo (toda tela nova usa estes): BotaoBrilho, LinkBrilho, Etiqu
 
 ## Regras de negócio (src/domain)
 
-| Arquivo        | Regra                                                                                                           |
-| -------------- | --------------------------------------------------------------------------------------------------------------- |
-| cpf.ts         | CPF válido pelos dígitos verificadores                                                                          |
-| trilha.ts      | aula de hoje, tema e etapa atuais, progresso, semana do acesso, quando cada aula abre                           |
-| forum.ts       | categorias, especialidades e prazo da dúvida (verde, dourado com menos de 12 h, coral vencida)                  |
-| loja.ts        | categorias da loja, % de desconto, preço final pelo %, destaques primeiro                                       |
-| saudacao.ts    | Bom dia, Boa tarde ou Boa noite pela hora de Brasília                                                           |
-| oferta.ts      | oferta do ORA válida até 24/10/2026 23h59 de Brasília                                                           |
-| engajamento.ts | dias seguidos, últimos 7 dias, falta para subir, cor da posição, dias e progresso do desafio, pontos do gráfico |
-| precos.ts      | preços vigentes (oferta ou cheio), âncora riscada, desconto da oferta, contagem, PLANOS                         |
+| Arquivo            | Regra                                                                                                           |
+| ------------------ | --------------------------------------------------------------------------------------------------------------- |
+| cpf.ts             | CPF válido pelos dígitos verificadores                                                                          |
+| trilha.ts          | aula de hoje, tema e etapa atuais, progresso, semana do acesso, quando cada aula abre                           |
+| forum.ts           | categorias, especialidades e prazo da dúvida (verde, dourado com menos de 12 h, coral vencida)                  |
+| loja.ts            | categorias da loja, % de desconto, preço final pelo %, destaques primeiro                                       |
+| saudacao.ts        | Bom dia, Boa tarde ou Boa noite pela hora de Brasília                                                           |
+| oferta.ts          | oferta do ORA válida até 24/10/2026 23h59 de Brasília                                                           |
+| dia.ts             | dia da aluna pelo calendário de Brasília (igual a public.dia_atual_de)                                          |
+| lives.ts           | janela de entrar (30 min antes até o fim), contagem, profissionais                                              |
+| plano.ts           | tipos de refeição, objetivos e objetivo de cada tema                                                            |
+| formatoCardapio.ts | formato jsonb do cardápio (painel e aluna)                                                                      |
+| engajamento.ts     | dias seguidos, últimos 7 dias, falta para subir, cor da posição, dias e progresso do desafio, pontos do gráfico |
+| precos.ts          | preços vigentes (oferta ou cheio), âncora riscada, desconto da oferta, contagem, PLANOS                         |
 
 ## Utilitários (src/lib)
 
 | Arquivo        | Faz                                                                                  |
 | -------------- | ------------------------------------------------------------------------------------ |
+| ics.ts         | arquivo .ics de agenda com alarme 1 h antes                                          |
 | fotos.ts       | sobe foto comprimida na pasta da usuária (checkins, evolucao) e lê por link assinado |
 | imagem.ts      | comprime foto no navegador (lado maior 1200 px, WebP)                                |
 | supabase.ts    | cliente Supabase tipado                                                              |
@@ -99,6 +109,8 @@ Componentes do estilo (toda tela nova usa estes): BotaoBrilho, LinkBrilho, Etiqu
 
 | Objeto                                                                                                                                                                                                                               | Tipo                                                                                                                                                                                   | Migração                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| temas.tipo e chave (Preparação e 5 temas semeados), etapas.chave, perfis.tema_atual_id, etapas_iniciadas, dia_atual_de(), aula_liberada(), atualizar_etapas(), trilha_aluna(), escolher_tema(); minha_trilha removida                | trilha por tema: preparação pelo dia da aluna, etapa abre com 80% e 30 dias; RLS de aulas por aula_liberada                                                                            | 20261010090000_trilha_cardapios_lives                                       |
+| comece_aqui, comece_aqui_feitos, lives.profissional e duracao_minutos, lives_presencas, lives_lembretes, entrar_live(), receitas.tempo_minutos, refeicoes e objetivos, receitas_favoritas, lista_compras_marcados                    | Comece por aqui editável, presença com pontos uma vez (janela no banco), lembrete, favoritas e lista marcada por aluna                                                                 | 20261010090000_trilha_cardapios_lives                                       |
 | fazer_checkin(tipo, foto, tipo_treino, duracao) (nova assinatura), checkins.duracao_minutos, ranking_pontos(), meus_desafios(), entrar_desafio(), checkin_desafio(), ranking_desafio(), medidas, perfis.avatar_path, bucket evolucao | engajamento: treino e refeição exigem foto, check-in repetido devolve 0 pontos; ranking esconde quem ocultou (menos ela); medidas só dona e admin                                      | 20261009090000_engajamento                                                  |
 | perfis                                                                                                                                                                                                                               | tabela (RLS)                                                                                                                                                                           | 20261004000000_criar_perfis                                                 |
 | papel                                                                                                                                                                                                                                | enum (aluna, admin)                                                                                                                                                                    | 20261004000000_criar_perfis                                                 |

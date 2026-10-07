@@ -1,16 +1,23 @@
 import { describe, expect, it } from 'vitest'
-import { abreEm, aulaDeHoje, progresso, semanaDoAcesso, temaAtual, type AulaTrilha } from './trilha'
+import {
+  aulaDeHoje,
+  condicoesDaEtapa,
+  diasParaEscolha,
+  etapaAtual,
+  precisaEscolherTema,
+  progresso,
+  semanaDoAcesso,
+  type AulaTrilha,
+  type EtapaTrilha,
+} from './trilha'
 
 const aula = (id: string, extra: Partial<AulaTrilha> = {}): AulaTrilha => ({
   id,
-  tema_id: 't1',
-  tema_titulo: 'Comece por aqui',
-  etapa_id: 'e1',
-  etapa_titulo: 'Arrancada',
   titulo: `Aula ${id}`,
   profissional: 'Ana',
   duracao_minutos: 8,
   dia_liberacao: 1,
+  ordem: 0,
   liberada: true,
   concluida: false,
   ...extra,
@@ -18,8 +25,7 @@ const aula = (id: string, extra: Partial<AulaTrilha> = {}): AulaTrilha => ({
 
 describe('aulaDeHoje', () => {
   it('é a primeira liberada que falta concluir', () => {
-    const lista = [aula('a', { concluida: true }), aula('b'), aula('c')]
-    expect(aulaDeHoje(lista)?.id).toBe('b')
+    expect(aulaDeHoje([aula('a', { concluida: true }), aula('b'), aula('c')])?.id).toBe('b')
   })
   it('com tudo concluído, fica na última liberada', () => {
     const lista = [
@@ -34,36 +40,47 @@ describe('aulaDeHoje', () => {
   })
 })
 
-describe('temaAtual', () => {
-  it('usa o tema e a etapa da aula de hoje e agrupa as etapas na ordem', () => {
-    const lista = [
-      aula('a', { concluida: true }),
-      aula('b', { etapa_id: 'e2', etapa_titulo: 'Constância' }),
-      aula('c', { tema_id: 't2', tema_titulo: 'Outro', etapa_id: 'e3', liberada: false }),
-    ]
-    const tema = temaAtual(lista)
-    expect(tema?.titulo).toBe('Comece por aqui')
-    expect(tema?.etapaAtual).toBe('e2')
-    expect(tema?.etapas.map((e) => e.titulo)).toEqual(['Arrancada', 'Constância'])
+describe('desbloqueio da etapa (80% e 30 dias)', () => {
+  it('80% e 30 dias: abre', () => {
+    expect(condicoesDaEtapa(15, 12, 30).pode).toBe(true)
   })
-  it('sem aulas, não há tema', () => {
-    expect(temaAtual([])).toBeNull()
+  it('80% sem 30 dias: não abre', () => {
+    const c = condicoesDaEtapa(15, 12, 18)
+    expect([c.aulasOk, c.diasOk, c.pode]).toEqual([true, false, false])
+  })
+  it('30 dias sem 80%: não abre e diz quantas aulas faltam', () => {
+    const c = condicoesDaEtapa(15, 10, 31)
+    expect([c.aulasOk, c.diasOk, c.pode, c.faltamAulas]).toEqual([false, true, false, 2])
+  })
+  it('nenhuma das duas: não abre', () => {
+    expect(condicoesDaEtapa(15, 3, 5).pode).toBe(false)
+  })
+  it('etapa sem aulas nunca abre a próxima', () => {
+    expect(condicoesDaEtapa(0, 0, 40).pode).toBe(false)
   })
 })
 
-describe('progresso, semana e abertura', () => {
-  it('progresso arredonda a porcentagem de concluídas', () => {
-    expect(progresso([aula('a', { concluida: true }), aula('b'), aula('c')])).toBe(33)
-    expect(progresso([])).toBe(0)
+describe('outras regras', () => {
+  it('progresso e semana', () => {
+    expect(progresso([aula('a', { concluida: true }), aula('b')])).toBe(50)
+    expect([1, 7, 8].map(semanaDoAcesso)).toEqual([1, 1, 2])
   })
-  it('dias 1 a 7 são a semana 1, dia 8 abre a semana 2', () => {
-    expect(semanaDoAcesso(1)).toBe(1)
-    expect(semanaDoAcesso(7)).toBe(1)
-    expect(semanaDoAcesso(8)).toBe(2)
+  it('escolha do tema no dia 8', () => {
+    expect(diasParaEscolha(3)).toBe(5)
+    expect(precisaEscolherTema({ dia: 7, tema_atual: null })).toBe(false)
+    expect(precisaEscolherTema({ dia: 8, tema_atual: null })).toBe(true)
+    expect(precisaEscolherTema({ dia: 9, tema_atual: 't' })).toBe(false)
   })
-  it('aula do dia 8 abre 7 x 24 h depois do início, como no banco', () => {
-    const inicio = new Date('2026-10-06T14:30:00Z')
-    expect(abreEm(inicio, 1).toISOString()).toBe('2026-10-06T14:30:00.000Z')
-    expect(abreEm(inicio, 8).toISOString()).toBe('2026-10-13T14:30:00.000Z')
+  it('etapa atual é a última iniciada', () => {
+    const e = (id: string, iniciada_em: string | null): EtapaTrilha => ({
+      id,
+      chave: null,
+      titulo: id,
+      ordem: Number(id),
+      iniciada_em,
+      dia_na_etapa: null,
+      aulas: [],
+    })
+    expect(etapaAtual([e('1', '2026-10-01'), e('2', '2026-10-31'), e('3', null)])?.id).toBe('2')
   })
 })

@@ -53,7 +53,7 @@ export function JanelaEditar({ nome, apelido, avatar, aoFechar }: Props) {
           <div className="flex flex-col gap-1">
             <span className="font-bold">{t.foto}</span>
             <EscolherFoto
-              rotulo={arquivo ? textos.evolucao.trocarFoto : textos.evolucao.escolherFoto}
+              rotulo={arquivo ? t.trocarFoto : t.escolherFoto}
               escolhida={Boolean(arquivo)}
               aoEscolher={setArquivo}
               camera={false}

@@ -10,6 +10,9 @@ export type FormReceita = {
   preparo: string
   porcoes: number
   tags: string
+  tempo: string
+  refeicoes: string[]
+  objetivos: string[]
   calcular: boolean
   itens: IngredienteLocal[]
   publicado: boolean
@@ -23,6 +26,9 @@ export function deReceita(r?: ReceitaCompleta): FormReceita {
     preparo: r?.preparo ?? '',
     porcoes: r?.porcoes ?? 1,
     tags: (r?.tags ?? []).join(', '),
+    tempo: r?.tempo_minutos ? String(r.tempo_minutos) : '',
+    refeicoes: r?.refeicoes ?? [],
+    objetivos: r?.objetivos ?? [],
     calcular: r?.calcular ?? false,
     itens: (r?.receita_itens ?? []).map((i) => ({
       alimento_id: i.alimento_id,
@@ -55,6 +61,9 @@ export function paraBanco(f: FormReceita, id?: string) {
       preparo: f.preparo,
       porcoes: Math.min(Math.max(Math.round(f.porcoes) || 1, 1), 100),
       tags: lerTags(f.tags),
+      tempo_minutos: /^[1-9]\d{0,3}$/.test(f.tempo.trim()) ? Math.min(Number(f.tempo), 1440) : null,
+      refeicoes: f.refeicoes,
+      objetivos: f.objetivos,
       calcular: f.calcular,
       publicado: f.publicado,
     },

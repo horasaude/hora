@@ -25,37 +25,45 @@ export const esquemaTema = z.object({
 
 export const esquemaEtapa = esquemaTema
 
-export const esquemaAula = z
-  .object({
-    titulo: titulo(160),
-    descricao: z.string().trim().max(5000),
-    video_url: linkObrigatorio,
-    material_url: linkOpcional,
-    profissional: z
-      .string()
-      .trim()
-      .max(80)
-      .transform((v) => v || null),
-    duracao: z
-      .string()
-      .trim()
-      .refine((v) => v === '' || /^[1-9]\d{0,2}$/.test(v), e.duracao)
-      .transform((v) => (v ? Number(v) : null)),
-    liberacao: z.enum(['compra', 'sete', 'outro']),
-    dia: z.string(),
-  })
-  .refine((v) => v.liberacao !== 'outro' || /^[1-9]\d{0,3}$/.test(v.dia), {
-    path: ['dia'],
-    message: e.dia,
-  })
-  .transform(({ liberacao, dia, duracao, ...resto }) => ({
-    ...resto,
-    duracao_minutos: duracao,
-    dia_liberacao: liberacao === 'compra' ? 1 : liberacao === 'sete' ? 8 : Number(dia),
-  }))
+/** Aula: o dia de liberação é o dia da preparação (1 a 7) ou o dia dentro da etapa do tema. */
+export const esquemaAulaAte = (maxDia: number) =>
+  z
+    .object({
+      titulo: titulo(160),
+      descricao: z.string().trim().max(5000),
+      video_url: linkObrigatorio,
+      material_url: linkOpcional,
+      profissional: z
+        .string()
+        .trim()
+        .max(80)
+        .transform((v) => v || null),
+      duracao: z
+        .string()
+        .trim()
+        .refine((v) => v === '' || /^[1-9]\d{0,2}$/.test(v), e.duracao)
+        .transform((v) => (v ? Number(v) : null)),
+      dia: z
+        .string()
+        .trim()
+        .refine((v) => /^[1-9]\d{0,3}$/.test(v) && Number(v) <= maxDia, e.dia),
+    })
+    .transform(({ dia, duracao, ...resto }) => ({
+      ...resto,
+      duracao_minutos: duracao,
+      dia_liberacao: Number(dia),
+    }))
+
+export const esquemaAula = esquemaAulaAte(9999)
 
 export const esquemaLive = z.object({
   tema: titulo(160),
+  profissional: z.enum(['ana', 'clara', 'lais', '']).transform((v) => v || null),
+  duracao_minutos: z
+    .string()
+    .trim()
+    .refine((v) => /^\d{2,3}$/.test(v) && Number(v) >= 15 && Number(v) <= 300, e.duracaoLive)
+    .transform(Number),
   data: quando,
   convidada: z
     .string()
@@ -72,12 +80,8 @@ export const esquemaAviso = z.object({
   publicar_em: quando,
 })
 
-/** Como o dia de liberação aparece no formulário. */
-export function liberacaoDoDia(dia: number): {
-  liberacao: 'compra' | 'sete' | 'outro'
-  dia: string
-} {
-  if (dia === 1) return { liberacao: 'compra', dia: '1' }
-  if (dia === 8) return { liberacao: 'sete', dia: '8' }
-  return { liberacao: 'outro', dia: String(dia) }
-}
+export const esquemaComeceAqui = z.object({
+  video_url: linkOpcional,
+  texto: z.string().trim().max(5000),
+})
+export type EntradaComece = z.input<typeof esquemaComeceAqui>

@@ -1,3 +1,6 @@
 export { TrilhaPage } from './pages/TrilhaPage'
 export { AulaPage } from './pages/AulaPage'
 export { useTrilha } from './hooks/useTrilha'
+export { EscolhaAoAbrir } from './components/EscolhaAoAbrir'
+export { MeuTema } from './components/MeuTema'
+export { TagTema } from './components/Temas'

@@ -25,6 +25,7 @@ export const textos = {
   seguidos: (n: number) => (n === 1 ? '1 dia seguido' : `${n} dias seguidos`),
   semanaRotulo: (n: number) => `Check-in em ${n} dos últimos 7 dias`,
   erro: 'Não deu certo agora. Tente de novo.',
+  refeicaoFeita: 'Refeição registrada hoje',
   carregando: 'Carregando seus check-ins',
   foto: {
     treino: 'Foto do treino',

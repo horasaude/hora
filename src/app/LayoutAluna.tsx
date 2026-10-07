@@ -2,6 +2,7 @@ import { Outlet } from 'react-router-dom'
 import { LogoHora } from '@/components/ui'
 import { useMeuPerfil, useRegistrarAcesso } from '@/features/auth'
 import { PrimeiroAcesso } from '@/features/primeiro-acesso'
+import { EscolhaAoAbrir } from '@/features/trilha'
 import { BarraInferior, BarraLateral } from './NavegacaoAluna'
 import { textosAluna as t } from './textosAluna'
 
@@ -44,6 +45,7 @@ export function LayoutAluna() {
             </div>
           </main>
           <BarraInferior />
+          {p?.papel !== 'admin' && <EscolhaAoAbrir />}
         </>
       )}
     </div>

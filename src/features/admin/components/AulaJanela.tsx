@@ -1,8 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { BotaoBrilho, Janela } from '@/components/ui'
 import { salvarAula } from '../api/conteudo.api'
-import { useAula, useSalvar } from '../hooks/usePainel'
-import { liberacaoDoDia } from '../schemas/formularios'
+import { useAula, useSalvar, useTemas } from '../hooks/usePainel'
 import { textos } from '../textos'
 import { Estado } from './Estado'
 import { FormAula, type EntradaAula } from './FormAula'
@@ -14,7 +13,6 @@ const VAZIA: EntradaAula = {
   material_url: '',
   profissional: '',
   duracao: '',
-  liberacao: 'compra',
   dia: '1',
 }
 
@@ -25,6 +23,7 @@ export function AulaJanela({ aulaId, etapaId, temaId }: Props) {
   const navegar = useNavigate()
   const aula = useAula(aulaId)
   const salvar = useSalvar(salvarAula)
+  const preparacao = useTemas().data?.find((x) => x.id === temaId)?.tipo === 'preparacao'
   const voltar = () => navegar(temaId ? `/app/admin/conteudo/${temaId}` : '/app/admin/conteudo')
   if (aulaId && aula.isPending) return null
   if (aulaId && aula.isError) {
@@ -52,11 +51,12 @@ export function AulaJanela({ aulaId, etapaId, temaId }: Props) {
         material_url: a.material_url ?? '',
         profissional: a.profissional ?? '',
         duracao: a.duracao_minutos ? String(a.duracao_minutos) : '',
-        ...liberacaoDoDia(a.dia_liberacao),
+        dia: String(a.dia_liberacao),
       }
     : VAZIA
   return (
     <FormAula
+      preparacao={preparacao}
       titulo={aulaId ? textos.aulas.editar : textos.aulas.nova}
       inicial={inicial}
       aoCancelar={voltar}

@@ -11,6 +11,7 @@ import { testarForum } from './forum.test.mjs'
 import { testarEquipe } from './equipe.test.mjs'
 import { testarLoja } from './loja.test.mjs'
 import { testarEngajamento } from './engajamento.test.mjs'
+import { testarCardapiosLives } from './cardapios_lives.test.mjs'
 
 const suites = [
   testarPerfis,
@@ -25,6 +26,7 @@ const suites = [
   testarEquipe,
   testarLoja,
   testarEngajamento,
+  testarCardapiosLives,
 ]
 let falhas = 0
 for (const suite of suites) falhas += await suite()

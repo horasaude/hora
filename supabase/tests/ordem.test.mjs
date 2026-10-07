@@ -17,6 +17,7 @@ export async function testarOrdem() {
   )
   await db.exec(`
     update public.perfis set papel = 'admin' where id = '${ADMIN}';
+    delete from public.temas;
     insert into public.temas (id, titulo, ordem) values ('${ID(11)}', 'A', 0), ('${ID(12)}', 'B', 0), ('${ID(13)}', 'C', 0);
     insert into public.etapas (id, tema_id, titulo, ordem) values
       ('${ID(21)}', '${ID(11)}', 'E1', 1), ('${ID(22)}', '${ID(11)}', 'E2', 2), ('${ID(23)}', '${ID(11)}', 'E3', 3);

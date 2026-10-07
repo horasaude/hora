@@ -142,11 +142,7 @@ async function desafios(t) {
     `select (feito_hoje and participando and dias_feitos = 1 and participantes = 1) from public.meus_desafios() where id = '${AGUA}'`,
     true,
   )
-  await esperaErro(
-    'desafio de foto pede foto',
-    `select public.checkin_desafio('${FOTO}')`,
-    '22023',
-  )
+  await esperaErro('desafio de foto pede foto', `select public.checkin_desafio('${FOTO}')`, '22023')
   await esperaErro(
     'foto de outra pessoa é recusada',
     `select public.checkin_desafio('${FOTO}', null, '${AMIGA}/x.webp')`,
@@ -189,7 +185,10 @@ async function medidas(t) {
     `insert into public.medidas (peso, cintura, foto_path) values (72.4, 80, '${ALUNA}/m.webp') returning (peso = 72.4)`,
     true,
   )
-  await esperaErro('medida vazia é recusada', `insert into public.medidas (dia) values (public.hoje_brasilia())`)
+  await esperaErro(
+    'medida vazia é recusada',
+    `insert into public.medidas (dia) values (public.hoje_brasilia())`,
+  )
   await esperaErro(
     'foto da medida na pasta de outra',
     `insert into public.medidas (peso, foto_path) values (70, '${AMIGA}/m.webp')`,

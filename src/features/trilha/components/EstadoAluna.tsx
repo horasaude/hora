@@ -1,16 +1,11 @@
-import { Cartao } from '@/components/ui'
+import { Carregando, Cartao } from '@/components/ui'
 import { textos } from '../textos'
 
 type Props = { tipo: 'carregando' | 'erro' | 'aviso'; texto?: string; tentar?: () => void }
 
 /** Carregando, erro com tentar de novo, ou um aviso curto num cartão. */
 export function EstadoAluna({ tipo, texto, tentar }: Props) {
-  if (tipo === 'carregando')
-    return (
-      <p role="status" className="py-12 text-center text-sm text-suave">
-        {textos.carregando}
-      </p>
-    )
+  if (tipo === 'carregando') return <Carregando texto={textos.carregando} blocos={4} />
   return (
     <Cartao role={tipo === 'erro' ? 'alert' : undefined} className="text-center text-sm text-tinta">
       <p>{tipo === 'erro' ? textos.erro : texto}</p>

@@ -20,6 +20,11 @@ export function LiveDetalhe({ live }: { live: Live }) {
       <Dados
         itens={[
           [t.colunaData, formatarDataHora(new Date(live.data))],
+          ...opcional(
+            t.campoProfissional,
+            live.profissional ? t.nomes[live.profissional as keyof typeof t.nomes] : null,
+          ),
+          [t.campoDuracao, t.minutos(live.duracao_minutos)],
           ...opcional(t.convidada, live.convidada),
           ...opcional(t.link, live.link_url),
           ...opcional(t.gravacao, live.gravacao_url),

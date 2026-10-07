@@ -1,81 +1,94 @@
 import { useState } from 'react'
-import { BarraProgresso } from '@/components/ui'
-import { useMeuPerfil } from '@/features/auth'
-import { diaEMes } from '@/lib/datas'
-import {
-  abreEm,
-  aulaDeHoje,
-  DIAS_DE_PREPARACAO,
-  progresso,
-  semanaDoAcesso,
-  temaAtual,
-  type AulaTrilha,
-  type TemaTrilha,
-} from '@/domain/trilha'
-import { CartaoAula } from '../components/CartaoAula'
-import { AbasEtapas } from '../components/Etapas'
+import { Cartao, classeBrilho, Vazio } from '@/components/ui'
+import { diasParaEscolha, etapaAtual, precisaEscolherTema, type Trilha } from '@/domain/trilha'
+import { ListaAulas } from '../components/CartaoAula'
+import { ComeceAqui } from '../components/ComeceAqui'
+import { EscolhaTema } from '../components/EscolhaTema'
+import { AbasEtapas, ConteudoEtapa } from '../components/Etapas'
 import { EstadoAluna } from '../components/EstadoAluna'
+import { TopoTrilha } from '../components/TopoTrilha'
 import { useTrilha } from '../hooks/useTrilha'
 import { textos } from '../textos'
 
-type Conteudo = { tema: TemaTrilha; aulas: AulaTrilha[]; dia: number; inicio: Date | null }
-
-function Tema({ tema, aulas, dia, inicio }: Conteudo) {
-  const [aba, setAba] = useState(tema.etapaAtual)
-  const etapa = tema.etapas.find((e) => e.id === aba) ?? tema.etapas[0]
-  const proxima = aulaDeHoje(aulas)
-  const preparando = dia <= DIAS_DE_PREPARACAO
-  const daEtapa = etapa?.aulas ?? []
-  const pct = progresso(daEtapa)
-  const faltam = daEtapa.filter((a) => !a.concluida).length
-  const estado = (a: AulaTrilha) =>
-    !a.liberada
-      ? 'fechada'
-      : a.concluida
-        ? 'concluida'
-        : a.id === proxima?.id
-          ? 'proxima'
-          : 'liberada'
+function Preparacao({ trilha }: { trilha: Trilha }) {
+  const t = textos.preparacao
   return (
-    <section className="flex flex-col gap-5 lg:gap-7">
-      <header>
-        <h1 className="text-[28px] leading-tight font-bold text-verde-escuro lg:text-[30px]">
-          {preparando ? textos.preparacao.titulo : tema.titulo}
-        </h1>
-        {preparando && <p className="mt-1 text-sm text-suave">{textos.preparacao.subtitulo}</p>}
-      </header>
-      <div className="flex flex-col gap-5 lg:max-w-2xl">
-        <AbasEtapas etapas={tema.etapas} ativa={etapa?.id ?? ''} aoEscolher={setAba} />
-        <BarraProgresso
-          pct={pct}
-          rotulo={textos.rotuloProgresso}
-          legenda={textos.progresso(pct, semanaDoAcesso(dia), faltam)}
-        />
+    <section className="flex flex-col gap-4">
+      <div>
+        <h2 className="text-[19px] font-bold text-verde-escuro">{t.titulo}</h2>
+        <p className="text-sm text-suave">{t.subtitulo}</p>
       </div>
-      <ul className="grid gap-3 lg:grid-cols-2 lg:gap-4">
-        {etapa?.aulas.map((a) => (
-          <CartaoAula
-            key={a.id}
-            aula={a}
-            estado={estado(a)}
-            abre={inicio ? diaEMes(abreEm(inicio, a.dia_liberacao)) : undefined}
-          />
-        ))}
-      </ul>
+      {trilha.preparacao.length === 0 ? (
+        <Vazio>{t.vazio}</Vazio>
+      ) : (
+        <ListaAulas
+          aulas={trilha.preparacao}
+          fechada={(a) => textos.liberaNoDia(a.dia_liberacao)}
+        />
+      )}
     </section>
   )
 }
 
-/** Trilha: tema atual (ou "Comece por aqui" nos dias 1 a 7), etapas em abas, progresso e aulas. */
+function AguardandoEscolha({ dia }: { dia: number }) {
+  return (
+    <Cartao className="flex flex-col gap-1 border-2 border-dourado/40">
+      <p className="text-[17px] font-bold text-tinta">{textos.escolhaEm(diasParaEscolha(dia))}</p>
+      <p className="text-sm text-suave">{textos.escolhaTexto}</p>
+    </Cartao>
+  )
+}
+
+function DoTema({ trilha }: { trilha: Trilha }) {
+  const [aba, setAba] = useState(() => etapaAtual(trilha.etapas)?.id ?? trilha.etapas[0]?.id ?? '')
+  const [preparo, setPreparo] = useState(false)
+  const etapa = trilha.etapas.find((e) => e.id === aba) ?? trilha.etapas[0]
+  return (
+    <section className="flex flex-col gap-5">
+      <AbasEtapas etapas={trilha.etapas} ativa={etapa?.id ?? ''} aoEscolher={setAba} />
+      {etapa && <ConteudoEtapa key={etapa.id} etapa={etapa} etapas={trilha.etapas} />}
+      <button
+        type="button"
+        onClick={() => setPreparo((v) => !v)}
+        className={`${classeBrilho('cinza', 'sm')} self-start`}
+      >
+        {textos.verPreparacao}
+      </button>
+      {preparo && <Preparacao trilha={trilha} />}
+    </section>
+  )
+}
+
+/** Trilha: topo com o dia, Comece por aqui, preparação (dias 1 a 7), escolha do tema e etapas. */
 export function TrilhaPage() {
   const trilha = useTrilha()
-  const perfil = useMeuPerfil()
   if (trilha.isPending) return <EstadoAluna tipo="carregando" />
   if (trilha.isError) return <EstadoAluna tipo="erro" tentar={() => trilha.refetch()} />
-  const { aulas, dia } = trilha.data
-  if (dia === null) return <EstadoAluna tipo="aviso" texto={textos.semAcesso} />
-  const tema = temaAtual(aulas)
-  if (!tema) return <EstadoAluna tipo="aviso" texto={textos.vazio} />
-  const inicio = perfil.data?.acesso_inicio_em ? new Date(perfil.data.acesso_inicio_em) : null
-  return <Tema key={tema.id} tema={tema} aulas={aulas} dia={dia} inicio={inicio} />
+  const t = trilha.data
+  if (t.dia === null) return <EstadoAluna tipo="aviso" texto={textos.semAcesso} />
+  const tema = t.temas.find((x) => x.id === t.tema_atual) ?? null
+  const atual = etapaAtual(t.etapas)
+  return (
+    <section className="flex flex-col gap-6 lg:gap-8">
+      <TopoTrilha dia={t.dia} tema={tema} aulas={tema ? (atual?.aulas ?? []) : t.preparacao} />
+      <ComeceAqui />
+      {tema ? (
+        <DoTema trilha={t} />
+      ) : precisaEscolherTema(t) ? (
+        <section className="flex flex-col gap-4">
+          <div>
+            <h2 className="text-[19px] font-bold text-verde-escuro">{textos.tema.titulo}</h2>
+            <p className="text-sm text-suave">{textos.tema.texto}</p>
+          </div>
+          <EscolhaTema temas={t.temas} />
+          <Preparacao trilha={t} />
+        </section>
+      ) : (
+        <>
+          <AguardandoEscolha dia={t.dia} />
+          <Preparacao trilha={t} />
+        </>
+      )}
+    </section>
+  )
 }

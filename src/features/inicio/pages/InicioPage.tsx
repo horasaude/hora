@@ -2,13 +2,14 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Cartao, classeBrilho } from '@/components/ui'
 import { saudacaoPorHora } from '@/domain/saudacao'
-import { aulaDeHoje } from '@/domain/trilha'
+import { aulaDeHoje, aulasEmAndamento } from '@/domain/trilha'
 import { useMeuPerfil } from '@/features/auth'
 import { AvisoRespondida } from '@/features/forum'
 import { useTrilha } from '@/features/trilha'
 import { horaEmBrasilia } from '@/lib/datas'
 import { CheckinHoje, useHoje } from '@/features/checkin'
 import { CartaoDesafioAtivo } from '@/features/desafios'
+import { LiveHoje } from '@/features/lives'
 import { CartaoRankingInicio } from '@/features/ranking'
 import { AulaDeHoje, FaixaLive } from '../components/Cartoes'
 import { Resumo } from '../components/Resumo'
@@ -47,7 +48,7 @@ export function InicioPage() {
   const trilha = useTrilha()
   const live = useProximaLive()
   const nome = primeiroNome(perfil.data?.nome, perfil.data?.apelido)
-  const aula = trilha.data ? aulaDeHoje(trilha.data.aulas) : null
+  const aula = trilha.data ? aulaDeHoje(aulasEmAndamento(trilha.data)) : null
   const semAcesso = trilha.isSuccess && trilha.data.dia === null
   return (
     <section className="flex flex-col gap-4 lg:gap-8">
@@ -70,6 +71,7 @@ export function InicioPage() {
               {live.data && <FaixaLive live={live.data} />}
             </div>
             <div className="flex flex-col gap-4 lg:gap-6">
+              <LiveHoje />
               <CartaoRankingInicio />
               <CartaoDesafioAtivo hoje={hoje} />
               <div className="flex flex-wrap gap-2 lg:hidden">
@@ -78,6 +80,12 @@ export function InicioPage() {
                 </Link>
                 <Link to="/app/loja" className={classeBrilho('cinza')}>
                   {textos.loja}
+                </Link>
+                <Link to="/app/cardapios" className={classeBrilho('cinza')}>
+                  {textos.cardapios}
+                </Link>
+                <Link to="/app/lives" className={classeBrilho('cinza')}>
+                  {textos.lives}
                 </Link>
               </div>
             </div>

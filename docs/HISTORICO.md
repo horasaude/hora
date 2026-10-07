@@ -2,6 +2,15 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-06 · main · Parte 2 da aluna: trilha por tema, cardápios e lives
+
+- Dia da aluna agora é de calendário (Brasília, vira à meia-noite): src/domain/dia.ts e public.dia_atual_de, com testes de virada, dia 1, 7, 8 e 31. Regra trocada no CLAUDE.md (antes eram 24 h exatas).
+- Banco (20261010090000_trilha_cardapios_lives; suítes de trilha e de cardápios e lives novas, antigas ajustadas): Preparação e os 5 temas semeados com Arrancada, Constância e Manutenção; etapas_iniciadas; aula_liberada na RLS (aula fechada nunca devolve vídeo); trilha_aluna abre a próxima etapa com 80% e 30 dias; escolher_tema só a partir do dia 8; Comece por aqui; lives com profissional, duração, presença e entrar_live (pontos uma vez, janela no banco); receitas com tempo, refeições e temas; favoritas; lista de compras marcada por aluna.
+- Trilha: Dia X de 365, barra dourada e tag do tema; Comece por aqui com vídeo e 5 passos; preparação com cadeado; escolha do tema no dia 8 (modal e seletor); abas das etapas com metas em barras e aviso de conquista; aula com vídeo grande, Concluir aula, Próxima aula, navegação lateral, material e "Tenho uma dúvida"; Perfil > Meu tema.
+- Cardápios: lista do tema, refeições por horário com substituições, totais e Registrar refeição; lista de compras de 3, 7 ou 14 dias com marcar, WhatsApp e Imprimir; receitas com filtros, preparo numerado, nutrição por porção e favoritar.
+- Lives: próxima live com borda dourada, contagem, .ics, Me lembrar (só no app), Entrar na live na janela; gravações com player; card da live do dia no Início. Painel: Comece por aqui editável, frase do tema, dia de liberação por preparação ou etapa, profissional e duração da live, tempo, refeições e temas da receita. Esqueleto de carregamento nas telas da aluna.
+- Pendente: push e e-mail do lembrete da live (ver README de lives); cardápio de vários dias (abas por dia); conteúdo real das aulas, cardápios e lives no painel.
+
 ## 2026-10-06 · main · Engajamento da aluna (check-in, desafios, ranking, perfil)
 
 - Banco (20261009090000_engajamento, 51 checagens novas no PGlite; pontos ajustado à nova assinatura): fazer_checkin com tipo e duração do treino, foto obrigatória em treino e refeição, repetido devolve 0; ranking_pontos (mês e ano), meus_desafios, entrar_desafio, checkin_desafio (devolve os pontos), ranking_desafio; tabela medidas e espaço privado evolucao; perfis.avatar_path.

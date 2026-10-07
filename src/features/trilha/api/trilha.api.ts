@@ -1,7 +1,6 @@
+import type { Trilha } from '@/domain/trilha'
 import { supabase } from '@/lib/supabase'
-import type { AulaTrilha } from '@/domain/trilha'
-
-export type Trilha = { aulas: AulaTrilha[]; dia: number | null }
+import { esquemaTrilha } from '../schemas/trilha.schema'
 
 export type AulaAberta = {
   id: string
@@ -13,15 +12,11 @@ export type AulaAberta = {
   duracao_minutos: number | null
 }
 
-/** Trilha da aluna (fechadas vêm sem vídeo) e o dia do acesso; dia null = sem acesso ativo. */
+/** Trilha da aluna (o banco abre as etapas que cumpriram as metas e nunca manda vídeo de aula fechada). */
 export async function buscarTrilha(): Promise<Trilha> {
-  const [trilha, dia] = await Promise.all([
-    supabase.rpc('minha_trilha'),
-    supabase.rpc('dia_de_acesso'),
-  ])
-  if (trilha.error) throw trilha.error
-  if (dia.error) throw dia.error
-  return { aulas: trilha.data ?? [], dia: dia.data ?? null }
+  const { data, error } = await supabase.rpc('trilha_aluna')
+  if (error) throw error
+  return esquemaTrilha.parse(data)
 }
 
 /** Aula liberada para a aluna; null quando ainda não abriu (o banco não entrega). */
@@ -44,10 +39,15 @@ export async function aulaConcluida(id: string): Promise<boolean> {
   return (count ?? 0) > 0
 }
 
-/** Marca ou desmarca a aula como concluída pela aluna logada. */
+/** Marca ou desmarca a aula como concluída (os 10 pontos saem uma vez só, pelo banco). */
 export async function marcarConcluida(id: string, concluida: boolean): Promise<void> {
   const { error } = concluida
     ? await supabase.from('aulas_concluidas').insert({ aula_id: id })
     : await supabase.from('aulas_concluidas').delete().eq('aula_id', id)
   if (error && error.code !== '23505') throw error
+}
+
+export async function escolherTema(tema: string): Promise<void> {
+  const { error } = await supabase.rpc('escolher_tema', { p_tema: tema })
+  if (error) throw error
 }

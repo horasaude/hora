@@ -1,66 +1,82 @@
 import { Link } from 'react-router-dom'
-import { IconeCheck, IconePlay } from '@/components/ui'
+import { IconeCadeado, IconeCheck, IconePlay } from '@/components/ui'
 import type { AulaTrilha } from '@/domain/trilha'
 import { textos } from '../textos'
 
-type Estado = 'concluida' | 'proxima' | 'liberada' | 'fechada'
-type Props = { aula: AulaTrilha; estado: Estado; abre?: string }
+type Props = { aula: AulaTrilha; proxima: boolean; fechadaTexto: string }
 
-const CARTAO: Record<Estado, string> = {
-  concluida: '',
-  proxima: 'ring-2 ring-verde-vivo/45',
-  liberada: '',
-  fechada: 'opacity-55',
-}
-
-function Marca({ estado }: { estado: Estado }) {
-  if (estado === 'concluida')
+function Marca({ aula }: { aula: AulaTrilha }) {
+  const base = 'brilho grid size-10 shrink-0 place-items-center rounded-full'
+  if (aula.concluida)
     return (
-      <span className="brilho brilho-verde grid size-9 shrink-0 place-items-center rounded-full">
+      <span className={`${base} brilho-verde`}>
         <IconeCheck />
       </span>
     )
-  if (estado === 'fechada')
+  if (!aula.liberada)
     return (
-      <span className="brilho brilho-cinza grid size-9 shrink-0 place-items-center rounded-full">
-        <span className="size-1 rounded-full bg-suave" />
+      <span className={`${base} brilho-cinza`}>
+        <IconeCadeado />
       </span>
     )
-  const cor = estado === 'proxima' ? 'brilho-escuro' : 'brilho-cinza text-verde-escuro'
   return (
-    <span className={`brilho ${cor} grid size-9 shrink-0 place-items-center rounded-full`}>
+    <span className={`${base} brilho-escuro`}>
       <IconePlay className="ml-0.5 size-3.5" />
     </span>
   )
 }
 
-/** Aula na trilha: concluída (sálvia), próxima (terracota), liberada ou fechada com a data em que abre. */
-export function CartaoAula({ aula, estado, abre }: Props) {
+/** Aula na lista: dia, título, duração e estado (liberada, concluída com check, bloqueada com cadeado). */
+export function CartaoAula({ aula, proxima, fechadaTexto }: Props) {
   const detalhe = [aula.profissional, aula.duracao_minutos && textos.minutos(aula.duracao_minutos)]
     .filter(Boolean)
     .join(' · ')
   const corpo = (
     <>
-      <Marca estado={estado} />
-      <span className="min-w-0">
-        <span className="block text-sm font-semibold text-tinta">{aula.titulo}</span>
-        <span className="block text-xs text-suave">
-          {estado === 'fechada' && abre ? textos.abreEm(abre) : detalhe}
+      <span className="w-12 shrink-0 text-center text-[11px] font-bold tracking-wide text-suave uppercase">
+        {textos.diaN(aula.dia_liberacao)}
+      </span>
+      <Marca aula={aula} />
+      <span className="min-w-0 flex-1">
+        <span className="block text-[15px] font-bold text-tinta">{aula.titulo}</span>
+        <span className="block text-[13px] text-suave">
+          {aula.liberada ? detalhe : fechadaTexto}
         </span>
       </span>
+      {aula.concluida && <span className="sr-only">{textos.concluida}</span>}
     </>
   )
-  const classe = `flex min-h-16 items-center gap-3 rounded-[18px] bg-white px-4 py-3 shadow-cartao ${CARTAO[estado]}`
+  const classe = `flex min-h-[72px] items-center gap-3 rounded-[18px] border bg-white px-3 py-3 ${proxima ? 'border-verde-vivo/50 shadow-cartao' : 'border-linha'} ${aula.liberada ? '' : 'opacity-70'}`
   return (
     <li>
-      {estado === 'fechada' ? (
-        <div className={classe}>{corpo}</div>
-      ) : (
-        <Link to={`/app/aula/${aula.id}`} className={classe}>
+      {aula.liberada ? (
+        <Link
+          to={`/app/trilha/aula/${aula.id}`}
+          className={`${classe} transition hover:shadow-cartao`}
+        >
           {corpo}
-          {estado === 'concluida' && <span className="sr-only">{textos.concluida}</span>}
         </Link>
+      ) : (
+        <div className={classe}>{corpo}</div>
       )}
     </li>
+  )
+}
+
+/** Lista de aulas em grade (2 colunas no computador). */
+export function ListaAulas({
+  aulas,
+  fechada,
+}: {
+  aulas: AulaTrilha[]
+  fechada: (a: AulaTrilha) => string
+}) {
+  const proxima = aulas.find((a) => a.liberada && !a.concluida)
+  return (
+    <ul className="grid gap-3 lg:grid-cols-2">
+      {aulas.map((a) => (
+        <CartaoAula key={a.id} aula={a} proxima={a.id === proxima?.id} fechadaTexto={fechada(a)} />
+      ))}
+    </ul>
   )
 }

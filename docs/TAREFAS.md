@@ -33,6 +33,9 @@ Venda inicial por links do Mercado Pago; o checkout integrado da Sprint 2 substi
 - [x] Início, trilha base e aula, com liberação por dia
 - [x] Check-in de verdade, sequência de dias e ranking com dados do banco
 - [x] Desafios da aluna (lista, desafio aberto, encerrados) e Perfil completo (evolução, indicação, configurações, histórico)
+- [x] Parte 2 da aluna: trilha por tema e etapas (dia de calendário, Comece por aqui, escolha no dia 8, 80% e 30 dias), cardápios, receitas, lista de compras e lives
+- [ ] Lembrete da live por push (PWA) e e-mail 1 hora antes (falta push e serviço de e-mail)
+- [ ] Cardápio de vários dias no painel e abas por dia na aluna
 - [ ] Apelido único no ranking (hoje não há trava no banco)
 - [x] Painel completo: menu de 11 módulos, cardápios, desafios e prêmios, alunas, configurações
 - [x] Loja (painel e aluna)

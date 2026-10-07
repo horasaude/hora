@@ -1,5 +1,6 @@
 import { createBrowserRouter, Navigate, type RouteObject } from 'react-router-dom'
 import { ObrigadaPage, PrivacidadePage, TermosPage, VendasPage } from '@/features/vendas'
+import { rotasAluna } from './rotasAluna'
 
 // Só a página de vendas entra no pacote inicial. Login e área da aluna (Supabase, React Query)
 // carregam sob demanda, para quem vem do anúncio no celular baixar o mínimo.
@@ -63,37 +64,6 @@ const rotasAdmin: RouteObject[] = [
   { path: 'loja', lazy: pagina('LojaPage') },
   { path: 'loja/:produtoId', lazy: pagina('LojaPage') },
   ...(['financeiro'] as const).map((m) => ({ path: m, lazy: vazio(m) })),
-]
-
-// Área da aluna (/app): moldura com a barra de baixo; cada tela carrega sob demanda.
-const trilha = () => import('@/features/trilha')
-const forum = () => import('@/features/forum')
-const loja = () => import('@/features/loja')
-const desafiosAluna = () => import('@/features/desafios')
-const rotasAluna: RouteObject[] = [
-  {
-    index: true,
-    lazy: async () => ({ Component: (await import('@/features/inicio')).InicioPage }),
-  },
-  { path: 'trilha', lazy: async () => ({ Component: (await trilha()).TrilhaPage }) },
-  { path: 'aula/:aulaId', lazy: async () => ({ Component: (await trilha()).AulaPage }) },
-  { path: 'desafios', lazy: async () => ({ Component: (await desafiosAluna()).DesafiosPage }) },
-  {
-    path: 'desafios/:desafioId',
-    lazy: async () => ({ Component: (await desafiosAluna()).DesafioPage }),
-  },
-  {
-    path: 'ranking',
-    lazy: async () => ({ Component: (await import('@/features/ranking')).RankingPage }),
-  },
-  { path: 'forum', lazy: async () => ({ Component: (await forum()).ForumPage }) },
-  { path: 'loja', lazy: async () => ({ Component: (await loja()).LojaPage }) },
-  { path: 'loja/:produtoId', lazy: async () => ({ Component: (await loja()).ProdutoPage }) },
-  { path: 'forum/:duvidaId', lazy: async () => ({ Component: (await forum()).DuvidaPage }) },
-  {
-    path: 'perfil',
-    lazy: async () => ({ Component: (await import('@/features/perfil')).PerfilPage }),
-  },
 ]
 
 export const router = createBrowserRouter([

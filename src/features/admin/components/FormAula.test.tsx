@@ -9,7 +9,6 @@ const VAZIA: EntradaAula = {
   material_url: '',
   profissional: '',
   duracao: '',
-  liberacao: 'compra',
   dia: '1',
 }
 
@@ -27,13 +26,10 @@ describe('FormAula', () => {
     )
   })
 
-  it('"Outro dia" mostra o campo do dia; "Depois de 7 dias" salva como dia 8', async () => {
+  it('salva o dia de liberação da etapa', async () => {
     const aoSalvar = vi.fn().mockResolvedValue(undefined)
     render(<FormAula titulo="Nova aula" inicial={VAZIA} aoSalvar={aoSalvar} aoCancelar={vi.fn()} />)
-    expect(screen.queryByLabelText('Dia de liberação')).not.toBeInTheDocument()
-    fireEvent.click(screen.getByRole('radio', { name: 'Outro dia' }))
-    expect(await screen.findByLabelText('Dia de liberação')).toBeInTheDocument()
-    fireEvent.click(screen.getByRole('radio', { name: 'Depois de 7 dias' }))
+    fireEvent.input(screen.getByLabelText('Dia da etapa em que libera'), { target: { value: '8' } })
     fireEvent.input(screen.getByLabelText('Título da aula'), { target: { value: 'Treino 1' } })
     fireEvent.input(screen.getByLabelText('Link do vídeo'), {
       target: { value: 'https://youtu.be/dQw4w9WgXcQ' },
@@ -45,5 +41,24 @@ describe('FormAula', () => {
       dia_liberacao: 8,
       material_url: null,
     })
+  })
+
+  it('na preparação o dia vai até 7', async () => {
+    const aoSalvar = vi.fn()
+    render(
+      <FormAula
+        preparacao
+        titulo="Nova aula"
+        inicial={VAZIA}
+        aoSalvar={aoSalvar}
+        aoCancelar={vi.fn()}
+      />,
+    )
+    fireEvent.input(screen.getByLabelText('Dia da preparação (1 a 7)'), { target: { value: '9' } })
+    fireEvent.click(screen.getByRole('button', { name: 'Salvar' }))
+    expect(
+      await screen.findByText('Use um dia válido (na preparação, de 1 a 7)'),
+    ).toBeInTheDocument()
+    expect(aoSalvar).not.toHaveBeenCalled()
   })
 })

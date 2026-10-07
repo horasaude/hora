@@ -1,7 +1,7 @@
 export { Botao } from './Botao'
 export { Campo } from './Campo'
 export { Cartao } from './Cartao'
-export { IconeCheck, IconePlay } from './Icones'
+export { IconeCadeado, IconeCheck, IconePlay } from './Icones'
 export { LogoHora } from './LogoHora'
 export { BarraProgresso, BotaoBrilho, EtiquetaBrilho, LinkBrilho } from './Brilho'
 export { classeBrilho, classeTom, type TamanhoBrilho, type TomBrilho } from './estiloBrilho'

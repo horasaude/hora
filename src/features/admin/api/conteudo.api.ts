@@ -95,3 +95,14 @@ export async function mover(tipo: 'tema' | 'etapa' | 'aula', id: string, direcao
 export async function listarSituacaoAulas(): Promise<{ publicado: boolean }[]> {
   return ok(await supabase.from('aulas').select('publicado'))
 }
+
+export type ComeceAqui = { video_url: string | null; texto: string }
+
+export async function buscarComeceAqui(): Promise<ComeceAqui> {
+  return ok(await supabase.from('comece_aqui').select('video_url, texto').single())
+}
+
+export async function salvarComeceAqui(d: ComeceAqui): Promise<void> {
+  const { error } = await supabase.from('comece_aqui').update(d).eq('id', true)
+  if (error) throw error
+}

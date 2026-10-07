@@ -1,5 +1,4 @@
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { apagarMedida, buscarMedidas, registrarMedida, type NovaMedida } from '../api/medidas.api'
 import {
   contarAulasConcluidas,
   linkAvatar,
@@ -37,24 +36,6 @@ export const useSalvarPerfil = () => usePerfilMutacao((d: EdicaoPerfil) => salva
 export const useSalvarRanking = () =>
   usePerfilMutacao((aparecer: boolean) => salvarRanking(aparecer))
 export const useTrocarSenha = () => useMutation({ mutationFn: trocarSenha })
-
-export const useMedidas = () => useQuery({ queryKey: ['medidas'], queryFn: buscarMedidas })
-
-export function useRegistrarMedida() {
-  const cliente = useQueryClient()
-  return useMutation({
-    mutationFn: (d: NovaMedida) => registrarMedida(d),
-    onSuccess: () => cliente.invalidateQueries({ queryKey: ['medidas'] }),
-  })
-}
-
-export function useApagarMedida() {
-  const cliente = useQueryClient()
-  return useMutation({
-    mutationFn: apagarMedida,
-    onSuccess: () => cliente.invalidateQueries({ queryKey: ['medidas'] }),
-  })
-}
 
 export const useIndicacoes = () =>
   useQuery({ queryKey: ['minhas-indicacoes'], queryFn: buscarIndicacoes })

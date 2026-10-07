@@ -12,7 +12,19 @@ const t = textos.lives
 type Entrada = z.input<typeof esquemaLive>
 const CAMPOS: CampoDef<Entrada>[] = [
   { nome: 'tema', rotulo: t.campoTema },
+  {
+    nome: 'profissional',
+    rotulo: t.campoProfissional,
+    tipo: 'escolha',
+    opcoes: [
+      { valor: '', nome: t.semProfissional },
+      { valor: 'ana', nome: 'Ana Milhomem' },
+      { valor: 'clara', nome: 'Dra. Clara Maria' },
+      { valor: 'lais', nome: 'Laís Moraes' },
+    ],
+  },
   { nome: 'data', rotulo: t.campoData, tipo: 'datahora' },
+  { nome: 'duracao_minutos', rotulo: t.campoDuracao, tipo: 'numero' },
   { nome: 'convidada', rotulo: t.campoConvidada },
   { nome: 'link_url', rotulo: t.campoLink, tipo: 'link' },
   { nome: 'gravacao_url', rotulo: t.campoGravacao, tipo: 'link', largura: 'inteira' },
@@ -28,6 +40,8 @@ export function LiveForm({ live, aoFechar }: { live?: Live; aoFechar: () => void
       campos={CAMPOS}
       inicial={{
         tema: live?.tema ?? '',
+        profissional: (live?.profissional ?? '') as Entrada['profissional'],
+        duracao_minutos: String(live?.duracao_minutos ?? 60),
         data: live ? paraCampoBrasilia(new Date(live.data)) : '',
         convidada: live?.convidada ?? '',
         link_url: live?.link_url ?? '',

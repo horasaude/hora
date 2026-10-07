@@ -1,5 +1,6 @@
 import { Configuracoes } from '../components/Configuracoes'
-import { Evolucao } from '../components/Evolucao'
+import { Evolucao } from '@/features/evolucao'
+import { MeuTema } from '@/features/trilha'
 import { Historico } from '../components/Historico'
 import { Indicar } from '../components/Indicar'
 import { Resumo } from '../components/Resumo'
@@ -19,6 +20,7 @@ export function PerfilPage() {
           </div>
         </div>
         <div className="flex flex-col gap-5 lg:gap-6">
+          <MeuTema />
           <Indicar />
           <Configuracoes />
         </div>

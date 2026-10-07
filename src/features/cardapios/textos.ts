@@ -1,0 +1,63 @@
+// Textos de Cardápios e Receitas da aluna. Os componentes só leem daqui.
+
+const n = (v: number) => Math.round(v).toLocaleString('pt-BR')
+
+export const textos = {
+  titulo: 'Cardápios',
+  abas: { cardapios: 'Cardápios', receitas: 'Receitas' },
+  abasRotulo: 'Cardápios ou receitas',
+  carregando: 'Carregando',
+  erro: 'Não foi possível carregar.',
+  tentar: 'Tentar de novo',
+  vazio:
+    'Ainda não há cardápio publicado para o seu tema. Assim que as profissionais publicarem, ele aparece aqui.',
+  semTema:
+    'Você ainda não escolheu o seu tema, por isso aparecem todos os cardápios. A escolha libera no dia 8.',
+  kcalDia: (k: number) => `${n(k)} kcal por dia`,
+  refeicoes: (q: number) => (q === 1 ? '1 refeição' : `${q} refeições`),
+  abrir: (titulo: string) => `Abrir o cardápio ${titulo}`,
+  voltar: 'Voltar para os cardápios',
+  naoEncontrado: 'Este cardápio não está disponível.',
+  substituicoes: 'Ver substituições',
+  esconder: 'Esconder substituições',
+  semSubstituicoes: 'Sem substituições cadastradas para esta refeição.',
+  ou: 'ou',
+  troca: (nome: string) => `Troca: ${nome}`,
+  totais: (k: number, p: number, c: number, g: number) =>
+    `${n(k)} kcal · P ${n(p)} g · C ${n(c)} g · G ${n(g)} g`,
+  totalDia: 'Total do dia',
+  registrar: 'Registrar refeição',
+  verReceita: 'Ver receita',
+  compras: {
+    botao: 'Lista de compras',
+    titulo: 'Lista de compras',
+    periodo: 'Para quantos dias',
+    dias: (d: number) => `${d} dias`,
+    whatsapp: 'Compartilhar no WhatsApp',
+    imprimir: 'Imprimir',
+    vazio: 'Este cardápio ainda não tem alimentos calculados para montar a lista.',
+    marcados: (feitos: number, total: number) => `${feitos} de ${total} itens no carrinho`,
+    voltar: 'Voltar para o cardápio',
+    mensagem: (titulo: string, dias: number) => `*Lista de compras · ${titulo} (${dias} dias)*`,
+  },
+  receitas: {
+    buscar: 'Buscar receita',
+    refeicao: 'Refeição',
+    tema: 'Tema',
+    todas: 'Todas',
+    todos: 'Todos',
+    favoritas: 'Só favoritas',
+    vazio: 'Nenhuma receita encontrada com esses filtros.',
+    nenhuma: 'As receitas aparecem aqui assim que forem publicadas.',
+    tempo: (m: number) => `${m} min`,
+    rende: (p: number) => (p === 1 ? 'Rende 1 porção' : `Rende ${p} porções`),
+    favoritar: 'Favoritar',
+    favorita: 'Favorita',
+    ingredientes: 'Ingredientes',
+    preparo: 'Modo de preparo',
+    nutricao: 'Informação nutricional por porção',
+    voltar: 'Voltar para as receitas',
+    naoEncontrada: 'Esta receita não está disponível.',
+    fotoDe: (nome: string) => `Foto de ${nome}`,
+  },
+}

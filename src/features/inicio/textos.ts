@@ -4,6 +4,8 @@ export const textos = {
   painel: 'Painel das profissionais',
   forum: 'Ir para o fórum',
   loja: 'Ir para a loja',
+  cardapios: 'Cardápios',
+  lives: 'Lives',
   aula: { titulo: 'Aula de hoje', abrir: (t: string) => `Abrir a aula de hoje: ${t}` },
   live: (quando: string, tema: string) => `Live ${quando} · ${tema}`,
   resumo: {

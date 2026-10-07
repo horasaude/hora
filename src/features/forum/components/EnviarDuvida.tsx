@@ -67,7 +67,7 @@ export function EnviarDuvida({ aula }: { aula?: string }) {
   return (
     <>
       <BotaoBrilho tom="dourado" onClick={() => setAberta(true)}>
-        {t.enviar}
+        {aula ? t.tenhoDuvida : t.enviar}
       </BotaoBrilho>
       {aberta && (
         <Janela

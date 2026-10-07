@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { BotaoBrilho } from '@/components/ui'
 import { diaMesDeData } from '@/lib/datas'
 import { CAMPOS_MEDIDA, type Medida } from '../api/medidas.api'
-import { useApagarMedida } from '../hooks/usePerfil'
+import { useApagarMedida } from '../hooks/useMedidas'
 import { textos } from '../textos'
 
 const t = textos.evolucao

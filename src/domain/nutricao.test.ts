@@ -79,11 +79,11 @@ describe('lista de compras', () => {
       [opcao('Banana', 'Frutas e derivados', 100)],
     ])
     const lista = listaDeCompras([r, r], new Map())
-    expect(lista.map((g) => g.grupo)).toEqual(['Hortifruti', 'Carnes e ovos', 'Grãos'])
+    expect(lista.map((g) => g.grupo)).toEqual(['Hortifruti', 'Proteínas', 'Grãos'])
     expect(lista.find((g) => g.grupo === 'Grãos')?.itens).toEqual([
       { nome: 'Arroz', quantidade: '1,4 kg' },
     ])
-    expect(lista.find((g) => g.grupo === 'Carnes e ovos')?.itens).toEqual([
+    expect(lista.find((g) => g.grupo === 'Proteínas')?.itens).toEqual([
       { nome: 'Frango', quantidade: '1,7 kg' },
     ])
   })
@@ -95,9 +95,7 @@ describe('lista de compras', () => {
       [r],
       new Map([['om', [{ nome: 'Ovo', grupo: 'Ovos e derivados', gramas: 100 }]]]),
     )
-    expect(lista).toEqual([
-      { grupo: 'Carnes e ovos', itens: [{ nome: 'Ovo', quantidade: '700 g' }] },
-    ])
+    expect(lista).toEqual([{ grupo: 'Proteínas', itens: [{ nome: 'Ovo', quantidade: '700 g' }] }])
   })
   it('grupo desconhecido vai para Outros', () => {
     expect(grupoDeCompra('Bebidas (alcoólicas e não alcoólicas)')).toBe('Outros')

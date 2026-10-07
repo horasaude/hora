@@ -14,6 +14,138 @@ export type Database = {
   }
   public: {
     Tables: {
+      comece_aqui: {
+        Row: {
+          id: boolean
+          texto: string
+          updated_at: string
+          video_url: string | null
+        }
+        Insert: {
+          id?: boolean
+          texto?: string
+          updated_at?: string
+          video_url?: string | null
+        }
+        Update: {
+          id?: boolean
+          texto?: string
+          updated_at?: string
+          video_url?: string | null
+        }
+        Relationships: []
+      }
+      comece_aqui_feitos: {
+        Row: {
+          created_at: string
+          item: string
+          perfil_id: string
+        }
+        Insert: {
+          created_at?: string
+          item: string
+          perfil_id?: string
+        }
+        Update: {
+          created_at?: string
+          item?: string
+          perfil_id?: string
+        }
+        Relationships: []
+      }
+      etapas_iniciadas: {
+        Row: {
+          etapa_id: string
+          iniciada_em: string
+          perfil_id: string
+        }
+        Insert: {
+          etapa_id: string
+          iniciada_em?: string
+          perfil_id: string
+        }
+        Update: {
+          etapa_id?: string
+          iniciada_em?: string
+          perfil_id?: string
+        }
+        Relationships: []
+      }
+      lista_compras_marcados: {
+        Row: {
+          cardapio_id: string
+          created_at: string
+          item: string
+          perfil_id: string
+        }
+        Insert: {
+          cardapio_id: string
+          created_at?: string
+          item: string
+          perfil_id?: string
+        }
+        Update: {
+          cardapio_id?: string
+          created_at?: string
+          item?: string
+          perfil_id?: string
+        }
+        Relationships: []
+      }
+      lives_lembretes: {
+        Row: {
+          created_at: string
+          live_id: string
+          perfil_id: string
+        }
+        Insert: {
+          created_at?: string
+          live_id: string
+          perfil_id?: string
+        }
+        Update: {
+          created_at?: string
+          live_id?: string
+          perfil_id?: string
+        }
+        Relationships: []
+      }
+      lives_presencas: {
+        Row: {
+          created_at: string
+          live_id: string
+          perfil_id: string
+        }
+        Insert: {
+          created_at?: string
+          live_id: string
+          perfil_id: string
+        }
+        Update: {
+          created_at?: string
+          live_id?: string
+          perfil_id?: string
+        }
+        Relationships: []
+      }
+      receitas_favoritas: {
+        Row: {
+          created_at: string
+          perfil_id: string
+          receita_id: string
+        }
+        Insert: {
+          created_at?: string
+          perfil_id?: string
+          receita_id: string
+        }
+        Update: {
+          created_at?: string
+          perfil_id?: string
+          receita_id?: string
+        }
+        Relationships: []
+      }
       alimentos: {
         Row: {
           busca: string | null
@@ -507,6 +639,7 @@ export type Database = {
       }
       etapas: {
         Row: {
+          chave: string | null
           created_at: string
           descricao: string
           id: string
@@ -517,6 +650,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          chave?: string | null
           created_at?: string
           descricao?: string
           id?: string
@@ -527,6 +661,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          chave?: string | null
           created_at?: string
           descricao?: string
           id?: string
@@ -953,6 +1088,8 @@ export type Database = {
       }
       lives: {
         Row: {
+          profissional: string | null
+          duracao_minutos: number
           convidada: string | null
           created_at: string
           data: string
@@ -964,6 +1101,8 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          profissional?: string | null
+          duracao_minutos?: number
           convidada?: string | null
           created_at?: string
           data: string
@@ -975,6 +1114,8 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          profissional?: string | null
+          duracao_minutos?: number
           convidada?: string | null
           created_at?: string
           data?: string
@@ -1202,6 +1343,7 @@ export type Database = {
       }
       perfis: {
         Row: {
+          tema_atual_id: string | null
           acesso_fim_em: string | null
           acesso_inicio_em: string | null
           apelido: string | null
@@ -1222,6 +1364,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          tema_atual_id?: string | null
           acesso_fim_em?: string | null
           acesso_inicio_em?: string | null
           apelido?: string | null
@@ -1242,6 +1385,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          tema_atual_id?: string | null
           acesso_fim_em?: string | null
           acesso_inicio_em?: string | null
           apelido?: string | null
@@ -1304,6 +1448,9 @@ export type Database = {
       }
       receitas: {
         Row: {
+          tempo_minutos: number | null
+          refeicoes: string[]
+          objetivos: string[]
           busca: string | null
           calcular: boolean
           created_at: string
@@ -1318,6 +1465,9 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          tempo_minutos?: number | null
+          refeicoes?: string[]
+          objetivos?: string[]
           busca?: string | null
           calcular?: boolean
           created_at?: string
@@ -1332,6 +1482,9 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          tempo_minutos?: number | null
+          refeicoes?: string[]
+          objetivos?: string[]
           busca?: string | null
           calcular?: boolean
           created_at?: string
@@ -1421,6 +1574,8 @@ export type Database = {
       }
       temas: {
         Row: {
+          tipo: string
+          chave: string | null
           created_at: string
           descricao: string
           id: string
@@ -1430,6 +1585,8 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          tipo?: string
+          chave?: string | null
           created_at?: string
           descricao?: string
           id?: string
@@ -1439,6 +1596,8 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          tipo?: string
+          chave?: string | null
           created_at?: string
           descricao?: string
           id?: string
@@ -1454,6 +1613,12 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      aula_liberada: { Args: { p_aula: string }; Returns: boolean }
+      aulas_da_etapa: { Args: { p_etapa: string }; Returns: Json }
+      dia_atual_de: { Args: { p_agora: string; p_inicio: string }; Returns: number }
+      entrar_live: { Args: { p_live: string }; Returns: Json }
+      escolher_tema: { Args: { p_tema: string }; Returns: undefined }
+      trilha_aluna: { Args: never; Returns: Json }
       alunas_em_desafios_ativos: { Args: never; Returns: number }
       cancelar_indicacao: {
         Args: { p_indicacao: string; p_motivo: string }
@@ -1622,25 +1787,6 @@ export type Database = {
           premio_surpresa: boolean
           tipo_checkin: string
           unidade: string
-        }[]
-      }
-      minha_trilha: {
-        Args: never
-        Returns: {
-          concluida: boolean
-          dia_liberacao: number
-          duracao_minutos: number
-          etapa_id: string
-          etapa_ordem: number
-          etapa_titulo: string
-          id: string
-          liberada: boolean
-          ordem: number
-          profissional: string
-          tema_id: string
-          tema_ordem: number
-          tema_titulo: string
-          titulo: string
         }[]
       }
       mover_aula: {

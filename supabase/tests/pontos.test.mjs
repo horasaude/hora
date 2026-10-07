@@ -18,7 +18,8 @@ async function montar(db) {
     update public.perfis set papel = 'admin' where id = '${ADMIN}';
     update public.perfis set acesso_inicio_em = now() - interval '2 days', cpf = '11122233344' where id in ('${ALUNA}', '${AMIGA}');
     update public.perfis set cpf = '55566677788' where id = '${AMIGA}';
-    insert into public.temas (id, titulo, publicado) values ('${ID(11)}', 'T', true);
+    delete from public.temas;
+    insert into public.temas (id, titulo, publicado, tipo) values ('${ID(11)}', 'T', true, 'preparacao');
     insert into public.etapas (id, tema_id, titulo, ordem, publicado) values ('${ID(21)}', '${ID(11)}', 'E', 1, true);
     insert into public.aulas (id, etapa_id, titulo, video_url, dia_liberacao, publicado) values ('${AULA}', '${ID(21)}', 'A', 'https://v.t', 1, true);
     insert into public.desafios (id, nome, inicio, fim, tipo_checkin, meta_dias, pontos_por_dia, bonus_conclusao, publicado)

@@ -3,7 +3,7 @@ import { useForm, useWatch, type Control, type UseFormRegister } from 'react-hoo
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { z } from 'zod'
 import { Campo, Janela } from '@/components/ui'
-import { esquemaAula } from '../schemas/formularios'
+import { esquemaAula, esquemaAulaAte } from '../schemas/formularios'
 import { textos } from '../textos'
 import { CampoArea } from './CampoArea'
 import { PreviaVideo } from './PreviaVideo'
@@ -13,53 +13,29 @@ const t = textos.aulas
 export type EntradaAula = z.input<typeof esquemaAula>
 export type DadosAula = z.output<typeof esquemaAula>
 
-const OPCOES = [
-  { valor: 'compra', nome: t.naCompra },
-  { valor: 'sete', nome: t.seteDias },
-  { valor: 'outro', nome: t.outroDia },
-] as const
-
-/** Quando a aula libera: na compra, depois de 7 dias ou em outro dia. */
+/** Dia em que a aula libera: da preparação (1 a 7) ou dentro da etapa do tema. */
 function Liberacao({
-  control,
   register,
   erroDia,
+  preparacao,
 }: {
-  control: Control<EntradaAula, unknown, DadosAula>
   register: UseFormRegister<EntradaAula>
   erroDia?: string
+  preparacao: boolean
 }) {
-  const escolha = useWatch({ control, name: 'liberacao' })
   return (
-    <>
-      <fieldset className="flex flex-col gap-2">
-        <legend className="mb-1 text-sm font-medium">{t.liberacao}</legend>
-        {OPCOES.map((o) => (
-          <label
-            key={o.valor}
-            className="flex min-h-12 items-center gap-3 rounded-xl border border-linha px-4 has-checked:border-ora has-checked:bg-salvia-suave"
-          >
-            <input
-              type="radio"
-              value={o.valor}
-              className="size-4 accent-ora"
-              {...register('liberacao')}
-            />
-            <span className="text-sm">{o.nome}</span>
-          </label>
-        ))}
-      </fieldset>
-      {escolha === 'outro' && (
-        <Campo
-          rotulo={t.campoDia}
-          type="number"
-          min={1}
-          inputMode="numeric"
-          erro={erroDia}
-          {...register('dia')}
-        />
-      )}
-    </>
+    <div className="flex flex-col gap-1">
+      <Campo
+        rotulo={preparacao ? t.campoDiaPreparacao : t.campoDiaEtapa}
+        type="number"
+        min={1}
+        max={preparacao ? 7 : undefined}
+        inputMode="numeric"
+        erro={erroDia}
+        {...register('dia')}
+      />
+      <span className="text-xs text-suave">{preparacao ? t.ajudaPreparacao : t.ajudaEtapa}</span>
+    </div>
   )
 }
 
@@ -95,6 +71,7 @@ function QuemEQuanto({
 }
 
 type Props = {
+  preparacao?: boolean
   titulo: string
   inicial: EntradaAula
   aoSalvar: (d: DadosAula) => Promise<unknown>
@@ -102,10 +79,10 @@ type Props = {
 }
 
 /** Aula numa janela: título e vídeo com prévia, profissional e duração, texto, material e quando libera. */
-export function FormAula({ titulo, inicial, aoSalvar, aoCancelar }: Props) {
+export function FormAula({ titulo, inicial, aoSalvar, aoCancelar, preparacao = false }: Props) {
   const id = useId()
   const form = useForm<EntradaAula, unknown, DadosAula>({
-    resolver: zodResolver(esquemaAula),
+    resolver: zodResolver(esquemaAulaAte(preparacao ? 7 : 9999)),
     defaultValues: inicial,
   })
   const { register, control, formState } = form
@@ -147,7 +124,7 @@ export function FormAula({ titulo, inicial, aoSalvar, aoCancelar }: Props) {
           {...register('material_url')}
         />
         <div className="flex flex-col gap-3">
-          <Liberacao control={control} register={register} erroDia={erros.dia?.message} />
+          <Liberacao register={register} erroDia={erros.dia?.message} preparacao={preparacao} />
         </div>
         <ErroForm mensagem={erros.root?.message} />
       </form>
