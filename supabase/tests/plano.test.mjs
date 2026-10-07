@@ -14,7 +14,7 @@ async function montar(db) {
     update public.perfis set papel = 'admin' where id = '${ADMIN}';
     update public.perfis set acesso_inicio_em = now() - interval '1 day' where id = '${ALUNA}';
     insert into public.receitas (id, nome, publicado, foto_path) values ('${ID(21)}', 'Omelete', true, 'r/omelete.jpg'), ('${ID(22)}', 'Bolo rascunho', false, 'r/bolo.jpg');
-    insert into public.cardapios (titulo, objetivo, publicado) values ('Leve', 'Emagrecimento', true), ('Rascunho', 'Lipedema', false);
+    insert into public.cardapios (titulo, objetivo, publicado) values ('Leve', 'Preparação', true), ('Rascunho', 'Preparação', false);
     insert into public.refeicoes_modelo (nome, tipo) values ('Café proteico', 'cafe');
     insert into storage.objects (bucket_id, name) values ('receitas', 'r/omelete.jpg'), ('receitas', 'r/bolo.jpg');
   `)

@@ -7,6 +7,13 @@ export const textosAluna = {
   logadaComo: 'Logada como',
   nav: {
     inicio: 'Início',
+    trilhas: 'Trilhas',
+    temas: 'Temas',
+    desafioDoMes: 'Desafio do mês',
+    comunidade: 'Comunidade',
+    evolucao: 'Minha evolução',
+    conta: 'Minha conta',
+    liveHoje: 'Tem live hoje',
     trilha: 'Trilha',
     cardapios: 'Cardápios',
     lives: 'Lives',

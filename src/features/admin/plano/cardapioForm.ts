@@ -4,19 +4,20 @@ import type { Refeicao, Substituta } from '@/domain/nutricao'
 import { buscarCardapio, type CardapioLinha, type RefeicaoModelo } from './api/cardapios.api'
 import type { Rascunho } from './components/RefeicaoJanela'
 import { lerItens, lerLista, lerRefeicoes } from './schemas/plano'
-import { OBJETIVOS } from './textos'
+import { OBJETIVOS_CARDAPIO } from './textos'
 
 export type Modelo = 'calculado' | 'texto'
 export type FormCardapio = {
   titulo: string
-  objetivo: (typeof OBJETIVOS)[number]
+  objetivo: (typeof OBJETIVOS_CARDAPIO)[number]
   modelo: Modelo
   refeicoes: Refeicao[]
   lista: ListaCompras
   publicado: boolean
 }
 
-const objetivoValido = (o?: string) => OBJETIVOS.find((x) => x === o) ?? OBJETIVOS[0]
+const objetivoValido = (o?: string) =>
+  OBJETIVOS_CARDAPIO.find((x) => x === o) ?? OBJETIVOS_CARDAPIO[0]
 
 export function deCardapio(c?: CardapioLinha): FormCardapio {
   return {

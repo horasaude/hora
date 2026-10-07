@@ -2,7 +2,7 @@
 
 Trilha da aluna (/app/trilha) e aula (/app/trilha/aula/:id; o endereço antigo /app/aula/:id redireciona), seguindo docs/referencias/app-aluna.png.
 
-Fluxo: dias 1 a 7 preparação (uma aula por dia) e "Comece por aqui"; no dia 8 a escolha do tema (modal ao abrir o app e seletor na própria Trilha até escolher); depois as etapas do tema em abas (Arrancada, Constância, Manutenção).
+Fluxo: dias 1 a 7 preparação (uma aula por dia) e "Comece por aqui"; no dia 8 a escolha do tema (modal ao abrir o app e seletor na própria Trilha até escolher); depois as etapas do tema em abas (Arrancada, Constância, Para Sempre).
 
 | Arquivo                         | Faz                                                                                                   |
 | ------------------------------- | ----------------------------------------------------------------------------------------------------- |

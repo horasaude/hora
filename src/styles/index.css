@@ -246,3 +246,25 @@ body {
     opacity: 0.45;
   }
 }
+
+/* Ponto dourado de "live hoje": pulsa devagar (parado para quem pede menos movimento). */
+.ponto-live {
+  display: inline-block;
+  box-shadow: 0 0 0 0 rgb(242 169 34 / 0.6);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ponto-live {
+    animation: ponto-live 1.6s ease-out infinite;
+  }
+}
+@keyframes ponto-live {
+  0% {
+    box-shadow: 0 0 0 0 rgb(242 169 34 / 0.6);
+  }
+  70% {
+    box-shadow: 0 0 0 7px rgb(242 169 34 / 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgb(242 169 34 / 0);
+  }
+}

@@ -16,7 +16,10 @@
     "db:test": "node supabase/tests/rodar.mjs",
     "gen:types": "supabase gen types typescript --linked --schema public > src/types/database.ts",
     "prepare": "husky",
-    "db:push": "supabase db push"
+    "db:push": "supabase db push",
+    "demo:build": "VITE_SUPABASE_URL=http://127.0.0.1:54399 VITE_SUPABASE_ANON_KEY=demo vite build --outDir .demo/dist --emptyOutDir",
+    "demo": "node scripts/demo/servidor.mjs",
+    "demo:prints": "npm run demo:build && node scripts/demo/prints.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",

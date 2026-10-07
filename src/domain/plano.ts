@@ -22,6 +22,9 @@ export const OBJETIVOS = [
 
 export type Objetivo = (typeof OBJETIVOS)[number]
 
+/** Temas do cardápio: a Preparação (dias 1 a 7 e enquanto não há tema) e os 5 temas. */
+export const OBJETIVOS_CARDAPIO = ['Preparação', ...OBJETIVOS] as const
+
 /** Objetivo do cardápio e da receita para cada tema da trilha (pela chave fixa do tema). */
 export const OBJETIVO_DO_TEMA: Record<string, Objetivo> = {
   emagrecimento: 'Emagrecimento',

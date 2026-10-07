@@ -64,6 +64,13 @@ const DESENHOS = {
       <path d="m16 10.5 5-3v9l-5-3" />
     </Svg>
   ),
+  comunidade: (
+    <Svg>
+      <circle cx="9" cy="8.5" r="3" />
+      <circle cx="16.5" cy="9.5" r="2.5" />
+      <path d="M3.5 19c.7-3 3-4.8 5.5-4.8s4.8 1.8 5.5 4.8M15 14.4c2.6-.4 4.8 1.2 5.5 4.6" />
+    </Svg>
+  ),
   perfil: (
     <Svg>
       <circle cx="12" cy="8.5" r="3.5" />

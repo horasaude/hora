@@ -50,4 +50,8 @@ export const rotasAluna: RouteObject[] = [
     path: 'perfil',
     lazy: async () => ({ Component: (await import('@/features/perfil')).PerfilPage }),
   },
+  {
+    path: 'perfil/conta',
+    lazy: async () => ({ Component: (await import('@/features/perfil')).ContaPage }),
+  },
 ]

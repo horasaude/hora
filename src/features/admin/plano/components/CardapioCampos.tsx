@@ -1,6 +1,6 @@
 import { Campo } from '@/components/ui'
 import type { FormCardapio, Modelo } from '../cardapioForm'
-import { OBJETIVOS } from '../textos'
+import { OBJETIVOS_CARDAPIO } from '../textos'
 import { tCardapios as t } from '../textos2'
 import { Bloco } from './BarraTopo'
 
@@ -24,7 +24,7 @@ export function CardapioCampos({ f, mudar, erroNome }: Props) {
             value={f.objetivo}
             onChange={(e) => mudar({ objetivo: e.target.value as FormCardapio['objetivo'] })}
           >
-            {OBJETIVOS.map((o) => (
+            {OBJETIVOS_CARDAPIO.map((o) => (
               <option key={o}>{o}</option>
             ))}
           </select>

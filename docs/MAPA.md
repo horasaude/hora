@@ -1,7 +1,7 @@
 # Mapa do projeto
 
 Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim).
-Última atualização: Parte 2 da aluna (trilha por tema e etapas, cardápios e receitas, lives).
+Última atualização: navegação em 5 abas (src/app/navegacao.ts), cardápio de Preparação, demonstração local (scripts/demo).
 
 ## Rotas
 
@@ -23,7 +23,7 @@ Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim)
 | /app/forum, /app/forum/:id                                      | ForumPage, DuvidaPage                                      | forum                         | logada      | lazy                     |
 | /definir-senha                                                  | DefinirSenhaPage (link de convite ou nova senha)           | auth                          | link        | lazy                     |
 | /app/loja, /app/loja/:id                                        | LojaPage, ProdutoPage                                      | loja                          | logada      | lazy                     |
-| /app/perfil                                                     | PerfilPage                                                 | perfil                        | logada      | lazy                     |
+| /app/perfil (Minha evolução), /app/perfil/conta (Minha conta)   | PerfilPage                                                 | perfil                        | logada      | lazy                     |
 | /app/admin/...                                                  | painel (conteúdo, lives, avisos)                           | admin                         | papel admin | lazy (admin, 25 KB)      |
 | checkout                                                        | checkout próprio (resumo, dados, pagamento, lateral)       | CheckoutPage, salvarInscricao |
 | \*                                                              | vai para /                                                 |                               |             |                          |
@@ -149,14 +149,19 @@ Componentes do estilo (toda tela nova usa estes): BotaoBrilho, LinkBrilho, Etiqu
 | limpar-fotos          | apaga fotos de check-in com mais de 90 dias (chamada pelo cron com x-cron-segredo) | desligado |
 | \_shared/cors.ts      | CORS pela lista ORIGENS_PERMITIDAS                                                 |           |
 
+## Navegação da aluna
+
+5 abas em src/app/navegacao.ts (SECOES): Início; Trilhas (Temas /app/trilha, Cardápios /app/cardapios); Desafios (Desafio do mês /app/desafios, Ranking /app/ranking); Comunidade (Lives, Fórum, Loja); Perfil (Minha evolução, Minha conta). Barra lateral, barra de baixo e pílulas do topo em src/app/NavegacaoAluna.tsx.
+
 ## Infraestrutura
 
-| Item            | Onde                                                       |
-| --------------- | ---------------------------------------------------------- |
-| CI              | .github/workflows/ci.yml                                   |
-| Deploy          | Vercel (vercel.json), time hora3, hora-snowy.vercel.app    |
-| Banco           | Supabase zijtjwhvnhfarmfscmnr (sa-east-1), um projeto só   |
-| Testes de banco | supabase/tests (harness.mjs em PGlite, rodar.mjs)          |
-| Git             | github.com/horasaude/hora, chave SSH própria (~/.ssh/hora) |
-| PWA             | vite.config.ts (VitePWA), escopo /app/, decisão 0003       |
-| Meta tags       | index.html, imagem public/og-hora.png                      |
+| Item            | Onde                                                                        |
+| --------------- | --------------------------------------------------------------------------- |
+| CI              | .github/workflows/ci.yml                                                    |
+| Deploy          | Vercel (vercel.json), time hora3, hora-snowy.vercel.app                     |
+| Banco           | Supabase zijtjwhvnhfarmfscmnr (sa-east-1), um projeto só                    |
+| Demonstração    | scripts/demo (seed local, PGlite, API mínima, prints em docs/prints/parte2) |
+| Testes de banco | supabase/tests (harness.mjs em PGlite, rodar.mjs)                           |
+| Git             | github.com/horasaude/hora, chave SSH própria (~/.ssh/hora)                  |
+| PWA             | vite.config.ts (VitePWA), escopo /app/, decisão 0003                        |
+| Meta tags       | index.html, imagem public/og-hora.png                                       |

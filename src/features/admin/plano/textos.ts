@@ -1,6 +1,6 @@
 // Textos do plano alimentar (cardápios, refeições, receitas e alimentos). Os componentes só leem daqui.
 
-export { OBJETIVOS, TIPOS_REFEICAO } from '@/domain/plano'
+export { OBJETIVOS, OBJETIVOS_CARDAPIO, TIPOS_REFEICAO } from '@/domain/plano'
 
 export const textos = {
   grupo: 'Plano alimentar',

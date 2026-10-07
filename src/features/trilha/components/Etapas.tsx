@@ -11,7 +11,7 @@ import { ListaAulas } from './CartaoAula'
 
 const t = textos.bloqueada
 
-/** Abas Arrancada, Constância e Manutenção; a fechada leva cadeado. */
+/** Abas Arrancada, Constância e Para Sempre; a fechada leva cadeado. */
 export function AbasEtapas({
   etapas,
   ativa,

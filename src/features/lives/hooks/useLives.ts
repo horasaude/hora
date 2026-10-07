@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { janelaDaLive } from '@/domain/lives'
+import { diaEmBrasilia } from '@/lib/datas'
 import { alternarLembrete, entrarLive, listarLives } from '../api/lives.api'
 
 export const useLives = () => useQuery({ queryKey: ['lives-aluna'], queryFn: listarLives })
@@ -44,4 +46,18 @@ export function useEntrarLive() {
       }
     },
   })
+}
+
+/** Há live hoje (Brasília) que ainda não acabou: acende o ponto dourado na navegação. */
+export function useTemLiveHoje() {
+  const lives = useLives()
+  const agora = useAgora(60_000)
+  const hoje = diaEmBrasilia(agora)
+  return Boolean(
+    lives.data?.some(
+      (l) =>
+        diaEmBrasilia(new Date(l.data)) === hoje &&
+        janelaDaLive(new Date(l.data), l.duracao_minutos, agora) !== 'encerrada',
+    ),
+  )
 }

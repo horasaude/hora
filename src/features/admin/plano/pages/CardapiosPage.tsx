@@ -10,7 +10,7 @@ import { BarraFiltros, CampoBusca, Filtros } from '../components/Ferramentas'
 import { LISTA_CARDAPIOS } from '../hooks/useEditorCardapio'
 import { useCardapios } from '../hooks/usePlano'
 import { lerRefeicoes } from '../schemas/plano'
-import { OBJETIVOS, textos } from '../textos'
+import { OBJETIVOS_CARDAPIO, textos } from '../textos'
 import { tCardapios as t } from '../textos2'
 
 function TabelaCardapios({ dados }: { dados: CardapioLinha[] }) {
@@ -87,7 +87,7 @@ export function CardapiosPage() {
           rotulo={t.filtroObjetivo}
           valor={objetivo}
           aoMudar={setObjetivo}
-          opcoes={OBJETIVOS.map((o) => ({ valor: o, nome: o }))}
+          opcoes={OBJETIVOS_CARDAPIO.map((o) => ({ valor: o, nome: o }))}
         />
         <CampoBusca valor={busca} aoMudar={setBusca} />
       </BarraFiltros>

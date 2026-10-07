@@ -9,10 +9,7 @@ export const textos = {
   carregando: 'Carregando',
   erro: 'Não foi possível carregar.',
   tentar: 'Tentar de novo',
-  vazio:
-    'Ainda não há cardápio publicado para o seu tema. Assim que as profissionais publicarem, ele aparece aqui.',
-  semTema:
-    'Você ainda não escolheu o seu tema, por isso aparecem todos os cardápios. A escolha libera no dia 8.',
+  vazio: 'Seu cardápio aparece aqui em breve',
   kcalDia: (k: number) => `${n(k)} kcal por dia`,
   refeicoes: (q: number) => (q === 1 ? '1 refeição' : `${q} refeições`),
   abrir: (titulo: string) => `Abrir o cardápio ${titulo}`,

@@ -2,6 +2,13 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-06 · main · Navegação em 5 abas, Para Sempre, cardápio de Preparação e demonstração
+
+- Navegação da aluna em 5 abas iguais no celular e no computador (Início, Trilhas, Desafios, Comunidade, Perfil), definidas em src/app/navegacao.ts; no computador a aba ativa abre as suas telas recuadas com bolinha; dentro de cada aba, pílulas no topo (verde ORA ativa, areia com borda fina). Rotas antigas mantidas. Ponto dourado pulsando em Comunidade e em Lives quando há live hoje. Perfil dividido em Minha evolução (/app/perfil) e Minha conta (/app/perfil/conta).
+- Terceira etapa agora se chama "Para Sempre" (identificador interno continua manutencao).
+- Cardápio de Preparação: opção no painel; pela RLS (objetivo_da_aluna), sem tema a aluna vê só Preparação e, com tema, só o do tema; vazio "Seu cardápio aparece aqui em breve". Migração 20261011090000_preparacao_para_sempre, testes de banco atualizados.
+- Demonstração local em scripts/demo (seed, banco em memória com as migrações e a API mínima, prints): npm run demo e npm run demo:prints. Prints em docs/prints/parte2.
+
 ## 2026-10-06 · main · Parte 2 da aluna: trilha por tema, cardápios e lives
 
 - Dia da aluna agora é de calendário (Brasília, vira à meia-noite): src/domain/dia.ts e public.dia_atual_de, com testes de virada, dia 1, 7, 8 e 31. Regra trocada no CLAUDE.md (antes eram 24 h exatas).

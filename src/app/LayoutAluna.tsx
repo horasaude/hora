@@ -3,7 +3,7 @@ import { LogoHora } from '@/components/ui'
 import { useMeuPerfil, useRegistrarAcesso } from '@/features/auth'
 import { PrimeiroAcesso } from '@/features/primeiro-acesso'
 import { EscolhaAoAbrir } from '@/features/trilha'
-import { BarraInferior, BarraLateral } from './NavegacaoAluna'
+import { AbasDaSecao, BarraInferior, BarraLateral } from './NavegacaoAluna'
 import { textosAluna as t } from './textosAluna'
 
 /** Área da aluna: barra lateral no computador, barra fixa embaixo no celular, e o primeiro acesso. */
@@ -41,6 +41,7 @@ export function LayoutAluna() {
           </header>
           <main className="px-5 pt-6 pb-28 sm:px-8 lg:ml-[17rem] lg:px-12 lg:pt-12 lg:pb-16">
             <div className="mx-auto max-w-5xl">
+              <AbasDaSecao />
               <Outlet />
             </div>
           </main>

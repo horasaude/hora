@@ -19,7 +19,7 @@ async function montar(db) {
     update public.perfis set papel = 'admin' where id = '${ADMIN}';
     update public.perfis set nome = 'Mari', acesso_inicio_em = now() - interval '3 days' where id = '${ALUNA}';
     update public.perfis set nome = 'Cris', acesso_inicio_em = now() - interval '1 day' where id = '${OUTRA}';
-    insert into public.cardapios (titulo, objetivo, publicado) values ('Leve', 'Emagrecimento', true), ('Rascunho', 'Ganho de massa', false);
+    insert into public.cardapios (titulo, objetivo, publicado) values ('Leve', 'Preparação', true), ('Rascunho', 'Preparação', false);
     insert into public.desafios (id, nome, inicio, fim, tipo_checkin, unidade, meta_diaria, meta_dias, publico, publicado) values
       ('${AGUA}', 'Água', public.hoje_brasilia() - 1, public.hoje_brasilia() + 5, 'numero', 'copos', 8, 2, 'todas', true),
       ('${FOTO}', 'Prato', public.hoje_brasilia(), public.hoje_brasilia() + 5, 'foto', null, null, 1, 'todas', true),

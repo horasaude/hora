@@ -6,6 +6,7 @@ const ALUNA = ID(2)
 const OUTRA = ID(3)
 const PUBLICADO = ID(61)
 const RASCUNHO = ID(62)
+const PREPARO = ID(63)
 const RECEITA = ID(71)
 const AGORA = ID(81)
 const AMANHA = ID(82)
@@ -22,7 +23,8 @@ async function montar(db) {
     update public.perfis set acesso_inicio_em = now() - interval '3 days' where id in ('${ALUNA}', '${OUTRA}');
     insert into public.cardapios (id, objetivo, titulo, publicado) values
       ('${PUBLICADO}', 'Emagrecimento', 'Semana leve', true),
-      ('${RASCUNHO}', 'Emagrecimento', 'Ainda não', false);
+      ('${RASCUNHO}', 'Preparação', 'Ainda não', false),
+      ('${PREPARO}', 'Preparação', 'Primeira semana', true);
     insert into public.receitas (id, nome, publicado, tempo_minutos, refeicoes, objetivos) values
       ('${RECEITA}', 'Omelete', true, 10, '{cafe}', '{Emagrecimento}');
     insert into public.lives (id, tema, data, publicado, profissional, duracao_minutos, link_url) values
@@ -36,9 +38,14 @@ async function cardapios(t) {
   const { esperaValor, esperaErro } = t
   await t.comoAluna(ALUNA)
   await esperaValor(
-    'aluna vê só o cardápio publicado',
-    `select count(*)::int from public.cardapios`,
-    1,
+    'sem tema, aluna vê só o cardápio de Preparação publicado',
+    `select string_agg(titulo, ',') from public.cardapios`,
+    'Primeira semana',
+  )
+  await esperaErro(
+    'não marca item de cardápio de outro tema',
+    `insert into public.lista_compras_marcados (cardapio_id, item) values ('${PUBLICADO}', 'Ovo')`,
+    '42501',
   )
   await esperaValor(
     'rascunho nunca aparece',
@@ -47,7 +54,7 @@ async function cardapios(t) {
   )
   await esperaValor(
     'marca item da lista de compras',
-    `insert into public.lista_compras_marcados (cardapio_id, item) values ('${PUBLICADO}', 'Ovo') returning 1`,
+    `insert into public.lista_compras_marcados (cardapio_id, item) values ('${PREPARO}', 'Ovo') returning 1`,
     1,
   )
   await esperaErro(
@@ -57,7 +64,7 @@ async function cardapios(t) {
   )
   await esperaErro(
     'não marca item em nome de outra',
-    `insert into public.lista_compras_marcados (perfil_id, cardapio_id, item) values ('${OUTRA}', '${PUBLICADO}', 'Pão')`,
+    `insert into public.lista_compras_marcados (perfil_id, cardapio_id, item) values ('${OUTRA}', '${PREPARO}', 'Pão')`,
     '42501',
   )
   await esperaValor(
@@ -110,6 +117,26 @@ async function cardapios(t) {
     'a lista dela continua lá',
     `select count(*)::int from public.lista_compras_marcados`,
     1,
+  )
+}
+
+async function comTema(t) {
+  const { esperaValor } = t
+  await t.comoDono()
+  await t.db.query(
+    `update public.perfis set tema_atual_id = (select id from public.temas where chave = 'emagrecimento') where id = '${ALUNA}'`,
+  )
+  await t.comoAluna(ALUNA)
+  await esperaValor(
+    'com tema, vê só os cardápios do tema (a Preparação some)',
+    `select string_agg(titulo, ',') from public.cardapios`,
+    'Semana leve',
+  )
+  await t.comoAluna(OUTRA)
+  await esperaValor(
+    'outra aluna sem tema continua só na Preparação',
+    `select string_agg(titulo, ',') from public.cardapios`,
+    'Primeira semana',
   )
 }
 
@@ -172,6 +199,7 @@ export async function testarCardapiosLives() {
   const t = await criarBanco()
   await montar(t.db)
   await cardapios(t)
+  await comTema(t)
   await lives(t)
   return t.fim('cardápios e lives')
 }
