@@ -2,6 +2,12 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-06 · main · Equipe: convidar profissionais
+
+- Configurações > Equipe: lista com e-mail, especialidade, situação (Ativa ou Convite pendente) e último acesso; Convidar profissional, Editar, Gerar link de acesso e Tirar acesso.
+- Edge Function convidar-profissional cria a conta com a chave de serviço e devolve um link de uso único para enviar por WhatsApp ou e-mail; a página /definir-senha recebe o link, a profissional cria a senha e entra no painel.
+- Migração 20261008090000_equipe (25 checagens no PGlite); validação da função com testes.
+
 ## 2026-10-06 · main · Fórum completo (aluna e painel)
 
 - Banco (20261007220000_forum, 52 checagens no PGlite): dúvidas, respostas, curtidas e denúncias; cada dúvida numa aula ou no geral, com categoria e prazo de 72 h; aluna aparece só pelo apelido; tudo pelas funções forum_*. Enviar dúvida dá 5 pontos (até 2 por dia) e útil dá 10, pelo motor de pontos; ocultar estorna.

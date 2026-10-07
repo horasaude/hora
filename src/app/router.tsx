@@ -20,7 +20,8 @@ const pagina =
       | 'AlimentosPage'
       | 'PontosPage'
       | 'ForumPainelPage'
-      | 'DuvidaPainelPage',
+      | 'DuvidaPainelPage'
+      | 'EquipePage',
   ) =>
   async () => ({
     Component: (await admin())[nome],
@@ -53,6 +54,7 @@ const rotasAdmin: RouteObject[] = [
   { path: 'plano/alimentos', lazy: pagina('AlimentosPage') },
   ...['desafios', 'desafios/novo', 'desafios/:desafioId'].map((path) => ({ path, lazy: desafios })),
   ...['alunas', 'alunas/:alunaId'].map((path) => ({ path, lazy: alunas })),
+  { path: 'configuracoes/equipe', lazy: pagina('EquipePage') },
   ...['configuracoes', 'configuracoes/:item'].map((path) => ({ path, lazy: configuracoes })),
   { path: 'pontos', lazy: pagina('PontosPage') },
   { path: 'forum', lazy: pagina('ForumPainelPage') },
@@ -99,6 +101,10 @@ export const router = createBrowserRouter([
       {
         path: '/entrar',
         lazy: async () => ({ Component: (await import('@/features/auth')).LoginPage }),
+      },
+      {
+        path: '/definir-senha',
+        lazy: async () => ({ Component: (await import('@/features/auth')).DefinirSenhaPage }),
       },
       {
         path: '/app',

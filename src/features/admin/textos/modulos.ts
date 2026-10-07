@@ -91,6 +91,7 @@ export const configuracoes = {
   pagina: 'Configurações',
   colunas: ['Item', 'Valor atual'],
   pixCheio: 'Pix, preço cheio',
+  equipe: 'Equipe',
   pixOferta: 'Pix na oferta do ORA',
   diaOferta: 'Oferta do ORA',
   itens: {

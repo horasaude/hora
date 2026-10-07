@@ -14,7 +14,7 @@ export function cabecalhosCors(origem: string): Record<string, string> {
   return {
     'Access-Control-Allow-Origin': origem,
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'content-type',
+    'Access-Control-Allow-Headers': 'authorization, apikey, x-client-info, content-type',
     'Access-Control-Max-Age': '86400',
     Vary: 'Origin',
   }

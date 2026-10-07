@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import { useParams } from 'react-router-dom'
 import { diaEMes, formatarData, formatarDataHora } from '@/lib/datas'
 import { formatarPreco } from '@/lib/moeda'
+import { LinkBrilho } from '@/components/ui'
 import type { Configuracoes } from '../api/modulos.api'
 import { ConfigDetalhe } from '../components/ConfigDetalhe'
 import { Estado } from '../components/Estado'
@@ -63,7 +64,15 @@ export function ConfiguracoesPage() {
     )
   }
   return (
-    <Quadro titulo={t.pagina} numeros={numeros(config.data)}>
+    <Quadro
+      titulo={t.pagina}
+      numeros={numeros(config.data)}
+      acao={
+        <LinkBrilho tom="escuro" to="/app/admin/configuracoes/equipe">
+          {t.equipe}
+        </LinkBrilho>
+      }
+    >
       {corpo}
     </Quadro>
   )

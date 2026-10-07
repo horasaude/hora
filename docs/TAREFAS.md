@@ -54,7 +54,8 @@ Venda inicial por links do Mercado Pago; o checkout integrado da Sprint 2 substi
 - [ ] Tela de check-in da aluna chamando fazer_checkin (foto no bucket checkins)
 - [ ] Pedido do Mercado Pago registra indicação (indicacaoGuardada) e cancela no reembolso
 - [x] Fórum na aula e fórum geral, com fila e denúncias no painel
-- [ ] Cada profissional preencher Meu perfil no Fórum (especialidade e foto) depois de ganhar a conta
+- [x] Tela Equipe para convidar profissionais
+- [ ] Convidar Ana, Clara e Laís pela tela Equipe; cada uma coloca a foto em Meu perfil no Fórum
 - [ ] Medidas e consentimento
 - [ ] PWA instalável e notificação
 

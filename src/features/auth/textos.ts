@@ -6,4 +6,16 @@ export const textos = {
   entrando: 'Entrando...',
   erroCredenciais: 'E-mail ou senha não conferem.',
   carregando: 'Carregando...',
+  definir: {
+    titulo: 'Crie sua senha',
+    nova: 'Nova senha',
+    repetir: 'Repita a senha',
+    curta: 'Use pelo menos 8 caracteres',
+    diferentes: 'As senhas não são iguais',
+    erro: 'Não foi possível salvar. Peça um novo link.',
+    salvar: 'Salvar e entrar',
+    salvando: 'Salvando',
+    expirado: 'Este link expirou ou já foi usado. Peça um novo link.',
+    entrar: 'Ir para a tela de entrar',
+  },
 }
