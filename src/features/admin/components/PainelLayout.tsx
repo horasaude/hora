@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
-import { LogoHora } from '@/components/ui'
+import { LogoOra } from '@/components/ui'
 import { usePapel } from '@/features/auth'
 import { textos } from '../textos'
 import { Estado } from './Estado'
@@ -9,7 +9,7 @@ import { MenuLateral } from './MenuLateral'
 function BarraCelular({ aoAbrir }: { aoAbrir: () => void }) {
   return (
     <header className="sticky top-0 z-20 flex h-14 items-center justify-between bg-verde-escuro px-4 lg:hidden">
-      <LogoHora clara largura={96} />
+      <LogoOra clara largura={96} />
       <button
         type="button"
         onClick={aoAbrir}

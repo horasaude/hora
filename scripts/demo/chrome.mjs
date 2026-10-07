@@ -24,7 +24,7 @@ async function enderecoDaPagina() {
 
 /** Abre o Chrome e devolve { cdp, avaliar, fechar }. */
 export async function abrirChrome() {
-  const perfil = mkdtempSync(join(tmpdir(), 'hora-demo-chrome-'))
+  const perfil = mkdtempSync(join(tmpdir(), 'ora-demo-chrome-'))
   const processo = spawn(
     CHROME,
     [

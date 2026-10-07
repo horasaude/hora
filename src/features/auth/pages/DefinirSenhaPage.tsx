@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { BotaoBrilho, Campo, LogoHora } from '@/components/ui'
+import { BotaoBrilho, Campo, LogoOra } from '@/components/ui'
 import { supabase } from '@/lib/supabase'
 import { buscarPapel } from '../api/auth.api'
 import { useSessao } from '../hooks/useSessao'
@@ -62,7 +62,7 @@ export function DefinirSenhaPage() {
   return (
     <main className="font-sistema mx-auto flex min-h-svh max-w-sm flex-col justify-center gap-8 px-4 py-10">
       <header className="flex flex-col items-center gap-6 text-center">
-        <LogoHora largura={160} />
+        <LogoOra largura={160} />
         <h1 className="text-2xl font-bold text-verde-escuro">{t.titulo}</h1>
       </header>
       {carregando ? (

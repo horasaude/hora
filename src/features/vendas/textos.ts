@@ -1,4 +1,4 @@
-// Toda a copy da HORA, provisória. Os componentes só leem daqui. Itens marcados com TODO(clientes)
+// Toda a copy da ORA, provisória. Os componentes só leem daqui. Itens marcados com TODO(clientes)
 // dependem das três. *palavra* vira destaque em serifa itálica colorida.
 import { abertura } from './textos/abertura'
 import { app } from './textos/app'

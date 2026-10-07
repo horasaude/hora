@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { LogoHora } from '@/components/ui'
+import { LogoOra } from '@/components/ui'
 import { useNome } from '@/features/auth'
 import { textos } from '../textos'
 import { GrupoPlano, ItemMenu } from './MenuItens'
@@ -25,7 +25,7 @@ export function MenuLateral({ aoNavegar }: { aoNavegar?: () => void }) {
   const nome = useNome()
   return (
     <div className="flex h-full flex-col px-3.5 py-6">
-      <LogoHora clara largura={118} className="mx-2.5 mb-2" />
+      <LogoOra clara largura={118} className="mx-2.5 mb-2" />
       <nav className="mt-6 min-h-0 flex-1 overflow-y-auto">
         <ul className="flex flex-col gap-1">
           {ITENS.map((i) =>

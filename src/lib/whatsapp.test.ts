@@ -7,8 +7,8 @@ describe('linkWhatsApp', () => {
   })
 
   it('aceita número que já vem com 55 e codifica a mensagem', () => {
-    expect(linkWhatsApp('5598987654321', 'Oi, HORA')).toBe(
-      'https://wa.me/5598987654321?text=Oi%2C%20HORA',
+    expect(linkWhatsApp('5598987654321', 'Oi, ORA')).toBe(
+      'https://wa.me/5598987654321?text=Oi%2C%20ORA',
     )
   })
 

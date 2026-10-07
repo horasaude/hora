@@ -85,7 +85,7 @@ select public.conceder_pontos('aaaaaaaa-0000-0000-0000-000000000040', 'ajuste', 
 
 insert into public.desafios (nome, descricao, inicio, fim, tipo_checkin, unidade, meta_diaria, meta_dias, pontos_por_dia, bonus_conclusao, premio, premio_surpresa, publicado)
 values ('21 dias de água', 'Beba pelo menos 8 copos de água por dia e veja o calendário ficar verde.', public.hoje_brasilia() - 12,
-  public.hoje_brasilia() + 8, 'numero', 'copos', 8, 18, 10, 100, 'Garrafa térmica HORA', true, true);
+  public.hoje_brasilia() + 8, 'numero', 'copos', 8, 18, 10, 100, 'Garrafa térmica ORA', true, true);
 insert into public.desafio_participantes (desafio_id, perfil_id)
 select d.id, p.id from public.desafios d, public.perfis p where p.apelido in ('mari', 'flor.de.lis', 'julia_fit', 'renatinha');
 insert into public.desafio_checkins (desafio_id, perfil_id, dia, valor)

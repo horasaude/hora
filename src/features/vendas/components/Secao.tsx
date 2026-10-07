@@ -12,7 +12,7 @@ type Props = {
   marca?: boolean
   /** No computador, título à esquerda e conteúdo à direita (menos espaço vazio). */
   lateral?: boolean
-  /** Sem o botão "Quero entrar na HORA" no fim (só na própria seção de planos). */
+  /** Sem o botão "Quero entrar na ORA" no fim (só na própria seção de planos). */
   semBotao?: boolean
   /** Chamada do botão para os planos, própria de cada seção. */
   cta?: string

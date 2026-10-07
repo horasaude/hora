@@ -12,7 +12,7 @@ describe('deLinha', () => {
       recorrente_oferta: 21500,
       oferta_inicio: '2026-10-24T03:00:00+00:00',
       oferta_fim: '2026-10-25T02:59:59+00:00',
-      termos: [{ titulo: 'Quem somos', texto: 'A HORA' }],
+      termos: [{ titulo: 'Quem somos', texto: 'A ORA' }],
       privacidade: [],
       termos_atualizado_em: '2026-10-05T12:00:00+00:00',
       privacidade_atualizado_em: '2026-10-05T12:00:00+00:00',

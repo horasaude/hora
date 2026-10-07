@@ -74,7 +74,7 @@ describe('Popup de compra', () => {
     const fetch = await abrir(ok, 'pix')
     preencher()
     await vi.waitFor(() => expect(irPara).toHaveBeenCalledWith('/checkout'))
-    expect(JSON.parse(sessionStorage.getItem('hora:inscricao') ?? '{}')).toEqual({
+    expect(JSON.parse(sessionStorage.getItem('ora:inscricao') ?? '{}')).toEqual({
       plano: 'pix',
       nome: 'Maria',
       email: 'maria@teste.com',

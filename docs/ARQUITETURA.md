@@ -1,6 +1,6 @@
 # Arquitetura (resumo)
 
-O documento completo de planejamento está no Claude ("HORA: planejamento de desenvolvimento"). Este é o resumo que o Claude Code consulta.
+O documento completo de planejamento está no Claude ("ORA: planejamento de desenvolvimento"). Este é o resumo que o Claude Code consulta.
 
 ## Princípios
 

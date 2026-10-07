@@ -1,5 +1,5 @@
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import { LogoHora } from '@/components/ui'
+import { LogoOra } from '@/components/ui'
 import { useTemLiveHoje } from '@/features/lives'
 import { IconeNavegacao } from './IconesNavegacao'
 import { destino, SECOES, secaoAtiva, telaAtiva, type Secao } from './navegacao'
@@ -103,7 +103,7 @@ export function BarraLateral({ nome }: { nome: string }) {
   const { secao, tela, live } = useNavegacao()
   return (
     <aside className="fixed top-4 bottom-4 left-4 hidden w-60 flex-col rounded-[24px] border border-linha/60 bg-white px-4 py-6 shadow-menu lg:flex">
-      <LogoHora largura={120} className="mx-2 mt-1 mb-7" />
+      <LogoOra largura={120} className="mx-2 mt-1 mb-7" />
       <nav className="min-h-0 flex-1 overflow-y-auto">
         <ul className="flex flex-col gap-1">
           {SECOES.map((s) => (

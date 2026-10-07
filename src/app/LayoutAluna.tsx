@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom'
-import { LogoHora } from '@/components/ui'
+import { LogoOra } from '@/components/ui'
 import { useMeuPerfil, useRegistrarAcesso } from '@/features/auth'
 import { PrimeiroAcesso } from '@/features/primeiro-acesso'
 import { EscolhaAoAbrir } from '@/features/trilha'
@@ -37,7 +37,7 @@ export function LayoutAluna() {
         <>
           <BarraLateral nome={p?.apelido || p?.nome || ''} />
           <header className="flex h-16 items-center border-b border-linha px-5 sm:px-8 lg:hidden">
-            <LogoHora largura={120} />
+            <LogoOra largura={120} />
           </header>
           <main className="px-5 pt-6 pb-28 sm:px-8 lg:ml-[17rem] lg:px-12 lg:pt-12 lg:pb-16">
             <div className="mx-auto max-w-5xl">

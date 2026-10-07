@@ -1,6 +1,6 @@
-# HORA
+# ORA
 
-Plataforma da comunidade HORA. React + Vite + TypeScript + Supabase.
+Plataforma da comunidade ORA. React + Vite + TypeScript + Supabase.
 
 ## Rodar localmente
 

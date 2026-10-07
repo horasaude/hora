@@ -6,7 +6,7 @@ const PROPORCAO = 785 / 1919
 type Props = { largura: number; clara?: boolean; className?: string }
 
 /** clara: versão para fundo verde (logo-ora-clara.svg); senão, para fundo branco (logo-ora.svg). */
-export function LogoHora({ largura, clara = false, className = '' }: Props) {
+export function LogoOra({ largura, clara = false, className = '' }: Props) {
   return (
     <img
       src={clara ? '/logo-ora-clara.svg' : '/logo-ora.svg'}

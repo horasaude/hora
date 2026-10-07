@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { PLANOS, type Plano } from '@/domain/precos'
 
-const CHAVE = 'hora:inscricao'
+const CHAVE = 'ora:inscricao'
 
 const esquema = z.object({
   plano: z.enum(PLANOS),

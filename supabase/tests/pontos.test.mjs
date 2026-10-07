@@ -212,7 +212,7 @@ async function acoesProprias(t) {
   )
   await esperaValor(
     'admin renomeia a ação',
-    `with u as (update public.regras_pontos set nome = 'Post da HORA' where acao = '${acao}' returning 1) select count(*)::int from u`,
+    `with u as (update public.regras_pontos set nome = 'Post da ORA' where acao = '${acao}' returning 1) select count(*)::int from u`,
     1,
   )
   const antes = (await db.query(soma(ALUNA))).rows[0].coalesce

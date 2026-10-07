@@ -17,7 +17,7 @@ describe('inscricao', () => {
 
   it('sem nada guardado ou com dado estranho, devolve null', () => {
     expect(lerInscricao()).toBeNull()
-    sessionStorage.setItem('hora:inscricao', '{"plano":"anual"}')
+    sessionStorage.setItem('ora:inscricao', '{"plano":"anual"}')
     expect(lerInscricao()).toBeNull()
   })
 })

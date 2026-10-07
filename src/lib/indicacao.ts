@@ -1,7 +1,9 @@
 // Código do link pessoal de indicação (/?ind=CODIGO). Fica guardado 30 dias neste navegador
 // para ir junto do pedido; quem confere autoindicação e dá os pontos é o banco.
 
-const ARMAZEM = 'hora:indicacao'
+const ARMAZEM = 'ora:indicacao'
+/** Chave usada antes da troca de nome; ainda lida para não perder indicação guardada. */
+const ARMAZEM_ANTIGO = 'hora:indicacao'
 const VALIDADE_MS = 30 * 86_400_000
 
 /** Código válido: 4 a 16 letras e números, em maiúsculas. */
@@ -22,7 +24,9 @@ export function guardarIndicacao(busca: string, agora = Date.now()): void {
 
 export function indicacaoGuardada(agora = Date.now()): string | null {
   try {
-    const salvo = JSON.parse(localStorage.getItem(ARMAZEM) ?? 'null') as {
+    const salvo = JSON.parse(
+      localStorage.getItem(ARMAZEM) ?? localStorage.getItem(ARMAZEM_ANTIGO) ?? 'null',
+    ) as {
       codigo?: unknown
       ate?: unknown
     } | null

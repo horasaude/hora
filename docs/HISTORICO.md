@@ -8,11 +8,11 @@ Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquiv
 - Painel: etiqueta por aula (Visível para alunas, ou Não aparece: aula, etapa ou tema em rascunho); publicar aula de etapa ou tema em rascunho pergunta "Publicar tudo" ou "Só a aula". "Ver como aluna" em Conteúdo (/app/previa): trilha_previa com dia de 1 a 365 e tema, faixa ocre de Pré-visualização, só admin e sem gravar nada. "Liberar acesso" na ficha da aluna (liberar_acesso, 12 meses, registra quem e quando em acessos_liberados).
 - Vídeo do YouTube como primeiro campo com ajuda e prévia grande (aula, Comece por aqui, gravação da live). Materiais da aula: arrastar e soltar (PDF, JPG, PNG, WEBP, até 20 MB), nome editável, progresso, ordem e remover; espaço privado materiais e tabela aula_materiais; material_url migrado como link. Aluna baixa pela Edge Function materiais-aula (link assinado de 10 minutos, só de aula liberada). Capa da gravação por envio de imagem (até 5 MB, em materiais/capas).
 - Nome do app ORA no manifest, título, login, primeiro acesso, mensagens e agenda. Migração 20261012090000_materiais_previa_acesso.
-- Pendente: cadastrar as aulas reais no painel; textos da página de vendas e dos termos ainda dizem HORA (decidir com as clientes).
+- Pendente: cadastrar as aulas reais no painel; textos da página de vendas e dos termos ainda dizem ORA (decidir com as clientes).
 
 ## 2026-10-07 · main · Ajustes da área da aluna (logo ORA, live, gravações, cardápios, aula)
 
-- Logo do ORA em todo o sistema (LogoHora aponta para logo-ora.svg e logo-ora-clara.svg), impressão do cardápio e ícones do app (icone.svg, icone-192, icone-512, apple-touch-icon).
+- Logo do ORA em todo o sistema (LogoOra aponta para logo-ora.svg e logo-ora-clara.svg), impressão do cardápio e ícones do app (icone.svg, icone-192, icone-512, apple-touch-icon).
 - Início: um aviso de live só (card dourado da live de hoje ou faixa ocre #F6EBD3 da próxima, que leva para Lives); saiu a fileira de atalhos do celular.
 - Gravações: capa cadastrada no painel (lives.capa_url, migração 20261011120000_capa_da_live) ou foto da profissional em círculo sobre areia com play verde ORA.
 - Cardápios: abas internas sublinhadas Meu cardápio e Receitas. Aula concluída sem Desfazer. "Tenho uma dúvida" em terracota e Registrar medidas em verde escuro (dourado só para lives, progresso e prêmios). Barra da etapa: "Faltam X aulas e Y dias para abrir ..." (metaDaEtapa em src/domain/trilha.ts); na última etapa, só a porcentagem.
@@ -100,10 +100,10 @@ Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquiv
 - Barras douradas com o que falta: etapa da trilha (faltam N aulas), progresso da aluna no painel e andamento do desafio (novo: Dia X de Y · faltam Z dias, regra progressoDesafio em src/domain/painel.ts).
 - Login segue com o botão antigo; vendas e checkout sem mudança.
 
-## 2026-10-06 · main · Logo da HORA no sistema
+## 2026-10-06 · main · Logo da ORA no sistema
 
-- LogoHora (src/components/ui): SVG de public/ com a proporção travada. Painel: logo clara (140 px) no topo do menu verde e na barra do celular. Área da aluna: barra no topo com a logo verde à esquerda, no computador e no celular. Entrar: logo verde centralizada no lugar da do ORA. Vendas, checkout, ícone e favicon sem mudança.
-- Pendente: logo-hora-clara.svg veio verde igual à escura; por ora um filtro deixa a imagem branca no fundo verde. Com o arquivo claro de verdade, tirar o filtro em LogoHora.
+- LogoOra (src/components/ui): SVG de public/ com a proporção travada. Painel: logo clara (140 px) no topo do menu verde e na barra do celular. Área da aluna: barra no topo com a logo verde à esquerda, no computador e no celular. Entrar: logo verde centralizada no lugar da do ORA. Vendas, checkout, ícone e favicon sem mudança.
+- Pendente: logo-ora-clara.svg veio verde igual à escura; por ora um filtro deixa a imagem branca no fundo verde. Com o arquivo claro de verdade, tirar o filtro em LogoOra.
 
 ## 2026-10-06 · main · Fonte Arial no sistema
 
@@ -111,7 +111,7 @@ Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquiv
 
 ## 2026-10-06 · main · Área da aluna para computador
 
-- Todo o sistema é feito para computador e responsivo para celular (regra no CLAUDE.md). Área da aluna: no computador, barra lateral verde no padrão do painel (HORA em ocre, 5 itens com ícone, logada como) e conteúdo na largura da tela; no celular, barra fixa embaixo com 5 ícones.
+- Todo o sistema é feito para computador e responsivo para celular (regra no CLAUDE.md). Área da aluna: no computador, barra lateral verde no padrão do painel (ORA em ocre, 5 itens com ícone, logada como) e conteúdo na largura da tela; no celular, barra fixa embaixo com 5 ícones.
 - Início em duas colunas, trilha com aulas em grade, aula com vídeo grande e a lateral com título, material e concluir; primeiro acesso num cartão centralizado.
 
 ## 2026-10-06 · main · Painel completo
@@ -134,7 +134,7 @@ Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquiv
 
 ## 2026-10-06 · main · Visual do painel igual à apresentação
 
-- Painel refeito sobre docs/referencias/painel-apresentado.png: barra lateral verde fixa (HORA em ocre, itens com bolinha colorida, item ativo com fundo claro, "Logada como" com o nome da perfis), fundo areia, título em Playfair, cartões de resumo (sálvia, ocre, terracota), tabela branca com cabeçalho em caixa alta pequena e etiquetas Publicado (verde) e Rascunho (ocre).
+- Painel refeito sobre docs/referencias/painel-apresentado.png: barra lateral verde fixa (ORA em ocre, itens com bolinha colorida, item ativo com fundo claro, "Logada como" com o nome da perfis), fundo areia, título em Playfair, cartões de resumo (sálvia, ocre, terracota), tabela branca com cabeçalho em caixa alta pequena e etiquetas Publicado (verde) e Rascunho (ocre).
 - Clicar numa linha abre o item num cartão branco à direita, sem sair da tela: tema (publicar, editar, etapas e aulas), aula (formulário com prévia do vídeo), live e aviso (dados, publicar e formulário). Lista vazia: mensagem curta e botão de criar no centro. No celular a barra vira menu aberto por botão.
 - Resumos: temas publicados, aulas publicadas e em rascunho; próxima live e lives agendadas; avisos ativos.
 - Rotas de detalhe apontam para a página da lista. Nada mudou no banco. useNome novo na feature auth.
@@ -146,7 +146,7 @@ Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquiv
 - Conteúdo: temas, etapas e aulas com criar, editar, publicar/tirar do ar e reordenar (botões subir/descer). Aula: prévia do vídeo ao colar o link (src/lib/video.ts: YouTube, Vimeo, Google Drive), material e liberação "Liberada na compra" (dia 1), "Depois de 7 dias" (dia 8) ou outro dia.
 - Lives e avisos com datas no horário de Brasília (paraCampoBrasilia/deCampoBrasilia em src/lib/datas.ts).
 - Migração 20261006180000_ordem_conteudo (aplicada): mover_tema/etapa/aula só para admin; unique de etapas adiável. 16 checagens novas no PGlite.
-- Conta admin de teste criada no banco (admin.teste@exemplo.com); senha só no arquivo local ~/HORA-admin-teste.txt, fora do repositório. Login, papel e RLS conferidos por API.
+- Conta admin de teste criada no banco (admin.teste@exemplo.com); senha só no arquivo local ~/ORA-admin-teste.txt, fora do repositório. Login, papel e RLS conferidos por API.
 - Atalho "Painel das profissionais" na tela inicial para admins. Pacote do painel: 25 KB, só carrega em /app/admin.
 - Pendente: excluir (por enquanto, tirar do ar); apagar a conta de teste depois dos testes.
 
@@ -199,7 +199,7 @@ Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquiv
 ## 2026-10-06 · main · Vídeos em cortes curtos e botão em cada seção
 
 - Vídeo de fundo: corrida, academia (6326781/32239227), salada e refeição (9034023/8171533), cada um no máximo 6 s (TAKE_SEGUNDOS). Sai o yoga na piscina. Teste garante a ordem e que vários avisos de tempo não pulam clipes.
-- Botão "Quero entrar na HORA" no fim de cada seção levando a #preco (Secao, exceto a de planos: semBotao).
+- Botão "Quero entrar na ORA" no fim de cada seção levando a #preco (Secao, exceto a de planos: semBotao).
 
 ## 2026-10-06 · main · Oferta só no dia do evento (24/10)
 
@@ -231,7 +231,7 @@ Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquiv
 ## 2026-10-05 · main · Mês grátis em destaque e checkout com a marca
 
 - Oferta: "Compre 12 meses e ganhe 1 mês grátis" vira o título do aviso; selo "+1 mês grátis" nos três planos; "12 meses + 1 mês grátis" no lugar de "13 meses de acesso".
-- Checkout: logo ORA no resumo (no lugar da foto) e banner do programa (creme, "A" de marca d'água, Comunidade HORA, oferta + 1 mês grátis).
+- Checkout: logo ORA no resumo (no lugar da foto) e banner do programa (creme, "A" de marca d'água, Comunidade ORA, oferta + 1 mês grátis).
 
 ## 2026-10-05 · main · Checkout próprio (visual, pagamento desligado)
 
@@ -304,9 +304,9 @@ Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquiv
 
 ## 2026-10-04 · feat/tela-entrada · Tela de entrada com a logo
 
-- Login mostra a logo ORA (public/logo-ora.png, fundo transparente) e o título "Chegou a sua HORA de começar", com e-mail e senha embaixo.
+- Login mostra a logo ORA (public/logo-ora.png, fundo transparente) e o título "Chegou a sua ORA de começar", com e-mail e senha embaixo.
 - Arquivos: src/features/auth/pages/LoginPage.tsx, src/features/auth/textos.ts, public/logo-ora.png.
-- Pendente: logo em SVG ou maior resolução; confirmar se existe logo própria da HORA.
+- Pendente: logo em SVG ou maior resolução; confirmar se existe logo própria da ORA.
 
 ## 2026-10-04 · chore/banco-pglite · Infraestrutura conectada (Sprint 0, parte 2)
 

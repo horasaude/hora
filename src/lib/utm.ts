@@ -7,7 +7,7 @@ export type Utms = {
 }
 
 const CHAVES = ['source', 'medium', 'campaign', 'content', 'term'] as const
-const ARMAZEM = 'hora:utm'
+const ARMAZEM = 'ora:utm'
 
 export function lerUtms(busca: string): Utms {
   const params = new URLSearchParams(busca)

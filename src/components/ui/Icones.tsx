@@ -1,4 +1,4 @@
-// Ícones desenhados para a HORA: traço fino, cantos redondos, cor herdada do texto.
+// Ícones desenhados para a ORA: traço fino, cantos redondos, cor herdada do texto.
 
 type Props = { className?: string }
 

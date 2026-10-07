@@ -1,4 +1,4 @@
-// Ícones da barra da aluna, desenhados para a HORA: traço fino e cantos redondos.
+// Ícones da barra da aluna, desenhados para a ORA: traço fino e cantos redondos.
 
 const traco = {
   fill: 'none',

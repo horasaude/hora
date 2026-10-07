@@ -24,7 +24,7 @@ describe('utm', () => {
 
   it('sessão vazia ou corrompida devolve vazio', () => {
     expect(utmsGuardadas()).toEqual({})
-    sessionStorage.setItem('hora:utm', '{quebrado')
+    sessionStorage.setItem('ora:utm', '{quebrado')
     expect(utmsGuardadas()).toEqual({})
   })
 })

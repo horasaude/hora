@@ -5,7 +5,7 @@ import { useTrilha } from '../hooks/useTrilha'
 import { textos } from '../textos'
 import { EscolhaTema } from './EscolhaTema'
 
-const CHAVE = 'hora:escolha-tema-adiada'
+const CHAVE = 'ora:escolha-tema-adiada'
 
 function adiadaNestaVisita() {
   try {

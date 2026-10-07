@@ -165,4 +165,4 @@ Componentes do estilo (toda tela nova usa estes): BotaoBrilho, LinkBrilho, Etiqu
 | Testes de banco | supabase/tests (harness.mjs em PGlite, rodar.mjs)                           |
 | Git             | github.com/horasaude/hora, chave SSH própria (~/.ssh/hora)                  |
 | PWA             | vite.config.ts (VitePWA), escopo /app/, decisão 0003                        |
-| Meta tags       | index.html, imagem public/og-hora.png                                       |
+| Meta tags       | index.html, imagem public/og-ora.png                                        |
