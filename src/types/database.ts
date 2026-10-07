@@ -14,138 +14,6 @@ export type Database = {
   }
   public: {
     Tables: {
-      comece_aqui: {
-        Row: {
-          id: boolean
-          texto: string
-          updated_at: string
-          video_url: string | null
-        }
-        Insert: {
-          id?: boolean
-          texto?: string
-          updated_at?: string
-          video_url?: string | null
-        }
-        Update: {
-          id?: boolean
-          texto?: string
-          updated_at?: string
-          video_url?: string | null
-        }
-        Relationships: []
-      }
-      comece_aqui_feitos: {
-        Row: {
-          created_at: string
-          item: string
-          perfil_id: string
-        }
-        Insert: {
-          created_at?: string
-          item: string
-          perfil_id?: string
-        }
-        Update: {
-          created_at?: string
-          item?: string
-          perfil_id?: string
-        }
-        Relationships: []
-      }
-      etapas_iniciadas: {
-        Row: {
-          etapa_id: string
-          iniciada_em: string
-          perfil_id: string
-        }
-        Insert: {
-          etapa_id: string
-          iniciada_em?: string
-          perfil_id: string
-        }
-        Update: {
-          etapa_id?: string
-          iniciada_em?: string
-          perfil_id?: string
-        }
-        Relationships: []
-      }
-      lista_compras_marcados: {
-        Row: {
-          cardapio_id: string
-          created_at: string
-          item: string
-          perfil_id: string
-        }
-        Insert: {
-          cardapio_id: string
-          created_at?: string
-          item: string
-          perfil_id?: string
-        }
-        Update: {
-          cardapio_id?: string
-          created_at?: string
-          item?: string
-          perfil_id?: string
-        }
-        Relationships: []
-      }
-      lives_lembretes: {
-        Row: {
-          created_at: string
-          live_id: string
-          perfil_id: string
-        }
-        Insert: {
-          created_at?: string
-          live_id: string
-          perfil_id?: string
-        }
-        Update: {
-          created_at?: string
-          live_id?: string
-          perfil_id?: string
-        }
-        Relationships: []
-      }
-      lives_presencas: {
-        Row: {
-          created_at: string
-          live_id: string
-          perfil_id: string
-        }
-        Insert: {
-          created_at?: string
-          live_id: string
-          perfil_id: string
-        }
-        Update: {
-          created_at?: string
-          live_id?: string
-          perfil_id?: string
-        }
-        Relationships: []
-      }
-      receitas_favoritas: {
-        Row: {
-          created_at: string
-          perfil_id: string
-          receita_id: string
-        }
-        Insert: {
-          created_at?: string
-          perfil_id?: string
-          receita_id: string
-        }
-        Update: {
-          created_at?: string
-          perfil_id?: string
-          receita_id?: string
-        }
-        Relationships: []
-      }
       alimentos: {
         Row: {
           busca: string | null
@@ -415,6 +283,53 @@ export type Database = {
           },
         ]
       }
+      comece_aqui: {
+        Row: {
+          id: boolean
+          texto: string
+          updated_at: string
+          video_url: string | null
+        }
+        Insert: {
+          id?: boolean
+          texto?: string
+          updated_at?: string
+          video_url?: string | null
+        }
+        Update: {
+          id?: boolean
+          texto?: string
+          updated_at?: string
+          video_url?: string | null
+        }
+        Relationships: []
+      }
+      comece_aqui_feitos: {
+        Row: {
+          created_at: string
+          item: string
+          perfil_id: string
+        }
+        Insert: {
+          created_at?: string
+          item: string
+          perfil_id?: string
+        }
+        Update: {
+          created_at?: string
+          item?: string
+          perfil_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comece_aqui_feitos_perfil_id_fkey"
+            columns: ["perfil_id"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       configuracoes: {
         Row: {
           id: boolean
@@ -677,6 +592,39 @@ export type Database = {
             columns: ["tema_id"]
             isOneToOne: false
             referencedRelation: "temas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      etapas_iniciadas: {
+        Row: {
+          etapa_id: string
+          iniciada_em: string
+          perfil_id: string
+        }
+        Insert: {
+          etapa_id: string
+          iniciada_em?: string
+          perfil_id: string
+        }
+        Update: {
+          etapa_id?: string
+          iniciada_em?: string
+          perfil_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "etapas_iniciadas_etapa_id_fkey"
+            columns: ["etapa_id"]
+            isOneToOne: false
+            referencedRelation: "etapas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "etapas_iniciadas_perfil_id_fkey"
+            columns: ["perfil_id"]
+            isOneToOne: false
+            referencedRelation: "perfis"
             referencedColumns: ["id"]
           },
         ]
@@ -1086,47 +1034,149 @@ export type Database = {
           },
         ]
       }
+      lista_compras_marcados: {
+        Row: {
+          cardapio_id: string
+          created_at: string
+          item: string
+          perfil_id: string
+        }
+        Insert: {
+          cardapio_id: string
+          created_at?: string
+          item: string
+          perfil_id?: string
+        }
+        Update: {
+          cardapio_id?: string
+          created_at?: string
+          item?: string
+          perfil_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lista_compras_marcados_cardapio_id_fkey"
+            columns: ["cardapio_id"]
+            isOneToOne: false
+            referencedRelation: "cardapios"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lista_compras_marcados_perfil_id_fkey"
+            columns: ["perfil_id"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lives: {
         Row: {
-          profissional: string | null
-          duracao_minutos: number
           convidada: string | null
           created_at: string
           data: string
+          duracao_minutos: number
           gravacao_url: string | null
           id: string
           link_url: string | null
+          profissional: string | null
           publicado: boolean
           tema: string
           updated_at: string
         }
         Insert: {
-          profissional?: string | null
-          duracao_minutos?: number
           convidada?: string | null
           created_at?: string
           data: string
+          duracao_minutos?: number
           gravacao_url?: string | null
           id?: string
           link_url?: string | null
+          profissional?: string | null
           publicado?: boolean
           tema: string
           updated_at?: string
         }
         Update: {
-          profissional?: string | null
-          duracao_minutos?: number
           convidada?: string | null
           created_at?: string
           data?: string
+          duracao_minutos?: number
           gravacao_url?: string | null
           id?: string
           link_url?: string | null
+          profissional?: string | null
           publicado?: boolean
           tema?: string
           updated_at?: string
         }
         Relationships: []
+      }
+      lives_lembretes: {
+        Row: {
+          created_at: string
+          live_id: string
+          perfil_id: string
+        }
+        Insert: {
+          created_at?: string
+          live_id: string
+          perfil_id?: string
+        }
+        Update: {
+          created_at?: string
+          live_id?: string
+          perfil_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lives_lembretes_live_id_fkey"
+            columns: ["live_id"]
+            isOneToOne: false
+            referencedRelation: "lives"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lives_lembretes_perfil_id_fkey"
+            columns: ["perfil_id"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lives_presencas: {
+        Row: {
+          created_at: string
+          live_id: string
+          perfil_id: string
+        }
+        Insert: {
+          created_at?: string
+          live_id: string
+          perfil_id: string
+        }
+        Update: {
+          created_at?: string
+          live_id?: string
+          perfil_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lives_presencas_live_id_fkey"
+            columns: ["live_id"]
+            isOneToOne: false
+            referencedRelation: "lives"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lives_presencas_perfil_id_fkey"
+            columns: ["perfil_id"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       loja_cliques: {
         Row: {
@@ -1343,7 +1393,6 @@ export type Database = {
       }
       perfis: {
         Row: {
-          tema_atual_id: string | null
           acesso_fim_em: string | null
           acesso_inicio_em: string | null
           apelido: string | null
@@ -1359,12 +1408,12 @@ export type Database = {
           nome: string
           ocultar_ranking: boolean
           papel: Database["public"]["Enums"]["papel"]
+          tema_atual_id: string | null
           titulo_profissional: string | null
           ultimo_acesso_em: string | null
           updated_at: string
         }
         Insert: {
-          tema_atual_id?: string | null
           acesso_fim_em?: string | null
           acesso_inicio_em?: string | null
           apelido?: string | null
@@ -1380,12 +1429,12 @@ export type Database = {
           nome?: string
           ocultar_ranking?: boolean
           papel?: Database["public"]["Enums"]["papel"]
+          tema_atual_id?: string | null
           titulo_profissional?: string | null
           ultimo_acesso_em?: string | null
           updated_at?: string
         }
         Update: {
-          tema_atual_id?: string | null
           acesso_fim_em?: string | null
           acesso_inicio_em?: string | null
           apelido?: string | null
@@ -1401,11 +1450,20 @@ export type Database = {
           nome?: string
           ocultar_ranking?: boolean
           papel?: Database["public"]["Enums"]["papel"]
+          tema_atual_id?: string | null
           titulo_profissional?: string | null
           ultimo_acesso_em?: string | null
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "perfis_tema_atual_id_fkey"
+            columns: ["tema_atual_id"]
+            isOneToOne: false
+            referencedRelation: "temas"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       receita_itens: {
         Row: {
@@ -1448,9 +1506,6 @@ export type Database = {
       }
       receitas: {
         Row: {
-          tempo_minutos: number | null
-          refeicoes: string[]
-          objetivos: string[]
           busca: string | null
           calcular: boolean
           created_at: string
@@ -1458,16 +1513,16 @@ export type Database = {
           id: string
           ingredientes: string
           nome: string
+          objetivos: string[]
           porcoes: number
           preparo: string
           publicado: boolean
+          refeicoes: string[]
           tags: string[]
+          tempo_minutos: number | null
           updated_at: string
         }
         Insert: {
-          tempo_minutos?: number | null
-          refeicoes?: string[]
-          objetivos?: string[]
           busca?: string | null
           calcular?: boolean
           created_at?: string
@@ -1475,16 +1530,16 @@ export type Database = {
           id?: string
           ingredientes?: string
           nome: string
+          objetivos?: string[]
           porcoes?: number
           preparo?: string
           publicado?: boolean
+          refeicoes?: string[]
           tags?: string[]
+          tempo_minutos?: number | null
           updated_at?: string
         }
         Update: {
-          tempo_minutos?: number | null
-          refeicoes?: string[]
-          objetivos?: string[]
           busca?: string | null
           calcular?: boolean
           created_at?: string
@@ -1492,13 +1547,49 @@ export type Database = {
           id?: string
           ingredientes?: string
           nome?: string
+          objetivos?: string[]
           porcoes?: number
           preparo?: string
           publicado?: boolean
+          refeicoes?: string[]
           tags?: string[]
+          tempo_minutos?: number | null
           updated_at?: string
         }
         Relationships: []
+      }
+      receitas_favoritas: {
+        Row: {
+          created_at: string
+          perfil_id: string
+          receita_id: string
+        }
+        Insert: {
+          created_at?: string
+          perfil_id?: string
+          receita_id: string
+        }
+        Update: {
+          created_at?: string
+          perfil_id?: string
+          receita_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "receitas_favoritas_perfil_id_fkey"
+            columns: ["perfil_id"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "receitas_favoritas_receita_id_fkey"
+            columns: ["receita_id"]
+            isOneToOne: false
+            referencedRelation: "receitas"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       refeicoes_modelo: {
         Row: {
@@ -1574,35 +1665,35 @@ export type Database = {
       }
       temas: {
         Row: {
-          tipo: string
           chave: string | null
           created_at: string
           descricao: string
           id: string
           ordem: number
           publicado: boolean
+          tipo: string
           titulo: string
           updated_at: string
         }
         Insert: {
-          tipo?: string
           chave?: string | null
           created_at?: string
           descricao?: string
           id?: string
           ordem?: number
           publicado?: boolean
+          tipo?: string
           titulo: string
           updated_at?: string
         }
         Update: {
-          tipo?: string
           chave?: string | null
           created_at?: string
           descricao?: string
           id?: string
           ordem?: number
           publicado?: boolean
+          tipo?: string
           titulo?: string
           updated_at?: string
         }
@@ -1613,13 +1704,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      alunas_em_desafios_ativos: { Args: never; Returns: number }
+      atualizar_etapas: { Args: { p_perfil: string }; Returns: undefined }
       aula_liberada: { Args: { p_aula: string }; Returns: boolean }
       aulas_da_etapa: { Args: { p_etapa: string }; Returns: Json }
-      dia_atual_de: { Args: { p_agora: string; p_inicio: string }; Returns: number }
-      entrar_live: { Args: { p_live: string }; Returns: Json }
-      escolher_tema: { Args: { p_tema: string }; Returns: undefined }
-      trilha_aluna: { Args: never; Returns: Json }
-      alunas_em_desafios_ativos: { Args: never; Returns: number }
       cancelar_indicacao: {
         Args: { p_indicacao: string; p_motivo: string }
         Returns: undefined
@@ -1661,6 +1749,10 @@ export type Database = {
         Args: { p_acao: string; p_perfis: string[] }
         Returns: number
       }
+      dia_atual_de: {
+        Args: { p_agora: string; p_inicio: string }
+        Returns: number
+      }
       dia_de_acesso: { Args: never; Returns: number }
       dias_cumpridos: {
         Args: { p_desafio: string; p_perfil: string }
@@ -1678,9 +1770,15 @@ export type Database = {
       }
       eh_admin: { Args: never; Returns: boolean }
       entrar_desafio: { Args: { p_desafio: string }; Returns: undefined }
+      entrar_live: { Args: { p_live: string }; Returns: Json }
+      escolher_tema: { Args: { p_tema: string }; Returns: undefined }
       estornar_lancamento: {
         Args: { p_criado_por: string; p_lancamento: string; p_motivo: string }
         Returns: string
+      }
+      etapa_pode_avancar: {
+        Args: { p_etapa: string; p_perfil: string }
+        Returns: boolean
       }
       fazer_checkin: {
         Args: {
@@ -1937,6 +2035,7 @@ export type Database = {
       }
       tem_acesso_ativo: { Args: never; Returns: boolean }
       texto_busca: { Args: { valor: string }; Returns: string }
+      trilha_aluna: { Args: never; Returns: Json }
       vencedoras_desafio: {
         Args: { p_desafio: string }
         Returns: {
