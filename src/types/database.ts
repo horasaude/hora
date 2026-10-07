@@ -1121,38 +1121,6 @@ export type Database = {
           },
         ]
       }
-      medidas_caseiras: {
-        Row: {
-          alimento_id: string
-          gramas: number
-          id: string
-          nome: string
-          ordem: number
-        }
-        Insert: {
-          alimento_id: string
-          gramas: number
-          id?: string
-          nome: string
-          ordem?: number
-        }
-        Update: {
-          alimento_id?: string
-          gramas?: number
-          id?: string
-          nome?: string
-          ordem?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "medidas_caseiras_alimento_id_fkey"
-            columns: ["alimento_id"]
-            isOneToOne: false
-            referencedRelation: "alimentos"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       medidas: {
         Row: {
           braco: number | null
@@ -1190,7 +1158,47 @@ export type Database = {
           peso?: number | null
           quadril?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "medidas_perfil_id_fkey"
+            columns: ["perfil_id"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      medidas_caseiras: {
+        Row: {
+          alimento_id: string
+          gramas: number
+          id: string
+          nome: string
+          ordem: number
+        }
+        Insert: {
+          alimento_id: string
+          gramas: number
+          id?: string
+          nome: string
+          ordem?: number
+        }
+        Update: {
+          alimento_id?: string
+          gramas?: number
+          id?: string
+          nome?: string
+          ordem?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "medidas_caseiras_alimento_id_fkey"
+            columns: ["alimento_id"]
+            isOneToOne: false
+            referencedRelation: "alimentos"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       perfis: {
         Row: {
@@ -1451,6 +1459,10 @@ export type Database = {
         Args: { p_indicacao: string; p_motivo: string }
         Returns: undefined
       }
+      checkin_desafio: {
+        Args: { p_desafio: string; p_foto_path?: string; p_valor?: number }
+        Returns: number
+      }
       cliques_por_semana: {
         Args: { p_produto: string; p_semanas?: number }
         Returns: {
@@ -1500,15 +1512,11 @@ export type Database = {
         Returns: undefined
       }
       eh_admin: { Args: never; Returns: boolean }
+      entrar_desafio: { Args: { p_desafio: string }; Returns: undefined }
       estornar_lancamento: {
         Args: { p_criado_por: string; p_lancamento: string; p_motivo: string }
         Returns: string
       }
-      checkin_desafio: {
-        Args: { p_desafio: string; p_foto_path?: string; p_valor?: number }
-        Returns: number
-      }
-      entrar_desafio: { Args: { p_desafio: string }; Returns: undefined }
       fazer_checkin: {
         Args: {
           p_duracao?: number
@@ -1516,7 +1524,10 @@ export type Database = {
           p_tipo: string
           p_tipo_treino?: string
         }
-        Returns: { id: string; pontos: number }[]
+        Returns: {
+          id: string
+          pontos: number
+        }[]
       }
       forum_aceitar_regras: { Args: never; Returns: undefined }
       forum_curtir: {
@@ -1732,11 +1743,21 @@ export type Database = {
       }
       ranking_desafio: {
         Args: { p_desafio: string }
-        Returns: { apelido: string; dias: number; eu: boolean; posicao: number }[]
+        Returns: {
+          apelido: string
+          dias: number
+          eu: boolean
+          posicao: number
+        }[]
       }
       ranking_pontos: {
         Args: { p_periodo: string }
-        Returns: { apelido: string; eu: boolean; pontos: number; posicao: number }[]
+        Returns: {
+          apelido: string
+          eu: boolean
+          pontos: number
+          posicao: number
+        }[]
       }
       registrar_acesso: { Args: never; Returns: undefined }
       registrar_clique_loja: { Args: { p_produto: string }; Returns: undefined }
