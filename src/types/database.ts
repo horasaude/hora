@@ -104,6 +104,53 @@ export type Database = {
         }
         Relationships: []
       }
+      assinaturas: {
+        Row: {
+          created_at: string
+          id: string
+          inadimplente_desde: string | null
+          mp_assinatura_id: string
+          parcelas_pagas: number
+          pedido_id: string
+          proxima_cobranca: string | null
+          status: string
+          ultima_cobranca_em: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          inadimplente_desde?: string | null
+          mp_assinatura_id: string
+          parcelas_pagas?: number
+          pedido_id: string
+          proxima_cobranca?: string | null
+          status?: string
+          ultima_cobranca_em?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          inadimplente_desde?: string | null
+          mp_assinatura_id?: string
+          parcelas_pagas?: number
+          pedido_id?: string
+          proxima_cobranca?: string | null
+          status?: string
+          ultima_cobranca_em?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assinaturas_pedido_id_fkey"
+            columns: ["pedido_id"]
+            isOneToOne: true
+            referencedRelation: "pedidos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       aula_materiais: {
         Row: {
           aula_id: string
@@ -705,6 +752,50 @@ export type Database = {
             columns: ["perfil_id"]
             isOneToOne: false
             referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      eventos_pagamento: {
+        Row: {
+          created_at: string
+          dados: Json
+          erro: string | null
+          id: string
+          pedido_id: string | null
+          processado_em: string | null
+          recurso_id: string
+          status: string
+          tipo: string
+        }
+        Insert: {
+          created_at?: string
+          dados?: Json
+          erro?: string | null
+          id?: string
+          pedido_id?: string | null
+          processado_em?: string | null
+          recurso_id: string
+          status?: string
+          tipo: string
+        }
+        Update: {
+          created_at?: string
+          dados?: Json
+          erro?: string | null
+          id?: string
+          pedido_id?: string | null
+          processado_em?: string | null
+          recurso_id?: string
+          status?: string
+          tipo?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "eventos_pagamento_pedido_id_fkey"
+            columns: ["pedido_id"]
+            isOneToOne: false
+            referencedRelation: "pedidos"
             referencedColumns: ["id"]
           },
         ]
@@ -1474,12 +1565,105 @@ export type Database = {
           },
         ]
       }
+      pedidos: {
+        Row: {
+          aprovado_em: string | null
+          boas_vindas_em: string | null
+          codigo_indicacao: string | null
+          cpf: string
+          created_at: string
+          email: string
+          encerrado_em: string | null
+          id: string
+          lembrete_pix_em: string | null
+          meses_acesso: number
+          mp_assinatura_id: string | null
+          mp_pagamento_id: string | null
+          nome: string
+          oferta: boolean
+          parcelas: number
+          perfil_id: string | null
+          pix_copia_cola: string | null
+          pix_expira_em: string | null
+          plano: string
+          status: string
+          status_detalhe: string | null
+          updated_at: string
+          utms: Json
+          valor_centavos: number
+          whatsapp: string
+        }
+        Insert: {
+          aprovado_em?: string | null
+          boas_vindas_em?: string | null
+          codigo_indicacao?: string | null
+          cpf: string
+          created_at?: string
+          email: string
+          encerrado_em?: string | null
+          id?: string
+          lembrete_pix_em?: string | null
+          meses_acesso: number
+          mp_assinatura_id?: string | null
+          mp_pagamento_id?: string | null
+          nome: string
+          oferta?: boolean
+          parcelas?: number
+          perfil_id?: string | null
+          pix_copia_cola?: string | null
+          pix_expira_em?: string | null
+          plano: string
+          status?: string
+          status_detalhe?: string | null
+          updated_at?: string
+          utms?: Json
+          valor_centavos: number
+          whatsapp: string
+        }
+        Update: {
+          aprovado_em?: string | null
+          boas_vindas_em?: string | null
+          codigo_indicacao?: string | null
+          cpf?: string
+          created_at?: string
+          email?: string
+          encerrado_em?: string | null
+          id?: string
+          lembrete_pix_em?: string | null
+          meses_acesso?: number
+          mp_assinatura_id?: string | null
+          mp_pagamento_id?: string | null
+          nome?: string
+          oferta?: boolean
+          parcelas?: number
+          perfil_id?: string | null
+          pix_copia_cola?: string | null
+          pix_expira_em?: string | null
+          plano?: string
+          status?: string
+          status_detalhe?: string | null
+          updated_at?: string
+          utms?: Json
+          valor_centavos?: number
+          whatsapp?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pedidos_perfil_id_fkey"
+            columns: ["perfil_id"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       perfis: {
         Row: {
           acesso_fim_em: string | null
           acesso_inicio_em: string | null
           acesso_liberado_em: string | null
           acesso_liberado_por: string | null
+          acesso_suspenso_em: string | null
           apelido: string | null
           avatar_path: string | null
           codigo_indicacao: string
@@ -1503,6 +1687,7 @@ export type Database = {
           acesso_inicio_em?: string | null
           acesso_liberado_em?: string | null
           acesso_liberado_por?: string | null
+          acesso_suspenso_em?: string | null
           apelido?: string | null
           avatar_path?: string | null
           codigo_indicacao?: string
@@ -1526,6 +1711,7 @@ export type Database = {
           acesso_inicio_em?: string | null
           acesso_liberado_em?: string | null
           acesso_liberado_por?: string | null
+          acesso_suspenso_em?: string | null
           apelido?: string | null
           avatar_path?: string | null
           codigo_indicacao?: string
@@ -1801,10 +1987,15 @@ export type Database = {
     }
     Functions: {
       alunas_em_desafios_ativos: { Args: never; Returns: number }
+      aprovar_pedido: {
+        Args: { p_aprovado_em: string; p_pedido: string; p_perfil: string }
+        Returns: boolean
+      }
       atualizar_etapas: { Args: { p_perfil: string }; Returns: undefined }
       aula_liberada: { Args: { p_aula: string }; Returns: boolean }
       aulas_da_etapa: { Args: { p_etapa: string }; Returns: Json }
       aulas_previa: { Args: { p_dia: number; p_etapa: string }; Returns: Json }
+      cancelar_assinatura: { Args: { p_pedido: string }; Returns: string }
       cancelar_indicacao: {
         Args: { p_indicacao: string; p_motivo: string }
         Returns: undefined
@@ -1819,6 +2010,15 @@ export type Database = {
           cliques: number
           semana: string
         }[]
+      }
+      cobranca_assinatura: {
+        Args: {
+          p_aprovada: boolean
+          p_pedido: string
+          p_proxima: string
+          p_quando: string
+        }
+        Returns: Json
       }
       conceder_pontos: {
         Args: {
@@ -1866,6 +2066,10 @@ export type Database = {
         Returns: undefined
       }
       eh_admin: { Args: never; Returns: boolean }
+      encerrar_pedido: {
+        Args: { p_pedido: string; p_status: string }
+        Returns: boolean
+      }
       entrar_desafio: { Args: { p_desafio: string }; Returns: undefined }
       entrar_live: { Args: { p_live: string }; Returns: Json }
       escolher_tema: { Args: { p_tema: string }; Returns: undefined }
@@ -1965,6 +2169,10 @@ export type Database = {
         Returns: undefined
       }
       marcar_fotos_apagadas: { Args: { p_ids: string[] }; Returns: undefined }
+      marcar_pedido: {
+        Args: { p_detalhe: string; p_pedido: string; p_status: string }
+        Returns: boolean
+      }
       meus_desafios: {
         Args: never
         Returns: {
@@ -2087,6 +2295,7 @@ export type Database = {
           perfil_id: string
         }[]
       }
+      perfil_por_email: { Args: { p_email: string }; Returns: string }
       ranking_desafio: {
         Args: { p_desafio: string }
         Returns: {
@@ -2106,6 +2315,10 @@ export type Database = {
         }[]
       }
       registrar_acesso: { Args: never; Returns: undefined }
+      registrar_assinatura: {
+        Args: { p_mp_assinatura: string; p_pedido: string; p_proxima: string }
+        Returns: undefined
+      }
       registrar_clique_loja: { Args: { p_produto: string }; Returns: undefined }
       registrar_indicacao: {
         Args: {
@@ -2139,6 +2352,8 @@ export type Database = {
         Args: { p_itens: Json; p_receita: string }
         Returns: undefined
       }
+      situacao_pedido: { Args: { p_pedido: string }; Returns: Json }
+      suspender_inadimplentes: { Args: never; Returns: number }
       tem_acesso_ativo: { Args: never; Returns: boolean }
       texto_busca: { Args: { valor: string }; Returns: string }
       trilha_aluna: { Args: never; Returns: Json }

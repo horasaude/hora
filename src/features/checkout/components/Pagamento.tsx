@@ -1,7 +1,15 @@
+import { classeBrilho } from '@/components/ui'
 import type { Plano } from '@/domain/precos'
+import { ID_BRICK, type EstadoBrick } from '../hooks/useBrick'
 import { textos } from '../textos'
 
-type Props = { plano: Plano; valor: string; aguardando: boolean }
+type Props = {
+  plano: Plano
+  valor: string
+  brick: EstadoBrick
+  enviando: boolean
+  erro: string | null
+}
 
 const link = 'text-ora underline underline-offset-2'
 
@@ -25,12 +33,19 @@ function Concordo() {
 
 const t = textos.pagamento
 
+const AVISO: Partial<Record<EstadoBrick, string>> = {
+  carregando: t.carregando,
+  sem_chave: t.semChave,
+  erro: t.erroBrick,
+}
+
 /**
- * Forma de pagamento conforme o plano: Pix no à vista, cartão no parcelado e no mensal.
- * O quadro #pagamento-mp recebe os campos seguros do Mercado Pago quando a conta for ligada.
+ * Forma de pagamento conforme o plano: o Payment Brick do Mercado Pago em #pagamento-mp,
+ * só com Pix no à vista e só com cartão no parcelado e no mensal. O botão é nosso (vidro verde).
  */
-export function Pagamento({ plano, valor, aguardando }: Props) {
+export function Pagamento({ plano, valor, brick, enviando, erro }: Props) {
   const metodo = plano === 'pix' ? t.pix : t.cartao
+  const bloqueado = enviando || brick === 'sem_chave' || brick === 'erro' || brick === 'carregando'
   return (
     <section className="flex flex-col gap-3">
       <h2 className="text-sm font-semibold text-ora">{t.titulo}</h2>
@@ -39,27 +54,28 @@ export function Pagamento({ plano, valor, aguardando }: Props) {
           <span aria-hidden="true" className="size-4 rounded-full border-4 border-ora" />
           {metodo.nome}
         </p>
-        <div
-          id="pagamento-mp"
-          className="mt-4 rounded-xl border border-dashed border-linha bg-creme px-4 py-6 text-center text-sm text-suave"
-        >
-          {metodo.texto}
-        </div>
+        {AVISO[brick] && <p className="mt-4 text-center text-sm text-suave">{AVISO[brick]}</p>}
+        <div id={ID_BRICK} className="mt-4 bg-white font-sistema" />
       </div>
       <p className="flex items-baseline justify-between border-t border-linha pt-4 text-tinta">
         <span className="text-sm">{t.total}</span>
         <span className="text-xl font-semibold text-ora">{valor}</span>
       </p>
-      {aguardando && (
-        <p role="status" className="rounded-xl bg-white p-3 text-center text-sm text-tinta">
-          {t.emBreve}
+      {erro && (
+        <p
+          role="alert"
+          className="rounded-xl bg-terracota-suave p-3 text-center text-sm text-tinta"
+        >
+          {erro}
         </p>
       )}
       <button
         type="submit"
-        className="min-h-14 rounded-full bg-ora px-6 text-sm font-semibold tracking-[0.16em] text-creme uppercase transition hover:bg-[#233d37]"
+        disabled={bloqueado}
+        aria-busy={enviando}
+        className={`${classeBrilho('verde', 'lg')} min-h-12 w-full text-sm tracking-[0.12em] uppercase`}
       >
-        {t.botao}
+        {enviando ? t.enviando : t.botao}
       </button>
       <Concordo />
     </section>

@@ -76,6 +76,10 @@ export const router = createBrowserRouter([
     lazy: async () => ({ Component: (await import('@/features/checkout')).CheckoutPage }),
   },
   {
+    path: '/checkout/cartao',
+    lazy: async () => ({ Component: (await import('@/features/checkout')).TrocarCartaoPage }),
+  },
+  {
     lazy: async () => ({ Component: (await import('./providers')).ComProvedores }),
     children: [
       {

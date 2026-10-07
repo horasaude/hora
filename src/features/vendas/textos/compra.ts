@@ -26,10 +26,20 @@ export const compra = {
   obrigada: {
     titulo: 'Que bom ter você na *ORA*',
     passos: [
-      'Assim que o pagamento for confirmado, você recebe no e-mail o seu usuário e uma senha provisória.',
-      'Entre pelo link do e-mail e troque a senha no primeiro acesso.',
+      'Assim que o pagamento for confirmado, você recebe no e-mail o link para criar a sua senha.',
+      'O link vale por 24 horas. Crie a senha e entre no ORA.',
       'Pagou no Pix? A confirmação costuma chegar em poucos minutos.',
     ],
+    aprovado: [
+      'Seu pagamento foi confirmado e o acesso já está liberado.',
+      'Enviamos para o seu e-mail o link para criar a sua senha. Ele vale por 24 horas.',
+      'Crie a senha e comece pela Preparação, uma aula por dia.',
+    ],
+    pendenteTitulo: 'Estamos esperando o *pagamento*',
+    pendente: 'Assim que o pagamento cair, seu acesso chega no e-mail',
+    recusadoTitulo: 'O pagamento não foi *aprovado*',
+    recusado: 'Nada foi cobrado. Você pode tentar de novo com outro cartão ou no Pix.',
+    tentar: 'Voltar ao checkout',
     duvida: 'Ficou com alguma dúvida?',
     voltar: 'Voltar para a página',
   },

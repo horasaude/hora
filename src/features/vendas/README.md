@@ -5,7 +5,8 @@ Página de vendas pública (rota /), feita para tráfego pago no celular. Estrut
 | Arquivo                          | Faz                                                                    |
 | -------------------------------- | ---------------------------------------------------------------------- |
 | pages/VendasPage.tsx             | Monta os blocos na ordem da página e guarda as UTMs                    |
-| pages/ObrigadaPage.tsx           | /obrigada, para onde o Mercado Pago devolve depois do pagamento        |
+| pages/ObrigadaPage.tsx           | /obrigada?pedido=: situação real (aprovado, esperando Pix, recusado)   |
+| hooks/useSituacaoPedido.ts       | consulta situacao_pedido a cada 5 s enquanto pendente                  |
 | pages/DocumentoPage.tsx          | /termos e /privacidade (textos em textos/legal.ts)                     |
 | components/Faixa.tsx             | Faixa fixa da oferta com contagem; some no fim da oferta               |
 | components/Abertura.tsx          | Primeira dobra, números de prova e o problema                          |

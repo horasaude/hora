@@ -1,8 +1,15 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { FIM_OFERTA_ORA } from '@/domain/oferta'
+import { brickFalso } from './brickFalso'
 import { salvarInscricao } from '../inscricao'
 import { CheckoutPage } from './CheckoutPage'
+
+vi.mock('@/lib/mercadopago', async (original) => ({
+  ...(await original<typeof import('@/lib/mercadopago')>()),
+  chavePublicaMp: () => 'TEST-chave',
+  bricks: async () => brickFalso,
+}))
 
 const normal = (s?: string | null) => (s ?? '').replace(/\s+/g, ' ').trim()
 const tem = (t: string) =>
@@ -48,7 +55,7 @@ describe('CheckoutPage', () => {
     tem('TotalR$ 1.997')
   })
 
-  it('CPF com máscara; inválido é recusado e, com tudo certo, avisa que o pagamento vem em breve', async () => {
+  it('CPF com máscara; inválido é recusado antes de ir ao pagamento', async () => {
     salvarInscricao({
       plano: 'parcelado',
       nome: 'Maria Silva',
@@ -58,13 +65,8 @@ describe('CheckoutPage', () => {
     abrir()
     fireEvent.input(campo('CPF'), { target: { value: '52998224726' } })
     expect(campo('CPF').value).toBe('529.982.247-26')
-    fireEvent.click(screen.getByRole('button', { name: 'Finalizar compra' }))
+    fireEvent.click(await screen.findByRole('button', { name: 'Finalizar compra' }))
     expect(await screen.findByText('Confira o CPF')).toBeInTheDocument()
-    fireEvent.input(campo('CPF'), { target: { value: '52998224725' } })
-    fireEvent.click(screen.getByRole('button', { name: 'Finalizar compra' }))
-    expect(await screen.findByRole('status')).toHaveTextContent(
-      'O pagamento será liberado em breve.',
-    )
   })
 
   it('pede nome completo', async () => {
@@ -75,7 +77,7 @@ describe('CheckoutPage', () => {
       whatsapp: '98987654321',
     })
     abrir()
-    fireEvent.click(screen.getByRole('button', { name: 'Finalizar compra' }))
+    fireEvent.click(await screen.findByRole('button', { name: 'Finalizar compra' }))
     expect(await screen.findByText('Escreva seu nome completo')).toBeInTheDocument()
   })
 })

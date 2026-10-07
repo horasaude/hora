@@ -11,7 +11,6 @@ type Evento = { target: { value: string } }
 /** Formulário do checkout, já preenchido com o que a pessoa digitou no popup. */
 export function useCheckout() {
   const [inicial] = useState(lerInscricao)
-  const [aguardando, setAguardando] = useState(false)
   const form = useForm<EntradaCheckout, unknown, DadosCheckout>({
     resolver: zodResolver(esquemaCheckout),
     defaultValues: {
@@ -23,9 +22,6 @@ export function useCheckout() {
     },
   })
 
-  // Pagamento ainda não ligado: com tudo válido, só avisa. O Mercado Pago entra aqui.
-  const enviar = form.handleSubmit(() => setAguardando(true))
-
   const cpf = form.register('cpf', {
     onChange: (ev: Evento) => form.setValue('cpf', mascararCpf(ev.target.value)),
   })
@@ -33,5 +29,5 @@ export function useCheckout() {
     onChange: (ev: Evento) => form.setValue('whatsapp', mascararTelefone(ev.target.value)),
   })
 
-  return { form, enviar, cpf, whatsapp, aguardando }
+  return { form, cpf, whatsapp }
 }

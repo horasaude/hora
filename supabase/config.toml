@@ -416,3 +416,12 @@ enabled = true
 
 [functions.cadastrar-interessada]
 verify_jwt = false
+
+[functions.criar-pedido]
+verify_jwt = false
+
+[functions.pagamento-webhook]
+verify_jwt = false
+
+[functions.lembretes-pagamento]
+verify_jwt = false

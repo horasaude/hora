@@ -21,7 +21,7 @@ Venda inicial por links do Mercado Pago; o checkout integrado da Sprint 2 substi
 - [x] Cadastro de interessadas
 - [x] Página de vendas refeita: popup de compra, links do Mercado Pago, /obrigada, termos e privacidade (sem aceite de contrato)
 - [x] Checkout próprio (visual) em /checkout, popup leva até ele
-- [ ] Ligar o pagamento no checkout: Payment Brick do Mercado Pago + criar-pedido (depende da conta da cliente)
+- [x] Ligar o pagamento no checkout: Payment Brick do Mercado Pago + criar-pedido (em modo de teste; trocar as chaves quando chegar a conta das clientes)
 - [ ] Conteúdo das clientes: fotos, frases, números de autoridade, depoimentos, prêmios, data de lançamento, revisão jurídica dos termos
 
 ## Sprint 1: painel e área base (até 11/10)
@@ -45,11 +45,13 @@ Venda inicial por links do Mercado Pago; o checkout integrado da Sprint 2 substi
 
 ## Sprint 2: pagamento e contrato (até 16/10)
 
-- [ ] Planos, pedidos, pagamentos, eventos_webhook, contratos, aceites, assinaturas
-- [ ] Edge Function criar-pedido (Pix, parcelado, recorrente)
-- [ ] Edge Function mp-webhook idempotente e criação de acesso (pagamento aprovado grava perfis.acesso_inicio_em = momento da confirmação e acesso_fim_em pelo plano)
-- [ ] tem_acesso_ativo() e RLS de conteúdo
-- [ ] E-mails (boas-vindas e contrato), reembolso, tela de obrigado
+- [x] Pedidos, eventos_pagamento e assinaturas (contratos e aceites seguem pendentes)
+- [x] Edge Function criar-pedido (Pix, parcelado, recorrente)
+- [x] Edge Function pagamento-webhook idempotente e criação de acesso (pagamento aprovado grava perfis.acesso_inicio_em = momento da confirmação e acesso_fim_em pelo plano)
+- [x] tem_acesso_ativo() e RLS de conteúdo (com suspensão por inadimplência)
+- [x] E-mails de boas-vindas, lembrete do Pix e cobrança recusada; reembolso; /obrigada com status real
+- [ ] Contas das clientes: chaves de produção do MP, domínio verificado no Resend, URL do webhook de produção
+- [ ] Pixel da Meta (Purchase só com aprovado) quando o pixel existir
 
 ## Sprint 3: engajamento base (até 18/10)
 
@@ -58,7 +60,7 @@ Venda inicial por links do Mercado Pago; o checkout integrado da Sprint 2 substi
 - [x] regras_pontos, lancamentos_pontos, conceder_pontos() (painel de pontos e indicações pronto)
 - [x] Aplicar 20261007180000_pontos_indicacoes, publicar limpar-fotos e criar segredo do cron (CRON_SEGREDO e vault cron_segredo)
 - [ ] Tela de check-in da aluna chamando fazer_checkin (foto no bucket checkins)
-- [ ] Pedido do Mercado Pago registra indicação (indicacaoGuardada) e cancela no reembolso
+- [x] Pedido do Mercado Pago registra indicação (indicacaoGuardada) e cancela no reembolso
 - [x] Fórum na aula e fórum geral, com fila e denúncias no painel
 - [x] Tela Equipe para convidar profissionais
 - [ ] Convidar Ana, Clara e Laís pela tela Equipe; cada uma coloca a foto em Meu perfil no Fórum

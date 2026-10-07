@@ -2,6 +2,14 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-07 · main · Pagamento pelo Mercado Pago de ponta a ponta (modo de teste)
+
+- Banco (20261013090000_pagamentos): pedidos (id = external_reference), eventos_pagamento (uma linha por notificação, única por tipo, recurso e status), assinaturas (parcelas pagas de 12, inadimplência); só admin lê. Funções só da service_role: aprovar_pedido (12 meses, 13 com a oferta; histórico em acessos_liberados; indicação registrada), encerrar_pedido (reembolso, cancelamento e chargeback encerram na hora e cancelam a indicação), cobranca_assinatura, cancelar_assinatura (até 7 dias é arrependimento), suspender_inadimplentes (cron de hora em hora; tem_acesso_ativo agora olha perfis.acesso_suspenso_em).
+- Edge Functions: criar-pedido (preço no servidor pela tabela configuracoes; Pix com 30 min, cartão 12x, assinatura mensal com /preapproval; X-Idempotency-Key = id do pedido), pagamento-webhook (x-signature como no SDK oficial; busca na API; nunca confia no corpo), lembretes-pagamento (Pix não pago em 15 min, cron de 5 em 5 min). E-mails pelo Resend em _shared/email.
+- Checkout: Payment Brick em #pagamento-mp (só Pix no à vista, só cartão nos outros), botão vidro verde nosso, Pix com QR, copia e cola, contagem e consulta a cada 5 s; recusa em português pelo motivo. /obrigada mostra a situação real; /checkout/cartao troca o cartão da assinatura.
+- Endpoints e campos conferidos no SDK oficial (mercadopago 3.6.1 e sdk-react 1.0.7), porque as páginas da documentação não abriam fora do navegador.
+- Pendente: chaves de teste nos secrets; URL do webhook no painel do MP; teste real com cartões de teste; Pixel da Meta não existe no projeto.
+
 ## 2026-10-07 · main · Conteúdo das aulas do painel até a aluna
 
 - Diagnóstico da Trilha vazia: o banco real não tinha nenhuma aula (temas e etapas existiam e estavam publicados) e a conta admin.teste não tinha acesso; criar aula pelo painel funciona (testado pela tela na demonstração).

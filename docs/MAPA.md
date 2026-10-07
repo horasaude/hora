@@ -1,7 +1,7 @@
 # Mapa do projeto
 
 Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim).
-Última atualização: navegação em 5 abas (src/app/navegacao.ts), cardápio de Preparação, demonstração local (scripts/demo).
+Última atualização: pagamento pelo Mercado Pago (pedidos, criar-pedido, pagamento-webhook, Payment Brick no checkout).
 
 ## Rotas
 
@@ -11,6 +11,7 @@ Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim)
 | /obrigada                                                       | ObrigadaPage                                               | vendas                        | público     | pacote inicial           |
 | /termos                                                         | TermosPage                                                 | vendas                        | público     | pacote inicial           |
 | /privacidade                                                    | PrivacidadePage                                            | vendas                        | público     | pacote inicial           |
+| /checkout/cartao?pedido=                                        | TrocarCartaoPage (troca o cartão da assinatura mensal)     | checkout                      | link        | lazy                     |
 | /checkout                                                       | CheckoutPage                                               | checkout                      | público     | lazy                     |
 | /entrar                                                         | LoginPage                                                  | auth                          | público     | lazy (com ComProvedores) |
 | /app                                                            | InicioPage (dentro do LayoutAluna, com primeiro acesso)    | inicio                        | logada      | lazy (AreaAluna + PWA)   |
@@ -79,25 +80,27 @@ Componentes do estilo (toda tela nova usa estes): BotaoBrilho, LinkBrilho, Etiqu
 
 ## Utilitários (src/lib)
 
-| Arquivo        | Faz                                                                                  |
-| -------------- | ------------------------------------------------------------------------------------ |
-| ics.ts         | arquivo .ics de agenda com alarme 1 h antes                                          |
-| fotos.ts       | sobe foto comprimida na pasta da usuária (checkins, evolucao) e lê por link assinado |
-| imagem.ts      | comprime foto no navegador (lado maior 1200 px, WebP)                                |
-| supabase.ts    | cliente Supabase tipado                                                              |
-| pwa.ts         | registra o service worker (/app/)                                                    |
-| pwaAntigo.ts   | remove o service worker antigo de escopo /                                           |
-| env.ts         | valida variáveis de ambiente                                                         |
-| datas.ts       | dia e datas no fuso de Brasília                                                      |
-| moeda.ts       | centavos para reais                                                                  |
-| telefone.ts    | máscara de telefone e só dígitos                                                     |
-| utm.ts         | lê UTMs da URL e guarda na sessão                                                    |
-| whatsapp.ts    | link wa.me a partir do número com DDD; link só com a mensagem pronta                 |
-| cpf.ts         | máscara de CPF enquanto digita                                                       |
-| video.ts       | link de prévia (YouTube, Vimeo, Google Drive)                                        |
-| datas.ts (+)   | campo datetime-local em Brasília e data/hora curta                                   |
-| navegacao.ts   | sai do site (link de pagamento)                                                      |
-| queryClient.ts | configuração do TanStack Query                                                       |
+| Arquivo        | Faz                                                                                   |
+| -------------- | ------------------------------------------------------------------------------------- |
+| ics.ts         | arquivo .ics de agenda com alarme 1 h antes                                           |
+| fotos.ts       | sobe foto comprimida na pasta da usuária (checkins, evolucao) e lê por link assinado  |
+| imagem.ts      | comprime foto no navegador (lado maior 1200 px, WebP)                                 |
+| supabase.ts    | cliente Supabase tipado                                                               |
+| pwa.ts         | registra o service worker (/app/)                                                     |
+| pwaAntigo.ts   | remove o service worker antigo de escopo /                                            |
+| env.ts         | valida variáveis de ambiente                                                          |
+| datas.ts       | dia e datas no fuso de Brasília                                                       |
+| moeda.ts       | centavos para reais                                                                   |
+| telefone.ts    | máscara de telefone e só dígitos                                                      |
+| utm.ts         | lê UTMs da URL e guarda na sessão                                                     |
+| whatsapp.ts    | link wa.me a partir do número com DDD; link só com a mensagem pronta                  |
+| cpf.ts         | máscara de CPF enquanto digita                                                        |
+| video.ts       | link de prévia (YouTube, Vimeo, Google Drive)                                         |
+| datas.ts (+)   | campo datetime-local em Brasília e data/hora curta                                    |
+| navegacao.ts   | sai do site (link de pagamento)                                                       |
+| queryClient.ts | configuração do TanStack Query                                                        |
+| mercadopago.ts | carrega o SDK do Mercado Pago e o Payment Brick (VITE_MP_PUBLIC_KEY); token do cartão |
+| pedido.ts      | situação do pedido pelo id (situacao_pedido: status, plano e valor, sem dado pessoal) |
 
 ## Componentes compartilhados (src/components)
 
@@ -140,15 +143,22 @@ Componentes do estilo (toda tela nova usa estes): BotaoBrilho, LinkBrilho, Etiqu
 | painel_alunas(), painel_desafios(), vencedoras_desafio(), alunas_em_desafios_ativos()                                                                                                                                                | funções só admin                                                                                                                                                                       | 20261007120000_painel_completo                                              |
 | registrar_acesso(), perfis.ultimo_acesso_em                                                                                                                                                                                          | último acesso da aluna (grava a cada 5 min no máximo)                                                                                                                                  | 20261007120000_painel_completo                                              |
 | minha_trilha()                                                                                                                                                                                                                       | função (trilha da aluna com aulas fechadas, sem link de vídeo; só com acesso ativo)                                                                                                    | 20261007090000_trilha_aluna                                                 |
+| pedidos, eventos_pagamento, assinaturas; perfis.acesso_suspenso_em                                                                                                                                                                   | pagamento (RLS: só admin lê; aluna e anônimo nada). Escrita só pela service_role nas Edge Functions                                                                                    | 20261013090000_pagamentos                                                   |
+| aprovar_pedido(), encerrar_pedido(), marcar_pedido(), registrar_assinatura(), cobranca_assinatura(), cancelar_assinatura(), suspender_inadimplentes() (cron de hora em hora), perfil_por_email(), situacao_pedido() (anon)           | acesso de 12 ou 13 meses na aprovação, idempotente; reembolso, cancelamento em 7 dias e chargeback encerram; 7 dias de inadimplência suspendem, cobrança aprovada devolve              | 20261013090000_pagamentos                                                   |
 | lives, avisos                                                                                                                                                                                                                        | tabelas (RLS: aluna lê publicadas; aviso só depois de publicar_em)                                                                                                                     | 20261006120000_conteudo                                                     |
 
 ## Edge Functions
 
-| Função                | Faz                                                                                | JWT       |
-| --------------------- | ---------------------------------------------------------------------------------- | --------- |
-| cadastrar-interessada | valida e grava interessada (honeypot, origem permitida)                            | desligado |
-| limpar-fotos          | apaga fotos de check-in com mais de 90 dias (chamada pelo cron com x-cron-segredo) | desligado |
-| \_shared/cors.ts      | CORS pela lista ORIGENS_PERMITIDAS                                                 |           |
+| Função                | Faz                                                                                                                        | JWT       |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------- | --------- |
+| cadastrar-interessada | valida e grava interessada (honeypot, origem permitida)                                                                    | desligado |
+| limpar-fotos          | apaga fotos de check-in com mais de 90 dias (chamada pelo cron com x-cron-segredo)                                         | desligado |
+| criar-pedido          | cria pedido e pagamento no MP (Pix 30 min, cartão 12x, assinatura mensal); preço decidido no servidor; troca de cartão     | desligado |
+| pagamento-webhook     | notificações do MP: x-signature (MP_WEBHOOK_SECRET), busca na API, eventos idempotentes, libera acesso e manda boas-vindas | desligado |
+| lembretes-pagamento   | e-mail com o Pix copia e cola se não caiu em 15 min (cron a cada 5 min, x-cron-segredo)                                    | desligado |
+| \_shared/cors.ts      | CORS pela lista ORIGENS_PERMITIDAS                                                                                         |           |
+| \_shared/pagamento    | regras puras testadas no Vitest: preço, status do MP, motivo da recusa, assinatura do webhook                              |           |
+| \_shared/mp.ts, email | cliente da API do MP; e-mails pelo Resend (modelos.ts e enviar.ts)                                                         |           |
 
 ## Navegação da aluna
 

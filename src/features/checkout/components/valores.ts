@@ -7,3 +7,9 @@ export function valorDoPlano(p: Precos, plano: Plano): string {
   const parcela = plano === 'parcelado' ? p.parceladoCentavos : p.recorrenteCentavos
   return `${p.parcelas}x de ${formatarPreco(parcela)}`
 }
+
+/** Valor que o Brick cobra: Pix à vista, total das 12 parcelas, ou o mês da assinatura. */
+export function centavosDoBrick(p: Precos, plano: Plano): number {
+  if (plano === 'pix') return p.pixCentavos
+  return plano === 'parcelado' ? p.parceladoCentavos * p.parcelas : p.recorrenteCentavos
+}
