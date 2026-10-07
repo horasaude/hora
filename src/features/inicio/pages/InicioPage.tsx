@@ -65,9 +65,14 @@ export function InicioPage() {
           <div className="flex flex-col gap-4 lg:gap-6">
             {live.data && <FaixaLive live={live.data} />}
             <CartaoRanking />
-            <Link to="/app/forum" className={`${classeBrilho('cinza')} self-start lg:hidden`}>
-              {textos.forum}
-            </Link>
+            <div className="flex flex-wrap gap-2 lg:hidden">
+              <Link to="/app/forum" className={classeBrilho('cinza')}>
+                {textos.forum}
+              </Link>
+              <Link to="/app/loja" className={classeBrilho('cinza')}>
+                {textos.loja}
+              </Link>
+            </div>
           </div>
         </div>
       )}

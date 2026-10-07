@@ -2,6 +2,12 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-06 · main · Loja completa (painel e aluna)
+
+- Banco (20261008120000_loja, 33 checagens no PGlite): parceiros, produtos e cliques; aluna com acesso vê só produto publicado de parceiro ativo; clique só pela função (1 por minuto por produto); Active Life já cadastrada; fotos e logos no espaço privado loja.
+- Painel: resumo (publicados, parceiros ativos, cliques no mês, mais clicado), abas Produtos e Parceiros, cadastro em janela grande com foto comprimida antes de subir, desconto em % ou preço final, cupom do produto, link, Destaque e Publicado; produto aberto mostra os cliques das últimas 8 semanas.
+- Aluna: Loja no menu do computador (no celular pelo Início), faixa do parceiro com a frase dos descontos, filtro por categoria em vidro, grade de 3 ou 2 colunas com preço riscado, preço com desconto e etiqueta dourada, produto aberto com Copiar cupom e Comprar com desconto.
+
 ## 2026-10-06 · main · Equipe: convidar profissionais
 
 - Configurações > Equipe: lista com e-mail, especialidade, situação (Ativa ou Convite pendente) e último acesso; Convidar profissional, Editar, Gerar link de acesso e Tirar acesso.

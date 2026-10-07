@@ -3,6 +3,7 @@
 export const textos = {
   painel: 'Painel das profissionais',
   forum: 'Ir para o fórum',
+  loja: 'Ir para a loja',
   checkin: {
     titulo: 'Check-in de hoje',
     habitos: [

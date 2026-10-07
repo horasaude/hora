@@ -21,7 +21,8 @@ const pagina =
       | 'PontosPage'
       | 'ForumPainelPage'
       | 'DuvidaPainelPage'
-      | 'EquipePage',
+      | 'EquipePage'
+      | 'LojaPage',
   ) =>
   async () => ({
     Component: (await admin())[nome],
@@ -29,7 +30,7 @@ const pagina =
 const desafios = async () => ({ Component: (await admin()).DesafiosPage })
 const alunas = async () => ({ Component: (await admin()).AlunasPage })
 const configuracoes = async () => ({ Component: (await admin()).ConfiguracoesPage })
-const vazio = (modulo: 'financeiro' | 'loja') => async () => {
+const vazio = (modulo: 'financeiro') => async () => {
   const { ModuloVazioPage } = await admin()
   return { Component: () => <ModuloVazioPage modulo={modulo} /> }
 }
@@ -59,12 +60,15 @@ const rotasAdmin: RouteObject[] = [
   { path: 'pontos', lazy: pagina('PontosPage') },
   { path: 'forum', lazy: pagina('ForumPainelPage') },
   { path: 'forum/:duvidaId', lazy: pagina('DuvidaPainelPage') },
-  ...(['financeiro', 'loja'] as const).map((m) => ({ path: m, lazy: vazio(m) })),
+  { path: 'loja', lazy: pagina('LojaPage') },
+  { path: 'loja/:produtoId', lazy: pagina('LojaPage') },
+  ...(['financeiro'] as const).map((m) => ({ path: m, lazy: vazio(m) })),
 ]
 
 // Área da aluna (/app): moldura com a barra de baixo; cada tela carrega sob demanda.
 const trilha = () => import('@/features/trilha')
 const forum = () => import('@/features/forum')
+const loja = () => import('@/features/loja')
 const emBreve = (titulo: string) => async () => {
   const { EmBrevePage } = await import('./EmBrevePage')
   return { Component: () => <EmBrevePage titulo={titulo} /> }
@@ -79,6 +83,8 @@ const rotasAluna: RouteObject[] = [
   { path: 'desafios', lazy: emBreve('Desafios') },
   { path: 'ranking', lazy: emBreve('Ranking') },
   { path: 'forum', lazy: async () => ({ Component: (await forum()).ForumPage }) },
+  { path: 'loja', lazy: async () => ({ Component: (await loja()).LojaPage }) },
+  { path: 'loja/:produtoId', lazy: async () => ({ Component: (await loja()).ProdutoPage }) },
   { path: 'forum/:duvidaId', lazy: async () => ({ Component: (await forum()).DuvidaPage }) },
   {
     path: 'perfil',

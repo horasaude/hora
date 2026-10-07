@@ -34,7 +34,9 @@ Venda inicial por links do Mercado Pago; o checkout integrado da Sprint 2 substi
 - [ ] Check-in de verdade (hoje o cartão do Início é só visual), sequência de dias e ranking com dados do banco
 - [ ] Apelido único no ranking (hoje não há trava no banco)
 - [x] Painel completo: menu de 11 módulos, cardápios, desafios e prêmios, alunas, configurações
-- [ ] Ligar Financeiro e Loja quando as funções da aluna e o pagamento existirem
+- [x] Loja (painel e aluna)
+- [ ] Completar a Active Life no painel (logo, cupom, WhatsApp ou site) e cadastrar os produtos
+- [ ] Ligar Financeiro quando as funções da aluna e o pagamento existirem
 - [ ] Textos da página de vendas que citam "24/10" e "R$ 300" são fixos: ligar à configuração se a data ou o preço mudarem
 
 ## Sprint 2: pagamento e contrato (até 16/10)

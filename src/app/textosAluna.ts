@@ -12,6 +12,7 @@ export const textosAluna = {
     desafios: 'Desafios',
     ranking: 'Ranking',
     forum: 'Fórum',
+    loja: 'Loja',
     perfil: 'Perfil',
   },
 }

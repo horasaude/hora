@@ -1,7 +1,7 @@
 # Mapa do projeto
 
 Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim).
-Última atualização: Equipe em Configurações (src/features/admin/equipe), convite por link e /definir-senha.
+Última atualização: Loja (aluna em src/features/loja, painel em src/features/admin/loja).
 
 ## Rotas
 
@@ -19,6 +19,7 @@ Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim)
 | /app/desafios, /app/ranking | EmBrevePage (src/app)                                   |                               | logada      | lazy                     |
 | /app/forum, /app/forum/:id  | ForumPage, DuvidaPage                                   | forum                         | logada      | lazy                     |
 | /definir-senha              | DefinirSenhaPage (link de convite ou nova senha)        | auth                          | link        | lazy                     |
+| /app/loja, /app/loja/:id    | LojaPage, ProdutoPage                                   | loja                          | logada      | lazy                     |
 | /app/perfil                 | PerfilPage                                              | perfil                        | logada      | lazy                     |
 | /app/admin/...              | painel (conteúdo, lives, avisos)                        | admin                         | papel admin | lazy (admin, 25 KB)      |
 | checkout                    | checkout próprio (resumo, dados, pagamento, lateral)    | CheckoutPage, salvarInscricao |
@@ -26,13 +27,14 @@ Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim)
 
 ## Features (src/features)
 
-| Feature | O que faz                                                                                                                                                                                                        | Exporta                                                                       |
-| ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| admin   | painel das profissionais: temas, etapas, aulas, lives, avisos; plano alimentar em admin/plano, pontos em admin/pontos, fórum em admin/forum (fila, dúvida aberta, denúncias, Meu perfil), equipe em admin/equipe | PainelLayout, ConteudoPage, LivesPage, AvisosPage                             |
-| forum   | fórum da aluna: lista, conversa, dúvidas da aula, regras, aviso no Início (README próprio)                                                                                                                       | ForumPage, DuvidaPage, DuvidasDaAula, AvisoRespondida, Conversa, Responder    |
-| auth    | login, sessão, rota protegida, perfil logado                                                                                                                                                                     | LoginPage, RotaProtegida, useSessao, usePapel, useNome, useMeuPerfil, useSair |
-| inicio  | tela inicial da aluna (placeholder)                                                                                                                                                                              | InicioPage                                                                    |
-| vendas  | página de vendas, popup de compra, obrigada, termos e privacidade                                                                                                                                                | VendasPage, ObrigadaPage, TermosPage, PrivacidadePage                         |
+| Feature | O que faz                                                                                                                                                                                                                            | Exporta                                                                       |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------- |
+| admin   | painel das profissionais: temas, etapas, aulas, lives, avisos; plano alimentar em admin/plano, pontos em admin/pontos, fórum em admin/forum (fila, dúvida aberta, denúncias, Meu perfil), equipe em admin/equipe, loja em admin/loja | PainelLayout, ConteudoPage, LivesPage, AvisosPage                             |
+| forum   | fórum da aluna: lista, conversa, dúvidas da aula, regras, aviso no Início (README próprio)                                                                                                                                           | ForumPage, DuvidaPage, DuvidasDaAula, AvisoRespondida, Conversa, Responder    |
+| loja    | vitrine da aluna e produto aberto com cupom e Comprar com desconto (README próprio)                                                                                                                                                  | LojaPage, ProdutoPage                                                         |
+| auth    | login, sessão, rota protegida, perfil logado                                                                                                                                                                                         | LoginPage, RotaProtegida, useSessao, usePapel, useNome, useMeuPerfil, useSair |
+| inicio  | tela inicial da aluna (placeholder)                                                                                                                                                                                                  | InicioPage                                                                    |
+| vendas  | página de vendas, popup de compra, obrigada, termos e privacidade                                                                                                                                                                    | VendasPage, ObrigadaPage, TermosPage, PrivacidadePage                         |
 
 ## Referências visuais (docs/referencias)
 
@@ -54,28 +56,30 @@ Componentes do estilo (toda tela nova usa estes): BotaoBrilho, LinkBrilho, Etiqu
 | cpf.ts      | CPF válido pelos dígitos verificadores                                                         |
 | trilha.ts   | aula de hoje, tema e etapa atuais, progresso, semana do acesso, quando cada aula abre          |
 | forum.ts    | categorias, especialidades e prazo da dúvida (verde, dourado com menos de 12 h, coral vencida) |
+| loja.ts     | categorias da loja, % de desconto, preço final pelo %, destaques primeiro                      |
 | saudacao.ts | Bom dia, Boa tarde ou Boa noite pela hora de Brasília                                          |
 | oferta.ts   | oferta do ORA válida até 24/10/2026 23h59 de Brasília                                          |
 | precos.ts   | preços vigentes (oferta ou cheio), âncora riscada, desconto da oferta, contagem, PLANOS        |
 
 ## Utilitários (src/lib)
 
-| Arquivo        | Faz                                                |
-| -------------- | -------------------------------------------------- |
-| supabase.ts    | cliente Supabase tipado                            |
-| pwa.ts         | registra o service worker (/app/)                  |
-| pwaAntigo.ts   | remove o service worker antigo de escopo /         |
-| env.ts         | valida variáveis de ambiente                       |
-| datas.ts       | dia e datas no fuso de Brasília                    |
-| moeda.ts       | centavos para reais                                |
-| telefone.ts    | máscara de telefone e só dígitos                   |
-| utm.ts         | lê UTMs da URL e guarda na sessão                  |
-| whatsapp.ts    | link wa.me a partir do número com DDD              |
-| cpf.ts         | máscara de CPF enquanto digita                     |
-| video.ts       | link de prévia (YouTube, Vimeo, Google Drive)      |
-| datas.ts (+)   | campo datetime-local em Brasília e data/hora curta |
-| navegacao.ts   | sai do site (link de pagamento)                    |
-| queryClient.ts | configuração do TanStack Query                     |
+| Arquivo        | Faz                                                   |
+| -------------- | ----------------------------------------------------- |
+| imagem.ts      | comprime foto no navegador (lado maior 1200 px, WebP) |
+| supabase.ts    | cliente Supabase tipado                               |
+| pwa.ts         | registra o service worker (/app/)                     |
+| pwaAntigo.ts   | remove o service worker antigo de escopo /            |
+| env.ts         | valida variáveis de ambiente                          |
+| datas.ts       | dia e datas no fuso de Brasília                       |
+| moeda.ts       | centavos para reais                                   |
+| telefone.ts    | máscara de telefone e só dígitos                      |
+| utm.ts         | lê UTMs da URL e guarda na sessão                     |
+| whatsapp.ts    | link wa.me a partir do número com DDD                 |
+| cpf.ts         | máscara de CPF enquanto digita                        |
+| video.ts       | link de prévia (YouTube, Vimeo, Google Drive)         |
+| datas.ts (+)   | campo datetime-local em Brasília e data/hora curta    |
+| navegacao.ts   | sai do site (link de pagamento)                       |
+| queryClient.ts | configuração do TanStack Query                        |
 
 ## Componentes compartilhados (src/components)
 
@@ -101,6 +105,7 @@ Componentes do estilo (toda tela nova usa estes): BotaoBrilho, LinkBrilho, Etiqu
 | aulas                                                                                                                                  | tabela (RLS: aluna lê publicadas com dia_liberacao <= dia_de_acesso); duracao_minutos, profissional                                                                                    | 20261006120000_conteudo, 20261007090000_trilha_aluna                        |
 | aulas_concluidas                                                                                                                       | tabela (RLS: aluna marca e desmarca só aula liberada, só as suas)                                                                                                                      | 20261007090000_trilha_aluna                                                 |
 | cardapios                                                                                                                              | tabela (RLS: admin escreve; aluna com acesso lê publicados)                                                                                                                            | 20261007120000_painel_completo                                              |
+| loja_parceiros, loja_produtos, loja_cliques; registrar_clique_loja(), painel_loja(), cliques_por_semana()                              | loja (aluna com acesso vê só publicado de parceiro ativo; clique só pela função, 1 por minuto; resumo e cliques só admin); Active Life cadastrada; espaço privado loja                 | 20261008120000_loja                                                         |
 | painel_equipe(), editar_profissional(), remover_profissional()                                                                         | equipe do painel com e-mail e convite pendente; editar e tirar acesso (nunca o próprio); só admin                                                                                      | 20261008090000_equipe                                                       |
 | forum_topicos, forum_respostas, forum_curtidas, forum_denuncias; perfis.especialidade, titulo_profissional, foto_path, forum_regras_em | fórum (aluna lê e escreve só por funções forum_*, pelo apelido; prazo de 72 h; útil e ocultar só admin; ocultar estorna os pontos); bucket público equipe com a foto das profissionais | 20261007220000_forum                                                        |
 | criar_acao(), dar_pontos_acao(), regras_pontos.propria                                                                                 | ação criada no painel (código extra_...), pontos dados às alunas marcadas respeitando o limite; só admin                                                                               | 20261007200000_acoes_proprias                                               |

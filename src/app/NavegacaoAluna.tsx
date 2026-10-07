@@ -9,6 +9,7 @@ const ITENS = [
   { para: '/app/desafios', nome: t.nav.desafios, icone: 'desafios', fim: false, cor: 'bg-ocre' },
   { para: '/app/ranking', nome: t.nav.ranking, icone: 'ranking', fim: false, cor: 'bg-[#8fa7c0]' },
   { para: '/app/forum', nome: t.nav.forum, icone: 'forum', fim: false, cor: 'bg-[#e0a48f]' },
+  { para: '/app/loja', nome: t.nav.loja, icone: 'loja', fim: false, cor: 'bg-[#d9b56a]' },
   { para: '/app/perfil', nome: t.nav.perfil, icone: 'perfil', fim: false, cor: 'bg-[#b9a2c4]' },
 ] as const
 
@@ -18,8 +19,8 @@ function useAtivo() {
   return (isActive: boolean, para: string) => isActive || (emAula && para === '/app/trilha')
 }
 
-/** No celular a barra tem 5 ícones; o Fórum entra pelo Início e pela aula. */
-const NO_CELULAR = ITENS.filter((i) => i.icone !== 'forum')
+/** No celular a barra tem 5 ícones; Fórum e Loja entram pelo Início. */
+const NO_CELULAR = ITENS.filter((i) => i.icone !== 'forum' && i.icone !== 'loja')
 
 /** Celular: barra fixa embaixo com os 5 ícones. */
 export function BarraInferior() {

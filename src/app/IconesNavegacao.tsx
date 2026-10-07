@@ -47,6 +47,12 @@ const DESENHOS = {
       <path d="M8.5 9h7M8.5 12h4.5" />
     </Svg>
   ),
+  loja: (
+    <Svg>
+      <path d="M5 8.5h14l-1 11a1.5 1.5 0 0 1-1.5 1.4h-9A1.5 1.5 0 0 1 6 19.5z" />
+      <path d="M9 10V7a3 3 0 0 1 6 0v3" />
+    </Svg>
+  ),
   perfil: (
     <Svg>
       <circle cx="12" cy="8.5" r="3.5" />

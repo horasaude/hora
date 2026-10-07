@@ -1016,6 +1016,142 @@ export type Database = {
           },
         ]
       }
+      loja_cliques: {
+        Row: {
+          created_at: string
+          id: number
+          perfil_id: string
+          produto_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          perfil_id: string
+          produto_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          perfil_id?: string
+          produto_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "loja_cliques_perfil_id_fkey"
+            columns: ["perfil_id"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loja_cliques_produto_id_fkey"
+            columns: ["produto_id"]
+            isOneToOne: false
+            referencedRelation: "loja_produtos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      loja_parceiros: {
+        Row: {
+          ativo: boolean
+          created_at: string
+          cupom: string | null
+          descricao: string
+          id: string
+          logo_path: string | null
+          nome: string
+          site_url: string | null
+          updated_at: string
+          whatsapp: string | null
+        }
+        Insert: {
+          ativo?: boolean
+          created_at?: string
+          cupom?: string | null
+          descricao?: string
+          id?: string
+          logo_path?: string | null
+          nome: string
+          site_url?: string | null
+          updated_at?: string
+          whatsapp?: string | null
+        }
+        Update: {
+          ativo?: boolean
+          created_at?: string
+          cupom?: string | null
+          descricao?: string
+          id?: string
+          logo_path?: string | null
+          nome?: string
+          site_url?: string | null
+          updated_at?: string
+          whatsapp?: string | null
+        }
+        Relationships: [
+
+        ]
+      }
+      loja_produtos: {
+        Row: {
+          categoria: string
+          created_at: string
+          cupom: string | null
+          descricao: string
+          destaque: boolean
+          foto_path: string | null
+          id: string
+          link_url: string
+          nome: string
+          parceiro_id: string
+          preco_centavos: number
+          preco_final_centavos: number
+          publicado: boolean
+          updated_at: string
+        }
+        Insert: {
+          categoria: string
+          created_at?: string
+          cupom?: string | null
+          descricao?: string
+          destaque?: boolean
+          foto_path?: string | null
+          id?: string
+          link_url: string
+          nome: string
+          parceiro_id: string
+          preco_centavos: number
+          preco_final_centavos: number
+          publicado?: boolean
+          updated_at?: string
+        }
+        Update: {
+          categoria?: string
+          created_at?: string
+          cupom?: string | null
+          descricao?: string
+          destaque?: boolean
+          foto_path?: string | null
+          id?: string
+          link_url?: string
+          nome?: string
+          parceiro_id?: string
+          preco_centavos?: number
+          preco_final_centavos?: number
+          publicado?: boolean
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "loja_produtos_parceiro_id_fkey"
+            columns: ["parceiro_id"]
+            isOneToOne: false
+            referencedRelation: "loja_parceiros"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       perfis: {
         Row: {
           acesso_fim_em: string | null
@@ -1267,6 +1403,21 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      registrar_clique_loja: { Args: { p_produto: string }; Returns: undefined }
+      painel_loja: {
+        Args: never
+        Returns: {
+          cliques_mes: number
+          mais_clicado: string | null
+          mais_clicado_cliques: number
+          parceiros_ativos: number
+          publicados: number
+        }[]
+      }
+      cliques_por_semana: {
+        Args: { p_produto: string; p_semanas?: number }
+        Returns: { cliques: number; semana: string }[]
+      }
       alunas_em_desafios_ativos: { Args: never; Returns: number }
       cancelar_indicacao: {
         Args: { p_indicacao: string; p_motivo: string }
