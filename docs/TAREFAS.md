@@ -9,7 +9,7 @@ Marque [x] ao concluir (o comando /fim faz isso). A próxima tarefa é a primeir
 - [x] Criar projeto Supabase (um só, decisão em ARQUITETURA)
 - [x] Conectar a Vercel ao repositório e configurar variáveis
 - [x] Testes de banco em PGlite (db:test) e migração aplicada com db push
-- [ ] Configurar Site URL e Redirect URL do Auth no Supabase (hora-snowy.vercel.app)
+- [x] Configurar Site URL e Redirect URL do Auth no Supabase (hora-snowy.vercel.app; link vale 24 h)
 - [ ] Tela de erro quando falta variável de ambiente (hoje fica em branco)
 - [ ] Backup diário e keep-alive (GitHub Actions)
 

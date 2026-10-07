@@ -1267,25 +1267,6 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      painel_equipe: {
-        Args: never
-        Returns: {
-          convite_pendente: boolean
-          email: string
-          especialidade: string | null
-          eu: boolean
-          foto_path: string | null
-          id: string
-          nome: string
-          titulo_profissional: string | null
-          ultimo_acesso: string | null
-        }[]
-      }
-      editar_profissional: {
-        Args: { p_especialidade: string; p_nome: string; p_perfil: string; p_titulo: string }
-        Returns: undefined
-      }
-      remover_profissional: { Args: { p_perfil: string }; Returns: undefined }
       alunas_em_desafios_ativos: { Args: never; Returns: number }
       cancelar_indicacao: {
         Args: { p_indicacao: string; p_motivo: string }
@@ -1323,6 +1304,15 @@ export type Database = {
         Returns: number
       }
       duplicar_alimento: { Args: { p_id: string }; Returns: string }
+      editar_profissional: {
+        Args: {
+          p_especialidade: string
+          p_nome: string
+          p_perfil: string
+          p_titulo: string
+        }
+        Returns: undefined
+      }
       eh_admin: { Args: never; Returns: boolean }
       estornar_lancamento: {
         Args: { p_criado_por: string; p_lancamento: string; p_motivo: string }
@@ -1469,6 +1459,20 @@ export type Database = {
           participantes: number
         }[]
       }
+      painel_equipe: {
+        Args: never
+        Returns: {
+          convite_pendente: boolean
+          email: string
+          especialidade: string
+          eu: boolean
+          foto_path: string
+          id: string
+          nome: string
+          titulo_profissional: string
+          ultimo_acesso: string
+        }[]
+      }
       painel_forum: {
         Args: never
         Returns: {
@@ -1508,6 +1512,7 @@ export type Database = {
         }
         Returns: string
       }
+      remover_profissional: { Args: { p_perfil: string }; Returns: undefined }
       salvar_alimento: {
         Args: { p_alimento: Json; p_medidas: Json }
         Returns: string
