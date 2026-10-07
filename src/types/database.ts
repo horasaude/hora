@@ -14,39 +14,6 @@ export type Database = {
   }
   public: {
     Tables: {
-      aula_materiais: {
-        Row: {
-          aula_id: string
-          caminho: string
-          created_at: string
-          id: string
-          nome: string
-          ordem: number
-          tamanho: number | null
-          tipo: string
-        }
-        Insert: {
-          aula_id: string
-          caminho: string
-          created_at?: string
-          id?: string
-          nome: string
-          ordem?: number
-          tamanho?: number | null
-          tipo: string
-        }
-        Update: {
-          aula_id?: string
-          caminho?: string
-          created_at?: string
-          id?: string
-          nome?: string
-          ordem?: number
-          tamanho?: number | null
-          tipo?: string
-        }
-        Relationships: []
-      }
       acessos_liberados: {
         Row: {
           created_at: string
@@ -72,7 +39,22 @@ export type Database = {
           liberado_por?: string | null
           perfil_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "acessos_liberados_liberado_por_fkey"
+            columns: ["liberado_por"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "acessos_liberados_perfil_id_fkey"
+            columns: ["perfil_id"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       alimentos: {
         Row: {
@@ -121,6 +103,47 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      aula_materiais: {
+        Row: {
+          aula_id: string
+          caminho: string
+          created_at: string
+          id: string
+          nome: string
+          ordem: number
+          tamanho: number | null
+          tipo: string
+        }
+        Insert: {
+          aula_id: string
+          caminho: string
+          created_at?: string
+          id?: string
+          nome: string
+          ordem?: number
+          tamanho?: number | null
+          tipo: string
+        }
+        Update: {
+          aula_id?: string
+          caminho?: string
+          created_at?: string
+          id?: string
+          nome?: string
+          ordem?: number
+          tamanho?: number | null
+          tipo?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "aula_materiais_aula_id_fkey"
+            columns: ["aula_id"]
+            isOneToOne: false
+            referencedRelation: "aulas"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       aulas: {
         Row: {
@@ -1453,10 +1476,10 @@ export type Database = {
       }
       perfis: {
         Row: {
-          acesso_liberado_por: string | null
-          acesso_liberado_em: string | null
           acesso_fim_em: string | null
           acesso_inicio_em: string | null
+          acesso_liberado_em: string | null
+          acesso_liberado_por: string | null
           apelido: string | null
           avatar_path: string | null
           codigo_indicacao: string
@@ -1476,10 +1499,10 @@ export type Database = {
           updated_at: string
         }
         Insert: {
-          acesso_liberado_por?: string | null
-          acesso_liberado_em?: string | null
           acesso_fim_em?: string | null
           acesso_inicio_em?: string | null
+          acesso_liberado_em?: string | null
+          acesso_liberado_por?: string | null
           apelido?: string | null
           avatar_path?: string | null
           codigo_indicacao?: string
@@ -1499,10 +1522,10 @@ export type Database = {
           updated_at?: string
         }
         Update: {
-          acesso_liberado_por?: string | null
-          acesso_liberado_em?: string | null
           acesso_fim_em?: string | null
           acesso_inicio_em?: string | null
+          acesso_liberado_em?: string | null
+          acesso_liberado_por?: string | null
           apelido?: string | null
           avatar_path?: string | null
           codigo_indicacao?: string
@@ -1522,6 +1545,13 @@ export type Database = {
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "perfis_acesso_liberado_por_fkey"
+            columns: ["acesso_liberado_por"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "perfis_tema_atual_id_fkey"
             columns: ["tema_atual_id"]
@@ -1770,13 +1800,11 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      liberar_acesso: { Args: { p_inicio: string; p_perfil: string }; Returns: undefined }
-      salvar_materiais: { Args: { p_aula: string; p_itens: Json }; Returns: undefined }
-      trilha_previa: { Args: { p_dia: number; p_tema?: string }; Returns: Json }
       alunas_em_desafios_ativos: { Args: never; Returns: number }
       atualizar_etapas: { Args: { p_perfil: string }; Returns: undefined }
       aula_liberada: { Args: { p_aula: string }; Returns: boolean }
       aulas_da_etapa: { Args: { p_etapa: string }; Returns: Json }
+      aulas_previa: { Args: { p_dia: number; p_etapa: string }; Returns: Json }
       cancelar_indicacao: {
         Args: { p_indicacao: string; p_motivo: string }
         Returns: undefined
@@ -1931,6 +1959,10 @@ export type Database = {
       lancar_ajuste: {
         Args: { p_motivo: string; p_perfil: string; p_pontos: number }
         Returns: string
+      }
+      liberar_acesso: {
+        Args: { p_inicio: string; p_perfil: string }
+        Returns: undefined
       }
       marcar_fotos_apagadas: { Args: { p_ids: string[] }; Returns: undefined }
       meus_desafios: {
@@ -2090,6 +2122,10 @@ export type Database = {
         Args: { p_alimento: Json; p_medidas: Json }
         Returns: string
       }
+      salvar_materiais: {
+        Args: { p_aula: string; p_itens: Json }
+        Returns: undefined
+      }
       salvar_perfil_equipe: {
         Args: {
           p_especialidade: string
@@ -2106,6 +2142,7 @@ export type Database = {
       tem_acesso_ativo: { Args: never; Returns: boolean }
       texto_busca: { Args: { valor: string }; Returns: string }
       trilha_aluna: { Args: never; Returns: Json }
+      trilha_previa: { Args: { p_dia: number; p_tema?: string }; Returns: Json }
       vencedoras_desafio: {
         Args: { p_desafio: string }
         Returns: {
