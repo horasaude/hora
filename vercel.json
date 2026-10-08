@@ -1,4 +1,50 @@
 {
+  "redirects": [
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "app.comunidadeora.com.br"
+        }
+      ],
+      "destination": "/app",
+      "permanent": false
+    },
+    {
+      "source": "/:rota(checkout|obrigada|termos|privacidade)/:resto*",
+      "has": [
+        {
+          "type": "host",
+          "value": "app.comunidadeora.com.br"
+        }
+      ],
+      "destination": "https://comunidadeora.com.br/:rota/:resto*",
+      "permanent": false
+    },
+    {
+      "source": "/:rota(app|entrar|definir-senha)/:resto*",
+      "has": [
+        {
+          "type": "host",
+          "value": "comunidadeora.com.br"
+        }
+      ],
+      "destination": "https://app.comunidadeora.com.br/:rota/:resto*",
+      "permanent": false
+    },
+    {
+      "source": "/:rota(app|entrar|definir-senha)/:resto*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.comunidadeora.com.br"
+        }
+      ],
+      "destination": "https://app.comunidadeora.com.br/:rota/:resto*",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     {
       "source": "/(.*)",

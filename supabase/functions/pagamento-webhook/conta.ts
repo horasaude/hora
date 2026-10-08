@@ -1,6 +1,7 @@
 import { enviarEmail } from '../_shared/email/enviar.ts'
-import { boasVindas, cobrancaRecusada, linkWhatsApp } from '../_shared/email/modelos.ts'
-import { servico, SITE } from '../_shared/servico.ts'
+import { boasVindas } from '../_shared/email/boasVindas.ts'
+import { cobrancaRecusada, linkWhatsApp } from '../_shared/email/modelos.ts'
+import { APP, servico, SITE } from '../_shared/servico.ts'
 import { rpc } from './eventos.ts'
 
 export type Pedido = {
@@ -12,10 +13,13 @@ export type Pedido = {
   perfil_id: string | null
   boas_vindas_em: string | null
   mp_assinatura_id: string | null
+  valor_centavos: number
+  parcelas: number
+  meses_acesso: number
 }
 
 export const CAMPOS_PEDIDO =
-  'id, nome, email, plano, status, perfil_id, boas_vindas_em, mp_assinatura_id'
+  'id, nome, email, plano, status, perfil_id, boas_vindas_em, mp_assinatura_id, valor_centavos, parcelas, meses_acesso'
 
 const whatsapp = () => linkWhatsApp(Deno.env.get('WHATSAPP_NUMERO'))
 
@@ -36,14 +40,22 @@ async function mandarBoasVindas(p: Pedido): Promise<void> {
   const { data, error } = await servico.auth.admin.generateLink({
     type: 'recovery',
     email: p.email,
-    options: { redirectTo: `${SITE}/definir-senha` },
+    options: { redirectTo: `${APP}/definir-senha` },
   })
   if (error) throw new Error(`link de senha: ${error.message}`)
   const email = boasVindas({
     site: SITE,
+    app: APP,
     nome: p.nome,
+    email: p.email,
     whatsapp: whatsapp(),
     link: data.properties.action_link,
+    compra: {
+      plano: p.plano,
+      valorCentavos: p.valor_centavos,
+      parcelas: p.parcelas,
+      meses: p.meses_acesso,
+    },
   })
   if (await enviarEmail(p.email, email, `boas-vindas-${p.id}`))
     await servico

@@ -7,7 +7,14 @@ export const servico = createClient(
   { auth: { persistSession: false, autoRefreshToken: false } },
 )
 
-export const SITE = (Deno.env.get('SITE_URL') ?? 'https://hora-snowy.vercel.app').replace(/\/$/, '')
+const endereco = (nome: string) =>
+  (Deno.env.get(nome) || 'https://hora-snowy.vercel.app').replace(/\/$/, '')
+
+/** Página de vendas e checkout (comunidadeora.com.br). */
+export const SITE = endereco('SITE_URL')
+
+/** Plataforma da aluna (app.comunidadeora.com.br): login, definir senha e o app instalável. */
+export const APP = endereco('APP_URL')
 
 export function json(corpo: unknown, status = 200, extra: Record<string, string> = {}): Response {
   return new Response(JSON.stringify(corpo), {

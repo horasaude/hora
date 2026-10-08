@@ -1,8 +1,8 @@
 // Modelos dos e-mails do ORA: HTML simples, fundo branco, Arial, botão verde ORA e rodapé da empresa.
 // Sem Deno: testado no Vitest.
 
-const VERDE = '#2c4c44'
-const TINTA = '#1f2a27'
+export const VERDE = '#2c4c44'
+export const TINTA = '#1f2a27'
 const SUAVE = '#5d6b67'
 
 export type Email = { assunto: string; html: string }
@@ -15,15 +15,15 @@ export function escapar(texto: string): string {
     .replaceAll('"', '&quot;')
 }
 
-const primeiroNome = (nome: string) => escapar(nome.trim().split(/\s+/)[0] ?? '')
+export const primeiroNome = (nome: string) => escapar(nome.trim().split(/\s+/)[0] ?? '')
 
-const p = (texto: string) =>
+export const p = (texto: string) =>
   `<p style="margin:0 0 16px;font-size:16px;line-height:1.6;color:${TINTA}">${texto}</p>`
 
-const botao = (rotulo: string, link: string) =>
+export const botao = (rotulo: string, link: string) =>
   `<p style="margin:24px 0"><a href="${escapar(link)}" style="display:inline-block;background:${VERDE};color:#ffffff;text-decoration:none;font-weight:bold;font-size:15px;padding:13px 28px;border-radius:999px">${rotulo}</a></p>`
 
-function moldura(site: string, titulo: string, corpo: string): string {
+export function moldura(site: string, titulo: string, corpo: string): string {
   return `<!doctype html><html lang="pt-BR"><body style="margin:0;padding:0;background:#ffffff">
 <div style="max-width:560px;margin:0 auto;padding:32px 24px;font-family:Arial,Helvetica,sans-serif;background:#ffffff">
 <img src="${escapar(site)}/logo-ora.png" alt="ORA" width="120" style="display:block;width:120px;height:auto;margin-bottom:28px">
@@ -33,30 +33,7 @@ ${corpo}
 </div></body></html>`
 }
 
-type Base = { site: string; nome: string; whatsapp: string | null }
-
-export function boasVindas(d: Base & { link: string }): Email {
-  const contato = d.whatsapp
-    ? p(
-        `Ficou alguma dúvida? Fale com a gente no <a href="${escapar(d.whatsapp)}" style="color:${VERDE}">WhatsApp</a>.`,
-      )
-    : ''
-  const corpo = [
-    p(
-      `Oi, ${primeiroNome(d.nome)}! Seu pagamento foi confirmado e o seu acesso ao ORA já começou.`,
-    ),
-    p('Para entrar, crie a sua senha no botão abaixo. O link vale por 24 horas.'),
-    botao('Criar minha senha', d.link),
-    p(
-      '<strong>Nos primeiros 7 dias</strong> você passa pela Preparação: uma aula nova por dia, o check-in diário e os primeiros desafios. No dia 8 você escolhe o seu tema e começa a sua trilha.',
-    ),
-    contato,
-  ].join('')
-  return {
-    assunto: 'Seu acesso ao ORA está liberado',
-    html: moldura(d.site, 'Seu acesso ao ORA está liberado', corpo),
-  }
-}
+export type Base = { site: string; nome: string; whatsapp: string | null }
 
 export function lembretePix(d: Base & { copiaCola: string; checkout: string }): Email {
   const corpo = [
