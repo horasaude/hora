@@ -1,7 +1,7 @@
 import { enviarEmail } from '../_shared/email/enviar.ts'
 import { boasVindas } from '../_shared/email/boasVindas.ts'
 import { cobrancaRecusada, linkWhatsApp } from '../_shared/email/modelos.ts'
-import { APP, servico, SITE } from '../_shared/servico.ts'
+import { servico, SITE } from '../_shared/servico.ts'
 import { rpc } from './eventos.ts'
 
 export type Pedido = {
@@ -40,12 +40,11 @@ async function mandarBoasVindas(p: Pedido): Promise<void> {
   const { data, error } = await servico.auth.admin.generateLink({
     type: 'recovery',
     email: p.email,
-    options: { redirectTo: `${APP}/definir-senha` },
+    options: { redirectTo: `${SITE}/definir-senha` },
   })
   if (error) throw new Error(`link de senha: ${error.message}`)
   const email = boasVindas({
     site: SITE,
-    app: APP,
     nome: p.nome,
     email: p.email,
     whatsapp: whatsapp(),

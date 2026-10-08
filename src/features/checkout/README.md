@@ -29,7 +29,7 @@ Checkout próprio (rota /checkout), no formato do Hotmart e na identidade do ORA
 
 ## Chaves (trocar só isso quando chegar a conta das clientes)
 
-- Supabase secrets: MP_ACCESS_TOKEN, MP_WEBHOOK_SECRET, RESEND_API_KEY, EMAIL_REMETENTE (ex.: ORA <acesso@dominio>), EMAIL_TESTE (só enquanto o Resend não tiver domínio; desvia todo envio para esse endereço), SITE_URL (vendas e checkout, https://comunidadeora.com.br), APP_URL (plataforma, https://app.comunidadeora.com.br; o link de criar senha vai para lá), WHATSAPP_NUMERO.
+- Supabase secrets: MP_ACCESS_TOKEN, MP_WEBHOOK_SECRET, RESEND_API_KEY, EMAIL_REMETENTE (ex.: ORA <acesso@dominio>), EMAIL_TESTE (só enquanto o Resend não tiver domínio; desvia todo envio para esse endereço), SITE_URL (https://comunidadeora.com.br; vendas e checkout na raiz, plataforma em /app, link de criar senha em /definir-senha), WHATSAPP_NUMERO.
 - Vercel e .env.local: VITE_MP_PUBLIC_KEY (tipo Config). Sem ela, o checkout avisa que o pagamento não está disponível.
 - Painel do Mercado Pago: Suas integrações > aplicação > Webhooks > URL https://zijtjwhvnhfarmfscmnr.supabase.co/functions/v1/pagamento-webhook com os eventos Pagamentos, Planos e assinaturas (subscription_preapproval e subscription_authorized_payment).
 

@@ -166,14 +166,14 @@ Componentes do estilo (toda tela nova usa estes): BotaoBrilho, LinkBrilho, Etiqu
 
 ## Infraestrutura
 
-| Item            | Onde                                                                                                                                                          |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| CI              | .github/workflows/ci.yml                                                                                                                                      |
-| Deploy          | Vercel (vercel.json), time hora3, hora-snowy.vercel.app                                                                                                       |
-| Domínios        | comunidadeora.com.br e www: vendas e checkout; app.comunidadeora.com.br: plataforma (vercel.json manda / para /app e troca de domínio nas rotas de cada lado) |
-| Banco           | Supabase zijtjwhvnhfarmfscmnr (sa-east-1), um projeto só                                                                                                      |
-| Demonstração    | scripts/demo (seed local, PGlite, API mínima, prints em docs/prints/parte2)                                                                                   |
-| Testes de banco | supabase/tests (harness.mjs em PGlite, rodar.mjs)                                                                                                             |
-| Git             | github.com/horasaude/hora, chave SSH própria (~/.ssh/hora)                                                                                                    |
-| PWA             | vite.config.ts (VitePWA), escopo /app/, decisão 0003                                                                                                          |
-| Meta tags       | index.html, imagem public/og-ora.png                                                                                                                          |
+| Item            | Onde                                                                                           |
+| --------------- | ---------------------------------------------------------------------------------------------- |
+| CI              | .github/workflows/ci.yml                                                                       |
+| Deploy          | Vercel (vercel.json), time hora3, hora-snowy.vercel.app                                        |
+| Domínios        | comunidadeora.com.br (www redireciona): vendas e checkout na raiz, plataforma da aluna em /app |
+| Banco           | Supabase zijtjwhvnhfarmfscmnr (sa-east-1), um projeto só                                       |
+| Demonstração    | scripts/demo (seed local, PGlite, API mínima, prints em docs/prints/parte2)                    |
+| Testes de banco | supabase/tests (harness.mjs em PGlite, rodar.mjs)                                              |
+| Git             | github.com/horasaude/hora, chave SSH própria (~/.ssh/hora)                                     |
+| PWA             | vite.config.ts (VitePWA), escopo /app/, decisão 0003                                           |
+| Meta tags       | index.html, imagem public/og-ora.png                                                           |

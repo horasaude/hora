@@ -59,10 +59,10 @@ function instalar(endereco: string): string {
   ].join('')
 }
 
-type Dados = Base & { email: string; app: string; link: string; compra: Compra }
+type Dados = Base & { email: string; link: string; compra: Compra }
 
 export function boasVindas(d: Dados): Email {
-  const endereco = escapar(d.app.replace(/^https?:\/\//, ''))
+  const endereco = escapar(`${d.site.replace(/^https?:\/\//, '')}/app`)
   const contato = d.whatsapp
     ? `Se o link vencer ou ficar alguma dúvida, fale com a gente no <a href="${escapar(d.whatsapp)}" style="color:${VERDE}">WhatsApp</a>.`
     : 'Se o link vencer, responda este e-mail que mandamos outro.'
@@ -76,7 +76,7 @@ export function boasVindas(d: Dados): Email {
       `${d.compra.meses} meses de acesso`,
     ]),
     quadro('Seu acesso', [
-      `Plataforma: <a href="${escapar(d.app)}/app" style="color:${VERDE};font-weight:bold">${endereco}</a>`,
+      `Plataforma: <a href="${escapar(d.site)}/app" style="color:${VERDE};font-weight:bold">${endereco}</a>`,
       `Usuário: <strong>${escapar(d.email)}</strong>`,
       'Senha: você cria agora, no botão abaixo. O link vale por 24 horas.',
     ]),

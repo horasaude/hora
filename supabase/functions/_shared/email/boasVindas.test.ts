@@ -3,7 +3,6 @@ import { boasVindas, textoDaCompra } from './boasVindas.ts'
 
 const base = {
   site: 'https://comunidadeora.com.br',
-  app: 'https://app.comunidadeora.com.br',
   nome: 'Maria <b>Silva</b>',
   email: 'maria@teste.com',
   whatsapp: 'https://wa.me/5598999999999',
@@ -23,7 +22,7 @@ describe('e-mail de pagamento confirmado', () => {
   })
 
   it('traz plataforma, usuário e o botão de criar a senha', () => {
-    expect(html).toContain('app.comunidadeora.com.br')
+    expect(html).toContain('comunidadeora.com.br/app')
     expect(html).toContain('Usuário: <strong>maria@teste.com</strong>')
     expect(html).toContain('Criar minha senha')
     expect(html).toContain('token=abc&amp;type=recovery')
