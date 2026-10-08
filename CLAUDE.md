@@ -56,7 +56,7 @@ Stack: React + Vite + TypeScript, Tailwind, TanStack Query, Zod, Supabase (Postg
 
 ## Git
 
-- Trabalho direto na main, sem branch nem pull request: o push na main publica na Vercel (hora-snowy.vercel.app) e a conferência é sempre pelo link.
+- Trabalho direto na main, sem branch nem pull request: o push na main publica na Vercel (www.comunidadeora.com.br; hora-snowy.vercel.app continua respondendo) e a conferência é sempre pelo link.
 - Antes de cada push: npm run check verde (e npm run db:test se mexeu no banco). Nunca enviar com falha.
 - Conventional Commits, um commit por tarefa.
 

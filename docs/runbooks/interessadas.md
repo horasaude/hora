@@ -8,7 +8,7 @@ Rodar nesta ordem, na pasta do projeto. O push na main vai por último: se a pá
    `supabase db push --dry-run` e depois `npm run db:push`
 3. Liberar a origem da página:
    `supabase secrets set ORIGENS_PERMITIDAS=https://hora-snowy.vercel.app`
-   (com domínio próprio, separar por vírgula: `https://hora-snowy.vercel.app,https://dominio.com.br`)
+   (hoje: www.comunidadeora.com.br, comunidadeora.com.br, hora-snowy, hora-hora3 e localhost:5173, separados por vírgula; ao trocar, mande a lista inteira)
 4. Publicar a função (sem Docker):
    `supabase functions deploy cadastrar-interessada --no-verify-jwt --use-api`
 5. Atualizar os tipos: `npm run gen:types`

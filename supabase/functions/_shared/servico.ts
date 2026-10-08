@@ -8,7 +8,7 @@ export const servico = createClient(
 )
 
 const endereco = (nome: string) =>
-  (Deno.env.get(nome) || 'https://hora-snowy.vercel.app').replace(/\/$/, '')
+  (Deno.env.get(nome) || 'https://www.comunidadeora.com.br').replace(/\/$/, '')
 
 /** Endereço do site (comunidadeora.com.br): vendas e checkout na raiz, plataforma da aluna em /app. */
 export const SITE = endereco('SITE_URL')
