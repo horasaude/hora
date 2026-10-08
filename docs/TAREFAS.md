@@ -51,6 +51,7 @@ Venda inicial por links do Mercado Pago; o checkout integrado da Sprint 2 substi
 - [x] tem_acesso_ativo() e RLS de conteúdo (com suspensão por inadimplência)
 - [x] E-mails de boas-vindas, lembrete do Pix e cobrança recusada; reembolso; /obrigada com status real
 - [ ] Contas das clientes: chaves de produção do MP, domínio verificado no Resend, URL do webhook de produção
+- [ ] SMTP do Resend no Auth do Supabase e modelo supabase/templates/nova-senha.html (sem isso, Esqueci minha senha só entrega para a equipe)
 - [ ] Pixel da Meta (Purchase só com aprovado) quando o pixel existir
 
 ## Sprint 3: engajamento base (até 18/10)

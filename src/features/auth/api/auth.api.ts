@@ -6,6 +6,14 @@ export async function entrarComSenha({ email, senha }: LoginDados) {
   if (error) throw error
 }
 
+/** Manda o link de nova senha. Não revela se o e-mail tem conta; só o excesso de pedidos vira erro. */
+export async function pedirNovaSenha(email: string): Promise<'enviado' | 'muitas'> {
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${window.location.origin}/definir-senha`,
+  })
+  return error?.status === 429 ? 'muitas' : 'enviado'
+}
+
 export async function sair() {
   await supabase.auth.signOut()
 }

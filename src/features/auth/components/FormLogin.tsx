@@ -5,7 +5,7 @@ import { loginSchema, type LoginDados } from '../schemas/login.schema'
 import { useLogin } from '../hooks/useLogin'
 import { textos } from '../textos'
 
-export function FormLogin() {
+export function FormLogin({ aoEsquecer }: { aoEsquecer: () => void }) {
   const login = useLogin()
   const { register, handleSubmit, formState } = useForm<LoginDados>({
     resolver: zodResolver(loginSchema),
@@ -27,6 +27,13 @@ export function FormLogin() {
         erro={formState.errors.senha?.message}
         {...register('senha')}
       />
+      <button
+        type="button"
+        onClick={aoEsquecer}
+        className="min-h-11 self-end text-sm text-ora underline underline-offset-2"
+      >
+        {textos.esqueci.abrir}
+      </button>
       {login.isError && (
         <p role="alert" className="text-sm text-terracota">
           {textos.erroCredenciais}

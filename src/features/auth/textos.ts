@@ -6,6 +6,16 @@ export const textos = {
   entrando: 'Entrando...',
   erroCredenciais: 'E-mail ou senha não conferem.',
   carregando: 'Carregando...',
+  esqueci: {
+    abrir: 'Esqueci minha senha',
+    titulo: 'Esqueci minha senha',
+    enviar: 'Enviar link',
+    enviando: 'Enviando...',
+    enviado:
+      'Se este e-mail tiver conta no ORA, o link para criar uma nova senha chega em instantes. Confira também o spam.',
+    muitas: 'Muitas tentativas seguidas. Espere alguns minutos e tente de novo.',
+    voltar: 'Voltar para entrar',
+  },
   definir: {
     titulo: 'Crie sua senha',
     nova: 'Nova senha',
@@ -15,7 +25,7 @@ export const textos = {
     erro: 'Não foi possível salvar. Peça um novo link.',
     salvar: 'Salvar e entrar',
     salvando: 'Salvando',
-    expirado: 'Este link expirou ou já foi usado. Peça um novo link.',
+    expirado: 'Este link expirou ou já foi usado. Na tela de entrar, toque em Esqueci minha senha.',
     entrar: 'Ir para a tela de entrar',
   },
 }
