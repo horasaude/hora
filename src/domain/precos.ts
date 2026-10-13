@@ -27,7 +27,7 @@ export function precosPara(emOferta: boolean, c: Configuracao = CONFIGURACAO_PAD
   }
 }
 
-/** Desconto da oferta do ORA no Pix (o "R$ 300 OFF" da faixa). */
+/** Desconto da oferta do ORA no Pix (o "R$ 400 OFF" da faixa). */
 export function descontoOferta(c: Configuracao = CONFIGURACAO_PADRAO): number {
   return c.cheio.pix - c.oferta.pix
 }

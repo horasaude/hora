@@ -42,7 +42,7 @@ describe('CheckoutPage', () => {
     expect(campo('WhatsApp').value).toBe('(98) 98765-4321')
     expect(screen.getByRole('radio', { name: /À vista/ })).toBeChecked()
     tem('Pix')
-    tem('Oferta ORA: R$ 300 OFF + 1 mês grátis')
+    tem('Oferta ORA: R$ 400 OFF + 1 mês grátis')
     tem('12 meses + 1 mês grátis')
   })
 
@@ -50,9 +50,9 @@ describe('CheckoutPage', () => {
     abrir()
     expect(screen.getByRole('radio', { name: /Parcelado/ })).toBeChecked()
     tem('Cartão de crédito')
-    tem('Total12x de R$ 198')
+    tem('Total12x de R$ 187,90')
     fireEvent.click(screen.getByRole('radio', { name: /À vista/ }))
-    tem('TotalR$ 1.997')
+    tem('TotalR$ 1.897')
   })
 
   it('CPF com máscara; inválido é recusado antes de ir ao pagamento', async () => {

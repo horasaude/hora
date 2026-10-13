@@ -8,7 +8,7 @@ export const compra = {
   opcoes: {
     parcelado: 'no cartão, parcelado',
     pix: 'à vista no Pix',
-    recorrente: 'no cartão, mês a mês',
+    recorrente: 'no cartão, mês a mês, sem comprometer o limite',
   },
   nome: { rotulo: 'Nome', exemplo: 'Digite seu nome' },
   email: { rotulo: 'E-mail', exemplo: 'Digite seu melhor e-mail' },

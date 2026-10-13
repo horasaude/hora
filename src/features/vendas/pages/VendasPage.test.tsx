@@ -21,13 +21,13 @@ describe('VendasPage', () => {
 
   it('na oferta: aviso com contagem no preço, três planos com o normal riscado e o 13º mês', () => {
     abrirEm(FIM_OFERTA_ORA.getTime() - 60_000)
-    tem('Oferta ORA: R$ 300 OFF')
+    tem('Oferta ORA: R$ 400 OFF')
     tem('É só hoje, até as 23h59.')
     tem('Termina em')
     expect(screen.getByRole('timer')).toBeInTheDocument()
-    tem('12x R$ 198')
-    tem('R$ 1.997')
-    tem('12x R$ 215')
+    tem('12x R$ 187,90')
+    tem('R$ 1.897')
+    tem('12x R$ 217,90')
     tem('de 12x R$ 227')
     tem('de R$ 2.297')
     tem('de 12x R$ 247')
@@ -55,7 +55,7 @@ describe('VendasPage', () => {
   it('depois do prazo: preços cheios sem riscado, sem contagem e sem o 13º mês', () => {
     abrirEm(FIM_OFERTA_ORA.getTime() + 1000)
     expect(screen.queryByRole('timer')).not.toBeInTheDocument()
-    naoTem('Oferta ORA: R$ 300 OFF')
+    naoTem('Oferta ORA: R$ 400 OFF')
     naoTem('de R$ 2.297')
     tem('12x R$ 227')
     tem('R$ 2.297')

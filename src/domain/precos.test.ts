@@ -15,9 +15,9 @@ describe('precosVigentes', () => {
     expect(precosVigentes(segundos(-1))).toEqual({
       emOferta: true,
       parcelas: 12,
-      parceladoCentavos: 19800,
-      recorrenteCentavos: 21500,
-      pixCentavos: 199700,
+      parceladoCentavos: 18790,
+      recorrenteCentavos: 21790,
+      pixCentavos: 189700,
       mesesAcesso: 13,
       ancoraCentavos: 229700,
     })
@@ -48,8 +48,8 @@ describe('precosPara', () => {
 })
 
 describe('DESCONTO_OFERTA_CENTAVOS', () => {
-  it('é a diferença do Pix cheio para o Pix da oferta: R$ 300', () => {
-    expect(DESCONTO_OFERTA_CENTAVOS).toBe(30000)
+  it('é a diferença do Pix cheio para o Pix da oferta: R$ 400', () => {
+    expect(DESCONTO_OFERTA_CENTAVOS).toBe(40000)
   })
 })
 

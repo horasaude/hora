@@ -18,7 +18,7 @@ export const textos = {
     opcoes: {
       parcelado: { nome: 'Parcelado', detalhe: 'no cartão de crédito' },
       pix: { nome: 'À vista', detalhe: 'no Pix' },
-      recorrente: { nome: 'Mensal', detalhe: 'no cartão, mês a mês' },
+      recorrente: { nome: 'Mensal', detalhe: 'no cartão, mês a mês, sem comprometer o limite' },
     },
   },
   dados: {

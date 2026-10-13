@@ -31,7 +31,7 @@ export const fechamento = {
       },
       recorrente: {
         nome: 'Mensal',
-        detalhe: 'no cartão, mês a mês',
+        detalhe: 'no cartão, mês a mês, sem comprometer o limite',
         itens: ['Não ocupa o limite do cartão'],
       },
     },
@@ -58,7 +58,7 @@ export const fechamento = {
       },
       {
         p: 'Quando vale a oferta do ORA?',
-        r: 'Somente no dia 24/10, no evento ORA, até as 23h59 (horário de Brasília). Nesse dia: R$ 300 de desconto e 1 mês grátis.',
+        r: 'Somente no dia 24/10, no evento ORA, até as 23h59 (horário de Brasília). Nesse dia: R$ 400 de desconto no Pix, parcelas menores e 1 mês grátis.',
       },
       {
         p: 'Quando recebo o acesso?',
