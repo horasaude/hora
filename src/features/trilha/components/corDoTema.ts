@@ -8,5 +8,8 @@ const TOM: Record<string, string> = {
   ganho_massa: 'brilho-dourado',
 }
 
-/** Classe de vidro da cor do tema. */
-export const tomDoTema = (chave: string | null) => TOM[chave ?? ''] ?? 'brilho-escuro'
+const CORES = ['verde', 'coral', 'dourado', 'lilas', 'rosa', 'escuro']
+
+/** Classe de vidro da cor do tema: a escolhida no painel ou a fixa pela chave. */
+export const tomDoTema = (chave: string | null, cor?: string | null) =>
+  cor && CORES.includes(cor) ? `brilho-${cor}` : (TOM[chave ?? ''] ?? 'brilho-escuro')

@@ -1,3 +1,4 @@
+import { lerTrechos } from '@/domain/assistido'
 import type { Trilha } from '@/domain/trilha'
 import { semValor, supabase } from '@/lib/supabase'
 import { esquemaTrilha } from '../schemas/trilha.schema'
@@ -63,7 +64,7 @@ export async function escolherTema(tema: string): Promise<void> {
 
 export type MaterialAula = {
   id: string
-  tipo: 'pdf' | 'imagem' | 'link'
+  tipo: 'pdf' | 'imagem' | 'word' | 'link'
   nome: string
   tamanho: number | null
   url: string | null
@@ -80,4 +81,35 @@ export async function buscarMateriaisAula(aula: string): Promise<MaterialAula[]>
   )
   if (error) throw error
   return data?.materiais ?? []
+}
+
+export type ProgressoVideo = { trechos: [number, number][]; posicao: number; duracao: number }
+
+/** Onde a aluna parou no vídeo e os trechos que ela já assistiu. */
+export async function buscarProgresso(aula: string): Promise<ProgressoVideo | null> {
+  const { data, error } = await supabase
+    .from('aulas_progresso')
+    .select('trechos, posicao, duracao')
+    .eq('aula_id', aula)
+    .maybeSingle()
+  if (error) throw error
+  if (!data) return null
+  return {
+    trechos: lerTrechos(data.trechos),
+    posicao: Number(data.posicao),
+    duracao: Number(data.duracao),
+  }
+}
+
+export async function salvarProgresso(aula: string, p: ProgressoVideo): Promise<void> {
+  const { error } = await supabase.from('aulas_progresso').upsert(
+    {
+      aula_id: aula,
+      trechos: p.trechos.map(([a, b]) => [Math.floor(a), Math.ceil(b)]),
+      posicao: Math.floor(p.posicao),
+      duracao: Math.round(p.duracao),
+    },
+    { onConflict: 'perfil_id,aula_id' },
+  )
+  if (error) throw error
 }

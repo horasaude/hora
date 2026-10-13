@@ -1,8 +1,8 @@
-import { Link, NavLink, useLocation } from 'react-router-dom'
-import { LogoOra } from '@/components/ui'
+import { Link, useLocation } from 'react-router-dom'
+import { ItemMenuLateral, LogoOra } from '@/components/ui'
 import { useTemLiveHoje } from '@/features/lives'
 import { IconeNavegacao } from './IconesNavegacao'
-import { destino, SECOES, secaoAtiva, telaAtiva, type Secao } from './navegacao'
+import { destino, MENU_LATERAL, SECOES, secaoAtiva, telaAtiva } from './navegacao'
 import { textosAluna as t } from './textosAluna'
 
 /** Ponto dourado que pulsa quando há live hoje. */
@@ -55,69 +55,29 @@ export function BarraInferior() {
   )
 }
 
-function ItemLateral({
-  s,
-  ativa,
-  live,
-  telaAberta,
-}: {
-  s: Secao
-  ativa: boolean
-  live: boolean
-  telaAberta: string | null
-}) {
-  return (
-    <li>
-      <Link
-        to={destino(s)}
-        aria-current={ativa ? 'true' : undefined}
-        className={`flex min-h-10 items-center gap-2.5 rounded-[14px] px-3.5 text-[15px] transition ${ativa ? 'brilho brilho-verde font-bold' : 'text-tinta hover:bg-trilho'}`}
-      >
-        <IconeNavegacao nome={s.icone} />
-        <span className="flex-1">{s.nome}</span>
-        {s.id === 'comunidade' && live && <PontoLive />}
-      </Link>
-      {ativa && s.telas.length > 1 && (
-        <ul className="mt-1 mb-2 flex flex-col gap-0.5 pl-6">
-          {s.telas.map((tela) => (
-            <li key={tela.para}>
-              <NavLink
-                to={tela.para}
-                end={tela.exata}
-                className={`flex min-h-9 items-center gap-2.5 rounded-xl px-3 text-[14px] ${tela.para === telaAberta ? 'font-bold text-verde-escuro' : 'text-suave hover:bg-trilho'}`}
-              >
-                <span className={`size-2 shrink-0 rounded-full ${tela.cor}`} aria-hidden />
-                <span className="flex-1">{tela.nome}</span>
-                {tela.dourada && live && <PontoLive />}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
-      )}
-    </li>
-  )
-}
-
-/** Computador: as mesmas 5 abas no menu lateral; a ativa abre as suas telas embaixo, recuadas. */
+/** Computador: lista simples de botões, igual ao menu do painel; o ativo em vidro verde. */
 export function BarraLateral({ nome }: { nome: string }) {
-  const { secao, tela, live } = useNavegacao()
+  const { tela, live } = useNavegacao()
   return (
-    <aside className="fixed top-4 bottom-4 left-4 hidden w-60 flex-col rounded-[24px] border border-linha/60 bg-white px-4 py-6 shadow-menu lg:flex">
-      <LogoOra largura={120} className="mx-2 mt-1 mb-7" />
-      <nav className="min-h-0 flex-1 overflow-y-auto">
+    <aside className="fixed top-4 bottom-4 left-4 hidden w-60 flex-col rounded-[24px] border border-linha/60 bg-white px-3.5 py-6 shadow-menu lg:flex">
+      <LogoOra largura={118} className="mx-2.5 mb-2" />
+      <nav className="mt-6 min-h-0 flex-1 overflow-y-auto">
         <ul className="flex flex-col gap-1">
-          {SECOES.map((s) => (
-            <ItemLateral
-              key={s.id}
-              s={s}
-              ativa={s.id === secao?.id}
-              live={live}
-              telaAberta={tela?.para ?? null}
+          {MENU_LATERAL.map((i) => (
+            <ItemMenuLateral
+              key={i.para}
+              tom="claro"
+              para={i.para}
+              nome={i.nome}
+              cor={i.cor}
+              fim={i.fim}
+              ativo={tela?.para === i.para}
+              extra={i.live && live ? <PontoLive /> : undefined}
             />
           ))}
         </ul>
       </nav>
-      <div className="mt-4 flex flex-col gap-2 px-3">
+      <div className="mt-3 flex shrink-0 flex-col gap-2 border-t border-linha px-3 pt-4">
         <span className="text-xs text-suave">{t.logadaComo}</span>
         <span className="rounded-xl bg-trilho px-3 py-2 text-sm text-tinta">{nome}</span>
       </div>

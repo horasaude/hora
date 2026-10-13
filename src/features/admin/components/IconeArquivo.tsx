@@ -8,7 +8,7 @@ const traco = {
   strokeLinejoin: 'round',
 } as const
 
-/** Ícone pelo tipo: PDF terracota, imagem sálvia, link verde. */
+/** Ícone pelo tipo: PDF terracota, Word azul, imagem sálvia, link verde. */
 export function IconeArquivo({
   tipo,
   className = 'size-5',
@@ -20,6 +20,12 @@ export function IconeArquivo({
     return (
       <svg viewBox="0 0 24 24" aria-hidden className={`${className} shrink-0 text-terracota`}>
         <path {...traco} d="M7 3h7l5 5v13H7zM14 3v5h5M9.5 13h5M9.5 16.5h5" />
+      </svg>
+    )
+  if (tipo === 'word')
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden className={`${className} shrink-0 text-[#2f6db5]`}>
+        <path {...traco} d="M7 3h7l5 5v13H7zM14 3v5h5M9 12l1.3 5 1.7-4 1.7 4 1.3-5" />
       </svg>
     )
   if (tipo === 'imagem')

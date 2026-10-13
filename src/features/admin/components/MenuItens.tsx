@@ -1,20 +1,9 @@
 import { useState } from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
+import { BolinhaMenu as Bolinha, classeItemMenu as item, ItemMenuLateral } from '@/components/ui'
 import { textos } from '../textos'
 
 const a = textos.abas
-const item = (ativo: boolean) =>
-  `flex min-h-10 items-center gap-2.5 rounded-xl px-3 text-sm text-[#E9EFEC] transition ${ativo ? 'bg-white/12 font-bold' : 'hover:bg-white/6'}`
-
-function Bolinha({ cor }: { cor: string }) {
-  return (
-    <span
-      className="size-2 shrink-0 rounded-full shadow-[inset_0_1px_1px_rgb(255_255_255/0.6)]"
-      style={{ background: cor }}
-      aria-hidden
-    />
-  )
-}
 
 type Item = { para: string; nome: string; cor: string }
 
@@ -22,16 +11,13 @@ type Item = { para: string; nome: string; cor: string }
 export function ItemMenu({ i, aoNavegar }: { i: Item; aoNavegar?: () => void }) {
   const emAula = useLocation().pathname.startsWith('/app/admin/aulas')
   return (
-    <li>
-      <NavLink
-        to={i.para}
-        onClick={aoNavegar}
-        className={({ isActive }) => item(isActive || (emAula && i.para === 'conteudo'))}
-      >
-        <Bolinha cor={i.cor} />
-        {i.nome}
-      </NavLink>
-    </li>
+    <ItemMenuLateral
+      para={i.para}
+      nome={i.nome}
+      cor={i.cor}
+      aoNavegar={aoNavegar}
+      ativo={emAula && i.para === 'conteudo' ? true : undefined}
+    />
   )
 }
 

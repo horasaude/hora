@@ -29,7 +29,7 @@ export function TopoTrilha({ dia, aulas, tema, meta }: Props) {
         </h1>
         {tema && (
           <span className="self-start">
-            <TagTema chave={tema.chave} titulo={tema.titulo} />
+            <TagTema chave={tema.chave} cor={tema.cor} titulo={tema.titulo} />
           </span>
         )}
       </div>

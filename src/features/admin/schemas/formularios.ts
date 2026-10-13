@@ -26,9 +26,14 @@ export const esquemaTema = z.object({
 export const esquemaEtapa = esquemaTema
 
 /** Aula: o dia de liberação é o dia da preparação (1 a 7) ou o dia dentro da etapa do tema. */
-export const esquemaAulaAte = (maxDia: number) =>
+const c = textos.conteudo
+
+/** Aula: onde fica (tema e etapa), conteúdo e dia de liberação; na preparação, o dia vai até 7. */
+export const esquemaAulaPara = (temasPreparacao: string[]) =>
   z
     .object({
+      tema: z.string().min(1, c.erroTema),
+      etapa: z.string().min(1, c.erroEtapa),
       titulo: titulo(160),
       descricao: z.string().trim().max(5000),
       video_url: linkObrigatorio,
@@ -45,15 +50,38 @@ export const esquemaAulaAte = (maxDia: number) =>
       dia: z
         .string()
         .trim()
-        .refine((v) => /^[1-9]\d{0,3}$/.test(v) && Number(v) <= maxDia, e.dia),
+        .refine((v) => /^[1-9]\d{0,3}$/.test(v), e.dia),
     })
-    .transform(({ dia, duracao, ...resto }) => ({
+    .refine((d) => !temasPreparacao.includes(d.tema) || Number(d.dia) <= 7, {
+      message: e.dia,
+      path: ['dia'],
+    })
+    .transform(({ dia, duracao, tema: _tema, etapa, ...resto }) => ({
       ...resto,
+      etapa_id: etapa,
       duracao_minutos: duracao,
       dia_liberacao: Number(dia),
     }))
 
-export const esquemaAula = esquemaAulaAte(9999)
+export const esquemaAula = esquemaAulaPara([])
+
+const ordem = z
+  .string()
+  .trim()
+  .refine((v) => /^[1-9]\d?$/.test(v), c.erroOrdem)
+  .transform(Number)
+const cor = z.enum(['verde', 'coral', 'dourado', 'lilas', 'rosa', 'escuro'])
+
+/** Novo tema: nome, frase, cor e ordem. */
+export const esquemaNovoTema = z.object({
+  titulo: titulo(120),
+  descricao: z.string().trim().max(300),
+  cor,
+  ordem,
+})
+
+/** Nova etapa: o tema dela, nome, frase, cor e ordem. */
+export const esquemaNovaEtapa = esquemaNovoTema.extend({ tema_id: z.string().min(1, c.erroTema) })
 
 export const esquemaLive = z.object({
   tema: titulo(160),

@@ -39,3 +39,9 @@ export function linkDeIncorporacao(entrada: string): string | null {
 function youtube(id: string | null): string | null {
   return id ? `https://www.youtube-nocookie.com/embed/${id}` : null
 }
+
+/** Id do vídeo quando o link é do YouTube (o único em que dá para medir o tempo assistido). */
+export function idDoYoutube(entrada: string): string | null {
+  const link = linkDeIncorporacao(entrada)
+  return link?.match(/^https:\/\/www\.youtube-nocookie\.com\/embed\/([\w-]+)$/)?.[1] ?? null
+}

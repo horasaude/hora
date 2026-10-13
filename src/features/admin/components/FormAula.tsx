@@ -1,136 +1,89 @@
 import { useId, type ReactNode } from 'react'
-import { useForm, useWatch, type Control, type UseFormRegister } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { z } from 'zod'
-import { Campo, Janela } from '@/components/ui'
-import { esquemaAula, esquemaAulaAte } from '../schemas/formularios'
+import { Janela } from '@/components/ui'
+import type { Etapa, Tema } from '../api/conteudo.api'
+import { esquemaAula, esquemaAulaPara } from '../schemas/formularios'
 import { textos } from '../textos'
-import { CampoArea } from './CampoArea'
-import { PreviaVideo } from './PreviaVideo'
-import { ErroForm, RodapeForm } from './RodapeForm'
+import { OndeFica } from './OndeFica'
+import { Descricao, Liberacao, QuemEQuanto, TituloEVideo } from './CamposAula'
+import { ErroForm } from './RodapeForm'
+import { RodapeAula } from './RodapeAula'
 
-const t = textos.aulas
 export type EntradaAula = z.input<typeof esquemaAula>
 export type DadosAula = z.output<typeof esquemaAula>
 
-/** Dia em que a aula libera: da preparação (1 a 7) ou dentro da etapa do tema. */
-function Liberacao({
-  register,
-  erroDia,
-  preparacao,
-}: {
-  register: UseFormRegister<EntradaAula>
-  erroDia?: string
-  preparacao: boolean
-}) {
-  return (
-    <div className="flex flex-col gap-1">
-      <Campo
-        rotulo={preparacao ? t.campoDiaPreparacao : t.campoDiaEtapa}
-        type="number"
-        min={1}
-        max={preparacao ? 7 : undefined}
-        inputMode="numeric"
-        erro={erroDia}
-        {...register('dia')}
-      />
-      <span className="text-xs text-suave">{preparacao ? t.ajudaPreparacao : t.ajudaEtapa}</span>
-    </div>
-  )
-}
-
-function Previa({ control }: { control: Control<EntradaAula, unknown, DadosAula> }) {
-  return <PreviaVideo link={useWatch({ control, name: 'video_url' }) ?? ''} />
-}
-
-/** Profissional e duração (as duas colunas da janela). */
-function QuemEQuanto({
-  register,
-  erro,
-}: {
-  register: UseFormRegister<EntradaAula>
-  erro?: string
-}) {
-  return (
-    <>
-      <Campo
-        rotulo={t.campoProfissional}
-        placeholder={t.exemploProfissional}
-        {...register('profissional')}
-      />
-      <Campo
-        rotulo={t.campoDuracao}
-        type="number"
-        min={1}
-        inputMode="numeric"
-        erro={erro}
-        {...register('duracao')}
-      />
-    </>
-  )
-}
-
 type Props = {
   materiais?: ReactNode
-  preparacao?: boolean
+  temas: Tema[]
+  etapas: Etapa[]
   titulo: string
   inicial: EntradaAula
-  aoSalvar: (d: DadosAula) => Promise<unknown>
+  /** publicar: true no botão Publicar, false no Salvar rascunho. */
+  aoSalvar: (d: DadosAula, publicar: boolean) => Promise<unknown>
   aoCancelar: () => void
 }
 
-/** Aula numa janela: título, vídeo com prévia grande, profissional e duração, texto, materiais e quando libera. */
+function useFormAula({ temas, inicial, aoSalvar }: Pick<Props, 'temas' | 'inicial' | 'aoSalvar'>) {
+  const preparacoes = temas.filter((t) => t.tipo === 'preparacao').map((t) => t.id)
+  const form = useForm<EntradaAula, unknown, DadosAula>({
+    resolver: zodResolver(esquemaAulaPara(preparacoes)),
+    defaultValues: inicial,
+  })
+  const enviar = (publicar: boolean) =>
+    form.handleSubmit(async (d) => {
+      try {
+        await aoSalvar(d, publicar)
+      } catch (e) {
+        const esperar = e instanceof Error && e.message === textos.arquivos.esperar
+        form.setError('root', { message: esperar ? textos.arquivos.esperar : textos.erroSalvar })
+      }
+    })
+  const tema = useWatch({ control: form.control, name: 'tema' })
+  return { form, enviar, preparacao: preparacoes.includes(tema) }
+}
+
+/** Aula numa janela: onde fica, título, vídeo com prévia grande, profissional e duração, texto, arquivos e quando libera. */
 export function FormAula({
   titulo,
   inicial,
   aoSalvar,
   aoCancelar,
-  preparacao = false,
+  temas,
+  etapas,
   materiais,
 }: Props) {
   const id = useId()
-  const form = useForm<EntradaAula, unknown, DadosAula>({
-    resolver: zodResolver(esquemaAulaAte(preparacao ? 7 : 9999)),
-    defaultValues: inicial,
-  })
+  const { form, enviar, preparacao } = useFormAula({ temas, inicial, aoSalvar })
   const { register, control, formState } = form
   const erros = formState.errors
-  const enviar = form.handleSubmit(async (d) => {
-    try {
-      await aoSalvar(d)
-    } catch (e) {
-      const esperar = e instanceof Error && e.message === textos.arquivos.esperar
-      form.setError('root', { message: esperar ? textos.arquivos.esperar : textos.erroSalvar })
-    }
-  })
   return (
     <Janela
       titulo={titulo}
       aoFechar={aoCancelar}
       rotuloFechar={textos.fechar}
-      rodape={<RodapeForm formId={id} salvando={formState.isSubmitting} aoCancelar={aoCancelar} />}
+      rodape={
+        <RodapeAula
+          salvando={formState.isSubmitting}
+          aoCancelar={aoCancelar}
+          aoRascunho={enviar(false)}
+          aoPublicar={enviar(true)}
+        />
+      }
     >
-      <form id={id} onSubmit={enviar} noValidate className="grid gap-4 sm:grid-cols-2">
-        <div className="sm:col-span-2">
-          <Campo rotulo={t.campoTitulo} erro={erros.titulo?.message} {...register('titulo')} />
-        </div>
-        <div className="flex flex-col gap-1 sm:col-span-2">
-          <Campo
-            rotulo={t.campoVideo}
-            placeholder={t.exemploVideo}
-            inputMode="url"
-            erro={erros.video_url?.message}
-            {...register('video_url')}
-          />
-          <span className="text-xs text-suave">{t.ajudaVideo}</span>
-        </div>
-        <div className="sm:col-span-2">
-          <Previa control={control} />
-        </div>
+      <form id={id} onSubmit={enviar(false)} noValidate className="grid gap-4 sm:grid-cols-2">
+        <OndeFica
+          temas={temas}
+          etapas={etapas}
+          register={register}
+          control={control}
+          setValue={form.setValue}
+          erros={{ tema: erros.tema?.message, etapa: erros.etapa?.message }}
+        />
+        <TituloEVideo register={register} control={control} erros={erros} />
         <QuemEQuanto register={register} erro={erros.duracao?.message} />
-        <div className="sm:col-span-2">
-          <CampoArea rotulo={t.campoDescricao} {...register('descricao')} />
-        </div>
+        <Descricao control={control} />
         <div className="sm:col-span-2">{materiais}</div>
         <div className="flex flex-col gap-3">
           <Liberacao register={register} erroDia={erros.dia?.message} preparacao={preparacao} />

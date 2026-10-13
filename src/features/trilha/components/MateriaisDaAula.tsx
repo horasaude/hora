@@ -9,11 +9,20 @@ const t = textos.materiais
 const baixar =
   'brilho brilho-escuro inline-flex min-h-9 items-center rounded-full px-4 text-[13px] font-bold'
 
-function IconePdf() {
+/** Documento: PDF em terracota, Word em azul. */
+function IconeDocumento({ word }: { word: boolean }) {
   return (
-    <svg viewBox="0 0 24 24" aria-hidden className="size-9 shrink-0 text-terracota">
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden
+      className={`size-9 shrink-0 ${word ? 'text-[#2f6db5]' : 'text-terracota'}`}
+    >
       <path
-        d="M7 3h7l5 5v13H7zM14 3v5h5M9.5 13h5M9.5 16.5h5"
+        d={
+          word
+            ? 'M7 3h7l5 5v13H7zM14 3v5h5M9 12l1.3 5 1.7-4 1.7 4 1.3-5'
+            : 'M7 3h7l5 5v13H7zM14 3v5h5M9.5 13h5M9.5 16.5h5'
+        }
         fill="none"
         stroke="currentColor"
         strokeWidth="1.6"
@@ -91,7 +100,7 @@ function Item({ m, aoAmpliar }: { m: MaterialAula; aoAmpliar: () => void }) {
     )
   return (
     <Cartao className="flex items-center gap-3 p-4">
-      <IconePdf />
+      <IconeDocumento word={m.tipo === 'word'} />
       <span className="min-w-0 flex-1">
         <span className="block truncate text-[15px] font-bold text-tinta">{m.nome}</span>
         <span className="text-[13px] text-suave">{formatarTamanho(m.tamanho)}</span>
@@ -105,7 +114,7 @@ function Item({ m, aoAmpliar }: { m: MaterialAula; aoAmpliar: () => void }) {
   )
 }
 
-/** Materiais da aula em cartões: PDF para baixar, imagem que amplia e link que abre em outra aba. */
+/** Arquivos da aula em cartões: PDF e Word para baixar, foto em miniatura que amplia e link que abre em outra aba. */
 export function MateriaisDaAula({ aula }: { aula: string }) {
   const materiais = useMateriaisAula(aula, true)
   const [aberta, setAberta] = useState<MaterialAula | null>(null)

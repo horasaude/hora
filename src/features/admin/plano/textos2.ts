@@ -25,6 +25,11 @@ export const tReceitas = {
   porPorcao: 'Por porção',
   removida: 'Receita removida',
   negrito: 'Negrito',
+  italico: 'Itálico',
+  link: 'Link',
+  enderecoLink: 'Endereço do link',
+  aplicarLink: 'Aplicar link',
+  linkInvalido: 'Use um link que comece com https://',
   lista: 'Lista com marcadores',
   listaNumerada: 'Lista numerada',
 }

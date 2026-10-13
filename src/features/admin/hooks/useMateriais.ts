@@ -15,6 +15,8 @@ export type ItemMaterial = {
 
 const extensao = (f: File) => {
   const mime = tipoMime(f.name, f.type)
+  if (mime === 'application/msword') return 'doc'
+  if (mime.includes('wordprocessingml')) return 'docx'
   return mime === 'application/pdf'
     ? 'pdf'
     : mime.split('/')[1] === 'jpeg'

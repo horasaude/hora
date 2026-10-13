@@ -119,7 +119,7 @@ export const textos = {
     sair: 'Voltar ao painel',
   },
   materiais: {
-    titulo: 'Materiais da aula',
+    titulo: 'Arquivos da aula',
     baixar: 'Baixar',
     abrir: 'Abrir',
     fechar: 'Fechar',
@@ -131,6 +131,7 @@ export const textos = {
     material: 'Baixar material (PDF)',
     concluir: 'Concluir aula',
     concluida: 'Aula concluída',
+    pontos: (n: number) => `+${n} pontos`,
     proxima: 'Próxima aula',
     erroMarcar: 'Não foi possível salvar. Tente de novo.',
     semVideo: 'Não foi possível mostrar este vídeo.',

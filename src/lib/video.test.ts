@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { linkDeIncorporacao } from './video'
+import { idDoYoutube, linkDeIncorporacao } from './video'
 
 const YT = 'https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ'
 
@@ -37,5 +37,14 @@ describe('linkDeIncorporacao', () => {
     'https://drive.google.com/drive/folders/1AbCdEfGhIjK',
   ])('sem prévia para "%s"', (entrada) => {
     expect(linkDeIncorporacao(entrada)).toBeNull()
+  })
+})
+
+describe('idDoYoutube', () => {
+  it('só YouTube tem id; Drive e Vimeo não', () => {
+    expect(idDoYoutube('https://youtu.be/dQw4w9WgXcQ')).toBe('dQw4w9WgXcQ')
+    expect(idDoYoutube('https://www.youtube.com/watch?v=dQw4w9WgXcQ')).toBe('dQw4w9WgXcQ')
+    expect(idDoYoutube('https://drive.google.com/file/d/abcdefgh/view')).toBeNull()
+    expect(idDoYoutube('https://vimeo.com/123456')).toBeNull()
   })
 })

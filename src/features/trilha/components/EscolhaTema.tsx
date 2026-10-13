@@ -29,7 +29,7 @@ function CartaoTema({
       className={`flex h-full flex-col items-start gap-3 rounded-[20px] border-2 bg-white p-4 text-left transition hover:shadow-cartao ${escolhido ? 'border-verde-vivo shadow-cartao' : 'border-linha'}`}
     >
       <span
-        className={`brilho ${tomDoTema(tema.chave)} grid size-11 place-items-center rounded-full`}
+        className={`brilho ${tomDoTema(tema.chave, tema.cor)} grid size-11 place-items-center rounded-full`}
       >
         <IconeTema chave={tema.chave} className="size-6" />
       </span>

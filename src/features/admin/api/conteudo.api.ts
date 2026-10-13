@@ -17,6 +17,11 @@ export async function listarTemas(): Promise<Tema[]> {
   return ok(await supabase.from('temas').select('*').order('ordem').order('created_at'))
 }
 
+/** Todas as etapas, para escolher onde fica a aula. */
+export async function listarEtapas(): Promise<Etapa[]> {
+  return ok(await supabase.from('etapas').select('*').order('ordem'))
+}
+
 export async function buscarTema(
   id: string,
 ): Promise<{ tema: Tema; etapas: Etapa[]; aulas: Aula[] }> {
@@ -46,7 +51,7 @@ export async function salvarTema(dados: TablesInsert<'temas'>): Promise<Tema> {
   const { id, ...campos } = dados
   const consulta = id
     ? supabase.from('temas').update(campos).eq('id', id)
-    : supabase.from('temas').insert({ ...campos, ordem: 9999 })
+    : supabase.from('temas').insert({ ordem: 9999, ...campos })
   return ok(await consulta.select('*').single())
 }
 
@@ -54,6 +59,7 @@ export async function salvarTema(dados: TablesInsert<'temas'>): Promise<Tema> {
 export async function salvarEtapa(dados: TablesInsert<'etapas'>): Promise<Etapa> {
   const { id, ...campos } = dados
   if (id) return ok(await supabase.from('etapas').update(campos).eq('id', id).select('*').single())
+  if (campos.ordem) return ok(await supabase.from('etapas').insert(campos).select('*').single())
   const ultima = ok(
     await supabase
       .from('etapas')

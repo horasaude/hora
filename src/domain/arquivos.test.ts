@@ -19,8 +19,37 @@ describe('validação de arquivo', () => {
       tipo: 'imagem',
     })
   })
+})
+
+describe('validação de arquivo: Word', () => {
+  it('material aceita Word (.doc e .docx) até 20 MB; capa não', () => {
+    const docx = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    expect(validarArquivo(arquivo('a.docx', docx, 20 * MB), 'material')).toEqual({
+      ok: true,
+      tipo: 'word',
+    })
+    expect(validarArquivo(arquivo('a.doc', 'application/msword', MB), 'material')).toEqual({
+      ok: true,
+      tipo: 'word',
+    })
+    expect(validarArquivo(arquivo('a.docx', '', MB), 'material')).toEqual({
+      ok: true,
+      tipo: 'word',
+    })
+    expect(validarArquivo(arquivo('a.docx', docx, 20 * MB + 1), 'material')).toEqual({
+      ok: false,
+      motivo: 'tamanho',
+    })
+    expect(validarArquivo(arquivo('a.docx', docx, MB), 'capa')).toEqual({
+      ok: false,
+      motivo: 'tipo',
+    })
+  })
+})
+
+describe('validação de arquivo: recusas', () => {
   it('recusa outro tipo, arquivo vazio e acima do limite', () => {
-    expect(validarArquivo(arquivo('a.docx', 'application/msword', MB), 'material')).toEqual({
+    expect(validarArquivo(arquivo('a.xlsx', 'application/vnd.ms-excel', MB), 'material')).toEqual({
       ok: false,
       motivo: 'tipo',
     })

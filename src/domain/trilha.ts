@@ -22,7 +22,14 @@ export type EtapaTrilha = {
   aulas: AulaTrilha[]
 }
 
-export type TemaOpcao = { id: string; chave: string | null; titulo: string; frase: string }
+export type TemaOpcao = {
+  id: string
+  chave: string | null
+  /** Cor escolhida no painel (temas novos); sem ela, vale a cor fixa pela chave. */
+  cor: string | null
+  titulo: string
+  frase: string
+}
 
 export type Trilha = {
   dia: number | null

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { secaoAtiva, telaAtiva } from './navegacao'
+import { MENU_LATERAL, secaoAtiva, telaAtiva } from './navegacao'
 
 describe('navegação da aluna', () => {
   it('agrupa as rotas atuais nas 5 abas', () => {
@@ -19,5 +19,26 @@ describe('navegação da aluna', () => {
   })
   it('o painel não é tela da aluna', () => {
     expect(secaoAtiva('/app/admin/conteudo')).toBeNull()
+  })
+})
+
+describe('menu lateral da aluna', () => {
+  it('lista simples, na ordem pedida', () => {
+    expect(MENU_LATERAL.map((i) => i.nome)).toEqual([
+      'Início',
+      'Trilhas',
+      'Cardápios',
+      'Desafios',
+      'Ranking',
+      'Lives',
+      'Fórum',
+      'Loja',
+      'Minha evolução',
+      'Minha conta',
+    ])
+  })
+  it('a aula acende Trilhas; o ponto da live fica em Lives', () => {
+    expect(telaAtiva('/app/trilha/aula/1')?.para).toBe('/app/trilha')
+    expect(MENU_LATERAL.filter((i) => i.live).map((i) => i.nome)).toEqual(['Lives'])
   })
 })

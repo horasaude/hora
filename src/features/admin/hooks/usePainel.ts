@@ -5,12 +5,14 @@ import {
   buscarAula,
   buscarTema,
   listarSituacaoAulas,
+  listarEtapas,
   listarTemas,
   mover,
   type TabelaConteudo,
 } from '../api/conteudo.api'
 
 export const useTemas = () => useQuery({ queryKey: ['temas'], queryFn: listarTemas })
+export const useEtapas = () => useQuery({ queryKey: ['etapas'], queryFn: listarEtapas })
 export const useTema = (id: string) =>
   useQuery({ queryKey: ['tema', id], queryFn: () => buscarTema(id) })
 export const useSituacaoAulas = () =>

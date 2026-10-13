@@ -59,6 +59,22 @@ export const SECOES: Secao[] = [
   },
 ]
 
+export type ItemMenu = { para: string; nome: string; cor: string; fim?: boolean; live?: boolean }
+
+/** Menu lateral do computador: lista simples, na ordem pedida, com a bolinha de cor de cada item. */
+export const MENU_LATERAL: ItemMenu[] = [
+  { para: '/app', nome: t.nav.inicio, cor: '#7FB89E', fim: true },
+  { para: '/app/trilha', nome: t.nav.trilhas, cor: '#F2643A' },
+  { para: '/app/cardapios', nome: t.nav.cardapios, cor: '#6F9582' },
+  { para: '/app/desafios', nome: t.nav.desafios, cor: '#F2A922' },
+  { para: '/app/ranking', nome: t.nav.ranking, cor: '#6E9BC9' },
+  { para: '/app/lives', nome: t.nav.lives, cor: '#E9B949', live: true },
+  { para: '/app/forum', nome: t.nav.forum, cor: '#D98BA8' },
+  { para: '/app/loja', nome: t.nav.loja, cor: '#D9B56A' },
+  { para: '/app/perfil', nome: t.nav.evolucao, cor: '#B9A2C4', fim: true },
+  { para: '/app/perfil/conta', nome: t.nav.conta, cor: '#8FA7C0' },
+]
+
 const casa = (caminho: string, base: string, exata?: boolean) =>
   exata
     ? caminho === base || caminho === `${base}/`

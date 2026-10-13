@@ -97,7 +97,7 @@ export function MateriaisAula({ m }: { m: Materiais }) {
     <section className="flex flex-col gap-3">
       <h3 className="text-sm font-medium">{t.materiais}</h3>
       <AreaArquivos
-        aceita=".pdf,.jpg,.jpeg,.png,.webp,application/pdf,image/jpeg,image/png,image/webp"
+        aceita=".pdf,.doc,.docx,.jpg,.jpeg,.png,.webp,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/jpeg,image/png,image/webp"
         dica={t.dicaMateriais}
         aoEscolher={m.adicionar}
       />

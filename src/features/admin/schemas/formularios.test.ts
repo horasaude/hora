@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest'
-import { esquemaAula, esquemaAulaAte, esquemaAviso } from './formularios'
+import { esquemaAula, esquemaAulaPara, esquemaAviso, esquemaNovoTema } from './formularios'
 
 const aula = {
+  tema: 'tema-1',
+  etapa: 'etapa-1',
   titulo: 'Boas-vindas',
   descricao: '',
   video_url: 'https://youtu.be/dQw4w9WgXcQ',
@@ -17,8 +19,23 @@ describe('formulários do painel', () => {
   })
 
   it('na preparação o dia vai de 1 a 7', () => {
-    expect(esquemaAulaAte(7).safeParse({ ...aula, dia: '7' }).success).toBe(true)
-    expect(esquemaAulaAte(7).safeParse({ ...aula, dia: '8' }).success).toBe(false)
+    const prep = esquemaAulaPara(['tema-1'])
+    expect(prep.safeParse({ ...aula, dia: '7' }).success).toBe(true)
+    expect(prep.safeParse({ ...aula, dia: '8' }).success).toBe(false)
+    expect(prep.safeParse({ ...aula, tema: 'outro', dia: '8' }).success).toBe(true)
+  })
+
+  it('aula precisa de tema e etapa, e a etapa vira etapa_id', () => {
+    expect(esquemaAula.safeParse({ ...aula, etapa: '' }).success).toBe(false)
+    expect(esquemaAula.parse(aula)).toMatchObject({ etapa_id: 'etapa-1' })
+    expect(esquemaAula.parse(aula)).not.toHaveProperty('tema')
+  })
+
+  it('tema novo: cor da lista e ordem de 1 a 99', () => {
+    const tema = { titulo: 'Sono', descricao: 'Durma melhor', cor: 'lilas', ordem: '3' }
+    expect(esquemaNovoTema.parse(tema)).toMatchObject({ cor: 'lilas', ordem: 3 })
+    expect(esquemaNovoTema.safeParse({ ...tema, cor: 'roxo' }).success).toBe(false)
+    expect(esquemaNovoTema.safeParse({ ...tema, ordem: '0' }).success).toBe(false)
   })
 
   it('link do vídeo precisa ser https', () => {

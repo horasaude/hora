@@ -278,6 +278,48 @@ export type Database = {
           },
         ]
       }
+      aulas_progresso: {
+        Row: {
+          aula_id: string
+          duracao: number
+          perfil_id: string
+          posicao: number
+          trechos: Json
+          updated_at: string
+        }
+        Insert: {
+          aula_id: string
+          duracao?: number
+          perfil_id?: string
+          posicao?: number
+          trechos?: Json
+          updated_at?: string
+        }
+        Update: {
+          aula_id?: string
+          duracao?: number
+          perfil_id?: string
+          posicao?: number
+          trechos?: Json
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "aulas_progresso_aula_id_fkey"
+            columns: ["aula_id"]
+            isOneToOne: false
+            referencedRelation: "aulas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "aulas_progresso_perfil_id_fkey"
+            columns: ["perfil_id"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       avisos: {
         Row: {
           created_at: string
@@ -682,6 +724,7 @@ export type Database = {
       etapas: {
         Row: {
           chave: string | null
+          cor: string | null
           created_at: string
           descricao: string
           id: string
@@ -693,6 +736,7 @@ export type Database = {
         }
         Insert: {
           chave?: string | null
+          cor?: string | null
           created_at?: string
           descricao?: string
           id?: string
@@ -704,6 +748,7 @@ export type Database = {
         }
         Update: {
           chave?: string | null
+          cor?: string | null
           created_at?: string
           descricao?: string
           id?: string
@@ -1948,6 +1993,7 @@ export type Database = {
       temas: {
         Row: {
           chave: string | null
+          cor: string | null
           created_at: string
           descricao: string
           id: string
@@ -1959,6 +2005,7 @@ export type Database = {
         }
         Insert: {
           chave?: string | null
+          cor?: string | null
           created_at?: string
           descricao?: string
           id?: string
@@ -1970,6 +2017,7 @@ export type Database = {
         }
         Update: {
           chave?: string | null
+          cor?: string | null
           created_at?: string
           descricao?: string
           id?: string

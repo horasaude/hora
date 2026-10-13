@@ -1,76 +1,79 @@
 import { useNavigate } from 'react-router-dom'
 import { BotaoBrilho, Janela } from '@/components/ui'
-import { salvarAula, salvarMateriais } from '../api/conteudo.api'
+import { salvarAula, salvarMateriais, type Aula, type Etapa } from '../api/conteudo.api'
 import { useMateriais } from '../hooks/useMateriais'
-import { MateriaisAula } from './MateriaisAula'
-import { useAula, useSalvar, useTemas } from '../hooks/usePainel'
+import { useAula, useEtapas, useSalvar, useTemas } from '../hooks/usePainel'
 import { textos } from '../textos'
 import { Estado } from './Estado'
 import { FormAula, type EntradaAula } from './FormAula'
-
-const VAZIA: EntradaAula = {
-  titulo: '',
-  descricao: '',
-  video_url: '',
-  profissional: '',
-  duracao: '',
-  dia: '1',
-}
+import { MateriaisAula } from './MateriaisAula'
 
 type Props = { aulaId?: string; etapaId: string; temaId: string | null }
 
-/** Janela de criar ou editar aula, por cima do tema. Fecha voltando para o tema. */
+function inicialDa(
+  a: Aula | undefined,
+  etapas: Etapa[],
+  etapaId: string,
+  temaId: string | null,
+): EntradaAula {
+  const etapa = a?.etapa_id ?? etapaId
+  const tema = etapas.find((e) => e.id === etapa)?.tema_id ?? temaId ?? ''
+  return {
+    tema,
+    etapa,
+    titulo: a?.titulo ?? '',
+    descricao: a?.descricao ?? '',
+    video_url: a?.video_url ?? '',
+    profissional: a?.profissional ?? '',
+    duracao: a?.duracao_minutos ? String(a.duracao_minutos) : '',
+    dia: String(a?.dia_liberacao ?? 1),
+  }
+}
+
+function Falha({ voltar, tentar }: { voltar: () => void; tentar: () => void }) {
+  return (
+    <Janela
+      titulo={textos.aulas.editar}
+      aoFechar={voltar}
+      rotuloFechar={textos.fechar}
+      rodape={
+        <BotaoBrilho tom="cinza" onClick={voltar}>
+          {textos.cancelar}
+        </BotaoBrilho>
+      }
+    >
+      <Estado tipo="erro" tentar={tentar} />
+    </Janela>
+  )
+}
+
+/** Janela de criar ou editar aula. Ao salvar, volta para o tema da aula, que já aparece na lista. */
 export function AulaJanela({ aulaId, etapaId, temaId }: Props) {
   const navegar = useNavigate()
   const aula = useAula(aulaId)
+  const temas = useTemas()
+  const etapas = useEtapas()
   const salvar = useSalvar(salvarAula)
   const materiais = useMateriais(aulaId)
-  const preparacao = useTemas().data?.find((x) => x.id === temaId)?.tipo === 'preparacao'
-  const voltar = () => navegar(temaId ? `/app/admin/conteudo/${temaId}` : '/app/admin/conteudo')
-  if (aulaId && aula.isPending) return null
-  if (aulaId && aula.isError) {
-    return (
-      <Janela
-        titulo={textos.aulas.editar}
-        aoFechar={voltar}
-        rotuloFechar={textos.fechar}
-        rodape={
-          <BotaoBrilho tom="cinza" onClick={voltar}>
-            {textos.cancelar}
-          </BotaoBrilho>
-        }
-      >
-        <Estado tipo="erro" tentar={() => aula.refetch()} />
-      </Janela>
-    )
-  }
-  const a = aula.data
-  const inicial: EntradaAula = a
-    ? {
-        titulo: a.titulo,
-        descricao: a.descricao,
-        video_url: a.video_url,
-        profissional: a.profissional ?? '',
-        duracao: a.duracao_minutos ? String(a.duracao_minutos) : '',
-        dia: String(a.dia_liberacao),
-      }
-    : VAZIA
+  const irPara = (tema: string | null) =>
+    navegar(tema ? `/app/admin/conteudo/${tema}` : '/app/admin/conteudo')
+  if ((aulaId && aula.isPending) || temas.isPending || etapas.isPending) return null
+  if ((aulaId && aula.isError) || temas.isError || etapas.isError)
+    return <Falha voltar={() => irPara(temaId)} tentar={() => void aula.refetch()} />
+  const lista = etapas.data ?? []
   return (
     <FormAula
-      preparacao={preparacao}
+      temas={temas.data ?? []}
+      etapas={lista}
       titulo={aulaId ? textos.aulas.editar : textos.aulas.nova}
-      inicial={inicial}
-      aoCancelar={voltar}
+      inicial={inicialDa(aula.data, lista, etapaId, temaId)}
+      aoCancelar={() => irPara(temaId)}
       materiais={<MateriaisAula m={materiais} />}
-      aoSalvar={async (d) => {
+      aoSalvar={async (d, publicar) => {
         if (materiais.enviando) throw new Error(textos.arquivos.esperar)
-        const salva = await salvar.mutateAsync({
-          ...d,
-          id: aulaId,
-          etapa_id: a?.etapa_id ?? etapaId,
-        })
+        const salva = await salvar.mutateAsync({ ...d, id: aulaId, publicado: publicar })
         await salvarMateriais(salva.id, materiais.paraSalvar, materiais.removidos)
-        voltar()
+        irPara(lista.find((e) => e.id === salva.etapa_id)?.tema_id ?? temaId)
       }}
     />
   )

@@ -2,6 +2,15 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-13 · main · Menu lateral da aluna, criação de conteúdo no painel e aula concluída pelo vídeo
+
+- Menu lateral da aluna no computador igual ao do painel: lista simples (Início, Trilhas, Cardápios, Desafios, Ranking, Lives, Fórum, Loja, Minha evolução, Minha conta), mesmo ItemMenuLateral com bolinha de cor (src/components/ui/MenuLateral.tsx), ativo em vidro verde, ponto da live em Lives. Celular e pílulas sem mudança.
+- Conteúdo: "+ Nova aula" (vidro verde) no topo, ao lado de Ver como aluna; janela de 760 px começa por Onde fica a aula (tema e etapa; etapa some na Preparação); rodapé Salvar rascunho e Publicar. "+ Novo tema" e "+ Nova etapa" com nome, frase, cor e ordem (temas.cor e etapas.cor; a cor do tema chega à aluna).
+- Descrição da aula em editor simples (negrito, itálico, lista, link, quebra de linha), HTML limpo (src/lib/html.ts); texto antigo continua aparecendo com as quebras.
+- Arquivos da aula aceitam Word (.doc e .docx, até 20 MB): ícone azul e Baixar para a aluna; PDF terracota; foto em miniatura que amplia. Link assinado e só de aula liberada, como antes.
+- Aula com vídeo do YouTube conclui sozinha com 90% realmente assistidos (pular não conta), pela API de iframe; progresso em aulas_progresso para retomar; +10 pontos uma vez só pela regra do banco. Sem vídeo, Drive ou Vimeo: botão Concluir aula. Pré-visualização não grava.
+- Migração 20261014090000_painel_aulas_progresso; suíte de banco aula_assistida; prints em docs/prints/parte2 (14-painel-nova-aula, 15-aluna-menu-lateral-lives).
+
 ## 2026-10-07 · main · Pagamento pelo Mercado Pago de ponta a ponta (modo de teste)
 
 - Banco (20261013090000_pagamentos): pedidos (id = external_reference), eventos_pagamento (uma linha por notificação, única por tipo, recurso e status), assinaturas (parcelas pagas de 12, inadimplência); só admin lê. Funções só da service_role: aprovar_pedido (12 meses, 13 com a oferta; histórico em acessos_liberados; indicação registrada), encerrar_pedido (reembolso, cancelamento e chargeback encerram na hora e cancelam a indicação), cobranca_assinatura, cancelar_assinatura (até 7 dias é arrependimento), suspender_inadimplentes (cron de hora em hora; tem_acesso_ativo agora olha perfis.acesso_suspenso_em).

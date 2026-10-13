@@ -31,6 +31,8 @@ const TELAS = [
   ['11-painel-ver-como-aluna', 'admin', `/app/previa?dia=20&tema=${tema}`],
   ['12-painel-modal-da-aula', 'admin', `/app/admin/aulas/${aula}?tema=${tema}`],
   ['13-painel-conteudo', 'admin', `/app/admin/conteudo/${tema}`],
+  ['14-painel-nova-aula', 'admin', '/app/admin/aulas/nova'],
+  ['15-aluna-menu-lateral-lives', 40, '/app/lives'],
 ]
 const TAMANHOS = [
   ['computador', 1440, 900, false],

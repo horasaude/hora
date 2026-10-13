@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { sanitizarHtml } from './html'
+import { sanitizarHtml, textoParaHtml } from './html'
 
 describe('sanitizarHtml', () => {
   it('mantém negrito e listas e tira atributos', () => {
@@ -13,5 +13,27 @@ describe('sanitizarHtml', () => {
         '<script>alert(1)</script><img src=x onerror=alert(1)><a href="javascript:x">ver</a>',
       ),
     ).toBe('ver')
+  })
+})
+
+describe('sanitizarHtml com links', () => {
+  it('mantém link https e itálico, abrindo em outra aba', () => {
+    expect(
+      sanitizarHtml('<i>veja</i> <a href="https://site.t/x" onclick="y()">aqui</a>', {
+        links: true,
+      }),
+    ).toBe(
+      '<i>veja</i> <a href="https://site.t/x" target="_blank" rel="noopener noreferrer">aqui</a>',
+    )
+  })
+  it('tira link javascript mesmo com links ligados', () => {
+    expect(sanitizarHtml('<a href="javascript:alert(1)">x</a>', { links: true })).toBe('x')
+  })
+})
+
+describe('textoParaHtml', () => {
+  it('texto antigo vira HTML com quebras e sem marcação perigosa', () => {
+    expect(textoParaHtml('linha 1\nlinha <b>2</b>')).toBe('linha 1\nlinha <b>2</b>')
+    expect(textoParaHtml('linha 1\nlinha 2 & 3')).toBe('linha 1<br>linha 2 &amp; 3')
   })
 })

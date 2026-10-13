@@ -1,35 +1,43 @@
-import { useEffect, useId, useRef } from 'react'
-import { sanitizarHtml } from '@/lib/html'
-import { tReceitas } from '../textos2'
+import { useEffect, useId, useRef, useState } from 'react'
+import { sanitizarHtml, textoParaHtml } from '@/lib/html'
+import { BarraEditor } from './BarraEditor'
+import { BarraLink } from './BarraLink'
 
-const BOTOES = [
-  { cmd: 'bold', rotulo: tReceitas.negrito, icone: <b>B</b> },
-  { cmd: 'insertUnorderedList', rotulo: tReceitas.lista, icone: <span>•</span> },
-  { cmd: 'insertOrderedList', rotulo: tReceitas.listaNumerada, icone: <span>1.</span> },
-] as const
-
-/** Editor simples (negrito e listas). Guarda HTML já limpo. */
-export function EditorTexto({
-  rotulo,
-  valor,
-  aoMudar,
-}: {
+type Props = {
   rotulo: string
   valor: string
   aoMudar: (html: string) => void
-}) {
+  /** Também itálico e link (descrição da aula). */
+  completo?: boolean
+}
+
+/** Editor simples: negrito e listas; completo também tem itálico e link. Guarda HTML já limpo. */
+export function EditorTexto({ rotulo, valor, aoMudar, completo = false }: Props) {
   const id = useId()
   const area = useRef<HTMLDivElement>(null)
+  const selecao = useRef<Range | null>(null)
+  const [linkAberto, setLinkAberto] = useState(false)
+  const limpar = (html: string) => sanitizarHtml(html, { links: completo })
   useEffect(() => {
     if (area.current && area.current.innerHTML !== valor)
-      area.current.innerHTML = sanitizarHtml(valor)
+      area.current.innerHTML = limpar(textoParaHtml(valor))
     // só no início: depois o conteúdo é da própria área
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  const aplicar = (cmd: string) => {
+  const aplicar = (cmd: string, arg?: string) => {
     area.current?.focus()
-    document.execCommand(cmd)
-    aoMudar(sanitizarHtml(area.current?.innerHTML ?? ''))
+    const s = window.getSelection()
+    if (selecao.current && s) {
+      s.removeAllRanges()
+      s.addRange(selecao.current)
+      selecao.current = null
+    }
+    document.execCommand(cmd, false, arg)
+    aoMudar(limpar(area.current?.innerHTML ?? ''))
+  }
+  const guardarSelecao = () => {
+    const s = window.getSelection()
+    selecao.current = s && s.rangeCount ? s.getRangeAt(0).cloneRange() : null
   }
   return (
     <div className="flex flex-col gap-1 text-sm">
@@ -37,21 +45,21 @@ export function EditorTexto({
         {rotulo}
       </span>
       <div className="overflow-hidden rounded-xl border border-linha bg-white focus-within:border-ora">
-        <div className="flex gap-1 border-b border-[#F0F2F1] px-2 py-1.5">
-          {BOTOES.map((b) => (
-            <button
-              key={b.cmd}
-              type="button"
-              aria-label={b.rotulo}
-              title={b.rotulo}
-              onMouseDown={(e) => e.preventDefault()}
-              onClick={() => aplicar(b.cmd)}
-              className="grid size-8 place-items-center rounded-lg text-[13px] text-verde-escuro hover:bg-trilho"
-            >
-              {b.icone}
-            </button>
-          ))}
-        </div>
+        <BarraEditor
+          completo={completo}
+          linkAberto={linkAberto}
+          aoComando={aplicar}
+          aoAbrirLink={guardarSelecao}
+          aoAlternarLink={() => setLinkAberto(!linkAberto)}
+        />
+        {linkAberto && (
+          <BarraLink
+            aoAplicar={(url) => {
+              setLinkAberto(false)
+              aplicar('createLink', url)
+            }}
+          />
+        )}
         <div
           ref={area}
           role="textbox"
@@ -59,7 +67,7 @@ export function EditorTexto({
           aria-labelledby={id}
           contentEditable
           suppressContentEditableWarning
-          onInput={(e) => aoMudar(sanitizarHtml(e.currentTarget.innerHTML))}
+          onInput={(e) => aoMudar(limpar(e.currentTarget.innerHTML))}
           className="texto-rico min-h-36 px-4 py-3 text-[14px] leading-relaxed outline-none"
         />
       </div>

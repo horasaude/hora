@@ -2,6 +2,7 @@
 
 import { alunas, configuracoes, desafios } from './textos/modulos'
 import { acesso, arquivos, visibilidade } from './textos/arquivos'
+import { conteudo, erros } from './textos/conteudo'
 import { vazios } from './textos/vazios'
 
 export const textos = {
@@ -141,13 +142,6 @@ export const textos = {
   visibilidade,
   arquivos,
   acesso,
-  erros: {
-    titulo: 'Escreva o título',
-    link: 'Use um link que comece com https://',
-    data: 'Escolha a data e a hora',
-    dia: 'Use um dia válido (na preparação, de 1 a 7)',
-    duracaoLive: 'Use de 15 a 300 minutos',
-    texto: 'Escreva o texto',
-    duracao: 'Use minutos inteiros, de 1 a 999',
-  },
+  conteudo,
+  erros,
 }

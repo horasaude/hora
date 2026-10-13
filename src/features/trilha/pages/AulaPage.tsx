@@ -1,9 +1,11 @@
 import { useParams } from 'react-router-dom'
 import { LinkBrilho } from '@/components/ui'
 import { DuvidasDaAula } from '@/features/forum'
-import { linkDeIncorporacao } from '@/lib/video'
+import { idDoYoutube, linkDeIncorporacao } from '@/lib/video'
 import type { AulaAberta } from '../api/trilha.api'
 import { Concluir } from '../components/Concluir'
+import { VideoYoutube } from '../components/VideoYoutube'
+import { useConclusao, type Conclusao } from '../hooks/useConclusao'
 import { MateriaisDaAula } from '../components/MateriaisDaAula'
 import { EstadoAluna } from '../components/EstadoAluna'
 import { aulasDaMesmaLista } from '@/domain/trilha'
@@ -14,7 +16,18 @@ import { textos } from '../textos'
 
 const t = textos.aula
 
-function Video({ aula }: { aula: AulaAberta }) {
+function Video({ aula, c, gravar }: { aula: AulaAberta; c: Conclusao; gravar: boolean }) {
+  const youtube = idDoYoutube(aula.video_url)
+  if (youtube)
+    return (
+      <VideoYoutube
+        video={youtube}
+        aula={aula.id}
+        titulo={aula.titulo}
+        gravar={gravar && !c.concluida}
+        aoConcluir={c.concluir}
+      />
+    )
   const link = linkDeIncorporacao(aula.video_url)
   if (!link) return <EstadoAluna tipo="aviso" texto={t.semVideo} />
   return (
@@ -47,6 +60,7 @@ export function AulaPage() {
   const { aulaId = '' } = useParams()
   const previa = usePrevia()
   const aula = useAula(aulaId)
+  const conclusao = useConclusao(aulaId)
   const lista = aulasDaMesmaLista(useTrilha().data, aulaId)
   const voltar = (
     <LinkBrilho
@@ -73,10 +87,10 @@ export function AulaPage() {
       {voltar}
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-start lg:gap-10">
         <div className="flex flex-col gap-5">
-          <Video aula={a} />
+          <Video aula={a} c={conclusao} gravar={!previa} />
           <Cabecalho a={a} />
           <div className="flex flex-wrap items-center gap-3">
-            {!previa && <Concluir id={a.id} />}
+            {!previa && <Concluir c={conclusao} automatico={idDoYoutube(a.video_url) !== null} />}
             <ProximaAula aulas={lista} id={a.id} />
           </div>
           {a.descricao && (

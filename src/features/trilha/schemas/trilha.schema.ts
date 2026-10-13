@@ -21,6 +21,7 @@ export const esquemaTrilha: z.ZodType<Trilha> = z.object({
       z.object({
         id: z.string(),
         chave: z.string().nullable(),
+        cor: z.string().nullable().default(null),
         titulo: z.string(),
         frase: z.string(),
       }),

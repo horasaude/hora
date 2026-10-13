@@ -20,7 +20,7 @@ export function MeuTema() {
       <h2 className="text-[19px] font-bold text-verde-escuro">{t.meu}</h2>
       {tema ? (
         <span className="self-start">
-          <TagTema chave={tema.chave} titulo={tema.titulo} />
+          <TagTema chave={tema.chave} cor={tema.cor} titulo={tema.titulo} />
         </span>
       ) : (
         <p className="text-sm text-suave">{falta > 0 ? t.aindaNao(falta) : t.nenhum}</p>

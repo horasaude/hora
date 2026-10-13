@@ -47,10 +47,18 @@ export function IconeTema({ chave, className = 'size-5' }: { chave: string | nul
 }
 
 /** Tag colorida do tema, com ícone. */
-export function TagTema({ chave, titulo }: { chave: string | null; titulo: string }) {
+export function TagTema({
+  chave,
+  cor,
+  titulo,
+}: {
+  chave: string | null
+  cor?: string | null
+  titulo: string
+}) {
   return (
     <span
-      className={`brilho ${tomDoTema(chave)} inline-flex min-h-8 items-center gap-1.5 rounded-full px-3 text-[13px] font-bold`}
+      className={`brilho ${tomDoTema(chave, cor)} inline-flex min-h-8 items-center gap-1.5 rounded-full px-3 text-[13px] font-bold`}
     >
       <IconeTema chave={chave} className="size-4" />
       {titulo}

@@ -5,6 +5,7 @@ import type { Tema } from '../api/conteudo.api'
 import { AulaJanela } from '../components/AulaJanela'
 import { Estado } from '../components/Estado'
 import { ComeceAquiJanela } from '../components/ComeceAquiJanela'
+import { NovaEtapa, NovoTema } from '../components/NovoTemaEtapa'
 import { Divisao, Quadro, type Numero } from '../components/Quadro'
 import { TabelaTemas } from '../components/TabelaTemas'
 import { TemaDetalhe } from '../components/TemaDetalhe'
@@ -44,19 +45,30 @@ function useDetalhe(lista: Tema[]) {
 export function ConteudoPage() {
   const temas = useTemas()
   const aulas = useSituacaoAulas()
-  const [comece, setComece] = useState(false)
+  const [janela, setJanela] = useState<'comece' | 'tema' | 'etapa' | null>(null)
   const lista = temas.data ?? []
   const { ativo, detalhe, aula } = useDetalhe(lista)
+  const c = textos.conteudo
   const novo = (
     <span className="flex flex-wrap gap-2">
+      <Link to="/app/admin/aulas/nova" className={classeBrilho('verde')}>
+        {c.novaAula}
+      </Link>
       <Link to="/app/previa?dia=1" className={classeBrilho('escuro')}>
         {t.verComoAluna}
       </Link>
-      <button type="button" className={classeBrilho('dourado')} onClick={() => setComece(true)}>
+      <button type="button" className={classeBrilho('cinza')} onClick={() => setJanela('tema')}>
+        {c.novoTema}
+      </button>
+      <button type="button" className={classeBrilho('cinza')} onClick={() => setJanela('etapa')}>
+        {c.novaEtapa}
+      </button>
+      <button type="button" className={classeBrilho('dourado')} onClick={() => setJanela('comece')}>
         {t.comece}
       </button>
     </span>
   )
+  const fechar = () => setJanela(null)
   let corpo: ReactNode
   if (temas.isPending) corpo = <Estado tipo="carregando" />
   else if (temas.isError) corpo = <Estado tipo="erro" tentar={() => temas.refetch()} />
@@ -67,7 +79,9 @@ export function ConteudoPage() {
   return (
     <Quadro titulo={t.pagina} acao={novo} numeros={numeros(lista, aulas.data ?? [])}>
       {corpo}
-      {comece && <ComeceAquiJanela aoFechar={() => setComece(false)} />}
+      {janela === 'comece' && <ComeceAquiJanela aoFechar={fechar} />}
+      {janela === 'tema' && <NovoTema aoFechar={fechar} />}
+      {janela === 'etapa' && <NovaEtapa temaId={ativo} aoFechar={fechar} />}
       {aula}
     </Quadro>
   )
