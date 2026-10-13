@@ -1,14 +1,16 @@
 import { useState } from 'react'
+import type { Session } from '@supabase/supabase-js'
 import { Link, useNavigate } from 'react-router-dom'
 import { BotaoBrilho, CampoSenha, LogoOra } from '@/components/ui'
 import { supabase } from '@/lib/supabase'
 import { buscarPapel } from '../api/auth.api'
 import { useSessao } from '../hooks/useSessao'
+import { linkComErro, sessaoDoLink } from '../linkDeSenha'
 import { textos } from '../textos'
 
 const t = textos.definir
 
-function Formulario() {
+function Formulario({ email }: { email: string }) {
   const navegar = useNavigate()
   const [senha, setSenha] = useState('')
   const [repetir, setRepetir] = useState('')
@@ -30,6 +32,7 @@ function Formulario() {
   }
   return (
     <form onSubmit={enviar} noValidate className="flex flex-col gap-4">
+      <p className="text-center text-sm text-suave">{t.conta(email)}</p>
       <CampoSenha
         id="nova-senha"
         rotulo={t.nova}
@@ -56,9 +59,11 @@ function Formulario() {
   )
 }
 
-/** Página do link de acesso (convite ou nova senha): a pessoa cria a senha e entra. */
+/** Página do link de acesso (convite ou nova senha): só vale para a conta que acabou de entrar pelo link. */
 export function DefinirSenhaPage() {
   const { sessao, carregando } = useSessao()
+  const [erroNoLink] = useState(() => linkComErro(window.location))
+  const valida = (s: Session | null): s is Session => !erroNoLink && sessaoDoLink(s)
   return (
     <main className="font-sistema mx-auto flex min-h-svh max-w-sm flex-col justify-center gap-8 px-4 py-10">
       <header className="flex flex-col items-center gap-6 text-center">
@@ -67,8 +72,8 @@ export function DefinirSenhaPage() {
       </header>
       {carregando ? (
         <p className="text-center text-suave">{textos.carregando}</p>
-      ) : sessao ? (
-        <Formulario />
+      ) : valida(sessao) ? (
+        <Formulario email={sessao.user.email ?? ''} />
       ) : (
         <div className="flex flex-col items-center gap-4 text-center">
           <p role="alert" className="text-tinta">

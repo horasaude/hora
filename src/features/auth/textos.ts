@@ -18,6 +18,7 @@ export const textos = {
   },
   definir: {
     titulo: 'Crie sua senha',
+    conta: (email: string) => `Conta: ${email}`,
     nova: 'Nova senha',
     repetir: 'Repita a senha',
     curta: 'Use pelo menos 8 caracteres',
