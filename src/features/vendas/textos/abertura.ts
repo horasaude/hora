@@ -5,7 +5,7 @@ export const abertura = {
   hero: {
     logo: 'ORA',
     etiqueta: 'Imersão ORA',
-    titulo: 'Chegou a sua *hora* de cuidar de você',
+    titulo: 'Chegou a *HORA* de cuidar de você',
     // TODO(clientes): validar a promessa e o subtítulo.
     subtitulo:
       'Um ano com nutricionista, médica nutróloga e educadora física no mesmo lugar. Para você parar de recomeçar toda segunda.',
