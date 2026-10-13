@@ -17,7 +17,24 @@ describe('lerPedido', () => {
       email: 'lais@exemplo.com',
       especialidade: 'treino',
       titulo: null,
+      senha: null,
     })
+  })
+  it('cadastro com senha de 8 a 72 caracteres', () => {
+    const base = { acao: 'convidar', nome: 'Ana', email: 'a@b.co' }
+    expect(lerPedido({ ...base, senha: 'segredo123' })).toMatchObject({ senha: 'segredo123' })
+    expect(lerPedido({ ...base, senha: 'curta' })).toBeNull()
+    expect(lerPedido({ ...base, senha: 'x'.repeat(73) })).toBeNull()
+  })
+  it('definir senha pede id válido e senha de 8 caracteres', () => {
+    const id = '00000000-0000-0000-0000-000000000002'
+    expect(lerPedido({ acao: 'senha', perfil: id, senha: 'segredo123' })).toEqual({
+      acao: 'senha',
+      perfil: id,
+      senha: 'segredo123',
+    })
+    expect(lerPedido({ acao: 'senha', perfil: id, senha: '1234567' })).toBeNull()
+    expect(lerPedido({ acao: 'senha', perfil: 'x', senha: 'segredo123' })).toBeNull()
   })
   it('especialidade vazia vira null', () => {
     expect(

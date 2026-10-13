@@ -35,13 +35,22 @@ async function convidar(
   p: Extract<Pedido, { acao: 'convidar' }>,
   destino: string,
 ): Promise<[Resposta, number]> {
-  const { data, error } = await admin.auth.admin.generateLink({
-    type: 'invite',
-    email: p.email,
-    options: { redirectTo: destino, data: { nome: p.nome } },
-  })
-  if (error) {
-    const existe = error.code === 'email_exists' || error.status === 422
+  // Com senha: conta pronta para entrar, sem link (link mandado pelo WhatsApp é aberto pela prévia
+  // do próprio WhatsApp e chega gasto). Sem senha: link de convite, como antes.
+  const { data, error } = p.senha
+    ? await admin.auth.admin.createUser({
+        email: p.email,
+        password: p.senha,
+        email_confirm: true,
+        user_metadata: { nome: p.nome },
+      })
+    : await admin.auth.admin.generateLink({
+        type: 'invite',
+        email: p.email,
+        options: { redirectTo: destino, data: { nome: p.nome } },
+      })
+  if (error || !data.user) {
+    const existe = error?.code === 'email_exists' || error?.status === 422
     return [{ ok: false, erro: existe ? 'ja_existe' : 'falha' }, existe ? 409 : 500]
   }
   const { error: erroPerfil } = await admin
@@ -54,7 +63,21 @@ async function convidar(
     })
     .eq('id', data.user.id)
   if (erroPerfil) return [{ ok: false, erro: 'falha' }, 500]
-  return [{ ok: true, link: data.properties.action_link }, 200]
+  const propriedades = 'properties' in data ? (data.properties as { action_link?: string }) : null
+  const link = propriedades?.action_link
+  return [{ ok: true, link }, 200]
+}
+
+/** Define a senha de quem já está na equipe (o painel mostra e a profissional entra com ela). */
+async function definirSenha(perfil: string, senha: string): Promise<[Resposta, number]> {
+  const { data: p } = await admin.from('perfis').select('papel').eq('id', perfil).single()
+  if (p?.papel !== 'admin') return [{ ok: false, erro: 'nao_encontrada' }, 404]
+  const { error } = await admin.auth.admin.updateUserById(perfil, {
+    password: senha,
+    email_confirm: true,
+  })
+  if (error) return [{ ok: false, erro: 'falha' }, 500]
+  return [{ ok: true }, 200]
 }
 
 async function novoLink(perfil: string, destino: string): Promise<[Resposta, number]> {
@@ -90,7 +113,9 @@ Deno.serve(async (req) => {
   const [corpo, status] =
     pedido.acao === 'convidar'
       ? await convidar(pedido, destino)
-      : await novoLink(pedido.perfil, destino)
+      : pedido.acao === 'senha'
+        ? await definirSenha(pedido.perfil, pedido.senha)
+        : await novoLink(pedido.perfil, destino)
   if (!corpo.ok) console.error('convidar-profissional:', pedido.acao, corpo.erro)
   return responder(corpo, status, origem)
 })

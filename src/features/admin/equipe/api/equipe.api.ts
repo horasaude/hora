@@ -33,7 +33,7 @@ export async function removerProfissional(perfil: string) {
 /** Erro com o código da função (ja_existe, falha...). */
 export class ErroEquipe extends Error {}
 
-async function chamar(corpo: object): Promise<string> {
+async function chamar(corpo: object): Promise<string | null> {
   const { data, error } = await supabase.functions.invoke<{ ok: boolean; link?: string }>(
     'convidar-profissional',
     { body: corpo },
@@ -46,13 +46,25 @@ async function chamar(corpo: object): Promise<string> {
     }
     throw new ErroEquipe(codigo)
   }
-  if (!data?.link) throw new ErroEquipe('falha')
-  return data.link
+  if (!data?.ok) throw new ErroEquipe('falha')
+  return data.link ?? null
 }
 
-/** Cria a conta da profissional e devolve o link para ela criar a senha. */
-export const convidarProfissional = (d: DadosProfissional & { email: string }) =>
-  chamar({ acao: 'convidar', ...d })
+/** Cria a conta da profissional já com a senha cadastrada pelo painel. */
+export const cadastrarProfissional = async (
+  d: DadosProfissional & { email: string; senha: string },
+): Promise<void> => {
+  await chamar({ acao: 'convidar', ...d })
+}
+
+/** Define uma nova senha para quem já está na equipe. */
+export const definirSenhaProfissional = async (d: { perfil: string; senha: string }) => {
+  await chamar({ acao: 'senha', ...d })
+}
 
 /** Novo link de acesso (convite que expirou ou senha esquecida). */
-export const novoLinkDeAcesso = (perfil: string) => chamar({ acao: 'link', perfil })
+export const novoLinkDeAcesso = async (perfil: string): Promise<string> => {
+  const link = await chamar({ acao: 'link', perfil })
+  if (!link) throw new ErroEquipe('falha')
+  return link
+}

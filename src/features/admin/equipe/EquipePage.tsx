@@ -9,16 +9,9 @@ import { Quadro } from '../components/Quadro'
 import { celula, Tabela } from '../components/Tabela'
 import { MenuAcoes } from '../plano/components/MenuAcoes'
 import { novoLinkDeAcesso, type Profissional } from './api/equipe.api'
-import { LinkAcesso } from './components/LinkAcesso'
-import { ProfissionalJanela } from './components/ProfissionalJanela'
-import { TirarAcesso } from './components/TirarAcesso'
 import { useAcaoEquipe, useEquipe } from './hooks/useEquipe'
+import { JanelasEquipe, type Aberta } from './JanelasEquipe'
 import { t } from './textos'
-
-type Aberta =
-  | { tipo: 'nova' }
-  | { tipo: 'editar' | 'tirar'; p: Profissional }
-  | { tipo: 'link'; nome: string; link: string }
 
 const esp = (e: string | null) =>
   e && e in ESPECIALIDADES ? ESPECIALIDADES[e as Especialidade] : '-'
@@ -27,6 +20,7 @@ function Linha({ p, abrir }: { p: Profissional; abrir: (a: Aberta) => void }) {
   const link = useAcaoEquipe(novoLinkDeAcesso)
   const acoes = [
     { nome: t.editar, aoEscolher: () => abrir({ tipo: 'editar', p }) },
+    { nome: t.definirSenha, aoEscolher: () => abrir({ tipo: 'senha', p }) },
     {
       nome: t.gerarLink,
       aoEscolher: () =>
@@ -74,7 +68,6 @@ function Linha({ p, abrir }: { p: Profissional; abrir: (a: Aberta) => void }) {
 export function EquipePage() {
   const equipe = useEquipe()
   const [aberta, setAberta] = useState<Aberta | null>(null)
-  const fechar = () => setAberta(null)
   const lista = equipe.data ?? []
   const pendentes = lista.filter((p) => p.convite_pendente).length
   return (
@@ -115,17 +108,7 @@ export function EquipePage() {
           ))}
         </Tabela>
       )}
-      {(aberta?.tipo === 'nova' || aberta?.tipo === 'editar') && (
-        <ProfissionalJanela
-          p={aberta.tipo === 'editar' ? aberta.p : null}
-          aoFechar={fechar}
-          aoConvidar={(nome, link) => setAberta({ tipo: 'link', nome, link })}
-        />
-      )}
-      {aberta?.tipo === 'tirar' && <TirarAcesso p={aberta.p} aoFechar={fechar} />}
-      {aberta?.tipo === 'link' && (
-        <LinkAcesso nome={aberta.nome} link={aberta.link} aoFechar={fechar} />
-      )}
+      <JanelasEquipe aberta={aberta} abrir={setAberta} />
     </Quadro>
   )
 }

@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Botao, Campo } from '@/components/ui'
+import { Botao, Campo, CampoSenha } from '@/components/ui'
 import { loginSchema, type LoginDados } from '../schemas/login.schema'
 import { useLogin } from '../hooks/useLogin'
 import { textos } from '../textos'
@@ -20,9 +20,8 @@ export function FormLogin({ aoEsquecer }: { aoEsquecer: () => void }) {
         erro={formState.errors.email?.message}
         {...register('email')}
       />
-      <Campo
+      <CampoSenha
         rotulo={textos.senha}
-        type="password"
         autoComplete="current-password"
         erro={formState.errors.senha?.message}
         {...register('senha')}

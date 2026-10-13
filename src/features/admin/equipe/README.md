@@ -11,3 +11,5 @@
 | api/equipe.api.ts, hooks/useEquipe.ts | painel_equipe, editar_profissional, remover_profissional e a Edge Function              |
 
 Convite: a Edge Function convidar-profissional confere que quem pede é profissional, cria a conta com a chave de serviço (nunca no site) e devolve um link de uso único. O painel mostra o link para enviar por WhatsApp ou e-mail, porque o e-mail padrão do Supabase não entrega para fora da equipe do projeto. O link abre /definir-senha (auth), onde ela cria a senha e entra no painel. Gerar link de acesso serve para convite vencido ou senha esquecida.
+
+Adicionar profissional pede e-mail e senha (mínimo 8): a conta nasce confirmada e ela entra direto em /entrar, sem link. "Definir senha" no menu de cada linha troca a senha de quem já está na equipe (SenhaJanela; Edge Function convidar-profissional, ação senha). O link de acesso continua em "Gerar link de acesso", mas link mandado pelo WhatsApp é aberto pela prévia do próprio WhatsApp e chega gasto (foi o que aconteceu com a Ana e a Clara em 2026-10-13).

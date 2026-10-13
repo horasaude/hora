@@ -2,7 +2,7 @@
 
 export const t = {
   titulo: 'Equipe',
-  convidar: 'Convidar profissional',
+  convidar: 'Adicionar profissional',
   cartoes: { ativas: 'Profissionais com acesso', pendentes: 'Convites pendentes' },
   colunas: ['Profissional', 'E-mail', 'Especialidade', 'Situação', ''],
   ativa: 'Ativa',
@@ -12,6 +12,12 @@ export const t = {
   ultimoAcesso: (d: string) => `Último acesso ${d}`,
   editar: 'Editar',
   gerarLink: 'Gerar link de acesso',
+  definirSenha: 'Definir senha',
+  senhaDe: (nome: string) => `Senha de ${nome}`,
+  pronto: 'Acesso criado',
+  prontoTexto: (nome: string, email: string) =>
+    `${nome} já pode entrar em www.comunidadeora.com.br/entrar com o e-mail ${email} e a senha cadastrada.`,
+  senhaSalva: (nome: string) => `Senha de ${nome} atualizada. Ela já pode entrar com a nova senha.`,
   tirarAcesso: 'Tirar acesso',
   confirmarTirar: (nome: string) => `Tirar o acesso de ${nome} ao painel?`,
   campos: {
@@ -20,6 +26,7 @@ export const t = {
     especialidade: 'Especialidade',
     nenhuma: 'Nenhuma',
     titulo: 'Título (ex.: Nutricionista)',
+    senha: 'Senha (mínimo 8 caracteres)',
   },
   linkTitulo: 'Link de acesso',
   linkPronto: (nome: string) => `Envie este link para ${nome}. Ele vale uma vez.`,
@@ -27,6 +34,7 @@ export const t = {
   copiado: 'Link copiado',
   erros: {
     nome: 'Escreva o nome',
+    senha: 'Use pelo menos 8 caracteres',
     email: 'Confira o e-mail',
     ja_existe: 'Este e-mail já tem conta na ORA.',
     falha: 'Não foi possível concluir. Tente de novo.',

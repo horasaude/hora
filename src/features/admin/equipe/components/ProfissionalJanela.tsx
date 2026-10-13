@@ -1,74 +1,23 @@
 import { useId, useState } from 'react'
-import { Campo, Janela } from '@/components/ui'
-import { ESPECIALIDADES, type Especialidade } from '@/domain/forum'
-import { RodapeForm } from '../../components/RodapeForm'
+import { Janela } from '@/components/ui'
+import { ErroForm, RodapeForm } from '../../components/RodapeForm'
 import {
-  convidarProfissional,
+  cadastrarProfissional,
   editarProfissional,
   ErroEquipe,
   type Profissional,
 } from '../api/equipe.api'
 import { useAcaoEquipe } from '../hooks/useEquipe'
 import { t } from '../textos'
+import { Campos } from './CamposProfissional'
+import { EMAIL, ehEsp, type Valores } from './valoresProfissional'
 
-const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-const ehEsp = (v: string): v is Especialidade => v in ESPECIALIDADES
-type Valores = { nome: string; email: string; especialidade: Especialidade | null; titulo: string }
-
-function CampoEspecialidade({ v, mudar }: { v: Valores; mudar: (p: Partial<Valores>) => void }) {
-  return (
-    <label className="flex flex-col gap-1 text-sm">
-      <span className="font-medium">{t.campos.especialidade}</span>
-      <select
-        className="min-h-12 rounded-xl border border-linha bg-white px-4"
-        value={v.especialidade ?? ''}
-        onChange={(e) => mudar({ especialidade: ehEsp(e.target.value) ? e.target.value : null })}
-      >
-        <option value="">{t.campos.nenhuma}</option>
-        {Object.entries(ESPECIALIDADES).map(([k, n]) => (
-          <option key={k} value={k}>
-            {n}
-          </option>
-        ))}
-      </select>
-    </label>
-  )
-}
-
-function Campos({
-  v,
-  mudar,
-  comEmail,
-}: {
-  v: Valores
-  mudar: (p: Partial<Valores>) => void
-  comEmail: boolean
-}) {
-  return (
-    <>
-      <Campo
-        rotulo={t.campos.nome}
-        maxLength={120}
-        value={v.nome}
-        onChange={(e) => mudar({ nome: e.target.value })}
-      />
-      {comEmail && (
-        <Campo
-          rotulo={t.campos.email}
-          type="email"
-          value={v.email}
-          onChange={(e) => mudar({ email: e.target.value })}
-        />
-      )}
-      <CampoEspecialidade v={v} mudar={mudar} />
-      <Campo
-        rotulo={t.campos.titulo}
-        maxLength={80}
-        value={v.titulo}
-        onChange={(e) => mudar({ titulo: e.target.value })}
-      />
-    </>
-  )
+/** Erro de validação do formulário, ou null quando está tudo certo. */
+function validar(v: Valores, novo: boolean): string | null {
+  if (!v.nome.trim()) return t.erros.nome
+  if (novo && !EMAIL.test(v.email.trim())) return t.erros.email
+  if (novo && (v.senha.length < 8 || v.senha.length > 72)) return t.erros.senha
+  return null
 }
 
 const mensagem = (e: unknown) => {
@@ -76,37 +25,42 @@ const mensagem = (e: unknown) => {
   return c === 'ja_existe' ? t.erros.ja_existe : t.erros.falha
 }
 
-/** Convidar (com e-mail) ou editar profissional. Ao convidar, devolve o link para enviar. */
+/** Adicionar (com e-mail e senha) ou editar profissional. Ao adicionar, a conta já entra com a senha. */
 export function ProfissionalJanela({
   p,
   aoFechar,
-  aoConvidar,
+  aoCadastrar,
 }: {
   p: Profissional | null
   aoFechar: () => void
-  aoConvidar: (nome: string, link: string) => void
+  aoCadastrar: (nome: string, email: string) => void
 }) {
   const id = useId()
   const [v, setV] = useState<Valores>({
     nome: p?.nome ?? '',
     email: '',
+    senha: '',
     especialidade: p?.especialidade && ehEsp(p.especialidade) ? p.especialidade : null,
     titulo: p?.titulo_profissional ?? '',
   })
   const [erro, setErro] = useState('')
-  const convidar = useAcaoEquipe(convidarProfissional)
+  const convidar = useAcaoEquipe(cadastrarProfissional)
   const editar = useAcaoEquipe(editarProfissional)
   const mudar = (x: Partial<Valores>) => setV((a) => ({ ...a, ...x }))
   const enviar = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!v.nome.trim()) return setErro(t.erros.nome)
-    if (!p && !EMAIL.test(v.email.trim())) return setErro(t.erros.email)
+    const invalido = validar(v, !p)
+    if (invalido) return setErro(invalido)
     const dados = { nome: v.nome.trim(), especialidade: v.especialidade, titulo: v.titulo.trim() }
     try {
       if (p) {
         await editar.mutateAsync({ ...dados, perfil: p.id })
         aoFechar()
-      } else aoConvidar(dados.nome, await convidar.mutateAsync({ ...dados, email: v.email.trim() }))
+      } else {
+        const email = v.email.trim().toLowerCase()
+        await convidar.mutateAsync({ ...dados, email, senha: v.senha })
+        aoCadastrar(dados.nome, email)
+      }
     } catch (err) {
       setErro(mensagem(err))
     }
@@ -126,11 +80,7 @@ export function ProfissionalJanela({
     >
       <form id={id} onSubmit={enviar} noValidate className="grid gap-4 sm:grid-cols-2">
         <Campos v={v} mudar={mudar} comEmail={!p} />
-        {erro && (
-          <p role="alert" className="text-sm text-terracota-escuro sm:col-span-2">
-            {erro}
-          </p>
-        )}
+        {erro && <ErroForm mensagem={erro} />}
       </form>
     </Janela>
   )

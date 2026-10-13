@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { BotaoBrilho, Campo, LogoOra } from '@/components/ui'
+import { BotaoBrilho, CampoSenha, LogoOra } from '@/components/ui'
 import { supabase } from '@/lib/supabase'
 import { buscarPapel } from '../api/auth.api'
 import { useSessao } from '../hooks/useSessao'
@@ -30,16 +30,16 @@ function Formulario() {
   }
   return (
     <form onSubmit={enviar} noValidate className="flex flex-col gap-4">
-      <Campo
+      <CampoSenha
+        id="nova-senha"
         rotulo={t.nova}
-        type="password"
         autoComplete="new-password"
         value={senha}
         onChange={(e) => setSenha(e.target.value)}
       />
-      <Campo
+      <CampoSenha
+        id="repetir-senha"
         rotulo={t.repetir}
-        type="password"
         autoComplete="new-password"
         value={repetir}
         onChange={(e) => setRepetir(e.target.value)}
