@@ -845,6 +845,45 @@ export type Database = {
           },
         ]
       }
+      exercicios: {
+        Row: {
+          created_at: string
+          equipamento: string
+          erros_comuns: string
+          foto_path: string | null
+          grupo: string
+          id: string
+          instrucoes: string
+          nome: string
+          updated_at: string
+          video_url: string
+        }
+        Insert: {
+          created_at?: string
+          equipamento?: string
+          erros_comuns?: string
+          foto_path?: string | null
+          grupo: string
+          id?: string
+          instrucoes?: string
+          nome: string
+          updated_at?: string
+          video_url?: string
+        }
+        Update: {
+          created_at?: string
+          equipamento?: string
+          erros_comuns?: string
+          foto_path?: string | null
+          grupo?: string
+          id?: string
+          instrucoes?: string
+          nome?: string
+          updated_at?: string
+          video_url?: string
+        }
+        Relationships: []
+      }
       forum_curtidas: {
         Row: {
           created_at: string
@@ -1724,6 +1763,8 @@ export type Database = {
           papel: Database["public"]["Enums"]["papel"]
           tema_atual_id: string | null
           titulo_profissional: string | null
+          treino_local: string | null
+          treino_nivel: string | null
           ultimo_acesso_em: string | null
           updated_at: string
         }
@@ -1748,6 +1789,8 @@ export type Database = {
           papel?: Database["public"]["Enums"]["papel"]
           tema_atual_id?: string | null
           titulo_profissional?: string | null
+          treino_local?: string | null
+          treino_nivel?: string | null
           ultimo_acesso_em?: string | null
           updated_at?: string
         }
@@ -1772,6 +1815,8 @@ export type Database = {
           papel?: Database["public"]["Enums"]["papel"]
           tema_atual_id?: string | null
           titulo_profissional?: string | null
+          treino_local?: string | null
+          treino_nivel?: string | null
           ultimo_acesso_em?: string | null
           updated_at?: string
         }
@@ -1990,6 +2035,86 @@ export type Database = {
         }
         Relationships: []
       }
+      rotina_treinos: {
+        Row: {
+          dia_semana: number
+          id: string
+          rotina_id: string
+          treino_id: string
+        }
+        Insert: {
+          dia_semana: number
+          id?: string
+          rotina_id: string
+          treino_id: string
+        }
+        Update: {
+          dia_semana?: number
+          id?: string
+          rotina_id?: string
+          treino_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rotina_treinos_rotina_id_fkey"
+            columns: ["rotina_id"]
+            isOneToOne: false
+            referencedRelation: "rotinas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rotina_treinos_treino_id_fkey"
+            columns: ["treino_id"]
+            isOneToOne: false
+            referencedRelation: "treinos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rotinas: {
+        Row: {
+          created_at: string
+          descricao: string
+          id: string
+          local: string
+          nivel: string
+          nome: string
+          publicado: boolean
+          tema_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          descricao?: string
+          id?: string
+          local: string
+          nivel: string
+          nome: string
+          publicado?: boolean
+          tema_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          descricao?: string
+          id?: string
+          local?: string
+          nivel?: string
+          nome?: string
+          publicado?: boolean
+          tema_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rotinas_tema_id_fkey"
+            columns: ["tema_id"]
+            isOneToOne: false
+            referencedRelation: "temas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       temas: {
         Row: {
           chave: string | null
@@ -2028,6 +2153,155 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      treino_exercicios: {
+        Row: {
+          carga: string
+          descanso_segundos: number
+          exercicio_id: string
+          id: string
+          observacao: string
+          ordem: number
+          repeticoes: string
+          series: number
+          treino_id: string
+        }
+        Insert: {
+          carga?: string
+          descanso_segundos?: number
+          exercicio_id: string
+          id?: string
+          observacao?: string
+          ordem?: number
+          repeticoes?: string
+          series?: number
+          treino_id: string
+        }
+        Update: {
+          carga?: string
+          descanso_segundos?: number
+          exercicio_id?: string
+          id?: string
+          observacao?: string
+          ordem?: number
+          repeticoes?: string
+          series?: number
+          treino_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "treino_exercicios_exercicio_id_fkey"
+            columns: ["exercicio_id"]
+            isOneToOne: false
+            referencedRelation: "exercicios"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "treino_exercicios_treino_id_fkey"
+            columns: ["treino_id"]
+            isOneToOne: false
+            referencedRelation: "treinos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      treinos: {
+        Row: {
+          alongamento: string
+          aquecimento: string
+          created_at: string
+          descricao: string
+          duracao_minutos: number | null
+          id: string
+          local: string
+          nivel: string
+          nome: string
+          publicado: boolean
+          tema_id: string
+          updated_at: string
+        }
+        Insert: {
+          alongamento?: string
+          aquecimento?: string
+          created_at?: string
+          descricao?: string
+          duracao_minutos?: number | null
+          id?: string
+          local: string
+          nivel: string
+          nome: string
+          publicado?: boolean
+          tema_id: string
+          updated_at?: string
+        }
+        Update: {
+          alongamento?: string
+          aquecimento?: string
+          created_at?: string
+          descricao?: string
+          duracao_minutos?: number | null
+          id?: string
+          local?: string
+          nivel?: string
+          nome?: string
+          publicado?: boolean
+          tema_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "treinos_tema_id_fkey"
+            columns: ["tema_id"]
+            isOneToOne: false
+            referencedRelation: "temas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      treinos_feitos: {
+        Row: {
+          concluido_em: string | null
+          created_at: string
+          data: string
+          id: string
+          perfil_id: string
+          series: Json
+          treino_id: string
+        }
+        Insert: {
+          concluido_em?: string | null
+          created_at?: string
+          data?: string
+          id?: string
+          perfil_id?: string
+          series?: Json
+          treino_id: string
+        }
+        Update: {
+          concluido_em?: string | null
+          created_at?: string
+          data?: string
+          id?: string
+          perfil_id?: string
+          series?: Json
+          treino_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "treinos_feitos_perfil_id_fkey"
+            columns: ["perfil_id"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "treinos_feitos_treino_id_fkey"
+            columns: ["treino_id"]
+            isOneToOne: false
+            referencedRelation: "treinos"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
@@ -2379,6 +2653,7 @@ export type Database = {
         Returns: string
       }
       remover_profissional: { Args: { p_perfil: string }; Returns: undefined }
+      resumo_treinos: { Args: never; Returns: Json }
       salvar_alimento: {
         Args: { p_alimento: Json; p_medidas: Json }
         Returns: string
@@ -2400,10 +2675,17 @@ export type Database = {
         Args: { p_itens: Json; p_receita: string }
         Returns: undefined
       }
+      salvar_rotina: { Args: { p_dias: Json; p_rotina: Json }; Returns: string }
+      salvar_treino: {
+        Args: { p_itens: Json; p_treino: Json }
+        Returns: string
+      }
       situacao_pedido: { Args: { p_pedido: string }; Returns: Json }
       suspender_inadimplentes: { Args: never; Returns: number }
       tem_acesso_ativo: { Args: never; Returns: boolean }
+      tema_do_treino_da_aluna: { Args: never; Returns: string }
       texto_busca: { Args: { valor: string }; Returns: string }
+      treino_visivel: { Args: { p_treino: string }; Returns: boolean }
       trilha_aluna: { Args: never; Returns: Json }
       trilha_previa: { Args: { p_dia: number; p_tema?: string }; Returns: Json }
       vencedoras_desafio: {

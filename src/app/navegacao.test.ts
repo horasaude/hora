@@ -28,6 +28,7 @@ describe('menu lateral da aluna', () => {
       'Início',
       'Trilhas',
       'Cardápios',
+      'Treinos',
       'Desafios',
       'Ranking',
       'Lives',

@@ -9,6 +9,7 @@ const a = textos.abas
 const ITENS = [
   { para: 'conteudo', nome: a.conteudo, cor: '#F2A922' },
   { para: 'plano', nome: a.plano, cor: '#F2643A' },
+  { para: 'treinos', nome: a.treinos, cor: '#F2643A' },
   { para: 'lives', nome: a.lives, cor: '#7FB89E' },
   { para: 'desafios', nome: a.desafios, cor: '#F2A922' },
   { para: 'pontos', nome: a.pontos, cor: '#6E9BC9' },

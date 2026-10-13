@@ -1,4 +1,5 @@
 import { Evolucao } from '@/features/evolucao'
+import { TreinosFeitos } from '@/features/treinos'
 import { Historico } from '../components/Historico'
 import { Resumo } from '../components/Resumo'
 import { Topo } from '../components/Topo'
@@ -11,7 +12,10 @@ export function PerfilPage() {
       <Resumo />
       <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] lg:gap-6">
         <Evolucao />
-        <Historico />
+        <div className="flex flex-col gap-5 lg:gap-6">
+          <TreinosFeitos />
+          <Historico />
+        </div>
       </div>
     </section>
   )

@@ -33,6 +33,11 @@ const TELAS = [
   ['13-painel-conteudo', 'admin', `/app/admin/conteudo/${tema}`],
   ['14-painel-nova-aula', 'admin', '/app/admin/aulas/nova'],
   ['15-aluna-menu-lateral-lives', 40, '/app/lives'],
+  ['16-aluna-treinos', 40, '/app/treinos'],
+  ['17-aluna-treino-em-execucao', 40, '/app/treinos/bbbbbbbb-0000-0000-0000-000000000001?passo=1'],
+  ['18-painel-treinos', 'admin', '/app/admin/treinos'],
+  ['19-painel-novo-treino', 'admin', '/app/admin/treinos/novo'],
+  ['20-painel-exercicios', 'admin', '/app/admin/treinos/exercicios'],
 ]
 const TAMANHOS = [
   ['computador', 1440, 900, false],

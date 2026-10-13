@@ -7,6 +7,7 @@ const forum = () => import('@/features/forum')
 const loja = () => import('@/features/loja')
 const desafiosAluna = () => import('@/features/desafios')
 const cardapios = () => import('@/features/cardapios')
+const treinos = () => import('@/features/treinos')
 
 export const rotasAluna: RouteObject[] = [
   {
@@ -22,6 +23,16 @@ export const rotasAluna: RouteObject[] = [
     lazy: async () => ({ Component: (await trilha()).PreviaAulaPage }),
   },
   { path: 'cardapios', lazy: async () => ({ Component: (await cardapios()).CardapiosPage }) },
+  { path: 'treinos', lazy: async () => ({ Component: (await treinos()).TreinosPage }) },
+  { path: 'treinos/:treinoId', lazy: async () => ({ Component: (await treinos()).ExecucaoPage }) },
+  {
+    path: 'previa/treinos',
+    lazy: async () => ({ Component: (await treinos()).PreviaTreinosPage }),
+  },
+  {
+    path: 'previa/treinos/:treinoId',
+    lazy: async () => ({ Component: (await treinos()).PreviaExecucaoPage }),
+  },
   {
     path: 'cardapios/receitas/:receitaId',
     lazy: async () => ({ Component: (await cardapios()).ReceitaPage }),

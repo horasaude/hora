@@ -23,14 +23,18 @@ export function lerSelect(texto) {
   }
   if (atual) itens.push(atual)
   return itens.map((i) => {
-    const m = i.trim().match(/^([a-z_0-9*]+)(?:\((.*)\))?$/)
+    const m = i.trim().match(/^(?:([a-z_0-9]+):)?([a-z_0-9*]+)(?:\((.*)\))?$/)
     if (!m) throw new Error(`select não suportado: ${i}`)
-    return m[2] !== undefined ? { rel: m[1], filhos: lerSelect(m[2]) } : { col: m[1] }
+    return m[3] !== undefined
+      ? { rel: m[2], chave: m[1] ?? m[2], filhos: lerSelect(m[3]) }
+      : { col: m[2] }
   })
 }
 
-/** Objeto jsonb de uma linha (alias a) com as colunas e relações pedidas. */
-export function objeto(ch, tabela, a, nos, prof = 0) {
+const contagem = (n) => n.filhos.length === 1 && n.filhos[0].col === 'count'
+
+/** Objeto jsonb de uma linha (alias a) com as colunas e relações pedidas; ordens: { relação: 'col.asc' }. */
+export function objeto(ch, tabela, a, nos, prof = 0, ordens = {}) {
   const cols = nos.filter((n) => n.col)
   const base = cols.some((n) => n.col === '*')
     ? `to_jsonb(${a})`
@@ -40,11 +44,14 @@ export function objeto(ch, tabela, a, nos, prof = 0) {
     .map((n) => {
       const b = `r${prof}_${n.rel}`
       const filha = ch.fks.find((f) => f.filha === n.rel && f.mae === tabela)
+      const onde = filha && `from public.${q(n.rel)} ${b} where ${b}.${q(filha.coluna)} = ${a}.id`
+      if (filha && contagem(n))
+        return `'${n.chave}', jsonb_build_array(jsonb_build_object('count', (select count(*) ${onde})))`
       if (filha)
-        return `'${n.rel}', (select coalesce(jsonb_agg(${objeto(ch, n.rel, b, n.filhos, prof + 1)}), '[]') from public.${q(n.rel)} ${b} where ${b}.${q(filha.coluna)} = ${a}.id)`
+        return `'${n.chave}', (select coalesce(jsonb_agg(${objeto(ch, n.rel, b, n.filhos, prof + 1, ordens)} ${ordem(ordens[n.rel], b)}), '[]') ${onde})`
       const mae = ch.fks.find((f) => f.filha === tabela && f.mae === n.rel)
       if (!mae) throw new Error(`relação desconhecida: ${tabela} -> ${n.rel}`)
-      return `'${n.rel}', (select ${objeto(ch, n.rel, b, n.filhos, prof + 1)} from public.${q(n.rel)} ${b} where ${b}.id = ${a}.${q(mae.coluna)})`
+      return `'${n.chave}', (select ${objeto(ch, n.rel, b, n.filhos, prof + 1, ordens)} from public.${q(n.rel)} ${b} where ${b}.id = ${a}.${q(mae.coluna)})`
     })
   return rels.length ? `(${base} || jsonb_build_object(${rels.join(', ')}))` : base
 }
@@ -66,7 +73,7 @@ const OPS = {
 export function filtros(busca, a, params) {
   const partes = []
   for (const [col, bruto] of busca) {
-    if (RESERVADOS.has(col)) continue
+    if (RESERVADOS.has(col) || col.endsWith('.order')) continue
     const [, nao, op, valor] = bruto.match(/^(not\.)?([a-z]+)\.(.*)$/s) ?? []
     const campo = `${a}.${q(col)}`
     let sql

@@ -23,7 +23,11 @@ const pagina =
       | 'ForumPainelPage'
       | 'DuvidaPainelPage'
       | 'EquipePage'
-      | 'LojaPage',
+      | 'LojaPage'
+      | 'TreinosPainelPage'
+      | 'ExerciciosPage'
+      | 'ModelosPage'
+      | 'PublicadosPage',
   ) =>
   async () => ({
     Component: (await admin())[nome],
@@ -54,6 +58,10 @@ const rotasAdmin: RouteObject[] = [
   { path: 'plano/receitas/nova', lazy: pagina('ReceitaPage') },
   { path: 'plano/receitas/:receitaId', lazy: pagina('ReceitaPage') },
   { path: 'plano/alimentos', lazy: pagina('AlimentosPage') },
+  ...['treinos', 'treinos/novo'].map((path) => ({ path, lazy: pagina('TreinosPainelPage') })),
+  { path: 'treinos/exercicios', lazy: pagina('ExerciciosPage') },
+  { path: 'treinos/modelos', lazy: pagina('ModelosPage') },
+  { path: 'treinos/publicados', lazy: pagina('PublicadosPage') },
   ...['desafios', 'desafios/novo', 'desafios/:desafioId'].map((path) => ({ path, lazy: desafios })),
   ...['alunas', 'alunas/:alunaId'].map((path) => ({ path, lazy: alunas })),
   { path: 'configuracoes/equipe', lazy: pagina('EquipePage') },

@@ -2,6 +2,13 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-15 · main · Módulo de Treinos (painel e aluna)
+
+- Banco (20261015090000_treinos, suíte treinos no PGlite): exercicios (30 básicos sem vídeo para a Laís completar), treinos, treino_exercicios, rotinas, rotina_treinos, treinos_feitos, nível e local na conta. Aluna lê só o publicado do tema dela (Preparação antes do tema); exercícios e fotos só com acesso ativo; treinos_feitos só os dela.
+- Painel (src/features/admin/treinos): item Treinos com bolinha coral abaixo de Plano alimentar; pílulas Treinos | Exercícios | Modelos | Publicados; KPIs (publicados, exercícios, concluídos em 7 dias). Montar treino em janela de 760 px: aquecimento e alongamento opcionais, exercícios da biblioteca com séries, repetições ou tempo, carga, descanso e observação; arrastar, duplicar, remover; Salvar rascunho, Publicar e Duplicar treino. Modelos: rotina semanal com o treino de cada dia.
+- Aluna (src/features/treinos): menu e pílula Treinos; primeiro acesso com nível e local; Treino de hoje pela rotina; a semana com check; Outros treinos; execução com séries, cronômetro de descanso e bipe opcional; Treino concluído com Registrar com foto (mesmo check-in de Treino, sem pontos em dobro). Minha conta troca nível e local; Minha evolução ganha o calendário Treinos feitos. Ver como aluna tem Ver Treinos, sem gravar.
+- Demonstração: treinos, rotina e treinos feitos no seed; API da demo entende contagem, apelido, ordem em relação e upsert. Prints 16 a 20.
+
 ## 2026-10-13 · main · Menu lateral da aluna, criação de conteúdo no painel e aula concluída pelo vídeo
 
 - Menu lateral da aluna no computador igual ao do painel: lista simples (Início, Trilhas, Cardápios, Desafios, Ranking, Lives, Fórum, Loja, Minha evolução, Minha conta), mesmo ItemMenuLateral com bolinha de cor (src/components/ui/MenuLateral.tsx), ativo em vidro verde, ponto da live em Lives. Celular e pílulas sem mudança.

@@ -88,3 +88,8 @@ Venda inicial por links do Mercado Pago; o checkout integrado da Sprint 2 substi
 
 - [x] Plano alimentar no painel: cardápios, refeições, receitas, alimentos (TACO)
 - [ ] Tela da aluna para cardápios e receitas publicados (banco já pronto)
+
+## Treinos
+
+- [x] Módulo de Treinos no painel e na aluna (2026-10-15)
+- [ ] Laís completar vídeos, fotos e instruções dos 30 exercícios e montar os treinos e modelos reais

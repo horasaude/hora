@@ -1,0 +1,5 @@
+export { TreinosPage } from './pages/TreinosPage'
+export { ExecucaoPage } from './pages/ExecucaoPage'
+export { PreviaTreinosPage, PreviaExecucaoPage } from './pages/PreviaTreinosPage'
+export { PreferenciasTreino } from './components/PreferenciasTreino'
+export { TreinosFeitos } from './components/TreinosFeitos'

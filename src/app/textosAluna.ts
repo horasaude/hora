@@ -16,6 +16,7 @@ export const textosAluna = {
     liveHoje: 'Tem live hoje',
     trilha: 'Trilha',
     cardapios: 'Cardápios',
+    treinos: 'Treinos',
     lives: 'Lives',
     desafios: 'Desafios',
     ranking: 'Ranking',

@@ -117,6 +117,7 @@ export const textos = {
     semTema: 'Sem tema',
     aviso: 'Nada aqui grava conclusão nem pontos.',
     sair: 'Voltar ao painel',
+    treinos: 'Ver Treinos',
   },
   materiais: {
     titulo: 'Arquivos da aula',

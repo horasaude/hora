@@ -1,4 +1,5 @@
 import { MeuTema } from '@/features/trilha'
+import { PreferenciasTreino } from '@/features/treinos'
 import { Configuracoes } from '../components/Configuracoes'
 import { Indicar } from '../components/Indicar'
 import { Topo } from '../components/Topo'
@@ -11,6 +12,7 @@ export function ContaPage() {
       <div className="grid items-start gap-5 lg:grid-cols-2 lg:gap-6">
         <div className="flex flex-col gap-5 lg:gap-6">
           <MeuTema />
+          <PreferenciasTreino />
           <Configuracoes />
         </div>
         <Indicar />

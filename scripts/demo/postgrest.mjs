@@ -33,7 +33,10 @@ async function selecionar(db, ch, { tabela, busca, cabecalhos, metodo }) {
   const limite = faixa ? Number(faixa[2]) - Number(faixa[1]) + 1 : busca.get('limit')
   const pulo = faixa ? Number(faixa[1]) : busca.get('offset')
   const pedaco = `${limite ? `limit ${Number(limite)}` : ''} ${pulo ? `offset ${Number(pulo)}` : ''}`
-  const obj = objeto(ch, tabela, 't0', lerSelect(busca.get('select') ?? '*'))
+  const ordens = Object.fromEntries(
+    [...busca].filter(([k]) => k.endsWith('.order')).map(([k, v]) => [k.slice(0, -6), v]),
+  )
+  const obj = objeto(ch, tabela, 't0', lerSelect(busca.get('select') ?? '*'), 0, ordens)
   const linhas = (
     await db.query(
       `select coalesce(jsonb_agg(x.o), '[]') as r from (select ${obj} as o from public.${q(tabela)} t0 ${onde} ${ordem(busca.get('order'), 't0')} ${pedaco}) x`,
@@ -64,7 +67,12 @@ async function escrever(db, { metodo, tabela, busca, corpo, cabecalhos }) {
     const valores = linhas.map(
       (l) => `(${cols.map((c) => (params.push(l[c] ?? null), `$${params.length}`)).join(', ')})`,
     )
-    sql = `insert into public.${q(tabela)} (${cols.map(q).join(', ')}) values ${valores.join(', ')} ${volta}`
+    const conflito = busca.get('on_conflict')
+    const juntar = conflito && /merge-duplicates/.test(cabecalhos.prefer ?? '')
+    const depois = juntar
+      ? `on conflict (${conflito.split(',').map(q).join(', ')}) do update set ${cols.map((c) => `${q(c)} = excluded.${q(c)}`).join(', ')}`
+      : ''
+    sql = `insert into public.${q(tabela)} (${cols.map(q).join(', ')}) values ${valores.join(', ')} ${depois} ${volta}`
   } else if (metodo === 'PATCH') {
     const sets = Object.entries(corpo ?? {}).map(
       ([c, v]) => (params.push(v), `${q(c)} = $${params.length}`),

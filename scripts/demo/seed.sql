@@ -198,3 +198,56 @@ insert into public.aula_materiais (aula_id, tipo, caminho, nome, ordem)
 select a.id, 'link', 'https://www.gov.br/saude/pt-br/assuntos/saude-brasil/eu-quero-me-alimentar-melhor', 'Guia alimentar (site do Ministério da Saúde)', 0
 from public.aulas a join public.etapas e on e.id = a.etapa_id join public.temas t on t.id = e.tema_id
 where t.chave = 'emagrecimento' and e.chave = 'arrancada' and a.dia_liberacao = 1;
+
+update public.perfis set treino_nivel = 'iniciante', treino_local = 'casa'
+where id in ('aaaaaaaa-0000-0000-0000-000000000040', 'aaaaaaaa-0000-0000-0000-000000000003');
+
+update public.exercicios set video_url = 'https://www.youtube.com/watch?v=demoTreino1',
+  instrucoes = E'Pés na largura do quadril, peito aberto.\nDesça como quem senta numa cadeira e suba empurrando o chão.',
+  erros_comuns = E'Joelho entrando para dentro.\nTirar o calcanhar do chão.'
+where nome = 'Agachamento livre';
+update public.exercicios set instrucoes = 'Deite de barriga para cima, pés apoiados, e eleve o quadril contraindo o glúteo.'
+where nome = 'Ponte de glúteo';
+
+insert into public.treinos (id, nome, tema_id, nivel, local, duracao_minutos, descricao, aquecimento, alongamento, publicado)
+select x.id::uuid, x.nome, (select id from public.temas where chave = x.tema), 'iniciante', 'casa', x.min, x.descr,
+  'Marcha no lugar por 3 minutos e 10 rotações de ombro para cada lado.', 'Alongue posterior de coxa e quadril, 30 segundos cada lado.', true
+from (values
+  ('bbbbbbbb-0000-0000-0000-000000000001', 'Treino A: inferiores', 'emagrecimento', 35, 'Pernas e glúteo, no seu ritmo.'),
+  ('bbbbbbbb-0000-0000-0000-000000000002', 'Treino B: superiores e core', 'emagrecimento', 30, 'Braços, costas e abdômen.'),
+  ('bbbbbbbb-0000-0000-0000-000000000003', 'Treino C: corpo todo', 'emagrecimento', 25, 'Circuito leve para o corpo todo.'),
+  ('bbbbbbbb-0000-0000-0000-000000000004', 'Caminhada com intervalos', 'emagrecimento', 30, 'Cardio leve, alternando ritmos.'),
+  ('bbbbbbbb-0000-0000-0000-000000000005', 'Primeiro treino em casa', 'preparacao', 20, 'Movimentos básicos para começar.')
+) as x(id, nome, tema, min, descr);
+
+insert into public.treino_exercicios (treino_id, exercicio_id, ordem, series, repeticoes, carga, descanso_segundos, observacao)
+select x.treino::uuid, (select id from public.exercicios where nome = x.ex), x.ordem, x.series, x.reps, x.carga, x.desc, ''
+from (values
+  ('bbbbbbbb-0000-0000-0000-000000000001', 'Agachamento livre', 0, 3, '12', 'Peso do corpo', 60),
+  ('bbbbbbbb-0000-0000-0000-000000000001', 'Ponte de glúteo', 1, 3, '15', '', 45),
+  ('bbbbbbbb-0000-0000-0000-000000000001', 'Afundo alternado', 2, 3, '10 cada perna', '', 60),
+  ('bbbbbbbb-0000-0000-0000-000000000001', 'Elevação de panturrilha em pé', 3, 3, '20', '', 30),
+  ('bbbbbbbb-0000-0000-0000-000000000002', 'Flexão de braços com joelhos apoiados', 0, 3, '10', '', 60),
+  ('bbbbbbbb-0000-0000-0000-000000000002', 'Remada com elástico', 1, 3, '12', 'Elástico médio', 60),
+  ('bbbbbbbb-0000-0000-0000-000000000002', 'Prancha frontal', 2, 3, '30 s', '', 45),
+  ('bbbbbbbb-0000-0000-0000-000000000003', 'Polichinelo', 0, 3, '40 s', '', 30),
+  ('bbbbbbbb-0000-0000-0000-000000000003', 'Burpee adaptado', 1, 3, '8', '', 60),
+  ('bbbbbbbb-0000-0000-0000-000000000003', 'Abdominal remador', 2, 3, '12', '', 45),
+  ('bbbbbbbb-0000-0000-0000-000000000004', 'Caminhada estacionária', 0, 5, '3 min', '', 60),
+  ('bbbbbbbb-0000-0000-0000-000000000005', 'Agachamento livre', 0, 2, '10', '', 60),
+  ('bbbbbbbb-0000-0000-0000-000000000005', 'Ponte de glúteo', 1, 2, '12', '', 45),
+  ('bbbbbbbb-0000-0000-0000-000000000005', 'Mobilidade de quadril', 2, 1, '2 min', '', 0)
+) as x(treino, ex, ordem, series, reps, carga, "desc");
+
+insert into public.rotinas (id, nome, tema_id, nivel, local, descricao, publicado) values
+  ('cccccccc-0000-0000-0000-000000000001', 'Iniciante em casa 3x: A, B, C', (select id from public.temas where chave = 'emagrecimento'), 'iniciante', 'casa', 'Três treinos por semana.', true);
+insert into public.rotina_treinos (rotina_id, treino_id, dia_semana)
+select 'cccccccc-0000-0000-0000-000000000001', t::uuid, d from (values
+  ('bbbbbbbb-0000-0000-0000-000000000001', 1), ('bbbbbbbb-0000-0000-0000-000000000002', 3), ('bbbbbbbb-0000-0000-0000-000000000003', 5),
+  ('bbbbbbbb-0000-0000-0000-000000000001', 2), ('bbbbbbbb-0000-0000-0000-000000000002', 4)
+) as x(t, d) where d in (1, 3, 5) or d = extract(dow from public.hoje_brasilia())::int;
+
+insert into public.treinos_feitos (perfil_id, treino_id, data, series, concluido_em)
+select 'aaaaaaaa-0000-0000-0000-000000000040', 'bbbbbbbb-0000-0000-0000-000000000001', public.hoje_brasilia() - n, '{"0": 3}', now() - make_interval(days => n)
+from unnest(array[2, 5, 9, 12]) as n
+where date_trunc('month', public.hoje_brasilia() - n) = date_trunc('month', public.hoje_brasilia());

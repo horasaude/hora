@@ -27,6 +27,7 @@ export const SECOES: Secao[] = [
     telas: [
       { para: '/app/trilha', nome: t.nav.temas, cor: 'bg-terracota', tambem: ['/app/aula'] },
       { para: '/app/cardapios', nome: t.nav.cardapios, cor: 'bg-salvia' },
+      { para: '/app/treinos', nome: t.nav.treinos, cor: 'bg-coral' },
     ],
   },
   {
@@ -66,6 +67,7 @@ export const MENU_LATERAL: ItemMenu[] = [
   { para: '/app', nome: t.nav.inicio, cor: '#7FB89E', fim: true },
   { para: '/app/trilha', nome: t.nav.trilhas, cor: '#F2643A' },
   { para: '/app/cardapios', nome: t.nav.cardapios, cor: '#6F9582' },
+  { para: '/app/treinos', nome: t.nav.treinos, cor: '#F2643A' },
   { para: '/app/desafios', nome: t.nav.desafios, cor: '#F2A922' },
   { para: '/app/ranking', nome: t.nav.ranking, cor: '#6E9BC9' },
   { para: '/app/lives', nome: t.nav.lives, cor: '#E9B949', live: true },

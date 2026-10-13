@@ -16,6 +16,7 @@ export const textos = {
   abas: {
     conteudo: 'Conteúdo',
     plano: 'Plano alimentar',
+    treinos: 'Treinos',
     cardapios: 'Cardápios',
     refeicoes: 'Refeições',
     receitas: 'Receitas',

@@ -12,6 +12,26 @@ type Props = {
   aoMudar: (dia: number, tema: string | null) => void
 }
 
+/** Atalhos da faixa: ver os Treinos do mesmo dia e tema, e voltar ao painel. */
+function Saidas({ dia, tema }: { dia: number; tema: string | null }) {
+  return (
+    <>
+      <Link
+        to={`/app/previa/treinos?${new URLSearchParams(tema ? { dia: String(dia), tema } : { dia: String(dia) })}`}
+        className="text-sm font-bold text-[#7A5617] underline underline-offset-2"
+      >
+        {t.treinos}
+      </Link>
+      <Link
+        to="/app/admin/conteudo"
+        className="ml-auto text-sm font-bold text-[#7A5617] underline underline-offset-2"
+      >
+        {t.sair}
+      </Link>
+    </>
+  )
+}
+
 /** Faixa ocre do topo: Pré-visualização, dia (1 a 365) e tema. */
 export function FaixaPrevia({ dia, tema, temas, aoMudar }: Props) {
   const id = useId()
@@ -60,12 +80,7 @@ export function FaixaPrevia({ dia, tema, temas, aoMudar }: Props) {
         </select>
       </label>
       <span className="text-xs text-[#7A5617]">{t.aviso}</span>
-      <Link
-        to="/app/admin/conteudo"
-        className="ml-auto text-sm font-bold text-[#7A5617] underline underline-offset-2"
-      >
-        {t.sair}
-      </Link>
+      <Saidas dia={dia} tema={tema} />
     </div>
   )
 }
