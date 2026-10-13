@@ -41,7 +41,7 @@ describe('VendasPage', () => {
 
   it('antes do dia 24/10: preço com desconto e riscado, contagem até o mês grátis', () => {
     abrirEm(INICIO_OFERTA_ORA.getTime() - 3 * 86_400_000)
-    tem('O mês grátis é só no dia 24/10, no evento ORA.')
+    tem('Oferta válida somente dia 24/10')
     tem('Oferta ORA: R$ 400 OFF')
     tem('Começa em')
     expect(screen.getByRole('timer')).toBeInTheDocument()

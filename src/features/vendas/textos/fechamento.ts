@@ -9,7 +9,7 @@ export const fechamento = {
       selo: (desconto: string) => `Oferta ORA: ${desconto} OFF`,
       // Regra no domínio: só no dia 24/10/2026, de 00h00 a 23h59 de Brasília (src/domain/oferta.ts).
       prazo: {
-        antes: 'O mês grátis é só no dia 24/10, no evento ORA.',
+        antes: 'Oferta válida somente dia 24/10',
         durante: 'O mês grátis é só hoje, até as 23h59.',
       },
       contagem: { antes: 'Começa em', durante: 'Termina em' },
