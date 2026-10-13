@@ -22,11 +22,11 @@ export function Banner({ emOferta, desconto }: { emOferta: boolean; desconto: nu
       </p>
       <p className="entrada font-titulo text-6xl leading-none sm:text-7xl">{t.nome}</p>
       <p className="entrada-2 mx-auto mt-3 max-w-md text-sm text-creme/90">{t.frase}</p>
-      {emOferta && (
-        <p className="entrada-3 mt-5 inline-block rounded-full bg-creme px-4 py-1.5 text-xs font-semibold tracking-[0.12em] text-ora uppercase text-shadow-none">
-          {textos.oferta(formatarPreco(desconto))}
-        </p>
-      )}
+      <p className="entrada-3 mt-5 inline-block rounded-full bg-creme px-4 py-1.5 text-xs font-semibold tracking-[0.12em] text-ora uppercase text-shadow-none">
+        {emOferta
+          ? textos.oferta(formatarPreco(desconto))
+          : textos.ofertaSemMes(formatarPreco(desconto))}
+      </p>
     </div>
   )
 }

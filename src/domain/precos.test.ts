@@ -27,15 +27,15 @@ describe('precosVigentes', () => {
     expect(precosVigentes(FIM_OFERTA_ORA).emOferta).toBe(true)
   })
 
-  it('troca sozinho para os preços cheios um segundo depois', () => {
+  it('um segundo depois, o mesmo preço com desconto, sem o 13º mês', () => {
     expect(precosVigentes(segundos(1))).toEqual({
       emOferta: false,
       parcelas: 12,
-      parceladoCentavos: 22700,
-      recorrenteCentavos: 24700,
-      pixCentavos: 229700,
+      parceladoCentavos: 18790,
+      recorrenteCentavos: 21790,
+      pixCentavos: 189700,
       mesesAcesso: 12,
-      ancoraCentavos: null,
+      ancoraCentavos: 229700,
     })
   })
 })
@@ -54,11 +54,11 @@ describe('DESCONTO_OFERTA_CENTAVOS', () => {
 })
 
 describe('antes do dia do evento', () => {
-  it('vale o preço cheio, sem âncora e com 12 meses', () => {
+  it('vale o preço com desconto, com o de antes riscado e 12 meses', () => {
     const p = precosVigentes(new Date(INICIO_OFERTA_ORA.getTime() - 1000))
     expect(p.emOferta).toBe(false)
-    expect(p.parceladoCentavos).toBe(22700)
-    expect(p.ancoraCentavos).toBeNull()
+    expect(p.parceladoCentavos).toBe(18790)
+    expect(p.ancoraCentavos).toBe(229700)
     expect(p.mesesAcesso).toBe(12)
   })
 })
@@ -92,7 +92,10 @@ describe('preços vindos da configuração', () => {
     ofertaFim: new Date('2026-11-02T02:59:59Z'),
   }
   it('usa a tabela e a janela configuradas', () => {
-    expect(precosVigentes(new Date('2026-10-24T15:00:00Z'), c).pixCentavos).toBe(300000)
+    expect(precosVigentes(new Date('2026-10-24T15:00:00Z'), c)).toMatchObject({
+      pixCentavos: 250000,
+      mesesAcesso: 12,
+    })
     const noDia = precosVigentes(new Date('2026-11-01T15:00:00Z'), c)
     expect(noDia).toMatchObject({
       emOferta: true,

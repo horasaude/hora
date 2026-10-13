@@ -3,19 +3,23 @@ import { estadoOferta, ofertaOraDisponivel } from './oferta'
 
 /** Valores em centavos. As parcelas são o valor de cada uma das 12. */
 export type Precos = {
+  /** Dia do evento (24/10): quem assina ganha o 13º mês. O preço com desconto vale sempre. */
   emOferta: boolean
   parcelas: number
   parceladoCentavos: number
   recorrenteCentavos: number
   pixCentavos: number
   mesesAcesso: number
-  /** Preço cheio no Pix, mostrado riscado só durante a oferta. */
+  /** Preço de antes no Pix, mostrado riscado ("de ... por ..."). */
   ancoraCentavos: number | null
 }
 
-/** Monta os preços de dentro ou de fora da oferta a partir da tabela configurada. */
+/**
+ * Preços da tabela configurada: sempre os com desconto (a "oferta"), com o preço de antes riscado.
+ * No dia do evento ORA, o acesso ganha o 13º mês; fora dele, 12 meses.
+ */
 export function precosPara(emOferta: boolean, c: Configuracao = CONFIGURACAO_PADRAO): Precos {
-  const t = emOferta ? c.oferta : c.cheio
+  const t = c.oferta
   return {
     emOferta,
     parcelas: 12,
@@ -23,7 +27,7 @@ export function precosPara(emOferta: boolean, c: Configuracao = CONFIGURACAO_PAD
     recorrenteCentavos: t.recorrente,
     pixCentavos: t.pix,
     mesesAcesso: emOferta ? 13 : 12,
-    ancoraCentavos: emOferta ? c.cheio.pix : null,
+    ancoraCentavos: c.cheio.pix,
   }
 }
 
@@ -34,7 +38,7 @@ export function descontoOferta(c: Configuracao = CONFIGURACAO_PADRAO): number {
 
 export const DESCONTO_OFERTA_CENTAVOS = descontoOferta()
 
-/** Preços que valem no instante informado: oferta do ORA dentro da janela, cheios fora. */
+/** Preços que valem no instante informado: com desconto sempre; 13º mês só dentro da janela. */
 export function precosVigentes(agora: Date, c: Configuracao = CONFIGURACAO_PADRAO): Precos {
   return precosPara(ofertaOraDisponivel(agora, c), c)
 }

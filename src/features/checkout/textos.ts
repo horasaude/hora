@@ -2,6 +2,7 @@
 
 export const textos = {
   oferta: (desconto: string) => `Oferta ORA: ${desconto} OFF + 1 mês grátis`,
+  ofertaSemMes: (desconto: string) => `Oferta ORA: ${desconto} OFF`,
   banner: {
     etiqueta: 'Comunidade',
     nome: 'ORA',

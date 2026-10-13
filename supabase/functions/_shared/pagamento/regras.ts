@@ -29,18 +29,17 @@ export function emOferta(agora: Date, c: ConfiguracaoPrecos): boolean {
   return t >= new Date(c.oferta_inicio).getTime() && t <= new Date(c.oferta_fim).getTime()
 }
 
-/** Preço decidido no servidor: oferta do ORA só dentro da janela configurada (24/10, horário de Brasília). */
+/**
+ * Preço decidido no servidor: sempre o com desconto (colunas *_oferta). Dentro da janela do evento
+ * (24/10, horário de Brasília) o pedido ganha o 13º mês; fora dela, 12 meses.
+ */
 export function precoPedido(plano: Plano, agora: Date, c: ConfiguracaoPrecos): PrecoPedido {
   const oferta = emOferta(agora, c)
   const mesesAcesso = oferta ? 13 : 12
-  if (plano === 'pix')
-    return { valorCentavos: oferta ? c.pix_oferta : c.pix_cheio, parcelas: 1, oferta, mesesAcesso }
-  if (plano === 'parcelado') {
-    const parcela = oferta ? c.parcelado_oferta : c.parcelado_cheio
-    return { valorCentavos: parcela * 12, parcelas: 12, oferta, mesesAcesso }
-  }
-  const mensal = oferta ? c.recorrente_oferta : c.recorrente_cheio
-  return { valorCentavos: mensal, parcelas: 12, oferta, mesesAcesso }
+  if (plano === 'pix') return { valorCentavos: c.pix_oferta, parcelas: 1, oferta, mesesAcesso }
+  if (plano === 'parcelado')
+    return { valorCentavos: c.parcelado_oferta * 12, parcelas: 12, oferta, mesesAcesso }
+  return { valorCentavos: c.recorrente_oferta, parcelas: 12, oferta, mesesAcesso }
 }
 
 /** Fim do acesso: aprovação + 12 meses (13 com a oferta do dia 24/10). */

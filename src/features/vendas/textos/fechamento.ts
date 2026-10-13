@@ -8,11 +8,14 @@ export const fechamento = {
       vantagem: 'Compre 12 meses e ganhe 1 mês grátis',
       selo: (desconto: string) => `Oferta ORA: ${desconto} OFF`,
       // Regra no domínio: só no dia 24/10/2026, de 00h00 a 23h59 de Brasília (src/domain/oferta.ts).
-      prazo: { antes: 'Só no dia 24/10, no evento ORA.', durante: 'É só hoje, até as 23h59.' },
+      prazo: {
+        antes: 'O mês grátis é só no dia 24/10, no evento ORA.',
+        durante: 'O mês grátis é só hoje, até as 23h59.',
+      },
       contagem: { antes: 'Começa em', durante: 'Termina em' },
       depois: {
-        antes: 'Até lá, valem os preços normais abaixo.',
-        durante: 'Depois disso, os valores voltam ao preço normal.',
+        antes: 'O desconto abaixo já vale; o mês grátis, só no dia.',
+        durante: 'Depois disso, o desconto continua, mas sem o mês grátis.',
       },
       unidades: { dias: 'dias', horas: 'horas', minutos: 'min', segundos: 'seg' },
     },
@@ -58,7 +61,7 @@ export const fechamento = {
       },
       {
         p: 'Quando vale a oferta do ORA?',
-        r: 'Somente no dia 24/10, no evento ORA, até as 23h59 (horário de Brasília). Nesse dia: R$ 400 de desconto no Pix, parcelas menores e 1 mês grátis.',
+        r: 'O desconto vale em todos os planos. Quem assinar no dia 24/10, no evento ORA, até as 23h59 (horário de Brasília), ganha também 1 mês grátis: são 13 meses de acesso.',
       },
       {
         p: 'Quando recebo o acesso?',

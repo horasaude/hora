@@ -30,9 +30,9 @@ describe('preço decidido no servidor', () => {
     expect(p).toEqual({ valorCentavos: P.oferta.pix, parcelas: 1, oferta: true, mesesAcesso: 13 })
   })
 
-  it('fora do dia 24/10 vale o preço cheio, com 12 meses', () => {
+  it('fora do dia 24/10 vale o mesmo preço com desconto, com 12 meses', () => {
     const p = precoPedido('pix', brasilia('2026-10-20T15:00:00'), config)
-    expect(p).toEqual({ valorCentavos: P.cheio.pix, parcelas: 1, oferta: false, mesesAcesso: 12 })
+    expect(p).toEqual({ valorCentavos: P.oferta.pix, parcelas: 1, oferta: false, mesesAcesso: 12 })
   })
 
   it('vira à meia-noite de Brasília, nos dois lados do dia', () => {

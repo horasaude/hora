@@ -22,7 +22,7 @@ describe('VendasPage', () => {
   it('na oferta: aviso com contagem no preço, três planos com o normal riscado e o 13º mês', () => {
     abrirEm(FIM_OFERTA_ORA.getTime() - 60_000)
     tem('Oferta ORA: R$ 400 OFF')
-    tem('É só hoje, até as 23h59.')
+    tem('O mês grátis é só hoje, até as 23h59.')
     tem('Termina em')
     expect(screen.getByRole('timer')).toBeInTheDocument()
     tem('12x R$ 187,90')
@@ -39,27 +39,28 @@ describe('VendasPage', () => {
     expect(screen.getByText('Garantia de 7 dias')).toBeInTheDocument()
   })
 
-  it('antes do dia 24/10: preço cheio, aviso da oferta e contagem até começar', () => {
+  it('antes do dia 24/10: preço com desconto e riscado, contagem até o mês grátis', () => {
     abrirEm(INICIO_OFERTA_ORA.getTime() - 3 * 86_400_000)
-    tem('Só no dia 24/10, no evento ORA.')
+    tem('O mês grátis é só no dia 24/10, no evento ORA.')
+    tem('Oferta ORA: R$ 400 OFF')
     tem('Começa em')
     expect(screen.getByRole('timer')).toBeInTheDocument()
-    tem('12x R$ 227')
-    tem('R$ 2.297')
-    naoTem('de R$ 2.297')
+    tem('12x R$ 187,90')
+    tem('R$ 1.897')
+    tem('de R$ 2.297')
     expect(screen.getAllByText('12 meses de acesso')).toHaveLength(3)
     expect(screen.queryByText('+1 mês grátis')).not.toBeInTheDocument()
     expect(screen.queryByText('13º mês de acesso grátis')).not.toBeInTheDocument()
   })
 
-  it('depois do prazo: preços cheios sem riscado, sem contagem e sem o 13º mês', () => {
+  it('depois do dia: o mesmo preço com desconto e riscado, sem contagem e sem o 13º mês', () => {
     abrirEm(FIM_OFERTA_ORA.getTime() + 1000)
     expect(screen.queryByRole('timer')).not.toBeInTheDocument()
-    naoTem('Oferta ORA: R$ 400 OFF')
-    naoTem('de R$ 2.297')
-    tem('12x R$ 227')
-    tem('R$ 2.297')
-    tem('12x R$ 247')
+    tem('Oferta ORA: R$ 400 OFF')
+    tem('de R$ 2.297')
+    tem('12x R$ 187,90')
+    tem('R$ 1.897')
+    tem('12x R$ 217,90')
     expect(screen.getAllByText('12 meses de acesso')).toHaveLength(3)
     expect(screen.queryByText('+1 mês grátis')).not.toBeInTheDocument()
     naoTem('Compre 12 meses e ganhe 1 mês grátis')

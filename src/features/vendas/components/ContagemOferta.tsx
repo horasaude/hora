@@ -7,11 +7,16 @@ import { textos } from '../textos'
 const t = textos.preco.oferta
 const dois = (n: number) => String(n).padStart(2, '0')
 
-/** Aviso da oferta do ORA: antes do dia conta até começar; no dia, até acabar; depois some. */
+/** Aviso da oferta: antes do dia conta até o mês grátis começar; no dia, até acabar; depois, só o selo do desconto. */
 export function ContagemOferta() {
   const config = useConfiguracao()
   const c = contagemOferta(useAgora(), config)
-  if (!c) return null
+  if (!c)
+    return (
+      <p className="mx-auto w-fit rounded-full bg-ora px-5 py-2 text-center text-sm font-semibold tracking-[0.14em] text-creme uppercase">
+        {t.selo(formatarPreco(descontoOferta(config)))}
+      </p>
+    )
   const { estado, tempo } = c
   const partes = [
     [tempo.dias, t.unidades.dias],

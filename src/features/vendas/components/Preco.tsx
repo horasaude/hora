@@ -1,4 +1,3 @@
-import { precosPara } from '@/domain/precos'
 import { useConfiguracao } from '@/features/configuracao'
 import { formatarPreco } from '@/lib/moeda'
 import { usePrecos } from '../hooks/usePrecos'
@@ -10,19 +9,19 @@ import { Secao } from './Secao'
 
 const t = textos.preco
 
-/** Três planos lado a lado. Na oferta, o preço normal aparece riscado; depois troca sozinho. */
+/** Três planos lado a lado, com o preço de antes riscado; no dia 24/10, o 13º mês grátis. */
 export function Preco() {
   const p = usePrecos()
-  const cheio = precosPara(false, useConfiguracao())
+  const cheio = useConfiguracao().cheio
   const vezes = t.vezes(p.parcelas)
-  const riscar = (texto: string) => (p.emOferta ? texto : null)
+  const riscar = (texto: string) => texto
   const acesso = t.acesso(p.mesesAcesso)
   const planos: DadosPlano[] = [
     {
       plano: 'parcelado',
       vezes,
       valor: formatarPreco(p.parceladoCentavos),
-      riscado: riscar(`${vezes} ${formatarPreco(cheio.parceladoCentavos)}`),
+      riscado: riscar(`${vezes} ${formatarPreco(cheio.parcelado)}`),
       acesso,
       mesGratis: p.emOferta,
       destaque: true,
@@ -31,7 +30,7 @@ export function Preco() {
     {
       plano: 'pix',
       valor: formatarPreco(p.pixCentavos),
-      riscado: riscar(formatarPreco(cheio.pixCentavos)),
+      riscado: riscar(formatarPreco(cheio.pix)),
       acesso,
       mesGratis: p.emOferta,
       ordem: 'md:order-1',
@@ -40,7 +39,7 @@ export function Preco() {
       plano: 'recorrente',
       vezes,
       valor: formatarPreco(p.recorrenteCentavos),
-      riscado: riscar(`${vezes} ${formatarPreco(cheio.recorrenteCentavos)}`),
+      riscado: riscar(`${vezes} ${formatarPreco(cheio.recorrente)}`),
       acesso,
       mesGratis: p.emOferta,
       ordem: 'md:order-3',
