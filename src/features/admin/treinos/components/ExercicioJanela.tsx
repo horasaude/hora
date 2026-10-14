@@ -67,7 +67,12 @@ export function ExercicioJanela({ e, aoFechar }: { e?: Exercicio; aoFechar: () =
         <CapaLive
           inicial={e?.foto_path ?? null}
           aoMudar={setFoto}
-          destino={{ espaco: 'treinos', pasta: 'exercicios', titulo: t.campos.foto }}
+          destino={{
+            espaco: 'treinos',
+            pasta: 'exercicios',
+            titulo: t.campos.foto,
+            uso: 'exercicio',
+          }}
         />
       }
       aoSalvar={async (d) => {

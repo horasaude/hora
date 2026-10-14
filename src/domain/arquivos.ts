@@ -1,4 +1,5 @@
-// Arquivos enviados pelo painel: materiais da aula (PDF, Word e imagens até 20 MB) e capa da live (imagem até 5 MB).
+// Arquivos enviados pelo painel: materiais da aula (PDF, Word e imagens até 20 MB), capa da live (imagem até 5 MB)
+// e imagem do exercício (imagem ou GIF animado até 5 MB).
 
 export type TipoMaterial = 'pdf' | 'imagem' | 'word' | 'link'
 
@@ -17,6 +18,7 @@ const EXTENSOES: Record<string, string> = {
   jpeg: 'image/jpeg',
   png: 'image/png',
   webp: 'image/webp',
+  gif: 'image/gif',
   doc: 'application/msword',
   docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 }
@@ -31,13 +33,18 @@ export type Recusa = 'tipo' | 'tamanho' | 'vazio'
 /** Confere tipo e tamanho; devolve o tipo do material ou o motivo da recusa. */
 export function validarArquivo(
   a: { name: string; type: string; size: number },
-  uso: 'material' | 'capa',
+  uso: 'material' | 'capa' | 'exercicio',
 ): { ok: true; tipo: Exclude<TipoMaterial, 'link'> } | { ok: false; motivo: Recusa } {
   const mime = tipoMime(a.name, a.type)
-  const aceitos = uso === 'capa' ? IMAGENS : ['application/pdf', ...WORD, ...IMAGENS]
+  const aceitos =
+    uso === 'material'
+      ? ['application/pdf', ...WORD, ...IMAGENS]
+      : uso === 'exercicio'
+        ? [...IMAGENS, 'image/gif']
+        : IMAGENS
   if (!aceitos.includes(mime)) return { ok: false, motivo: 'tipo' }
   if (a.size <= 0) return { ok: false, motivo: 'vazio' }
-  if (a.size > (uso === 'capa' ? LIMITE_CAPA : LIMITE_MATERIAL))
+  if (a.size > (uso === 'material' ? LIMITE_MATERIAL : LIMITE_CAPA))
     return { ok: false, motivo: 'tamanho' }
   const tipo = mime === 'application/pdf' ? 'pdf' : WORD.includes(mime) ? 'word' : 'imagem'
   return { ok: true, tipo }

@@ -2,6 +2,13 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-16 · main · GIFs nos exercícios
+
+- 27 dos 30 exercícios ganharam GIF animado da biblioteca usada no Bora Treinar (ExerciseDB), copiado para o espaço treinos (exercicios/<id>.gif); conferidos um a um. Sem GIF fiel: Coice de glúteo em quatro apoios, Prancha frontal e Abdominal remador (precisam de vídeo ou imagem da equipe).
+- Espaço treinos aceita image/gif (20261016090000_treinos_gif); no painel, a imagem do exercício aceita GIF até 5 MB (validarArquivo uso 'exercicio'); capa da live e materiais continuam sem GIF.
+- Aluna: GIF aparece inteiro (quadrado, fundo branco, até 300 px) em vez de cortado em 16:9. Vídeo do exercício continua na frente da imagem.
+- GIFs da ExerciseDB vêm em 180 px no plano atual; uso comercial depende do plano contratado (conferir termos).
+
 ## 2026-10-15 · main · Módulo de Treinos (painel e aluna)
 
 - Banco (20261015090000_treinos, suíte treinos no PGlite): exercicios (30 básicos sem vídeo para a Laís completar), treinos, treino_exercicios, rotinas, rotina_treinos, treinos_feitos, nível e local na conta. Aluna lê só o publicado do tema dela (Preparação antes do tema); exercícios e fotos só com acesso ativo; treinos_feitos só os dela.

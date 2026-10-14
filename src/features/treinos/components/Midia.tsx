@@ -3,7 +3,7 @@ import { linkDeIncorporacao } from '@/lib/video'
 import { linkDaFoto } from '../api/treinos.api'
 import { textos } from '../textos'
 
-/** Demonstração do exercício: vídeo; sem vídeo, a foto; sem os dois, um aviso discreto. */
+/** Demonstração do exercício: vídeo; sem vídeo, a foto (GIF quadrado inteiro, sem corte); sem os dois, um aviso discreto. */
 export function Midia({ nome, video, foto }: { nome: string; video: string; foto: string | null }) {
   const link = linkDeIncorporacao(video)
   const url = useQuery({
@@ -22,6 +22,12 @@ export function Midia({ nome, video, foto }: { nome: string; video: string; foto
           allow="encrypted-media; picture-in-picture; fullscreen"
           allowFullScreen
         />
+      </div>
+    )
+  if (url && foto?.endsWith('.gif'))
+    return (
+      <div className="flex justify-center rounded-[20px] bg-white py-2">
+        <img src={url} alt={nome} className="aspect-square w-full max-w-[300px] object-contain" />
       </div>
     )
   if (url)

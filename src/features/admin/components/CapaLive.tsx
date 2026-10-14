@@ -11,8 +11,9 @@ const t = textos.arquivos
 
 export type EstadoCapa = { caminho: string | null; enviando: boolean }
 
-/** Onde a imagem fica: espaço (bucket) e pasta. Padrão: capas das lives no espaço materiais. */
-export type Destino = { espaco: string; pasta: string; titulo?: string }
+/** Onde a imagem fica: espaço (bucket) e pasta. Padrão: capas das lives no espaço materiais.
+ * uso 'exercicio' aceita também GIF animado. */
+export type Destino = { espaco: string; pasta: string; titulo?: string; uso?: 'capa' | 'exercicio' }
 const CAPAS: Destino = { espaco: 'materiais', pasta: 'capas' }
 
 /** Link de leitura da imagem já salva (o painel lê o espaço). */
@@ -37,7 +38,7 @@ function useCapa(inicial: string | null, aoMudar: (c: EstadoCapa) => void, d: De
   const escolher = (arquivos: File[]) => {
     const f = arquivos[0]
     if (!f) return
-    const v = validarArquivo(f, 'capa')
+    const v = validarArquivo(f, d.uso ?? 'capa')
     if (!v.ok) return setAviso(t.recusado(f.name, v.motivo))
     setAviso(null)
     const ext = tipoMime(f.name, f.type).split('/')[1]?.replace('jpeg', 'jpg') ?? 'jpg'

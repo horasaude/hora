@@ -83,6 +83,19 @@ describe('validação de arquivo: recusas', () => {
       motivo: 'tipo',
     })
   })
+  it('imagem do exercício aceita GIF até 5 MB; capa e material não', () => {
+    expect(validarArquivo(arquivo('agachamento.gif', 'image/gif', MB), 'exercicio')).toEqual({
+      ok: true,
+      tipo: 'imagem',
+    })
+    expect(validarArquivo(arquivo('a.gif', '', MB), 'exercicio').ok).toBe(true)
+    expect(validarArquivo(arquivo('a.gif', 'image/gif', 5 * MB + 1), 'exercicio')).toEqual({
+      ok: false,
+      motivo: 'tamanho',
+    })
+    expect(validarArquivo(arquivo('a.gif', 'image/gif', MB), 'capa').ok).toBe(false)
+    expect(validarArquivo(arquivo('a.gif', 'image/gif', MB), 'material').ok).toBe(false)
+  })
   it('tamanho e nome legíveis', () => {
     expect(formatarTamanho(850 * 1024)).toBe('850 KB')
     expect(formatarTamanho(2.4 * MB)).toBe('2,4 MB')
