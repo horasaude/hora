@@ -264,3 +264,6 @@ update public.anamneses set publicada = true;
 insert into public.anamnese_respostas (anamnese_id, perfil_id, respostas)
 select id, 'aaaaaaaa-0000-0000-0000-000000000040', '{"objetivo": "Emagrecer", "treina": "nao"}'
 from public.anamneses;
+
+insert into public.arquivos_aluna (perfil_id, nome, caminho, tipo, tamanho) values
+  ('aaaaaaaa-0000-0000-0000-000000000040', 'Plano de treino de outubro', 'aaaaaaaa-0000-0000-0000-000000000040/plano.pdf', 'pdf', 248000);

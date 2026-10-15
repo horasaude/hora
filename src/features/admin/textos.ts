@@ -6,6 +6,11 @@ import { conteudo, erros } from './textos/conteudo'
 import { vazios } from './textos/vazios'
 
 export const textos = {
+  arquivosAluna: {
+    titulo: 'Arquivos da aluna',
+    vazio: 'Nenhum arquivo enviado para ela.',
+    enviar: 'Enviar arquivo',
+  },
   painel: 'Painel',
   sair: 'Ir para a área da aluna',
   logadaComo: 'Logada como',

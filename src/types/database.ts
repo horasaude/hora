@@ -176,6 +176,54 @@ export type Database = {
         }
         Relationships: []
       }
+      arquivos_aluna: {
+        Row: {
+          caminho: string
+          created_at: string
+          enviado_por: string | null
+          id: string
+          nome: string
+          perfil_id: string
+          tamanho: number | null
+          tipo: string
+        }
+        Insert: {
+          caminho: string
+          created_at?: string
+          enviado_por?: string | null
+          id?: string
+          nome: string
+          perfil_id: string
+          tamanho?: number | null
+          tipo: string
+        }
+        Update: {
+          caminho?: string
+          created_at?: string
+          enviado_por?: string | null
+          id?: string
+          nome?: string
+          perfil_id?: string
+          tamanho?: number | null
+          tipo?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "arquivos_aluna_enviado_por_fkey"
+            columns: ["enviado_por"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "arquivos_aluna_perfil_id_fkey"
+            columns: ["perfil_id"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       assinaturas: {
         Row: {
           created_at: string

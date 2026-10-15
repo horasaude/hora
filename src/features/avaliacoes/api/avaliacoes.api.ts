@@ -53,3 +53,30 @@ export async function salvarRespostas(d: {
   )
   if (error) throw error
 }
+
+export type MeuArquivo = {
+  id: string
+  nome: string
+  caminho: string
+  tipo: string
+  created_at: string
+}
+
+/** Arquivos que a equipe mandou para ela (plano, dieta, exame). */
+export async function listarMeusArquivos(): Promise<MeuArquivo[]> {
+  const { data: u } = await supabase.auth.getUser()
+  const { data, error } = await supabase
+    .from('arquivos_aluna')
+    .select('id, nome, caminho, tipo, created_at')
+    .eq('perfil_id', u.user?.id ?? '')
+    .order('created_at', { ascending: false })
+  if (error) throw error
+  return data
+}
+
+export async function linkDoMeuArquivo(caminho: string): Promise<string | null> {
+  const { data } = await supabase.storage
+    .from('arquivos_aluna')
+    .createSignedUrl(caminho, 300, { download: true })
+  return data?.signedUrl ?? null
+}

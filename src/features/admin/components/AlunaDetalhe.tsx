@@ -6,6 +6,7 @@ import { useCodigoIndicacao } from '../pontos/hooks/usePontos'
 import { linkIndicacao, t as tPontos } from '../pontos/textos'
 import { textos } from '../textos'
 import { LiberarAcesso } from '../acesso/LiberarAcesso'
+import { ArquivosDaAluna } from '../arquivosAluna/ArquivosDaAluna'
 import { RespostasAnamnese } from '../treinos/components/RespostasAnamnese'
 import { CartaoDetalhe, Dados } from './CartaoDetalhe'
 import { Etiqueta } from './Tabela'
@@ -60,6 +61,7 @@ export function AlunaDetalhe({
         />
       </section>
       <RespostasAnamnese perfil={a.id} />
+      <ArquivosDaAluna perfil={a.id} />
       <LiberarAcesso perfil={a.id} />
     </CartaoDetalhe>
   )

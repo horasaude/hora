@@ -33,4 +33,6 @@ export const textos = {
   faltam: (n: number) =>
     n === 1 ? '1 avaliação para responder' : `${n} avaliações para responder`,
   tudoRespondido: 'Tudo respondido.',
+  arquivos: 'Arquivos da equipe',
+  baixar: 'Baixar',
 }

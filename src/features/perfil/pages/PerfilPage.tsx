@@ -1,3 +1,4 @@
+import { ArquivosDaEquipe } from '@/features/avaliacoes'
 import { Evolucao } from '@/features/evolucao'
 import { TreinosFeitos } from '@/features/treinos'
 import { Historico } from '../components/Historico'
@@ -14,6 +15,7 @@ export function PerfilPage() {
         <Evolucao />
         <div className="flex flex-col gap-5 lg:gap-6">
           <TreinosFeitos />
+          <ArquivosDaEquipe />
           <Historico />
         </div>
       </div>

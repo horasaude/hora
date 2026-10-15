@@ -2,6 +2,13 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-19 · main · Arquivos por aluna
+
+- Banco (20261019090000_arquivos_aluna, suíte com 37 checagens): arquivos_aluna (caminho sempre na pasta da aluna) e espaço privado arquivos_aluna (PDF, Word e imagens até 20 MB). Equipe envia, abre e apaga; a aluna com acesso ativo só lê e baixa os dela.
+- Painel: cartão da aluna em Alunas ganhou Arquivos da aluna (Enviar arquivo com progresso, abrir, remover com confirmação) e Anamnese.
+- Aluna: Minha evolução mostra Arquivos da equipe com Baixar (link de 5 minutos); some quando não há arquivo.
+- O envio real de arquivo não foi testado em produção (a demonstração não tem espaço de arquivos); conferir com um PDF de teste.
+
 ## 2026-10-18 · main · Anamnese (Avaliações)
 
 - Banco (20261018090000_anamnese, suíte anamnese com 40 checagens): anamneses (perguntas em jsonb validadas por perguntas_validas: texto, sim ou não, escolha com 2 a 12 opções) e anamnese_respostas (só a dona e a equipe leem; a aluna edita até enviar; a equipe apaga para pedir de novo). Anamnese inicial semeada como rascunho, com 9 perguntas para a equipe revisar antes de publicar.
