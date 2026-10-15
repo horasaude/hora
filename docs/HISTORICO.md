@@ -2,6 +2,13 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-20 · main · Aeróbico
+
+- Banco (20261020090000_treinos_aerobico): treinos.categoria (musculacao ou aerobico; salvar_treino grava) e 10 modalidades de cardio na biblioteca (caminhada, corrida, esteira, bike, elíptico, escada, remo, pular corda, dança). Suíte treinos com 62 checagens.
+- Painel: Tipo de treino (Musculação ou Aeróbico); no aeróbico os campos viram Blocos, Duração, Intensidade e Pausa entre blocos (contexto Rotulos), e Adicionar exercício já abre filtrado em Cardio. Etiqueta Aeróbico na lista.
+- Aluna: Treinos com abas Musculação e Aeróbico (Outros treinos só de musculação); execução mostra "2 blocos de 15 min" e "Intensidade: Moderada".
+- Formato montado sem ver o aeróbico do MFIT (vazio na aluna de teste); ajustar se a Laís usar de outro jeito.
+
 ## 2026-10-19 · main · Arquivos por aluna
 
 - Banco (20261019090000_arquivos_aluna, suíte com 37 checagens): arquivos_aluna (caminho sempre na pasta da aluna) e espaço privado arquivos_aluna (PDF, Word e imagens até 20 MB). Equipe envia, abre e apaga; a aluna com acesso ativo só lê e baixa os dela.

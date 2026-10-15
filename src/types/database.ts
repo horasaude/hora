@@ -2387,6 +2387,7 @@ export type Database = {
         Row: {
           alongamento: string
           aquecimento: string
+          categoria: string
           created_at: string
           descricao: string
           duracao_minutos: number | null
@@ -2402,6 +2403,7 @@ export type Database = {
         Insert: {
           alongamento?: string
           aquecimento?: string
+          categoria?: string
           created_at?: string
           descricao?: string
           duracao_minutos?: number | null
@@ -2417,6 +2419,7 @@ export type Database = {
         Update: {
           alongamento?: string
           aquecimento?: string
+          categoria?: string
           created_at?: string
           descricao?: string
           duracao_minutos?: number | null

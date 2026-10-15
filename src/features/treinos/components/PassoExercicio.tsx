@@ -6,7 +6,12 @@ import { Midia } from './Midia'
 
 const t = textos.execucao
 
-type Props = { item: ExercicioDoTreino; feitas: number; aoTocar: (serie: number) => void }
+type Props = {
+  item: ExercicioDoTreino
+  feitas: number
+  aoTocar: (serie: number) => void
+  aerobico?: boolean
+}
 
 /** Bolinhas das séries: toca conforme faz (tocar numa já feita desmarca dali em diante). */
 function Series({
@@ -55,7 +60,7 @@ function ListaSeries({ series }: { series: Serie[] }) {
 }
 
 /** Um exercício: demonstração, nome, séries, carga, alternativo, instruções recolhíveis e as séries. */
-export function PassoExercicio({ item, feitas, aoTocar }: Props) {
+export function PassoExercicio({ item, feitas, aoTocar, aerobico = false }: Props) {
   const [usarAlternativo, setUsarAlternativo] = useState(false)
   const e = usarAlternativo && item.alternativo ? item.alternativo : item.exercicio
   const series = seriesDoItem(item)
@@ -64,9 +69,13 @@ export function PassoExercicio({ item, feitas, aoTocar }: Props) {
       <Midia nome={e.nome} video={e.video_url} foto={e.foto_path} />
       <header>
         <h2 className="text-[24px] leading-tight font-bold text-verde-escuro">{e.nome}</h2>
-        <p className="mt-1 text-[17px] font-bold text-coral">{resumoSeries(series)}</p>
+        <p className="mt-1 text-[17px] font-bold text-coral">
+          {aerobico ? t.bloco(series.length, item.repeticoes) : resumoSeries(series)}
+        </p>
         {item.carga && series.every((x) => x.carga === item.carga) && (
-          <p className="text-sm text-suave">{t.carga(item.carga)}</p>
+          <p className="text-sm text-suave">
+            {aerobico ? t.intensidade(item.carga) : t.carga(item.carga)}
+          </p>
         )}
         {item.observacao && <p className="mt-1 text-sm text-tinta">{item.observacao}</p>}
         {item.alternativo && (

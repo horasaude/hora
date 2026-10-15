@@ -1,5 +1,7 @@
 // Textos do módulo Treinos no painel. Os componentes só leem daqui.
 
+import { anamnese } from './textosAnamnese'
+
 export const t = {
   titulo: 'Treinos',
   abas: {
@@ -46,6 +48,7 @@ export const t = {
   comVideo: 'Com vídeo',
   semVideo: 'Sem vídeo',
   min: (n: number) => `${n} min`,
+  aerobicoEtiqueta: 'Aeróbico',
   campos: {
     nome: 'Nome',
     nomeTreino: 'Nome do treino (ex.: Treino A: inferiores)',
@@ -65,6 +68,7 @@ export const t = {
     aquecimento: 'Aquecimento (opcional)',
     alongamento: 'Alongamento (opcional)',
     orientacoes: 'Orientações gerais (opcional)',
+    categoria: 'Tipo de treino',
     tipo: 'Tipo dos treinos',
     objetivo: 'Objetivo',
     semObjetivo: 'Sem objetivo definido',
@@ -103,6 +107,20 @@ export const t = {
     removerSerie: (n: number) => `Remover série ${n}`,
     mais: (n: string) => `Mais ações de ${n}`,
   },
+  rotulos: {
+    musculacao: {
+      series: 'Séries',
+      repeticoes: 'Repetições ou tempo',
+      carga: 'Carga sugerida',
+      descanso: 'Descanso (s)',
+    },
+    aerobico: {
+      series: 'Blocos',
+      repeticoes: 'Duração (ex.: 20 min)',
+      carga: 'Intensidade (leve, moderada, forte)',
+      descanso: 'Pausa entre blocos (s)',
+    },
+  },
   dias: 'Dias da semana',
   sequencia: 'Treinos na ordem',
   treinosN: (n: number) => (n === 1 ? '1 treino em sequência' : `${n} treinos em sequência`),
@@ -122,31 +140,5 @@ export const t = {
     semSequencia: 'Escolha pelo menos um treino',
   },
   removerConfirma: (n: string) => `Remover ${n}?`,
-  anamnese: {
-    nova: '+ Nova anamnese',
-    editar: 'Editar anamnese',
-    vazio: 'Nenhuma anamnese ainda.',
-    colunas: ['Anamnese', 'Perguntas', 'Respondidas', 'Status', ''],
-    publicada: 'Visível para alunas',
-    titulo: 'Título',
-    descricao: 'Texto de abertura (opcional)',
-    perguntas: 'Perguntas',
-    pergunta: (n: number) => `Pergunta ${n}`,
-    tipo: 'Tipo de resposta',
-    opcoes: 'Opções (uma por linha)',
-    obrigatoria: 'Obrigatória',
-    adicionar: '+ Adicionar pergunta',
-    semPerguntas: 'Adicione pelo menos uma pergunta.',
-    erroTexto: (n: number) => `Escreva a pergunta ${n}.`,
-    erroOpcoes: (n: number) => `A pergunta ${n} precisa de pelo menos duas opções.`,
-    subir: (n: number) => `Subir a pergunta ${n}`,
-    descer: (n: number) => `Descer a pergunta ${n}`,
-    tirar: (n: number) => `Tirar a pergunta ${n}`,
-    tirarDoAr: 'Tirar do ar',
-    daAluna: 'Anamnese',
-    naoRespondeu: 'Ainda não respondeu nenhuma anamnese.',
-    respondidaEm: (d: string) => `Respondida em ${d}`,
-    emAndamento: 'Começou e ainda não enviou',
-    pedirDeNovo: 'Pedir para responder de novo',
-  },
+  anamnese,
 }

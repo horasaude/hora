@@ -267,3 +267,7 @@ from public.anamneses;
 
 insert into public.arquivos_aluna (perfil_id, nome, caminho, tipo, tamanho) values
   ('aaaaaaaa-0000-0000-0000-000000000040', 'Plano de treino de outubro', 'aaaaaaaa-0000-0000-0000-000000000040/plano.pdf', 'pdf', 248000);
+
+update public.treinos set categoria = 'aerobico' where id = 'bbbbbbbb-0000-0000-0000-000000000004';
+update public.treino_exercicios set series = 2, repeticoes = '15 min', carga = 'Moderada', descanso_segundos = 60
+where treino_id = 'bbbbbbbb-0000-0000-0000-000000000004';

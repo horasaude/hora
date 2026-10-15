@@ -44,6 +44,9 @@ function Linha({ x, abrir, tema }: { x: TreinoLista; abrir: (a: Aberta) => void;
         {x.duracao_minutos && (
           <span className="ml-2 font-normal text-suave">{t.min(x.duracao_minutos)}</span>
         )}
+        {x.categoria === 'aerobico' && (
+          <span className="ml-2 text-[11px] font-bold text-coral">{t.aerobicoEtiqueta}</span>
+        )}
       </td>
       <td className="px-3.5 py-3">{tema}</td>
       <td className="px-3.5 py-3">{nivelLocal(x.nivel, x.local)}</td>

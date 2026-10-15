@@ -16,13 +16,14 @@ import { textos } from '../textos'
 
 const t = textos.execucao
 
-function Passo({ x }: { x: ReturnType<typeof useExecucao> }) {
+function Passo({ x, aerobico }: { x: ReturnType<typeof useExecucao>; aerobico: boolean }) {
   const p = x.passo
   if (!p) return null
   if (p.tipo !== 'exercicio') return <PassoTexto titulo={t[p.tipo]} texto={p.texto} />
   return (
     <PassoExercicio
       item={p.item}
+      aerobico={aerobico}
       feitas={x.marcadas[String(p.indice)] ?? 0}
       aoTocar={(s) =>
         x.tocarSerie(
@@ -58,7 +59,7 @@ function Execucao({ treino, voltar }: { treino: TreinoCompleto; voltar: string }
         pct={pct}
         nome={treino.nome}
       />
-      <Passo x={x} />
+      <Passo x={x} aerobico={treino.categoria === 'aerobico'} />
       {x.descanso && (
         <Descanso d={x.descanso} som={som} aoMudarSom={setSom} aoFechar={x.fecharDescanso} />
       )}

@@ -195,6 +195,30 @@ async function estiloMfit(t) {
   )
 }
 
+async function aerobico(t) {
+  const { esperaValor } = t
+  await t.comoAluna(ADMIN)
+  await t.db.query(`select public.salvar_treino(
+    jsonb_build_object('nome', 'Bike leve', 'tema_id', ${tema('emagrecimento')}, 'nivel', 'iniciante', 'local', 'academia',
+      'categoria', 'aerobico', 'publicado', true),
+    jsonb_build_array(jsonb_build_object('exercicio_id', ${ex('Bicicleta ergométrica')}, 'series', 1, 'repeticoes', '20 min', 'carga', 'Moderada')))`)
+  await esperaValor(
+    'treino aeróbico guarda o tipo',
+    `select categoria from public.treinos where nome = 'Bike leve'`,
+    'aerobico',
+  )
+  await esperaValor(
+    'treino sem tipo é musculação',
+    `select categoria from public.treinos where nome = 'Treino A'`,
+    'musculacao',
+  )
+  await esperaValor(
+    'modalidades de cardio na biblioteca',
+    `select (count(*) >= 10)::text from public.exercicios where grupo = 'cardio'`,
+    'true',
+  )
+}
+
 export async function testarTreinos() {
   const t = await criarBanco()
   await montar(t.db)
@@ -202,5 +226,6 @@ export async function testarTreinos() {
   await feitos(t)
   await painel(t)
   await estiloMfit(t)
+  await aerobico(t)
   return t.fim('treinos')
 }

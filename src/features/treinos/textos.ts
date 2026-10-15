@@ -21,6 +21,8 @@ export const textos = {
   orientacoes: 'Orientações da professora',
   outros: 'Outros treinos',
   semOutros: 'Nenhum outro treino para o seu nível e local ainda.',
+  aerobico: 'Aeróbicos',
+  semAerobico: 'Nenhum aeróbico para o seu nível e local ainda.',
   minutos: (n: number) => `${n} min`,
   exercicios: (n: number) => (n === 1 ? '1 exercício' : `${n} exercícios`),
   escolha: {
@@ -53,6 +55,8 @@ export const textos = {
     alongamento: 'Alongamento',
     series: (s: number, r: string) => `${s} x ${r}`,
     carga: (c: string) => `Carga sugerida: ${c}`,
+    intensidade: (c: string) => `Intensidade: ${c}`,
+    bloco: (n: number, duracao: string) => (n > 1 ? `${n} blocos de ${duracao}` : duracao),
     instrucoes: 'Como fazer',
     erros: 'Erros comuns',
     serie: (n: number, feita: boolean) => `Série ${n}${feita ? ', feita' : ''}`,

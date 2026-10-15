@@ -63,11 +63,18 @@ type Props = {
   multiplo: boolean
   aoConfirmar: (lista: Exercicio[]) => void
   aoFechar: () => void
+  grupoInicial?: string
 }
 
 /** Biblioteca dentro do treino: busca, grupo, favoritos; escolhe um (trocar, alternativo) ou vários. */
-export function EscolherExercicios({ titulo, multiplo, aoConfirmar, aoFechar }: Props) {
-  const [f, setF] = useState({ busca: '', grupo: '', soFavoritos: false })
+export function EscolherExercicios({
+  titulo,
+  multiplo,
+  aoConfirmar,
+  aoFechar,
+  grupoInicial = '',
+}: Props) {
+  const [f, setF] = useState({ busca: '', grupo: grupoInicial, soFavoritos: false })
   const [escolhidos, setEscolhidos] = useState<Exercicio[]>([])
   const lista = useExercicios(f.busca, f.grupo).data ?? []
   const favoritos = new Set(useFavoritos().data ?? [])

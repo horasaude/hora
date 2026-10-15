@@ -8,6 +8,7 @@ import { t } from '../textos'
 import { AdicionarExercicio } from './AdicionarExercicio'
 import { BlocoOpcional, CamposTreino } from './CamposTreino'
 import { ItensTreino } from './ItensTreino'
+import { Rotulos } from './rotulos'
 
 type Props = { treino?: Treino; itensIniciais?: ItemTreino[]; aoFechar: () => void }
 
@@ -42,19 +43,43 @@ function Rodape({
   )
 }
 
-const novoItem = (e: Exercicio): ItemTreino => ({
+const novoItem = (e: Exercicio, aerobico: boolean): ItemTreino => ({
   chave: crypto.randomUUID(),
   nome: e.nome,
   exercicio_id: e.id,
-  series: 3,
-  repeticoes: '12',
-  carga: '',
-  descanso_segundos: 60,
+  series: aerobico ? 1 : 3,
+  repeticoes: aerobico ? '20 min' : '12',
+  carga: aerobico ? 'Moderada' : '',
+  descanso_segundos: aerobico ? 0 : 60,
   observacao: '',
   series_detalhe: [],
   alternativo_id: null,
   alternativo_nome: '',
 })
+
+/** Exercícios do treino; no aeróbico, os campos viram blocos, duração e intensidade. */
+function ExerciciosDoTreino({
+  aerobico,
+  itens,
+  setItens,
+}: {
+  aerobico: boolean
+  itens: ItemTreino[]
+  setItens: (x: ItemTreino[]) => void
+}) {
+  return (
+    <Rotulos.Provider value={aerobico ? t.rotulos.aerobico : t.rotulos.musculacao}>
+      <section className="flex flex-col gap-3 sm:col-span-2">
+        <h3 className="text-sm font-bold text-verde-escuro">{t.itens.titulo}</h3>
+        <ItensTreino itens={itens} mudar={setItens} />
+        <AdicionarExercicio
+          grupoInicial={aerobico ? 'cardio' : ''}
+          aoEscolher={(lista) => setItens([...itens, ...lista.map((e) => novoItem(e, aerobico))])}
+        />
+      </section>
+    </Rotulos.Provider>
+  )
+}
 
 /** Montar treino: dados, aquecimento, exercícios da biblioteca, alongamento; rascunho, publicar e duplicar. */
 export function TreinoJanela({ treino, itensIniciais = [], aoFechar }: Props) {
@@ -90,13 +115,11 @@ export function TreinoJanela({ treino, itensIniciais = [], aoFechar }: Props) {
           rotulo={t.campos.aquecimento}
           {...register('aquecimento')}
         />
-        <section className="flex flex-col gap-3 sm:col-span-2">
-          <h3 className="text-sm font-bold text-verde-escuro">{t.itens.titulo}</h3>
-          <ItensTreino itens={itens} mudar={setItens} />
-          <AdicionarExercicio
-            aoEscolher={(lista) => setItens([...itens, ...lista.map(novoItem)])}
-          />
-        </section>
+        <ExerciciosDoTreino
+          aerobico={form.watch('categoria') === 'aerobico'}
+          itens={itens}
+          setItens={setItens}
+        />
         <BlocoOpcional
           id="treino-alongamento"
           rotulo={t.campos.alongamento}

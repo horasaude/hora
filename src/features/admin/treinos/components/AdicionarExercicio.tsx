@@ -4,7 +4,13 @@ import { t } from '../textos'
 import { EscolherExercicios } from './EscolherExercicios'
 
 /** "Adicionar exercício": abre a biblioteca e devolve todos os escolhidos de uma vez. */
-export function AdicionarExercicio({ aoEscolher }: { aoEscolher: (lista: Exercicio[]) => void }) {
+export function AdicionarExercicio({
+  aoEscolher,
+  grupoInicial = '',
+}: {
+  aoEscolher: (lista: Exercicio[]) => void
+  grupoInicial?: string
+}) {
   const [aberto, setAberto] = useState(false)
   if (!aberto)
     return (
@@ -20,6 +26,7 @@ export function AdicionarExercicio({ aoEscolher }: { aoEscolher: (lista: Exercic
     <EscolherExercicios
       titulo={t.itens.adicionar}
       multiplo
+      grupoInicial={grupoInicial}
       aoConfirmar={(lista) => {
         aoEscolher(lista)
         setAberto(false)

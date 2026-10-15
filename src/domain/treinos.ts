@@ -43,6 +43,9 @@ export const OBJETIVOS = {
   qualidade_vida: 'Qualidade de vida',
 } as const
 
+/** Musculação ou aeróbico (aba própria para a aluna, como no MFIT). */
+export const CATEGORIAS = { musculacao: 'Musculação', aerobico: 'Aeróbico' } as const
+
 /** Rotina por dia da semana ou numérica (Treino 1, 2, 3 na ordem, sem dia fixo). */
 export const TIPOS_ROTINA = {
   semana: 'Dia da semana',

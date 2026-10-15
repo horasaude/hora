@@ -1,10 +1,11 @@
 import { useMemo, useState } from 'react'
+import { Abas } from '@/components/ui'
 import { useMeuPerfil } from '@/features/auth'
 import { AvisoAnamnese } from '@/features/avaliacoes'
-import { diaDaSemanaBrasilia } from '@/domain/treinos'
+import { CATEGORIAS, diaDaSemanaBrasilia } from '@/domain/treinos'
 import { diaEmBrasilia } from '@/lib/datas'
 import { EscolhaNivelLocal } from '../components/EscolhaNivelLocal'
-import { CartaoTreino } from '../components/CartaoTreino'
+import { ListaTreinos } from '../components/ListaTreinos'
 import { Estado } from '../components/Estado'
 import { SemanaTreinos, TreinoDeHoje } from '../components/Hoje'
 import { Orientacoes, TreinoDaSequencia } from '../components/Sequencia'
@@ -19,7 +20,10 @@ import { useLinkTreino } from '../hooks/useLinkTreino'
 import { usePreviaTreinos } from '../previa'
 import { textos } from '../textos'
 
-function Conteudo({ nivel, local }: { nivel: string; local: string }) {
+type Aba = keyof typeof CATEGORIAS
+const ABAS = (Object.keys(CATEGORIAS) as Aba[]).map((id) => ({ id, nome: CATEGORIAS[id] }))
+
+function Conteudo({ nivel, local, aba }: { nivel: string; local: string; aba: Aba }) {
   const rotina = useRotina(nivel, local)
   const outros = useTreinosDoNivel(nivel, local)
   const feitosQ = useFeitosDaSemana()
@@ -40,7 +44,17 @@ function Conteudo({ nivel, local }: { nivel: string; local: string }) {
   if (rotina.isError || outros.isError)
     return <Estado tipo="erro" tentar={() => (rotina.refetch(), outros.refetch())} />
   const daRotina = new Set(rotina.data?.dias.map((d) => d.treino.id))
-  const lista = outros.data.filter((x) => !daRotina.has(x.id))
+  const lista = outros.data.filter((x) => !daRotina.has(x.id) && x.categoria !== 'aerobico')
+  if (aba === 'aerobico')
+    return (
+      <ListaTreinos
+        titulo={textos.aerobico}
+        vazio={textos.semAerobico}
+        lista={outros.data.filter((x) => x.categoria === 'aerobico')}
+        feitos={feitos}
+        link={link}
+      />
+    )
   return (
     <div className="flex flex-col gap-7">
       {rotina.data?.tipo === 'numerico' ? (
@@ -58,20 +72,13 @@ function Conteudo({ nivel, local }: { nivel: string; local: string }) {
       ) : (
         <Estado tipo="vazio" texto={textos.semRotina} />
       )}
-      <section className="flex flex-col gap-3">
-        <h2 className="text-[19px] font-bold text-verde-escuro">{textos.outros}</h2>
-        {lista.length === 0 ? (
-          <p className="text-sm text-suave">{textos.semOutros}</p>
-        ) : (
-          <ul className="grid gap-3 lg:grid-cols-2">
-            {lista.map((x) => (
-              <li key={x.id}>
-                <CartaoTreino x={x} para={link(x.id)} feito={feitos.has(x.id)} />
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
+      <ListaTreinos
+        titulo={textos.outros}
+        vazio={textos.semOutros}
+        lista={lista}
+        feitos={feitos}
+        link={link}
+      />
     </div>
   )
 }
@@ -81,6 +88,7 @@ export function TreinosPage() {
   const prefs = usePreferencias()
   const perfil = useMeuPerfil()
   const previa = usePreviaTreinos()
+  const [aba, setAba] = useState<Aba>('musculacao')
   if (prefs.isPending || perfil.isPending) return <Estado tipo="carregando" />
   if (prefs.isError) return <Estado tipo="erro" tentar={() => prefs.refetch()} />
   const nivel =
@@ -90,7 +98,14 @@ export function TreinosPage() {
     <section className="flex flex-col gap-6 font-sistema">
       <h1 className="text-[26px] font-bold text-verde-escuro">{textos.titulo}</h1>
       {!previa && <AvisoAnamnese />}
-      {nivel && local ? <Conteudo nivel={nivel} local={local} /> : <EscolhaNivelLocal />}
+      {nivel && local ? (
+        <>
+          <Abas opcoes={ABAS} ativa={aba} aoEscolher={setAba} rotulo={textos.titulo} />
+          <Conteudo nivel={nivel} local={local} aba={aba} />
+        </>
+      ) : (
+        <EscolhaNivelLocal />
+      )}
     </section>
   )
 }

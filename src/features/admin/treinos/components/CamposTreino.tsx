@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import type { FieldErrors, UseFormRegister } from 'react-hook-form'
 import { Campo } from '@/components/ui'
-import { LOCAIS, NIVEIS } from '@/domain/treinos'
+import { CATEGORIAS, LOCAIS, NIVEIS } from '@/domain/treinos'
 import type { Tema } from '../../api/conteudo.api'
 import { CampoArea } from '../../components/CampoArea'
 import { t } from '../textos'
@@ -16,6 +16,7 @@ export type EntradaTreino = {
   aquecimento: string
   alongamento: string
   orientacoes: string
+  categoria: string
 }
 
 const caixa =
@@ -43,6 +44,28 @@ function Escolha({
   )
 }
 
+/** Lista de escolha ligada ao formulário (tipo, nível e local). */
+function Opcoes({
+  id,
+  rotulo,
+  opcoes,
+  ...reg
+}: { id: string; rotulo: string; opcoes: Record<string, string> } & ReturnType<
+  UseFormRegister<EntradaTreino>
+>) {
+  return (
+    <Escolha id={id} rotulo={rotulo}>
+      <select id={id} className={caixa} {...reg}>
+        {Object.entries(opcoes).map(([v, n]) => (
+          <option key={v} value={v}>
+            {n}
+          </option>
+        ))}
+      </select>
+    </Escolha>
+  )
+}
+
 type Props = {
   register: UseFormRegister<EntradaTreino>
   erros: FieldErrors<EntradaTreino>
@@ -61,6 +84,12 @@ export function CamposTreino({ register, erros, temas }: Props) {
           {...register('nome')}
         />
       </div>
+      <Opcoes
+        id="treino-categoria"
+        rotulo={t.campos.categoria}
+        opcoes={CATEGORIAS}
+        {...register('categoria')}
+      />
       <Escolha id="treino-tema" rotulo={t.campos.tema} erro={erros.tema_id?.message}>
         <select id="treino-tema" className={caixa} {...register('tema_id')}>
           <option value="">{t.erros.tema}</option>
@@ -80,24 +109,8 @@ export function CamposTreino({ register, erros, temas }: Props) {
         erro={erros.duracao?.message}
         {...register('duracao')}
       />
-      <Escolha id="treino-nivel" rotulo={t.campos.nivel}>
-        <select id="treino-nivel" className={caixa} {...register('nivel')}>
-          {Object.entries(NIVEIS).map(([v, n]) => (
-            <option key={v} value={v}>
-              {n}
-            </option>
-          ))}
-        </select>
-      </Escolha>
-      <Escolha id="treino-local" rotulo={t.campos.local}>
-        <select id="treino-local" className={caixa} {...register('local')}>
-          {Object.entries(LOCAIS).map(([v, n]) => (
-            <option key={v} value={v}>
-              {n}
-            </option>
-          ))}
-        </select>
-      </Escolha>
+      <Opcoes id="treino-nivel" rotulo={t.campos.nivel} opcoes={NIVEIS} {...register('nivel')} />
+      <Opcoes id="treino-local" rotulo={t.campos.local} opcoes={LOCAIS} {...register('local')} />
       <div className="sm:col-span-2">
         <CampoArea
           id="treino-descricao"

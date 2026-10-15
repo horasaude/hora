@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { NIVEIS } from '@/domain/treinos'
+import { CATEGORIAS, NIVEIS } from '@/domain/treinos'
 import { salvarTreino, type ItemTreino, type Treino } from '../api/treinos.api'
 import type { EntradaTreino } from '../components/CamposTreino'
 import { t } from '../textos'
@@ -24,6 +24,7 @@ const esquema = z.object({
   aquecimento: z.string().trim().max(2000),
   alongamento: z.string().trim().max(2000),
   orientacoes: z.string().trim().max(3000),
+  categoria: z.string().refine((v) => v in CATEGORIAS),
 })
 
 const inicial = (x?: Treino): EntradaTreino => ({
@@ -36,6 +37,7 @@ const inicial = (x?: Treino): EntradaTreino => ({
   aquecimento: x?.aquecimento ?? '',
   alongamento: x?.alongamento ?? '',
   orientacoes: x?.orientacoes ?? '',
+  categoria: x?.categoria ?? 'musculacao',
 })
 
 /** Estado da janela do treino: formulário, exercícios e o salvar (rascunho, publicar ou cópia). */
