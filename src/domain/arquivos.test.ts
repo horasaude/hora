@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { formatarTamanho, nomeSemExtensao, validarArquivo } from './arquivos'
+import { ehVideo, extensaoDe, formatarTamanho, nomeSemExtensao, validarArquivo } from './arquivos'
 
 const MB = 1024 * 1024
 const arquivo = (name: string, type: string, size: number) => ({ name, type, size })
@@ -83,6 +83,14 @@ describe('validação de arquivo: recusas', () => {
       motivo: 'tipo',
     })
   })
+  it('tamanho e nome legíveis', () => {
+    expect(formatarTamanho(850 * 1024)).toBe('850 KB')
+    expect(formatarTamanho(2.4 * MB)).toBe('2,4 MB')
+    expect(nomeSemExtensao('Lista de compras.pdf')).toBe('Lista de compras')
+  })
+})
+
+describe('mídia do exercício', () => {
   it('imagem do exercício aceita GIF até 5 MB; capa e material não', () => {
     expect(validarArquivo(arquivo('agachamento.gif', 'image/gif', MB), 'exercicio')).toEqual({
       ok: true,
@@ -96,9 +104,16 @@ describe('validação de arquivo: recusas', () => {
     expect(validarArquivo(arquivo('a.gif', 'image/gif', MB), 'capa').ok).toBe(false)
     expect(validarArquivo(arquivo('a.gif', 'image/gif', MB), 'material').ok).toBe(false)
   })
-  it('tamanho e nome legíveis', () => {
-    expect(formatarTamanho(850 * 1024)).toBe('850 KB')
-    expect(formatarTamanho(2.4 * MB)).toBe('2,4 MB')
-    expect(nomeSemExtensao('Lista de compras.pdf')).toBe('Lista de compras')
+  it('exercício aceita vídeo até 30 MB; capa não', () => {
+    expect(validarArquivo(arquivo('a.mp4', 'video/mp4', 29 * MB), 'exercicio').ok).toBe(true)
+    expect(validarArquivo(arquivo('a.MOV', '', 2 * MB), 'exercicio').ok).toBe(true)
+    expect(validarArquivo(arquivo('a.mp4', 'video/mp4', 31 * MB), 'exercicio')).toEqual({
+      ok: false,
+      motivo: 'tamanho',
+    })
+    expect(validarArquivo(arquivo('a.mp4', 'video/mp4', MB), 'capa').ok).toBe(false)
+    expect(extensaoDe('x.MOV', '')).toBe('mov')
+    expect(ehVideo('exercicios/a.mp4')).toBe(true)
+    expect(ehVideo('exercicios/a.gif')).toBe(false)
   })
 })

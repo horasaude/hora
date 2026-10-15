@@ -1,9 +1,10 @@
 import { useQuery } from '@tanstack/react-query'
+import { ehVideo } from '@/domain/arquivos'
 import { linkDeIncorporacao } from '@/lib/video'
 import { linkDaFoto } from '../api/treinos.api'
 import { textos } from '../textos'
 
-/** Demonstração do exercício: vídeo; sem vídeo, a foto (GIF quadrado inteiro, sem corte); sem os dois, um aviso discreto. */
+/** Demonstração do exercício: vídeo do YouTube ou enviado (em loop, sem som); sem vídeo, a foto ou o GIF inteiro; sem nada, um aviso discreto. */
 export function Midia({ nome, video, foto }: { nome: string; video: string; foto: string | null }) {
   const link = linkDeIncorporacao(video)
   const url = useQuery({
@@ -21,6 +22,20 @@ export function Midia({ nome, video, foto }: { nome: string; video: string; foto
           className="h-full w-full"
           allow="encrypted-media; picture-in-picture; fullscreen"
           allowFullScreen
+        />
+      </div>
+    )
+  if (url && ehVideo(foto))
+    return (
+      <div className="overflow-hidden rounded-[20px] bg-tinta">
+        <video
+          src={url}
+          aria-label={nome}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="mx-auto aspect-video w-full object-contain"
         />
       </div>
     )

@@ -57,7 +57,7 @@ export const t = {
     equipamento: 'Equipamento',
     video: 'Vídeo do YouTube',
     ajudaVideo: 'Cole o link do vídeo. Use o YouTube como Não listado.',
-    foto: 'Foto (opcional)',
+    foto: 'Foto, GIF ou vídeo (opcional)',
     instrucoes: 'Instruções de execução',
     erros: 'Erros comuns',
     tema: 'Tema',

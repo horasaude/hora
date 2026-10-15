@@ -18,6 +18,7 @@ export const arquivos = {
   escolher: 'Escolher arquivos',
   dicaMateriais: 'PDF, Word, JPG, PNG ou WEBP, até 20 MB cada',
   dicaCapa: 'JPG, PNG ou WEBP, até 5 MB',
+  dicaExercicio: 'Imagem ou GIF até 5 MB, ou vídeo MP4, WEBM ou MOV até 30 MB',
   materiais: 'Arquivos da aula',
   semMateriais: 'Nenhum material ainda.',
   nome: (n: string) => `Nome do material ${n}`,

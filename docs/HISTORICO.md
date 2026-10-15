@@ -2,6 +2,11 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-22 · main · Vídeo enviado no exercício
+
+- Espaço treinos aceita MP4, WEBM e MOV até 30 MB (20261022090000_treinos_video). No painel, a mídia do exercício aceita imagem, GIF (5 MB) ou vídeo (30 MB), com prévia em vídeo; a aluna vê o vídeo em loop, sem som (src/domain/arquivos.ts: VIDEOS, ehVideo, extensaoDe).
+- Vídeos do MFIT: o MFIT autorizou o uso (atendente, print guardado pela dona). O download pelo navegador foi bloqueado pela segurança do ambiente; o caminho é pedir os arquivos ao MFIT e subir no painel.
+
 ## 2026-10-21 · main · Exercícios combinados e treinos trazidos do MFIT
 
 - Banco (20261021090000_exercicios_combinados): treino_exercicios.combinado (vizinhos com o mesmo número se alternam, A e B); regras em src/domain/combinados.ts. Painel: Combinar com o próximo e Tirar da combinação; aluna vê "Combinado A · alterne com ...".

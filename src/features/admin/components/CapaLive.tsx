@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { BotaoBrilho } from '@/components/ui'
-import { tipoMime, validarArquivo } from '@/domain/arquivos'
+import { ehVideo, extensaoDe, validarArquivo } from '@/domain/arquivos'
 import { enviarComProgresso } from '@/lib/envio'
 import { supabase } from '@/lib/supabase'
 import { textos } from '../textos'
@@ -33,6 +33,7 @@ function usePreviaSalva(caminho: string | null, local: string | null, espaco: st
 function useCapa(inicial: string | null, aoMudar: (c: EstadoCapa) => void, d: Destino) {
   const [caminho, setCaminho] = useState(inicial)
   const [local, setLocal] = useState<string | null>(null)
+  const [video, setVideo] = useState(() => ehVideo(inicial))
   const [progresso, setProgresso] = useState<number | null>(null)
   const [aviso, setAviso] = useState<string | null>(null)
   const escolher = (arquivos: File[]) => {
@@ -41,9 +42,10 @@ function useCapa(inicial: string | null, aoMudar: (c: EstadoCapa) => void, d: De
     const v = validarArquivo(f, d.uso ?? 'capa')
     if (!v.ok) return setAviso(t.recusado(f.name, v.motivo))
     setAviso(null)
-    const ext = tipoMime(f.name, f.type).split('/')[1]?.replace('jpeg', 'jpg') ?? 'jpg'
+    const ext = extensaoDe(f.name, f.type)
     const novo = `${d.pasta}/${crypto.randomUUID()}.${ext}`
     setLocal(URL.createObjectURL(f))
+    setVideo(ext === 'mp4' || ext === 'webm' || ext === 'mov')
     setProgresso(0)
     aoMudar({ caminho: novo, enviando: true })
     enviarComProgresso(d.espaco, novo, f, setProgresso)
@@ -63,7 +65,14 @@ function useCapa(inicial: string | null, aoMudar: (c: EstadoCapa) => void, d: De
     setLocal(null)
     aoMudar({ caminho: null, enviando: false })
   }
-  return { previa: usePreviaSalva(caminho, local, d.espaco), progresso, aviso, escolher, tirar }
+  return {
+    previa: usePreviaSalva(caminho, local, d.espaco),
+    video,
+    progresso,
+    aviso,
+    escolher,
+    tirar,
+  }
 }
 
 /** Capa da gravação: arrastar e soltar uma imagem (até 5 MB), com prévia e progresso. */
@@ -82,20 +91,35 @@ export function CapaLive({
       <h3 className="text-sm font-medium">{destino.titulo ?? t.capa}</h3>
       {c.previa ? (
         <div className="flex flex-wrap items-end gap-3">
-          <img
-            src={c.previa}
-            alt={t.previaCapa}
-            className="aspect-video w-64 rounded-[14px] object-cover"
-          />
+          {c.video ? (
+            <video
+              src={c.previa}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="aspect-video w-64 rounded-[14px] bg-tinta object-contain"
+            />
+          ) : (
+            <img
+              src={c.previa}
+              alt={t.previaCapa}
+              className="aspect-video w-64 rounded-[14px] object-cover"
+            />
+          )}
           <BotaoBrilho tom="coral" tamanho="sm" onClick={c.tirar} disabled={c.progresso !== null}>
             {t.tirarCapa}
           </BotaoBrilho>
         </div>
       ) : (
         <AreaArquivos
-          aceita=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+          aceita={
+            destino.uso === 'exercicio'
+              ? '.jpg,.jpeg,.png,.webp,.gif,.mp4,.webm,.mov,image/*,video/mp4,video/webm,video/quicktime'
+              : '.jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp'
+          }
           multiplos={false}
-          dica={t.dicaCapa}
+          dica={destino.uso === 'exercicio' ? t.dicaExercicio : t.dicaCapa}
           aoEscolher={c.escolher}
         />
       )}
