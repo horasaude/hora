@@ -1,10 +1,24 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Abas, Carregando, ErroCarregar, Vazio } from '@/components/ui'
-import { CheckinHoje } from '@/features/checkin'
+import { CheckinHoje, PontosDoDia } from '@/features/checkin'
+import { Indicar } from '@/features/perfil'
 import { useDesafios } from '../hooks/useDesafios'
 import { CartaoDesafio } from '../components/CartaoDesafio'
 import { CartaoEncerrado } from '../components/CartaoEncerrado'
 import { textos } from '../textos'
+
+/** Abre já no ponto pedido (ex.: #indicar) quando a tela carrega. */
+function useIrParaAncora() {
+  useEffect(() => {
+    const id = window.location.hash.slice(1)
+    if (!id) return
+    const t = setTimeout(
+      () => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }),
+      400,
+    )
+    return () => clearTimeout(t)
+  }, [])
+}
 
 type Aba = 'mes' | 'encerrados'
 const ABAS = [
@@ -14,6 +28,7 @@ const ABAS = [
 
 /** Desafios diários (o quadro da semana, igual ao do Início) e desafios do mês em cartões e, na outra aba, os encerrados de que ela participou. */
 export function DesafiosPage() {
+  useIrParaAncora()
   const [aba, setAba] = useState<Aba>('mes')
   const desafios = useDesafios()
   const todos = desafios.data ?? []
@@ -30,6 +45,10 @@ export function DesafiosPage() {
         <h2 className="text-[19px] font-bold text-verde-escuro">{textos.diarios}</h2>
         <CheckinHoje />
       </section>
+      <PontosDoDia />
+      <div id="indicar" className="scroll-mt-24">
+        <Indicar />
+      </div>
       <h2 className="text-[19px] font-bold text-verde-escuro">{textos.doMes}</h2>
       <Abas opcoes={ABAS} ativa={aba} aoEscolher={setAba} rotulo={textos.abasRotulo} />
       {desafios.isPending ? (

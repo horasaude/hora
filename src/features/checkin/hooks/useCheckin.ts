@@ -3,9 +3,12 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { diasSeguidos, semanaDeSegunda, somarDias, ultimosSeteDias } from '@/domain/engajamento'
 import { diaEmBrasilia } from '@/lib/datas'
 import {
+  buscarAguaHoje,
   buscarMeusCheckins,
   fazerCheckin,
+  meusPontosDoDia,
   pontosDaSemana,
+  registrarAgua,
   type NovoCheckin,
 } from '../api/checkin.api'
 
@@ -32,13 +35,23 @@ export function useSequencia() {
   return { ...q, seguidos: diasSeguidos(dias, hoje), semana: ultimosSeteDias(dias, hoje) }
 }
 
+const ATUALIZAR = [
+  'checkins',
+  'ranking',
+  'ultimo-ponto',
+  'meus-pontos',
+  'pontos-semana',
+  'pontos-do-dia',
+  'agua',
+]
+
 /** Faz o check-in e atualiza check-ins, ranking e pontos. */
 export function useFazerCheckin() {
   const cliente = useQueryClient()
   return useMutation({
     mutationFn: (d: NovoCheckin) => fazerCheckin(d),
     onSuccess: () => {
-      for (const chave of ['checkins', 'ranking', 'ultimo-ponto', 'meus-pontos', 'pontos-semana']) {
+      for (const chave of ATUALIZAR) {
         cliente.invalidateQueries({ queryKey: [chave] })
       }
     },
@@ -51,3 +64,22 @@ export function usePontosDaSemana() {
   const desde = semanaDeSegunda(hoje)[0] ?? hoje
   return useQuery({ queryKey: ['pontos-semana', desde], queryFn: () => pontosDaSemana(desde) })
 }
+
+export function useAguaHoje() {
+  const hoje = useHoje()
+  return useQuery({ queryKey: ['agua', hoje], queryFn: () => buscarAguaHoje(hoje) })
+}
+
+/** Soma ou desfaz um copo e atualiza água, quadro, pontos e ranking. */
+export function useRegistrarAgua() {
+  const cliente = useQueryClient()
+  return useMutation({
+    mutationFn: registrarAgua,
+    onSuccess: () => {
+      for (const chave of ATUALIZAR) cliente.invalidateQueries({ queryKey: [chave] })
+    },
+  })
+}
+
+export const usePontosDoDia = () =>
+  useQuery({ queryKey: ['pontos-do-dia'], queryFn: meusPontosDoDia })

@@ -16,6 +16,7 @@ type Props = {
 function Celula({
   feito,
   ehHoje,
+  automatico,
   futuro,
   rotulo,
   desligado,
@@ -23,6 +24,7 @@ function Celula({
 }: {
   feito: boolean
   ehHoje: boolean
+  automatico: boolean
   futuro: boolean
   rotulo: string
   desligado: boolean
@@ -30,12 +32,14 @@ function Celula({
 }) {
   const cor = feito
     ? 'brilho brilho-verde'
-    : ehHoje
-      ? 'border-2 border-ora bg-white hover:bg-[#EAF5EE]'
-      : futuro
-        ? 'bg-[#F4F5F4]'
-        : 'bg-[#DCDDD8]'
-  if (!ehHoje)
+    : ehHoje && automatico
+      ? 'border-2 border-dashed border-[#4A9BD8] bg-white'
+      : ehHoje
+        ? 'border-2 border-ora bg-white hover:bg-[#EAF5EE]'
+        : futuro
+          ? 'bg-[#F4F5F4]'
+          : 'bg-[#DCDDD8]'
+  if (!ehHoje || automatico)
     return (
       <span
         role="img"
@@ -125,6 +129,7 @@ export function GradeSemana({ dias, hoje, porDia, carregando, ganho, aoTocar }: 
                     <Celula
                       feito={(porDia[d] ?? []).includes(h.id)}
                       ehHoje={d === hoje}
+                      automatico={h.auto}
                       futuro={d > hoje}
                       rotulo={textos.dia(
                         h.nome,

@@ -5,6 +5,7 @@ import { saudacaoPorHora } from '@/domain/saudacao'
 import { aulaDeHoje, aulasEmAndamento } from '@/domain/trilha'
 import { useMeuPerfil } from '@/features/auth'
 import { AvisoRespondida } from '@/features/forum'
+import { ChamadaIndicar } from '@/features/perfil'
 import { useTrilha } from '@/features/trilha'
 import { horaEmBrasilia } from '@/lib/datas'
 import { CheckinHoje, useHoje } from '@/features/checkin'
@@ -79,6 +80,7 @@ export function InicioPage() {
             <div className="flex flex-col gap-4 lg:gap-6">
               <CartaoRankingInicio />
               <CartaoDesafioAtivo hoje={hoje} />
+              <ChamadaIndicar />
             </div>
           </div>
         </>

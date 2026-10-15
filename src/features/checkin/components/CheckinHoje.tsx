@@ -5,6 +5,7 @@ import { diaAtual } from '@/domain/dia'
 import { semanaDeSegunda } from '@/domain/engajamento'
 import { useFazerCheckin, useHoje, useMeusCheckins, usePontosDaSemana } from '../hooks/useCheckin'
 import { textos, type Habito } from '../textos'
+import { CartaoAgua } from './CartaoAgua'
 import { JanelaFoto } from './JanelaFoto'
 import { GradeSemana, LegendaHabitos, type Ganho } from './GradeSemana'
 import { Sequencia } from './Sequencia'
@@ -72,6 +73,7 @@ export function CheckinHoje() {
         />
       )}
       <LegendaHabitos />
+      <CartaoAgua />
       {fazer.isError && !foto && <AvisoErro texto={textos.erro} />}
       <Sequencia />
       {foto && (

@@ -57,3 +57,51 @@ export async function pontosDaSemana(desde: string): Promise<number> {
   if (error) throw error
   return (data ?? []).reduce((s, l) => s + l.pontos, 0)
 }
+
+export type AguaHoje = { total: number; meta: number }
+
+/** Água de hoje (soma dos copos dela) e a meta diária em ml definida pela equipe. */
+export async function buscarAguaHoje(hoje: string): Promise<AguaHoje> {
+  const { data: u } = await supabase.auth.getUser()
+  const [copos, config] = await Promise.all([
+    supabase
+      .from('agua_registros')
+      .select('ml')
+      .eq('perfil_id', u.user?.id ?? '')
+      .eq('dia', hoje),
+    supabase.from('configuracoes').select('agua_meta_ml').single(),
+  ])
+  if (copos.error) throw copos.error
+  return {
+    total: (copos.data ?? []).reduce((s, c) => s + c.ml, 0),
+    meta: config.data?.agua_meta_ml ?? 2000,
+  }
+}
+
+/** Soma um copo (ml positivo) ou desfaz o último (ml negativo); bater a meta dá os pontos de Água. */
+export async function registrarAgua(
+  ml: number,
+): Promise<{ total: number; meta: number; pontos: number }> {
+  const { data, error } = await supabase.rpc('registrar_agua', { p_ml: ml })
+  if (error) throw error
+  const r = data?.[0]
+  return { total: r?.total ?? 0, meta: r?.meta ?? 2000, pontos: r?.pontos ?? 0 }
+}
+
+export type AcaoDePontos = {
+  acao: string
+  nome: string
+  pontos: number
+  limite_tipo: string
+  limite_qtd: number | null
+  feitas_hoje: number
+  pontos_hoje: number
+  propria: boolean
+}
+
+/** Tudo que dá ponto (regras ligadas no painel) e o que ela já fez hoje. */
+export async function meusPontosDoDia(): Promise<AcaoDePontos[]> {
+  const { data, error } = await supabase.rpc('meus_pontos_do_dia')
+  if (error) throw error
+  return data ?? []
+}

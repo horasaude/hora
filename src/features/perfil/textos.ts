@@ -1,6 +1,11 @@
 // Textos do perfil. Os componentes só leem daqui.
 
 export const textos = {
+  chamadaIndicar: {
+    titulo: 'Indique uma amiga',
+    texto: 'Ela entra no ORA e você ganha pontos no ranking.',
+    botao: 'Indicar',
+  },
   titulo: 'Perfil',
   painel: 'Painel das profissionais',
   carregando: 'Carregando',

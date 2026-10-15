@@ -56,6 +56,38 @@ export type Database = {
           },
         ]
       }
+      agua_registros: {
+        Row: {
+          created_at: string
+          dia: string
+          id: string
+          ml: number
+          perfil_id: string
+        }
+        Insert: {
+          created_at?: string
+          dia?: string
+          id?: string
+          ml: number
+          perfil_id?: string
+        }
+        Update: {
+          created_at?: string
+          dia?: string
+          id?: string
+          ml?: number
+          perfil_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agua_registros_perfil_id_fkey"
+            columns: ["perfil_id"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       alimentos: {
         Row: {
           busca: string | null
@@ -621,6 +653,7 @@ export type Database = {
       }
       configuracoes: {
         Row: {
+          agua_meta_ml: number
           id: boolean
           oferta_fim: string
           oferta_inicio: string
@@ -637,6 +670,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          agua_meta_ml?: number
           id?: boolean
           oferta_fim: string
           oferta_inicio: string
@@ -653,6 +687,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          agua_meta_ml?: number
           id?: boolean
           oferta_fim?: string
           oferta_inicio?: string
@@ -2705,6 +2740,20 @@ export type Database = {
           unidade: string
         }[]
       }
+      meus_pontos_do_dia: {
+        Args: never
+        Returns: {
+          acao: string
+          feitas_hoje: number
+          limite_qtd: number
+          limite_tipo: string
+          nome: string
+          ordem: number
+          pontos: number
+          pontos_hoje: number
+          propria: boolean
+        }[]
+      }
       mover_aula: {
         Args: { p_direcao: number; p_id: string }
         Returns: undefined
@@ -2826,6 +2875,14 @@ export type Database = {
         }[]
       }
       registrar_acesso: { Args: never; Returns: undefined }
+      registrar_agua: {
+        Args: { p_ml: number }
+        Returns: {
+          meta: number
+          pontos: number
+          total: number
+        }[]
+      }
       registrar_assinatura: {
         Args: { p_mp_assinatura: string; p_pedido: string; p_proxima: string }
         Returns: undefined

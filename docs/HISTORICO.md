@@ -2,6 +2,13 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-26 · main · Pontos visíveis para a aluna, água em ml e indicação em destaque
+
+- Banco: meus_pontos_do_dia() (20261026090000) lista cada regra ligada com pontos, limite e o que ela fez hoje; água em ml (20261026100000): configuracoes.agua_meta_ml (painel), agua_registros e registrar_agua(ml) que soma ou desfaz o copo e, ao bater a meta, marca Água e dá os pontos; fazer_checkin recusa água manual.
+- Aluna: cartão Água de hoje (+250 ml, +500 ml, Desfazer, barra até a meta) dentro do quadro da semana; Hidratar-se marca sozinho. Desafios ganhou Seus pontos de hoje (tudo que dá ponto, quanto vale, feito ou não, Fazer) e o Indicar uma amiga; Início ganhou a chamada Indique uma amiga.
+- Painel: Pontos e indicações > Regras ganhou Meta de água por dia (500 a 6.000 ml).
+- Cardio e Tarefa continuam ligados no painel, mas saíram da lista da aluna (não têm mais onde marcar); vale desligar.
+
 ## 2026-10-25 · main · Pódio com troféu e coroinha
 
 - Banco (20261025090000_podio_avatares): fotos de perfil num espaço próprio (avatares; quem tem acesso vê, só a dona envia), separadas das fotos de evolução, que continuam só da dona e da equipe; ranking_pontos devolve avatar_path. Suíte Engajamento com 75 checagens.

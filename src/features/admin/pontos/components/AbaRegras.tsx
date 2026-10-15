@@ -8,6 +8,7 @@ import { useAcaoPontos, useRegras } from '../hooks/usePontos'
 import { t } from '../textos'
 import { DarPontosJanela } from './DarPontosJanela'
 import { Interruptor } from './Interruptor'
+import { MetaAgua } from './MetaAgua'
 import { RegraJanela } from './RegraJanela'
 
 type Props = {
@@ -54,6 +55,7 @@ export function AbaRegras() {
   if (regras.isError) return <Estado tipo="erro" tentar={() => regras.refetch()} />
   return (
     <>
+      <MetaAgua />
       <div className="flex justify-end">
         <BotaoBrilho tom="dourado" onClick={() => setEditando('nova')}>
           {t.regras.nova}

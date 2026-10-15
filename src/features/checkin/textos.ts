@@ -2,12 +2,12 @@
 
 /** Quadro da semana, na ordem da planilha da Laís. Treino pede foto (pontos de treino com foto). */
 export const HABITOS = [
-  { id: 'sono', nome: 'Sono', foto: false },
-  { id: 'jejum', nome: 'Jejum intermitente', foto: false },
-  { id: 'agua', nome: 'Hidratar-se', foto: false },
-  { id: 'dieta', nome: 'Dieta', foto: false },
-  { id: 'treino', nome: 'Treino', foto: true },
-  { id: 'venci', nome: 'Venci o dia?', foto: false },
+  { id: 'sono', nome: 'Sono', foto: false, auto: false },
+  { id: 'jejum', nome: 'Jejum intermitente', foto: false, auto: false },
+  { id: 'agua', nome: 'Hidratar-se', foto: false, auto: true },
+  { id: 'dieta', nome: 'Dieta', foto: false, auto: false },
+  { id: 'treino', nome: 'Treino', foto: true, auto: false },
+  { id: 'venci', nome: 'Venci o dia?', foto: false, auto: false },
 ] as const
 
 /** Todos os tipos de check-in do banco (refeição com foto continua no cardápio). */
@@ -53,4 +53,39 @@ export const textos = {
     faltaTipo: 'Escolha o tipo de treino.',
     duracaoInvalida: 'Use de 1 a 600 minutos.',
   },
+  agua: {
+    titulo: 'Água de hoje',
+    progresso: (total: string, meta: string) => `${total} de ${meta}`,
+    copo: (ml: number) => `+ ${ml} ml`,
+    desfazer: 'Desfazer',
+    batida: 'Meta batida',
+    pontos: (n: number) => `+${n} pts quando chegar à meta`,
+  },
+  pontosDia: {
+    titulo: 'Seus pontos de hoje',
+    total: (n: number) => `${n.toLocaleString('pt-BR')} pts hoje`,
+    cada: (n: number) => `+${n} pts`,
+    feito: 'Feito hoje',
+    deN: (feitas: number, limite: number) => `${feitas} de ${limite} hoje`,
+    vezes: (n: number) => (n === 1 ? '1 vez hoje' : `${n} vezes hoje`),
+    falta: 'Ainda não',
+    equipe: 'Dado pela equipe',
+    ir: 'Fazer',
+  },
+  comoGanhar: {
+    sono: { texto: 'Marque Sono no quadro da semana' },
+    jejum: { texto: 'Marque Jejum no quadro da semana' },
+    agua: { texto: 'Bata a meta de água do dia' },
+    dieta: { texto: 'Marque Dieta no quadro da semana' },
+    treino_foto: { texto: 'Marque Treino com a foto do treino', para: '/app/treinos' },
+    venci: { texto: 'Marque Venci o dia no fim do dia' },
+    foto_refeicao: { texto: 'Mande a foto de uma refeição do cardápio', para: '/app/cardapios' },
+    aula_concluida: { texto: 'Conclua uma aula da trilha', para: '/app/trilha' },
+    duvida_forum: { texto: 'Mande uma dúvida no fórum', para: '/app/forum' },
+    duvida_util: { texto: 'Tenha sua dúvida marcada como útil' },
+    live: { texto: 'Entre numa live ao vivo', para: '/app/lives' },
+    indicacao: { texto: 'Indique uma amiga que assine o ORA', para: '/app/desafios#indicar' },
+  } as Record<string, { texto: string; para?: string }>,
+  /** Ações que existem no banco mas não têm mais onde fazer (saem da lista da aluna). */
+  semUso: ['cardio', 'tarefa'],
 }

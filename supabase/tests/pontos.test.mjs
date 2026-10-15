@@ -31,15 +31,35 @@ async function checkins(t) {
   const { esperaValor, esperaErro } = t
   await t.comoAluna(ALUNA)
   await esperaValor(
-    'check-in de água dá 5 pontos',
-    `select pontos from public.fazer_checkin('agua')`,
+    'copo de água soma e ainda não pontua',
+    `select total || '/' || meta || ':' || pontos from public.registrar_agua(500)`,
+    '500/2000:0',
+  )
+  await esperaValor(
+    'desfazer tira o último copo',
+    `select total from public.registrar_agua(-1)`,
+    0,
+  )
+  await esperaValor(
+    'bater a meta de água dá 5 pontos',
+    `select pontos from public.registrar_agua(2000)`,
     5,
   )
   await esperaValor('soma 5', soma(ALUNA), 5)
   await esperaValor(
-    'o mesmo check-in no mesmo dia não pontua de novo',
-    `select pontos from public.fazer_checkin('agua')`,
+    'passar da meta no mesmo dia não pontua de novo',
+    `select pontos from public.registrar_agua(250)`,
     0,
+  )
+  await esperaErro(
+    'água não se marca sem a meta em ml',
+    `select public.fazer_checkin('agua')`,
+    '22023',
+  )
+  await esperaErro(
+    'aluna não insere copo direto',
+    `insert into public.agua_registros (ml) values (300)`,
+    '42501',
   )
   await esperaErro(
     'treino sem foto é recusado',
