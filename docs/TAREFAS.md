@@ -10,8 +10,8 @@ Marque [x] ao concluir (o comando /fim faz isso). A próxima tarefa é a primeir
 - [x] Conectar a Vercel ao repositório e configurar variáveis
 - [x] Testes de banco em PGlite (db:test) e migração aplicada com db push
 - [x] Configurar Site URL e Redirect URL do Auth no Supabase (hora-snowy.vercel.app; link vale 24 h)
-- [ ] Tela de erro quando falta variável de ambiente (hoje fica em branco)
-- [ ] Backup diário e keep-alive (GitHub Actions)
+- [x] Tela de erro quando falta variável de ambiente (hoje fica em branco)
+- [x] Backup diário com teste de restauração (GitHub Actions; falta pôr SUPABASE_DB_URL e BACKUP_SENHA nos secrets)
 
 ## Página de vendas (prioridade, antes da Sprint 1)
 
@@ -34,9 +34,9 @@ Venda inicial por links do Mercado Pago; o checkout integrado da Sprint 2 substi
 - [x] Check-in de verdade, sequência de dias e ranking com dados do banco
 - [x] Desafios da aluna (lista, desafio aberto, encerrados) e Perfil completo (evolução, indicação, configurações, histórico)
 - [x] Parte 2 da aluna: trilha por tema e etapas (dia de calendário, Comece por aqui, escolha no dia 8, 80% e 30 dias), cardápios, receitas, lista de compras e lives
-- [ ] Lembrete da live por push (PWA) e e-mail 1 hora antes (falta push e serviço de e-mail)
+- [x] Lembrete da live por push 1 hora antes (e-mail fica para quando o Resend estiver ligado)
 - [ ] Cardápio de vários dias no painel e abas por dia na aluna
-- [ ] Apelido único no ranking (hoje não há trava no banco)
+- [x] Apelido único no ranking (índice no banco, sem diferença de maiúscula)
 - [x] Painel completo: menu de 11 módulos, cardápios, desafios e prêmios, alunas, configurações
 - [x] Loja (painel e aluna)
 - [ ] Completar a Active Life no painel (logo, cupom, WhatsApp ou site) e cadastrar os produtos
@@ -50,23 +50,23 @@ Venda inicial por links do Mercado Pago; o checkout integrado da Sprint 2 substi
 - [x] Edge Function pagamento-webhook idempotente e criação de acesso (pagamento aprovado grava perfis.acesso_inicio_em = momento da confirmação e acesso_fim_em pelo plano)
 - [x] tem_acesso_ativo() e RLS de conteúdo (com suspensão por inadimplência)
 - [x] E-mails de boas-vindas, lembrete do Pix e cobrança recusada; reembolso; /obrigada com status real
-- [ ] Contas das clientes: chaves de produção do MP, domínio verificado no Resend, URL do webhook de produção
+- [ ] Contas das clientes: gateway de pagamento (em avaliação: Asaas no lugar do Mercado Pago), Resend com chave nova, URL do webhook de produção
 - [ ] SMTP do Resend no Auth do Supabase e modelo supabase/templates/nova-senha.html (sem isso, Esqueci minha senha só entrega para a equipe)
 - [ ] Pixel da Meta (Purchase só com aprovado) quando o pixel existir
 
 ## Sprint 3: engajamento base (até 18/10)
 
-- [ ] Check-in de hábitos com foto (compressão e storage privado)
-- [ ] Check-in de foto da refeição: +5 pontos, no máximo 1 por dia
+- [x] Check-in de hábitos com foto (compressão e storage privado)
+- [x] Check-in de foto da refeição: +5 pontos, no máximo 1 por dia
 - [x] regras_pontos, lancamentos_pontos, conceder_pontos() (painel de pontos e indicações pronto)
 - [x] Aplicar 20261007180000_pontos_indicacoes, publicar limpar-fotos e criar segredo do cron (CRON_SEGREDO e vault cron_segredo)
-- [ ] Tela de check-in da aluna chamando fazer_checkin (foto no bucket checkins)
+- [x] Tela de check-in da aluna chamando fazer_checkin (foto no bucket checkins)
 - [x] Pedido do Mercado Pago registra indicação (indicacaoGuardada) e cancela no reembolso
 - [x] Fórum na aula e fórum geral, com fila e denúncias no painel
 - [x] Tela Equipe para convidar profissionais
-- [ ] Convidar Ana, Clara e Laís pela tela Equipe; cada uma coloca a foto em Meu perfil no Fórum
-- [ ] Medidas e consentimento
-- [ ] PWA instalável e notificação
+- [x] Convidar Ana, Clara e Laís pela tela Equipe; cada uma coloca a foto em Meu perfil no Fórum
+- [x] Medidas e consentimento
+- [x] PWA instalável e notificação (água e live)
 
 ## Testes e go-live (19 a 23/10)
 
@@ -76,18 +76,18 @@ Venda inicial por links do Mercado Pago; o checkout integrado da Sprint 2 substi
 
 ## Sprint 4: temas e gamificação (25 a 31/10)
 
-- [ ] Escolha de tema e etapas com regra 80% + 30 dias
-- [ ] Cardápios, desafios editáveis, ranking mensal e anual
+- [x] Escolha de tema e etapas com regra 80% + 30 dias
+- [x] Cardápios, desafios editáveis, ranking mensal e anual
 - [ ] Níveis da aluna (por pontos acumulados)
-- [ ] Lives gravadas: gravação disponível na área da aluna depois do ao vivo
-- [ ] Indicação, fórum geral, gráfico de evolução
+- [x] Lives gravadas: gravação disponível na área da aluna depois do ao vivo
+- [x] Indicação, fórum geral, gráfico de evolução
 
 ## Sprint 5: extras (novembro)
 
 - [ ] Loja Active Life, botões de consulta e MFIT, relatórios
 
 - [x] Plano alimentar no painel: cardápios, refeições, receitas, alimentos (TACO)
-- [ ] Tela da aluna para cardápios e receitas publicados (banco já pronto)
+- [x] Tela da aluna para cardápios e receitas publicados (banco já pronto)
 
 ## Treinos
 

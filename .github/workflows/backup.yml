@@ -1,0 +1,81 @@
+name: Backup diário
+
+# Todo dia às 3h de Brasília: copia o banco de produção, criptografa, guarda por 30 dias
+# e testa a restauração num Postgres limpo. Precisa dos secrets SUPABASE_DB_URL e BACKUP_SENHA
+# (Settings > Secrets and variables > Actions). Restaurar: docs/BACKUP.md.
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: teste
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+      BACKUP_SENHA: ${{ secrets.BACKUP_SENHA }}
+    steps:
+      - name: Conferir secrets
+        run: |
+          if [ -z "$SUPABASE_DB_URL" ] || [ -z "$BACKUP_SENHA" ]; then
+            echo "Faltam os secrets SUPABASE_DB_URL e BACKUP_SENHA no GitHub."; exit 1
+          fi
+
+      - name: Instalar pg_dump 17
+        run: |
+          sudo install -d /usr/share/postgresql-common/pgdg
+          sudo curl -fsSo /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc https://www.postgresql.org/media/keys/ACCC4CF8.asc
+          echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
+          sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client-17
+
+      - name: Copiar o banco
+        run: |
+          DIA=$(TZ=America/Sao_Paulo date +%F)
+          echo "DIA=$DIA" >> "$GITHUB_ENV"
+          /usr/lib/postgresql/17/bin/pg_dump "$SUPABASE_DB_URL" --format=custom --no-owner --no-privileges \
+            --schema=public --schema=auth --schema=storage --file=ora.dump
+          /usr/lib/postgresql/17/bin/psql "$SUPABASE_DB_URL" -At -c \
+            "select 'perfis=' || count(*) from public.perfis union all select 'pedidos=' || count(*) from public.pedidos union all select 'lancamentos=' || count(*) from public.lancamentos_pontos" > contagens.txt
+          cat contagens.txt
+
+      - name: Testar a restauração
+        env:
+          PGPASSWORD: teste
+        run: |
+          P=/usr/lib/postgresql/17/bin
+          for r in anon authenticated service_role supabase_admin supabase_auth_admin supabase_storage_admin; do
+            $P/psql -h localhost -U postgres -c "create role $r" >/dev/null
+          done
+          $P/psql -h localhost -U postgres -c "create schema if not exists extensions" >/dev/null
+          for e in pgcrypto "uuid-ossp"; do
+            $P/psql -h localhost -U postgres -c "create extension if not exists \"$e\" schema extensions" >/dev/null
+          done
+          $P/pg_restore -h localhost -U postgres -d postgres --no-owner --no-privileges ora.dump 2> restauracao.log || true
+          for linha in $(cat contagens.txt); do
+            tabela=${linha%%=*}; esperado=${linha#*=}
+            case $tabela in lancamentos) nome=lancamentos_pontos ;; *) nome=$tabela ;; esac
+            obtido=$($P/psql -h localhost -U postgres -At -c "select count(*) from public.$nome")
+            echo "$nome: produção $esperado, restaurado $obtido"
+            [ "$esperado" = "$obtido" ] || { echo "A restauração não bateu."; tail -40 restauracao.log; exit 1; }
+          done
+
+      - name: Criptografar
+        run: |
+          gpg --batch --yes --pinentry-mode loopback --passphrase "$BACKUP_SENHA" \
+            --symmetric --cipher-algo AES256 --output "ora-$DIA.dump.gpg" ora.dump
+          rm ora.dump
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: backup-${{ env.DIA }}
+          path: ora-${{ env.DIA }}.dump.gpg
+          retention-days: 30
