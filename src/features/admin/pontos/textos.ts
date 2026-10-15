@@ -124,11 +124,10 @@ export const t = {
   semResultado: 'Nada encontrado.',
   agua: {
     rotulo: 'Meta de água por dia',
-    salvar: 'Salvar meta',
-    salvando: 'Salvando',
     ajuda: 'As alunas somam os copos no quadro; ao bater a meta, ganham os pontos de Água.',
-    invalido: 'Use de 500 a 6.000 ml.',
-    erro: 'Não foi possível salvar. Tente de novo.',
+    invalido: 'Meta de água: use de 500 a 6.000 ml.',
+    meta: (ml: number) =>
+      `meta de ${ml >= 1000 ? `${(ml / 1000).toLocaleString('pt-BR')} L` : `${ml} ml`}`,
   },
 }
 

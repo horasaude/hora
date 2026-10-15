@@ -4,11 +4,11 @@ import { Estado } from '../../components/Estado'
 import { Tabela } from '../../components/Tabela'
 import { MenuAcoes } from '../../plano/components/MenuAcoes'
 import { salvarRegra, type Regra } from '../api/pontos.api'
+import { useConfiguracoes } from '../../hooks/useModulos'
 import { useAcaoPontos, useRegras } from '../hooks/usePontos'
 import { t } from '../textos'
 import { DarPontosJanela } from './DarPontosJanela'
 import { Interruptor } from './Interruptor'
-import { MetaAgua } from './MetaAgua'
 import { RegraJanela } from './RegraJanela'
 
 type Props = {
@@ -17,9 +17,10 @@ type Props = {
   alternar: () => void
   editar: () => void
   dar: () => void
+  detalhe?: string
 }
 
-function LinhaRegra({ r, ocupado, alternar, editar, dar }: Props) {
+function LinhaRegra({ r, ocupado, alternar, editar, dar, detalhe }: Props) {
   const acoes = [{ nome: t.regras.editar, aoEscolher: editar }]
   if (r.propria) acoes.push({ nome: t.regras.darPontos, aoEscolher: dar })
   return (
@@ -29,7 +30,10 @@ function LinhaRegra({ r, ocupado, alternar, editar, dar }: Props) {
     >
       <td className={`px-3.5 py-3 font-bold ${r.ativo ? 'text-tinta' : 'text-suave'}`}>{r.nome}</td>
       <td className="px-3.5 py-3">{r.pontos} pts</td>
-      <td className="px-3.5 py-3 text-suave">{t.limite(r.limite_tipo, r.limite_qtd, r.acao)}</td>
+      <td className="px-3.5 py-3 text-suave">
+        {t.limite(r.limite_tipo, r.limite_qtd, r.acao)}
+        {detalhe && ` · ${detalhe}`}
+      </td>
       <td className="px-3.5 py-3">
         <Interruptor
           ligado={r.ativo}
@@ -48,6 +52,7 @@ function LinhaRegra({ r, ocupado, alternar, editar, dar }: Props) {
 /** Regras: ação, valor, limite e liga/desliga; editar abre a janela; Nova ação cria uma própria. */
 export function AbaRegras() {
   const regras = useRegras()
+  const metaAgua = useConfiguracoes().data?.agua_meta_ml
   const salvar = useAcaoPontos(salvarRegra)
   const [editando, setEditando] = useState<Regra | 'nova' | null>(null)
   const [dando, setDando] = useState<Regra | null>(null)
@@ -55,7 +60,6 @@ export function AbaRegras() {
   if (regras.isError) return <Estado tipo="erro" tentar={() => regras.refetch()} />
   return (
     <>
-      <MetaAgua />
       <div className="flex justify-end">
         <BotaoBrilho tom="dourado" onClick={() => setEditando('nova')}>
           {t.regras.nova}
@@ -70,6 +74,7 @@ export function AbaRegras() {
             alternar={() => salvar.mutate({ ...r, ativo: !r.ativo })}
             editar={() => setEditando(r)}
             dar={() => setDando(r)}
+            detalhe={r.acao === 'agua' && metaAgua ? t.agua.meta(metaAgua) : undefined}
           />
         ))}
       </Tabela>

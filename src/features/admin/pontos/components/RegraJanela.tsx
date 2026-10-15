@@ -2,8 +2,11 @@ import { useId, useState } from 'react'
 import { Janela } from '@/components/ui'
 import { RodapeForm } from '../../components/RodapeForm'
 import { criarAcao, salvarRegra, type Regra } from '../api/pontos.api'
+import { useConfiguracoes, useSalvarConfiguracoes } from '../../hooks/useModulos'
 import { useAcaoPontos } from '../hooks/usePontos'
 import { t } from '../textos'
+import { metaAguaValida } from '@/domain/agua'
+import { CampoMetaAgua } from './MetaAgua'
 import { Campos, type Valores } from './RegraCampos'
 
 const inicial = (r: Regra | null): Valores => ({
@@ -25,6 +28,23 @@ function validar(v: Valores, propria: boolean) {
   return { nome, pontos: p, limite_tipo: v.tipo, limite_qtd: v.tipo === 'por_dia' ? q : null }
 }
 
+/** Meta de água (configurações) editada junto com a regra Água. */
+function useMetaAgua() {
+  const config = useConfiguracoes().data
+  const salvarConfig = useSalvarConfiguracoes()
+  const [meta, setMeta] = useState<string | null>(null)
+  const valor = meta ?? String(config?.agua_meta_ml ?? 2000)
+  return {
+    valor,
+    mudar: setMeta,
+    salvando: salvarConfig.isPending,
+    salvar: async () => {
+      if (Number(valor) !== config?.agua_meta_ml)
+        await salvarConfig.mutateAsync({ agua_meta_ml: Number(valor) })
+    },
+  }
+}
+
 /** Janela de criar ação própria ou editar regra. Vale para os próximos lançamentos. */
 export function RegraJanela({ regra, aoFechar }: { regra: Regra | null; aoFechar: () => void }) {
   const id = useId()
@@ -33,11 +53,15 @@ export function RegraJanela({ regra, aoFechar }: { regra: Regra | null; aoFechar
   const propria = regra === null || regra.propria
   const [v, setV] = useState<Valores>(inicial(regra))
   const [erro, setErro] = useState('')
+  const agua = regra?.acao === 'agua'
+  const m = useMetaAgua()
   const enviar = async (e: React.FormEvent) => {
     e.preventDefault()
     const d = validar(v, propria)
     if (typeof d === 'string') return setErro(d)
+    if (agua && !metaAguaValida(m.valor)) return setErro(t.agua.invalido)
     try {
+      if (agua) await m.salvar()
       if (regra === null) await criar.mutateAsync(d)
       else
         await salvar.mutateAsync({
@@ -59,7 +83,7 @@ export function RegraJanela({ regra, aoFechar }: { regra: Regra | null; aoFechar
       rodape={
         <RodapeForm
           formId={id}
-          salvando={salvar.isPending || criar.isPending}
+          salvando={salvar.isPending || criar.isPending || m.salvando}
           aoCancelar={aoFechar}
         />
       }
@@ -71,6 +95,7 @@ export function RegraJanela({ regra, aoFechar }: { regra: Regra | null; aoFechar
           propria={propria}
           nova={!regra}
         />
+        {agua && <CampoMetaAgua valor={m.valor} mudar={m.mudar} />}
         {erro && (
           <p role="alert" className="text-sm text-terracota-escuro sm:col-span-3">
             {erro}
