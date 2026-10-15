@@ -50,7 +50,7 @@ describe('CheckoutPage', () => {
     abrir()
     expect(screen.getByRole('radio', { name: /Parcelado/ })).toBeChecked()
     tem('Cartão de crédito')
-    tem('Total12x de R$ 187,90')
+    tem('Total12x de R$ 187,70')
     fireEvent.click(screen.getByRole('radio', { name: /À vista/ }))
     tem('TotalR$ 1.897')
   })

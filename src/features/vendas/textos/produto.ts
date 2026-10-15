@@ -74,7 +74,7 @@ export const produto = {
         papel: 'Educadora física',
         frase: 'Coloca o corpo em movimento com treinos que respeitam o seu momento.',
         foto: '/fotos/lais.webp' as string | undefined,
-        cartao: { titulo: 'Treino do dia', texto: '25 minutos em casa' },
+        cartao: { titulo: 'Emagreça com músculos', texto: 'Treino de força no seu ritmo' },
       },
     ],
   },

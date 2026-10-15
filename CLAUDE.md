@@ -20,7 +20,7 @@ Stack: React + Vite + TypeScript, Tailwind, TanStack Query, Zod, Supabase (Postg
 - Webhook, criação de pedido e pontos são idempotentes. Repetição não gera acesso, cobrança ou ponto em dobro.
 - Pontos só via função conceder_pontos. Nunca insert direto em lancamentos_pontos. Correção é novo lançamento.
 - Peso e medidas nunca entram em ranking.
-- Preço com desconto sempre (R$ 1.897 no Pix, 12x R$ 187,90 ou R$ 217,90 por mês), com o preço de antes riscado. O 13º mês grátis só para quem assina no dia do evento, 24/10/2026, de 00h00 a 23h59 (America/Sao_Paulo); antes e depois, 12 meses. Preços e janela ficam na tabela configuracoes (editada no painel); src/domain/configuracao.ts guarda o padrão. Quando houver pedido, o banco checa pela mesma tabela.
+- Preço com desconto sempre (R$ 1.897 no Pix, 12x R$ 187,70 ou R$ 217,70 por mês), com o preço de antes riscado. O 13º mês grátis só para quem assina no dia do evento, 24/10/2026, de 00h00 a 23h59 (America/Sao_Paulo); antes e depois, 12 meses. Preços e janela ficam na tabela configuracoes (editada no painel); src/domain/configuracao.ts guarda o padrão. Quando houver pedido, o banco checa pela mesma tabela.
 
 ## Banco e segurança
 

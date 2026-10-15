@@ -87,7 +87,7 @@ export const app = {
       { nome: 'Elevação de quadril', detalhe: '3 x 15' },
       { nome: 'Prancha', detalhe: '3 x 30 s' },
     ],
-    treinoTitulo: 'Treino em casa · 25 min',
+    treinoTitulo: 'Treino de força · 25 min',
   },
   desafios: {
     titulo: 'Prato consciente',

@@ -15,8 +15,8 @@ describe('precosVigentes', () => {
     expect(precosVigentes(segundos(-1))).toEqual({
       emOferta: true,
       parcelas: 12,
-      parceladoCentavos: 18790,
-      recorrenteCentavos: 21790,
+      parceladoCentavos: 18770,
+      recorrenteCentavos: 21770,
       pixCentavos: 189700,
       mesesAcesso: 13,
       ancoraCentavos: 229700,
@@ -31,8 +31,8 @@ describe('precosVigentes', () => {
     expect(precosVigentes(segundos(1))).toEqual({
       emOferta: false,
       parcelas: 12,
-      parceladoCentavos: 18790,
-      recorrenteCentavos: 21790,
+      parceladoCentavos: 18770,
+      recorrenteCentavos: 21770,
       pixCentavos: 189700,
       mesesAcesso: 12,
       ancoraCentavos: 229700,
@@ -57,7 +57,7 @@ describe('antes do dia do evento', () => {
   it('vale o preço com desconto, com o de antes riscado e 12 meses', () => {
     const p = precosVigentes(new Date(INICIO_OFERTA_ORA.getTime() - 1000))
     expect(p.emOferta).toBe(false)
-    expect(p.parceladoCentavos).toBe(18790)
+    expect(p.parceladoCentavos).toBe(18770)
     expect(p.ancoraCentavos).toBe(229700)
     expect(p.mesesAcesso).toBe(12)
   })

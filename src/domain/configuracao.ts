@@ -13,7 +13,7 @@ export type Configuracao = {
 
 export const CONFIGURACAO_PADRAO: Configuracao = {
   cheio: { pix: 229700, parcelado: 22700, recorrente: 24700 },
-  oferta: { pix: 189700, parcelado: 18790, recorrente: 21790 },
+  oferta: { pix: 189700, parcelado: 18770, recorrente: 21770 },
   ofertaInicio: new Date('2026-10-24T03:00:00Z'),
   ofertaFim: new Date('2026-10-25T02:59:59Z'),
 }
