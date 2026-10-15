@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { APELIDO_VALIDO, normalizarApelido } from './apelido'
+import { APELIDO_VALIDO, apelidoEmUso, normalizarApelido } from './apelido'
 
 describe('normalizarApelido', () => {
   it('troca espaço por ponto e tira o @ e as pontas', () => {
@@ -10,5 +10,13 @@ describe('normalizarApelido', () => {
   it('o resultado passa na regra quando só tinha letras e espaço', () => {
     expect(APELIDO_VALIDO.test(normalizarApelido('Laís Moraes'))).toBe(true)
     expect(APELIDO_VALIDO.test(normalizarApelido('mari!'))).toBe(false)
+  })
+})
+
+describe('apelidoEmUso', () => {
+  it('reconhece o erro de índice único do banco', () => {
+    expect(apelidoEmUso({ code: '23505' })).toBe(true)
+    expect(apelidoEmUso({ code: '42501' })).toBe(false)
+    expect(apelidoEmUso(new Error('x'))).toBe(false)
   })
 })

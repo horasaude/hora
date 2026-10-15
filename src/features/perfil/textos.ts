@@ -19,6 +19,7 @@ export const textos = {
   apelidoInvalido:
     'Use só letras, números, ponto, traço ou sublinhado (sem emoji ou símbolos como ! e #).',
   apelidoTamanho: 'O apelido precisa ter de 2 a 20 caracteres.',
+  apelidoEmUso: 'Esse apelido já está em uso. Escolha outro.',
   fotoDe: (nome: string) => `Foto de ${nome}`,
   dia: (dia: number, semana: number) => `Dia ${dia} · Semana ${semana}`,
   resumo: {

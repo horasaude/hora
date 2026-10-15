@@ -14,6 +14,7 @@ export const textos = {
     exemplo: 'ex.: mari',
     nota: 'Só o apelido aparece. Peso e medidas nunca entram no ranking.',
     curto: 'Use de 2 a 20 caracteres',
+    emUso: 'Esse apelido já está em uso. Escolha outro.',
     invalido: 'Use só letras, números, ponto, traço ou sublinhado (sem emoji ou símbolos)',
   },
   saude: {

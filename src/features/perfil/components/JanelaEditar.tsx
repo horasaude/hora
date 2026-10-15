@@ -1,11 +1,16 @@
 import { useId, useState } from 'react'
 import { AvisoErro, EscolherFoto, Janela, RodapeSalvar } from '@/components/ui'
+import { apelidoEmUso } from '@/domain/apelido'
 import { useSalvarPerfil } from '../hooks/usePerfil'
 import { esquemaApelido } from '../schemas/perfil.schema'
 import { textos } from '../textos'
 import { Avatar } from './Topo'
 
 const t = textos.config
+
+/** Erro ao salvar: apelido já usado por outra aluna ou falha geral. */
+const mensagemDoErro = (houve: boolean, erro: unknown) =>
+  houve ? (apelidoEmUso(erro) ? textos.apelidoEmUso : textos.erroSalvar) : null
 
 type Props = { nome: string; apelido: string; avatar: string | null; aoFechar: () => void }
 
@@ -63,7 +68,7 @@ export function JanelaEditar({ nome, apelido, avatar, aoFechar }: Props) {
           </div>
         </div>
       </div>
-      <AvisoErro texto={aviso ?? (salvar.isError ? textos.erroSalvar : null)} />
+      <AvisoErro texto={aviso ?? mensagemDoErro(salvar.isError, salvar.error)} />
     </Janela>
   )
 }

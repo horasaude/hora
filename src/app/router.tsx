@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate, type RouteObject } from 'react-router-dom'
 import { ObrigadaPage, PrivacidadePage, TermosPage, VendasPage } from '@/features/vendas'
 import { rotasAluna } from './rotasAluna'
+import { TelaErro } from './TelaErro'
 
 // Só a página de vendas entra no pacote inicial. Login e área da aluna (Supabase, React Query)
 // carregam sob demanda, para quem vem do anúncio no celular baixar o mínimo.
@@ -77,45 +78,51 @@ const rotasAdmin: RouteObject[] = [
 ]
 
 export const router = createBrowserRouter([
-  { path: '/', element: <VendasPage /> },
-  { path: '/obrigada', element: <ObrigadaPage /> },
-  { path: '/termos', element: <TermosPage /> },
-  { path: '/privacidade', element: <PrivacidadePage /> },
   {
-    path: '/checkout',
-    lazy: async () => ({ Component: (await import('@/features/checkout')).CheckoutPage }),
-  },
-  {
-    path: '/checkout/cartao',
-    lazy: async () => ({ Component: (await import('@/features/checkout')).TrocarCartaoPage }),
-  },
-  {
-    lazy: async () => ({ Component: (await import('./providers')).ComProvedores }),
+    // Erro inesperado ao carregar (ex.: versão nova no ar): tela com Recarregar em vez de página em branco.
+    errorElement: <TelaErro tipo="geral" />,
     children: [
+      { path: '/', element: <VendasPage /> },
+      { path: '/obrigada', element: <ObrigadaPage /> },
+      { path: '/termos', element: <TermosPage /> },
+      { path: '/privacidade', element: <PrivacidadePage /> },
       {
-        path: '/entrar',
-        lazy: async () => ({ Component: (await import('@/features/auth')).LoginPage }),
+        path: '/checkout',
+        lazy: async () => ({ Component: (await import('@/features/checkout')).CheckoutPage }),
       },
       {
-        path: '/definir-senha',
-        lazy: async () => ({ Component: (await import('@/features/auth')).DefinirSenhaPage }),
+        path: '/checkout/cartao',
+        lazy: async () => ({ Component: (await import('@/features/checkout')).TrocarCartaoPage }),
       },
       {
-        path: '/app',
-        lazy: async () => ({ Component: (await import('./AreaAluna')).AreaAluna }),
+        lazy: async () => ({ Component: (await import('./providers')).ComProvedores }),
         children: [
           {
-            lazy: async () => ({ Component: (await import('./LayoutAluna')).LayoutAluna }),
-            children: rotasAluna,
+            path: '/entrar',
+            lazy: async () => ({ Component: (await import('@/features/auth')).LoginPage }),
           },
           {
-            path: 'admin',
-            lazy: async () => ({ Component: (await import('@/features/admin')).PainelLayout }),
-            children: rotasAdmin,
+            path: '/definir-senha',
+            lazy: async () => ({ Component: (await import('@/features/auth')).DefinirSenhaPage }),
+          },
+          {
+            path: '/app',
+            lazy: async () => ({ Component: (await import('./AreaAluna')).AreaAluna }),
+            children: [
+              {
+                lazy: async () => ({ Component: (await import('./LayoutAluna')).LayoutAluna }),
+                children: rotasAluna,
+              },
+              {
+                path: 'admin',
+                lazy: async () => ({ Component: (await import('@/features/admin')).PainelLayout }),
+                children: rotasAdmin,
+              },
+            ],
           },
         ],
       },
+      { path: '*', element: <Navigate to="/" replace /> },
     ],
   },
-  { path: '*', element: <Navigate to="/" replace /> },
 ])

@@ -2,6 +2,7 @@ import { linkWhatsApp } from '@/lib/whatsapp'
 import { Destaque } from '../components/Destaque'
 import { useSituacaoPedido, type Fase } from '../hooks/useSituacaoPedido'
 import { textos } from '../textos'
+import { WHATSAPP_SUPORTE } from '@/lib/contato'
 
 const t = textos.compra.obrigada
 
@@ -53,7 +54,7 @@ function Conteudo({ fase }: { fase: Fase }) {
 /** Depois do pagamento: mostra a situação real do pedido (?pedido=) ou os próximos passos. */
 export function ObrigadaPage() {
   const fase = useSituacaoPedido()
-  const whats = linkWhatsApp(import.meta.env.VITE_WHATSAPP_NUMERO, textos.whatsapp.mensagem)
+  const whats = linkWhatsApp(WHATSAPP_SUPORTE, textos.whatsapp.mensagem)
   return (
     <main className="min-h-dvh bg-creme">
       <div className="mx-auto max-w-2xl px-5 py-16 sm:py-24">

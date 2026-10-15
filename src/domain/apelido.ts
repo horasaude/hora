@@ -6,3 +6,7 @@ export function normalizarApelido(valor: string): string {
 }
 
 export const APELIDO_VALIDO = /^[\p{L}\p{N}._-]+$/u
+
+/** O banco recusou porque outra aluna já usa esse apelido (índice único). */
+export const apelidoEmUso = (erro: unknown) =>
+  typeof erro === 'object' && erro !== null && (erro as { code?: string }).code === '23505'

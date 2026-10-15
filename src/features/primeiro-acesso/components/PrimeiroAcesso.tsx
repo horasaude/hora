@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Campo } from '@/components/ui'
 import { useSalvarPrimeiroAcesso } from '../hooks/useSalvarPrimeiroAcesso'
+import { apelidoEmUso } from '@/domain/apelido'
 import { esquemaApelido } from '../schemas/apelido'
 import { textos } from '../textos'
 import { Moldura } from './Moldura'
@@ -80,7 +81,13 @@ export function PrimeiroAcesso({ apelidoAtual }: { apelidoAtual?: string | null 
       {...comum}
       podeSeguir={aceito && validado.success}
       ocupado={salvar.isPending}
-      erro={salvar.isError ? textos.erro : undefined}
+      erro={
+        salvar.isError
+          ? apelidoEmUso(salvar.error)
+            ? textos.apelido.emUso
+            : textos.erro
+          : undefined
+      }
       aoContinuar={() => validado.success && salvar.mutate(validado.data)}
     >
       <Aceite aceito={aceito} aoMudar={setAceito} />

@@ -54,5 +54,13 @@ export async function testarPerfis() {
   await comoAluna(B)
   await esperaValor('admin enxerga todos os perfis', 'select count(*)::int from public.perfis', 2)
 
+  await comoDono()
+  await db.query(`update public.perfis set apelido = 'Mari' where id = '${A}'`)
+  await esperaErro(
+    'apelido repetido é recusado, mesmo com letra maiúscula diferente',
+    `update public.perfis set apelido = 'mari' where id = '${B}'`,
+    '23505',
+  )
+
   return t.fim('perfis')
 }

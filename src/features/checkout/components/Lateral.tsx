@@ -1,5 +1,6 @@
 import { linkWhatsApp } from '@/lib/whatsapp'
 import { textos } from '../textos'
+import { WHATSAPP_SUPORTE } from '@/lib/contato'
 
 const t = textos.lateral
 
@@ -37,7 +38,7 @@ function Garantia() {
 }
 
 function Ajuda() {
-  const whats = linkWhatsApp(import.meta.env.VITE_WHATSAPP_NUMERO, t.mensagem)
+  const whats = linkWhatsApp(WHATSAPP_SUPORTE, t.mensagem)
   if (!whats) return null
   return (
     <div className="rounded-[1.5rem] bg-ora p-5 text-center text-creme">
