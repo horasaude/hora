@@ -2,6 +2,11 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-23 · main · Check-in da semana no formato da planilha da Laís
+
+- Banco (20261023090000_checkin_semana): checkins aceitam sono, jejum, dieta e venci; regras de pontos novas (5 pontos, uma vez por dia, editáveis no painel). Suíte pontos com 83 checagens.
+- Início: o cartão virou "Semana NN" com a grade de segunda a domingo e os seis hábitos (Sono, Jejum intermitente, Hidratar-se, Dieta, Treino com foto, Venci o dia?), ícones desenhados no lugar dos da planilha; só o dia de hoje marca; legenda no celular.
+
 ## 2026-10-22 · main · Vídeo enviado no exercício
 
 - Espaço treinos aceita MP4, WEBM e MOV até 30 MB (20261022090000_treinos_video). No painel, a mídia do exercício aceita imagem, GIF (5 MB) ou vídeo (30 MB), com prévia em vídeo; a aluna vê o vídeo em loop, sem som (src/domain/arquivos.ts: VIDEOS, ehVideo, extensaoDe).

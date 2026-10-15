@@ -2,7 +2,7 @@ import { subirFoto } from '@/lib/fotos'
 import { supabase, semValor } from '@/lib/supabase'
 import type { Habito } from '../textos'
 
-export type MeusCheckins = { hoje: Habito[]; dias: string[] }
+export type MeusCheckins = { hoje: Habito[]; dias: string[]; porDia: Record<string, Habito[]> }
 
 /** Check-ins válidos desde a data (AAAA-MM-DD): os hábitos de hoje e os dias com algum check-in. */
 export async function buscarMeusCheckins(desde: string, hoje: string): Promise<MeusCheckins> {
@@ -16,6 +16,10 @@ export async function buscarMeusCheckins(desde: string, hoje: string): Promise<M
   return {
     hoje: linhas.filter((l) => l.dia === hoje).map((l) => l.tipo as Habito),
     dias: [...new Set(linhas.map((l) => l.dia))],
+    porDia: linhas.reduce<Record<string, Habito[]>>((acc, l) => {
+      acc[l.dia] = [...(acc[l.dia] ?? []), l.tipo as Habito]
+      return acc
+    }, {}),
   }
 }
 

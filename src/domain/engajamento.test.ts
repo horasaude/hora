@@ -6,6 +6,7 @@ import {
   faltaParaSubir,
   pontosDoGrafico,
   progressoMeta,
+  semanaDeSegunda,
   somarDias,
   tomDaPosicao,
   ultimosSeteDias,
@@ -88,5 +89,21 @@ describe('gráfico', () => {
   })
   it('um só registro fica no meio', () => {
     expect(pontosDoGrafico([70], 100, 50, 10)[0]?.x).toBe(50)
+  })
+})
+
+describe('semanaDeSegunda', () => {
+  it('começa na segunda e termina no domingo', () => {
+    expect(semanaDeSegunda('2026-10-15')).toEqual([
+      '2026-10-12',
+      '2026-10-13',
+      '2026-10-14',
+      '2026-10-15',
+      '2026-10-16',
+      '2026-10-17',
+      '2026-10-18',
+    ])
+    expect(semanaDeSegunda('2026-10-18')[0]).toBe('2026-10-12')
+    expect(semanaDeSegunda('2026-10-12')[6]).toBe('2026-10-18')
   })
 })

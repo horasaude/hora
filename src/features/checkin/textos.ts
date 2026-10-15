@@ -1,14 +1,17 @@
 // Textos do check-in. Os componentes só leem daqui.
 
+/** Quadro da semana, na ordem da planilha da Laís. Treino pede foto (pontos de treino com foto). */
 export const HABITOS = [
-  { id: 'agua', nome: 'Água', tom: 'verde', foto: false },
-  { id: 'treino', nome: 'Treino', tom: 'coral', foto: true },
-  { id: 'cardio', nome: 'Cardio', tom: 'verde', foto: false },
-  { id: 'tarefa', nome: 'Tarefa', tom: 'verde', foto: false },
-  { id: 'refeicao', nome: 'Refeição', tom: 'verde', foto: true },
+  { id: 'sono', nome: 'Sono', foto: false },
+  { id: 'jejum', nome: 'Jejum intermitente', foto: false },
+  { id: 'agua', nome: 'Hidratar-se', foto: false },
+  { id: 'dieta', nome: 'Dieta', foto: false },
+  { id: 'treino', nome: 'Treino', foto: true },
+  { id: 'venci', nome: 'Venci o dia?', foto: false },
 ] as const
 
-export type Habito = (typeof HABITOS)[number]['id']
+/** Todos os tipos de check-in do banco (refeição com foto continua no cardápio). */
+export type Habito = (typeof HABITOS)[number]['id'] | 'refeicao' | 'cardio' | 'tarefa'
 
 export const TIPOS_TREINO = [
   { id: 'musculacao', nome: 'Musculação' },
@@ -20,6 +23,11 @@ export const TIPOS_TREINO = [
 
 export const textos = {
   titulo: 'Check-in de hoje',
+  semana: (n: number) => `Semana ${String(n).padStart(2, '0')}`,
+  diasCurtos: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+  hoje: 'Hoje',
+  dia: (habito: string, dia: string, feito: boolean) =>
+    `${habito}, ${dia}: ${feito ? 'feito' : 'não feito'}`,
   feito: (nome: string) => `${nome}: feito hoje`,
   marcar: (nome: string) => `Marcar ${nome}`,
   seguidos: (n: number) => (n === 1 ? '1 dia seguido' : `${n} dias seguidos`),

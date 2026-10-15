@@ -271,3 +271,9 @@ insert into public.arquivos_aluna (perfil_id, nome, caminho, tipo, tamanho) valu
 update public.treinos set categoria = 'aerobico' where id = 'bbbbbbbb-0000-0000-0000-000000000004';
 update public.treino_exercicios set series = 2, repeticoes = '15 min', carga = 'Moderada', descanso_segundos = 60
 where treino_id = 'bbbbbbbb-0000-0000-0000-000000000004';
+
+insert into public.checkins (perfil_id, tipo, dia)
+select 'aaaaaaaa-0000-0000-0000-000000000040', t, public.hoje_brasilia() - n
+from unnest(array['sono', 'agua', 'dieta', 'venci', 'jejum']) as t, generate_series(1, 3) as n
+where extract(isodow from public.hoje_brasilia() - n) < extract(isodow from public.hoje_brasilia())
+on conflict do nothing;

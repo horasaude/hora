@@ -85,3 +85,10 @@ export function pontosDoGrafico(valores: number[], largura: number, altura: numb
     y: Math.round((altura - margem - ((v - min) / faixa) * (altura - margem * 2)) * 10) / 10,
   }))
 }
+
+/** Segunda a domingo da semana de hoje (datas aaaa-mm-dd), como o quadro de hábitos da Laís. */
+export function semanaDeSegunda(hoje: string): string[] {
+  const d = new Date(`${hoje}T12:00:00Z`)
+  const daSegunda = (d.getUTCDay() + 6) % 7
+  return Array.from({ length: 7 }, (_, i) => somarDias(hoje, i - daSegunda))
+}

@@ -242,6 +242,32 @@ async function acoesProprias(t) {
   )
 }
 
+async function habitosDaSemana(t) {
+  const { esperaValor, esperaErro } = t
+  await t.comoAluna(AMIGA)
+  for (const tipo of ['sono', 'jejum', 'dieta', 'venci'])
+    await esperaValor(
+      `hábito ${tipo} da semana dá 5 pontos`,
+      `select pontos from public.fazer_checkin('${tipo}')`,
+      5,
+    )
+  await esperaValor(
+    '4 hábitos novos somam 20',
+    `select coalesce(sum(pontos), 0)::int from public.lancamentos_pontos where perfil_id = '${AMIGA}' and acao in ('sono', 'jejum', 'dieta', 'venci')`,
+    20,
+  )
+  await esperaValor(
+    'sono de novo no mesmo dia não pontua',
+    `select pontos from public.fazer_checkin('sono')`,
+    0,
+  )
+  await esperaErro(
+    'hábito desconhecido é recusado',
+    `select public.fazer_checkin('dormir')`,
+    '23514',
+  )
+}
+
 export async function testarPontos() {
   const t = await criarBanco()
   await montar(t.db)
@@ -249,6 +275,7 @@ export async function testarPontos() {
   await admin(t)
   await indicacoes(t)
   await acoesProprias(t)
+  await habitosDaSemana(t)
   await t.comoDono()
   return t.fim('pontos e indicações')
 }
