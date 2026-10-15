@@ -2,6 +2,11 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-28 · main · Avisos aparecem para a aluna e menu sem repetição no computador
+
+- Avisos (src/features/avisos): os publicados no painel nunca apareciam na área da aluna; agora o Início mostra no topo os dos últimos 30 dias que ela ainda não fechou (até 3), com Entendi guardado no aparelho.
+- Pílulas de seção (Temas, Cardápios, Treinos; Desafio do mês, Ranking; Lives, Fórum, Loja) só no celular; no computador o menu lateral já leva a todas.
+
 ## 2026-10-27 · main · Lembrete de água no celular
 
 - Banco (20261027090000_lembrete_agua, suíte com 40 checagens): push_inscricoes (cada aluna cuida das suas) e lembretes_de_agua() só para a service_role (quem tem acesso, ativou e ainda não bateu a meta, com quanto já bebeu); pg_cron lembrete-agua às 9h, 11h, 13h, 15h, 17h e 19h de Brasília.

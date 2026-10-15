@@ -277,3 +277,6 @@ select 'aaaaaaaa-0000-0000-0000-000000000040', t, public.hoje_brasilia() - n
 from unnest(array['sono', 'agua', 'dieta', 'venci', 'jejum']) as t, generate_series(1, 3) as n
 where extract(isodow from public.hoje_brasilia() - n) < extract(isodow from public.hoje_brasilia())
 on conflict do nothing;
+
+insert into public.avisos (titulo, texto, publicado, publicar_em) values
+  ('Temos aula ao vivo hoje', E'Hoje às 19h tem live com a Dra. Clara sobre sono e fome.\nO link aparece em Lives 30 minutos antes.', true, now() - interval '1 hour');

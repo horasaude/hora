@@ -4,6 +4,7 @@ import { Cartao, classeBrilho, Retrato } from '@/components/ui'
 import { saudacaoPorHora } from '@/domain/saudacao'
 import { aulaDeHoje, aulasEmAndamento } from '@/domain/trilha'
 import { useMeuPerfil } from '@/features/auth'
+import { AvisosNovos } from '@/features/avisos'
 import { AvisoRespondida } from '@/features/forum'
 import { ChamadaIndicar } from '@/features/perfil'
 import { useTrilha } from '@/features/trilha'
@@ -69,6 +70,7 @@ export function InicioPage() {
         <Cartao className="text-sm text-tinta">{textos.semAcesso}</Cartao>
       ) : (
         <>
+          <AvisosNovos />
           <Resumo />
           <div className="grid items-start gap-4 lg:grid-cols-[1.4fr_1fr] lg:gap-6">
             <div className="flex flex-col gap-4 lg:gap-6">

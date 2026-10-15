@@ -85,14 +85,14 @@ export function BarraLateral({ nome }: { nome: string }) {
   )
 }
 
-/** Telas da aba aberta como pílulas no topo (ativa em verde ORA, as outras em areia com borda fina). */
+/** Telas da aba aberta como pílulas no topo, só no celular (no computador o menu lateral já mostra todas). */
 export function AbasDaSecao() {
   const { secao, tela, live } = useNavegacao()
   if (!secao || secao.telas.length < 2) return null
   return (
     <nav
       aria-label={secao.nome}
-      className="-mx-1 mb-6 flex gap-2 overflow-x-auto px-1 pb-1 lg:mb-8"
+      className="-mx-1 mb-6 flex gap-2 overflow-x-auto px-1 pb-1 lg:hidden"
     >
       {secao.telas.map((x) => {
         const ativa = x === tela
