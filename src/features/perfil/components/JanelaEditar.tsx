@@ -9,7 +9,7 @@ const t = textos.config
 
 type Props = { nome: string; apelido: string; avatar: string | null; aoFechar: () => void }
 
-/** Editar apelido e foto de perfil (foto comprimida, só ela e as profissionais veem). */
+/** Editar apelido e foto de perfil (foto comprimida; aparece no pódio do ranking para quem tem acesso). */
 export function JanelaEditar({ nome, apelido, avatar, aoFechar }: Props) {
   const id = useId()
   const salvar = useSalvarPerfil()

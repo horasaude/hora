@@ -7,8 +7,12 @@ describe('esquemaApelido', () => {
       expect(esquemaApelido.safeParse(a).success).toBe(true)
     }
   })
-  it('recusa curto, longo, espaço e símbolo', () => {
-    for (const a of ['m', 'a'.repeat(21), 'mari silva', 'mari!']) {
+  it('espaço vira ponto e o @ sai', () => {
+    expect(esquemaApelido.parse('mari silva')).toBe('mari.silva')
+    expect(esquemaApelido.parse('@lais')).toBe('lais')
+  })
+  it('recusa curto, longo e símbolo', () => {
+    for (const a of ['m', 'a'.repeat(21), 'mari!', 'mari#1']) {
       expect(esquemaApelido.safeParse(a).success).toBe(false)
     }
   })

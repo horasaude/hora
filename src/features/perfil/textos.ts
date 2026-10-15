@@ -11,7 +11,9 @@ export const textos = {
   fechar: 'Fechar',
   salvar: 'Salvar',
   salvando: 'Salvando',
-  apelidoInvalido: 'Use de 2 a 20 letras ou números, sem espaço (pode ponto, traço e sublinhado).',
+  apelidoInvalido:
+    'Use só letras, números, ponto, traço ou sublinhado (sem emoji ou símbolos como ! e #).',
+  apelidoTamanho: 'O apelido precisa ter de 2 a 20 caracteres.',
   fotoDe: (nome: string) => `Foto de ${nome}`,
   dia: (dia: number, semana: number) => `Dia ${dia} · Semana ${semana}`,
   resumo: {
