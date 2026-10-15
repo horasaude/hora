@@ -2,6 +2,13 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-27 · main · Lembrete de água no celular
+
+- Banco (20261027090000_lembrete_agua, suíte com 40 checagens): push_inscricoes (cada aluna cuida das suas) e lembretes_de_agua() só para a service_role (quem tem acesso, ativou e ainda não bateu a meta, com quanto já bebeu); pg_cron lembrete-agua às 9h, 11h, 13h, 15h, 17h e 19h de Brasília.
+- Edge Function lembrete-agua (npm:web-push, chaves VAPID nos secrets VAPID_PUBLICA, VAPID_PRIVADA e VAPID_ASSUNTO; inscrição vencida é apagada). Texto em _shared/agua.ts.
+- Aluna: Lembrar de beber água no cartão Água de hoje (pede permissão e inscreve o aparelho; src/lib/push.ts); no iPhone só com o ORA instalado na tela de início. public/sw-push.js mostra a notificação e abre o app.
+- Testado: função responde pelo pg_cron (0 envios sem inscrição). Falta testar a notificação num celular de verdade.
+
 ## 2026-10-26 · main · Pontos visíveis para a aluna, água em ml e indicação em destaque
 
 - Banco: meus_pontos_do_dia() (20261026090000) lista cada regra ligada com pontos, limite e o que ela fez hoje; água em ml (20261026100000): configuracoes.agua_meta_ml (painel), agua_registros e registrar_agua(ml) que soma ou desfaz o copo e, ao bater a meta, marca Água e dá os pontos; fazer_checkin recusa água manual.

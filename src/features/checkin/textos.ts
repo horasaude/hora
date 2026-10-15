@@ -61,6 +61,13 @@ export const textos = {
     batida: 'Meta batida',
     pontos: (n: number) => `+${n} pts quando chegar à meta`,
   },
+  lembrete: {
+    ligar: 'Lembrar de beber água',
+    ligado: 'Lembretes ligados (9h às 19h)',
+    desligar: 'Desligar',
+    negado: 'O celular não permitiu as notificações. Libere nas configurações do navegador.',
+    instalar: 'Para receber lembretes no iPhone, instale o ORA na tela de início.',
+  },
   pontosDia: {
     titulo: 'Seus pontos de hoje',
     total: (n: number) => `${n.toLocaleString('pt-BR')} pts hoje`,

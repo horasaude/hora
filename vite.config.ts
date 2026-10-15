@@ -17,6 +17,8 @@ export default defineConfig({
       // A página do app vem sempre da rede quando há internet (cache só sem conexão).
       // Antes ela vinha do cache e uma versão velha mandava endereços novos para a página de vendas.
       workbox: {
+        // Lembretes de água: o tratamento do push fica em public/sw-push.js.
+        importScripts: ['/sw-push.js'],
         navigateFallback: null,
         cleanupOutdatedCaches: true,
         clientsClaim: true,

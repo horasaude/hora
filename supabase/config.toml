@@ -425,3 +425,6 @@ verify_jwt = false
 
 [functions.lembretes-pagamento]
 verify_jwt = false
+
+[functions.lembrete-agua]
+verify_jwt = false

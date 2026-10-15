@@ -3,6 +3,7 @@ import { AvisoErro, IconeCheck, PontosGanhos } from '@/components/ui'
 import { useAguaHoje, usePontosDoDia, useRegistrarAgua } from '../hooks/useCheckin'
 import { textos } from '../textos'
 import { IconeAgua } from './IconesHabito'
+import { LembreteAgua } from './LembreteAgua'
 
 const t = textos.agua
 const litros = (ml: number) =>
@@ -91,6 +92,7 @@ export function CartaoAgua() {
         <p className="text-xs text-suave">{t.pontos(valor)}</p>
       )}
       <Copos total={total} ocupado={registrar.isPending} somar={somar} />
+      <LembreteAgua />
       {ganho && <PontosGanhos pontos={ganho.pontos} chave={ganho.chave} />}
       <AvisoErro texto={registrar.isError ? textos.erro : null} />
     </section>

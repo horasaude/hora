@@ -105,3 +105,20 @@ export async function meusPontosDoDia(): Promise<AcaoDePontos[]> {
   if (error) throw error
   return data ?? []
 }
+
+/** Guarda a inscrição deste aparelho para os lembretes de água. */
+export async function salvarInscricao(i: {
+  endpoint: string
+  p256dh: string
+  auth: string
+}): Promise<void> {
+  const { error } = await supabase
+    .from('push_inscricoes')
+    .upsert({ ...i, lembrete_agua: true }, { onConflict: 'endpoint' })
+  if (error) throw error
+}
+
+export async function removerInscricao(endpoint: string): Promise<void> {
+  const { error } = await supabase.from('push_inscricoes').delete().eq('endpoint', endpoint)
+  if (error) throw error
+}

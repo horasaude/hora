@@ -2025,6 +2025,44 @@ export type Database = {
           },
         ]
       }
+      push_inscricoes: {
+        Row: {
+          auth: string
+          created_at: string
+          endpoint: string
+          id: string
+          lembrete_agua: boolean
+          p256dh: string
+          perfil_id: string
+        }
+        Insert: {
+          auth: string
+          created_at?: string
+          endpoint: string
+          id?: string
+          lembrete_agua?: boolean
+          p256dh: string
+          perfil_id?: string
+        }
+        Update: {
+          auth?: string
+          created_at?: string
+          endpoint?: string
+          id?: string
+          lembrete_agua?: boolean
+          p256dh?: string
+          perfil_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "push_inscricoes_perfil_id_fkey"
+            columns: ["perfil_id"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       receita_itens: {
         Row: {
           alimento_id: string
@@ -2707,6 +2745,17 @@ export type Database = {
       lancar_ajuste: {
         Args: { p_motivo: string; p_perfil: string; p_pontos: number }
         Returns: string
+      }
+      lembretes_de_agua: {
+        Args: never
+        Returns: {
+          auth: string
+          endpoint: string
+          inscricao: string
+          meta: number
+          p256dh: string
+          total: number
+        }[]
       }
       liberar_acesso: {
         Args: { p_inicio: string; p_perfil: string }
