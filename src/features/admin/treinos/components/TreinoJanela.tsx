@@ -55,6 +55,7 @@ const novoItem = (e: Exercicio, aerobico: boolean): ItemTreino => ({
   series_detalhe: [],
   alternativo_id: null,
   alternativo_nome: '',
+  combinado: null,
 })
 
 /** Exercícios do treino; no aeróbico, os campos viram blocos, duração e intensidade. */

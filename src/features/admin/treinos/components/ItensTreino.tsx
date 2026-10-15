@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { ItemTreino } from '../api/treinos.api'
+import { combinarComProximo, letraCombinado, separar } from '@/domain/combinados'
 import { t } from '../textos'
 import { ItemDoTreino } from './ItemDoTreino'
 
@@ -26,7 +27,7 @@ export function ItensTreino({ itens, mudar }: Props) {
           onDragStart={() => setArrastando(i)}
           onDragOver={(e) => e.preventDefault()}
           onDrop={() => soltar(i)}
-          className={`rounded-2xl border bg-white p-3 ${arrastando === i ? 'border-coral' : 'border-[#ECEFED]'}`}
+          className={`rounded-2xl border bg-white p-3 ${arrastando === i ? 'border-coral' : 'border-[#ECEFED]'} ${item.combinado ? 'border-l-4 border-l-dourado' : ''}`}
         >
           <ItemDoTreino
             item={item}
@@ -39,7 +40,10 @@ export function ItensTreino({ itens, mudar }: Props) {
                 ...itens.slice(i + 1),
               ])
             }
-            remover={() => mudar(itens.filter((_, j) => j !== i))}
+            remover={() => mudar(separar(itens, i).filter((_, j) => j !== i))}
+            letra={letraCombinado(itens, i)}
+            combinar={i < itens.length - 1 ? () => mudar(combinarComProximo(itens, i)) : undefined}
+            separar={() => mudar(separar(itens, i))}
           />
         </li>
       ))}

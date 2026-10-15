@@ -68,7 +68,7 @@ export async function buscarTreino(id: string): Promise<{ treino: Treino; itens:
     await supabase
       .from('treino_exercicios')
       .select(
-        'exercicio_id, series, repeticoes, carga, descanso_segundos, observacao, series_detalhe, alternativo_id, exercicios!exercicio_id(nome), alternativo:exercicios!alternativo_id(nome)',
+        'exercicio_id, series, repeticoes, carga, descanso_segundos, observacao, series_detalhe, alternativo_id, combinado, exercicios!exercicio_id(nome), alternativo:exercicios!alternativo_id(nome)',
       )
       .eq('treino_id', id)
       .order('ordem'),

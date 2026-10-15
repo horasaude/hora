@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { AvisoErro } from '@/components/ui'
+import { letraCombinado, parceiros } from '@/domain/combinados'
 import { seriesDoItem } from '@/domain/series'
 import { progressoDoTreino } from '@/domain/treinos'
 import type { TreinoCompleto } from '../api/treinos.api'
@@ -16,14 +17,25 @@ import { textos } from '../textos'
 
 const t = textos.execucao
 
-function Passo({ x, aerobico }: { x: ReturnType<typeof useExecucao>; aerobico: boolean }) {
+/** Letra no bi-set e os nomes dos parceiros (null quando o exercício está sozinho). */
+function combinadoDe(treino: TreinoCompleto, i: number) {
+  const letra = letraCombinado(treino.itens, i)
+  if (!letra) return null
+  return {
+    letra,
+    com: parceiros(treino.itens, i).map((j) => treino.itens[j]?.exercicio.nome ?? ''),
+  }
+}
+
+function Passo({ x, treino }: { x: ReturnType<typeof useExecucao>; treino: TreinoCompleto }) {
   const p = x.passo
   if (!p) return null
   if (p.tipo !== 'exercicio') return <PassoTexto titulo={t[p.tipo]} texto={p.texto} />
   return (
     <PassoExercicio
       item={p.item}
-      aerobico={aerobico}
+      aerobico={treino.categoria === 'aerobico'}
+      combinado={combinadoDe(treino, p.indice)}
       feitas={x.marcadas[String(p.indice)] ?? 0}
       aoTocar={(s) =>
         x.tocarSerie(
@@ -59,7 +71,7 @@ function Execucao({ treino, voltar }: { treino: TreinoCompleto; voltar: string }
         pct={pct}
         nome={treino.nome}
       />
-      <Passo x={x} aerobico={treino.categoria === 'aerobico'} />
+      <Passo x={x} treino={treino} />
       {x.descanso && (
         <Descanso d={x.descanso} som={som} aoMudarSom={setSom} aoFechar={x.fecharDescanso} />
       )}

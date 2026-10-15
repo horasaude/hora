@@ -56,6 +56,8 @@ export const textos = {
     series: (s: number, r: string) => `${s} x ${r}`,
     carga: (c: string) => `Carga sugerida: ${c}`,
     intensidade: (c: string) => `Intensidade: ${c}`,
+    combinado: (letra: string, com: string[]) =>
+      `Combinado ${letra} · alterne com ${com.join(' e ')}`,
     bloco: (n: number, duracao: string) => (n > 1 ? `${n} blocos de ${duracao}` : duracao),
     instrucoes: 'Como fazer',
     erros: 'Erros comuns',

@@ -219,6 +219,22 @@ async function aerobico(t) {
   )
 }
 
+async function combinados(t) {
+  const { esperaValor } = t
+  await t.comoAluna(ADMIN)
+  await t.db.query(`select public.salvar_treino(
+    jsonb_build_object('nome', 'Bi-set', 'tema_id', ${tema('emagrecimento')}, 'nivel', 'iniciante', 'local', 'casa'),
+    jsonb_build_array(jsonb_build_object('exercicio_id', ${ex('Polichinelo')}, 'combinado', 1),
+      jsonb_build_object('exercicio_id', ${ex('Prancha frontal')}, 'combinado', 1),
+      jsonb_build_object('exercicio_id', ${ex('Agachamento livre')})))`)
+  await esperaValor(
+    'exercícios combinados guardam o grupo',
+    `select string_agg(coalesce(te.combinado::text, '-'), ',' order by te.ordem) from public.treino_exercicios te
+     join public.treinos tr on tr.id = te.treino_id where tr.nome = 'Bi-set'`,
+    '1,1,-',
+  )
+}
+
 export async function testarTreinos() {
   const t = await criarBanco()
   await montar(t.db)
@@ -227,5 +243,6 @@ export async function testarTreinos() {
   await painel(t)
   await estiloMfit(t)
   await aerobico(t)
+  await combinados(t)
   return t.fim('treinos')
 }

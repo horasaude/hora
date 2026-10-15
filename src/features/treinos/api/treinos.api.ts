@@ -71,7 +71,7 @@ export async function buscarTreino(id: string): Promise<TreinoCompleto | null> {
   const { data, error } = await supabase
     .from('treinos')
     .select(
-      '*, treino_exercicios(exercicio_id, ordem, series, repeticoes, carga, descanso_segundos, observacao, series_detalhe, alternativo_id, exercicio:exercicios!exercicio_id(*), alternativo:exercicios!alternativo_id(*))',
+      '*, treino_exercicios(exercicio_id, ordem, series, repeticoes, carga, descanso_segundos, observacao, series_detalhe, alternativo_id, combinado, exercicio:exercicios!exercicio_id(*), alternativo:exercicios!alternativo_id(*))',
     )
     .eq('id', id)
     .order('ordem', { referencedTable: 'treino_exercicios' })

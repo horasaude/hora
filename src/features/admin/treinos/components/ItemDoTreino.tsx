@@ -13,6 +13,9 @@ type Props = {
   trocar: (campos: Partial<ItemTreino>) => void
   duplicar: () => void
   remover: () => void
+  letra: string | null
+  combinar?: () => void
+  separar: () => void
 }
 
 /** Série por série: a primeira também vai para os campos simples (a aluna antiga lê deles). */
@@ -24,7 +27,17 @@ const comDetalhe = (series: Serie[]): Partial<ItemTreino> => ({
   descanso_segundos: series[0]?.descanso_segundos ?? 60,
 })
 
-function Cabecalho({ item, i, acoes }: { item: ItemTreino; i: number; acoes: Acao[] }) {
+function Cabecalho({
+  item,
+  i,
+  acoes,
+  letra,
+}: {
+  item: ItemTreino
+  i: number
+  acoes: Acao[]
+  letra: string | null
+}) {
   return (
     <div className="flex items-center gap-2">
       <span
@@ -36,6 +49,11 @@ function Cabecalho({ item, i, acoes }: { item: ItemTreino; i: number; acoes: Aca
       </span>
       <span className="flex-1 text-sm font-bold text-tinta">
         {i + 1}. {item.nome}
+        {letra && (
+          <span className="ml-2 rounded-full bg-[#FFF6E5] px-2 py-0.5 text-[11px] font-bold text-dourado">
+            {t.itens.combinado(letra)}
+          </span>
+        )}
         {item.alternativo_nome && (
           <span className="block text-[11px] font-normal text-suave">
             {t.itens.alternativoNome(item.alternativo_nome)}
@@ -50,7 +68,8 @@ function Cabecalho({ item, i, acoes }: { item: ItemTreino; i: number; acoes: Aca
 type Escolha = 'trocar' | 'alternativo' | null
 
 /** Um exercício do treino: cabeçalho com ações, séries (simples ou série por série) e observação. */
-export function ItemDoTreino({ item, i, trocar, duplicar, remover }: Props) {
+export function ItemDoTreino(props: Props) {
+  const { item, i, trocar, duplicar, remover } = props
   const [escolha, setEscolha] = useState<Escolha>(null)
   const series = seriesDoItem(item)
   const detalhado = Array.isArray(item.series_detalhe) && item.series_detalhe.length > 0
@@ -71,11 +90,13 @@ export function ItemDoTreino({ item, i, trocar, duplicar, remover }: Props) {
           },
         ]
       : []),
+    ...(props.combinar ? [{ nome: t.itens.combinar, aoEscolher: props.combinar }] : []),
+    ...(props.letra ? [{ nome: t.itens.separar, aoEscolher: props.separar }] : []),
     { nome: t.remover, perigo: true, aoEscolher: remover },
   ]
   return (
     <div className="flex flex-col gap-2">
-      <Cabecalho item={item} i={i} acoes={acoes} />
+      <Cabecalho item={item} i={i} acoes={acoes} letra={props.letra} />
       {escolha && (
         <EscolherExercicios
           titulo={

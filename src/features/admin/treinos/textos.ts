@@ -106,6 +106,9 @@ export const t = {
     replicar: 'Replicar séries',
     removerSerie: (n: number) => `Remover série ${n}`,
     mais: (n: string) => `Mais ações de ${n}`,
+    combinar: 'Combinar com o próximo',
+    separar: 'Tirar da combinação',
+    combinado: (letra: string) => `Combinado ${letra}`,
   },
   rotulos: {
     musculacao: {

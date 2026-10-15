@@ -2323,6 +2323,7 @@ export type Database = {
         Row: {
           alternativo_id: string | null
           carga: string
+          combinado: number | null
           descanso_segundos: number
           exercicio_id: string
           id: string
@@ -2336,6 +2337,7 @@ export type Database = {
         Insert: {
           alternativo_id?: string | null
           carga?: string
+          combinado?: number | null
           descanso_segundos?: number
           exercicio_id: string
           id?: string
@@ -2349,6 +2351,7 @@ export type Database = {
         Update: {
           alternativo_id?: string | null
           carga?: string
+          combinado?: number | null
           descanso_segundos?: number
           exercicio_id?: string
           id?: string

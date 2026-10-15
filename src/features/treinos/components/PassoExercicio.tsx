@@ -11,6 +11,7 @@ type Props = {
   feitas: number
   aoTocar: (serie: number) => void
   aerobico?: boolean
+  combinado?: { letra: string; com: string[] } | null
 }
 
 /** Bolinhas das séries: toca conforme faz (tocar numa já feita desmarca dali em diante). */
@@ -60,7 +61,7 @@ function ListaSeries({ series }: { series: Serie[] }) {
 }
 
 /** Um exercício: demonstração, nome, séries, carga, alternativo, instruções recolhíveis e as séries. */
-export function PassoExercicio({ item, feitas, aoTocar, aerobico = false }: Props) {
+export function PassoExercicio({ item, feitas, aoTocar, aerobico = false, combinado }: Props) {
   const [usarAlternativo, setUsarAlternativo] = useState(false)
   const e = usarAlternativo && item.alternativo ? item.alternativo : item.exercicio
   const series = seriesDoItem(item)
@@ -68,6 +69,11 @@ export function PassoExercicio({ item, feitas, aoTocar, aerobico = false }: Prop
     <article className="flex flex-col gap-4">
       <Midia nome={e.nome} video={e.video_url} foto={e.foto_path} />
       <header>
+        {combinado && (
+          <p className="mb-2 inline-flex rounded-full bg-[#FFF6E5] px-3 py-1 text-xs font-bold text-dourado">
+            {t.combinado(combinado.letra, combinado.com)}
+          </p>
+        )}
         <h2 className="text-[24px] leading-tight font-bold text-verde-escuro">{e.nome}</h2>
         <p className="mt-1 text-[17px] font-bold text-coral">
           {aerobico ? t.bloco(series.length, item.repeticoes) : resumoSeries(series)}
