@@ -104,6 +104,78 @@ export type Database = {
         }
         Relationships: []
       }
+      anamnese_respostas: {
+        Row: {
+          anamnese_id: string
+          created_at: string
+          enviada_em: string | null
+          perfil_id: string
+          respostas: Json
+          updated_at: string
+        }
+        Insert: {
+          anamnese_id: string
+          created_at?: string
+          enviada_em?: string | null
+          perfil_id?: string
+          respostas?: Json
+          updated_at?: string
+        }
+        Update: {
+          anamnese_id?: string
+          created_at?: string
+          enviada_em?: string | null
+          perfil_id?: string
+          respostas?: Json
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "anamnese_respostas_anamnese_id_fkey"
+            columns: ["anamnese_id"]
+            isOneToOne: false
+            referencedRelation: "anamneses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "anamnese_respostas_perfil_id_fkey"
+            columns: ["perfil_id"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      anamneses: {
+        Row: {
+          created_at: string
+          descricao: string
+          id: string
+          perguntas: Json
+          publicada: boolean
+          titulo: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          descricao?: string
+          id?: string
+          perguntas?: Json
+          publicada?: boolean
+          titulo: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          descricao?: string
+          id?: string
+          perguntas?: Json
+          publicada?: boolean
+          titulo?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       assinaturas: {
         Row: {
           created_at: string
@@ -2679,6 +2751,7 @@ export type Database = {
         }[]
       }
       perfil_por_email: { Args: { p_email: string }; Returns: string }
+      perguntas_validas: { Args: { p: Json }; Returns: boolean }
       ranking_desafio: {
         Args: { p_desafio: string }
         Returns: {

@@ -1,3 +1,4 @@
+import { CartaoAvaliacoes } from '@/features/avaliacoes'
 import { MeuTema } from '@/features/trilha'
 import { PreferenciasTreino } from '@/features/treinos'
 import { Configuracoes } from '../components/Configuracoes'
@@ -13,6 +14,7 @@ export function ContaPage() {
         <div className="flex flex-col gap-5 lg:gap-6">
           <MeuTema />
           <PreferenciasTreino />
+          <CartaoAvaliacoes />
           <Configuracoes />
         </div>
         <Indicar />

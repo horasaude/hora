@@ -259,3 +259,8 @@ insert into public.treinos_feitos (perfil_id, treino_id, data, series, concluido
 select 'aaaaaaaa-0000-0000-0000-000000000040', 'bbbbbbbb-0000-0000-0000-000000000001', public.hoje_brasilia() - n, '{"0": 3}', now() - make_interval(days => n)
 from unnest(array[2, 5, 9, 12]) as n
 where date_trunc('month', public.hoje_brasilia() - n) = date_trunc('month', public.hoje_brasilia());
+
+update public.anamneses set publicada = true;
+insert into public.anamnese_respostas (anamnese_id, perfil_id, respostas)
+select id, 'aaaaaaaa-0000-0000-0000-000000000040', '{"objetivo": "Emagrecer", "treina": "nao"}'
+from public.anamneses;

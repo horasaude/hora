@@ -8,6 +8,7 @@ const loja = () => import('@/features/loja')
 const desafiosAluna = () => import('@/features/desafios')
 const cardapios = () => import('@/features/cardapios')
 const treinos = () => import('@/features/treinos')
+const avaliacoes = () => import('@/features/avaliacoes')
 
 export const rotasAluna: RouteObject[] = [
   {
@@ -23,6 +24,11 @@ export const rotasAluna: RouteObject[] = [
     lazy: async () => ({ Component: (await trilha()).PreviaAulaPage }),
   },
   { path: 'cardapios', lazy: async () => ({ Component: (await cardapios()).CardapiosPage }) },
+  { path: 'avaliacoes', lazy: async () => ({ Component: (await avaliacoes()).AvaliacoesPage }) },
+  {
+    path: 'avaliacoes/:anamneseId',
+    lazy: async () => ({ Component: (await avaliacoes()).AnamnesePage }),
+  },
   { path: 'treinos', lazy: async () => ({ Component: (await treinos()).TreinosPage }) },
   { path: 'treinos/:treinoId', lazy: async () => ({ Component: (await treinos()).ExecucaoPage }) },
   {

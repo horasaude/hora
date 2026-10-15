@@ -9,9 +9,10 @@ const ABAS = [
   { para: '/app/admin/treinos/exercicios', nome: t.abas.exercicios },
   { para: '/app/admin/treinos/modelos', nome: t.abas.modelos },
   { para: '/app/admin/treinos/publicados', nome: t.abas.publicados },
+  { para: '/app/admin/treinos/anamnese', nome: t.abas.anamnese },
 ]
 
-/** Moldura das telas de Treinos: título, botão principal, KPIs e as pílulas das quatro telas. */
+/** Moldura das telas de Treinos: título, botão principal, KPIs e as pílulas das telas. */
 export function QuadroTreinos({ acao, children }: { acao?: ReactNode; children: ReactNode }) {
   const r = useResumoTreinos().data
   const n = (v: number | undefined) => (v === undefined ? '-' : String(v))

@@ -2,6 +2,12 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-18 · main · Anamnese (Avaliações)
+
+- Banco (20261018090000_anamnese, suíte anamnese com 40 checagens): anamneses (perguntas em jsonb validadas por perguntas_validas: texto, sim ou não, escolha com 2 a 12 opções) e anamnese_respostas (só a dona e a equipe leem; a aluna edita até enviar; a equipe apaga para pedir de novo). Anamnese inicial semeada como rascunho, com 9 perguntas para a equipe revisar antes de publicar.
+- Painel: Treinos > Anamnese (lista com perguntas e respondidas, janela com perguntas, tipo, opções, obrigatória e ordem); cartão da aluna em Alunas mostra as respostas e Pedir para responder de novo.
+- Aluna (src/features/avaliacoes): /app/avaliacoes (Para responder e Respondidas) e uma pergunta por tela com barra de progresso; guarda a cada Avançar e envia na última. Aviso em Treinos e cartão em Minha conta enquanto houver anamnese sem enviar.
+
 ## 2026-10-17 · main · Treinos no jeito do MFIT (lado da profissional)
 
 - Mapeado o MFIT da Laís (só leitura): fluxo de rotina, treino, exercício e visão do aluno. Sem API pública; ficou fora o faturamento (é do ORA) e a cópia de visual.

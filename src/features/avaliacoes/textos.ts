@@ -1,0 +1,36 @@
+// Textos das Avaliações (anamnese) da aluna. Os componentes só leem daqui.
+
+export const textos = {
+  titulo: 'Avaliações',
+  estados: {
+    carregando: 'Carregando',
+    erro: 'Não foi possível carregar.',
+    tentar: 'Tentar de novo',
+  },
+  vazio: 'Nenhuma avaliação para responder agora.',
+  pendentes: 'Para responder',
+  respondidas: 'Respondidas',
+  responder: 'Responder',
+  continuar: 'Continuar',
+  ver: 'Ver respostas',
+  respondidaEm: (data: string) => `Respondida em ${data}`,
+  pct: (n: number) => `${n}% respondida`,
+  perguntaDe: (i: number, n: number) => `Pergunta ${i} de ${n}`,
+  obrigatoria: 'Obrigatória',
+  sim: 'Sim',
+  nao: 'Não',
+  escreva: 'Escreva sua resposta',
+  voltar: 'Voltar',
+  avancar: 'Avançar',
+  enviar: 'Enviar respostas',
+  salvando: 'Salvando',
+  falta: 'Responda esta pergunta para continuar.',
+  erroSalvar: 'Não foi possível salvar. Tente de novo.',
+  enviada: 'Respostas enviadas. A equipe já pode ver.',
+  sair: 'Voltar para Avaliações',
+  aviso: 'Responda sua anamnese para a equipe montar treinos seguros para você.',
+  privado: 'Só a equipe ORA vê suas respostas.',
+  faltam: (n: number) =>
+    n === 1 ? '1 avaliação para responder' : `${n} avaliações para responder`,
+  tudoRespondido: 'Tudo respondido.',
+}

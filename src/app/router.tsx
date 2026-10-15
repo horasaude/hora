@@ -27,7 +27,8 @@ const pagina =
       | 'TreinosPainelPage'
       | 'ExerciciosPage'
       | 'ModelosPage'
-      | 'PublicadosPage',
+      | 'PublicadosPage'
+      | 'AnamnesesPage',
   ) =>
   async () => ({
     Component: (await admin())[nome],
@@ -62,6 +63,7 @@ const rotasAdmin: RouteObject[] = [
   { path: 'treinos/exercicios', lazy: pagina('ExerciciosPage') },
   { path: 'treinos/modelos', lazy: pagina('ModelosPage') },
   { path: 'treinos/publicados', lazy: pagina('PublicadosPage') },
+  { path: 'treinos/anamnese', lazy: pagina('AnamnesesPage') },
   ...['desafios', 'desafios/novo', 'desafios/:desafioId'].map((path) => ({ path, lazy: desafios })),
   ...['alunas', 'alunas/:alunaId'].map((path) => ({ path, lazy: alunas })),
   { path: 'configuracoes/equipe', lazy: pagina('EquipePage') },

@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useMeuPerfil } from '@/features/auth'
+import { AvisoAnamnese } from '@/features/avaliacoes'
 import { diaDaSemanaBrasilia } from '@/domain/treinos'
 import { diaEmBrasilia } from '@/lib/datas'
 import { EscolhaNivelLocal } from '../components/EscolhaNivelLocal'
@@ -88,6 +89,7 @@ export function TreinosPage() {
   return (
     <section className="flex flex-col gap-6 font-sistema">
       <h1 className="text-[26px] font-bold text-verde-escuro">{textos.titulo}</h1>
+      {!previa && <AvisoAnamnese />}
       {nivel && local ? <Conteudo nivel={nivel} local={local} /> : <EscolhaNivelLocal />}
     </section>
   )
