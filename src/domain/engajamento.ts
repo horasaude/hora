@@ -31,7 +31,17 @@ export function ultimosSeteDias(dias: string[], hoje: string): boolean[] {
   return Array.from({ length: 7 }, (_, i) => feitos.has(somarDias(hoje, i - 6)))
 }
 
-export type LinhaRanking = { posicao: number; apelido: string; pontos: number; eu: boolean }
+export type LinhaRanking = {
+  posicao: number
+  apelido: string
+  pontos: number
+  eu: boolean
+  avatar_path?: string | null
+}
+
+/** As três primeiras com pontos, na ordem do pódio (1º, 2º e 3º). */
+export const podio = (lista: LinhaRanking[]) =>
+  lista.filter((l) => l.pontos > 0 && l.posicao <= 3).sort((a, b) => a.posicao - b.posicao)
 
 /** Pontos que faltam para passar quem está logo acima; null se ela é a primeira ou não está na lista. */
 export function faltaParaSubir(lista: LinhaRanking[]): number | null {

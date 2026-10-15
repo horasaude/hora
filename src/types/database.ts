@@ -2819,6 +2819,7 @@ export type Database = {
         Args: { p_periodo: string }
         Returns: {
           apelido: string
+          avatar_path: string
           eu: boolean
           pontos: number
           posicao: number

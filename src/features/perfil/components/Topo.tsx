@@ -1,10 +1,12 @@
 import { semanaDoAcesso } from '@/domain/trilha'
+import { Retrato } from '@/components/ui'
 import { useMeuPerfil } from '@/features/auth'
+import { useLugarNoPodio } from '@/features/ranking'
 import { useTrilha } from '@/features/trilha'
 import { useAvatar } from '../hooks/usePerfil'
 import { textos } from '../textos'
 
-/** Foto (ou a inicial) num círculo. */
+/** Foto (ou a inicial) num círculo; com a coroinha quando ela está no pódio do mês. */
 export function Avatar({
   nome,
   caminho,
@@ -15,19 +17,14 @@ export function Avatar({
   tamanho?: string
 }) {
   const foto = useAvatar(caminho)
-  return foto.data ? (
-    <img
-      src={foto.data}
-      alt={textos.fotoDe(nome)}
-      className={`${tamanho} shrink-0 rounded-full object-cover`}
+  return (
+    <Retrato
+      nome={nome}
+      foto={foto.data ?? null}
+      lugar={useLugarNoPodio()}
+      tamanho={tamanho}
+      texto="text-2xl"
     />
-  ) : (
-    <span
-      aria-hidden
-      className={`${tamanho} grid shrink-0 place-items-center rounded-full bg-terracota-suave text-2xl font-bold text-terracota-escuro`}
-    >
-      {nome[0]?.toUpperCase()}
-    </span>
   )
 }
 

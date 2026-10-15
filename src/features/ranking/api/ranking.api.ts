@@ -1,4 +1,5 @@
 import type { LinhaRanking } from '@/domain/engajamento'
+import { linksDasFotos } from '@/lib/fotos'
 import { supabase } from '@/lib/supabase'
 
 export type Periodo = 'mes' | 'ano'
@@ -23,4 +24,12 @@ export async function buscarUltimoPonto(): Promise<UltimoPonto | null> {
     .maybeSingle()
   if (error) throw error
   return data
+}
+
+/** Links das fotos de perfil (espaço avatares, que a comunidade com acesso lê). */
+export async function linksDosRetratos(caminhos: (string | null | undefined)[]) {
+  return linksDasFotos(
+    'avatares',
+    caminhos.map((c) => c ?? null),
+  )
 }

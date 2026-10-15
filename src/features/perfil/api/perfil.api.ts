@@ -13,7 +13,7 @@ export async function contarAulasConcluidas(): Promise<number> {
 /** Link assinado da foto de perfil (espaço privado evolucao). */
 export async function linkAvatar(caminho: string | null): Promise<string | null> {
   if (!caminho) return null
-  return (await linksDasFotos('evolucao', [caminho])).get(caminho) ?? null
+  return (await linksDasFotos('avatares', [caminho])).get(caminho) ?? null
 }
 
 export type EdicaoPerfil = { apelido: string; arquivo?: File | null }
@@ -21,7 +21,7 @@ export type EdicaoPerfil = { apelido: string; arquivo?: File | null }
 /** Grava apelido e, se veio, a foto nova (comprimida) na pasta dela. */
 export async function salvarPerfil(d: EdicaoPerfil): Promise<void> {
   const id = await minhaPasta()
-  const avatar_path = d.arquivo ? await subirFoto('evolucao', 'avatar', d.arquivo) : undefined
+  const avatar_path = d.arquivo ? await subirFoto('avatares', 'avatar', d.arquivo) : undefined
   const { error } = await supabase
     .from('perfis')
     .update({ apelido: d.apelido, ...(avatar_path ? { avatar_path } : {}) })

@@ -4,6 +4,7 @@ import { useMeuPerfil } from '@/features/auth'
 import type { Periodo } from '../api/ranking.api'
 import { ListaRanking } from '../components/ListaRanking'
 import { MinhaPosicao } from '../components/MinhaPosicao'
+import { Podio } from '../components/Podio'
 import { useRanking } from '../hooks/useRanking'
 import { textos } from '../textos'
 
@@ -36,6 +37,7 @@ export function RankingPage() {
         <Vazio>{textos.vazio}</Vazio>
       ) : (
         <div className="flex flex-col gap-5 lg:gap-6">
+          <Podio linhas={linhas} periodo={periodo} />
           <MinhaPosicao
             linhas={linhas}
             periodo={periodo}

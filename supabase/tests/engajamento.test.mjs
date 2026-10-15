@@ -56,7 +56,7 @@ async function checkins(t) {
 }
 
 async function ranking(t) {
-  const { db, esperaValor } = t
+  const { db, esperaValor, esperaErro } = t
   await t.comoDono()
   await db.exec(`
     select public.conceder_pontos('${AMIGA}', 'ajuste', 'teste', null, 50);
@@ -105,7 +105,38 @@ async function ranking(t) {
     `select count(*)::int from public.ranking_pontos('mes') where pontos = 30`,
     0,
   )
+  await t.comoDono()
+  await db.exec(`
+    update public.perfis set avatar_path = '${AMIGA}/avatar-1.jpg' where id = '${AMIGA}';
+    insert into storage.objects (bucket_id, name) values ('avatares', '${AMIGA}/avatar-1.jpg'), ('evolucao', '${AMIGA}/medida.jpg');
+  `)
+  await t.comoAluna(ALUNA)
+  await esperaValor(
+    'ranking traz a foto de perfil de quem está no pódio',
+    `select avatar_path from public.ranking_pontos('mes') where apelido = 'flor'`,
+    `${AMIGA}/avatar-1.jpg`,
+  )
+  await esperaValor(
+    'aluna vê a foto de perfil da outra',
+    `select count(*)::int from storage.objects where bucket_id = 'avatares'`,
+    1,
+  )
+  await esperaValor(
+    'mas não vê as fotos de evolução da outra',
+    `select count(*)::int from storage.objects where bucket_id = 'evolucao'`,
+    0,
+  )
+  await esperaErro(
+    'não envia foto de perfil na pasta da outra',
+    `insert into storage.objects (bucket_id, name) values ('avatares', '${AMIGA}/x.jpg')`,
+    '42501',
+  )
   await t.comoAluna(SEM_ACESSO)
+  await esperaValor(
+    'sem acesso não vê as fotos de perfil',
+    `select count(*)::int from storage.objects where bucket_id = 'avatares'`,
+    0,
+  )
   await esperaValor(
     'sem acesso não vê ranking',
     `select count(*)::int from public.ranking_pontos('mes')`,

@@ -2,6 +2,11 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-25 · main · Pódio com troféu e coroinha
+
+- Banco (20261025090000_podio_avatares): fotos de perfil num espaço próprio (avatares; quem tem acesso vê, só a dona envia), separadas das fotos de evolução, que continuam só da dona e da equipe; ranking_pontos devolve avatar_path. Suíte Engajamento com 75 checagens.
+- Ranking: Pódio do mês e do ano (2º, 1º e 3º com foto, pontos e degraus ouro, prata e coral) e coroinha (src/components/ui/Coroa e Retrato). A aluna no pódio do mês ganha a coroinha na própria foto no Início e no Perfil.
+
 ## 2026-10-23 · main · Check-in da semana no formato da planilha da Laís
 
 - Banco (20261023090000_checkin_semana): checkins aceitam sono, jejum, dieta e venci; regras de pontos novas (5 pontos, uma vez por dia, editáveis no painel). Suíte pontos com 83 checagens.

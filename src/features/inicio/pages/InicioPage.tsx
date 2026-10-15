@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Cartao, classeBrilho } from '@/components/ui'
+import { Cartao, classeBrilho, Retrato } from '@/components/ui'
 import { saudacaoPorHora } from '@/domain/saudacao'
 import { aulaDeHoje, aulasEmAndamento } from '@/domain/trilha'
 import { useMeuPerfil } from '@/features/auth'
@@ -10,7 +10,7 @@ import { horaEmBrasilia } from '@/lib/datas'
 import { CheckinHoje, useHoje } from '@/features/checkin'
 import { CartaoDesafioAtivo } from '@/features/desafios'
 import { LiveHoje } from '@/features/lives'
-import { CartaoRankingInicio } from '@/features/ranking'
+import { CartaoRankingInicio, useLugarNoPodio, useRetratos } from '@/features/ranking'
 import { AulaDeHoje } from '../components/Cartoes'
 import { Resumo } from '../components/Resumo'
 import { textos } from '../textos'
@@ -18,6 +18,21 @@ import { textos } from '../textos'
 /** Primeiro nome; sem nome, o apelido. */
 function primeiroNome(nome?: string, apelido?: string | null) {
   return nome?.trim().split(/\s+/)[0] || apelido || ''
+}
+
+/** Foto de perfil no topo, com a coroinha se ela estiver no pódio do mês. */
+function FotoComCoroa({ nome }: { nome: string }) {
+  const caminho = useMeuPerfil().data?.avatar_path
+  const foto = useRetratos([caminho]).data?.get(caminho ?? '') ?? null
+  return (
+    <Retrato
+      nome={nome}
+      foto={foto}
+      lugar={useLugarNoPodio()}
+      tamanho="size-11 lg:size-14"
+      texto="lg:text-lg"
+    />
+  )
 }
 
 function Saudacao({ nome }: { nome: string }) {
@@ -28,14 +43,7 @@ function Saudacao({ nome }: { nome: string }) {
         {saudacaoPorHora(hora)}
         {nome && `, ${nome}`}
       </h1>
-      {nome && (
-        <span
-          aria-hidden
-          className="grid size-11 shrink-0 place-items-center rounded-full bg-terracota-suave font-semibold text-terracota-escuro lg:size-14 lg:text-lg"
-        >
-          {nome[0]?.toUpperCase()}
-        </span>
-      )}
+      {nome && <FotoComCoroa nome={nome} />}
     </header>
   )
 }

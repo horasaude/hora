@@ -43,4 +43,9 @@ export const textos = {
     }
     return `+${pontos} pts ${onde[acao] ?? (motivo ? `em ${motivo}` : 'na última ação')}`
   },
+  podio: {
+    titulo: (periodo: string) => (periodo === 'ano' ? 'Pódio do ano' : 'Pódio do mês'),
+    lugar: (n: number) => `${n}º`,
+    pontos: (n: number) => `${n.toLocaleString('pt-BR')} pts`,
+  },
 }

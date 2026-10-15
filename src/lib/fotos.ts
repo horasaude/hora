@@ -2,7 +2,7 @@
 import { comprimirImagem } from './imagem'
 import { supabase } from './supabase'
 
-export type EspacoFoto = 'checkins' | 'evolucao'
+export type EspacoFoto = 'checkins' | 'evolucao' | 'avatares'
 
 /** Id da usuária logada (a pasta das fotos dela). */
 export async function minhaPasta(): Promise<string> {
