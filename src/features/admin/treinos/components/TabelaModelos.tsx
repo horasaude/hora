@@ -10,6 +10,20 @@ import { t } from '../textos'
 import { StatusTreino } from './Etiquetas'
 import { RotinaJanela } from './RotinaJanela'
 
+/** Dias da semana do modelo, ou quantos treinos em sequência na rotina numérica. */
+function DiasDoModelo({ r }: { r: Rotina }) {
+  if (r.tipo === 'numerico') return <>{t.treinosN(r.dias.length)}</>
+  return (
+    <>
+      {r.dias
+        .flatMap((x) => (x.dia_semana === null ? [] : [x.dia_semana]))
+        .sort((a, b) => a - b)
+        .map((x) => DIAS_CURTOS[x])
+        .join(', ')}
+    </>
+  )
+}
+
 type Aberta = { tipo: 'editar' | 'remover'; r: Rotina } | null
 
 /** Modelos de rotina semanal: dias com treino, status e ações. */
@@ -32,10 +46,7 @@ export function TabelaModelos({ rotinas }: { rotinas: Rotina[] }) {
             <td className="px-3.5 py-3">{temas.find((m) => m.id === r.tema_id)?.titulo}</td>
             <td className="px-3.5 py-3">{nivelLocal(r.nivel, r.local)}</td>
             <td className="px-3.5 py-3">
-              {[...r.dias]
-                .sort((a, b) => a.dia_semana - b.dia_semana)
-                .map((x) => DIAS_CURTOS[x.dia_semana])
-                .join(', ')}
+              <DiasDoModelo r={r} />
             </td>
             <td className="px-3.5 py-3">
               <StatusTreino publicado={r.publicado} />

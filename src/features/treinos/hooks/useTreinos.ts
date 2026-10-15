@@ -48,6 +48,17 @@ export function useFeitosDaSemana() {
   })
 }
 
+/** Treinos feitos nos últimos 60 dias: na rotina numérica, o próximo vem depois do último feito. */
+export function useFeitosRecentes() {
+  const previa = usePreviaTreinos()
+  const [desde] = useState(() => diaEmBrasilia(new Date(Date.now() - 60 * 86_400_000)))
+  return useQuery({
+    queryKey: ['treinos-feitos', desde],
+    queryFn: () => listarFeitos(desde),
+    enabled: !previa,
+  })
+}
+
 /** Treinos feitos no mês de hoje, para o calendário de Minha evolução. */
 export function useFeitosDoMes() {
   const [desde] = useState(() => `${diaEmBrasilia(new Date()).slice(0, 7)}-01`)

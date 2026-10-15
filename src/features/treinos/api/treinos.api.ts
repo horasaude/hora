@@ -3,10 +3,11 @@ import type { Tables } from '@/types/database'
 
 export type ExercicioDoTreino = Omit<Tables<'treino_exercicios'>, 'id' | 'treino_id'> & {
   exercicio: Tables<'exercicios'>
+  alternativo: Tables<'exercicios'> | null
 }
 export type TreinoResumo = Tables<'treinos'> & { qtd: number }
 export type TreinoCompleto = Tables<'treinos'> & { itens: ExercicioDoTreino[] }
-export type DiaRotina = { dia_semana: number; treino: TreinoResumo }
+export type DiaRotina = { dia_semana: number | null; ordem: number | null; treino: TreinoResumo }
 export type RotinaAluna = Tables<'rotinas'> & { dias: DiaRotina[] }
 
 /** Na pré-visualização do painel (admin lê tudo), filtra como a aluna veria: publicado e do tema. */
@@ -42,21 +43,27 @@ export async function buscarRotina(
 ): Promise<RotinaAluna | null> {
   let q = supabase
     .from('rotinas')
-    .select('*, rotina_treinos(dia_semana, treinos(*, treino_exercicios(count)))')
+    .select('*, rotina_treinos(dia_semana, ordem, treinos(*, treino_exercicios(count)))')
     .eq('nivel', nivel)
   if (f) q = q.eq('publicado', true).eq('tema_id', f.tema ?? '')
   const { data, error } = await q
   if (error) throw error
   type Linha = Tables<'rotinas'> & {
-    rotina_treinos: { dia_semana: number; treinos: ComContagem | null }[]
+    rotina_treinos: {
+      dia_semana: number | null
+      ordem: number | null
+      treinos: ComContagem | null
+    }[]
   }
   const linhas = data as Linha[]
   const r = linhas.find((x) => x.local === local) ?? linhas[0]
   if (!r) return null
   const { rotina_treinos, ...rotina } = r
-  const dias = rotina_treinos.flatMap((d) =>
-    d.treinos ? [{ dia_semana: d.dia_semana, treino: resumo(d.treinos) }] : [],
-  )
+  const dias = rotina_treinos
+    .flatMap((d) =>
+      d.treinos ? [{ dia_semana: d.dia_semana, ordem: d.ordem, treino: resumo(d.treinos) }] : [],
+    )
+    .sort((a, b) => (a.ordem ?? 0) - (b.ordem ?? 0))
   return { ...rotina, dias }
 }
 
@@ -64,7 +71,7 @@ export async function buscarTreino(id: string): Promise<TreinoCompleto | null> {
   const { data, error } = await supabase
     .from('treinos')
     .select(
-      '*, treino_exercicios(exercicio_id, ordem, series, repeticoes, carga, descanso_segundos, observacao, exercicio:exercicios!exercicio_id(*))',
+      '*, treino_exercicios(exercicio_id, ordem, series, repeticoes, carga, descanso_segundos, observacao, series_detalhe, alternativo_id, exercicio:exercicios!exercicio_id(*), alternativo:exercicios!alternativo_id(*))',
     )
     .eq('id', id)
     .order('ordem', { referencedTable: 'treino_exercicios' })

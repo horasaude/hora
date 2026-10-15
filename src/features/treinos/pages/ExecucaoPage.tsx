@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { AvisoErro } from '@/components/ui'
+import { seriesDoItem } from '@/domain/series'
 import { progressoDoTreino } from '@/domain/treinos'
 import type { TreinoCompleto } from '../api/treinos.api'
 import { Concluido } from '../components/Concluido'
@@ -23,7 +24,13 @@ function Passo({ x }: { x: ReturnType<typeof useExecucao> }) {
     <PassoExercicio
       item={p.item}
       feitas={x.marcadas[String(p.indice)] ?? 0}
-      aoTocar={(s) => x.tocarSerie(p.indice, s, p.item.descanso_segundos)}
+      aoTocar={(s) =>
+        x.tocarSerie(
+          p.indice,
+          s,
+          seriesDoItem(p.item)[s]?.descanso_segundos ?? p.item.descanso_segundos,
+        )
+      }
     />
   )
 }
@@ -35,7 +42,7 @@ function Execucao({ treino, voltar }: { treino: TreinoCompleto; voltar: string }
   const [som, setSom] = useState(true)
   const series = progressoDoTreino(
     x.marcadas,
-    treino.itens.map((i) => i.series),
+    treino.itens.map((i) => seriesDoItem(i).length),
   )
   const pct = Math.max(series, Math.round((x.atual / Math.max(1, x.passos.length)) * 100))
   if (x.concluido) return <Concluido voltar={voltar} previa={Boolean(previa)} />

@@ -4,12 +4,13 @@ import type { SeriesMarcadas } from '@/domain/treinos'
 import type { ExercicioDoTreino, TreinoCompleto } from '../api/treinos.api'
 
 export type Passo =
-  | { tipo: 'aquecimento' | 'alongamento'; texto: string }
+  | { tipo: 'orientacoes' | 'aquecimento' | 'alongamento'; texto: string }
   | { tipo: 'exercicio'; indice: number; item: ExercicioDoTreino }
 
-/** Aquecimento (se houver), um passo por exercício e alongamento (se houver). */
+/** Orientações e aquecimento (se houver), um passo por exercício e alongamento (se houver). */
 export function montarPassos(t: TreinoCompleto): Passo[] {
   const passos: Passo[] = []
+  if (t.orientacoes.trim()) passos.push({ tipo: 'orientacoes', texto: t.orientacoes })
   if (t.aquecimento.trim()) passos.push({ tipo: 'aquecimento', texto: t.aquecimento })
   t.itens.forEach((item, indice) => passos.push({ tipo: 'exercicio', indice, item }))
   if (t.alongamento.trim()) passos.push({ tipo: 'alongamento', texto: t.alongamento })

@@ -10,7 +10,10 @@ type Props = { rotina: RotinaAluna; dia: number; feitos: Set<string>; link: (id:
 
 /** Card destaque "Treino de hoje", pela rotina e pelo dia da semana. */
 export function TreinoDeHoje({ rotina, dia, feitos, link }: Props) {
-  const { hoje, proximo } = treinoDeHoje(rotina.dias, dia)
+  const porDia = rotina.dias.flatMap((d) =>
+    d.dia_semana === null ? [] : [{ ...d, dia_semana: d.dia_semana }],
+  )
+  const { hoje, proximo } = treinoDeHoje(porDia, dia)
   return (
     <section className="rounded-[24px] bg-gradient-to-br from-[#FFF1EA] to-white p-5 shadow-cartao sm:p-6">
       <p className="text-xs font-bold tracking-[0.14em] text-coral uppercase">{textos.hoje}</p>

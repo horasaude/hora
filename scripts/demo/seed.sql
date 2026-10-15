@@ -239,13 +239,21 @@ from (values
   ('bbbbbbbb-0000-0000-0000-000000000005', 'Mobilidade de quadril', 2, 1, '2 min', '', 0)
 ) as x(treino, ex, ordem, series, reps, carga, "desc");
 
-insert into public.rotinas (id, nome, tema_id, nivel, local, descricao, publicado) values
-  ('cccccccc-0000-0000-0000-000000000001', 'Iniciante em casa 3x: A, B, C', (select id from public.temas where chave = 'emagrecimento'), 'iniciante', 'casa', 'Três treinos por semana.', true);
-insert into public.rotina_treinos (rotina_id, treino_id, dia_semana)
-select 'cccccccc-0000-0000-0000-000000000001', t::uuid, d from (values
-  ('bbbbbbbb-0000-0000-0000-000000000001', 1), ('bbbbbbbb-0000-0000-0000-000000000002', 3), ('bbbbbbbb-0000-0000-0000-000000000003', 5),
-  ('bbbbbbbb-0000-0000-0000-000000000001', 2), ('bbbbbbbb-0000-0000-0000-000000000002', 4)
-) as x(t, d) where d in (1, 3, 5) or d = extract(dow from public.hoje_brasilia())::int;
+update public.treinos set orientacoes = E'Respeite o descanso entre as séries.\nSe sentir dor no joelho, troque pelo exercício alternativo.'
+where id = 'bbbbbbbb-0000-0000-0000-000000000001';
+update public.treino_exercicios set
+  series_detalhe = '[{"repeticoes":"15","carga":"Peso do corpo","descanso_segundos":45},{"repeticoes":"12","carga":"Halter de 4 kg","descanso_segundos":60},{"repeticoes":"10","carga":"Halter de 6 kg","descanso_segundos":90}]',
+  alternativo_id = (select id from public.exercicios where nome = 'Agachamento sumô com halter')
+where treino_id = 'bbbbbbbb-0000-0000-0000-000000000001' and ordem = 0;
+
+insert into public.rotinas (id, nome, tema_id, nivel, local, descricao, tipo, objetivo, orientacoes, publicado) values
+  ('cccccccc-0000-0000-0000-000000000001', 'Iniciante em casa: Treino 1, 2 e 3', (select id from public.temas where chave = 'emagrecimento'),
+   'iniciante', 'casa', 'Três treinos em sequência.', 'numerico', 'reducao_gordura',
+   'Faça um treino por dia, na ordem. Depois do Treino 3, volte ao Treino 1. Descanse pelo menos um dia na semana.', true);
+insert into public.rotina_treinos (rotina_id, treino_id, ordem) values
+  ('cccccccc-0000-0000-0000-000000000001', 'bbbbbbbb-0000-0000-0000-000000000001', 0),
+  ('cccccccc-0000-0000-0000-000000000001', 'bbbbbbbb-0000-0000-0000-000000000002', 1),
+  ('cccccccc-0000-0000-0000-000000000001', 'bbbbbbbb-0000-0000-0000-000000000003', 2);
 
 insert into public.treinos_feitos (perfil_id, treino_id, data, series, concluido_em)
 select 'aaaaaaaa-0000-0000-0000-000000000040', 'bbbbbbbb-0000-0000-0000-000000000001', public.hoje_brasilia() - n, '{"0": 3}', now() - make_interval(days => n)

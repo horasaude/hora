@@ -1,11 +1,13 @@
 import { BotaoBrilho, Campo, Janela } from '@/components/ui'
-import { DIAS_SEMANA, LOCAIS, NIVEIS } from '@/domain/treinos'
+import { LOCAIS, NIVEIS, OBJETIVOS, TIPOS_ROTINA } from '@/domain/treinos'
+import { CampoArea } from '../../components/CampoArea'
 import { useTemas } from '../../hooks/usePainel'
 import type { Rotina } from '../api/treinos.api'
-import { useRotinaForm } from '../hooks/useRotinaForm'
+import { useRotinaForm, type DadosRotina } from '../hooks/useRotinaForm'
 import { useTreinosPainel } from '../hooks/useTreinosPainel'
 import { t } from '../textos'
 import { Escolha } from './Escolha'
+import { DiasDaRotina, SequenciaDaRotina } from './TreinosDaRotina'
 
 function Rodape({
   salvando,
@@ -31,36 +33,82 @@ function Rodape({
   )
 }
 
-function DiasDaRotina({
-  dias,
-  treinos,
-  aoMudar,
-}: {
-  dias: Record<number, string>
-  treinos: { id: string; nome: string }[]
-  aoMudar: (dias: Record<number, string>) => void
-}) {
-  const d = { dias }
-  const doTema = treinos
-  const mudar = (x: { dias: Record<number, string> }) => aoMudar(x.dias)
+type Campos = { d: DadosRotina; mudar: (x: Partial<DadosRotina>) => void }
+
+function DadosDaRotina({ d, mudar }: Campos) {
+  const temas = useTemas().data ?? []
   return (
-    <fieldset className="grid gap-3 rounded-2xl border border-linha p-4 sm:col-span-2 sm:grid-cols-2">
-      <legend className="px-1 text-sm font-bold text-verde-escuro">{t.dias}</legend>
-      {DIAS_SEMANA.map((nome, dia) => (
-        <Escolha
-          key={nome}
-          id={`rotina-dia-${dia}`}
-          rotulo={nome}
-          valor={d.dias[dia] ?? ''}
-          opcoes={[['', t.descanso], ...doTema.map((x): [string, string] => [x.id, x.nome])]}
-          aoMudar={(id) => mudar({ dias: { ...d.dias, [dia]: id } })}
+    <>
+      <div className="sm:col-span-2">
+        <Campo
+          id="rotina-nome"
+          rotulo={t.campos.nomeModelo}
+          value={d.nome}
+          onChange={(e) => mudar({ nome: e.target.value })}
         />
-      ))}
-    </fieldset>
+      </div>
+      <Escolha
+        id="rotina-tipo"
+        rotulo={t.campos.tipo}
+        valor={d.tipo}
+        opcoes={Object.entries(TIPOS_ROTINA)}
+        aoMudar={(tipo) => mudar({ tipo: tipo === 'numerico' ? 'numerico' : 'semana' })}
+      />
+      <Escolha
+        id="rotina-tema"
+        rotulo={t.campos.tema}
+        valor={d.tema_id}
+        opcoes={temas.map((x) => [x.id, x.titulo])}
+        aoMudar={(tema_id) => mudar({ tema_id, dias: {}, sequencia: [] })}
+      />
+      <Escolha
+        id="rotina-objetivo"
+        rotulo={t.campos.objetivo}
+        valor={d.objetivo}
+        opcoes={[['', t.campos.semObjetivo], ...Object.entries(OBJETIVOS)]}
+        aoMudar={(objetivo) => mudar({ objetivo })}
+      />
+    </>
   )
 }
 
-/** Modelo de rotina semanal: dados e o treino de cada dia (ou descanso). */
+function NivelEOrientacoes({ d, mudar }: Campos) {
+  return (
+    <>
+      <Escolha
+        id="rotina-nivel"
+        rotulo={t.campos.nivel}
+        valor={d.nivel}
+        opcoes={Object.entries(NIVEIS)}
+        aoMudar={(nivel) => mudar({ nivel })}
+      />
+      <Escolha
+        id="rotina-local"
+        rotulo={t.campos.local}
+        valor={d.local}
+        opcoes={Object.entries(LOCAIS)}
+        aoMudar={(local) => mudar({ local })}
+      />
+      <Campo
+        id="rotina-descricao"
+        rotulo={t.campos.descricao}
+        value={d.descricao}
+        onChange={(e) => mudar({ descricao: e.target.value })}
+      />
+      <div className="sm:col-span-2">
+        <CampoArea
+          id="rotina-orientacoes"
+          rotulo={t.campos.orientacoes}
+          rows={3}
+          value={d.orientacoes}
+          onChange={(e) => mudar({ orientacoes: e.target.value })}
+        />
+      </div>
+    </>
+  )
+}
+
+/** Modelo de rotina: por dia da semana ou numérica (Treino 1, 2, 3), com objetivo e orientações. */
 export function RotinaJanela({ rotina, aoFechar }: { rotina?: Rotina; aoFechar: () => void }) {
   const temas = useTemas().data ?? []
   const treinos = useTreinosPainel().data ?? []
@@ -74,42 +122,17 @@ export function RotinaJanela({ rotina, aoFechar }: { rotina?: Rotina; aoFechar: 
       rodape={<Rodape salvando={salvando} aoFechar={aoFechar} gravar={gravar} />}
     >
       <div className="grid gap-4 sm:grid-cols-2">
-        <div className="sm:col-span-2">
-          <Campo
-            id="rotina-nome"
-            rotulo={t.campos.nomeModelo}
-            value={d.nome}
-            onChange={(e) => mudar({ nome: e.target.value })}
+        <DadosDaRotina d={d} mudar={mudar} />
+        <NivelEOrientacoes d={d} mudar={mudar} />
+        {d.tipo === 'numerico' ? (
+          <SequenciaDaRotina
+            sequencia={d.sequencia}
+            treinos={doTema}
+            aoMudar={(sequencia) => mudar({ sequencia })}
           />
-        </div>
-        <Escolha
-          id="rotina-tema"
-          rotulo={t.campos.tema}
-          valor={d.tema_id}
-          opcoes={temas.map((x) => [x.id, x.titulo])}
-          aoMudar={(tema_id) => mudar({ tema_id, dias: {} })}
-        />
-        <Escolha
-          id="rotina-nivel"
-          rotulo={t.campos.nivel}
-          valor={d.nivel}
-          opcoes={Object.entries(NIVEIS)}
-          aoMudar={(nivel) => mudar({ nivel })}
-        />
-        <Escolha
-          id="rotina-local"
-          rotulo={t.campos.local}
-          valor={d.local}
-          opcoes={Object.entries(LOCAIS)}
-          aoMudar={(local) => mudar({ local })}
-        />
-        <Campo
-          id="rotina-descricao"
-          rotulo={t.campos.descricao}
-          value={d.descricao}
-          onChange={(e) => mudar({ descricao: e.target.value })}
-        />
-        <DiasDaRotina dias={d.dias} treinos={doTema} aoMudar={(dias) => mudar({ dias })} />
+        ) : (
+          <DiasDaRotina dias={d.dias} treinos={doTema} aoMudar={(dias) => mudar({ dias })} />
+        )}
         {erro && (
           <p role="alert" className="text-sm text-terracota-escuro sm:col-span-2">
             {erro}

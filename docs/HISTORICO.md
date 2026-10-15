@@ -2,6 +2,15 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-17 · main · Treinos no jeito do MFIT (lado da profissional)
+
+- Mapeado o MFIT da Laís (só leitura): fluxo de rotina, treino, exercício e visão do aluno. Sem API pública; ficou fora o faturamento (é do ORA) e a cópia de visual.
+- Banco (20261017090000_treinos_rotina_series): nível Adaptação; rotina com tipo (dia da semana ou numérico), objetivo e orientações; rotina_treinos com ordem; treino com orientações; treino_exercicios com series_detalhe (validado por series_validas) e alternativo_id; exercicios_favoritos por profissional. Consultas usam exercicios!exercicio_id (o alternativo deixou a ligação ambígua). Suíte treinos com 56 checagens.
+- Painel: série por série (Adicionar série, Replicar séries), Trocar exercício, Exercício alternativo, adicionar vários exercícios de uma vez com Favoritos, rotina numérica com Treino 1, 2, 3 e setas de ordem, objetivo e orientações.
+- Aluna: rotina numérica mostra o próximo treino depois do último feito e a lista na ordem; orientações da rotina e do treino; execução série por série com o descanso de cada uma; trocar pelo alternativo.
+- Demonstração: rotina numérica, orientações, série por série e alternativo no Treino A.
+- Falta ver no MFIT: execução do treino no app da aluna (a aluna de teste não tem rotina), aba Aeróbico, Avaliações (anamnese) e arquivos por aluna.
+
 ## 2026-10-16 · main · GIFs nos exercícios
 
 - 27 dos 30 exercícios ganharam GIF animado da biblioteca usada no Bora Treinar (ExerciseDB), copiado para o espaço treinos (exercicios/<id>.gif); conferidos um a um. Sem GIF fiel: Coice de glúteo em quatro apoios, Prancha frontal e Abdominal remador (precisam de vídeo ou imagem da equipe).

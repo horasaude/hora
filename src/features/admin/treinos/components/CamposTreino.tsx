@@ -15,6 +15,7 @@ export type EntradaTreino = {
   descricao: string
   aquecimento: string
   alongamento: string
+  orientacoes: string
 }
 
 const caixa =

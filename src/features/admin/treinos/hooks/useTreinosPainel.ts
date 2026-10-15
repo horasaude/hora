@@ -2,7 +2,9 @@ import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tansta
 import {
   buscarTreino,
   listarExercicios,
+  listarFavoritos,
   listarRotinas,
+  marcarFavorito,
   listarTreinos,
   resumoTreinos,
 } from '../api/treinos.api'
@@ -21,6 +23,17 @@ export const useTreinoPainel = (id?: string) =>
     queryFn: () => buscarTreino(id ?? ''),
     enabled: Boolean(id),
   })
+export const useFavoritos = () =>
+  useQuery({ queryKey: ['exercicios-favoritos'], queryFn: listarFavoritos })
+
+/** Estrela do exercício: marca e desmarca favorito, sem recarregar o resto. */
+export function useMarcarFavorito() {
+  const cliente = useQueryClient()
+  return useMutation({
+    mutationFn: marcarFavorito,
+    onSuccess: () => cliente.invalidateQueries({ queryKey: ['exercicios-favoritos'] }),
+  })
+}
 export const useRotinas = () => useQuery({ queryKey: ['rotinas'], queryFn: listarRotinas })
 export const useResumoTreinos = () =>
   useQuery({ queryKey: ['resumo-treinos'], queryFn: resumoTreinos })

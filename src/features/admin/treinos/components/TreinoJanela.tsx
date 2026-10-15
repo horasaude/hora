@@ -1,5 +1,6 @@
 import { BotaoBrilho, Janela } from '@/components/ui'
 import { useTemas } from '../../hooks/usePainel'
+import { CampoArea } from '../../components/CampoArea'
 import { ErroForm } from '../../components/RodapeForm'
 import type { Exercicio, ItemTreino, Treino } from '../api/treinos.api'
 import { useTreinoForm } from '../hooks/useTreinoForm'
@@ -52,6 +53,7 @@ const novoItem = (e: Exercicio): ItemTreino => ({
   observacao: '',
   series_detalhe: [],
   alternativo_id: null,
+  alternativo_nome: '',
 })
 
 /** Montar treino: dados, aquecimento, exercícios da biblioteca, alongamento; rascunho, publicar e duplicar. */
@@ -75,6 +77,14 @@ export function TreinoJanela({ treino, itensIniciais = [], aoFechar }: Props) {
     >
       <form onSubmit={gravar(false)} noValidate className="grid gap-4 sm:grid-cols-2">
         <CamposTreino register={register} erros={formState.errors} temas={temas} />
+        <div className="sm:col-span-2">
+          <CampoArea
+            id="treino-orientacoes"
+            rotulo={t.campos.orientacoes}
+            rows={3}
+            {...register('orientacoes')}
+          />
+        </div>
         <BlocoOpcional
           id="treino-aquecimento"
           rotulo={t.campos.aquecimento}
@@ -83,7 +93,9 @@ export function TreinoJanela({ treino, itensIniciais = [], aoFechar }: Props) {
         <section className="flex flex-col gap-3 sm:col-span-2">
           <h3 className="text-sm font-bold text-verde-escuro">{t.itens.titulo}</h3>
           <ItensTreino itens={itens} mudar={setItens} />
-          <AdicionarExercicio aoEscolher={(e) => setItens([...itens, novoItem(e)])} />
+          <AdicionarExercicio
+            aoEscolher={(lista) => setItens([...itens, ...lista.map(novoItem)])}
+          />
         </section>
         <BlocoOpcional
           id="treino-alongamento"

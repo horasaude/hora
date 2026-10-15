@@ -6,8 +6,10 @@ import { EscolhaNivelLocal } from '../components/EscolhaNivelLocal'
 import { CartaoTreino } from '../components/CartaoTreino'
 import { Estado } from '../components/Estado'
 import { SemanaTreinos, TreinoDeHoje } from '../components/Hoje'
+import { Orientacoes, TreinoDaSequencia } from '../components/Sequencia'
 import {
   useFeitosDaSemana,
+  useFeitosRecentes,
   usePreferencias,
   useRotina,
   useTreinosDoNivel,
@@ -20,6 +22,7 @@ function Conteudo({ nivel, local }: { nivel: string; local: string }) {
   const rotina = useRotina(nivel, local)
   const outros = useTreinosDoNivel(nivel, local)
   const feitosQ = useFeitosDaSemana()
+  const recentes = useFeitosRecentes().data ?? []
   const [hoje] = useState(() => diaEmBrasilia(new Date()))
   const feitos = useMemo(
     () => new Set((feitosQ.data ?? []).map((f) => f.treino_id)),
@@ -39,8 +42,15 @@ function Conteudo({ nivel, local }: { nivel: string; local: string }) {
   const lista = outros.data.filter((x) => !daRotina.has(x.id))
   return (
     <div className="flex flex-col gap-7">
-      {rotina.data ? (
+      {rotina.data?.tipo === 'numerico' ? (
         <>
+          <Orientacoes texto={rotina.data.orientacoes} />
+          <TreinoDaSequencia rotina={rotina.data} feitos={recentes} hoje={hoje} link={link} />
+          <SemanaTreinos rotina={rotina.data} dia={dia} datas={datas} link={link} />
+        </>
+      ) : rotina.data ? (
+        <>
+          <Orientacoes texto={rotina.data.orientacoes} />
           <TreinoDeHoje rotina={rotina.data} dia={dia} feitos={feitosHoje} link={link} />
           <SemanaTreinos rotina={rotina.data} dia={dia} datas={datas} link={link} />
         </>

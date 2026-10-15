@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
+import { NIVEIS } from '@/domain/treinos'
 import { salvarTreino, type ItemTreino, type Treino } from '../api/treinos.api'
 import type { EntradaTreino } from '../components/CamposTreino'
 import { t } from '../textos'
@@ -10,7 +11,7 @@ import { useAcaoTreinos } from './useTreinosPainel'
 const esquema = z.object({
   nome: z.string().trim().min(2, t.erros.nome).max(120, t.erros.nome),
   tema_id: z.string().min(1, t.erros.tema),
-  nivel: z.string().refine((v) => ['iniciante', 'intermediario', 'avancado'].includes(v)),
+  nivel: z.string().refine((v) => v in NIVEIS),
   local: z.string().refine((v) => ['casa', 'academia'].includes(v)),
   duracao: z
     .string()
@@ -22,6 +23,7 @@ const esquema = z.object({
   descricao: z.string().trim().max(500),
   aquecimento: z.string().trim().max(2000),
   alongamento: z.string().trim().max(2000),
+  orientacoes: z.string().trim().max(3000),
 })
 
 const inicial = (x?: Treino): EntradaTreino => ({
@@ -33,6 +35,7 @@ const inicial = (x?: Treino): EntradaTreino => ({
   descricao: x?.descricao ?? '',
   aquecimento: x?.aquecimento ?? '',
   alongamento: x?.alongamento ?? '',
+  orientacoes: x?.orientacoes ?? '',
 })
 
 /** Estado da janela do treino: formulário, exercícios e o salvar (rascunho, publicar ou cópia). */

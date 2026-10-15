@@ -14,6 +14,11 @@ export const textos = {
   comecar: 'Começar treino',
   feito: 'Feito hoje',
   semana: 'Sua semana',
+  proximoTreino: 'Seu próximo treino',
+  sequencia: 'Seus treinos na ordem',
+  treinoN: (n: number) => `Treino ${n}`,
+  daVez: 'É a vez dele',
+  orientacoes: 'Orientações da professora',
   outros: 'Outros treinos',
   semOutros: 'Nenhum outro treino para o seu nível e local ainda.',
   minutos: (n: number) => `${n} min`,
@@ -28,6 +33,7 @@ export const textos = {
     erro: 'Não foi possível salvar. Tente de novo.',
   },
   niveisTexto: {
+    adaptacao: 'Nunca treinei ou fiquei muito tempo parada',
     iniciante: 'Estou começando ou voltando agora',
     intermediario: 'Treino há alguns meses',
     avancado: 'Treino com frequência há mais de um ano',
@@ -37,6 +43,13 @@ export const textos = {
     sair: 'Sair do treino',
     passo: (i: number, n: number) => `${i} de ${n}`,
     aquecimento: 'Aquecimento',
+    orientacoes: 'Orientações',
+    alternativo: (n: string) => `Trocar por ${n}`,
+    principal: (n: string) => `Voltar para ${n}`,
+    linhaSerie: (n: number, reps: string, carga: string, descanso: number) =>
+      [`Série ${n}: ${reps}`, carga, descanso ? `${descanso}s de descanso` : '']
+        .filter(Boolean)
+        .join(' · '),
     alongamento: 'Alongamento',
     series: (s: number, r: string) => `${s} x ${r}`,
     carga: (c: string) => `Carga sugerida: ${c}`,

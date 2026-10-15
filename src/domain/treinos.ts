@@ -27,11 +27,27 @@ export const EQUIPAMENTOS = {
 } as const
 
 export const NIVEIS = {
+  adaptacao: 'Adaptação',
   iniciante: 'Iniciante',
   intermediario: 'Intermediário',
   avancado: 'Avançado',
 } as const
 export const LOCAIS = { casa: 'Casa', academia: 'Academia' } as const
+
+export const OBJETIVOS = {
+  hipertrofia: 'Hipertrofia',
+  reducao_gordura: 'Redução de gordura',
+  reducao_hipertrofia: 'Redução de gordura e hipertrofia',
+  definicao: 'Definição muscular',
+  condicionamento: 'Condicionamento físico',
+  qualidade_vida: 'Qualidade de vida',
+} as const
+
+/** Rotina por dia da semana ou numérica (Treino 1, 2, 3 na ordem, sem dia fixo). */
+export const TIPOS_ROTINA = {
+  semana: 'Dia da semana',
+  numerico: 'Numérico (Treino 1, 2, 3)',
+} as const
 
 /** Domingo é 0, como no Date. */
 export const DIAS_SEMANA = [

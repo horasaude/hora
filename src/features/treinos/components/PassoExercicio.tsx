@@ -1,3 +1,5 @@
+import { useState } from 'react'
+import { resumoSeries, seriesDoItem, type Serie } from '@/domain/series'
 import type { ExercicioDoTreino } from '../api/treinos.api'
 import { textos } from '../textos'
 import { Midia } from './Midia'
@@ -37,36 +39,70 @@ function Series({
   )
 }
 
-/** Um exercício: demonstração, nome, séries x repetições, carga, instruções recolhíveis e as séries. */
+/** Série por série, quando a professora mudou repetição, carga ou descanso entre elas. */
+function ListaSeries({ series }: { series: Serie[] }) {
+  const iguais = series.every(
+    (x) => x.repeticoes === series[0]?.repeticoes && x.carga === series[0]?.carga,
+  )
+  if (iguais) return null
+  return (
+    <ol className="flex flex-col gap-1 text-sm text-tinta">
+      {series.map((x, i) => (
+        <li key={i}>{t.linhaSerie(i + 1, x.repeticoes, x.carga, x.descanso_segundos)}</li>
+      ))}
+    </ol>
+  )
+}
+
+/** Um exercício: demonstração, nome, séries, carga, alternativo, instruções recolhíveis e as séries. */
 export function PassoExercicio({ item, feitas, aoTocar }: Props) {
-  const e = item.exercicio
+  const [usarAlternativo, setUsarAlternativo] = useState(false)
+  const e = usarAlternativo && item.alternativo ? item.alternativo : item.exercicio
+  const series = seriesDoItem(item)
   return (
     <article className="flex flex-col gap-4">
       <Midia nome={e.nome} video={e.video_url} foto={e.foto_path} />
       <header>
         <h2 className="text-[24px] leading-tight font-bold text-verde-escuro">{e.nome}</h2>
-        <p className="mt-1 text-[17px] font-bold text-coral">
-          {t.series(item.series, item.repeticoes)}
-        </p>
-        {item.carga && <p className="text-sm text-suave">{t.carga(item.carga)}</p>}
+        <p className="mt-1 text-[17px] font-bold text-coral">{resumoSeries(series)}</p>
+        {item.carga && series.every((x) => x.carga === item.carga) && (
+          <p className="text-sm text-suave">{t.carga(item.carga)}</p>
+        )}
         {item.observacao && <p className="mt-1 text-sm text-tinta">{item.observacao}</p>}
+        {item.alternativo && (
+          <button
+            type="button"
+            onClick={() => setUsarAlternativo(!usarAlternativo)}
+            className="mt-2 min-h-8 text-sm font-bold text-verde-escuro underline"
+          >
+            {usarAlternativo
+              ? t.principal(item.exercicio.nome)
+              : t.alternativo(item.alternativo.nome)}
+          </button>
+        )}
       </header>
-      <Series total={item.series} feitas={feitas} aoTocar={aoTocar} />
-      {(e.instrucoes || e.erros_comuns) && (
-        <details className="rounded-[18px] bg-trilho px-4 py-3 text-sm text-tinta">
-          <summary className="min-h-8 cursor-pointer font-bold text-verde-escuro">
-            {t.instrucoes}
-          </summary>
-          {e.instrucoes && <p className="mt-2 whitespace-pre-line">{e.instrucoes}</p>}
-          {e.erros_comuns && (
-            <>
-              <p className="mt-3 font-bold">{t.erros}</p>
-              <p className="whitespace-pre-line">{e.erros_comuns}</p>
-            </>
-          )}
-        </details>
-      )}
+      <ListaSeries series={series} />
+      <Series total={series.length} feitas={feitas} aoTocar={aoTocar} />
+      <Instrucoes instrucoes={e.instrucoes} erros={e.erros_comuns} />
     </article>
+  )
+}
+
+function Instrucoes({ instrucoes, erros }: { instrucoes: string; erros: string }) {
+  if (!instrucoes && !erros) return null
+  return (
+    <details className="rounded-[18px] bg-trilho px-4 py-3 text-sm text-tinta">
+      <summary className="min-h-8 cursor-pointer font-bold text-verde-escuro">
+        {t.instrucoes}
+      </summary>
+      {instrucoes && <p className="mt-2 whitespace-pre-line">{instrucoes}</p>}
+      {erros && (
+        <>
+          <p className="mt-3 font-bold">{t.erros}</p>
+          <p className="whitespace-pre-line">{erros}</p>
+        </>
+      )}
+    </details>
   )
 }
 
