@@ -1,8 +1,13 @@
 import { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { diasSeguidos, somarDias, ultimosSeteDias } from '@/domain/engajamento'
+import { diasSeguidos, semanaDeSegunda, somarDias, ultimosSeteDias } from '@/domain/engajamento'
 import { diaEmBrasilia } from '@/lib/datas'
-import { buscarMeusCheckins, fazerCheckin, type NovoCheckin } from '../api/checkin.api'
+import {
+  buscarMeusCheckins,
+  fazerCheckin,
+  pontosDaSemana,
+  type NovoCheckin,
+} from '../api/checkin.api'
 
 /** Hoje no fuso de Brasília, fixo enquanto a tela está aberta. */
 export function useHoje() {
@@ -33,9 +38,16 @@ export function useFazerCheckin() {
   return useMutation({
     mutationFn: (d: NovoCheckin) => fazerCheckin(d),
     onSuccess: () => {
-      for (const chave of ['checkins', 'ranking', 'ultimo-ponto', 'meus-pontos']) {
+      for (const chave of ['checkins', 'ranking', 'ultimo-ponto', 'meus-pontos', 'pontos-semana']) {
         cliente.invalidateQueries({ queryKey: [chave] })
       }
     },
   })
+}
+
+/** Pontos da semana no quadro de hábitos (segunda a domingo). */
+export function usePontosDaSemana() {
+  const hoje = useHoje()
+  const desde = semanaDeSegunda(hoje)[0] ?? hoje
+  return useQuery({ queryKey: ['pontos-semana', desde], queryFn: () => pontosDaSemana(desde) })
 }

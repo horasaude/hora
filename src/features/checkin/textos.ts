@@ -26,6 +26,7 @@ export const textos = {
   semana: (n: number) => `Semana ${String(n).padStart(2, '0')}`,
   diasCurtos: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
   hoje: 'Hoje',
+  pontosSemana: (n: number) => `${n.toLocaleString('pt-BR')} pts na semana`,
   dia: (habito: string, dia: string, feito: boolean) =>
     `${habito}, ${dia}: ${feito ? 'feito' : 'não feito'}`,
   feito: (nome: string) => `${nome}: feito hoje`,

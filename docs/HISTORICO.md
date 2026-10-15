@@ -5,6 +5,7 @@ Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquiv
 ## 2026-10-23 · main · Check-in da semana no formato da planilha da Laís
 
 - Banco (20261023090000_checkin_semana): checkins aceitam sono, jejum, dieta e venci; regras de pontos novas (5 pontos, uma vez por dia, editáveis no painel). Suíte pontos com 83 checagens.
+- Pontos da semana no topo do quadro (lancamentos dos hábitos desde a segunda). Ranking (20261024090000_ranking_ve_a_si): a profissional vê a própria linha e os próprios pontos; para as alunas ela continua fora.
 - Início: o cartão virou "Semana NN" com a grade de segunda a domingo e os seis hábitos (Sono, Jejum intermitente, Hidratar-se, Dieta, Treino com foto, Venci o dia?), ícones desenhados no lugar dos da planilha; só o dia de hoje marca; legenda no celular.
 
 ## 2026-10-22 · main · Vídeo enviado no exercício

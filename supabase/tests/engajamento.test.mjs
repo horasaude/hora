@@ -91,6 +91,20 @@ async function ranking(t) {
     `select posicao from public.ranking_pontos('mes') where eu`,
     1,
   )
+  await t.comoDono()
+  await db.query(`select public.conceder_pontos('${ADMIN}', 'ajuste', 'teste', null, 30)`)
+  await t.comoAluna(ADMIN)
+  await esperaValor(
+    'profissional vê os próprios pontos',
+    `select pontos from public.ranking_pontos('mes') where eu`,
+    30,
+  )
+  await t.comoAluna(ALUNA)
+  await esperaValor(
+    'aluna não vê a profissional no ranking',
+    `select count(*)::int from public.ranking_pontos('mes') where pontos = 30`,
+    0,
+  )
   await t.comoAluna(SEM_ACESSO)
   await esperaValor(
     'sem acesso não vê ranking',

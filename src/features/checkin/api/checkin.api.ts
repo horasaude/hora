@@ -42,3 +42,18 @@ export async function fazerCheckin(d: NovoCheckin): Promise<number> {
   if (error) throw error
   return data?.[0]?.pontos ?? 0
 }
+
+const ACOES_DA_SEMANA = ['sono', 'jejum', 'agua', 'dieta', 'treino_foto', 'venci']
+
+/** Pontos dos hábitos do quadro desde a segunda-feira (só os dela). */
+export async function pontosDaSemana(desde: string): Promise<number> {
+  const { data: u } = await supabase.auth.getUser()
+  const { data, error } = await supabase
+    .from('lancamentos_pontos')
+    .select('pontos')
+    .eq('perfil_id', u.user?.id ?? '')
+    .gte('dia', desde)
+    .in('acao', ACOES_DA_SEMANA)
+  if (error) throw error
+  return (data ?? []).reduce((s, l) => s + l.pontos, 0)
+}

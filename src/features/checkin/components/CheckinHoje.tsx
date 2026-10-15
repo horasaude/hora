@@ -3,7 +3,7 @@ import { AvisoErro, Cartao } from '@/components/ui'
 import { useMeuPerfil } from '@/features/auth'
 import { diaAtual } from '@/domain/dia'
 import { semanaDeSegunda } from '@/domain/engajamento'
-import { useFazerCheckin, useHoje, useMeusCheckins } from '../hooks/useCheckin'
+import { useFazerCheckin, useHoje, useMeusCheckins, usePontosDaSemana } from '../hooks/useCheckin'
 import { textos, type Habito } from '../textos'
 import { JanelaFoto } from './JanelaFoto'
 import { GradeSemana, LegendaHabitos, type Ganho } from './GradeSemana'
@@ -15,6 +15,21 @@ function useNumeroSemana() {
   const [agora] = useState(() => new Date())
   if (!perfil?.acesso_inicio_em) return null
   return Math.ceil(diaAtual(new Date(perfil.acesso_inicio_em), agora) / 7)
+}
+
+/** "Semana 06" e os pontos que ela já fez nos hábitos desta semana. */
+function Topo({ numero }: { numero: number | null }) {
+  const pontos = usePontosDaSemana().data ?? 0
+  return (
+    <div className="flex items-center justify-between gap-3">
+      <h2 className="text-base font-bold text-tinta">
+        {numero ? textos.semana(numero) : textos.titulo}
+      </h2>
+      <span className="brilho brilho-dourado inline-flex min-h-7 items-center rounded-full px-3 text-xs font-bold">
+        {textos.pontosSemana(pontos)}
+      </span>
+    </div>
+  )
 }
 
 /** Check-in da semana como a planilha da Laís: seis hábitos de segunda a domingo; marca só hoje. */
@@ -43,9 +58,7 @@ export function CheckinHoje() {
   }
   return (
     <Cartao className="flex flex-col gap-4">
-      <h2 className="text-base font-bold text-tinta">
-        {numero ? textos.semana(numero) : textos.titulo}
-      </h2>
+      <Topo numero={numero} />
       {meus.isError ? (
         <AvisoErro texto={textos.erro} />
       ) : (
