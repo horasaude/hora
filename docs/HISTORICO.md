@@ -2,6 +2,12 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-21 · main · Exercícios combinados e treinos trazidos do MFIT
+
+- Banco (20261021090000_exercicios_combinados): treino_exercicios.combinado (vizinhos com o mesmo número se alternam, A e B); regras em src/domain/combinados.ts. Painel: Combinar com o próximo e Tirar da combinação; aluna vê "Combinado A · alterne com ...".
+- Importados da conta MFIT da Laís (só leitura, pela Visão do aluno) como rascunho, tema Preparação, local academia: rotinas numéricas Treino APAE (Adaptação, 3 treinos), Treino APAE Junho e Julho (Intermediário, 3) e Treino Maio (Iniciante, 2), 75 exercícios nos treinos, com séries, carga, intervalo e bi-sets.
+- 47 exercícios novos na biblioteca (87 no total); 67 com GIF do ExerciseDB conferido um a um. Cardio novo (8 de 10) também com GIF. Vídeos do MFIT não foram copiados (são produção deles).
+
 ## 2026-10-20 · main · Aeróbico
 
 - Banco (20261020090000_treinos_aerobico): treinos.categoria (musculacao ou aerobico; salvar_treino grava) e 10 modalidades de cardio na biblioteca (caminhada, corrida, esteira, bike, elíptico, escada, remo, pular corda, dança). Suíte treinos com 62 checagens.
