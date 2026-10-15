@@ -127,11 +127,80 @@ async function painel(t) {
   )
 }
 
+async function estiloMfit(t) {
+  const { esperaValor, esperaErro } = t
+  await t.comoAluna(ADMIN)
+  await t.db.query(`select public.salvar_treino(
+    jsonb_build_object('nome', 'Treino D', 'tema_id', ${tema('emagrecimento')}, 'nivel', 'adaptacao', 'local', 'casa',
+      'publicado', true, 'orientacoes', 'Beba água'),
+    jsonb_build_array(jsonb_build_object('exercicio_id', ${ex('Agachamento livre')}, 'alternativo_id', ${ex('Leg press 45')},
+      'series_detalhe', '[{"repeticoes":"15","carga":"","descanso_segundos":30},{"repeticoes":"12","carga":"5 kg","descanso_segundos":45},{"repeticoes":"10","carga":"8 kg","descanso_segundos":60}]'::jsonb)))`)
+  await esperaValor(
+    'série por série grava as 3 linhas e conta as séries',
+    `select te.series || ':' || (te.series_detalhe -> 1 ->> 'carga') from public.treino_exercicios te
+     join public.treinos tr on tr.id = te.treino_id where tr.nome = 'Treino D'`,
+    '3:5 kg',
+  )
+  await esperaValor(
+    'nível Adaptação e orientações',
+    `select nivel || ':' || orientacoes from public.treinos where nome = 'Treino D'`,
+    'adaptacao:Beba água',
+  )
+  await esperaErro(
+    'série sem repetição é recusada',
+    `select public.salvar_treino(jsonb_build_object('nome', 'Treino E', 'tema_id', ${tema('emagrecimento')}, 'nivel', 'iniciante', 'local', 'casa'),
+      jsonb_build_array(jsonb_build_object('exercicio_id', ${ex('Polichinelo')}, 'series_detalhe', '[{"repeticoes":"","descanso_segundos":30}]'::jsonb)))`,
+    '23514',
+  )
+  await t.db.query(`select public.salvar_rotina(
+    jsonb_build_object('nome', 'ABC', 'tema_id', ${tema('emagrecimento')}, 'nivel', 'adaptacao', 'local', 'casa', 'tipo', 'numerico',
+      'objetivo', 'qualidade_vida', 'orientacoes', 'Treine 3x', 'publicado', true),
+    jsonb_build_array(jsonb_build_object('treino_id', (select id from public.treinos where nome = 'Treino D')),
+      jsonb_build_object('treino_id', '${PUB}')))`)
+  await esperaValor(
+    'rotina numérica guarda a ordem, sem dia da semana',
+    `select string_agg(tr.nome || '#' || rt.ordem, ',' order by rt.ordem) from public.rotina_treinos rt
+     join public.rotinas r on r.id = rt.rotina_id join public.treinos tr on tr.id = rt.treino_id
+     where r.nome = 'ABC' and rt.dia_semana is null`,
+    'Treino D#0,Treino A#1',
+  )
+  await t.db.query(
+    `insert into public.exercicios_favoritos (exercicio_id) values (${ex('Polichinelo')})`,
+  )
+  await esperaValor(
+    'admin marca favorito',
+    `select count(*)::int from public.exercicios_favoritos`,
+    1,
+  )
+  await t.comoAluna(ALUNA)
+  await esperaValor(
+    'aluna lê o exercício alternativo do treino dela',
+    `select count(*)::int from public.exercicios where nome = 'Leg press 45'`,
+    1,
+  )
+  await esperaValor(
+    'aluna não vê favoritos',
+    `select count(*)::int from public.exercicios_favoritos`,
+    0,
+  )
+  await esperaErro(
+    'aluna não marca favorito',
+    `insert into public.exercicios_favoritos (exercicio_id) values (${ex('Polichinelo')})`,
+    '42501',
+  )
+  await esperaValor(
+    'aluna escolhe o nível Adaptação',
+    `with u as (update public.perfis set treino_nivel = 'adaptacao' where id = '${ALUNA}' returning 1) select count(*)::int from u`,
+    1,
+  )
+}
+
 export async function testarTreinos() {
   const t = await criarBanco()
   await montar(t.db)
   await visibilidade(t)
   await feitos(t)
   await painel(t)
+  await estiloMfit(t)
   return t.fim('treinos')
 }

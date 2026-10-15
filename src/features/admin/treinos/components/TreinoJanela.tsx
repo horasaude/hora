@@ -50,6 +50,8 @@ const novoItem = (e: Exercicio): ItemTreino => ({
   carga: '',
   descanso_segundos: 60,
   observacao: '',
+  series_detalhe: [],
+  alternativo_id: null,
 })
 
 /** Montar treino: dados, aquecimento, exercícios da biblioteca, alongamento; rascunho, publicar e duplicar. */

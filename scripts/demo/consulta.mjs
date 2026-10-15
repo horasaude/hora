@@ -23,10 +23,10 @@ export function lerSelect(texto) {
   }
   if (atual) itens.push(atual)
   return itens.map((i) => {
-    const m = i.trim().match(/^(?:([a-z_0-9]+):)?([a-z_0-9*]+)(?:\((.*)\))?$/)
+    const m = i.trim().match(/^(?:([a-z_0-9]+):)?([a-z_0-9*]+)(?:!([a-z_0-9]+))?(?:\((.*)\))?$/)
     if (!m) throw new Error(`select não suportado: ${i}`)
-    return m[3] !== undefined
-      ? { rel: m[2], chave: m[1] ?? m[2], filhos: lerSelect(m[3]) }
+    return m[4] !== undefined
+      ? { rel: m[2], chave: m[1] ?? m[2], dica: m[3], filhos: lerSelect(m[4]) }
       : { col: m[2] }
   })
 }
@@ -49,7 +49,9 @@ export function objeto(ch, tabela, a, nos, prof = 0, ordens = {}) {
         return `'${n.chave}', jsonb_build_array(jsonb_build_object('count', (select count(*) ${onde})))`
       if (filha)
         return `'${n.chave}', (select coalesce(jsonb_agg(${objeto(ch, n.rel, b, n.filhos, prof + 1, ordens)} ${ordem(ordens[n.rel], b)}), '[]') ${onde})`
-      const mae = ch.fks.find((f) => f.filha === tabela && f.mae === n.rel)
+      const mae = ch.fks.find(
+        (f) => f.filha === tabela && f.mae === n.rel && (!n.dica || f.coluna === n.dica),
+      )
       if (!mae) throw new Error(`relação desconhecida: ${tabela} -> ${n.rel}`)
       return `'${n.chave}', (select ${objeto(ch, n.rel, b, n.filhos, prof + 1, ordens)} from public.${q(n.rel)} ${b} where ${b}.id = ${a}.${q(mae.coluna)})`
     })

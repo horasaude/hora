@@ -884,6 +884,39 @@ export type Database = {
         }
         Relationships: []
       }
+      exercicios_favoritos: {
+        Row: {
+          created_at: string
+          exercicio_id: string
+          perfil_id: string
+        }
+        Insert: {
+          created_at?: string
+          exercicio_id: string
+          perfil_id?: string
+        }
+        Update: {
+          created_at?: string
+          exercicio_id?: string
+          perfil_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "exercicios_favoritos_exercicio_id_fkey"
+            columns: ["exercicio_id"]
+            isOneToOne: false
+            referencedRelation: "exercicios"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "exercicios_favoritos_perfil_id_fkey"
+            columns: ["perfil_id"]
+            isOneToOne: false
+            referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       forum_curtidas: {
         Row: {
           created_at: string
@@ -2037,20 +2070,23 @@ export type Database = {
       }
       rotina_treinos: {
         Row: {
-          dia_semana: number
+          dia_semana: number | null
           id: string
+          ordem: number | null
           rotina_id: string
           treino_id: string
         }
         Insert: {
-          dia_semana: number
+          dia_semana?: number | null
           id?: string
+          ordem?: number | null
           rotina_id: string
           treino_id: string
         }
         Update: {
-          dia_semana?: number
+          dia_semana?: number | null
           id?: string
+          ordem?: number | null
           rotina_id?: string
           treino_id?: string
         }
@@ -2079,8 +2115,11 @@ export type Database = {
           local: string
           nivel: string
           nome: string
+          objetivo: string | null
+          orientacoes: string
           publicado: boolean
           tema_id: string
+          tipo: string
           updated_at: string
         }
         Insert: {
@@ -2090,8 +2129,11 @@ export type Database = {
           local: string
           nivel: string
           nome: string
+          objetivo?: string | null
+          orientacoes?: string
           publicado?: boolean
           tema_id: string
+          tipo?: string
           updated_at?: string
         }
         Update: {
@@ -2101,8 +2143,11 @@ export type Database = {
           local?: string
           nivel?: string
           nome?: string
+          objetivo?: string | null
+          orientacoes?: string
           publicado?: boolean
           tema_id?: string
+          tipo?: string
           updated_at?: string
         }
         Relationships: [
@@ -2156,6 +2201,7 @@ export type Database = {
       }
       treino_exercicios: {
         Row: {
+          alternativo_id: string | null
           carga: string
           descanso_segundos: number
           exercicio_id: string
@@ -2164,9 +2210,11 @@ export type Database = {
           ordem: number
           repeticoes: string
           series: number
+          series_detalhe: Json
           treino_id: string
         }
         Insert: {
+          alternativo_id?: string | null
           carga?: string
           descanso_segundos?: number
           exercicio_id: string
@@ -2175,9 +2223,11 @@ export type Database = {
           ordem?: number
           repeticoes?: string
           series?: number
+          series_detalhe?: Json
           treino_id: string
         }
         Update: {
+          alternativo_id?: string | null
           carga?: string
           descanso_segundos?: number
           exercicio_id?: string
@@ -2186,9 +2236,17 @@ export type Database = {
           ordem?: number
           repeticoes?: string
           series?: number
+          series_detalhe?: Json
           treino_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "treino_exercicios_alternativo_id_fkey"
+            columns: ["alternativo_id"]
+            isOneToOne: false
+            referencedRelation: "exercicios"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "treino_exercicios_exercicio_id_fkey"
             columns: ["exercicio_id"]
@@ -2216,6 +2274,7 @@ export type Database = {
           local: string
           nivel: string
           nome: string
+          orientacoes: string
           publicado: boolean
           tema_id: string
           updated_at: string
@@ -2230,6 +2289,7 @@ export type Database = {
           local: string
           nivel: string
           nome: string
+          orientacoes?: string
           publicado?: boolean
           tema_id: string
           updated_at?: string
@@ -2244,6 +2304,7 @@ export type Database = {
           local?: string
           nivel?: string
           nome?: string
+          orientacoes?: string
           publicado?: boolean
           tema_id?: string
           updated_at?: string
@@ -2680,6 +2741,7 @@ export type Database = {
         Args: { p_itens: Json; p_treino: Json }
         Returns: string
       }
+      series_validas: { Args: { p: Json }; Returns: boolean }
       situacao_pedido: { Args: { p_pedido: string }; Returns: Json }
       suspender_inadimplentes: { Args: never; Returns: number }
       tem_acesso_ativo: { Args: never; Returns: boolean }
