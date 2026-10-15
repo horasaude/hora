@@ -46,6 +46,7 @@ export const textos = {
   podio: {
     titulo: (periodo: string) => (periodo === 'ano' ? 'Pódio do ano' : 'Pódio do mês'),
     lugar: (n: number) => `${n}º`,
+    vago: 'Vaga aberta',
     pontos: (n: number) => `${n.toLocaleString('pt-BR')} pts`,
   },
 }

@@ -34,7 +34,10 @@ export function RankingPage() {
           aoTentar={() => ranking.refetch()}
         />
       ) : linhas.every((l) => l.pontos === 0) ? (
-        <Vazio>{textos.vazio}</Vazio>
+        <div className="flex flex-col gap-5 lg:gap-6">
+          <Podio linhas={linhas} periodo={periodo} />
+          <Vazio>{textos.vazio}</Vazio>
+        </div>
       ) : (
         <div className="flex flex-col gap-5 lg:gap-6">
           <Podio linhas={linhas} periodo={periodo} />

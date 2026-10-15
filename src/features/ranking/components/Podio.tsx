@@ -6,14 +6,15 @@ import { textos } from '../textos'
 
 const t = textos.podio
 const DEGRAU = {
-  1: 'h-28 brilho brilho-dourado',
-  2: 'h-20 brilho brilho-prata',
-  3: 'h-14 brilho brilho-coral',
+  1: 'h-14 brilho brilho-dourado',
+  2: 'h-10 brilho brilho-prata',
+  3: 'h-7 brilho brilho-coral',
 } as const
+const ORDEM = { 1: 'order-2', 2: 'order-1', 3: 'order-3' } as const
 
 function Trofeu() {
   return (
-    <svg viewBox="0 0 24 24" aria-hidden className="size-7 text-dourado drop-shadow">
+    <svg viewBox="0 0 24 24" aria-hidden className="size-5 text-dourado">
       <path
         d="M7 3h10v5a5 5 0 0 1-10 0V3ZM7 5H4a3 3 0 0 0 3 4M17 5h3a3 3 0 0 1-3 4M12 13v4M8.5 21h7M9.5 17h5v4h-5z"
         fill="currentColor"
@@ -26,27 +27,33 @@ function Trofeu() {
   )
 }
 
-function Lugar({ l, foto }: { l: LinhaRanking; foto: string | null }) {
-  const lugar = l.posicao as 1 | 2 | 3
-  const grande = lugar === 1
+function Lugar({ lugar, l, foto }: { lugar: 1 | 2 | 3; l?: LinhaRanking; foto: string | null }) {
   return (
-    <li
-      className={`flex min-w-0 flex-1 flex-col items-center gap-2 ${grande ? 'order-2' : lugar === 2 ? 'order-1' : 'order-3'}`}
-    >
-      <Retrato
-        nome={l.apelido}
-        foto={foto}
-        lugar={lugar}
-        tamanho={grande ? 'size-20 lg:size-24' : 'size-16 lg:size-20'}
-        texto={grande ? 'text-3xl' : 'text-2xl'}
-      />
-      <span className={`max-w-full truncate text-sm font-bold ${l.eu ? 'text-ora' : 'text-tinta'}`}>
-        {l.apelido}
-        {l.eu && ` ${textos.voce}`}
-      </span>
-      <span className="text-xs text-suave">{t.pontos(l.pontos)}</span>
+    <li className={`flex min-w-0 flex-1 flex-col items-center gap-1 ${ORDEM[lugar]}`}>
+      {l ? (
+        <Retrato
+          nome={l.apelido}
+          foto={foto}
+          lugar={lugar}
+          tamanho={lugar === 1 ? 'size-12' : 'size-10'}
+          texto="text-base"
+        />
+      ) : (
+        <span
+          aria-hidden
+          className={`grid place-items-center rounded-full border-2 border-dashed border-[#D8DCD9] text-sm font-bold text-[#C2C8C4] ${lugar === 1 ? 'size-12' : 'size-10'}`}
+        >
+          ?
+        </span>
+      )}
       <span
-        className={`grid w-full place-items-start justify-center rounded-t-2xl pt-2 text-lg font-bold ${DEGRAU[lugar]}`}
+        className={`max-w-full truncate text-xs font-bold ${l?.eu ? 'text-ora' : 'text-tinta'}`}
+      >
+        {l ? `${l.apelido}${l.eu ? ` ${textos.voce}` : ''}` : t.vago}
+      </span>
+      <span className="text-[11px] text-suave">{l ? t.pontos(l.pontos) : '-'}</span>
+      <span
+        className={`grid w-full place-items-center rounded-t-xl text-sm font-bold ${DEGRAU[lugar]} ${l ? '' : 'opacity-50'}`}
       >
         {t.lugar(lugar)}
       </span>
@@ -58,21 +65,18 @@ function Lugar({ l, foto }: { l: LinhaRanking; foto: string | null }) {
 export function Podio({ linhas, periodo }: { linhas: LinhaRanking[]; periodo: Periodo }) {
   const tres = podio(linhas)
   const fotos = useRetratos(tres.map((l) => l.avatar_path)).data
-  if (tres.length === 0) return null
   return (
-    <section className="flex flex-col gap-4 rounded-[24px] bg-gradient-to-b from-[#FFF6E5] to-white px-4 pt-5 shadow-cartao">
-      <h2 className="flex items-center justify-center gap-2 text-base font-bold text-verde-escuro">
+    <section className="mx-auto flex w-full max-w-md flex-col gap-3 rounded-[22px] bg-gradient-to-b from-[#FFF6E5] to-white px-4 pt-4 shadow-cartao">
+      <h2 className="flex items-center justify-center gap-1.5 text-sm font-bold text-verde-escuro">
         <Trofeu />
         {t.titulo(periodo)}
       </h2>
-      <ol className="flex items-end gap-3 pt-6 sm:gap-6 sm:px-8">
-        {tres.map((l) => (
-          <Lugar
-            key={l.posicao}
-            l={l}
-            foto={(l.avatar_path && fotos?.get(l.avatar_path)) || null}
-          />
-        ))}
+      <ol className="flex items-end gap-2 pt-4 sm:gap-4">
+        {([1, 2, 3] as const).map((lugar) => {
+          const l = tres.find((x) => x.posicao === lugar)
+          const foto = (l?.avatar_path && fotos?.get(l.avatar_path)) || null
+          return <Lugar key={lugar} lugar={lugar} l={l} foto={foto} />
+        })}
       </ol>
     </section>
   )
