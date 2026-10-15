@@ -45,9 +45,35 @@ async function testes(t) {
   )
 }
 
+async function live(t) {
+  const { esperaValor } = t
+  await t.comoDono()
+  await t.db.exec(`
+    insert into public.lives (tema, data, publicado) values
+      ('Sono e fome', now() + interval '1 hour', true),
+      ('Rascunho', now() + interval '1 hour', false),
+      ('Amanhã', now() + interval '1 day', true);
+  `)
+  await t.comoServico()
+  await esperaValor(
+    'lembra da live publicada que começa em 1 hora, só para quem tem acesso',
+    `select string_agg(distinct tema, ',') || ':' || count(*) from public.lembretes_de_live()`,
+    'Sono e fome:2',
+  )
+  await t.comoDono()
+  await t.db.query(`update public.lives set lembrete_push_em = now() where tema = 'Sono e fome'`)
+  await t.comoServico()
+  await esperaValor(
+    'não lembra duas vezes',
+    `select count(*)::int from public.lembretes_de_live()`,
+    0,
+  )
+}
+
 export async function testarLembreteAgua() {
   const t = await criarBanco()
   await montar(t.db)
   await testes(t)
+  await live(t)
   return t.fim('lembrete de água')
 }

@@ -68,6 +68,12 @@ export const textos = {
     negado: 'O celular não permitiu as notificações. Libere nas configurações do navegador.',
     instalar: 'Para receber lembretes no iPhone, instale o ORA na tela de início.',
   },
+  notificacoes: {
+    titulo: 'Notificações neste celular',
+    ativar: 'Ativar notificações',
+    agua: 'Lembrar de beber água (9h às 19h)',
+    live: 'Avisar 1 hora antes da live',
+  },
   pontosDia: {
     titulo: 'Seus pontos de hoje',
     total: (n: number) => `${n.toLocaleString('pt-BR')} pts hoje`,

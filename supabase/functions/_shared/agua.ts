@@ -16,5 +16,6 @@ export function mensagemAgua(
         ? `Comece agora: a meta de hoje é ${litros(meta)}.`
         : `Você já bebeu ${litros(total)}. Faltam ${litros(falta)} para a meta.`,
     url: '/app',
+    tag: 'lembrete-agua',
   }
 }

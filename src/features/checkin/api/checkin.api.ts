@@ -122,3 +122,24 @@ export async function removerInscricao(endpoint: string): Promise<void> {
   const { error } = await supabase.from('push_inscricoes').delete().eq('endpoint', endpoint)
   if (error) throw error
 }
+
+export type PreferenciasPush = { lembrete_agua: boolean; lembrete_live: boolean }
+
+/** O que este aparelho recebe (null se ele ainda não ativou as notificações). */
+export async function preferenciasPush(endpoint: string): Promise<PreferenciasPush | null> {
+  const { data, error } = await supabase
+    .from('push_inscricoes')
+    .select('lembrete_agua, lembrete_live')
+    .eq('endpoint', endpoint)
+    .maybeSingle()
+  if (error) throw error
+  return data
+}
+
+export async function salvarPreferenciasPush(
+  d: { endpoint: string } & Partial<PreferenciasPush>,
+): Promise<void> {
+  const { endpoint, ...campos } = d
+  const { error } = await supabase.from('push_inscricoes').update(campos).eq('endpoint', endpoint)
+  if (error) throw error
+}

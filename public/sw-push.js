@@ -11,7 +11,7 @@ self.addEventListener('push', (evento) => {
       body: dados.body,
       icon: '/icone-192.png',
       badge: '/icone-192.png',
-      tag: 'lembrete-agua',
+      tag: dados.tag || 'ora',
       renotify: true,
       data: { url: dados.url },
     }),

@@ -1,4 +1,5 @@
 import { CartaoAvaliacoes } from '@/features/avaliacoes'
+import { Notificacoes } from '@/features/checkin'
 import { MeuTema } from '@/features/trilha'
 import { PreferenciasTreino } from '@/features/treinos'
 import { Configuracoes } from '../components/Configuracoes'
@@ -15,6 +16,7 @@ export function ContaPage() {
           <MeuTema />
           <PreferenciasTreino />
           <CartaoAvaliacoes />
+          <Notificacoes />
           <Configuracoes />
         </div>
         <Indicar />

@@ -1522,6 +1522,7 @@ export type Database = {
           duracao_minutos: number
           gravacao_url: string | null
           id: string
+          lembrete_push_em: string | null
           link_url: string | null
           profissional: string | null
           publicado: boolean
@@ -1536,6 +1537,7 @@ export type Database = {
           duracao_minutos?: number
           gravacao_url?: string | null
           id?: string
+          lembrete_push_em?: string | null
           link_url?: string | null
           profissional?: string | null
           publicado?: boolean
@@ -1550,6 +1552,7 @@ export type Database = {
           duracao_minutos?: number
           gravacao_url?: string | null
           id?: string
+          lembrete_push_em?: string | null
           link_url?: string | null
           profissional?: string | null
           publicado?: boolean
@@ -2032,6 +2035,7 @@ export type Database = {
           endpoint: string
           id: string
           lembrete_agua: boolean
+          lembrete_live: boolean
           p256dh: string
           perfil_id: string
         }
@@ -2041,6 +2045,7 @@ export type Database = {
           endpoint: string
           id?: string
           lembrete_agua?: boolean
+          lembrete_live?: boolean
           p256dh: string
           perfil_id?: string
         }
@@ -2050,6 +2055,7 @@ export type Database = {
           endpoint?: string
           id?: string
           lembrete_agua?: boolean
+          lembrete_live?: boolean
           p256dh?: string
           perfil_id?: string
         }
@@ -2755,6 +2761,18 @@ export type Database = {
           meta: number
           p256dh: string
           total: number
+        }[]
+      }
+      lembretes_de_live: {
+        Args: never
+        Returns: {
+          auth: string
+          data: string
+          endpoint: string
+          inscricao: string
+          live: string
+          p256dh: string
+          tema: string
         }[]
       }
       liberar_acesso: {
