@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Abas, Carregando, ErroCarregar, Vazio } from '@/components/ui'
+import { CheckinHoje } from '@/features/checkin'
 import { useDesafios } from '../hooks/useDesafios'
 import { CartaoDesafio } from '../components/CartaoDesafio'
 import { CartaoEncerrado } from '../components/CartaoEncerrado'
@@ -11,7 +12,7 @@ const ABAS = [
   { id: 'encerrados', nome: textos.abas.encerrados },
 ] as const
 
-/** Desafios do mês em cartões e, na outra aba, os encerrados de que ela participou. */
+/** Desafios diários (o quadro da semana, igual ao do Início) e desafios do mês em cartões e, na outra aba, os encerrados de que ela participou. */
 export function DesafiosPage() {
   const [aba, setAba] = useState<Aba>('mes')
   const desafios = useDesafios()
@@ -25,6 +26,11 @@ export function DesafiosPage() {
       <h1 className="text-[28px] leading-tight font-bold text-verde-escuro lg:text-[30px]">
         {textos.titulo}
       </h1>
+      <section className="flex flex-col gap-3">
+        <h2 className="text-[19px] font-bold text-verde-escuro">{textos.diarios}</h2>
+        <CheckinHoje />
+      </section>
+      <h2 className="text-[19px] font-bold text-verde-escuro">{textos.doMes}</h2>
       <Abas opcoes={ABAS} ativa={aba} aoEscolher={setAba} rotulo={textos.abasRotulo} />
       {desafios.isPending ? (
         <Carregando texto={textos.carregando} />

@@ -7,6 +7,8 @@ export const textos = {
   carregando: 'Carregando os desafios',
   erro: 'Não foi possível carregar os desafios.',
   tentar: 'Tentar de novo',
+  diarios: 'Desafios diários',
+  doMes: 'Desafios do mês',
   vazio: 'Nenhum desafio aberto agora. Assim que as profissionais lançarem um, ele aparece aqui.',
   vazioEncerrados: 'Os desafios de que você participar aparecem aqui quando terminarem.',
   naoEncontrado: 'Este desafio não está disponível.',
