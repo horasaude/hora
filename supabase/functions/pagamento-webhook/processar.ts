@@ -1,4 +1,4 @@
-import { mp } from '../_shared/mp.ts'
+import { ErroMp, mp } from '../_shared/mp.ts'
 import {
   acaoParaPagamento,
   statusDoPagamento,
@@ -127,9 +127,19 @@ async function cobranca(id: string) {
   )
 }
 
-export async function processar(tipo: string, id: string): Promise<string> {
+function porTipo(tipo: string, id: string): Promise<string> {
   if (tipo === 'payment') return pagamento(id)
   if (tipo === 'subscription_preapproval') return assinatura(id)
   if (tipo === 'subscription_authorized_payment') return cobranca(id)
-  return 'ignorado'
+  return Promise.resolve('ignorado')
+}
+
+/** Recurso que o Mercado Pago não acha (ex.: o teste do painel com id 123456) responde 200 e não é reenviado. */
+export async function processar(tipo: string, id: string): Promise<string> {
+  try {
+    return await porTipo(tipo, id)
+  } catch (e) {
+    if (e instanceof ErroMp && e.status === 404) return 'nao_encontrado'
+    throw e
+  }
 }
