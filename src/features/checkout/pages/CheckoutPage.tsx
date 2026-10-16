@@ -24,7 +24,7 @@ export function CheckoutPage() {
   const { form, cpf, whatsapp } = useCheckout()
   const plano = form.watch('plano')
   const cartao = useRef<() => Promise<DadosCartao | null>>(async () => null)
-  const { finalizar, enviando, erro, resultado, recomecar } = useFinalizar(() => cartao.current())
+  const { finalizar, enviando, erro, resultado, recomecar } = useFinalizar(cartao, plano)
   const brick = useBrick(plano, centavosDoBrick(precos, plano), form.getValues('email'), !resultado)
   useEffect(() => {
     cartao.current = brick.cartao
