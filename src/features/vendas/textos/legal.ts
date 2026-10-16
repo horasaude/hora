@@ -6,7 +6,8 @@ export type Documento = {
   secoes: { titulo: string; texto: string }[]
 }
 
-const contato = 'TODO(clientes): e-mail de contato'
+const contato =
+  'Fale com a gente pelo e-mail contato@comunidadeora.com.br ou pelo WhatsApp (34) 99148-3885.'
 
 export const termos: Documento = {
   titulo: 'Termos de uso',
