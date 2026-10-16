@@ -651,6 +651,27 @@ export type Database = {
           },
         ]
       }
+      conexao_google: {
+        Row: {
+          conectado_em: string
+          conta: string
+          id: number
+          refresh_token: string
+        }
+        Insert: {
+          conectado_em?: string
+          conta: string
+          id?: number
+          refresh_token: string
+        }
+        Update: {
+          conectado_em?: string
+          conta?: string
+          id?: number
+          refresh_token?: string
+        }
+        Relationships: []
+      }
       configuracoes: {
         Row: {
           agua_meta_ml: number
@@ -1520,6 +1541,7 @@ export type Database = {
           created_at: string
           data: string
           duracao_minutos: number
+          google_evento_id: string | null
           gravacao_url: string | null
           id: string
           lembrete_push_em: string | null
@@ -1535,6 +1557,7 @@ export type Database = {
           created_at?: string
           data: string
           duracao_minutos?: number
+          google_evento_id?: string | null
           gravacao_url?: string | null
           id?: string
           lembrete_push_em?: string | null
@@ -1550,6 +1573,7 @@ export type Database = {
           created_at?: string
           data?: string
           duracao_minutos?: number
+          google_evento_id?: string | null
           gravacao_url?: string | null
           id?: string
           lembrete_push_em?: string | null
@@ -2742,6 +2766,13 @@ export type Database = {
       forum_responder: {
         Args: { p_texto: string; p_topico: string }
         Returns: string
+      }
+      google_conectado: {
+        Args: never
+        Returns: {
+          conectado_em: string
+          conta: string
+        }[]
       }
       hoje_brasilia: { Args: never; Returns: string }
       invalidar_checkin: {

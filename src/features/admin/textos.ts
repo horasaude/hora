@@ -127,7 +127,7 @@ export const textos = {
     minutos: (n: number) => `${n} min`,
     campoData: 'Data e hora',
     campoConvidada: 'Convidada (opcional)',
-    campoLink: 'Link da sala (opcional)',
+    campoLink: 'Link da sala (vazio cria no Meet)',
     campoGravacao: 'Vídeo do YouTube da gravação (opcional)',
     capa: 'Capa da gravação',
     capaEnviada: 'Imagem enviada',

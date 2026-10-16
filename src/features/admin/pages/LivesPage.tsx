@@ -3,6 +3,7 @@ import { useState, type ReactNode } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { formatarDataHora } from '@/lib/datas'
 import type { Live } from '../api/agenda.api'
+import { ConectarMeet } from '../components/ConectarMeet'
 import { Estado } from '../components/Estado'
 import { LiveDetalhe } from '../components/LiveDetalhe'
 import { LiveForm } from '../components/LiveForm'
@@ -78,7 +79,16 @@ export function LivesPage() {
     )
   }
   return (
-    <Quadro titulo={t.pagina} acao={acao} numeros={numeros(lista, agora)}>
+    <Quadro
+      titulo={t.pagina}
+      acao={
+        <div className="flex flex-wrap items-start gap-3">
+          <ConectarMeet />
+          {acao}
+        </div>
+      }
+      numeros={numeros(lista, agora)}
+    >
       {corpo}
       {nova && <LiveForm aoFechar={() => navegar('/app/admin/lives')} />}
     </Quadro>

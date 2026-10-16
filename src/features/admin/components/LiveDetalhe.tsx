@@ -6,6 +6,7 @@ import { textos } from '../textos'
 import { BotaoPublicar } from './BotaoPublicar'
 import { CartaoDetalhe, Dados } from './CartaoDetalhe'
 import { LiveForm } from './LiveForm'
+import { SalaMeet } from './SalaMeet'
 import { Situacao } from './Tabela'
 
 const t = textos.lives
@@ -35,6 +36,7 @@ export function LiveDetalhe({ live }: { live: Live }) {
       <div className="flex flex-wrap gap-2">
         <BotaoBrilho onClick={() => setEditando(true)}>{textos.editar}</BotaoBrilho>
         <BotaoPublicar tabela="lives" id={live.id} publicado={live.publicado} />
+        {!live.link_url && <SalaMeet live={live.id} />}
       </div>
       {editando && <LiveForm live={live} aoFechar={() => setEditando(false)} />}
     </CartaoDetalhe>

@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import type { z } from 'zod'
 import { paraCampoBrasilia } from '@/lib/datas'
 import { salvarLive, type Live } from '../api/agenda.api'
+import { useCriarSala } from '../hooks/useMeet'
 import { useSalvar } from '../hooks/usePainel'
 import { esquemaLive } from '../schemas/formularios'
 import { textos } from '../textos'
@@ -42,6 +43,7 @@ const CAMPOS: CampoDef<Entrada>[] = [
 /** Janela de criar ou editar live. Ao criar, abre a live nova na lista. */
 export function LiveForm({ live, aoFechar }: { live?: Live; aoFechar: () => void }) {
   const salvar = useSalvar(salvarLive)
+  const sala = useCriarSala()
   const navegar = useNavigate()
   const [capa, setCapa] = useState<EstadoCapa>({
     caminho: live?.capa_path ?? null,
@@ -66,6 +68,8 @@ export function LiveForm({ live, aoFechar }: { live?: Live; aoFechar: () => void
       aoSalvar={async (d) => {
         if (capa.enviando) throw new Error(textos.arquivos.esperar)
         const salva = await salvar.mutateAsync({ ...d, capa_path: capa.caminho, id: live?.id })
+        // Sem link: tenta criar a sala do Meet; se não der, o botão Criar sala fica no detalhe.
+        if (!salva.link_url) await sala.mutateAsync(salva.id).catch(() => null)
         if (live) aoFechar()
         else navegar(`/app/admin/lives/${salva.id}`)
       }}
