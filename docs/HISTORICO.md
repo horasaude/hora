@@ -2,6 +2,13 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-16 · main · Sala do Meet criada sozinha e e-mail de contato
+
+- Lives: ao salvar uma live sem link, o painel cria a sala no Google Meet pela conta Google da ORA (API do Meet, sala aberta para quem tem o link); live sem link ganha o botão Criar sala no Meet. Conectar a conta: botão Conectar Google Meet no topo de Lives (OAuth uma vez; refresh token em conexao_google, que só o servidor lê; google_conectado() mostra a conta para a profissional).
+- Banco 20261029090000_lives_meet (lives.google_evento_id, conexao_google; suíte com 44 checagens). Edge Functions google-meet (conectar e sala, só papel admin) e google-retorno (volta do Google, estado assinado com 15 min). Secrets GOOGLE_CLIENT_ID e GOOGLE_CLIENT_SECRET.
+- Termos e privacidade: contato@comunidadeora.com.br (ImprovMX encaminha para comunidadehora@gmail.com; MX e SPF no Registro.br) e WhatsApp de suporte.
+- Pendências: assinar o Google Workspace (plano que grava), criar o cliente OAuth no Google Cloud, guardar as chaves e conectar; gravação ainda vai para o YouTube como Não listado e é colada na live.
+
 ## 2026-10-15 · main · Mercado Pago ligado em modo teste e compra testada
 
 - Aplicação ORA Comunidade (7717358061804223) na conta da cliente (3715284424), Checkout Transparente com API de Payments; webhook nas abas teste e produção com Pagamentos e Planos e assinaturas. Secrets MP_ACCESS_TOKEN e MP_WEBHOOK_SECRET com as credenciais TEST- da conta da cliente; VITE_MP_PUBLIC_KEY na Vercel e no .env.local.

@@ -18,3 +18,5 @@ Lembrete ("Me lembrar"): por enquanto só dentro do app (o cartão da live apare
 
 - notificação push: o PWA não tem push configurado (precisa de chaves VAPID, inscrição do navegador e uma Edge Function que envie);
 - e-mail 1 hora antes: não existe envio de e-mail próprio (o e-mail padrão do Supabase só entrega para a equipe); precisa de um serviço como Resend e uma rotina no cron que leia lives_lembretes.
+
+Sala do Meet: o painel cria sozinho quando a live é salva sem link (admin/api/meet.api.ts, Edge Function google-meet), usando a conta Google conectada em Lives.
