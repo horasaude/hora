@@ -4,7 +4,7 @@ import { cabecalhosCors, origemPermitida } from '../_shared/cors.ts'
 import { precoPedido, type ConfiguracaoPrecos } from '../_shared/pagamento/regras.ts'
 import { json, servico } from '../_shared/servico.ts'
 import { esquemaEntrada, type EntradaPedido } from './entrada.ts'
-import { assinar, pagarParcelado, pagarPix, type Resultado } from './pagar.ts'
+import { anotarErro, assinar, pagarParcelado, pagarPix, type Resultado } from './pagar.ts'
 import { trocarCartao } from './trocar.ts'
 
 async function criar(dados: EntradaPedido): Promise<[Resultado, number]> {
@@ -16,7 +16,11 @@ async function criar(dados: EntradaPedido): Promise<[Resultado, number]> {
     )
     .single<ConfiguracaoPrecos>()
   if (error || !config) return [{ ok: false, erro: 'falha' }, 500]
-  const preco = precoPedido(dados.plano, new Date(), config)
+  const base = precoPedido(dados.plano, new Date(), config)
+  // No parcelado a cliente escolhe de 1x a 12x no cartão; o total é o mesmo (juros por conta do ORA).
+  const parcelas =
+    dados.plano === 'parcelado' ? (dados.cartao?.installments ?? base.parcelas) : base.parcelas
+  const preco = { ...base, parcelas }
   const utms = Object.fromEntries(Object.entries(dados.utms).filter(([, v]) => v))
   const { data: pedido, error: erroPedido } = await servico
     .from('pedidos')
@@ -37,9 +41,14 @@ async function criar(dados: EntradaPedido): Promise<[Resultado, number]> {
     .single<{ id: string }>()
   if (erroPedido || !pedido) return [{ ok: false, erro: 'falha' }, 500]
   const p = { id: pedido.id, dados, preco }
-  if (dados.plano === 'pix') return [await pagarPix(p), 200]
-  if (dados.plano === 'parcelado') return [await pagarParcelado(p, dados.cartao!), 200]
-  return [await assinar(p, dados.cartao!), 200]
+  try {
+    if (dados.plano === 'pix') return [await pagarPix(p), 200]
+    if (dados.plano === 'parcelado') return [await pagarParcelado(p, dados.cartao!), 200]
+    return [await assinar(p, dados.cartao!), 200]
+  } catch (e) {
+    await anotarErro(pedido.id, e)
+    throw e
+  }
 }
 
 Deno.serve(async (req) => {

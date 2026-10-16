@@ -7,6 +7,7 @@ const cartao = z.object({
   token: z.string().min(8).max(200),
   payment_method_id: z.string().min(2).max(40),
   issuer_id: z.union([z.string(), z.number()]).optional(),
+  installments: z.coerce.number().int().min(1).max(12).optional(),
 })
 
 /** Corpo do checkout. Preço nunca vem daqui: o servidor decide. */

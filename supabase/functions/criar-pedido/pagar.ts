@@ -93,12 +93,30 @@ export async function pagarParcelado({ id, dados, preco }: Pedido, c: Cartao): P
   }
 }
 
+/** Resumo do erro do Mercado Pago (código e mensagem, sem dados da cliente) para achar a causa. */
+export function resumoErro(e: unknown): string {
+  if (!(e instanceof ErroMp)) return e instanceof Error ? e.message : 'erro'
+  const causas = Array.isArray(e.corpo.cause) ? (e.corpo.cause as { code?: unknown }[]) : []
+  const codigos = causas
+    .map((c) => c.code)
+    .filter(Boolean)
+    .join(',')
+  return `mp ${e.status} ${codigos} ${String(e.corpo.message ?? '')}`.trim()
+}
+
+/** Guarda o motivo da falha no pedido, sem mudar o status. */
+export async function anotarErro(id: string, e: unknown) {
+  console.error('criar-pedido', resumoErro(e))
+  await atualizar(id, { status_detalhe: resumoErro(e).slice(0, 120) })
+}
+
 async function recusa(id: string, e: unknown): Promise<Resultado> {
   if (!(e instanceof ErroMp) || e.status >= 500) throw e
+  console.error('criar-pedido recusa', resumoErro(e))
   await servico.rpc('marcar_pedido', {
     p_pedido: id,
     p_status: 'recusado',
-    p_detalhe: 'dados_cartao',
+    p_detalhe: resumoErro(e),
   })
   return { ok: false, pedido: id, status: 'recusado', motivo: 'dados' }
 }
