@@ -7,7 +7,7 @@ Checkout próprio (rota /checkout), no formato do Hotmart e na identidade do ORA
 | pages/CheckoutPage.tsx        | Banner, formulário (resumo, dados, pagamento) e lateral; troca o pagamento pelo Pix ou recusa   |
 | pages/TrocarCartaoPage.tsx    | /checkout/cartao?pedido=: troca o cartão da assinatura mensal (link do e-mail de recusa)        |
 | components/Pagamento.tsx      | Quadro #pagamento-mp com o Brick, total, aviso de erro e o botão vidro verde "Finalizar compra" |
-| components/brick.ts           | Ajustes do Brick: só Pix no à vista, só crédito no parcelado (12x) e no mensal; cores do ORA    |
+| components/brick.ts           | Ajustes do Brick: só Pix no à vista, crédito de 1x a 12x no parcelado e 1x no mensal; cores     |
 | components/PixGerado.tsx      | QR grande, "Copiar código Pix", contagem de 30 min, aviso do e-mail                             |
 | components/CartaoRecusado.tsx | Recusa em português pelo motivo (saldo, dados, banco) e "Tentar outro cartão"                   |
 | components/valores.ts         | Texto do valor de cada plano e o valor que o Brick cobra                                        |
@@ -26,6 +26,12 @@ Checkout próprio (rota /checkout), no formato do Hotmart e na identidade do ORA
 2. criar-pedido grava o pedido (status criado) e chama o Mercado Pago com X-Idempotency-Key = id do pedido: Pix em POST /v1/payments (expira em 30 min), parcelado em POST /v1/payments com 12 parcelas sobre o total, mensal em POST /preapproval (12 cobranças, cartão do Brick).
 3. O acesso só nasce no pagamento-webhook: confere a assinatura, busca o pagamento, a assinatura ou a cobrança na API e chama as funções do banco. Aprovado cria ou reaproveita a conta, libera 12 meses (13 com a oferta) e manda o e-mail com "Criar minha senha".
 4. /obrigada?pedido= consulta situacao_pedido e mostra aprovado, esperando o Pix ou recusado.
+
+## Teste
+
+- Cartão e Pix: credenciais TEST- da conta real e e-mail comum (o Brick não aceita contas de teste). Cartão aprovado com nome APRO; CONT deixa pendente.
+- O motivo de toda recusa ou falha do Mercado Pago fica em pedidos.status_detalhe.
+- Mensal (preapproval) não funciona no ambiente de teste do Mercado Pago; validar em produção.
 
 ## Chaves (trocar só isso quando chegar a conta das clientes)
 

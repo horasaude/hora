@@ -50,7 +50,9 @@ Venda inicial por links do Mercado Pago; o checkout integrado da Sprint 2 substi
 - [x] Edge Function pagamento-webhook idempotente e criação de acesso (pagamento aprovado grava perfis.acesso_inicio_em = momento da confirmação e acesso_fim_em pelo plano)
 - [x] tem_acesso_ativo() e RLS de conteúdo (com suspensão por inadimplência)
 - [x] E-mails de boas-vindas, lembrete do Pix e cobrança recusada; reembolso; /obrigada com status real
-- [ ] Contas das clientes: gateway de pagamento (em avaliação: Asaas no lugar do Mercado Pago), Resend com chave nova, URL do webhook de produção
+- [x] Mercado Pago da cliente ligado em modo teste (webhook, chaves TEST-); Pix e parcelado testados ponta a ponta
+- [ ] Mercado Pago: cliente liberar 12x (hoje até 10x, erro 10117) e parcelamento sem juros
+- [ ] Mercado Pago: virar para credenciais de produção e validar o mensal com cartão real e estorno (no modo teste a assinatura falha do lado deles)
 - [ ] SMTP do Resend no Auth do Supabase e modelo supabase/templates/nova-senha.html (sem isso, Esqueci minha senha só entrega para a equipe)
 - [ ] Pixel da Meta (Purchase só com aprovado) quando o pixel existir
 

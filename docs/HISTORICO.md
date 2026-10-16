@@ -2,6 +2,14 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-15 · main · Mercado Pago ligado em modo teste e compra testada
+
+- Aplicação ORA Comunidade (7717358061804223) na conta da cliente (3715284424), Checkout Transparente com API de Payments; webhook nas abas teste e produção com Pagamentos e Planos e assinaturas. Secrets MP_ACCESS_TOKEN e MP_WEBHOOK_SECRET com as credenciais TEST- da conta da cliente; VITE_MP_PUBLIC_KEY na Vercel e no .env.local.
+- Teste com o Payment Brick: só com as credenciais TEST- da conta real e e-mail comum (o Brick não aceita contas de teste para cartão e Pix). Pix gera QR; parcelado aprovado ponta a ponta (acesso criado e e-mail enviado); webhook processa.
+- Checkout: parcelado de 1x a 12x (cliente escolhe; total igual), pedido guarda o motivo do erro do Mercado Pago em status_detalhe, trocar de plano tira o aviso de recusa. Webhook responde 200 para recurso que o Mercado Pago não acha (teste do painel).
+- Commits saem com o e-mail 337824045+horasaude@users.noreply.github.com (config local): com o e-mail do computador a Vercel recusava o redeploy.
+- Pendências: 12x recusado pela conta (10117 installments_removed_by_rule; até 10x passa), cliente vai liberar; parcelamento sem juros na conta; mensal (preapproval) falha no ambiente de teste do Mercado Pago em todas as combinações, validar em produção com cartão de uma das sócias e estorno; trocar para credenciais de produção.
+
 ## 2026-10-28 · main · Avisos aparecem para a aluna e menu sem repetição no computador
 
 - Avisos (src/features/avisos): os publicados no painel nunca apareciam na área da aluna; agora o Início mostra no topo os dos últimos 30 dias que ela ainda não fechou (até 3), com Entendi guardado no aparelho.
