@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/acesso/:codigo",
+      "destination": "https://zijtjwhvnhfarmfscmnr.supabase.co/functions/v1/primeiro-acesso?c=:codigo"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }

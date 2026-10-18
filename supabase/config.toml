@@ -434,3 +434,6 @@ verify_jwt = false
 
 [functions.google-retorno]
 verify_jwt = false
+
+[functions.primeiro-acesso]
+verify_jwt = false

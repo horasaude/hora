@@ -17,7 +17,8 @@ create table auth.users (
   email text unique,
   raw_user_meta_data jsonb default '{}'::jsonb,
   raw_app_meta_data jsonb default '{}'::jsonb,
-  last_sign_in_at timestamptz
+  last_sign_in_at timestamptz,
+  encrypted_password text
 );
 do $$ begin
   if not exists (select 1 from pg_roles where rolname = 'anon') then create role anon; end if;

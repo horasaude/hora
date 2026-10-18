@@ -27,12 +27,12 @@ export const compra = {
     titulo: 'Que bom ter você na *ORA*',
     passos: [
       'Assim que o pagamento for confirmado, você recebe no e-mail o link para criar a sua senha.',
-      'O link vale por 24 horas. Crie a senha e entre no ORA.',
+      'Crie a senha pelo botão do e-mail e entre no ORA.',
       'Pagou no Pix? A confirmação costuma chegar em poucos minutos.',
     ],
     aprovado: [
       'Seu pagamento foi confirmado e o acesso já está liberado.',
-      'Enviamos para o seu e-mail o link para criar a sua senha. Ele vale por 24 horas.',
+      'Enviamos para o seu e-mail o link para criar a sua senha.',
       'Crie a senha e comece pela Preparação, uma aula por dia.',
     ],
     pendenteTitulo: 'Estamos esperando o *pagamento*',

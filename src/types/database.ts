@@ -1868,6 +1868,7 @@ export type Database = {
         Row: {
           aprovado_em: string | null
           boas_vindas_em: string | null
+          codigo_acesso: string
           codigo_indicacao: string | null
           cpf: string
           created_at: string
@@ -1895,6 +1896,7 @@ export type Database = {
         Insert: {
           aprovado_em?: string | null
           boas_vindas_em?: string | null
+          codigo_acesso?: string
           codigo_indicacao?: string | null
           cpf: string
           created_at?: string
@@ -1922,6 +1924,7 @@ export type Database = {
         Update: {
           aprovado_em?: string | null
           boas_vindas_em?: string | null
+          codigo_acesso?: string
           codigo_indicacao?: string | null
           cpf?: string
           created_at?: string
@@ -2598,6 +2601,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      acesso_do_link: {
+        Args: { p_codigo: string }
+        Returns: {
+          email: string
+          tem_senha: boolean
+        }[]
+      }
       alunas_em_desafios_ativos: { Args: never; Returns: number }
       aprovar_pedido: {
         Args: { p_aprovado_em: string; p_pedido: string; p_perfil: string }

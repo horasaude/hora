@@ -64,8 +64,8 @@ type Dados = Base & { email: string; link: string; compra: Compra }
 export function boasVindas(d: Dados): Email {
   const endereco = escapar(`${d.site.replace(/^https?:\/\//, '')}/app`)
   const contato = d.whatsapp
-    ? `Se o link vencer ou ficar alguma dúvida, fale com a gente no <a href="${escapar(d.whatsapp)}" style="color:${VERDE}">WhatsApp</a>.`
-    : 'Se o link vencer, responda este e-mail que mandamos outro.'
+    ? `Se ficar alguma dúvida, fale com a gente no <a href="${escapar(d.whatsapp)}" style="color:${VERDE}">WhatsApp</a>.`
+    : 'Se ficar alguma dúvida, responda este e-mail.'
   const corpo = [
     p(
       `Oi, ${primeiroNome(d.nome)}! Recebemos o seu pagamento e o seu acesso ao ORA já está liberado.`,
@@ -78,7 +78,7 @@ export function boasVindas(d: Dados): Email {
     quadro('Seu acesso', [
       `Plataforma: <a href="${escapar(d.site)}/app" style="color:${VERDE};font-weight:bold">${endereco}</a>`,
       `Usuário: <strong>${escapar(d.email)}</strong>`,
-      'Senha: você cria agora, no botão abaixo. O link vale por 24 horas.',
+      'Senha: você cria no botão abaixo, quando quiser.',
     ]),
     botao('Criar minha senha', d.link),
     instalar(endereco),

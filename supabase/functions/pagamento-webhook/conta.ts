@@ -16,10 +16,11 @@ export type Pedido = {
   valor_centavos: number
   parcelas: number
   meses_acesso: number
+  codigo_acesso: string
 }
 
 export const CAMPOS_PEDIDO =
-  'id, nome, email, plano, status, perfil_id, boas_vindas_em, mp_assinatura_id, valor_centavos, parcelas, meses_acesso'
+  'id, nome, email, plano, status, perfil_id, boas_vindas_em, mp_assinatura_id, valor_centavos, parcelas, meses_acesso, codigo_acesso'
 
 const whatsapp = () => linkWhatsApp(Deno.env.get('WHATSAPP_NUMERO'))
 
@@ -37,18 +38,12 @@ async function garantirConta(p: Pedido): Promise<string> {
 }
 
 async function mandarBoasVindas(p: Pedido): Promise<void> {
-  const { data, error } = await servico.auth.admin.generateLink({
-    type: 'recovery',
-    email: p.email,
-    options: { redirectTo: `${SITE}/definir-senha` },
-  })
-  if (error) throw new Error(`link de senha: ${error.message}`)
   const email = boasVindas({
     site: SITE,
     nome: p.nome,
     email: p.email,
     whatsapp: whatsapp(),
-    link: data.properties.action_link,
+    link: `${SITE}/acesso/${p.codigo_acesso}`,
     compra: {
       plano: p.plano,
       valorCentavos: p.valor_centavos,
