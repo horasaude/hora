@@ -86,6 +86,7 @@ export async function pagarParcelado({ id, dados, preco }: Pedido, c: Cartao): P
         payer: pagador(dados),
       },
       id,
+      c.dispositivo,
     )
     return await marcar(id, p)
   } catch (e) {
@@ -147,6 +148,7 @@ export async function assinar({ id, dados, preco }: Pedido, c: Cartao): Promise<
         },
       },
       id,
+      c.dispositivo,
     )
     await atualizar(id, { mp_assinatura_id: a.id })
     await servico.rpc('registrar_assinatura', {

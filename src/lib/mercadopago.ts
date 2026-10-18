@@ -9,6 +9,8 @@ export type DadosCartao = {
   payment_method_id: string
   issuer_id?: string | number
   installments?: number
+  /** Identificação do aparelho (antifraude do Mercado Pago), repassada no cabeçalho X-meli-session-id. */
+  dispositivo?: string
 }
 
 export type DadosBrick = { selectedPaymentMethod?: string; formData?: Partial<DadosCartao> }
@@ -27,7 +29,24 @@ export const chavePublicaMp = (): string => import.meta.env.VITE_MP_PUBLIC_KEY ?
 
 let construtor: Promise<Construtor> | null = null
 
+const SEGURANCA = 'https://www.mercadopago.com/v2/security.js'
+
+/** Script de segurança do Mercado Pago: cria window.MP_DEVICE_SESSION_ID para o antifraude. */
+function carregarSeguranca() {
+  if (document.querySelector(`script[src="${SEGURANCA}"]`)) return
+  const s = document.createElement('script')
+  s.src = SEGURANCA
+  s.setAttribute('view', 'checkout')
+  document.head.appendChild(s)
+}
+
+export function dispositivoMp(): string | undefined {
+  const id = (window as unknown as { MP_DEVICE_SESSION_ID?: unknown }).MP_DEVICE_SESSION_ID
+  return typeof id === 'string' && /^[\w-]{1,200}$/.test(id) ? id : undefined
+}
+
 export function bricks(chave: string): Promise<Construtor> {
+  carregarSeguranca()
   construtor ??= loadMercadoPago().then(() => {
     const Mp = (window as unknown as { MercadoPago?: MercadoPago }).MercadoPago
     if (!Mp) throw new Error('sdk')
@@ -46,5 +65,6 @@ export async function cartaoDoBrick(c: ControleBrick): Promise<DadosCartao | nul
     payment_method_id: f.payment_method_id,
     issuer_id: f.issuer_id,
     installments: f.installments,
+    dispositivo: dispositivoMp(),
   }
 }

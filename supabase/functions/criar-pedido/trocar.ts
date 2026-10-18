@@ -16,7 +16,11 @@ export async function trocarCartao(d: {
   if (!pedido?.mp_assinatura_id || pedido.plano !== 'recorrente' || pedido.status !== 'aprovado')
     return [{ ok: false, erro: 'nao_encontrado' }, 404]
   try {
-    await mp.atualizarAssinatura(pedido.mp_assinatura_id, { card_token_id: d.cartao.token })
+    await mp.atualizarAssinatura(
+      pedido.mp_assinatura_id,
+      { card_token_id: d.cartao.token },
+      d.cartao.dispositivo,
+    )
     return [{ ok: true, pedido: pedido.id, status: 'aprovado' }, 200]
   } catch (e) {
     if (!(e instanceof ErroMp) || e.status >= 500) throw e

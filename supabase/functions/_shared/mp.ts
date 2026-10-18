@@ -13,7 +13,13 @@ export class ErroMp extends Error {
   }
 }
 
-type Opcoes = { metodo?: 'GET' | 'POST' | 'PUT'; corpo?: unknown; idempotencia?: string }
+type Opcoes = {
+  metodo?: 'GET' | 'POST' | 'PUT'
+  corpo?: unknown
+  idempotencia?: string
+  /** Device ID do navegador da cliente (antifraude). */
+  dispositivo?: string
+}
 
 async function chamar<T>(caminho: string, o: Opcoes = {}): Promise<T> {
   const token = Deno.env.get('MP_ACCESS_TOKEN') ?? ''
@@ -23,6 +29,7 @@ async function chamar<T>(caminho: string, o: Opcoes = {}): Promise<T> {
     'Content-Type': 'application/json',
   }
   if (o.idempotencia) headers['X-Idempotency-Key'] = o.idempotencia
+  if (o.dispositivo) headers['X-meli-session-id'] = o.dispositivo
   const r = await fetch(BASE + caminho, {
     method: o.metodo ?? 'GET',
     headers,
@@ -64,13 +71,17 @@ export type CobrancaMp = {
 }
 
 export const mp = {
-  criarPagamento: (corpo: unknown, idempotencia: string) =>
-    chamar<PagamentoMp>('/v1/payments', { metodo: 'POST', corpo, idempotencia }),
+  criarPagamento: (corpo: unknown, idempotencia: string, dispositivo?: string) =>
+    chamar<PagamentoMp>('/v1/payments', { metodo: 'POST', corpo, idempotencia, dispositivo }),
   pagamento: (id: string) => chamar<PagamentoMp>(`/v1/payments/${encodeURIComponent(id)}`),
-  criarAssinatura: (corpo: unknown, idempotencia: string) =>
-    chamar<AssinaturaMp>('/preapproval', { metodo: 'POST', corpo, idempotencia }),
+  criarAssinatura: (corpo: unknown, idempotencia: string, dispositivo?: string) =>
+    chamar<AssinaturaMp>('/preapproval', { metodo: 'POST', corpo, idempotencia, dispositivo }),
   assinatura: (id: string) => chamar<AssinaturaMp>(`/preapproval/${encodeURIComponent(id)}`),
-  atualizarAssinatura: (id: string, corpo: unknown) =>
-    chamar<AssinaturaMp>(`/preapproval/${encodeURIComponent(id)}`, { metodo: 'PUT', corpo }),
+  atualizarAssinatura: (id: string, corpo: unknown, dispositivo?: string) =>
+    chamar<AssinaturaMp>(`/preapproval/${encodeURIComponent(id)}`, {
+      metodo: 'PUT',
+      corpo,
+      dispositivo,
+    }),
   cobranca: (id: string) => chamar<CobrancaMp>(`/authorized_payments/${encodeURIComponent(id)}`),
 }
