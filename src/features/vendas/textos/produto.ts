@@ -15,7 +15,7 @@ export const produto = {
     pilares: [
       { nome: 'Alimentação', quem: 'com a nutricionista' },
       { nome: 'Saúde', quem: 'com a médica' },
-      { nome: 'Movimento', quem: 'com a educadora física' },
+      { nome: 'Movimento', quem: 'com a personal trainer' },
     ],
   },
   comoFunciona: {
@@ -74,7 +74,7 @@ export const produto = {
       },
       {
         nome: 'Laís Moraes',
-        papel: 'Educadora física',
+        papel: 'Personal trainer',
         frase: 'Coloca o corpo em movimento com treinos que respeitam o seu momento.',
         foto: '/fotos/lais.webp' as string | undefined,
         cartao: { titulo: 'Emagreça com músculos', texto: 'Treino de força no seu ritmo' },

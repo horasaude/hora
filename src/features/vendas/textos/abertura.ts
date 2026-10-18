@@ -7,7 +7,7 @@ export const abertura = {
     etiqueta: 'Imersão ORA',
     titulo: 'Chegou a *HORA* de cuidar de você',
     subtitulo:
-      'Um ano com nutricionista, médica e educadora física no mesmo lugar. Para você parar de recomeçar toda semana.',
+      'Um ano com nutricionista, médica e personal trainer no mesmo lugar. Para você parar de recomeçar toda semana.',
     botao: 'Quero entrar na ORA',
   },
   // Provisórios (fatos do produto). TODO(clientes): trocar por números de autoridade quando vierem.
