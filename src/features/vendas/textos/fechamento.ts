@@ -14,8 +14,8 @@ export const fechamento = {
       },
       contagem: { antes: 'Começa em', durante: 'Termina em' },
       depois: {
-        antes: 'O desconto abaixo já vale; o mês grátis, só no dia.',
-        durante: 'Depois disso, o desconto continua, mas sem o mês grátis.',
+        antes: '13º mês grátis somente no dia 24/10.',
+        durante: '13º mês grátis somente hoje, 24/10.',
       },
       unidades: { dias: 'dias', horas: 'horas', minutos: 'min', segundos: 'seg' },
     },

@@ -11,7 +11,7 @@ export const produto = {
     foto: '/fotos/tres-em-pe.webp',
     fotoAlt: 'Ana Milhomem, Dra. Clara Maria e Laís Moraes juntas à beira do lago',
     texto:
-      'Um ano de conteúdo, encontros ao vivo e uma comunidade que caminha junto com você. Cada uma cuida de uma parte e as três conversam entre si.',
+      'Um ano de conteúdos informativos, encontros ao vivo, desafios e uma comunidade de mulheres que caminham na mesma direção. Uma equipe, três olhares diferentes para cuidar de você!',
     pilares: [
       { nome: 'Alimentação', quem: 'com a nutricionista' },
       { nome: 'Saúde', quem: 'com a médica' },
@@ -94,18 +94,18 @@ export const produto = {
     cta: 'É pra mim, quero entrar',
     foto: '/fotos/tres-sentadas.webp',
     fotoAlt: 'As três profissionais sentadas conversando num deck de madeira',
-    simTitulo: 'É *pra você* se',
+    simTitulo: 'É *para você* se:',
     sim: [
-      'Você já tentou sozinha e não conseguiu manter.',
-      'Quer orientação de profissionais, não dieta da moda.',
-      'Precisa de algo que caiba numa rotina corrida.',
-      'Gosta de ter companhia para continuar.',
+      'Já tentou sozinha e não conseguiu se manter no peso que atingiu.',
+      'Quer orientação multiprofissional para ter mais saúde e qualidade de vida.',
+      'Precisa de algo prático que caiba na sua rotina.',
+      'Gosta de ter companhia para atingir seus objetivos.',
     ],
-    naoTitulo: '*Não é* pra você se',
+    naoTitulo: '*Não é* para você se:',
     nao: [
-      'Procura resultado milagroso em poucos dias.',
-      'Não quer mudar nada na rotina.',
       'Busca atendimento individual de consultório.',
+      'Precisa de resultado milagroso em poucos dias.',
+      'Não quer mudar a sua rotina nem se abrir para novas estratégias.',
     ],
   },
   recebe: {
@@ -116,7 +116,7 @@ export const produto = {
     itens: [
       { texto: 'Trilha "Comece por aqui" e 7 dias de preparação' },
       { texto: 'Trilhas por tema com etapas liberadas no seu ritmo' },
-      { texto: 'Lives quinzenais com as três profissionais' },
+      { texto: 'Lives quinzenais para troca de experiências e informações' },
       { texto: 'Cardápios da nutricionista' },
       { texto: 'Check-in de treino com foto e pontuação' },
       { texto: 'Ranking mensal e anual com prêmios' },

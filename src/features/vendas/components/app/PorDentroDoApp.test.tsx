@@ -18,7 +18,7 @@ describe('PorDentroDoApp', () => {
     render(<PorDentroDoApp />)
     fireEvent.click(screen.getAllByRole('button', { name: 'Ranking' })[0]!)
     expect(screen.getByText('Ranking do mês')).toBeInTheDocument()
-    expect(screen.getByText(/nunca por peso/)).toBeInTheDocument()
+    expect(screen.getByText(/não por obrigação/)).toBeInTheDocument()
     fireEvent.click(screen.getAllByRole('button', { name: 'Plano' })[0]!)
     fireEvent.click(screen.getByRole('button', { name: 'Treino' }))
     expect(screen.getByText('Treino de força · 25 min')).toBeInTheDocument()

@@ -12,7 +12,7 @@ function Lista({ titulo, itens, sim }: { titulo: string; itens: string[]; sim: b
   return (
     <div className="rounded-[1.5rem] bg-white p-6">
       <h3 className="text-4xl text-ora">
-        <Destaque texto={titulo} />
+        <Destaque texto={titulo} linha />
       </h3>
       <ul className="mt-5 flex flex-col gap-3">
         {itens.map((i) => (

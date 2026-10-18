@@ -7,7 +7,7 @@ export const abertura = {
     etiqueta: 'Imersão ORA',
     titulo: 'Chegou a *HORA* de cuidar de você',
     subtitulo:
-      'Um ano de acompanhamento com médica, nutricionista e educadora física, tudo em uma única plataforma.\nPara você deixar de recomeçar toda segunda-feira e começar a construir resultados duradouros.',
+      'Um ano com nutricionista, médica e educadora física no mesmo lugar. Para você parar de recomeçar toda semana.',
     botao: 'Quero entrar na ORA',
   },
   // Provisórios (fatos do produto). TODO(clientes): trocar por números de autoridade quando vierem.
@@ -19,10 +19,9 @@ export const abertura = {
       detalhe: 'cuidando de você juntas',
     },
     { valor: '12', rotulo: 'meses', detalhe: 'de acompanhamento' },
-    { valor: '2', rotulo: 'lives por mês', detalhe: 'ao vivo com as três' },
+    { valor: '2', rotulo: 'lives por mês', detalhe: 'encontros ao vivo' },
   ],
   problema: {
-    etiqueta: 'Pausa',
     cta: 'Quero ter companhia nessa',
     titulo: 'Você já *tentou*',
     frases: [

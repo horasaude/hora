@@ -28,12 +28,13 @@ export const app = {
     {
       id: 'ranking',
       nome: 'Ranking',
-      explica: 'Pontos por hábito, nunca por peso. Quem se dedica sobe de nível e é premiada.',
+      explica: 'Pontos por hábito e não por obrigação. Quem se dedica sobe de nível e é premiada.',
     },
     {
       id: 'eu',
       nome: 'Eu',
-      explica: 'Sua constância, suas conquistas e o check-in da semana com energia, sono e fome.',
+      explica:
+        'Sua constância nas atividades, suas evoluções e também o check-in da semana com energia, sono e fome.',
     },
   ],
   selos: [
