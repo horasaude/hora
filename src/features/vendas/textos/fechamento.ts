@@ -43,12 +43,13 @@ export const fechamento = {
       meses > 12 ? '12 meses + 1 mês grátis' : `${meses} meses de acesso`,
     mesGratis: '+1 mês grátis',
     botao: 'Quero este',
-    seguro: 'Compra 100% segura! Receba seu acesso imediatamente após confirmação do pagamento.',
+    seguro: 'Compra 100% segura! Receba seu acesso imediatamente após a confirmação do pagamento.',
   },
   garantia: {
     selo: '7 dias',
     titulo: 'Garantia de 7 dias',
-    texto: 'Entrou e não era para você? Peça a devolução em até 7 dias e recebe o valor integral.',
+    texto:
+      'Entrou e não atingiu suas expectativas?\nPeça a devolução em até 7 dias e receba o valor integral.',
   },
   perguntas: {
     etiqueta: 'Dúvidas',
@@ -56,16 +57,16 @@ export const fechamento = {
     titulo: 'Perguntas *frequentes*',
     itens: [
       {
-        p: 'Preciso ter participado do ORA?',
+        p: 'Preciso ter participado da Imersão ORA?',
         r: 'Não. A ORA é aberta para quem quer começar agora.',
       },
       {
-        p: 'Quando vale a oferta do ORA?',
-        r: 'O desconto vale em todos os planos. Quem assinar no dia 24/10, no evento ORA, até as 23h59 (horário de Brasília), ganha também 1 mês grátis: são 13 meses de acesso.',
+        p: 'Como funcionam os valores promocionais do ORA?',
+        r: 'O desconto vale em todos os planos. Quem assinar no dia 24/10, dia da Imersão ORA, até as 23h59 (horário de Brasília), ganhará 1 mês grátis: serão 13 meses de acesso à plataforma.',
       },
       {
         p: 'Quando recebo o acesso?',
-        r: 'Assim que o pagamento é confirmado, você recebe seu usuário e senha. Você começa pelas boas-vindas e pelos 7 dias de preparação, e no 8º dia escolhe o seu tema.',
+        r: 'Assim que o pagamento é confirmado, você recebe seu usuário e senha. Você começará pelas “boas-vindas”, seguidas dos “7 dias de preparação”. A partir do 8º dia, você escolhe o seu tema.',
       },
       {
         p: 'Qual a diferença entre parcelado e mensal?',
@@ -81,7 +82,7 @@ export const fechamento = {
       },
       {
         p: 'Como acesso o conteúdo?',
-        r: 'Pelo celular ou computador, com e-mail e senha. Dá para instalar como aplicativo.',
+        r: 'Pelo celular ou computador, com e-mail e senha. Você também poderá instalar a plataforma como aplicativo no seu celular.',
       },
     ],
   },

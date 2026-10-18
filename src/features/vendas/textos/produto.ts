@@ -11,7 +11,7 @@ export const produto = {
     foto: '/fotos/tres-em-pe.webp',
     fotoAlt: 'Ana Milhomem, Dra. Clara Maria e Laís Moraes juntas à beira do lago',
     texto:
-      'Um ano de conteúdo, encontros ao vivo e uma comunidade que caminha junto com você. Cada uma cuida de uma parte, e as três conversam entre si.',
+      'Um ano de conteúdo, encontros ao vivo e uma comunidade que caminha junto com você. Cada uma cuida de uma parte e as três conversam entre si.',
     pilares: [
       { nome: 'Alimentação', quem: 'com a nutricionista' },
       { nome: 'Saúde', quem: 'com a médica' },
@@ -33,11 +33,13 @@ export const produto = {
       },
       {
         titulo: 'Trilhas por etapas',
-        texto: 'Aulas curtas, liberadas aos poucos, para avançar sem se perder.',
+        texto:
+          'Aulas curtas para facilitar o seu dia a dia, liberadas aos poucos para que você avance sem se perder.',
       },
       {
-        titulo: 'Lives a cada 15 dias',
-        texto: 'Encontros ao vivo com as três para tirar dúvidas.',
+        titulo: 'Encontros quinzenais',
+        texto:
+          'Encontros ao vivo para trazer ainda mais orientações, troca de experiências e também para tirar as suas dúvidas.',
       },
       {
         titulo: 'Check-in de treino',
@@ -45,7 +47,8 @@ export const produto = {
       },
       {
         titulo: 'Ranking e prêmios',
-        texto: 'Cada check-in vale pontos. Quem se dedica é premiada.',
+        texto:
+          'Cada check-in vale pontos e você vai acumulando. No final, quem mais se dedicar será premiada.',
       },
     ],
   },
@@ -65,9 +68,9 @@ export const produto = {
       {
         nome: 'Dra. Clara Maria',
         papel: 'Médica',
-        frase: 'Olha para a sua saúde por inteiro, com orientação médica e responsável.',
+        frase: 'Um olhar voltado para o cuidado com a saúde metabólica e o emagrecimento saudável.',
         foto: '/fotos/clara.webp' as string | undefined,
-        cartao: { titulo: 'Live quinta, 19h', texto: 'Mais energia no dia a dia' },
+        cartao: { titulo: 'Orientações sobre saúde', texto: 'Mais qualidade de vida para você' },
       },
       {
         nome: 'Laís Moraes',

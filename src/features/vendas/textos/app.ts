@@ -6,7 +6,7 @@ export const app = {
   cta: 'Quero meu acesso ao app',
   titulo: 'Tudo na palma da *mão*',
   texto:
-    'Em cinco segundos você sabe o que fazer hoje. Cada hábito cumprido vira ponto, e as três acompanham você de perto.',
+    'Em cinco segundos você sabe o que fazer hoje. Cada hábito cumprido vira ponto e as três acompanham você de perto.',
   dica: 'Toque nas telas',
   abas: [
     {

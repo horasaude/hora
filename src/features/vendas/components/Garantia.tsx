@@ -11,7 +11,7 @@ export function Garantia() {
       </div>
       <div>
         <p className="text-sm font-semibold text-ora">{t.titulo}</p>
-        <p className="mt-0.5 text-sm text-tinta">{t.texto}</p>
+        <p className="mt-0.5 text-sm whitespace-pre-line text-tinta">{t.texto}</p>
       </div>
     </div>
   )
