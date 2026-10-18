@@ -26,7 +26,7 @@ export function Hero() {
         <h1 className="entrada mt-6 text-[5rem] sm:text-8xl lg:text-[9rem]">
           <Destaque texto={t.titulo} />
         </h1>
-        <p className="entrada-2 mt-6 max-w-xl text-base leading-relaxed text-creme/90 sm:text-lg">
+        <p className="entrada-2 mt-6 max-w-xl whitespace-pre-line text-base leading-relaxed text-creme/90 sm:text-lg">
           {t.subtitulo}
         </p>
         <div className="entrada-3 mt-10 w-full sm:w-auto">

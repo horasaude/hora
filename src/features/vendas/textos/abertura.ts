@@ -6,9 +6,8 @@ export const abertura = {
     logo: 'ORA',
     etiqueta: 'Imersão ORA',
     titulo: 'Chegou a *HORA* de cuidar de você',
-    // TODO(clientes): validar a promessa e o subtítulo.
     subtitulo:
-      'Um ano com nutricionista, médica nutróloga e educadora física no mesmo lugar. Para você parar de recomeçar toda segunda.',
+      'Um ano de acompanhamento com médica, nutricionista e educadora física, tudo em uma única plataforma.\nPara você deixar de recomeçar toda segunda-feira e começar a construir resultados duradouros.',
     botao: 'Quero entrar na ORA',
   },
   // Provisórios (fatos do produto). TODO(clientes): trocar por números de autoridade quando vierem.

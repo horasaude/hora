@@ -14,7 +14,7 @@ export const produto = {
       'Um ano de conteúdo, encontros ao vivo e uma comunidade que caminha junto com você. Cada uma cuida de uma parte, e as três conversam entre si.',
     pilares: [
       { nome: 'Alimentação', quem: 'com a nutricionista' },
-      { nome: 'Saúde', quem: 'com a médica nutróloga' },
+      { nome: 'Saúde', quem: 'com a médica' },
       { nome: 'Movimento', quem: 'com a educadora física' },
     ],
   },
@@ -64,7 +64,7 @@ export const produto = {
       },
       {
         nome: 'Dra. Clara Maria',
-        papel: 'Médica nutróloga',
+        papel: 'Médica',
         frase: 'Olha para a sua saúde por inteiro, com orientação médica e responsável.',
         foto: '/fotos/clara.webp' as string | undefined,
         cartao: { titulo: 'Live quinta, 19h', texto: 'Mais energia no dia a dia' },
