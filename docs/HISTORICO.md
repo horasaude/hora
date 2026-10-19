@@ -2,6 +2,12 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-19 · main · Cancelamento pela plataforma
+
+- Decisão 0006. Migração 20261031090000_cancelamento.sql (colunas de cancelamento em pedidos, teste supabase/tests/cancelamento.test.mjs). Edge Function cancelar-inscricao (consultar e cancelar; estorno no Asaas em até 7 dias, senão não renovar; e-mails em _shared/email/cancelamento.ts). Perfil > Minha conta: Cancelamento.tsx. Painel: Cancelamentos (admin/cancelamentos). Termos e privacidade atualizados (cartão passa pelo checkout a caminho do Asaas).
+- Testes no sandbox do Asaas: Pix, parcelado 12x, mensal e estorno passaram.
+- Pendência: convite de renovação ao fim dos 12 meses.
+
 ## 2026-10-19 · main · Cartão digitado no próprio checkout, de 1x a 12x
 
 - A pedido da dona: nada de página do Asaas. DadosCartao.tsx (número, nome, validade, CVV, CEP, número do endereço; parcelas 1x a 12x no parcelado), máscaras em src/lib/cartao.ts (com Luhn e validade). criar-pedido recebe cartao e parcelas, manda creditCard, creditCardHolderInfo e remoteIp ao Asaas; recusa vira erro 'cartao'. Sai pagar_url.

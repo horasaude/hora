@@ -1868,6 +1868,9 @@ export type Database = {
         Row: {
           aprovado_em: string | null
           boas_vindas_em: string | null
+          cancelamento_motivo: string | null
+          cancelamento_pedido_em: string | null
+          cancelamento_tipo: string | null
           codigo_acesso: string
           codigo_indicacao: string | null
           cpf: string
@@ -1896,6 +1899,9 @@ export type Database = {
         Insert: {
           aprovado_em?: string | null
           boas_vindas_em?: string | null
+          cancelamento_motivo?: string | null
+          cancelamento_pedido_em?: string | null
+          cancelamento_tipo?: string | null
           codigo_acesso?: string
           codigo_indicacao?: string | null
           cpf: string
@@ -1924,6 +1930,9 @@ export type Database = {
         Update: {
           aprovado_em?: string | null
           boas_vindas_em?: string | null
+          cancelamento_motivo?: string | null
+          cancelamento_pedido_em?: string | null
+          cancelamento_tipo?: string | null
           codigo_acesso?: string
           codigo_indicacao?: string | null
           cpf?: string

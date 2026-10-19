@@ -3,6 +3,7 @@ import { BotaoBrilho, Cartao, LinkBrilho } from '@/components/ui'
 import { useMeuPerfil, useSair } from '@/features/auth'
 import { useSalvarRanking } from '../hooks/usePerfil'
 import { textos } from '../textos'
+import { Cancelamento } from './Cancelamento'
 import { JanelaEditar } from './JanelaEditar'
 import { JanelaSenha } from './JanelaSenha'
 
@@ -44,7 +45,7 @@ function Chave({
   )
 }
 
-/** Configurações: apelido e foto, aparecer no ranking, trocar senha, painel (admin) e sair. */
+/** Configurações: apelido e foto, ranking, senha, painel (admin), sair e cancelar inscrição. */
 export function Configuracoes() {
   const p = useMeuPerfil().data
   const ranking = useSalvarRanking()
@@ -89,6 +90,7 @@ export function Configuracoes() {
         />
       )}
       {janela === 'senha' && <JanelaSenha aoFechar={() => setJanela(null)} />}
+      <Cancelamento />
     </Cartao>
   )
 }

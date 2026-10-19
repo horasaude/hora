@@ -3,6 +3,7 @@ import { LogoOra } from '@/components/ui'
 import { useNome } from '@/features/auth'
 import { textos } from '../textos'
 import { GrupoPlano, ItemMenu } from './MenuItens'
+import { t as textosCancelamentos } from '../cancelamentos/textos'
 
 const a = textos.abas
 // Bolinhas com as cores da referência do painel (docs/referencias/estilo-painel.html).
@@ -16,6 +17,7 @@ const ITENS = [
   { para: 'forum', nome: a.forum, cor: '#D98BA8' },
   { para: 'avisos', nome: a.avisos, cor: '#7FB89E' },
   { para: 'alunas', nome: a.alunas, cor: '#F2643A' },
+  { para: 'cancelamentos', nome: textosCancelamentos.titulo, cor: '#C9746E' },
   { para: 'financeiro', nome: a.financeiro, cor: '#6E9BC9' },
   { para: 'loja', nome: a.loja, cor: '#D98BA8' },
   { para: 'configuracoes', nome: a.configuracoes, cor: '#B9C3BF' },

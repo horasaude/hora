@@ -68,6 +68,15 @@ export const asaas = {
   assinatura: (a: string) => chamar<AssinaturaAsaas>(`/subscriptions/${id(a)}`),
   cobrancasDaAssinatura: (a: string) =>
     chamar<Lista<CobrancaAsaas>>(`/subscriptions/${id(a)}/payments`),
+  /** Estorno integral de uma cobrança (cartão volta na fatura, Pix volta na conta de quem pagou). */
+  estornar: (c: string) =>
+    chamar<CobrancaAsaas>(`/payments/${id(c)}/refund`, { metodo: 'POST', corpo: {} }),
+  /** Estorno de todas as parcelas de um parcelamento no cartão. */
+  estornarParcelamento: (i: string) =>
+    chamar<unknown>(`/installments/${id(i)}/refund`, { metodo: 'POST', corpo: {} }),
+  /** Apaga a assinatura: o Asaas para de gerar as próximas cobranças. */
+  apagarAssinatura: (a: string) =>
+    chamar<{ deleted: boolean }>(`/subscriptions/${id(a)}`, { metodo: 'DELETE' }),
 }
 
 /** Resumo do erro do Asaas (código e descrição, sem dados da cliente) para achar a causa. */

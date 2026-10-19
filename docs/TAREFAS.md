@@ -53,8 +53,10 @@ Venda inicial por links do Mercado Pago; o checkout integrado da Sprint 2 substi
 - [x] Mercado Pago da cliente ligado em modo teste (webhook, chaves TEST-); Pix e parcelado testados ponta a ponta
 - [x] Pagamento trocado para o Asaas (decisão 0005); Mercado Pago abandonado
 - [x] Cartão digitado no próprio checkout, parcelado de 1x a 12x
-- [ ] Asaas: testar no sandbox Pix, parcelado (1x e 12x), cartão recusado, mensal (2ª cobrança no cartão salvo) e reembolso
-- [ ] Asaas: confirmar com o suporte se a conta de produção aceita cartão pela API sem liberação extra
+- [x] Asaas sandbox: Pix, parcelado 12x, mensal (1ª cobrança) e estorno testados ponta a ponta (2026-10-19)
+- [x] Asaas confirmou que a conta de produção aceita cobrança e assinatura com cartão pela API
+- [x] Cancelamento pela plataforma: até 7 dias estorno automático; depois só não renova; lista no painel (decisão 0006)
+- [ ] Convite de renovação por e-mail ao fim dos 12 meses (Pix, parcelado e mensal; sem cobrança automática; pula quem pediu para não renovar). Primeiro vencimento em 10/2027
 - [ ] Asaas: conta de produção da cliente, chave pelo ligar-asaas.sh e uma compra real de valor baixo com estorno
 - [ ] SMTP do Resend no Auth do Supabase e modelo supabase/templates/nova-senha.html (sem isso, Esqueci minha senha só entrega para a equipe)
 - [ ] Pixel da Meta (Purchase só com aprovado) quando o pixel existir

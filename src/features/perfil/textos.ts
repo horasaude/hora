@@ -65,6 +65,29 @@ export const textos = {
     saindo: 'Saindo',
     salvo: 'Salvo.',
   },
+  cancelamento: {
+    botao: 'Cancelar inscrição',
+    titulo: 'Cancelar inscrição',
+    confirmar: 'Confirmar cancelamento',
+    voltar: 'Voltar',
+    cancelando: 'Cancelando',
+    fechar: 'Fechar',
+    motivo: 'Quer contar o motivo? (opcional)',
+    dentro:
+      'Você está dentro dos 7 dias da compra: recebe 100% do valor de volta e o acesso termina agora.',
+    fora: (fim: string) =>
+      `Como já passaram 7 dias da compra, o plano segue normalmente até ${fim} e não é renovado.`,
+    estornoFeito:
+      'Cancelamento feito. O estorno integral já foi pedido e o seu acesso foi encerrado.',
+    estornoPendente:
+      'Cancelamento recebido. A nossa equipe faz o estorno integral e te avisa por e-mail.',
+    naoRenovaOk: (fim: string) => `Pedido recebido. Seu acesso segue até ${fim} e não é renovado.`,
+    pedido: (quando: string, fim: string) =>
+      `Cancelamento pedido em ${quando}. Seu acesso segue até ${fim} e não é renovado.`,
+    pedidoEstorno: (quando: string) =>
+      `Cancelamento pedido em ${quando}. O estorno integral está em andamento.`,
+    erro: 'Não deu certo agora. Tente de novo ou fale com a gente no WhatsApp.',
+  },
   historico: {
     titulo: 'Histórico de pontos',
     vazio: 'Seus pontos aparecem aqui a partir do primeiro check-in.',

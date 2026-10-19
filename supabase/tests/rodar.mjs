@@ -22,6 +22,7 @@ import { testarArquivosAluna } from './arquivos_aluna.test.mjs'
 import { testarLembreteAgua } from './lembrete_agua.test.mjs'
 import { testarConexaoGoogle } from './conexao_google.test.mjs'
 import { testarLinkAcesso } from './link_acesso.test.mjs'
+import { testarCancelamento } from './cancelamento.test.mjs'
 
 const suites = [
   testarPerfis,
@@ -39,6 +40,7 @@ const suites = [
   testarCardapiosLives,
   testarMateriais,
   testarPagamentos,
+  testarCancelamento,
   testarAssinaturas,
   testarAulaAssistida,
   testarTreinos,
