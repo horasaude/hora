@@ -68,7 +68,12 @@ Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors })
   if (req.method !== 'POST') return json({ ok: false }, 405, cors)
   const lido = esquemaPedido.safeParse(await req.json().catch(() => null))
-  if (!lido.success) return json({ ok: false, erro: 'dados' }, 400, cors)
+  if (!lido.success) {
+    // Só o nome dos campos recusados, nunca os valores (o cartão pode estar no corpo).
+    const campos = [...new Set(lido.error.issues.map((i) => i.path.join('.') || 'corpo'))]
+    console.error('criar-pedido entrada recusada:', campos.join(', '))
+    return json({ ok: false, erro: 'dados' }, 400, cors)
+  }
   try {
     const [corpo, status] = await criar(lido.data, ipDe(req))
     return json(corpo, status, cors)
