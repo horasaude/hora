@@ -62,14 +62,14 @@ export function cobrancaRecusada(d: Base & { link: string }): Email {
   const corpo = [
     p(`Oi, ${primeiroNome(d.nome)}! A cobrança deste mês do ORA não passou no seu cartão.`),
     p(
-      'Acontece. Pode ser limite, cartão vencido ou um bloqueio do banco. Para não perder o acesso, atualize o cartão nos próximos 7 dias.',
+      'Acontece. Pode ser limite, cartão vencido ou um bloqueio do banco. Para não perder o acesso, pague a mensalidade nos próximos 7 dias, no mesmo cartão ou em outro.',
     ),
-    botao('Atualizar cartão', d.link),
+    botao('Pagar a mensalidade', d.link),
     contato,
   ].join('')
   return {
     assunto: 'Não conseguimos cobrar a mensalidade do ORA',
-    html: moldura(d.site, 'Vamos atualizar o seu cartão?', corpo),
+    html: moldura(d.site, 'Vamos acertar a mensalidade?', corpo),
   }
 }
 

@@ -49,13 +49,12 @@ export function fimDoAcesso(aprovadoEm: Date, meses: 12 | 13): Date {
   return fim
 }
 
-/** Centavos para o número em reais que a API do Mercado Pago espera. */
+/** Centavos para o número em reais que a API do Asaas espera. */
 export const reais = (centavos: number): number => Math.round(centavos) / 100
 
-/** Data no formato da API (yyyy-MM-ddTHH:mm:ss.SSS-03:00), no horário de Brasília. */
-export function dataMp(d: Date): string {
-  const b = new Date(d.getTime() - 3 * 3_600_000)
-  return b.toISOString().replace('Z', '-03:00')
+/** Data (yyyy-MM-dd) no horário de Brasília, como o vencimento do Asaas. */
+export function dataAsaas(d: Date): string {
+  return new Date(d.getTime() - 3 * 3_600_000).toISOString().slice(0, 10)
 }
 
 export const PIX_MINUTOS = 30

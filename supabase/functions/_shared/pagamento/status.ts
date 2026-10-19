@@ -1,53 +1,44 @@
-// Tradução dos status do Mercado Pago para o pedido do ORA e para a mensagem da tela.
+// Tradução dos status do Asaas para o pedido do ORA.
 
 export type StatusPedido =
   'criado' | 'pendente' | 'aprovado' | 'recusado' | 'reembolsado' | 'cancelado' | 'chargeback'
 
-/** Status de um pagamento (/v1/payments) para o status do pedido. Sem par conhecido: null (ignora). */
+/** Status de uma cobrança do Asaas para o status do pedido. Sem par conhecido: null (ignora). */
 export function statusDoPagamento(status: string | undefined): StatusPedido | null {
   switch (status) {
-    case 'approved':
+    case 'CONFIRMED':
+    case 'RECEIVED':
+    case 'RECEIVED_IN_CASH':
       return 'aprovado'
-    case 'pending':
-    case 'in_process':
-    case 'authorized':
+    case 'PENDING':
+    case 'AWAITING_RISK_ANALYSIS':
       return 'pendente'
-    case 'rejected':
+    case 'OVERDUE':
+    case 'RECUSADO':
       return 'recusado'
-    case 'refunded':
+    case 'REFUNDED':
+    case 'REFUND_REQUESTED':
+    case 'REFUND_IN_PROGRESS':
       return 'reembolsado'
-    case 'cancelled':
+    case 'DELETED':
       return 'cancelado'
-    case 'charged_back':
+    case 'CHARGEBACK_REQUESTED':
+    case 'CHARGEBACK_DISPUTE':
+    case 'AWAITING_CHARGEBACK_REVERSAL':
       return 'chargeback'
     default:
       return null
   }
 }
 
-export type MotivoRecusa = 'saldo' | 'dados' | 'banco' | 'outro'
+/** Eventos do Asaas em que o cartão foi recusado sem mudar o status da cobrança. */
+const EVENTOS_RECUSA = ['PAYMENT_CREDIT_CARD_CAPTURE_REFUSED', 'PAYMENT_REPROVED_BY_RISK_ANALYSIS']
 
-/** Motivo da recusa do cartão (status_detail) em uma das mensagens que a tela sabe mostrar. */
-export function motivoRecusa(detalhe: string | null | undefined): MotivoRecusa {
-  const d = detalhe ?? ''
-  if (d === 'cc_rejected_insufficient_amount') return 'saldo'
-  if (
-    d.startsWith('cc_rejected_bad_filled') ||
-    d === 'cc_rejected_invalid_installments' ||
-    d === 'cc_rejected_card_disabled'
-  )
-    return 'dados'
-  if (
-    d === 'cc_rejected_call_for_authorize' ||
-    d === 'cc_rejected_high_risk' ||
-    d === 'cc_rejected_blacklist' ||
-    d === 'cc_rejected_card_error' ||
-    d === 'cc_rejected_max_attempts' ||
-    d === 'cc_rejected_duplicated_payment' ||
-    d === 'cc_rejected_other_reason'
-  )
-    return 'banco'
-  return 'outro'
+/** Situação usada no webhook: o status da API, a recusa do evento ou a cobrança apagada. */
+export function situacaoDaCobranca(evento: string, c: { status: string; deleted?: boolean }) {
+  if (c.deleted) return 'DELETED'
+  if (EVENTOS_RECUSA.includes(evento) && c.status === 'PENDING') return 'RECUSADO'
+  return c.status
 }
 
 /** O que o webhook faz com o pedido diante do status vindo da API. */

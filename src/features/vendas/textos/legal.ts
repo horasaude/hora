@@ -26,7 +26,7 @@ export const termos: Documento = {
     {
       titulo: 'Pagamento',
       texto:
-        'O pagamento é feito pelo Mercado Pago, à vista no Pix, parcelado no cartão ou em cobrança mensal recorrente. O acesso é liberado depois da confirmação do pagamento.',
+        'O pagamento é feito pelo Asaas, à vista no Pix, parcelado no cartão ou em cobrança mensal recorrente. O acesso é liberado depois da confirmação do pagamento.',
     },
     {
       titulo: 'Garantia e cancelamento',
@@ -64,12 +64,12 @@ export const privacidade: Documento = {
     {
       titulo: 'Com quem compartilhamos',
       texto:
-        'Com os serviços que fazem a ORA funcionar: Mercado Pago (pagamento), Supabase (banco de dados) e Vercel (hospedagem). Não vendemos seus dados.',
+        'Com os serviços que fazem a ORA funcionar: Asaas (pagamento), Supabase (banco de dados) e Vercel (hospedagem). Não vendemos seus dados.',
     },
     {
       titulo: 'Pagamento',
       texto:
-        'Os dados do cartão e do Pix ficam com o Mercado Pago. A ORA não recebe nem guarda número de cartão.',
+        'Os dados do cartão e do Pix ficam com o Asaas. A ORA não recebe nem guarda número de cartão.',
     },
     {
       titulo: 'Seus direitos',

@@ -1,14 +1,20 @@
-// Cria o pedido do checkout e o pagamento no Mercado Pago: Pix, cartão em 12x ou assinatura mensal.
+// Cria o pedido do checkout e a cobrança no Asaas: Pix na tela, cartão em até 12x ou assinatura mensal
+// (o cartão é digitado na página segura do Asaas).
 // O preço é decidido aqui, pela tabela configuracoes; o acesso só é liberado pelo webhook.
 import { cabecalhosCors, origemPermitida } from '../_shared/cors.ts'
 import { precoPedido, type ConfiguracaoPrecos } from '../_shared/pagamento/regras.ts'
 import { json, servico } from '../_shared/servico.ts'
-import { esquemaEntrada, type EntradaPedido } from './entrada.ts'
-import { anotarErro, assinar, pagarParcelado, pagarPix, type Resultado } from './pagar.ts'
-import { trocarCartao } from './trocar.ts'
+import { esquemaPedido, type EntradaPedido } from './entrada.ts'
+import {
+  anotarErro,
+  assinar,
+  pagarParcelado,
+  pagarPix,
+  recusaDeDados,
+  type Resultado,
+} from './pagar.ts'
 
 async function criar(dados: EntradaPedido): Promise<[Resultado, number]> {
-  if (dados.plano !== 'pix' && !dados.cartao) return [{ ok: false, erro: 'dados' }, 400]
   const { data: config, error } = await servico
     .from('configuracoes')
     .select(
@@ -16,11 +22,7 @@ async function criar(dados: EntradaPedido): Promise<[Resultado, number]> {
     )
     .single<ConfiguracaoPrecos>()
   if (error || !config) return [{ ok: false, erro: 'falha' }, 500]
-  const base = precoPedido(dados.plano, new Date(), config)
-  // No parcelado a cliente escolhe de 1x a 12x no cartão; o total é o mesmo (juros por conta do ORA).
-  const parcelas =
-    dados.plano === 'parcelado' ? (dados.cartao?.installments ?? base.parcelas) : base.parcelas
-  const preco = { ...base, parcelas }
+  const preco = precoPedido(dados.plano, new Date(), config)
   const utms = Object.fromEntries(Object.entries(dados.utms).filter(([, v]) => v))
   const { data: pedido, error: erroPedido } = await servico
     .from('pedidos')
@@ -43,10 +45,11 @@ async function criar(dados: EntradaPedido): Promise<[Resultado, number]> {
   const p = { id: pedido.id, dados, preco }
   try {
     if (dados.plano === 'pix') return [await pagarPix(p), 200]
-    if (dados.plano === 'parcelado') return [await pagarParcelado(p, dados.cartao!), 200]
-    return [await assinar(p, dados.cartao!), 200]
+    if (dados.plano === 'parcelado') return [await pagarParcelado(p), 200]
+    return [await assinar(p), 200]
   } catch (e) {
     await anotarErro(pedido.id, e)
+    if (recusaDeDados(e)) return [{ ok: false, pedido: pedido.id, erro: 'dados' }, 200]
     throw e
   }
 }
@@ -57,11 +60,10 @@ Deno.serve(async (req) => {
   const cors = cabecalhosCors(origem)
   if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors })
   if (req.method !== 'POST') return json({ ok: false }, 405, cors)
-  const lido = esquemaEntrada.safeParse(await req.json().catch(() => null))
+  const lido = esquemaPedido.safeParse(await req.json().catch(() => null))
   if (!lido.success) return json({ ok: false, erro: 'dados' }, 400, cors)
   try {
-    const [corpo, status] =
-      lido.data.acao === 'trocar-cartao' ? await trocarCartao(lido.data) : await criar(lido.data)
+    const [corpo, status] = await criar(lido.data)
     return json(corpo, status, cors)
   } catch (e) {
     console.error('criar-pedido', e instanceof Error ? e.message : e)

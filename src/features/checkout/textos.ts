@@ -34,15 +34,12 @@ export const textos = {
     pix: { nome: 'Pix', texto: 'O código Pix aparece aqui quando você finalizar.' },
     cartao: {
       nome: 'Cartão de crédito',
-      texto: 'Os dados do cartão são digitados em campos seguros do Mercado Pago.',
+      texto: 'Você digita o cartão na página segura do Asaas e volta para o ORA.',
     },
     botao: 'Finalizar compra',
     enviando: 'Processando...',
-    carregando: 'Carregando o pagamento seguro...',
-    semChave: 'O pagamento ainda não está disponível. Fale com a gente no WhatsApp.',
-    erroBrick: 'Não conseguimos carregar o pagamento. Atualize a página.',
-    confiraCartao: 'Confira os dados do cartão.',
-    falha: 'Não conseguimos falar com o Mercado Pago agora. Tente de novo em instantes.',
+    dados: 'Confira o CPF e o WhatsApp e tente de novo.',
+    falha: 'Não conseguimos gerar o pagamento agora. Tente de novo em instantes.',
     concordo: ['Ao finalizar, você concorda com os ', ' e a ', '.'] as const,
     termos: 'Termos de uso',
     privacidade: 'Política de privacidade',
@@ -74,23 +71,6 @@ export const textos = {
     expirou: 'Este código expirou.',
     outro: 'Gerar outro Pix',
     aviso: 'Assim que o pagamento cair, seu acesso chega no e-mail',
-  },
-  recusado: {
-    titulo: 'Pagamento não aprovado',
-    motivos: {
-      saldo: 'O cartão não tem limite para esta compra. Tente outro cartão ou o Pix.',
-      dados:
-        'Algum dado do cartão não confere. Confira número, validade e código, ou use outro cartão.',
-      banco: 'O banco recusou o pagamento. Fale com o seu banco ou tente outro cartão.',
-      outro: 'Não deu certo com este cartão. Tente outro cartão ou o Pix.',
-    },
-    tentar: 'Tentar outro cartão',
-  },
-  troca: {
-    titulo: 'Atualizar cartão',
-    botao: 'Salvar cartão',
-    feito: 'Cartão atualizado. A próxima cobrança vai neste cartão.',
-    naoEncontrado: 'Não encontramos esta assinatura.',
   },
   erros: {
     email: 'Confira o e-mail',

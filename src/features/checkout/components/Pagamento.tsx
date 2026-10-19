@@ -1,12 +1,10 @@
 import { classeBrilho } from '@/components/ui'
 import type { Plano } from '@/domain/precos'
-import { ID_BRICK, type EstadoBrick } from '../hooks/useBrick'
 import { textos } from '../textos'
 
 type Props = {
   plano: Plano
   valor: string
-  brick: EstadoBrick
   enviando: boolean
   erro: string | null
 }
@@ -33,19 +31,12 @@ function Concordo() {
 
 const t = textos.pagamento
 
-const AVISO: Partial<Record<EstadoBrick, string>> = {
-  carregando: t.carregando,
-  sem_chave: t.semChave,
-  erro: t.erroBrick,
-}
-
 /**
- * Forma de pagamento conforme o plano: o Payment Brick do Mercado Pago em #pagamento-mp,
- * só com Pix no à vista e só com cartão no parcelado e no mensal. O botão é nosso (vidro verde).
+ * Forma de pagamento conforme o plano: Pix no à vista (o QR aparece aqui) e cartão no parcelado e
+ * no mensal (a cliente vai para a página segura do Asaas). O botão é nosso (vidro verde).
  */
-export function Pagamento({ plano, valor, brick, enviando, erro }: Props) {
+export function Pagamento({ plano, valor, enviando, erro }: Props) {
   const metodo = plano === 'pix' ? t.pix : t.cartao
-  const bloqueado = enviando || brick === 'sem_chave' || brick === 'erro' || brick === 'carregando'
   return (
     <section className="flex flex-col gap-3">
       <h2 className="text-sm font-semibold text-ora">{t.titulo}</h2>
@@ -54,8 +45,7 @@ export function Pagamento({ plano, valor, brick, enviando, erro }: Props) {
           <span aria-hidden="true" className="size-4 rounded-full border-4 border-ora" />
           {metodo.nome}
         </p>
-        {AVISO[brick] && <p className="mt-4 text-center text-sm text-suave">{AVISO[brick]}</p>}
-        <div id={ID_BRICK} className="mt-4 bg-white font-sistema" />
+        {plano !== 'pix' && <p className="mt-3 text-sm text-suave">{t.cartao.texto}</p>}
       </div>
       <p className="flex items-baseline justify-between border-t border-linha pt-4 text-tinta">
         <span className="text-sm">{t.total}</span>
@@ -71,7 +61,7 @@ export function Pagamento({ plano, valor, brick, enviando, erro }: Props) {
       )}
       <button
         type="submit"
-        disabled={bloqueado}
+        disabled={enviando}
         aria-busy={enviando}
         className={`${classeBrilho('verde', 'lg')} min-h-12 w-full text-sm tracking-[0.12em] uppercase`}
       >

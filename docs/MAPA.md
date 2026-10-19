@@ -1,7 +1,7 @@
 # Mapa do projeto
 
 Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim).
-Última atualização: pagamento pelo Mercado Pago (pedidos, criar-pedido, pagamento-webhook, Payment Brick no checkout).
+Última atualização: pagamento pelo Asaas (pedidos, criar-pedido, pagamento-webhook; cartão na página do Asaas, decisão 0005).
 
 ## Rotas
 
@@ -11,7 +11,6 @@ Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim)
 | /obrigada                                                       | ObrigadaPage                                               | vendas                        | público                | pacote inicial           |
 | /termos                                                         | TermosPage                                                 | vendas                        | público                | pacote inicial           |
 | /privacidade                                                    | PrivacidadePage                                            | vendas                        | público                | pacote inicial           |
-| /checkout/cartao?pedido=                                        | TrocarCartaoPage (troca o cartão da assinatura mensal)     | checkout                      | link                   | lazy                     |
 | /checkout                                                       | CheckoutPage                                               | checkout                      | público                | lazy                     |
 | /entrar                                                         | LoginPage                                                  | auth                          | público                | lazy (com ComProvedores) |
 | /app                                                            | InicioPage (dentro do LayoutAluna, com primeiro acesso)    | inicio                        | logada                 | lazy (AreaAluna + PWA)   |
@@ -104,7 +103,6 @@ Componentes do estilo (toda tela nova usa estes): BotaoBrilho, LinkBrilho, Etiqu
 | youtube.ts     | API de iframe do YouTube: carrega o script e liga o player a um iframe (enablejsapi, origin) |
 | html.ts        | limpa HTML do editor (com links: true, mantém link http(s)); textoParaHtml para texto antigo |
 | queryClient.ts | configuração do TanStack Query                                                               |
-| mercadopago.ts | carrega o SDK do Mercado Pago e o Payment Brick (VITE_MP_PUBLIC_KEY); token do cartão        |
 | pedido.ts      | situação do pedido pelo id (situacao_pedido: status, plano e valor, sem dado pessoal)        |
 
 ## Componentes compartilhados (src/components)
@@ -156,16 +154,16 @@ Componentes do estilo (toda tela nova usa estes): BotaoBrilho, LinkBrilho, Etiqu
 
 ## Edge Functions
 
-| Função                | Faz                                                                                                                        | JWT       |
-| --------------------- | -------------------------------------------------------------------------------------------------------------------------- | --------- |
-| cadastrar-interessada | valida e grava interessada (honeypot, origem permitida)                                                                    | desligado |
-| limpar-fotos          | apaga fotos de check-in com mais de 90 dias (chamada pelo cron com x-cron-segredo)                                         | desligado |
-| criar-pedido          | cria pedido e pagamento no MP (Pix 30 min, cartão 12x, assinatura mensal); preço decidido no servidor; troca de cartão     | desligado |
-| pagamento-webhook     | notificações do MP: x-signature (MP_WEBHOOK_SECRET), busca na API, eventos idempotentes, libera acesso e manda boas-vindas | desligado |
-| lembretes-pagamento   | e-mail com o Pix copia e cola se não caiu em 15 min (cron a cada 5 min, x-cron-segredo)                                    | desligado |
-| \_shared/cors.ts      | CORS pela lista ORIGENS_PERMITIDAS                                                                                         |           |
-| \_shared/pagamento    | regras puras testadas no Vitest: preço, status do MP, motivo da recusa, assinatura do webhook                              |           |
-| \_shared/mp.ts, email | cliente da API do MP; e-mails pelo Resend (modelos.ts e enviar.ts)                                                         |           |
+| Função                   | Faz                                                                                                                        | JWT       |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------------- | --------- |
+| cadastrar-interessada    | valida e grava interessada (honeypot, origem permitida)                                                                    | desligado |
+| limpar-fotos             | apaga fotos de check-in com mais de 90 dias (chamada pelo cron com x-cron-segredo)                                         | desligado |
+| criar-pedido             | cria pedido e pagamento no MP (Pix 30 min, cartão 12x, assinatura mensal); preço decidido no servidor; troca de cartão     | desligado |
+| pagamento-webhook        | notificações do MP: x-signature (MP_WEBHOOK_SECRET), busca na API, eventos idempotentes, libera acesso e manda boas-vindas | desligado |
+| lembretes-pagamento      | e-mail com o Pix copia e cola se não caiu em 15 min (cron a cada 5 min, x-cron-segredo)                                    | desligado |
+| \_shared/cors.ts         | CORS pela lista ORIGENS_PERMITIDAS                                                                                         |           |
+| \_shared/pagamento       | regras puras testadas no Vitest: preço, status do MP, motivo da recusa, assinatura do webhook                              |           |
+| \_shared/asaas.ts, email | cliente da API do Asaas; e-mails pelo Resend (modelos.ts e enviar.ts)                                                      |           |
 
 ## Navegação da aluna
 

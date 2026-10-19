@@ -1,14 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { salvarInscricao } from '../inscricao'
-import { brickFalso } from './brickFalso'
 import { CheckoutPage } from './CheckoutPage'
-
-vi.mock('@/lib/mercadopago', async (original) => ({
-  ...(await original<typeof import('@/lib/mercadopago')>()),
-  chavePublicaMp: () => 'TEST-chave',
-  bricks: async () => brickFalso,
-}))
 
 const PEDIDO = '11111111-2222-3333-4444-555555555555'
 
@@ -56,18 +49,26 @@ describe('pagamento no checkout', () => {
     expect(chamadas[0]).not.toHaveProperty('valor')
   })
 
-  it('cartão recusado por saldo mostra a mensagem certa e deixa tentar outro', async () => {
+  it('cartão vai para a página segura do Asaas, sem dado de cartão no pedido', async () => {
+    const assign = vi.fn()
+    vi.stubGlobal('location', { ...window.location, assign })
     const chamadas = abrir('parcelado', {
-      ok: false,
+      ok: true,
       pedido: PEDIDO,
-      status: 'recusado',
-      motivo: 'saldo',
+      status: 'pendente',
+      pagar_url: 'https://www.asaas.com/i/abc123',
     })
+    expect(screen.getByText(/página segura do Asaas/)).toBeInTheDocument()
     fireEvent.click(await screen.findByRole('button', { name: 'Finalizar compra' }))
-    expect(await screen.findByText(/não tem limite/)).toBeInTheDocument()
-    expect(chamadas[0]).toMatchObject({ plano: 'parcelado', cartao: { token: 'tok_teste' } })
-    fireEvent.click(screen.getByRole('button', { name: 'Tentar outro cartão' }))
-    expect(await screen.findByRole('button', { name: 'Finalizar compra' })).toBeInTheDocument()
+    await vi.waitFor(() => expect(assign).toHaveBeenCalledWith('https://www.asaas.com/i/abc123'))
+    expect(chamadas[0]).toMatchObject({ plano: 'parcelado' })
+    expect(chamadas[0]).not.toHaveProperty('cartao')
+  })
+
+  it('CPF recusado pelo Asaas pede para conferir os dados', async () => {
+    abrir('parcelado', { ok: false, pedido: PEDIDO, erro: 'dados' })
+    fireEvent.click(await screen.findByRole('button', { name: 'Finalizar compra' }))
+    expect(await screen.findByRole('alert')).toHaveTextContent('Confira o CPF')
   })
 
   it('falha de comunicação vira aviso em português, sem termo técnico', async () => {

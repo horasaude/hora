@@ -3,7 +3,7 @@ import { CONFIGURACAO_PADRAO as P } from '../../../../src/domain/configuracao'
 import { precosPara } from '../../../../src/domain/precos'
 import {
   cpfValido,
-  dataMp,
+  dataAsaas,
   fimDoAcesso,
   precoPedido,
   reais,
@@ -79,7 +79,8 @@ describe('formatos da API', () => {
   it('reais e data no horário de Brasília', () => {
     expect(reais(229700)).toBe(2297)
     expect(reais(22700)).toBe(227)
-    expect(dataMp(new Date('2026-10-24T15:30:00Z'))).toBe('2026-10-24T12:30:00.000-03:00')
+    expect(dataAsaas(new Date('2026-10-24T15:30:00Z'))).toBe('2026-10-24')
+    expect(dataAsaas(new Date('2026-10-25T02:00:00Z'))).toBe('2026-10-24')
   })
 
   it('CPF pelos dígitos', () => {

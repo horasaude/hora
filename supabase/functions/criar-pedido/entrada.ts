@@ -3,17 +3,6 @@ import { cpfValido, PLANOS } from '../_shared/pagamento/regras.ts'
 
 const texto = (max: number) => z.string().trim().max(max).optional()
 
-const cartao = z.object({
-  token: z.string().min(8).max(200),
-  payment_method_id: z.string().min(2).max(40),
-  issuer_id: z.union([z.string(), z.number()]).optional(),
-  installments: z.coerce.number().int().min(1).max(12).optional(),
-  dispositivo: z
-    .string()
-    .regex(/^[\w-]{1,200}$/)
-    .optional(),
-})
-
 /** Corpo do checkout. Preço nunca vem daqui: o servidor decide. */
 export const esquemaPedido = z.object({
   acao: z.literal('criar').default('criar'),
@@ -48,16 +37,6 @@ export const esquemaPedido = z.object({
       term: texto(200),
     })
     .default({}),
-  cartao: cartao.optional(),
 })
-
-export const esquemaTroca = z.object({
-  acao: z.literal('trocar-cartao'),
-  pedido: z.uuid(),
-  cartao,
-})
-
-export const esquemaEntrada = z.union([esquemaTroca, esquemaPedido])
 
 export type EntradaPedido = z.infer<typeof esquemaPedido>
-export type Cartao = z.infer<typeof cartao>

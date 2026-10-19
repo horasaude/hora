@@ -70,8 +70,9 @@ export async function liberar(p: Pedido, aprovadoEm: string): Promise<boolean> {
   return novo
 }
 
-export async function avisarRecusa(p: Pedido, cobranca: string): Promise<void> {
-  const link = `${SITE}/checkout/cartao?pedido=${p.id}`
+/** Mensalidade recusada: o link é a própria cobrança no Asaas, onde ela paga com outro cartão. */
+export async function avisarRecusa(p: Pedido, cobranca: string, fatura?: string): Promise<void> {
+  const link = fatura ?? `${SITE}/entrar`
   await enviarEmail(
     p.email,
     cobrancaRecusada({ site: SITE, nome: p.nome, whatsapp: whatsapp(), link }),

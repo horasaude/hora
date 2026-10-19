@@ -2,6 +2,12 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-19 · main · Pagamento trocado do Mercado Pago para o Asaas
+
+- Decisão 0005. _shared/asaas.ts (API v3; o prefixo da chave escolhe produção ou sandbox). criar-pedido: cliente no Asaas sem avisos, Pix na tela (/pixQrCode), parcelado (installmentCount 12) e mensal (subscriptions, maxPayments 12) com pagar_url para a página do Asaas. pagamento-webhook: token asaas-access-token, cobrança e assinatura buscadas na API, mesmas funções do banco. lembretes-pagamento lê o status no Asaas.
+- Front: sai o Payment Brick, a tela de trocar cartão e o @mercadopago/sdk-js; cartão redireciona. Termos e privacidade citam o Asaas. E-mail de mensalidade recusada leva à cobrança no Asaas.
+- Pendências: conta sandbox para testar ponta a ponta (parcelado, mensal com o cartão salvo para a 2ª cobrança, Pix, reembolso); conta de produção da cliente (documento e selfie dela) e o script ligar-asaas.sh com a chave de produção; tirar a aplicação e o webhook do Mercado Pago.
+
 ## 2026-10-16 · main · Sala do Meet criada sozinha e e-mail de contato
 
 - Lives: ao salvar uma live sem link, o painel cria a sala no Google Meet pela conta Google da ORA (API do Meet, sala aberta para quem tem o link); live sem link ganha o botão Criar sala no Meet. Conectar a conta: botão Conectar Google Meet no topo de Lives (OAuth uma vez; refresh token em conexao_google, que só o servidor lê; google_conectado() mostra a conta para a profissional).

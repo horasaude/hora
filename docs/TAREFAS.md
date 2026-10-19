@@ -51,8 +51,9 @@ Venda inicial por links do Mercado Pago; o checkout integrado da Sprint 2 substi
 - [x] tem_acesso_ativo() e RLS de conteúdo (com suspensão por inadimplência)
 - [x] E-mails de boas-vindas, lembrete do Pix e cobrança recusada; reembolso; /obrigada com status real
 - [x] Mercado Pago da cliente ligado em modo teste (webhook, chaves TEST-); Pix e parcelado testados ponta a ponta
-- [ ] Mercado Pago: cliente liberar 12x (hoje até 10x, erro 10117) e parcelamento sem juros
-- [ ] Mercado Pago: virar para credenciais de produção e validar o mensal com cartão real e estorno (no modo teste a assinatura falha do lado deles)
+- [x] Pagamento trocado para o Asaas (decisão 0005); Mercado Pago abandonado
+- [ ] Asaas: testar no sandbox Pix, parcelado, mensal (2ª cobrança no cartão salvo) e reembolso
+- [ ] Asaas: conta de produção da cliente, chave pelo ligar-asaas.sh e uma compra real de valor baixo com estorno
 - [ ] SMTP do Resend no Auth do Supabase e modelo supabase/templates/nova-senha.html (sem isso, Esqueci minha senha só entrega para a equipe)
 - [ ] Pixel da Meta (Purchase só com aprovado) quando o pixel existir
 

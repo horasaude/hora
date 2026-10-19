@@ -2,7 +2,7 @@
 // Chamada a cada 5 minutos pelo pg_cron, com o cabeçalho x-cron-segredo igual ao secret CRON_SEGREDO.
 import { enviarEmail } from '../_shared/email/enviar.ts'
 import { lembretePix, linkWhatsApp } from '../_shared/email/modelos.ts'
-import { mp } from '../_shared/mp.ts'
+import { asaas } from '../_shared/asaas.ts'
 import { LEMBRETE_PIX_MINUTOS } from '../_shared/pagamento/regras.ts'
 import { json, servico, SITE } from '../_shared/servico.ts'
 
@@ -15,8 +15,8 @@ type Pix = {
 }
 
 async function lembrar(p: Pix): Promise<boolean> {
-  const atual = await mp.pagamento(p.mp_pagamento_id)
-  if (atual.status !== 'pending') return false
+  const atual = await asaas.cobranca(p.mp_pagamento_id)
+  if (atual.status !== 'PENDING') return false
   const email = lembretePix({
     site: SITE,
     nome: p.nome,

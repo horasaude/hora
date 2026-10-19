@@ -1,15 +1,8 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { FIM_OFERTA_ORA } from '@/domain/oferta'
-import { brickFalso } from './brickFalso'
 import { salvarInscricao } from '../inscricao'
 import { CheckoutPage } from './CheckoutPage'
-
-vi.mock('@/lib/mercadopago', async (original) => ({
-  ...(await original<typeof import('@/lib/mercadopago')>()),
-  chavePublicaMp: () => 'TEST-chave',
-  bricks: async () => brickFalso,
-}))
 
 const normal = (s?: string | null) => (s ?? '').replace(/\s+/g, ' ').trim()
 const tem = (t: string) =>

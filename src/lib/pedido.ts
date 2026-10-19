@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { env } from './env'
 
-// Situação de um pedido pelo id (o mesmo que vai ao Mercado Pago como external_reference).
+// Situação de um pedido pelo id (o mesmo que vai ao Asaas como externalReference).
 // Função do banco que devolve só status, plano e valor; nada de dado pessoal.
 
 export const STATUS_PEDIDO = [
