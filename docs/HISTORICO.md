@@ -2,6 +2,12 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-19 · main · Estorno de uma compra não derruba o acesso de outra
+
+- Migração 20261031100000_encerrar_com_outra_compra.sql: encerrar_pedido só encerra o acesso (e cancela a indicação) quando a pessoa não tem outra compra aprovada. Achado no teste do sandbox: o estorno do parcelado tirou o acesso de quem também tinha o mensal e o Pix aprovados. Testes em pagamentos e cancelamento.
+- cancelar-inscricao escolhe a compra aprovada mais recente.
+- Chaves do Mercado Pago retiradas do Supabase.
+
 ## 2026-10-19 · main · Cancelamento pela plataforma
 
 - Decisão 0006. Migração 20261031090000_cancelamento.sql (colunas de cancelamento em pedidos, teste supabase/tests/cancelamento.test.mjs). Edge Function cancelar-inscricao (consultar e cancelar; estorno no Asaas em até 7 dias, senão não renovar; e-mails em _shared/email/cancelamento.ts). Perfil > Minha conta: Cancelamento.tsx. Painel: Cancelamentos (admin/cancelamentos). Termos e privacidade atualizados (cartão passa pelo checkout a caminho do Asaas).

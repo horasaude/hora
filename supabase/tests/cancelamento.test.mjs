@@ -1,8 +1,30 @@
 import { criarBanco } from './harness.mjs'
-import { ID, montar, pedido } from './pagamentos.test.mjs'
+import { ativo, ID, montar, pedido } from './pagamentos.test.mjs'
 
 const ALUNA = ID(2)
 const MENSAL = ID(103)
+const PIX = ID(101)
+const OFERTA = ID(102)
+
+async function duasCompras(t) {
+  const { esperaValor } = t
+  await t.comoServico()
+  await t.db.exec(
+    `select public.aprovar_pedido('${PIX}', '${ALUNA}', now()); select public.aprovar_pedido('${OFERTA}', '${ALUNA}', now());`,
+  )
+  await esperaValor(
+    'estorno de uma compra',
+    `select public.encerrar_pedido('${OFERTA}', 'reembolsado')`,
+    true,
+  )
+  await esperaValor('com outra compra aprovada, o acesso continua', ativo(ALUNA), true)
+  await esperaValor(
+    'estorno da última compra',
+    `select public.encerrar_pedido('${PIX}', 'reembolsado')`,
+    true,
+  )
+  await esperaValor('sem compra aprovada, o acesso termina', ativo(ALUNA), false)
+}
 
 export async function testarCancelamento() {
   const t = await criarBanco()
@@ -49,5 +71,6 @@ export async function testarCancelamento() {
     `select cancelamento_tipo from public.pedidos where id = '${MENSAL}'`,
     'nao_renovar',
   )
+  await duasCompras(t)
   return t.fim('cancelamento')
 }

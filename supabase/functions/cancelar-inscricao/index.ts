@@ -25,16 +25,18 @@ async function quemPede(autorizacao: string): Promise<string | null> {
   return data.user?.id ?? null
 }
 
-/** Pedido mais recente que deu acesso a ela (aprovado ou já reembolsado). */
-async function pedidoDe(perfil: string) {
-  const { data } = await servico
-    .from('pedidos')
-    .select(CAMPOS)
-    .eq('perfil_id', perfil)
-    .not('aprovado_em', 'is', null)
+const ultimo = (perfil: string, soAprovado: boolean) => {
+  const q = servico.from('pedidos').select(CAMPOS).eq('perfil_id', perfil)
+  return (soAprovado ? q.eq('status', 'aprovado') : q.not('aprovado_em', 'is', null))
     .order('aprovado_em', { ascending: false })
     .limit(1)
     .maybeSingle<PedidoAluna>()
+}
+
+/** Compra em vigor (a aprovada mais recente); sem nenhuma, a última que já deu acesso. */
+async function pedidoDe(perfil: string) {
+  const { data: aprovado } = await ultimo(perfil, true)
+  const data = aprovado ?? (await ultimo(perfil, false)).data
   const { data: perfilDados } = await servico
     .from('perfis')
     .select('acesso_fim_em')

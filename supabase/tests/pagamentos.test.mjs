@@ -119,6 +119,12 @@ async function reembolso(t) {
   const { esperaValor } = t
   await t.comoServico()
   await esperaValor(
+    'estorno da compra da oferta',
+    `select public.encerrar_pedido('${OFERTA}', 'reembolsado')`,
+    true,
+  )
+  await esperaValor('com o Pix ainda aprovado, o acesso continua', ativo(ALUNA), true)
+  await esperaValor(
     'reembolso encerra o pedido',
     `select public.encerrar_pedido('${PIX}', 'reembolsado')`,
     true,
