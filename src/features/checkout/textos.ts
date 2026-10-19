@@ -47,6 +47,7 @@ export const textos = {
     enviando: 'Processando...',
     dados: 'Confira seus dados e tente de novo.',
     recusado: 'O cartão não foi aprovado. Confira os dados ou use outro cartão.',
+    cep: 'Não achamos esse CEP. Confira o CEP do endereço da fatura do cartão.',
     falha: 'Não conseguimos gerar o pagamento agora. Tente de novo em instantes.',
     concordo: ['Ao finalizar, você concorda com os ', ' e a ', '.'] as const,
     termos: 'Termos de uso',

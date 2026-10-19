@@ -135,12 +135,15 @@ export async function anotarErro(id: string, e: unknown) {
   await atualizar(id, { status_detalhe: resumoErro(e).slice(0, 120) })
 }
 
+type ErroItem = { code?: string; description?: string }
+
 /**
- * Erro 4xx do Asaas: 'cartao' quando o cartão foi recusado, 'dados' quando é dado da cliente
- * (ex.: CPF ou CEP). Outro erro devolve null e sobe como falha.
+ * Erro 4xx do Asaas: 'cep' quando o Asaas não achou o endereço do titular pelo CEP, 'cartao'
+ * quando o cartão foi recusado, 'dados' para outro dado da cliente (ex.: CPF). Outro erro: null.
  */
-export function motivoRecusa(e: unknown): 'cartao' | 'dados' | null {
+export function motivoRecusa(e: unknown): 'cep' | 'cartao' | 'dados' | null {
   if (!(e instanceof ErroAsaas) || e.status < 400 || e.status >= 500) return null
-  const erros = Array.isArray(e.corpo.errors) ? (e.corpo.errors as { code?: string }[]) : []
+  const erros = Array.isArray(e.corpo.errors) ? (e.corpo.errors as ErroItem[]) : []
+  if (erros.some((x) => /endere[cç]o|cep/i.test(x.description ?? ''))) return 'cep'
   return erros.some((x) => /creditcard/i.test(x.code ?? '')) ? 'cartao' : 'dados'
 }

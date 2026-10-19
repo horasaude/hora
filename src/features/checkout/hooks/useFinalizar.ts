@@ -30,6 +30,7 @@ function cartaoDe(d: DadosCheckout): CartaoPedido {
 
 const ERROS: Record<string, string> = {
   cartao: textos.pagamento.recusado,
+  cep: textos.pagamento.cep,
   dados: textos.pagamento.dados,
 }
 

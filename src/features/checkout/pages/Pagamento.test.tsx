@@ -96,6 +96,13 @@ describe('cartão no checkout', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent('use outro cartão')
   })
 
+  it('CEP que o Asaas não acha pede para conferir o CEP', async () => {
+    abrir('parcelado', { ok: false, pedido: PEDIDO, erro: 'cep' })
+    preencherCartao()
+    fireEvent.click(await screen.findByRole('button', { name: 'Finalizar compra' }))
+    expect(await screen.findByRole('alert')).toHaveTextContent('Confira o CEP')
+  })
+
   it('dado recusado pelo Asaas pede para conferir os dados', async () => {
     abrir('pix', { ok: false, pedido: PEDIDO, erro: 'dados' })
     fireEvent.click(await screen.findByRole('button', { name: 'Finalizar compra' }))
