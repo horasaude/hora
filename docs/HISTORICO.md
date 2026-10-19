@@ -2,6 +2,11 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-19 · main · Cartão digitado no próprio checkout, de 1x a 12x
+
+- A pedido da dona: nada de página do Asaas. DadosCartao.tsx (número, nome, validade, CVV, CEP, número do endereço; parcelas 1x a 12x no parcelado), máscaras em src/lib/cartao.ts (com Luhn e validade). criar-pedido recebe cartao e parcelas, manda creditCard, creditCardHolderInfo e remoteIp ao Asaas; recusa vira erro 'cartao'. Sai pagar_url.
+- Pendências: confirmar no sandbox o código de erro de cartão recusado e se a produção aceita cartão pela API sem pedir liberação ao gerente.
+
 ## 2026-10-19 · main · Pagamento trocado do Mercado Pago para o Asaas
 
 - Decisão 0005. _shared/asaas.ts (API v3; o prefixo da chave escolhe produção ou sandbox). criar-pedido: cliente no Asaas sem avisos, Pix na tela (/pixQrCode), parcelado (installmentCount 12) e mensal (subscriptions, maxPayments 12) com pagar_url para a página do Asaas. pagamento-webhook: token asaas-access-token, cobrança e assinatura buscadas na API, mesmas funções do banco. lembretes-pagamento lê o status no Asaas.

@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import type { Plano } from '@/domain/precos'
+import { lerValidade } from '@/lib/cartao'
 import { indicacaoGuardada } from '@/lib/indicacao'
 import { soDigitos } from '@/lib/telefone'
 import { utmsGuardadas } from '@/lib/utm'
-import { criarPedido, type Pix } from '../api/pedido.api'
+import { criarPedido, type CartaoPedido, type Pix } from '../api/pedido.api'
 import type { DadosCheckout } from '../schemas/checkout'
 import { textos } from '../textos'
 
@@ -13,10 +14,26 @@ export type Resultado = { plano: Plano; tipo: 'pix'; pedido: string; pix: Pix }
 export const irParaObrigada = (pedido: string) =>
   window.location.assign(`/obrigada?pedido=${pedido}`)
 
-/** Página segura do Asaas para digitar o cartão; de lá ela volta para /obrigada. */
-export const irParaPagamento = (url: string) => window.location.assign(url)
+/** Cartão no formato do servidor. Só existe na memória até o envio. */
+function cartaoDe(d: DadosCheckout): CartaoPedido {
+  const v = lerValidade(d.validade) ?? { mes: 0, ano: 0 }
+  return {
+    numero: soDigitos(d.numeroCartao),
+    nome: d.nomeCartao.trim(),
+    mes: v.mes,
+    ano: v.ano,
+    cvv: d.cvv,
+    cep: soDigitos(d.cep),
+    numero_casa: d.numeroCasa.trim(),
+  }
+}
 
-/** Envia o pedido: Pix devolve o QR na tela; cartão vai para a página de pagamento do Asaas. */
+const ERROS: Record<string, string> = {
+  cartao: textos.pagamento.recusado,
+  dados: textos.pagamento.dados,
+}
+
+/** Envia o pedido: Pix devolve o QR na tela; cartão aprovado ou em análise vai para /obrigada. */
 export function useFinalizar(plano: Plano) {
   const [enviando, setEnviando] = useState(false)
   const [erro, setErro] = useState<string | null>(null)
@@ -33,12 +50,14 @@ export function useFinalizar(plano: Plano) {
       whatsapp: soDigitos(d.whatsapp),
       indicacao: indicacaoGuardada(),
       utms: utmsGuardadas(),
+      ...(d.plano !== 'pix' && { cartao: cartaoDe(d) }),
+      ...(d.plano === 'parcelado' && { parcelas: d.parcelas }),
     })
-    if (r.pagar_url) return irParaPagamento(r.pagar_url)
+    if (r.ok && r.pedido && !r.pix) return irParaObrigada(r.pedido)
     setEnviando(false)
     if (r.pix && r.pedido)
       return setResultado({ plano: d.plano, tipo: 'pix', pedido: r.pedido, pix: r.pix })
-    setErro(r.erro === 'dados' ? textos.pagamento.dados : textos.pagamento.falha)
+    setErro(ERROS[r.erro ?? ''] ?? textos.pagamento.falha)
   }
 
   const atual = resultado?.plano === plano ? resultado : null

@@ -9,7 +9,6 @@ const resposta = z.object({
   ok: z.boolean(),
   pedido: z.string().optional(),
   status: z.string().optional(),
-  pagar_url: z.url({ protocol: /^https$/ }).optional(),
   erro: z.string().optional(),
   pix: z
     .object({ copia_cola: z.string(), qr_base64: z.string(), expira_em: z.string() })
@@ -19,6 +18,16 @@ const resposta = z.object({
 export type RespostaPedido = z.infer<typeof resposta>
 export type Pix = NonNullable<RespostaPedido['pix']>
 
+export type CartaoPedido = {
+  numero: string
+  nome: string
+  mes: number
+  ano: number
+  cvv: string
+  cep: string
+  numero_casa: string
+}
+
 export type NovoPedido = {
   plano: Plano
   nome: string
@@ -27,6 +36,8 @@ export type NovoPedido = {
   whatsapp: string
   indicacao: string | null
   utms: Utms
+  cartao?: CartaoPedido
+  parcelas?: number
 }
 
 async function chamar(corpo: unknown): Promise<RespostaPedido> {

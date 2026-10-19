@@ -20,12 +20,25 @@ function abrir(plano: 'pix' | 'parcelado', resposta: unknown) {
   return chamadas
 }
 
+function preencherCartao() {
+  const digitar = (rotulo: string, value: string) =>
+    fireEvent.input(screen.getByLabelText(rotulo), { target: { value } })
+  digitar('Número do cartão', '5162306219378829')
+  digitar('Nome impresso no cartão', 'MARIA SILVA')
+  digitar('Validade', '0530')
+  digitar('CVV', '318')
+  digitar('CEP da fatura', '65000123')
+  digitar('Número do endereço', '120')
+}
+
+const limpar = () => {
+  cleanup()
+  vi.unstubAllGlobals()
+  sessionStorage.clear()
+}
+
 describe('pagamento no checkout', () => {
-  afterEach(() => {
-    cleanup()
-    vi.unstubAllGlobals()
-    sessionStorage.clear()
-  })
+  afterEach(limpar)
 
   it('Pix mostra QR, botão de copiar, contagem e o aviso do e-mail', async () => {
     const chamadas = abrir('pix', {
@@ -48,27 +61,45 @@ describe('pagamento no checkout', () => {
     expect(chamadas[0]).toMatchObject({ acao: 'criar', plano: 'pix', cpf: '52998224725' })
     expect(chamadas[0]).not.toHaveProperty('valor')
   })
+})
 
-  it('cartão vai para a página segura do Asaas, sem dado de cartão no pedido', async () => {
+describe('cartão no checkout', () => {
+  afterEach(limpar)
+
+  it('cartão é digitado aqui, escolhe as parcelas e segue para a página de obrigada', async () => {
     const assign = vi.fn()
     vi.stubGlobal('location', { ...window.location, assign })
-    const chamadas = abrir('parcelado', {
-      ok: true,
-      pedido: PEDIDO,
-      status: 'pendente',
-      pagar_url: 'https://www.asaas.com/i/abc123',
-    })
-    expect(screen.getByText(/página segura do Asaas/)).toBeInTheDocument()
+    const chamadas = abrir('parcelado', { ok: true, pedido: PEDIDO, status: 'aprovado' })
+    preencherCartao()
+    fireEvent.change(screen.getByLabelText('Parcelas'), { target: { value: '3' } })
+    await vi.waitFor(() => expect(screen.getAllByText(/^3x de R\$/)).toHaveLength(2))
     fireEvent.click(await screen.findByRole('button', { name: 'Finalizar compra' }))
-    await vi.waitFor(() => expect(assign).toHaveBeenCalledWith('https://www.asaas.com/i/abc123'))
-    expect(chamadas[0]).toMatchObject({ plano: 'parcelado' })
-    expect(chamadas[0]).not.toHaveProperty('cartao')
+    await vi.waitFor(() => expect(assign).toHaveBeenCalledWith(`/obrigada?pedido=${PEDIDO}`))
+    expect(chamadas[0]).toMatchObject({
+      plano: 'parcelado',
+      parcelas: 3,
+      cartao: { numero: '5162306219378829', mes: 5, ano: 2030, cvv: '318', cep: '65000123' },
+    })
   })
 
-  it('CPF recusado pelo Asaas pede para conferir os dados', async () => {
-    abrir('parcelado', { ok: false, pedido: PEDIDO, erro: 'dados' })
+  it('cartão inválido nem é enviado', async () => {
+    const chamadas = abrir('parcelado', { ok: true, pedido: PEDIDO })
     fireEvent.click(await screen.findByRole('button', { name: 'Finalizar compra' }))
-    expect(await screen.findByRole('alert')).toHaveTextContent('Confira o CPF')
+    expect(await screen.findByText('Confira o número do cartão')).toBeInTheDocument()
+    expect(chamadas).toHaveLength(0)
+  })
+
+  it('cartão recusado pede para conferir ou usar outro cartão', async () => {
+    abrir('parcelado', { ok: false, pedido: PEDIDO, erro: 'cartao' })
+    preencherCartao()
+    fireEvent.click(await screen.findByRole('button', { name: 'Finalizar compra' }))
+    expect(await screen.findByRole('alert')).toHaveTextContent('use outro cartão')
+  })
+
+  it('dado recusado pelo Asaas pede para conferir os dados', async () => {
+    abrir('pix', { ok: false, pedido: PEDIDO, erro: 'dados' })
+    fireEvent.click(await screen.findByRole('button', { name: 'Finalizar compra' }))
+    expect(await screen.findByRole('alert')).toHaveTextContent('Confira seus dados')
   })
 
   it('falha de comunicação vira aviso em português, sem termo técnico', async () => {

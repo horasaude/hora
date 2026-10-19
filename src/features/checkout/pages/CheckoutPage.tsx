@@ -3,12 +3,13 @@ import { descontoOferta, precosVigentes } from '@/domain/precos'
 import { useConfiguracao } from '@/features/configuracao'
 import { iniciarRevelar } from '@/lib/revelar'
 import { Banner } from '../components/Banner'
+import { DadosCartao } from '../components/DadosCartao'
 import { DadosPessoais } from '../components/DadosPessoais'
 import { Lateral } from '../components/Lateral'
 import { Pagamento } from '../components/Pagamento'
 import { PixGerado } from '../components/PixGerado'
 import { Resumo } from '../components/Resumo'
-import { valorDoPlano } from '../components/valores'
+import { totalParcelado, valorDoPlano } from '../components/valores'
 import { useCheckout } from '../hooks/useCheckout'
 import { useFinalizar } from '../hooks/useFinalizar'
 import { textos } from '../textos'
@@ -18,8 +19,9 @@ export function CheckoutPage() {
   const config = useConfiguracao()
   const [agora] = useState(() => new Date())
   const precos = precosVigentes(agora, config)
-  const { form, cpf, whatsapp } = useCheckout()
+  const { form, cpf, whatsapp, cartao } = useCheckout()
   const plano = form.watch('plano')
+  const parcelas = Number(form.watch('parcelas'))
   const { finalizar, enviando, erro, resultado, recomecar } = useFinalizar(plano)
   useEffect(() => iniciarRevelar(), [])
   return (
@@ -46,10 +48,17 @@ export function CheckoutPage() {
             {!resultado && (
               <Pagamento
                 plano={plano}
-                valor={valorDoPlano(precos, plano)}
+                valor={valorDoPlano(precos, plano, parcelas)}
                 enviando={enviando}
                 erro={erro}
-              />
+              >
+                <DadosCartao
+                  register={form.register}
+                  erros={form.formState.errors}
+                  campos={cartao}
+                  totalCentavos={plano === 'parcelado' ? totalParcelado(precos) : undefined}
+                />
+              </Pagamento>
             )}
           </form>
           <Lateral />

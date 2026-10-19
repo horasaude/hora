@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { classeBrilho } from '@/components/ui'
 import type { Plano } from '@/domain/precos'
 import { textos } from '../textos'
@@ -7,6 +8,8 @@ type Props = {
   valor: string
   enviando: boolean
   erro: string | null
+  /** Campos do cartão, no parcelado e no mensal. */
+  children?: ReactNode
 }
 
 const link = 'text-ora underline underline-offset-2'
@@ -33,9 +36,9 @@ const t = textos.pagamento
 
 /**
  * Forma de pagamento conforme o plano: Pix no à vista (o QR aparece aqui) e cartão no parcelado e
- * no mensal (a cliente vai para a página segura do Asaas). O botão é nosso (vidro verde).
+ * no mensal, digitado aqui mesmo. O botão é nosso (vidro verde).
  */
-export function Pagamento({ plano, valor, enviando, erro }: Props) {
+export function Pagamento({ plano, valor, enviando, erro, children }: Props) {
   const metodo = plano === 'pix' ? t.pix : t.cartao
   return (
     <section className="flex flex-col gap-3">
@@ -45,7 +48,7 @@ export function Pagamento({ plano, valor, enviando, erro }: Props) {
           <span aria-hidden="true" className="size-4 rounded-full border-4 border-ora" />
           {metodo.nome}
         </p>
-        {plano !== 'pix' && <p className="mt-3 text-sm text-suave">{t.cartao.texto}</p>}
+        {plano !== 'pix' && children}
       </div>
       <p className="flex items-baseline justify-between border-t border-linha pt-4 text-tinta">
         <span className="text-sm">{t.total}</span>

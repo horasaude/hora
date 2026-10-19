@@ -1,7 +1,7 @@
 # Mapa do projeto
 
 Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim).
-Última atualização: pagamento pelo Asaas (pedidos, criar-pedido, pagamento-webhook; cartão na página do Asaas, decisão 0005).
+Última atualização: pagamento pelo Asaas (pedidos, criar-pedido, pagamento-webhook; cartão digitado no checkout e enviado ao Asaas, decisão 0005).
 
 ## Rotas
 

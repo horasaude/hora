@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { mascararCartao, mascararCep, mascararCvv, mascararValidade } from '@/lib/cartao'
 import { mascararCpf } from '@/lib/cpf'
 import { mascararTelefone } from '@/lib/telefone'
 import { lerInscricao, PLANO_PADRAO } from '../inscricao'
 import { esquemaCheckout, type DadosCheckout, type EntradaCheckout } from '../schemas/checkout'
 
 type Evento = { target: { value: string } }
+type Mascarado = 'cpf' | 'whatsapp' | 'numeroCartao' | 'validade' | 'cvv' | 'cep'
 
 /** Formulário do checkout, já preenchido com o que a pessoa digitou no popup. */
 export function useCheckout() {
@@ -19,15 +21,26 @@ export function useCheckout() {
       nome: inicial?.nome ?? '',
       cpf: '',
       whatsapp: mascararTelefone(inicial?.whatsapp ?? ''),
+      parcelas: '12',
     },
   })
 
-  const cpf = form.register('cpf', {
-    onChange: (ev: Evento) => form.setValue('cpf', mascararCpf(ev.target.value)),
-  })
-  const whatsapp = form.register('whatsapp', {
-    onChange: (ev: Evento) => form.setValue('whatsapp', mascararTelefone(ev.target.value)),
-  })
+  /** Campo que se formata enquanto a pessoa digita. */
+  const mascarado = <N extends Mascarado>(nome: N, mascara: (v: string) => string) =>
+    form.register(nome, {
+      onChange: (ev: Evento) => form.setValue(nome as Mascarado, mascara(ev.target.value)),
+    })
 
-  return { form, cpf, whatsapp }
+  const cartao = {
+    numero: mascarado('numeroCartao', mascararCartao),
+    validade: mascarado('validade', mascararValidade),
+    cvv: mascarado('cvv', mascararCvv),
+    cep: mascarado('cep', mascararCep),
+  }
+  return {
+    form,
+    cpf: mascarado('cpf', mascararCpf),
+    whatsapp: mascarado('whatsapp', mascararTelefone),
+    cartao,
+  }
 }
