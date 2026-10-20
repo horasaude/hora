@@ -10,6 +10,8 @@ export type CampoDef<E> = {
   sugestoes?: string[]
   /** Na janela: 'meia' divide a linha com outro campo; 'inteira' ocupa a linha. Texto longo é inteira por padrão. */
   largura?: 'meia' | 'inteira'
+  /** Altura do texto longo, em linhas. */
+  linhas?: number
   /** Mostra o campo só quando a condição vale para o que já foi preenchido. */
   quando?: (valores: E) => boolean
   /** Texto de ajuda embaixo do campo. */
@@ -29,7 +31,8 @@ type Props<E extends FieldValues> = {
 /** Um campo do formulário genérico, no tipo pedido. */
 export function CampoDoForm<E extends FieldValues>({ campo: c, register, erro }: Props<E>) {
   const reg = register(c.nome as Path<E>)
-  if (c.tipo === 'area') return <CampoArea rotulo={c.rotulo} erro={erro} {...reg} />
+  if (c.tipo === 'area')
+    return <CampoArea rotulo={c.rotulo} erro={erro} rows={c.linhas ?? 4} {...reg} />
   if (c.tipo === 'marcar')
     return (
       <label className="flex min-h-12 items-center gap-3 text-sm font-medium">

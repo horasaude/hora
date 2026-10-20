@@ -20,6 +20,7 @@ const pagina =
       | 'ReceitasPage'
       | 'ReceitaPage'
       | 'AlimentosPage'
+      | 'MateriaisPage'
       | 'PontosPage'
       | 'ForumPainelPage'
       | 'DuvidaPainelPage'
@@ -61,6 +62,10 @@ const rotasAdmin: RouteObject[] = [
   { path: 'plano/receitas/nova', lazy: pagina('ReceitaPage') },
   { path: 'plano/receitas/:receitaId', lazy: pagina('ReceitaPage') },
   { path: 'plano/alimentos', lazy: pagina('AlimentosPage') },
+  ...['plano/materiais', 'plano/materiais/novo', 'plano/materiais/:materialId'].map((path) => ({
+    path,
+    lazy: pagina('MateriaisPage'),
+  })),
   ...['treinos', 'treinos/novo'].map((path) => ({ path, lazy: pagina('TreinosPainelPage') })),
   { path: 'treinos/exercicios', lazy: pagina('ExerciciosPage') },
   { path: 'treinos/modelos', lazy: pagina('ModelosPage') },

@@ -1,6 +1,6 @@
 # admin/plano: plano alimentar
 
-Grupo "Plano alimentar" do menu do painel, no modelo do Dietbox: Cardápios, Refeições, Receitas e Alimentos (rotas /app/admin/plano/*).
+Grupo "Plano alimentar" do menu do painel, no modelo do Dietbox: Cardápios, Refeições, Receitas, Alimentos e Materiais (rotas /app/admin/plano/*). Materiais: pages/MateriaisPage.tsx, components/MaterialForm.tsx e MaterialDetalhe.tsx, api/materiais.api.ts (tabela materiais_nutricao); a aluna vê em Cardápios > Materiais.
 
 | Parte                                      | Faz                                                                                                                                                                                     |
 | ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

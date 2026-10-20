@@ -610,6 +610,36 @@ export type Database = {
           },
         ]
       }
+      materiais_nutricao: {
+        Row: {
+          created_at: string
+          id: string
+          ordem: number
+          publicado: boolean
+          texto: string
+          titulo: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          ordem?: number
+          publicado?: boolean
+          texto?: string
+          titulo: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          ordem?: number
+          publicado?: boolean
+          texto?: string
+          titulo?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       comece_materiais: {
         Row: {
           caminho: string

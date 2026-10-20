@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { BolinhaMenu as Bolinha, classeItemMenu as item, ItemMenuLateral } from '@/components/ui'
+import { materiais } from '../plano/textosMateriais'
 import { textos } from '../textos'
 
 const a = textos.abas
@@ -26,6 +27,7 @@ const PLANO: Item[] = [
   { para: 'plano/refeicoes', nome: a.refeicoes, cor: '#F2A922' },
   { para: 'plano/receitas', nome: a.receitas, cor: '#7FB89E' },
   { para: 'plano/alimentos', nome: a.alimentos, cor: '#6E9BC9' },
+  { para: 'plano/materiais', nome: materiais.menu, cor: '#D98BA8' },
 ]
 
 /** Grupo "Plano alimentar" que abre e fecha; fica aberto quando uma das telas dele está aberta. */

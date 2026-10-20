@@ -2,6 +2,12 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-20 · main · Materiais no plano alimentar (vindos do Dietbox)
+
+- Painel > Plano alimentar > Materiais (/app/admin/plano/materiais): lista, criar e editar (nome e texto), publicar e excluir. Tabela materiais_nutricao (migração 20261101110000_materiais_nutricao.sql) com os 5 materiais do Dietbox já publicados: Chás diuréticos, Lista de frutas, Manejo de ansiedade, Molhos para salada, Monte sua salada.
+- Aluna: Cardápios ganha a aba Materiais (?aba=materiais), cartões que abrem e fecham.
+- Testes: supabase/tests/materiais_nutricao.test.mjs.
+
 ## 2026-10-20 · main · Loja na barra de baixo e X da escolha de treino
 
 - Loja virou a 6ª aba da barra da aluna no celular (saiu de Comunidade); rótulos menores para caber em 360 px.
