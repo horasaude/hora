@@ -85,20 +85,19 @@ export const esquemaNovaEtapa = esquemaNovoTema.extend({ tema_id: z.string().min
 
 export const esquemaLive = z.object({
   tema: titulo(160),
-  profissional: z.enum(['ana', 'clara', 'lais', '']).transform((v) => v || null),
   duracao_minutos: z
     .string()
     .trim()
     .refine((v) => /^\d{2,3}$/.test(v) && Number(v) >= 15 && Number(v) <= 300, e.duracaoLive)
     .transform(Number),
   data: quando,
-  convidada: z
-    .string()
-    .trim()
-    .max(120)
-    .transform((v) => v || null),
-  link_url: linkOpcional,
   gravacao_url: linkOpcional,
+})
+
+/** Convidada da live: nome no cartão e e-mail para entrar na sala e receber o convite. */
+export const esquemaConvidada = z.object({
+  nome: z.string().trim().min(1).max(120),
+  email: z.string().trim().toLowerCase().max(254).pipe(z.email()),
 })
 
 export const esquemaAviso = z.object({

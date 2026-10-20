@@ -1537,53 +1537,114 @@ export type Database = {
       lives: {
         Row: {
           capa_path: string | null
-          convidada: string | null
+          convite_seq: number
           created_at: string
           data: string
           duracao_minutos: number
-          google_evento_id: string | null
           gravacao_url: string | null
           id: string
           lembrete_push_em: string | null
-          link_url: string | null
-          profissional: string | null
+          profissionais: string[]
           publicado: boolean
           tema: string
           updated_at: string
         }
         Insert: {
           capa_path?: string | null
-          convidada?: string | null
+          convite_seq?: number
           created_at?: string
           data: string
           duracao_minutos?: number
-          google_evento_id?: string | null
           gravacao_url?: string | null
           id?: string
           lembrete_push_em?: string | null
-          link_url?: string | null
-          profissional?: string | null
+          profissionais?: string[]
           publicado?: boolean
           tema: string
           updated_at?: string
         }
         Update: {
           capa_path?: string | null
-          convidada?: string | null
+          convite_seq?: number
           created_at?: string
           data?: string
           duracao_minutos?: number
-          google_evento_id?: string | null
           gravacao_url?: string | null
           id?: string
           lembrete_push_em?: string | null
-          link_url?: string | null
-          profissional?: string | null
+          profissionais?: string[]
           publicado?: boolean
           tema?: string
           updated_at?: string
         }
         Relationships: []
+      }
+      lives_convidadas: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          live_id: string
+          nome: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          live_id: string
+          nome: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          live_id?: string
+          nome?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lives_convidadas_live_id_fkey"
+            columns: ["live_id"]
+            isOneToOne: false
+            referencedRelation: "lives"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lives_convites: {
+        Row: {
+          email: string
+          enviado_em: string
+          live_id: string
+          metodo: string
+          nome: string | null
+          seq: number
+        }
+        Insert: {
+          email: string
+          enviado_em?: string
+          live_id: string
+          metodo: string
+          nome?: string | null
+          seq: number
+        }
+        Update: {
+          email?: string
+          enviado_em?: string
+          live_id?: string
+          metodo?: string
+          nome?: string | null
+          seq?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lives_convites_live_id_fkey"
+            columns: ["live_id"]
+            isOneToOne: false
+            referencedRelation: "lives"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       lives_lembretes: {
         Row: {
@@ -1647,6 +1708,35 @@ export type Database = {
             columns: ["perfil_id"]
             isOneToOne: false
             referencedRelation: "perfis"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lives_salas: {
+        Row: {
+          google_sala: string | null
+          link_url: string | null
+          live_id: string
+          updated_at: string
+        }
+        Insert: {
+          google_sala?: string | null
+          link_url?: string | null
+          live_id: string
+          updated_at?: string
+        }
+        Update: {
+          google_sala?: string | null
+          link_url?: string | null
+          live_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lives_salas_live_id_fkey"
+            columns: ["live_id"]
+            isOneToOne: true
+            referencedRelation: "lives"
             referencedColumns: ["id"]
           },
         ]
@@ -2703,6 +2793,7 @@ export type Database = {
       }
       entrar_desafio: { Args: { p_desafio: string }; Returns: undefined }
       entrar_live: { Args: { p_live: string }; Returns: Json }
+      salvar_convidadas: { Args: { p_lista: Json; p_live: string }; Returns: undefined }
       escolher_tema: { Args: { p_tema: string }; Returns: undefined }
       estornar_lancamento: {
         Args: { p_criado_por: string; p_lancamento: string; p_motivo: string }

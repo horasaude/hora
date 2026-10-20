@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { contagem, janelaDaLive } from './lives'
+import { contagem, janelaDaLive, nomesDasProfissionais } from './lives'
 
 const inicio = new Date('2026-10-23T19:00:00-03:00')
 const as = (hora: string) => new Date(`2026-10-23T${hora}:00-03:00`)
@@ -28,5 +28,16 @@ describe('contagem regressiva', () => {
   })
   it('zera quando começou', () => {
     expect(contagem(inicio, as('19:10'))).toEqual({ dias: 0, horas: 0, minutos: 0 })
+  })
+})
+
+describe('nomes das profissionais', () => {
+  it('junta com vírgula e "e"', () => {
+    expect(nomesDasProfissionais([])).toBe('')
+    expect(nomesDasProfissionais(['ana'])).toBe('Ana Milhomem')
+    expect(nomesDasProfissionais(['ana', 'lais'])).toBe('Ana Milhomem e Laís Moraes')
+    expect(nomesDasProfissionais(['ana', 'clara', 'lais'])).toBe(
+      'Ana Milhomem, Dra. Clara Maria e Laís Moraes',
+    )
   })
 })

@@ -1,5 +1,5 @@
 import { Carregando, Cartao, ErroCarregar, Vazio } from '@/components/ui'
-import { janelaDaLive, PROFISSIONAIS } from '@/domain/lives'
+import { janelaDaLive, nomesDasProfissionais } from '@/domain/lives'
 import { formatarDataHora } from '@/lib/datas'
 import type { Live } from '../api/lives.api'
 import { Gravacoes } from '../components/Gravacoes'
@@ -21,10 +21,7 @@ function Agendadas({ lives }: { lives: Live[] }) {
             <Cartao className="flex flex-col gap-1 py-4">
               <span className="text-[15px] font-bold text-tinta">{l.tema}</span>
               <span className="text-[13px] text-suave">
-                {[
-                  formatarDataHora(new Date(l.data)),
-                  l.profissional && PROFISSIONAIS[l.profissional].nome,
-                ]
+                {[formatarDataHora(new Date(l.data)), nomesDasProfissionais(l.profissionais)]
                   .filter(Boolean)
                   .join(' · ')}
               </span>

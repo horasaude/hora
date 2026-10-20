@@ -1,7 +1,20 @@
 // Envio único de e-mail do ORA, pelo Resend (POST https://api.resend.com/emails).
 // RESEND_API_KEY e EMAIL_REMETENTE são secrets. Enquanto não houver domínio verificado no Resend,
 // EMAIL_TESTE desvia todo envio para esse endereço (o Resend só entrega para o dono da conta).
-import type { Email } from './modelos.ts'
+import type { Anexo, Email } from './modelos.ts'
+
+const base64 = (texto: string) => {
+  const bytes = new TextEncoder().encode(texto)
+  let bin = ''
+  for (const b of bytes) bin += String.fromCharCode(b)
+  return btoa(bin)
+}
+
+const anexo = (a: Anexo) => ({
+  filename: a.nome,
+  content: base64(a.conteudo),
+  content_type: a.tipo,
+})
 
 export async function enviarEmail(para: string, email: Email, chave?: string): Promise<boolean> {
   const api = Deno.env.get('RESEND_API_KEY') ?? ''
@@ -18,7 +31,13 @@ export async function enviarEmail(para: string, email: Email, chave?: string): P
   const r = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers,
-    body: JSON.stringify({ from: remetente, to: [destino], subject: assunto, html: email.html }),
+    body: JSON.stringify({
+      from: remetente,
+      to: [destino],
+      subject: assunto,
+      html: email.html,
+      ...(email.anexos?.length ? { attachments: email.anexos.map(anexo) } : {}),
+    }),
   })
   return r.ok
 }

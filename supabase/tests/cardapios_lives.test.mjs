@@ -27,10 +27,12 @@ async function montar(db) {
       ('${PREPARO}', 'Preparação', 'Primeira semana', true);
     insert into public.receitas (id, nome, publicado, tempo_minutos, refeicoes, objetivos) values
       ('${RECEITA}', 'Omelete', true, 10, '{cafe}', '{Emagrecimento}');
-    insert into public.lives (id, tema, data, publicado, profissional, duracao_minutos, link_url) values
-      ('${AGORA}', 'Sono e fome', now() - interval '10 minutes', true, 'clara', 60, 'https://sala.t/1'),
-      ('${AMANHA}', 'Treino em casa', now() + interval '1 day', true, 'lais', 60, 'https://sala.t/2'),
-      ('${PASSADA}', 'Rótulos', now() - interval '3 days', true, 'ana', 60, 'https://sala.t/3');
+    insert into public.lives (id, tema, data, publicado, profissionais, duracao_minutos) values
+      ('${AGORA}', 'Sono e fome', now() - interval '10 minutes', true, '{clara}', 60),
+      ('${AMANHA}', 'Treino em casa', now() + interval '1 day', true, '{lais}', 60),
+      ('${PASSADA}', 'Rótulos', now() - interval '3 days', true, '{ana}', 60);
+    insert into public.lives_salas (live_id, link_url) values
+      ('${AGORA}', 'https://sala.t/1'), ('${AMANHA}', 'https://sala.t/2'), ('${PASSADA}', 'https://sala.t/3');
   `)
 }
 

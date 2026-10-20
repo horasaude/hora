@@ -1,6 +1,7 @@
 import { useId, type ReactNode } from 'react'
 import { useForm, useWatch, type FieldValues, type Resolver } from 'react-hook-form'
 import { Janela } from '@/components/ui'
+import { AvisoForm } from '../schemas/avisoForm'
 import { textos } from '../textos'
 import { CampoDoForm, type CampoDef } from './CampoDoForm'
 import { PreviaVideo } from './PreviaVideo'
@@ -42,7 +43,8 @@ export function FormAgenda<E extends FieldValues, S>({
       await aoSalvar(d)
     } catch (e) {
       const esperar = e instanceof Error && e.message === textos.arquivos.esperar
-      form.setError('root', { message: esperar ? textos.arquivos.esperar : textos.erroSalvar })
+      const proprio = e instanceof AvisoForm || esperar
+      form.setError('root', { message: proprio ? (e as Error).message : textos.erroSalvar })
     }
   })
   return (

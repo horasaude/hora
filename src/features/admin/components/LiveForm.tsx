@@ -2,14 +2,19 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { z } from 'zod'
+import type { Profissional } from '@/domain/lives'
 import { paraCampoBrasilia } from '@/lib/datas'
 import { salvarLive, type Live } from '../api/agenda.api'
 import { useCriarSala } from '../hooks/useMeet'
 import { useSalvar } from '../hooks/usePainel'
 import { esquemaLive } from '../schemas/formularios'
 import { textos } from '../textos'
+import { meet } from '../textos/meet'
 import { CapaLive, type EstadoCapa } from './CapaLive'
+import { AvisoForm } from '../schemas/avisoForm'
+import { convidadasValidas } from '../schemas/convidadas'
 import { FormAgenda, type CampoDef } from './FormAgenda'
+import { ParticipantesLive, type Participantes } from './ParticipantesLive'
 
 const t = textos.lives
 type Entrada = z.input<typeof esquemaLive>
@@ -23,24 +28,14 @@ const CAMPOS: CampoDef<Entrada>[] = [
     ajuda: textos.aulas.ajudaVideo,
     previaVideo: true,
   },
-  {
-    nome: 'profissional',
-    rotulo: t.campoProfissional,
-    tipo: 'escolha',
-    opcoes: [
-      { valor: '', nome: t.semProfissional },
-      { valor: 'ana', nome: 'Ana Milhomem' },
-      { valor: 'clara', nome: 'Dra. Clara Maria' },
-      { valor: 'lais', nome: 'Laís Moraes' },
-    ],
-  },
   { nome: 'data', rotulo: t.campoData, tipo: 'datahora' },
   { nome: 'duracao_minutos', rotulo: t.campoDuracao, tipo: 'numero' },
-  { nome: 'link_url', rotulo: t.campoLink, tipo: 'link' },
-  { nome: 'convidada', rotulo: t.campoConvidada, largura: 'inteira' },
 ]
 
-/** Janela de criar ou editar live. Ao criar, abre a live nova na lista. */
+/**
+ * Janela de criar ou editar live. Ao salvar, a sala do Meet é criada (restrita) ou atualizada com
+ * equipe e convidadas; ao criar, abre a live nova na lista.
+ */
 export function LiveForm({ live, aoFechar }: { live?: Live; aoFechar: () => void }) {
   const salvar = useSalvar(salvarLive)
   const sala = useCriarSala()
@@ -49,27 +44,41 @@ export function LiveForm({ live, aoFechar }: { live?: Live; aoFechar: () => void
     caminho: live?.capa_path ?? null,
     enviando: false,
   })
+  const [quem, setQuem] = useState<Participantes>({
+    profissionais: (live?.profissionais ?? []) as Profissional[],
+    convidadas: live?.convidadas ?? [],
+  })
   return (
     <FormAgenda<Entrada, z.output<typeof esquemaLive>>
       titulo={live ? t.editar : t.nova}
       campos={CAMPOS}
       inicial={{
         tema: live?.tema ?? '',
-        profissional: (live?.profissional ?? '') as Entrada['profissional'],
         duracao_minutos: String(live?.duracao_minutos ?? 60),
         data: live ? paraCampoBrasilia(new Date(live.data)) : '',
-        convidada: live?.convidada ?? '',
-        link_url: live?.link_url ?? '',
         gravacao_url: live?.gravacao_url ?? '',
       }}
       resolver={zodResolver(esquemaLive)}
       aoCancelar={aoFechar}
-      extra={<CapaLive inicial={live?.capa_path ?? null} aoMudar={setCapa} />}
+      extra={
+        <div className="flex flex-col gap-6">
+          <ParticipantesLive valor={quem} aoMudar={setQuem} />
+          <CapaLive inicial={live?.capa_path ?? null} aoMudar={setCapa} />
+        </div>
+      }
       aoSalvar={async (d) => {
         if (capa.enviando) throw new Error(textos.arquivos.esperar)
-        const salva = await salvar.mutateAsync({ ...d, capa_path: capa.caminho, id: live?.id })
-        // Sem link: tenta criar a sala do Meet; se não der, o botão Criar sala fica no detalhe.
-        if (!salva.link_url) await sala.mutateAsync(salva.id).catch(() => null)
+        const convidadas = convidadasValidas(quem.convidadas)
+        if (!convidadas) throw new AvisoForm(meet.erroConvidada)
+        const salva = await salvar.mutateAsync({
+          ...d,
+          profissionais: quem.profissionais,
+          convidadas,
+          capa_path: capa.caminho,
+          id: live?.id,
+        })
+        // Cria a sala ou põe as convidadas novas nela; se falhar, o botão fica no detalhe.
+        await sala.mutateAsync(salva.id).catch(() => null)
         if (live) aoFechar()
         else navegar(`/app/admin/lives/${salva.id}`)
       }}

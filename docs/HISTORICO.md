@@ -2,6 +2,14 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-20 · main · Lives: sala do Meet restrita, várias profissionais, convidadas e convite na agenda
+
+- Migração 20261031110000_lives_sala_restrita.sql: lives.profissionais (várias), lives_convidadas (nome e e-mail, só a equipe lê; salvar_convidadas), lives_salas (link e sala do Meet, só a equipe lê; a aluna não vê mais o link), lives_convites (fila do .ics) com convite_seq (sobe ao publicar, mudar tema/horário/duração ou tirar do ar), destinos_da_live e convites_pendentes; entrar_live lê o link de lives_salas; cron convites-live a cada minuto só quando há pendente. Teste supabase/tests/lives_sala.test.mjs.
+- Sala do Meet restrita (accessType RESTRICTED): equipe (coanfitriã) e convidadas viram membros ao salvar a live (google-meet/sala.ts); a aluna vira membro ao clicar em Entrar (Edge Function live-entrar). Link repassado cai no "Pedir para participar". Para entrar direto, a aluna precisa estar logada no Google com o e-mail do cadastro.
+- Convite de agenda por e-mail (.ics REQUEST/CANCEL, aviso 1 hora antes) para equipe, convidadas e alunas com acesso, com a atualização e o cancelamento (Edge Function convites-live, _shared/email/conviteLive.ts). O convite leva para Lives no ORA, nunca para a sala.
+- Painel: sai o campo de link; a sala é sempre criada sozinha. Profissionais em caixas de marcar e convidadas com nome e e-mail (ParticipantesLive.tsx).
+- Pendências: assinar o Google Workspace Business Standard (precisa de domínio próprio; o hora.admin@gmail.com não serve para esse plano) e reconectar com a conta nova; gravação segue manual no YouTube.
+
 ## 2026-10-19 · main · Estorno de uma compra não derruba o acesso de outra
 
 - Migração 20261031100000_encerrar_com_outra_compra.sql: encerrar_pedido só encerra o acesso (e cancela a indicação) quando a pessoa não tem outra compra aprovada. Achado no teste do sandbox: o estorno do parcelado tirou o acesso de quem também tinha o mensal e o Pix aprovados. Testes em pagamentos e cancelamento.

@@ -1,5 +1,5 @@
 import { BotaoBrilho, Cartao } from '@/components/ui'
-import { contagem, janelaDaLive, PROFISSIONAIS } from '@/domain/lives'
+import { contagem, janelaDaLive, nomesDasProfissionais } from '@/domain/lives'
 import { formatarDataHora } from '@/lib/datas'
 import { baixarIcs, gerarIcs } from '@/lib/ics'
 import type { Live } from '../api/lives.api'
@@ -10,7 +10,7 @@ import { Profissional } from './Profissional'
 
 function adicionarNaAgenda(l: Live) {
   const inicio = new Date(l.data)
-  const nome = l.profissional ? PROFISSIONAIS[l.profissional].nome : ''
+  const nome = nomesDasProfissionais(l.profissionais)
   baixarIcs(
     `live-hora-${inicio.toISOString().slice(0, 10)}`,
     gerarIcs({
@@ -19,7 +19,7 @@ function adicionarNaAgenda(l: Live) {
       inicio,
       fim: new Date(inicio.getTime() + l.duracao_minutos * 60_000),
       descricao: nome ? textos.com(nome) : undefined,
-      url: l.link_url,
+      url: `${window.location.origin}/app/lives`,
     }),
   )
 }
@@ -37,7 +37,7 @@ export function ProximaLive({ live, agora }: { live: Live; agora: Date }) {
           {textos.proxima}
         </p>
         <h2 className="text-[24px] leading-tight font-bold text-verde-escuro">{live.tema}</h2>
-        <Profissional quem={live.profissional} />
+        <Profissional quem={live.profissionais} />
         <p className="text-[15px] text-tinta">
           {formatarDataHora(inicio)} · {textos.duracao(live.duracao_minutos)}
         </p>

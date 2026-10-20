@@ -35,6 +35,8 @@ Venda inicial por links do Mercado Pago; o checkout integrado da Sprint 2 substi
 - [x] Desafios da aluna (lista, desafio aberto, encerrados) e Perfil completo (evolução, indicação, configurações, histórico)
 - [x] Parte 2 da aluna: trilha por tema e etapas (dia de calendário, Comece por aqui, escolha no dia 8, 80% e 30 dias), cardápios, receitas, lista de compras e lives
 - [x] Lembrete da live por push 1 hora antes (e-mail fica para quando o Resend estiver ligado)
+- [x] Sala do Meet restrita (membros: equipe, convidadas e a aluna ao entrar pelo ORA), várias profissionais, convidadas e convite .ics na agenda
+- [ ] Assinar o Google Workspace Business Standard em domínio próprio e reconectar a conta em Lives
 - [ ] Cardápio de vários dias no painel e abas por dia na aluna
 - [x] Apelido único no ranking (índice no banco, sem diferença de maiúscula)
 - [x] Painel completo: menu de 11 módulos, cardápios, desafios e prêmios, alunas, configurações

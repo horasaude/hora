@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { BotaoBrilho } from '@/components/ui'
+import { nomesDasProfissionais, type Profissional } from '@/domain/lives'
 import { formatarDataHora } from '@/lib/datas'
 import type { Live } from '../api/agenda.api'
 import { textos } from '../textos'
+import { meet } from '../textos/meet'
 import { BotaoPublicar } from './BotaoPublicar'
 import { CartaoDetalhe, Dados } from './CartaoDetalhe'
 import { LiveForm } from './LiveForm'
@@ -23,11 +25,14 @@ export function LiveDetalhe({ live }: { live: Live }) {
           [t.colunaData, formatarDataHora(new Date(live.data))],
           ...opcional(
             t.campoProfissional,
-            live.profissional ? t.nomes[live.profissional as keyof typeof t.nomes] : null,
+            nomesDasProfissionais(live.profissionais as Profissional[]) || null,
           ),
           [t.campoDuracao, t.minutos(live.duracao_minutos)],
-          ...opcional(t.convidada, live.convidada),
-          ...opcional(t.link, live.link_url),
+          ...opcional(
+            meet.convidadas,
+            live.convidadas.map((c) => `${c.nome} (${c.email})`).join(', ') || null,
+          ),
+          [meet.sala, live.sala ?? meet.semSala],
           ...opcional(t.gravacao, live.gravacao_url),
           ...opcional(t.capa, live.capa_path ? t.capaEnviada : null),
           [textos.status, <Situacao key="s" publicado={live.publicado} />],
@@ -36,7 +41,7 @@ export function LiveDetalhe({ live }: { live: Live }) {
       <div className="flex flex-wrap gap-2">
         <BotaoBrilho onClick={() => setEditando(true)}>{textos.editar}</BotaoBrilho>
         <BotaoPublicar tabela="lives" id={live.id} publicado={live.publicado} />
-        {!live.link_url && <SalaMeet live={live.id} />}
+        {!live.sala && <SalaMeet live={live.id} />}
       </div>
       {editando && <LiveForm live={live} aoFechar={() => setEditando(false)} />}
     </CartaoDetalhe>

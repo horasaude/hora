@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { BotaoBrilho, EtiquetaBrilho, IconePlay, Janela, Vazio } from '@/components/ui'
-import { PROFISSIONAIS } from '@/domain/lives'
+import { nomesDasProfissionais, PROFISSIONAIS } from '@/domain/lives'
 import { formatarData } from '@/lib/datas'
 import { linkDeIncorporacao } from '@/lib/video'
 import type { Live } from '../api/lives.api'
@@ -55,7 +55,8 @@ function Capa({ live }: { live: Live }) {
     return (
       <img src={live.capa} alt="" loading="lazy" className="aspect-video w-full object-cover" />
     )
-  const foto = live.profissional ? PROFISSIONAIS[live.profissional].foto : null
+  const primeira = live.profissionais[0]
+  const foto = primeira ? PROFISSIONAIS[primeira].foto : null
   return (
     <div aria-hidden className="grid aspect-video w-full place-items-center bg-[#F7F3EC]">
       <span className="relative grid place-items-center">
@@ -87,10 +88,7 @@ export function Gravacoes({ lives }: { lives: Live[] }) {
                 </span>
                 <span className="text-[16px] font-bold text-tinta">{l.tema}</span>
                 <span className="text-[13px] text-suave">
-                  {[
-                    l.profissional && PROFISSIONAIS[l.profissional].nome,
-                    formatarData(new Date(l.data)),
-                  ]
+                  {[nomesDasProfissionais(l.profissionais), formatarData(new Date(l.data))]
                     .filter(Boolean)
                     .join(' · ')}
                 </span>

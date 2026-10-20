@@ -34,3 +34,9 @@ export const PROFISSIONAIS = {
 } as const
 
 export type Profissional = keyof typeof PROFISSIONAIS
+
+/** "Ana Milhomem", "Ana Milhomem e Laís Moraes" ou "A, B e C", na ordem do cadastro. */
+export function nomesDasProfissionais(quem: readonly Profissional[]): string {
+  const nomes = quem.map((q) => PROFISSIONAIS[q].nome)
+  return nomes.length > 1 ? `${nomes.slice(0, -1).join(', ')} e ${nomes.at(-1)}` : (nomes[0] ?? '')
+}

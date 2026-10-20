@@ -76,8 +76,11 @@ export async function trocarCodigo(codigo: string) {
 export const acessoPor = async (refresh: string) =>
   (await token({ refresh_token: refresh, grant_type: 'refresh_token' })).access_token
 
-/** Sala aberta: quem tem o link entra sem pedir para participar (o link só aparece no ORA). */
-export const CONFIG_SALA = { config: { accessType: 'OPEN', entryPointAccess: 'ALL' } }
+/**
+ * Sala restrita: só quem é membro (equipe, convidadas e a aluna que entrou pelo ORA) entra direto;
+ * link repassado cai no "Pedir para participar".
+ */
+export const CONFIG_SALA = { config: { accessType: 'RESTRICTED', entryPointAccess: 'ALL' } }
 
 export type Sala = { name: string; meetingUri: string }
 
@@ -92,3 +95,24 @@ export async function criarSala(acesso: string): Promise<Sala> {
     throw new Error(`meet ${r.status} ${j.error?.message ?? ''}`.trim())
   return { name: j.name, meetingUri: j.meetingUri }
 }
+
+const MEET = 'https://meet.googleapis.com/v2'
+
+async function chamarMeet(acesso: string, caminho: string, metodo: string, corpo: unknown) {
+  const r = await fetch(`${MEET}/${caminho}`, {
+    method: metodo,
+    headers: { Authorization: `Bearer ${acesso}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify(corpo),
+  })
+  if (r.ok || r.status === 409) return
+  const j = (await r.json().catch(() => ({}))) as { error?: { message?: string } }
+  throw new Error(`meet ${r.status} ${j.error?.message ?? ''}`.trim())
+}
+
+/** Deixa uma sala que já existe com a configuração atual (restrita). */
+export const ajustarSala = (acesso: string, sala: string) =>
+  chamarMeet(acesso, `${sala}?updateMask=config.accessType`, 'PATCH', CONFIG_SALA)
+
+/** Membro entra sem pedir; coanfitriã também aceita quem pedir para entrar. Já membro: segue. */
+export const adicionarMembro = (acesso: string, sala: string, email: string, coanfitria = false) =>
+  chamarMeet(acesso, `${sala}/members`, 'POST', coanfitria ? { email, role: 'COHOST' } : { email })

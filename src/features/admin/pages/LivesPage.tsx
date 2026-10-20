@@ -39,7 +39,11 @@ function TabelaLives({ lista, ativa }: { lista: Live[]; ativa?: string }) {
           ativa={l.id === ativa}
           para={`/app/admin/lives/${l.id}`}
           titulo={l.tema}
-          marca={l.convidada ? <Etiqueta tom="neutro">{l.convidada}</Etiqueta> : undefined}
+          marca={
+            l.convidadas[0] ? (
+              <Etiqueta tom="neutro">{l.convidadas.map((c) => c.nome).join(', ')}</Etiqueta>
+            ) : undefined
+          }
         >
           <td className={celula}>{formatarDataHora(new Date(l.data))}</td>
           <td className="px-3.5 py-3">

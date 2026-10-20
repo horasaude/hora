@@ -19,4 +19,6 @@ Lembrete ("Me lembrar"): por enquanto só dentro do app (o cartão da live apare
 - notificação push: o PWA não tem push configurado (precisa de chaves VAPID, inscrição do navegador e uma Edge Function que envie);
 - e-mail 1 hora antes: não existe envio de e-mail próprio (o e-mail padrão do Supabase só entrega para a equipe); precisa de um serviço como Resend e uma rotina no cron que leia lives_lembretes.
 
-Sala do Meet: o painel cria sozinho quando a live é salva sem link (admin/api/meet.api.ts, Edge Function google-meet), usando a conta Google conectada em Lives.
+Sala do Meet: o painel cria sozinha ao salvar a live (admin/api/meet.api.ts, Edge Function google-meet), restrita, com a equipe (coanfitriã) e as convidadas como membros. A aluna não lê o link: "Entrar" chama a Edge Function live-entrar, que passa por entrar_live (janela e pontos), põe a aluna como membro e devolve o link. Repassado, o link cai no "Pedir para participar".
+
+Convite na agenda: ao publicar (e ao mudar tema, horário ou duração, ou tirar do ar), equipe, convidadas e alunas com acesso recebem por e-mail o convite .ics, com a atualização ou o cancelamento (Edge Function convites-live, chamada pelo cron).

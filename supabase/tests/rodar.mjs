@@ -23,6 +23,7 @@ import { testarLembreteAgua } from './lembrete_agua.test.mjs'
 import { testarConexaoGoogle } from './conexao_google.test.mjs'
 import { testarLinkAcesso } from './link_acesso.test.mjs'
 import { testarCancelamento } from './cancelamento.test.mjs'
+import { testarLivesSala } from './lives_sala.test.mjs'
 
 const suites = [
   testarPerfis,
@@ -38,6 +39,7 @@ const suites = [
   testarLoja,
   testarEngajamento,
   testarCardapiosLives,
+  testarLivesSala,
   testarMateriais,
   testarPagamentos,
   testarCancelamento,

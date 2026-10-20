@@ -26,7 +26,7 @@ describe('conexão com o Google', () => {
     expect(u.searchParams.get('scope')).not.toContain('calendar')
   })
 
-  it('cria a sala aberta para quem tem o link', () => {
-    expect(CONFIG_SALA.config.accessType).toBe('OPEN')
+  it('cria a sala restrita: link repassado pede para participar', () => {
+    expect(CONFIG_SALA.config.accessType).toBe('RESTRICTED')
   })
 })

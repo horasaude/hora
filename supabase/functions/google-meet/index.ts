@@ -2,8 +2,9 @@
 // Só profissional (papel admin); o token do Google nunca sai do servidor.
 import { z } from 'zod'
 import { cabecalhosCors, origemPermitida } from '../_shared/cors.ts'
-import { acessoPor, assinarEstado, criarSala, urlAutorizacao } from '../_shared/google.ts'
+import { assinarEstado, urlAutorizacao } from '../_shared/google.ts'
 import { json, servico } from '../_shared/servico.ts'
+import { prepararSala } from './sala.ts'
 
 const esquema = z.union([
   z.object({ acao: z.literal('conectar') }),
@@ -23,29 +24,6 @@ async function profissional(req: Request): Promise<string | null> {
   return perfil?.papel === 'admin' ? data.user.id : null
 }
 
-async function sala(live: string): Promise<[Record<string, unknown>, number]> {
-  const { data: l } = await servico
-    .from('lives')
-    .select('id, link_url')
-    .eq('id', live)
-    .maybeSingle<{ id: string; link_url: string | null }>()
-  if (!l) return [{ ok: false, erro: 'sem_live' }, 404]
-  if (l.link_url) return [{ ok: true, link: l.link_url }, 200]
-  const { data: c } = await servico
-    .from('conexao_google')
-    .select('refresh_token')
-    .maybeSingle<{ refresh_token: string }>()
-  if (!c) return [{ ok: false, erro: 'sem_conexao' }, 409]
-  const s = await criarSala(await acessoPor(c.refresh_token))
-  const { error } = await servico
-    .from('lives')
-    .update({ link_url: s.meetingUri, google_evento_id: s.name })
-    .eq('id', l.id)
-    .is('link_url', null)
-  if (error) throw new Error(error.message)
-  return [{ ok: true, link: s.meetingUri }, 200]
-}
-
 Deno.serve(async (req) => {
   const origem = req.headers.get('origin') ?? ''
   if (!origemPermitida(origem)) return new Response(null, { status: 403 })
@@ -60,7 +38,7 @@ Deno.serve(async (req) => {
       const estado = await assinarEstado(perfil, Deno.env.get('GOOGLE_CLIENT_SECRET') ?? '')
       return json({ ok: true, url: urlAutorizacao(estado) }, 200, cors)
     }
-    const [corpo, status] = await sala(lido.data.live)
+    const [corpo, status] = await prepararSala(lido.data.live)
     return json(corpo, status, cors)
   } catch (e) {
     console.error('google-meet', e instanceof Error ? e.message : e)

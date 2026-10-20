@@ -162,9 +162,13 @@ Componentes do estilo (toda tela nova usa estes): BotaoBrilho, LinkBrilho, Etiqu
 | cancelar-inscricao       | aluna pede o cancelamento: até 7 dias estorna no Asaas e encerra; depois marca não renovar; e-mail de confirmação          | ligado    |
 | pagamento-webhook        | notificações do MP: x-signature (MP_WEBHOOK_SECRET), busca na API, eventos idempotentes, libera acesso e manda boas-vindas | desligado |
 | lembretes-pagamento      | e-mail com o Pix copia e cola se não caiu em 15 min (cron a cada 5 min, x-cron-segredo)                                    | desligado |
+| google-meet              | painel: conectar a conta Google; criar a sala restrita da live e pôr equipe (coanfitriã) e convidadas como membros         | ligado    |
+| google-retorno           | volta do OAuth do Google: guarda o refresh token; erro volta com ?motivo= (sem código nem token)                           | desligado |
+| live-entrar              | aluna entra na live: entrar_live (janela e pontos), vira membro da sala e recebe o link                                    | ligado    |
+| convites-live            | convite .ics por e-mail (novo, atualização e cancelamento) para equipe, convidadas e alunas (cron a cada minuto)           | desligado |
 | \_shared/cors.ts         | CORS pela lista ORIGENS_PERMITIDAS                                                                                         |           |
 | \_shared/pagamento       | regras puras testadas no Vitest: preço, status do MP, motivo da recusa, assinatura do webhook                              |           |
-| \_shared/asaas.ts, email | cliente da API do Asaas; e-mails pelo Resend (modelos.ts e enviar.ts)                                                      |           |
+| \_shared/asaas.ts, email | cliente da API do Asaas; e-mails pelo Resend (modelos.ts e enviar.ts, com anexo; conviteLive.ts gera o .ics)               |           |
 
 ## Navegação da aluna
 

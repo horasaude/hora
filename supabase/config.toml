@@ -437,3 +437,6 @@ verify_jwt = false
 
 [functions.primeiro-acesso]
 verify_jwt = false
+
+[functions.convites-live]
+verify_jwt = false
