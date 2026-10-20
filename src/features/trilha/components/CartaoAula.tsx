@@ -27,7 +27,7 @@ function Marca({ aula }: { aula: AulaTrilha }) {
   )
 }
 
-/** Aula na lista: dia, título, duração e estado (liberada, concluída com check, bloqueada com cadeado). */
+/** Aula na lista: dia, título, duração e estado (liberada, concluída com check, bloqueada com cadeado; fechada pelas profissionais mostra Em breve). */
 export function CartaoAula({ aula, proxima, fechadaTexto }: Props) {
   const linkAula = useLinkAula()
   const detalhe = [aula.profissional, aula.duracao_minutos && textos.minutos(aula.duracao_minutos)]
@@ -42,7 +42,7 @@ export function CartaoAula({ aula, proxima, fechadaTexto }: Props) {
       <span className="min-w-0 flex-1">
         <span className="block text-[15px] font-bold text-tinta">{aula.titulo}</span>
         <span className="block text-[13px] text-suave">
-          {aula.liberada ? detalhe : fechadaTexto}
+          {aula.liberada ? detalhe : aula.em_breve ? textos.emBreve : fechadaTexto}
         </span>
       </span>
       {aula.concluida && <span className="sr-only">{textos.concluida}</span>}

@@ -7,7 +7,7 @@ import { useAcoes, useSalvar } from '../hooks/usePainel'
 import { textos } from '../textos'
 import { FormNome } from './FormNome'
 import { Linha } from './Linha'
-import { ConfirmarPublicar, EtiquetaVisivel } from './Visibilidade'
+import { ConfirmarPublicar, EtiquetasAula } from './Visibilidade'
 
 type Props = {
   etapa: Etapa
@@ -70,8 +70,9 @@ function ListaAulas({ aulas, ...ctx }: Contexto & { aulas: Aula[] }) {
             para={`/app/admin/aulas/${a.id}?tema=${ctx.temaId}`}
             ocupado={ocupado}
             extra={
-              <EtiquetaVisivel
+              <EtiquetasAula
                 s={{ aula: a.publicado, etapa: ctx.etapa.publicado, tema: ctx.temaPublicado }}
+                l={a}
               />
             }
             aoPublicar={() => pub.aoPublicar(a)}

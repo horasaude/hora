@@ -9,6 +9,8 @@ export type AulaTrilha = {
   dia_liberacao: number
   ordem: number
   liberada: boolean
+  /** Fechada pelas profissionais (cadeado com "Em breve"), mesmo que o dia já tenha chegado. */
+  em_breve?: boolean
   concluida: boolean
 }
 
@@ -29,6 +31,8 @@ export type TemaOpcao = {
   cor: string | null
   titulo: string
   frase: string
+  /** Fechado pelas profissionais: aparece com cadeado e não pode ser escolhido. */
+  em_breve?: boolean
 }
 
 export type Trilha = {

@@ -27,6 +27,7 @@ export const textos = {
   diaN: (n: number) => `Dia ${n}`,
   concluida: 'Concluída',
   liberaNoDia: (n: number) => `Libera no dia ${n}`,
+  emBreve: 'Em breve',
   liberaEm: (n: number) => (n === 1 ? 'Libera amanhã' : `Libera em ${n} dias`),
   preparacao: {
     titulo: 'Preparação',
@@ -121,6 +122,7 @@ export const textos = {
   },
   materiais: {
     titulo: 'Arquivos da aula',
+    comece: 'Arquivos',
     baixar: 'Baixar',
     abrir: 'Abrir',
     fechar: 'Fechar',

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { AvisoErro, BotaoBrilho } from '@/components/ui'
+import { AvisoErro, BotaoBrilho, IconeCadeado } from '@/components/ui'
 import type { TemaOpcao } from '@/domain/trilha'
 import { useEscolherTema } from '../hooks/useTrilha'
 import { usePrevia } from '../previa'
@@ -25,8 +25,10 @@ function CartaoTema({
       type="button"
       role="radio"
       aria-checked={escolhido}
+      aria-disabled={tema.em_breve}
+      disabled={tema.em_breve}
       onClick={aoEscolher}
-      className={`flex h-full flex-col items-start gap-3 rounded-[20px] border-2 bg-white p-4 text-left transition hover:shadow-cartao ${escolhido ? 'border-verde-vivo shadow-cartao' : 'border-linha'}`}
+      className={`flex h-full flex-col items-start gap-3 rounded-[20px] border-2 bg-white p-4 text-left transition ${tema.em_breve ? 'opacity-70' : 'hover:shadow-cartao'} ${escolhido ? 'border-verde-vivo shadow-cartao' : 'border-linha'}`}
     >
       <span
         className={`brilho ${tomDoTema(tema.chave, tema.cor)} grid size-11 place-items-center rounded-full`}
@@ -35,6 +37,12 @@ function CartaoTema({
       </span>
       <span className="text-base font-bold text-tinta">{tema.titulo}</span>
       <span className="text-sm leading-snug text-suave">{tema.frase}</span>
+      {tema.em_breve && (
+        <span className="brilho brilho-cinza mt-auto inline-flex min-h-7 items-center gap-1.5 rounded-full px-3 text-[11px] font-bold">
+          <IconeCadeado className="size-3" />
+          {textos.emBreve}
+        </span>
+      )}
     </button>
   )
 }

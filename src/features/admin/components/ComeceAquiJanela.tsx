@@ -4,11 +4,14 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useQuery } from '@tanstack/react-query'
 import { Campo, Janela } from '@/components/ui'
 import { buscarComeceAqui, salvarComeceAqui } from '../api/conteudo.api'
+import { salvarMateriaisComece } from '../api/materiais.api'
+import { COMECE, useMateriais } from '../hooks/useMateriais'
 import { useSalvar } from '../hooks/usePainel'
 import { esquemaComeceAqui, type EntradaComece } from '../schemas/formularios'
 import { textos } from '../textos'
 import { CampoArea } from './CampoArea'
 import { Estado } from './Estado'
+import { MateriaisAula } from './MateriaisAula'
 import { PreviaVideo } from './PreviaVideo'
 import { ErroForm, RodapeForm } from './RodapeForm'
 
@@ -17,12 +20,15 @@ const t = textos.temas
 function Formulario({ inicial, aoFechar }: { inicial: EntradaComece; aoFechar: () => void }) {
   const id = useId()
   const salvar = useSalvar(salvarComeceAqui)
+  const materiais = useMateriais(COMECE)
   const form = useForm({ resolver: zodResolver(esquemaComeceAqui), defaultValues: inicial })
   const erros = form.formState.errors
   const video = useWatch({ control: form.control, name: 'video_url' }) ?? ''
   const enviar = form.handleSubmit(async (d) => {
+    if (materiais.enviando) return form.setError('root', { message: textos.arquivos.esperar })
     try {
       await salvar.mutateAsync(d)
+      await salvarMateriaisComece(materiais.paraSalvar, materiais.removidos)
       aoFechar()
     } catch {
       form.setError('root', { message: textos.erroSalvar })
@@ -54,13 +60,16 @@ function Formulario({ inicial, aoFechar }: { inicial: EntradaComece; aoFechar: (
         <div className="sm:col-span-2">
           <CampoArea rotulo={t.comeceTexto} rows={6} {...form.register('texto')} />
         </div>
+        <div className="sm:col-span-2">
+          <MateriaisAula m={materiais} />
+        </div>
         <ErroForm mensagem={erros.root?.message} />
       </form>
     </Janela>
   )
 }
 
-/** Janela grande para editar o vídeo e o texto do "Comece por aqui". */
+/** Janela grande para editar o vídeo, o texto e os arquivos do "Comece por aqui". */
 export function ComeceAquiJanela({ aoFechar }: { aoFechar: () => void }) {
   const atual = useQuery({ queryKey: ['comece-aqui-painel'], queryFn: buscarComeceAqui })
   if (atual.isPending) return null

@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { HTMLAttributes, ReactNode } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { EtiquetaBrilho } from '@/components/ui'
 import { textos } from '../textos'
@@ -48,16 +48,19 @@ type Linha = {
   titulo: string
   marca?: ReactNode
   semQuebra?: boolean
+  /** Atributos extras da linha (ex.: arrastar para mudar a ordem). */
+  linha?: HTMLAttributes<HTMLTableRowElement>
   children: ReactNode
 }
 
 /** Linha que abre o detalhe à direita; a linha aberta fica destacada. */
-export function LinhaTabela({ ativa, para, titulo, marca, semQuebra, children }: Linha) {
+export function LinhaTabela({ ativa, para, titulo, marca, semQuebra, linha, children }: Linha) {
   const navegar = useNavigate()
   return (
     <tr
+      {...linha}
       onClick={() => navegar(para)}
-      className={`cursor-pointer border-b border-[#F4F5F4] last:border-b-0 ${ativa ? 'bg-[#F3F8F5]' : 'hover:bg-[#F8FAF9]'}`}
+      className={`cursor-pointer border-b border-[#F4F5F4] last:border-b-0 ${ativa ? 'bg-[#F3F8F5]' : 'hover:bg-[#F8FAF9]'} ${linha?.className ?? ''}`}
     >
       <td className={`px-3.5 py-3 ${semQuebra ? 'whitespace-nowrap' : ''}`}>
         <Link

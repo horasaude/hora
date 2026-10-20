@@ -2,6 +2,14 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-20 · main · Liberação de tema e aula, temas por arrastar, arquivos no Comece por aqui
+
+- Tema e aula ganham Liberação para a aluna: Disponível, Em breve (cadeado) ou Liberar em data e hora (temas.bloqueado/libera_em e aulas.bloqueado/libera_em; banco: public.fechado, aula_liberada, aulas_da_etapa e trilha_aluna com em_breve, escolher_tema recusa tema fechado, etapa_pode_avancar não conta aula fechada). Migração 20261101090000_liberacao_conteudo.sql.
+- Painel: campo na janela da aula e na de editar tema (CampoLiberacao), etiqueta Em breve ou Libera dd/mm na lista; temas mudam de ordem arrastando a linha (ordenar_temas), as setas continuam para o celular.
+- Comece por aqui: arquivos (PDF, Word, imagem) como na aula (comece_materiais, salvar_materiais_comece, pasta comece/ do bucket materiais); a aluna vê pela Edge Function materiais-aula com aula_id "comece".
+- Aluna: aula fechada mostra cadeado e Em breve; tema fechado aparece com cadeado e não pode ser escolhido.
+- Testes: supabase/tests/liberacao.test.mjs (62), domain/liberacao.test.ts, FormAula e formularios.
+
 ## 2026-10-20 · main · Profissional só no painel, Sair no painel
 
 - Conta admin que abre /app vai direto para /app/admin (src/app/LayoutAluna.tsx); só a prévia (/app/previa) continua abrindo na moldura da aluna.

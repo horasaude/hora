@@ -346,12 +346,14 @@ export type Database = {
       }
       aulas: {
         Row: {
+          bloqueado: boolean
           created_at: string
           descricao: string
           dia_liberacao: number
           duracao_minutos: number | null
           etapa_id: string
           id: string
+          libera_em: string | null
           ordem: number
           profissional: string | null
           publicado: boolean
@@ -360,12 +362,14 @@ export type Database = {
           video_url: string
         }
         Insert: {
+          bloqueado?: boolean
           created_at?: string
           descricao?: string
           dia_liberacao: number
           duracao_minutos?: number | null
           etapa_id: string
           id?: string
+          libera_em?: string | null
           ordem?: number
           profissional?: string | null
           publicado?: boolean
@@ -374,12 +378,14 @@ export type Database = {
           video_url: string
         }
         Update: {
+          bloqueado?: boolean
           created_at?: string
           descricao?: string
           dia_liberacao?: number
           duracao_minutos?: number | null
           etapa_id?: string
           id?: string
+          libera_em?: string | null
           ordem?: number
           profissional?: string | null
           publicado?: boolean
@@ -603,6 +609,36 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      comece_materiais: {
+        Row: {
+          caminho: string
+          created_at: string
+          id: string
+          nome: string
+          ordem: number
+          tamanho: number | null
+          tipo: string
+        }
+        Insert: {
+          caminho: string
+          created_at?: string
+          id?: string
+          nome: string
+          ordem?: number
+          tamanho?: number | null
+          tipo: string
+        }
+        Update: {
+          caminho?: string
+          created_at?: string
+          id?: string
+          nome?: string
+          ordem?: number
+          tamanho?: number | null
+          tipo?: string
+        }
+        Relationships: []
       }
       comece_aqui: {
         Row: {
@@ -2487,11 +2523,13 @@ export type Database = {
       }
       temas: {
         Row: {
+          bloqueado: boolean
           chave: string | null
           cor: string | null
           created_at: string
           descricao: string
           id: string
+          libera_em: string | null
           ordem: number
           publicado: boolean
           tipo: string
@@ -2499,11 +2537,13 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          bloqueado?: boolean
           chave?: string | null
           cor?: string | null
           created_at?: string
           descricao?: string
           id?: string
+          libera_em?: string | null
           ordem?: number
           publicado?: boolean
           tipo?: string
@@ -2511,11 +2551,13 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          bloqueado?: boolean
           chave?: string | null
           cor?: string | null
           created_at?: string
           descricao?: string
           id?: string
+          libera_em?: string | null
           ordem?: number
           publicado?: boolean
           tipo?: string
@@ -2970,6 +3012,10 @@ export type Database = {
         Args: { p_direcao: number; p_id: string }
         Returns: undefined
       }
+      ordenar_temas: {
+        Args: { p_ids: string[] }
+        Returns: undefined
+      }
       mover_tema: {
         Args: { p_direcao: number; p_id: string }
         Returns: undefined
@@ -3111,6 +3157,10 @@ export type Database = {
       salvar_alimento: {
         Args: { p_alimento: Json; p_medidas: Json }
         Returns: string
+      }
+      salvar_materiais_comece: {
+        Args: { p_itens: Json }
+        Returns: undefined
       }
       salvar_materiais: {
         Args: { p_aula: string; p_itens: Json }

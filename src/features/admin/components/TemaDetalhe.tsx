@@ -1,9 +1,12 @@
 import { useState } from 'react'
 import { BotaoBrilho } from '@/components/ui'
+import { modoDe } from '@/domain/liberacao'
+import { paraCampoBrasilia } from '@/lib/datas'
 import { salvarTema, type Aula, type Tema } from '../api/conteudo.api'
 import { useSalvar, useTema } from '../hooks/usePainel'
 import { textos } from '../textos'
 import { BotaoPublicar } from './BotaoPublicar'
+import { EtiquetaLiberacao } from './CampoLiberacao'
 import { CartaoDetalhe, Dados } from './CartaoDetalhe'
 import { Estado } from './Estado'
 import { EtapaCartao } from './EtapaCartao'
@@ -17,7 +20,14 @@ function SobreTema({ tema, etapas, aulas }: { tema: Tema; etapas: number; aulas:
     <FormNome
       titulo={textos.temas.editar}
       rotulo={textos.temas.campoTitulo}
-      inicial={{ titulo: tema.titulo, descricao: tema.descricao }}
+      inicial={{
+        titulo: tema.titulo,
+        descricao: tema.descricao,
+        liberacao: {
+          modo: modoDe(tema),
+          quando: tema.libera_em ? paraCampoBrasilia(new Date(tema.libera_em)) : '',
+        },
+      }}
       aoCancelar={() => setEditando(false)}
       aoSalvar={async (d) => {
         await salvar.mutateAsync({ ...d, id: tema.id })
@@ -33,7 +43,13 @@ function SobreTema({ tema, etapas, aulas }: { tema: Tema; etapas: number; aulas:
         itens={[
           [textos.etapas.titulo, String(etapas)],
           [textos.aulas.titulo, String(aulas.length)],
-          [textos.status, <Situacao key="s" publicado={tema.publicado} />],
+          [
+            textos.status,
+            <span key="s" className="flex flex-wrap gap-1.5">
+              <Situacao publicado={tema.publicado} />
+              <EtiquetaLiberacao l={tema} />
+            </span>,
+          ],
         ]}
       />
       <div className="flex flex-wrap gap-2">

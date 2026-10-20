@@ -1,6 +1,8 @@
 import { z } from 'zod'
+import { liberacaoPara } from '@/domain/liberacao'
 import { deCampoBrasilia } from '@/lib/datas'
 import { textos } from '../textos'
+import { liberacao as tl } from '../textos/liberacao'
 
 const e = textos.erros
 const titulo = (max: number) => z.string().trim().min(1, e.titulo).max(max, e.titulo)
@@ -13,6 +15,15 @@ const linkOpcional = z
   .trim()
   .refine((v) => v === '' || /^https:\/\/\S+$/.test(v), e.link)
   .transform((v) => v || null)
+/** Disponível, Em breve ou Liberar em (data e hora de Brasília), já nas colunas do banco. */
+export const esquemaLiberacao = z
+  .object({ modo: z.enum(['aberta', 'breve', 'data']), quando: z.string() })
+  .refine((l) => l.modo !== 'data' || deCampoBrasilia(l.quando) !== null, {
+    message: tl.erroData,
+    path: ['quando'],
+  })
+  .transform((l) => liberacaoPara(l.modo, deCampoBrasilia(l.quando)))
+
 const quando = z
   .string()
   .refine((v) => deCampoBrasilia(v) !== null, e.data)
@@ -24,6 +35,11 @@ export const esquemaTema = z.object({
 })
 
 export const esquemaEtapa = esquemaTema
+
+/** Nome e descrição; no tema também a liberação para a aluna. */
+export const esquemaNome = esquemaTema
+  .extend({ liberacao: esquemaLiberacao.optional() })
+  .transform(({ liberacao, ...resto }) => ({ ...resto, ...liberacao }))
 
 /** Aula: o dia de liberação é o dia da preparação (1 a 7) ou o dia dentro da etapa do tema. */
 const c = textos.conteudo
@@ -51,13 +67,15 @@ export const esquemaAulaPara = (temasPreparacao: string[]) =>
         .string()
         .trim()
         .refine((v) => /^[1-9]\d{0,3}$/.test(v), e.dia),
+      liberacao: esquemaLiberacao,
     })
     .refine((d) => !temasPreparacao.includes(d.tema) || Number(d.dia) <= 7, {
       message: e.dia,
       path: ['dia'],
     })
-    .transform(({ dia, duracao, tema: _tema, etapa, ...resto }) => ({
+    .transform(({ dia, duracao, tema: _tema, etapa, liberacao, ...resto }) => ({
       ...resto,
+      ...liberacao,
       etapa_id: etapa,
       duracao_minutos: duracao,
       dia_liberacao: Number(dia),

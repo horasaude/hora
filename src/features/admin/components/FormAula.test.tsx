@@ -21,6 +21,7 @@ const VAZIA: EntradaAula = {
   profissional: '',
   duracao: '',
   dia: '1',
+  liberacao: { modo: 'aberta', quando: '' },
 }
 
 function abrir(
@@ -110,5 +111,30 @@ describe('FormAula', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Publicar' }))
     expect(await screen.findByText('Escolha o tema')).toBeInTheDocument()
     expect(aoSalvar).not.toHaveBeenCalled()
+  })
+})
+
+describe('FormAula: liberação', () => {
+  afterEach(cleanup)
+
+  it('Em breve salva bloqueada e Liberar em pede a data e guarda no horário de Brasília', async () => {
+    const aoSalvar = abrir({ tema: 'ema', etapa: 'e-arr' })
+    preencher()
+    fireEvent.click(screen.getByRole('button', { name: 'Liberar em' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Salvar rascunho' }))
+    expect(await screen.findByText('Escolha a data e a hora.')).toBeInTheDocument()
+    fireEvent.change(screen.getByLabelText('Data e hora'), {
+      target: { value: '2026-11-03T19:00' },
+    })
+    fireEvent.click(screen.getByRole('button', { name: 'Salvar rascunho' }))
+    await vi.waitFor(() => expect(aoSalvar).toHaveBeenCalledTimes(1))
+    expect(aoSalvar.mock.calls[0]?.[0]).toMatchObject({
+      bloqueado: false,
+      libera_em: '2026-11-03T22:00:00.000Z',
+    })
+    fireEvent.click(screen.getByRole('button', { name: 'Em breve' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Salvar rascunho' }))
+    await vi.waitFor(() => expect(aoSalvar).toHaveBeenCalledTimes(2))
+    expect(aoSalvar.mock.calls[1]?.[0]).toMatchObject({ bloqueado: true, libera_em: null })
   })
 })

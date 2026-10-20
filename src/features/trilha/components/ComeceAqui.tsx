@@ -5,6 +5,7 @@ import { ITENS_COMECE } from '../api/comece.api'
 import { useComeceAqui } from '../hooks/useTrilha'
 import { usePrevia } from '../previa'
 import { textos } from '../textos'
+import { MateriaisDaAula } from './MateriaisDaAula'
 import { PassosComece } from './PassosComece'
 
 const t = textos.comece
@@ -58,6 +59,7 @@ export function ComeceAqui() {
         {texto && (
           <p className="text-[15px] leading-relaxed whitespace-pre-line text-tinta">{texto}</p>
         )}
+        <MateriaisDaAula aula="comece" titulo={textos.materiais.comece} />
       </div>
       <div className="flex flex-col gap-3">
         <BarraProgresso

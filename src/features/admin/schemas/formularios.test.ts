@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest'
-import { esquemaAula, esquemaAulaPara, esquemaAviso, esquemaNovoTema } from './formularios'
+import {
+  esquemaAula,
+  esquemaAulaPara,
+  esquemaAviso,
+  esquemaNome,
+  esquemaNovoTema,
+} from './formularios'
 
 const aula = {
   tema: 'tema-1',
@@ -10,6 +16,7 @@ const aula = {
   profissional: '',
   duracao: '',
   dia: '1',
+  liberacao: { modo: 'aberta' as const, quando: '' },
 }
 
 describe('formulários do painel', () => {
@@ -45,5 +52,16 @@ describe('formulários do painel', () => {
   it('aviso guarda o horário de Brasília em UTC', () => {
     const r = esquemaAviso.parse({ titulo: 'Oi', texto: 'Texto', publicar_em: '2026-10-24T19:00' })
     expect(r.publicar_em).toBe('2026-10-24T22:00:00.000Z')
+  })
+
+  it('tema leva a liberação; etapa sem ela não mexe nas colunas', () => {
+    const tema = { titulo: 'Sono', descricao: '' }
+    expect(
+      esquemaNome.parse({ ...tema, liberacao: { modo: 'data', quando: '2026-11-03T19:00' } }),
+    ).toEqual({ ...tema, bloqueado: false, libera_em: '2026-11-03T22:00:00.000Z' })
+    expect(
+      esquemaNome.safeParse({ ...tema, liberacao: { modo: 'data', quando: '' } }).success,
+    ).toBe(false)
+    expect(esquemaNome.parse(tema)).toEqual(tema)
   })
 })

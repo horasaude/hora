@@ -1,5 +1,7 @@
 import { BotaoBrilho, Janela } from '@/components/ui'
+import type { Liberacao } from '@/domain/liberacao'
 import { textos } from '../textos'
+import { EtiquetaLiberacao } from './CampoLiberacao'
 import { Etiqueta } from './Tabela'
 
 const t = textos.visibilidade
@@ -12,6 +14,16 @@ export function EtiquetaVisivel({ s }: { s: Situacoes }) {
   if (!s.etapa) return <Etiqueta tom="rosa">{t.etapa}</Etiqueta>
   if (!s.tema) return <Etiqueta tom="rosa">{t.tema}</Etiqueta>
   return <Etiqueta tom="verde">{t.visivel}</Etiqueta>
+}
+
+/** Etiquetas da aula na lista: se a aluna vê e quando libera. */
+export function EtiquetasAula({ s, l }: { s: Situacoes; l: Liberacao }) {
+  return (
+    <span className="flex flex-wrap gap-1.5">
+      <EtiquetaVisivel s={s} />
+      <EtiquetaLiberacao l={l} />
+    </span>
+  )
 }
 
 type Props = {

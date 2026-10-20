@@ -115,13 +115,13 @@ function Item({ m, aoAmpliar }: { m: MaterialAula; aoAmpliar: () => void }) {
 }
 
 /** Arquivos da aula em cartões: PDF e Word para baixar, foto em miniatura que amplia e link que abre em outra aba. */
-export function MateriaisDaAula({ aula }: { aula: string }) {
+export function MateriaisDaAula({ aula, titulo = t.titulo }: { aula: string; titulo?: string }) {
   const materiais = useMateriaisAula(aula, true)
   const [aberta, setAberta] = useState<MaterialAula | null>(null)
   if (!materiais.data?.length) return null
   return (
     <section className="flex flex-col gap-3">
-      <h2 className="text-[19px] font-bold text-verde-escuro">{t.titulo}</h2>
+      <h2 className="text-[19px] font-bold text-verde-escuro">{titulo}</h2>
       <ul className="grid gap-3 sm:grid-cols-2">
         {materiais.data.map((m) => (
           <li key={m.id}>

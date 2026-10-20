@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { nomeSemExtensao, tipoMime, validarArquivo, type TipoMaterial } from '@/domain/arquivos'
 import { enviarComProgresso } from '@/lib/envio'
-import { buscarMateriais } from '../api/conteudo.api'
+import { buscarMateriais, buscarMateriaisComece } from '../api/materiais.api'
 
 export type ItemMaterial = {
   chave: string
@@ -24,11 +24,12 @@ const extensao = (f: File) => {
       : (mime.split('/')[1] ?? 'bin')
 }
 
-/** Materiais já salvos da aula, ao abrir para editar. */
+/** Materiais já salvos da aula (ou do Comece por aqui), ao abrir para editar. */
 function useCarregar(aulaId: string | undefined, setItens: (l: ItemMaterial[]) => void) {
   useEffect(() => {
     if (!aulaId) return
-    buscarMateriais(aulaId).then((lista) =>
+    const busca = aulaId === COMECE ? buscarMateriaisComece() : buscarMateriais(aulaId)
+    busca.then((lista) =>
       setItens(
         lista.map((m) => ({
           chave: m.id,
@@ -58,7 +59,7 @@ function enviarArquivos(
       continue
     }
     const chave = crypto.randomUUID()
-    const caminho = `aulas/${pasta}/${chave}.${extensao(f)}`
+    const caminho = `${pasta}/${chave}.${extensao(f)}`
     incluir({
       chave,
       tipo: v.tipo,
@@ -74,12 +75,15 @@ function enviarArquivos(
   return recusas
 }
 
-/** Lista de materiais do modal da aula: carrega os salvos, envia os novos com progresso, ordena e remove. */
+/** Id especial: os arquivos do Comece por aqui, guardados em comece/. */
+export const COMECE = 'comece'
+
+/** Lista de materiais do modal da aula (ou do Comece por aqui): carrega os salvos, envia os novos com progresso, ordena e remove. */
 export function useMateriais(aulaId?: string) {
   const [itens, setItens] = useState<ItemMaterial[]>([])
   const [removidos, setRemovidos] = useState<string[]>([])
   const [recusas, setRecusas] = useState<string[]>([])
-  const pasta = useRef(aulaId ?? crypto.randomUUID())
+  const pasta = useRef(aulaId === COMECE ? COMECE : `aulas/${aulaId ?? crypto.randomUUID()}`)
   useCarregar(aulaId, setItens)
   const mudar = (chave: string, p: Partial<ItemMaterial>) =>
     setItens((l) => l.map((i) => (i.chave === chave ? { ...i, ...p } : i)))

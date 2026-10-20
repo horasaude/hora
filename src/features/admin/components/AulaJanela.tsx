@@ -1,6 +1,9 @@
 import { useNavigate } from 'react-router-dom'
 import { BotaoBrilho, Janela } from '@/components/ui'
-import { salvarAula, salvarMateriais, type Aula, type Etapa } from '../api/conteudo.api'
+import { modoDe } from '@/domain/liberacao'
+import { paraCampoBrasilia } from '@/lib/datas'
+import { salvarAula, type Aula, type Etapa } from '../api/conteudo.api'
+import { salvarMateriais } from '../api/materiais.api'
 import { useMateriais } from '../hooks/useMateriais'
 import { useAula, useEtapas, useSalvar, useTemas } from '../hooks/usePainel'
 import { textos } from '../textos'
@@ -27,6 +30,10 @@ function inicialDa(
     profissional: a?.profissional ?? '',
     duracao: a?.duracao_minutos ? String(a.duracao_minutos) : '',
     dia: String(a?.dia_liberacao ?? 1),
+    liberacao: {
+      modo: a ? modoDe(a) : 'aberta',
+      quando: a?.libera_em ? paraCampoBrasilia(new Date(a.libera_em)) : '',
+    },
   }
 }
 

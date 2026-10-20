@@ -1,5 +1,5 @@
 import { useId, type ReactNode } from 'react'
-import { useForm, useWatch } from 'react-hook-form'
+import { Controller, useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { z } from 'zod'
 import { Janela } from '@/components/ui'
@@ -7,6 +7,7 @@ import type { Etapa, Tema } from '../api/conteudo.api'
 import { esquemaAula, esquemaAulaPara } from '../schemas/formularios'
 import { textos } from '../textos'
 import { OndeFica } from './OndeFica'
+import { CampoLiberacao } from './CampoLiberacao'
 import { Descricao, Liberacao, QuemEQuanto, TituloEVideo } from './CamposAula'
 import { ErroForm } from './RodapeForm'
 import { RodapeAula } from './RodapeAula'
@@ -44,7 +45,7 @@ function useFormAula({ temas, inicial, aoSalvar }: Pick<Props, 'temas' | 'inicia
   return { form, enviar, preparacao: preparacoes.includes(tema) }
 }
 
-/** Aula numa janela: onde fica, título, vídeo com prévia grande, profissional e duração, texto, arquivos e quando libera. */
+/** Aula numa janela: onde fica, título, vídeo com prévia grande, profissional e duração, texto, arquivos, dia em que libera e liberação (disponível, em breve ou data). */
 export function FormAula({
   titulo,
   inicial,
@@ -88,6 +89,17 @@ export function FormAula({
         <div className="flex flex-col gap-3">
           <Liberacao register={register} erroDia={erros.dia?.message} preparacao={preparacao} />
         </div>
+        <Controller
+          control={control}
+          name="liberacao"
+          render={({ field }) => (
+            <CampoLiberacao
+              valor={field.value}
+              aoMudar={field.onChange}
+              erro={erros.liberacao?.quando?.message}
+            />
+          )}
+        />
         <ErroForm mensagem={erros.root?.message} />
       </form>
     </Janela>
