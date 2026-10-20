@@ -7,13 +7,14 @@ import { AbasDaSecao, BarraInferior, BarraLateral } from './NavegacaoAluna'
 import { textosAluna as t } from './textosAluna'
 
 /** Área da aluna: barra lateral no computador, barra fixa embaixo no celular, e o primeiro acesso.
- * Conta de profissional vai direto para o painel; daqui só abre a prévia (Ver como aluna do painel). */
+ * Conta de profissional vai direto para o painel; daqui só abre a prévia (Ver como aluna do painel).
+ * A conta de desenvolvedora passa livre entre os dois. */
 export function LayoutAluna() {
   const perfil = useMeuPerfil()
   const { pathname } = useLocation()
   useRegistrarAcesso()
   const p = perfil.data
-  if (p?.papel === 'admin' && !pathname.startsWith('/app/previa'))
+  if (p?.papel === 'admin' && !p.desenvolvedora && !pathname.startsWith('/app/previa'))
     return <Navigate to="/app/admin" replace />
   const falta = p && p.papel !== 'admin' && (!p.apelido || !p.consentimento_saude_em)
   return (

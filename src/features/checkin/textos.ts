@@ -1,13 +1,12 @@
 // Textos do check-in. Os componentes só leem daqui.
 
-/** Quadro da semana, na ordem da planilha da Laís. Treino pede foto (pontos de treino com foto). */
+/** Quadro da semana, na ordem da planilha da Laís. Treino pede foto; Venci o dia marca sozinho quando os outros quatro estão feitos. */
 export const HABITOS = [
   { id: 'sono', nome: 'Sono', foto: false, auto: false },
-  { id: 'jejum', nome: 'Jejum intermitente', foto: false, auto: false },
   { id: 'agua', nome: 'Hidratar-se', foto: false, auto: true },
   { id: 'dieta', nome: 'Dieta', foto: false, auto: false },
   { id: 'treino', nome: 'Treino', foto: true, auto: false },
-  { id: 'venci', nome: 'Venci o dia?', foto: false, auto: false },
+  { id: 'venci', nome: 'Venci o dia?', foto: false, auto: true },
 ] as const
 
 /** Todos os tipos de check-in do banco (refeição com foto continua no cardápio). */
@@ -87,11 +86,10 @@ export const textos = {
   },
   comoGanhar: {
     sono: { texto: 'Marque Sono no quadro da semana' },
-    jejum: { texto: 'Marque Jejum no quadro da semana' },
     agua: { texto: 'Bata a meta de água do dia' },
     dieta: { texto: 'Marque Dieta no quadro da semana' },
     treino_foto: { texto: 'Marque Treino com a foto do treino', para: '/app/treinos' },
-    venci: { texto: 'Marque Venci o dia no fim do dia' },
+    venci: { texto: 'Marque Sono, Hidratar-se, Dieta e Treino no mesmo dia' },
     foto_refeicao: { texto: 'Mande a foto de uma refeição do cardápio', para: '/app/cardapios' },
     aula_concluida: { texto: 'Conclua uma aula da trilha', para: '/app/trilha' },
     duvida_forum: { texto: 'Mande uma dúvida no fórum', para: '/app/forum' },

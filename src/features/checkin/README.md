@@ -1,6 +1,6 @@
 # feature: checkin
 
-Check-in da semana da aluna (cartão do Início), como a planilha da Laís: Sono, Jejum intermitente, Hidratar-se, Dieta, Treino (com foto) e Venci o dia?, de segunda a domingo; marca só o dia de hoje (horário de Brasília). Refeição com foto continua no cardápio; Cardio e Tarefa seguem válidos no banco.
+Check-in da semana da aluna (cartão do Início), como a planilha da Laís: Sono, Hidratar-se, Dieta, Treino (com foto) e Venci o dia? (marca sozinho, pelo banco, quando os outros quatro estão feitos; não é manual), de segunda a domingo; marca só o dia de hoje (horário de Brasília). Refeição com foto continua no cardápio; Cardio e Tarefa seguem válidos no banco.
 
 | Arquivo                                                                  | Faz                                                                                                        |
 | ------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |

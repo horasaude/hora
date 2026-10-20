@@ -52,6 +52,8 @@ export type MeuPerfil = {
   ocultar_ranking: boolean
   codigo_indicacao: string
   avatar_path: string | null
+  /** Conta de quem constrói o sistema: passa entre o painel e a área da aluna. */
+  desenvolvedora: boolean
 }
 
 /** Perfil da usuária logada: nome, apelido, consentimento, início do acesso, ranking, indicação e foto. */
@@ -61,7 +63,7 @@ export async function buscarMeuPerfil(): Promise<MeuPerfil | null> {
   const { data, error } = await supabase
     .from('perfis')
     .select(
-      'nome, apelido, papel, consentimento_saude_em, acesso_inicio_em, ocultar_ranking, codigo_indicacao, avatar_path',
+      'nome, apelido, papel, consentimento_saude_em, acesso_inicio_em, ocultar_ranking, codigo_indicacao, avatar_path, desenvolvedora',
     )
     .eq('id', sessao.user.id)
     .single()

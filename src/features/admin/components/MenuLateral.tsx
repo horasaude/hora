@@ -1,5 +1,6 @@
+import { Link } from 'react-router-dom'
 import { LogoOra } from '@/components/ui'
-import { useNome, useSair } from '@/features/auth'
+import { useMeuPerfil, useNome, useSair } from '@/features/auth'
 import { textos } from '../textos'
 import { GrupoPlano, ItemMenu } from './MenuItens'
 import { t as textosCancelamentos } from '../cancelamentos/textos'
@@ -26,6 +27,7 @@ const ITENS = [
 export function MenuLateral({ aoNavegar }: { aoNavegar?: () => void }) {
   const nome = useNome()
   const sair = useSair()
+  const dev = useMeuPerfil().data?.desenvolvedora
   return (
     <div className="flex h-full flex-col px-3.5 py-6">
       <LogoOra clara largura={118} className="mx-2.5 mb-2" />
@@ -45,6 +47,14 @@ export function MenuLateral({ aoNavegar }: { aoNavegar?: () => void }) {
         <span className="rounded-xl bg-white/10 px-3 py-2 text-sm text-white">
           {nome.data ?? '...'}
         </span>
+        {dev && (
+          <Link
+            to="/app"
+            className="mt-2 inline-flex min-h-11 items-center text-sm text-white/80 underline underline-offset-4"
+          >
+            {textos.temas.verComoAluna}
+          </Link>
+        )}
         <button
           type="button"
           onClick={() => sair.mutate()}

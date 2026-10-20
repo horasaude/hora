@@ -2,6 +2,14 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-20 · main · Sem jejum, Venci o dia automático, excluir ação, conta de desenvolvedora
+
+- Jejum intermitente saiu do quadro da semana e das regras de pontos (migração 20261101100000_venci_automatico_sem_jejum.sql).
+- Venci o dia não é mais manual: public.vencer_dia marca sozinho e dá os pontos quando Sono, Hidratar-se, Dieta e Treino do dia estão feitos (chamado por fazer_checkin e registrar_agua); fazer_checkin recusa venci e jejum.
+- Pontos e indicações: Excluir ação na janela de editar a regra (dois toques); política de delete só para admin.
+- perfis.desenvolvedora (só pelo banco; ligada para admin.teste@exemplo.com): passa entre painel e área da aluna (Ver como aluna no menu do painel, Painel das profissionais em Perfil > Conta).
+- Loja da aluna vazia no celular: os 68 produtos da Active Life estão em rascunho; aparece ao publicar no painel.
+
 ## 2026-10-20 · main · Liberação de tema e aula, temas por arrastar, arquivos no Comece por aqui
 
 - Tema e aula ganham Liberação para a aluna: Disponível, Em breve (cadeado) ou Liberar em data e hora (temas.bloqueado/libera_em e aulas.bloqueado/libera_em; banco: public.fechado, aula_liberada, aulas_da_etapa e trilha_aluna com em_breve, escolher_tema recusa tema fechado, etapa_pode_avancar não conta aula fechada). Migração 20261101090000_liberacao_conteudo.sql.

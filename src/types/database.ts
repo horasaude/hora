@@ -2096,6 +2096,7 @@ export type Database = {
       }
       perfis: {
         Row: {
+          desenvolvedora: boolean
           acesso_fim_em: string | null
           acesso_inicio_em: string | null
           acesso_liberado_em: string | null
@@ -2122,6 +2123,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          desenvolvedora?: boolean
           acesso_fim_em?: string | null
           acesso_inicio_em?: string | null
           acesso_liberado_em?: string | null
@@ -2148,6 +2150,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          desenvolvedora?: boolean
           acesso_fim_em?: string | null
           acesso_inicio_em?: string | null
           acesso_liberado_em?: string | null

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { BotaoBrilho, Cartao } from '@/components/ui'
+import { BotaoBrilho, Cartao, LinkBrilho } from '@/components/ui'
 import { useMeuPerfil, useSair } from '@/features/auth'
 import { useSalvarRanking } from '../hooks/usePerfil'
 import { textos } from '../textos'
@@ -72,6 +72,11 @@ export function Configuracoes() {
         <BotaoBrilho tom="cinza" onClick={() => setJanela('senha')}>
           {t.senha}
         </BotaoBrilho>
+        {p.desenvolvedora && (
+          <LinkBrilho to="/app/admin" tom="cinza">
+            {textos.painel}
+          </LinkBrilho>
+        )}
         <BotaoBrilho tom="cinza" onClick={() => sair.mutate()} disabled={sair.isPending}>
           {sair.isPending ? t.saindo : t.sair}
         </BotaoBrilho>

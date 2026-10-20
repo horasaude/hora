@@ -49,6 +49,8 @@ export const t = {
     colunas: ['Ação', 'Valor', 'Limite', 'Ativa', ''],
     editar: 'Editar regra',
     nova: 'Nova ação',
+    excluir: 'Excluir ação',
+    confirmarExcluir: 'Confirmar exclusão',
     nome: 'Nome da ação',
     tiposPropria: {
       por_dia: 'Por dia',

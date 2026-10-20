@@ -35,6 +35,11 @@ export async function salvarRegra(r: DadosRegra) {
   ok(await supabase.from('regras_pontos').update(campos).eq('acao', acao))
 }
 
+/** Exclui a ação: some da lista e deixa de dar pontos (o histórico continua). */
+export async function excluirRegra(acao: string) {
+  ok(await supabase.from('regras_pontos').delete().eq('acao', acao))
+}
+
 /** Ação criada pelas profissionais; o banco gera o código (extra_...). */
 export async function criarAcao(r: Omit<DadosRegra, 'acao' | 'ativo'> & { nome: string }) {
   return ok(

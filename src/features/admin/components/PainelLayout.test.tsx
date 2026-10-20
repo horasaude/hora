@@ -10,6 +10,7 @@ vi.mock('@/features/auth', () => ({
   usePapel: vi.fn(),
   useNome: () => ({ data: 'Ana Milhomem' }),
   useSair: () => ({ mutate: sairMock, isPending: false }),
+  useMeuPerfil: () => ({ data: { desenvolvedora: false } }),
 }))
 
 function abrir(papel: string | null) {

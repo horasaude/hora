@@ -17,12 +17,6 @@ export const IconeSono = (p: P) => (
     <path d="M14 3h3l-3 3h3M18.5 7.5h2l-2 2h2" />
   </svg>
 )
-export const IconeJejum = (p: P) => (
-  <svg {...base} {...p}>
-    <circle cx="13" cy="13" r="7.5" />
-    <path d="M13 9v4l2.5 2M11 3h4M2 10h3M2 13h2.5M2 16h3" />
-  </svg>
-)
 export const IconeAgua = (p: P) => (
   <svg {...base} {...p}>
     <path d="M9 3.5s-5 5.5-5 9a5 5 0 0 0 10 0c0-3.5-5-9-5-9Z" />

@@ -1,7 +1,7 @@
 import { useId, useState } from 'react'
-import { Janela } from '@/components/ui'
+import { BotaoBrilho, Janela } from '@/components/ui'
 import { RodapeForm } from '../../components/RodapeForm'
-import { criarAcao, salvarRegra, type Regra } from '../api/pontos.api'
+import { criarAcao, excluirRegra, salvarRegra, type Regra } from '../api/pontos.api'
 import { useConfiguracoes, useSalvarConfiguracoes } from '../../hooks/useModulos'
 import { useAcaoPontos } from '../hooks/usePontos'
 import { t } from '../textos'
@@ -45,7 +45,25 @@ function useMetaAgua() {
   }
 }
 
-/** Janela de criar ação própria ou editar regra. Vale para os próximos lançamentos. */
+/** Excluir em dois toques: o primeiro pede a confirmação. */
+function BotaoExcluir({ acao, aoExcluir }: { acao: string; aoExcluir: () => void }) {
+  const excluir = useAcaoPontos(excluirRegra)
+  const [confirmar, setConfirmar] = useState(false)
+  return (
+    <BotaoBrilho
+      tom="coral"
+      className="mr-auto"
+      disabled={excluir.isPending}
+      onClick={() =>
+        confirmar ? excluir.mutate(acao, { onSuccess: aoExcluir }) : setConfirmar(true)
+      }
+    >
+      {confirmar ? t.regras.confirmarExcluir : t.regras.excluir}
+    </BotaoBrilho>
+  )
+}
+
+/** Janela de criar ação própria ou editar regra (com Excluir). Vale para os próximos lançamentos. */
 export function RegraJanela({ regra, aoFechar }: { regra: Regra | null; aoFechar: () => void }) {
   const id = useId()
   const salvar = useAcaoPontos(salvarRegra)
@@ -55,6 +73,7 @@ export function RegraJanela({ regra, aoFechar }: { regra: Regra | null; aoFechar
   const [erro, setErro] = useState('')
   const agua = regra?.acao === 'agua'
   const m = useMetaAgua()
+  const salvando = salvar.isPending || criar.isPending || m.salvando
   const enviar = async (e: React.FormEvent) => {
     e.preventDefault()
     const d = validar(v, propria)
@@ -81,11 +100,10 @@ export function RegraJanela({ regra, aoFechar }: { regra: Regra | null; aoFechar
       aoFechar={aoFechar}
       rotuloFechar={t.fechar}
       rodape={
-        <RodapeForm
-          formId={id}
-          salvando={salvar.isPending || criar.isPending || m.salvando}
-          aoCancelar={aoFechar}
-        />
+        <>
+          {regra && <BotaoExcluir acao={regra.acao} aoExcluir={aoFechar} />}
+          <RodapeForm formId={id} salvando={salvando} aoCancelar={aoFechar} />
+        </>
       }
     >
       <form id={id} onSubmit={enviar} noValidate className="grid gap-4 sm:grid-cols-3">

@@ -264,27 +264,52 @@ async function acoesProprias(t) {
 
 async function habitosDaSemana(t) {
   const { esperaValor, esperaErro } = t
+  const venci = `select count(*)::int from public.lancamentos_pontos where perfil_id = '${AMIGA}' and acao = 'venci'`
   await t.comoAluna(AMIGA)
-  for (const tipo of ['sono', 'jejum', 'dieta', 'venci'])
+  for (const tipo of ['sono', 'dieta'])
     await esperaValor(
       `hábito ${tipo} da semana dá 5 pontos`,
       `select pontos from public.fazer_checkin('${tipo}')`,
       5,
     )
+  for (const tipo of ['venci', 'jejum'])
+    await esperaErro(`${tipo} não se marca à mão`, `select public.fazer_checkin('${tipo}')`, '22023')
+  await t.db.query(`select public.fazer_checkin('treino', '${AMIGA}/t.jpg', 'corrida')`)
+  await esperaValor('sem a água o dia não está vencido', venci, 0)
+  await t.db.query(`select public.registrar_agua(2000)`)
+  await esperaValor('bater a água com o resto feito vence o dia sozinho', venci, 1)
   await esperaValor(
-    '4 hábitos novos somam 20',
-    `select coalesce(sum(pontos), 0)::int from public.lancamentos_pontos where perfil_id = '${AMIGA}' and acao in ('sono', 'jejum', 'dieta', 'venci')`,
-    20,
+    'Venci o dia aparece no quadro',
+    `select count(*)::int from public.checkins where perfil_id = '${AMIGA}' and tipo = 'venci'`,
+    1,
   )
   await esperaValor(
-    'sono de novo no mesmo dia não pontua',
+    'sono de novo no mesmo dia não pontua nem vence de novo',
     `select pontos from public.fazer_checkin('sono')`,
     0,
   )
+  await esperaValor('Venci o dia uma vez só', venci, 1)
   await esperaErro(
     'hábito desconhecido é recusado',
     `select public.fazer_checkin('dormir')`,
     '23514',
+  )
+  await esperaValor(
+    'jejum saiu das regras',
+    `select count(*)::int from public.regras_pontos where acao = 'jejum'`,
+    0,
+  )
+  await t.comoAluna(ALUNA)
+  await esperaValor(
+    'aluna não exclui ação',
+    `with x as (delete from public.regras_pontos where acao = 'sono' returning 1) select count(*)::int from x`,
+    0,
+  )
+  await t.comoAluna(ADMIN)
+  await esperaValor(
+    'equipe exclui ação',
+    `with x as (delete from public.regras_pontos where acao = 'sono' returning 1) select count(*)::int from x`,
+    1,
   )
 }
 

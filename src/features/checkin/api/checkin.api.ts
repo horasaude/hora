@@ -43,7 +43,7 @@ export async function fazerCheckin(d: NovoCheckin): Promise<number> {
   return data?.[0]?.pontos ?? 0
 }
 
-const ACOES_DA_SEMANA = ['sono', 'jejum', 'agua', 'dieta', 'treino_foto', 'venci']
+const ACOES_DA_SEMANA = ['sono', 'agua', 'dieta', 'treino_foto', 'venci']
 
 /** Pontos dos hábitos do quadro desde a segunda-feira (só os dela). */
 export async function pontosDaSemana(desde: string): Promise<number> {
