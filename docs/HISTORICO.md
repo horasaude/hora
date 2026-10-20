@@ -2,6 +2,12 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-20 · main · Profissional só no painel, Sair no painel
+
+- Conta admin que abre /app vai direto para /app/admin (src/app/LayoutAluna.tsx); só a prévia (/app/previa) continua abrindo na moldura da aluna.
+- Removidos os atalhos "Painel das profissionais" (Início e Perfil > Conta) e o "Ir para a área da aluna" do menu do painel, que virou "Sair da conta" (MenuLateral.tsx).
+- Para ver como aluna, as profissionais usam uma conta de aluna de teste (apagar no dia 23/10 junto com as outras).
+
 ## 2026-10-20 · main · Lives: sala do Meet restrita, várias profissionais, convidadas e convite na agenda
 
 - Migração 20261031110000_lives_sala_restrita.sql: lives.profissionais (várias), lives_convidadas (nome e e-mail, só a equipe lê; salvar_convidadas), lives_salas (link e sala do Meet, só a equipe lê; a aluna não vê mais o link), lives_convites (fila do .ics) com convite_seq (sobe ao publicar, mudar tema/horário/duração ou tirar do ar), destinos_da_live e convites_pendentes; entrar_live lê o link de lives_salas; cron convites-live a cada minuto só quando há pendente. Teste supabase/tests/lives_sala.test.mjs.

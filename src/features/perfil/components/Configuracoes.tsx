@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { BotaoBrilho, Cartao, LinkBrilho } from '@/components/ui'
+import { BotaoBrilho, Cartao } from '@/components/ui'
 import { useMeuPerfil, useSair } from '@/features/auth'
 import { useSalvarRanking } from '../hooks/usePerfil'
 import { textos } from '../textos'
@@ -45,7 +45,7 @@ function Chave({
   )
 }
 
-/** Configurações: apelido e foto, ranking, senha, painel (admin), sair e cancelar inscrição. */
+/** Configurações: apelido e foto, ranking, senha, sair e cancelar inscrição. */
 export function Configuracoes() {
   const p = useMeuPerfil().data
   const ranking = useSalvarRanking()
@@ -72,11 +72,6 @@ export function Configuracoes() {
         <BotaoBrilho tom="cinza" onClick={() => setJanela('senha')}>
           {t.senha}
         </BotaoBrilho>
-        {p.papel === 'admin' && (
-          <LinkBrilho to="/app/admin" tom="cinza">
-            {textos.painel}
-          </LinkBrilho>
-        )}
         <BotaoBrilho tom="cinza" onClick={() => sair.mutate()} disabled={sair.isPending}>
           {sair.isPending ? t.saindo : t.sair}
         </BotaoBrilho>

@@ -1,6 +1,5 @@
-import { Link } from 'react-router-dom'
 import { LogoOra } from '@/components/ui'
-import { useNome } from '@/features/auth'
+import { useNome, useSair } from '@/features/auth'
 import { textos } from '../textos'
 import { GrupoPlano, ItemMenu } from './MenuItens'
 import { t as textosCancelamentos } from '../cancelamentos/textos'
@@ -23,9 +22,10 @@ const ITENS = [
   { para: 'configuracoes', nome: a.configuracoes, cor: '#B9C3BF' },
 ] as const
 
-/** Menu lateral verde escuro: logo clara, itens com bolinha de cor própria, o grupo Plano alimentar e quem está logada. */
+/** Menu lateral verde escuro: logo clara, itens com bolinha de cor própria, o grupo Plano alimentar quem está logada e sair da conta. */
 export function MenuLateral({ aoNavegar }: { aoNavegar?: () => void }) {
   const nome = useNome()
+  const sair = useSair()
   return (
     <div className="flex h-full flex-col px-3.5 py-6">
       <LogoOra clara largura={118} className="mx-2.5 mb-2" />
@@ -45,12 +45,14 @@ export function MenuLateral({ aoNavegar }: { aoNavegar?: () => void }) {
         <span className="rounded-xl bg-white/10 px-3 py-2 text-sm text-white">
           {nome.data ?? '...'}
         </span>
-        <Link
-          to="/app"
-          className="mt-2 inline-flex min-h-11 items-center text-xs text-white/70 underline underline-offset-4"
+        <button
+          type="button"
+          onClick={() => sair.mutate()}
+          disabled={sair.isPending}
+          className="mt-2 inline-flex min-h-11 items-center self-start text-sm text-white/80 underline underline-offset-4"
         >
-          {textos.sair}
-        </Link>
+          {sair.isPending ? textos.saindo : textos.sair}
+        </button>
       </div>
     </div>
   )

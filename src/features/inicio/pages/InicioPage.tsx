@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Cartao, classeBrilho, Retrato } from '@/components/ui'
+import { Cartao, Retrato } from '@/components/ui'
 import { saudacaoPorHora } from '@/domain/saudacao'
 import { aulaDeHoje, aulasEmAndamento } from '@/domain/trilha'
 import { useMeuPerfil } from '@/features/auth'
@@ -61,11 +60,6 @@ export function InicioPage() {
   return (
     <section className="flex flex-col gap-4 lg:gap-8">
       <Saudacao nome={nome} />
-      {perfil.data?.papel === 'admin' && (
-        <Link to="/app/admin" className={`${classeBrilho('escuro')} lg:self-start`}>
-          {textos.painel}
-        </Link>
-      )}
       {semAcesso ? (
         <Cartao className="text-sm text-tinta">{textos.semAcesso}</Cartao>
       ) : (

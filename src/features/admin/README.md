@@ -1,6 +1,6 @@
 # feature: admin
 
-Painel das profissionais em /app/admin, só para papel admin (o banco garante com RLS; a tela só esconde). Visual igual ao apresentado às clientes (docs/referencias/painel-apresentado.png): barra lateral verde fixa no computador (menu com botão no celular), título grande, cartões de resumo coloridos, tabela branca e o item aberto num cartão à direita, sem sair da tela.
+Painel das profissionais em /app/admin, só para papel admin (o banco garante com RLS; a tela só esconde). Conta admin entra direto no painel e não vê a área da aluna (só a prévia em /app/previa); para testar como aluna, usar uma conta de aluna. Sair da conta fica no fim do menu lateral. Visual igual ao apresentado às clientes (docs/referencias/painel-apresentado.png): barra lateral verde fixa no computador (menu com botão no celular), título grande, cartões de resumo coloridos, tabela branca e o item aberto num cartão à direita, sem sair da tela.
 
 Criar e editar sempre abrem a Janela (src/components/ui/Janela.tsx) com os formulários *Form (LiveForm, AvisoForm, CardapioForm, DesafioForm, FormNome, NovoTema, NovaEtapa, FormAula via AulaJanela, configurações via ConfigDetalhe). Em Conteúdo, "+ Nova aula" (vidro verde) abre /app/admin/aulas/nova sem tema; o da etapa já vem com tema e etapa; o cartão da direita só mostra detalhes. /nova e /novo abrem a janela por cima da lista.
 

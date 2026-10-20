@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom'
+import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { LogoOra } from '@/components/ui'
 import { useMeuPerfil, useRegistrarAcesso } from '@/features/auth'
 import { PrimeiroAcesso } from '@/features/primeiro-acesso'
@@ -6,11 +6,15 @@ import { EscolhaAoAbrir } from '@/features/trilha'
 import { AbasDaSecao, BarraInferior, BarraLateral } from './NavegacaoAluna'
 import { textosAluna as t } from './textosAluna'
 
-/** Área da aluna: barra lateral no computador, barra fixa embaixo no celular, e o primeiro acesso. */
+/** Área da aluna: barra lateral no computador, barra fixa embaixo no celular, e o primeiro acesso.
+ * Conta de profissional vai direto para o painel; daqui só abre a prévia (Ver como aluna do painel). */
 export function LayoutAluna() {
   const perfil = useMeuPerfil()
+  const { pathname } = useLocation()
   useRegistrarAcesso()
   const p = perfil.data
+  if (p?.papel === 'admin' && !pathname.startsWith('/app/previa'))
+    return <Navigate to="/app/admin" replace />
   const falta = p && p.papel !== 'admin' && (!p.apelido || !p.consentimento_saude_em)
   return (
     <div className="min-h-dvh bg-white text-tinta">

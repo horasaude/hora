@@ -1,7 +1,6 @@
 // Textos do Início. Os componentes só leem daqui.
 
 export const textos = {
-  painel: 'Painel das profissionais',
   aula: { titulo: 'Aula de hoje', abrir: (t: string) => `Abrir a aula de hoje: ${t}` },
   resumo: {
     pontos: 'pontos no mês',

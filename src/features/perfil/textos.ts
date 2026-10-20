@@ -7,7 +7,6 @@ export const textos = {
     botao: 'Indicar',
   },
   titulo: 'Perfil',
-  painel: 'Painel das profissionais',
   carregando: 'Carregando',
   erro: 'Não foi possível carregar.',
   erroSalvar: 'Não deu certo agora. Tente de novo.',

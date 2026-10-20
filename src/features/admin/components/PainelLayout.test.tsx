@@ -1,12 +1,15 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { cleanup, render, screen } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { usePapel } from '@/features/auth'
 import { PainelLayout } from './PainelLayout'
 
+const { sairMock } = vi.hoisted(() => ({ sairMock: vi.fn() }))
+
 vi.mock('@/features/auth', () => ({
   usePapel: vi.fn(),
   useNome: () => ({ data: 'Ana Milhomem' }),
+  useSair: () => ({ mutate: sairMock, isPending: false }),
 }))
 
 function abrir(papel: string | null) {
@@ -44,5 +47,8 @@ describe('PainelLayout', () => {
     for (const aba of ['Conteúdo', 'Lives', 'Avisos']) {
       expect(screen.getByRole('link', { name: aba })).toBeInTheDocument()
     }
+    expect(screen.queryByText(/área da aluna/i)).not.toBeInTheDocument()
+    fireEvent.click(screen.getAllByRole('button', { name: 'Sair da conta' })[0]!)
+    expect(sairMock).toHaveBeenCalled()
   })
 })
