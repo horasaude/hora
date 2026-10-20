@@ -30,16 +30,14 @@ function Opcao({
   )
 }
 
-/** Primeiro acesso aos treinos: dois passos, nível e depois local, em cartões grandes. */
-export function EscolhaNivelLocal({ aoFechar }: { aoFechar?: () => void }) {
+/** Primeiro acesso aos treinos: dois passos, nível e depois local, em cartões grandes. Fechar sem escolher sai dos treinos. */
+export function EscolhaNivelLocal({ aoFechar }: { aoFechar: () => void }) {
   const [passo, setPasso] = useState<1 | 2>(1)
   const [nivel, setNivel] = useState<Nivel | null>(null)
   const [local, setLocal] = useState<Local | null>(null)
   const salvar = useSalvarPreferencias()
   const concluir = () =>
-    nivel &&
-    local &&
-    salvar.mutate({ treino_nivel: nivel, treino_local: local }, { onSuccess: () => aoFechar?.() })
+    nivel && local && salvar.mutate({ treino_nivel: nivel, treino_local: local })
   const rodape =
     passo === 1 ? (
       <BotaoBrilho tom="coral" disabled={!nivel} onClick={() => setPasso(2)}>
@@ -56,7 +54,7 @@ export function EscolhaNivelLocal({ aoFechar }: { aoFechar?: () => void }) {
       </>
     )
   return (
-    <Janela titulo={t.titulo} aoFechar={aoFechar ?? (() => undefined)} rodape={rodape}>
+    <Janela titulo={t.titulo} aoFechar={aoFechar} rodape={rodape}>
       <div className="flex flex-col gap-4 font-sistema">
         <h2 className="text-xl font-bold text-verde-escuro">{passo === 1 ? t.nivel : t.local}</h2>
         <div className="grid gap-3">

@@ -1,4 +1,4 @@
-// Navegação da aluna: 5 abas (seções) e as telas de cada uma. As rotas não mudam, só são agrupadas.
+// Navegação da aluna: 6 abas (seções) e as telas de cada uma. As rotas não mudam, só são agrupadas.
 import type { NomeIcone } from './IconesNavegacao'
 import { textosAluna as t } from './textosAluna'
 
@@ -46,8 +46,13 @@ export const SECOES: Secao[] = [
     telas: [
       { para: '/app/lives', nome: t.nav.lives, cor: 'bg-dourado', dourada: true },
       { para: '/app/forum', nome: t.nav.forum, cor: 'bg-[#e0a48f]' },
-      { para: '/app/loja', nome: t.nav.loja, cor: 'bg-[#d9b56a]' },
     ],
+  },
+  {
+    id: 'loja',
+    nome: t.nav.loja,
+    icone: 'loja',
+    telas: [{ para: '/app/loja', nome: t.nav.loja, cor: 'bg-[#d9b56a]' }],
   },
   {
     id: 'perfil',

@@ -22,12 +22,12 @@ function useNavegacao() {
   return { secao: secaoAtiva(pathname), tela: telaAtiva(pathname), live }
 }
 
-/** Celular: barra fixa embaixo com as 5 abas; a ativa em verde ORA. */
+/** Celular: barra fixa embaixo com as 6 abas; a ativa em verde ORA. */
 export function BarraInferior() {
   const { secao, live } = useNavegacao()
   return (
     <nav className="fixed inset-x-0 bottom-0 z-20 border-t border-linha bg-white pb-[env(safe-area-inset-bottom)] lg:hidden">
-      <ul className="mx-auto grid max-w-xl grid-cols-5">
+      <ul className="mx-auto grid max-w-xl grid-cols-6">
         {SECOES.map((s) => {
           const ativa = s.id === secao?.id
           return (
@@ -35,7 +35,7 @@ export function BarraInferior() {
               <Link
                 to={destino(s)}
                 aria-current={ativa ? 'page' : undefined}
-                className="relative flex min-h-16 flex-col items-center justify-center gap-1 text-[0.68rem] font-semibold"
+                className="relative flex min-h-16 flex-col items-center justify-center gap-1 text-[0.62rem] font-semibold tracking-tight sm:text-[0.68rem]"
               >
                 <span
                   className={`grid h-9 w-11 place-items-center rounded-xl ${ativa ? 'brilho brilho-escuro' : 'text-suave'}`}
@@ -45,7 +45,9 @@ export function BarraInferior() {
                 {s.id === 'comunidade' && live && (
                   <PontoLive className="absolute top-2 right-[calc(50%-1.4rem)]" />
                 )}
-                <span className={ativa ? 'text-ora' : 'text-suave'}>{s.nome}</span>
+                <span className={`max-w-full truncate px-0.5 ${ativa ? 'text-ora' : 'text-suave'}`}>
+                  {s.nome}
+                </span>
               </Link>
             </li>
           )

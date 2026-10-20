@@ -173,7 +173,7 @@ Componentes do estilo (toda tela nova usa estes): BotaoBrilho, LinkBrilho, Etiqu
 
 ## Navegação da aluna
 
-5 abas em src/app/navegacao.ts (SECOES): Início; Trilhas (Temas /app/trilha, Cardápios /app/cardapios); Desafios (Desafio do mês /app/desafios, Ranking /app/ranking); Comunidade (Lives, Fórum, Loja); Perfil (Minha evolução, Minha conta). Barra de baixo (celular) e pílulas do topo em src/app/NavegacaoAluna.tsx. No computador, o menu lateral é uma lista simples (MENU_LATERAL em navegacao.ts: Início, Trilhas, Cardápios, Desafios, Ranking, Lives, Fórum, Loja, Minha evolução, Minha conta) com o mesmo ItemMenuLateral do painel (src/components/ui/MenuLateral.tsx); ativo em vidro verde, ponto dourado da live em Lives.
+6 abas em src/app/navegacao.ts (SECOES): Início; Trilhas (Temas /app/trilha, Cardápios /app/cardapios); Desafios (Desafio do mês /app/desafios, Ranking /app/ranking); Comunidade (Lives, Fórum); Loja; Perfil (Minha evolução, Minha conta). Barra de baixo (celular) e pílulas do topo em src/app/NavegacaoAluna.tsx. No computador, o menu lateral é uma lista simples (MENU_LATERAL em navegacao.ts: Início, Trilhas, Cardápios, Desafios, Ranking, Lives, Fórum, Loja, Minha evolução, Minha conta) com o mesmo ItemMenuLateral do painel (src/components/ui/MenuLateral.tsx); ativo em vidro verde, ponto dourado da live em Lives.
 
 ## Infraestrutura
 

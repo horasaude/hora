@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Abas } from '@/components/ui'
 import { useMeuPerfil } from '@/features/auth'
 import { AvisoAnamnese } from '@/features/avaliacoes'
@@ -88,6 +89,7 @@ export function TreinosPage() {
   const prefs = usePreferencias()
   const perfil = useMeuPerfil()
   const previa = usePreviaTreinos()
+  const navegar = useNavigate()
   const [aba, setAba] = useState<Aba>('musculacao')
   if (prefs.isPending || perfil.isPending) return <Estado tipo="carregando" />
   if (prefs.isError) return <Estado tipo="erro" tentar={() => prefs.refetch()} />
@@ -104,7 +106,7 @@ export function TreinosPage() {
           <Conteudo nivel={nivel} local={local} aba={aba} />
         </>
       ) : (
-        <EscolhaNivelLocal />
+        <EscolhaNivelLocal aoFechar={() => navegar('/app')} />
       )}
     </section>
   )

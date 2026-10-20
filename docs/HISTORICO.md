@@ -2,6 +2,11 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-20 · main · Loja na barra de baixo e X da escolha de treino
+
+- Loja virou a 6ª aba da barra da aluna no celular (saiu de Comunidade); rótulos menores para caber em 360 px.
+- Escolha de nível e local do treino: o X agora fecha (volta para o Início); antes não fazia nada.
+
 ## 2026-10-20 · main · Sem jejum, Venci o dia automático, excluir ação, conta de desenvolvedora
 
 - Jejum intermitente saiu do quadro da semana e das regras de pontos (migração 20261101100000_venci_automatico_sem_jejum.sql).
