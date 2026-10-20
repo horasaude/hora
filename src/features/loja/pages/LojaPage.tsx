@@ -34,20 +34,20 @@ function Filtro({
       type="button"
       aria-pressed={valor === c}
       onClick={() => aoMudar(c)}
-      className={`min-h-9 rounded-full px-4 text-[13px] font-bold transition ${valor === c ? 'brilho brilho-verde' : 'brilho brilho-cinza'}`}
+      className={`min-h-9 shrink-0 rounded-full px-4 text-[13px] font-bold transition ${valor === c ? 'brilho brilho-verde' : 'brilho brilho-cinza'}`}
     >
       {nome}
     </button>
   )
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-1 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:px-0">
       {botao('', t.todas)}
       {ativas.map((c) => botao(c, CATEGORIAS_LOJA[c]))}
     </div>
   )
 }
 
-/** Vitrine da aluna: faixa do parceiro, filtro por categoria e a grade (3 no computador, 2 no celular). */
+/** Vitrine da aluna: faixa do parceiro, filtro que desliza no celular e a grade (2 no celular, 4 no computador). */
 export function LojaPage() {
   const vitrine = useVitrine()
   const [cat, setCat] = useState<CategoriaLoja | ''>('')
@@ -74,7 +74,7 @@ export function LojaPage() {
           {visiveis.length === 0 ? (
             <EstadoLoja tipo="aviso" texto={t.vazio} />
           ) : (
-            <ul className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 lg:gap-6">
+            <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 lg:gap-5">
               {visiveis.map((p) => (
                 <li key={p.id}>
                   <CartaoProduto p={p} />
