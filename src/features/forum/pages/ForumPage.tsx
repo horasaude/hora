@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { BotaoBrilho } from '@/components/ui'
 import { CATEGORIAS, ehCategoria, type Categoria } from '@/domain/forum'
 import { Conteudo } from '../components/Conteudo'
-import { CartaoDuvida } from '../components/Duvida'
+import { CartaoDuvida } from '../components/CartaoDuvida'
 import { EnviarDuvida } from '../components/EnviarDuvida'
 import { RegrasJanela } from '../components/RegrasJanela'
 import { useDuvidas } from '../hooks/useForum'
@@ -70,19 +70,16 @@ export function ForumPage() {
   return (
     <section className="flex flex-col gap-5 lg:gap-6">
       <header className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-[28px] leading-tight font-bold text-verde-escuro lg:text-[30px]">
+        <h1 className="text-[28px] leading-tight font-bold text-verde-escuro max-lg:sr-only lg:text-[30px]">
           {t.titulo}
         </h1>
-        <div className="flex flex-col items-start gap-1 sm:items-end">
-          <EnviarDuvida />
-          <p className="text-xs text-suave">{t.prazo}</p>
-        </div>
+        <EnviarDuvida />
       </header>
       <Filtros {...{ busca, setBusca, cat, setCat, minhas, setMinhas }} />
       <Conteudo consulta={lista} itens={lista.data} vazio={t.vazio}>
         {(itens) => (
           <>
-            <ul className="grid gap-4 lg:grid-cols-2">
+            <ul className="grid gap-3 lg:grid-cols-2 lg:gap-4">
               {itens.map((d) => (
                 <li key={d.id}>
                   <CartaoDuvida d={d} />

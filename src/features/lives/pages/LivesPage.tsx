@@ -42,8 +42,8 @@ export function LivesPage() {
   const passadas = todas.filter((l) => encerrada(l, agora)).reverse()
   const [proxima, ...depois] = futuras
   return (
-    <section className="flex flex-col gap-6 lg:gap-8">
-      <h1 className="text-[28px] leading-tight font-bold text-verde-escuro lg:text-[30px]">
+    <section className="flex flex-col gap-5 lg:gap-8">
+      <h1 className="text-[28px] leading-tight font-bold text-verde-escuro max-lg:sr-only lg:text-[30px]">
         {textos.titulo}
       </h1>
       {lives.isPending ? (

@@ -3,6 +3,7 @@ import { BotaoBrilho, Janela } from '@/components/ui'
 import { CATEGORIAS, ehCategoria, type Categoria } from '@/domain/forum'
 import { perguntar } from '../api/forum.api'
 import { useAcaoForum } from '../hooks/useForum'
+import { IconePergunta } from './IconesForum'
 import { textos as t } from '../textos'
 
 const campo = 'rounded-xl border border-linha bg-white px-4 focus:border-ora focus:outline-none'
@@ -66,9 +67,16 @@ export function EnviarDuvida({ aula }: { aula?: string }) {
   const id = useId()
   return (
     <>
-      <BotaoBrilho tom="coral" onClick={() => setAberta(true)}>
-        {aula ? t.tenhoDuvida : t.enviar}
-      </BotaoBrilho>
+      {aula ? (
+        <BotaoBrilho tom="coral" onClick={() => setAberta(true)}>
+          {t.tenhoDuvida}
+        </BotaoBrilho>
+      ) : (
+        <BotaoBrilho tom="escuro" className="w-full sm:w-auto" onClick={() => setAberta(true)}>
+          <IconePergunta />
+          {t.fazerPergunta}
+        </BotaoBrilho>
+      )}
       {aberta && (
         <Janela
           titulo={t.enviar}

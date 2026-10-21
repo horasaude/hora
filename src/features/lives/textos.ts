@@ -38,5 +38,9 @@ export const textos = {
   hoje: (hora: string) => `Live hoje às ${hora}`,
   faixa: (quando: string, tema: string) => `Live ${quando} · ${tema}`,
   com: (nome: string) => `com ${nome}`,
+  comMaiusculo: (nome: string) => `Com ${nome}`,
+  meet: 'Google Meet',
+  entrarCurto: (pontos?: number) => (pontos ? `Entrar · +${pontos}` : 'Entrar'),
+  abreAntes: 'A sala abre 30 minutos antes',
   duracao: (n: number) => `${n} min`,
 }

@@ -2,7 +2,10 @@
 
 export const textos = {
   titulo: 'Loja',
-  faixa: 'Descontos exclusivos para alunas ORA',
+  faixa: 'Desconto nas marcas parceiras',
+  exclusivo: 'Exclusivo da comunidade',
+  escolhidos: 'Produtos escolhidos pela equipe ORA.',
+  cupomOra: 'Cupom ORA',
   todas: 'Todos',
   vazio: 'Nenhum produto nesta categoria por enquanto.',
   semLoja: 'Os produtos dos parceiros aparecem aqui em breve.',

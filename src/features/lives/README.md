@@ -1,15 +1,15 @@
 # feature: lives
 
-Lives da aluna (/app/lives) e o cartão de live do dia no Início.
+Lives da aluna (/app/lives) e o cartão de live do dia no Início. No celular, o título Comunidade e o seletor Lives | Fórum | Ranking vêm da moldura (src/app/NavegacaoAluna.tsx, Segmento de src/components/ui); o título Lives só aparece no computador.
 
-| Arquivo                    | Faz                                                                                                    |
-| -------------------------- | ------------------------------------------------------------------------------------------------------ |
-| pages/LivesPage.tsx        | Próxima live em destaque, outras agendadas e gravações                                                 |
-| components/ProximaLive.tsx | Borda dourada, foto e nome da profissional, data, contagem, Adicionar à agenda, Me lembrar             |
-| components/BotaoEntrar.tsx | "Entrar na live" (dourado) só de 30 min antes até o fim; fora disso, o horário                         |
-| components/Gravacoes.tsx   | Gravações: capa do painel (capa_url) ou foto da profissional em círculo sobre areia com play verde ORA |
-| components/LiveHoje.tsx    | Início: um aviso só (card dourado da live de hoje com Entrar, ou faixa ocre da próxima live)           |
-| api/lives.api.ts           | lives publicadas, lembretes, presenças e entrar_live                                                   |
+| Arquivo                    | Faz                                                                                                                                                                        |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| pages/LivesPage.tsx        | Próxima live em destaque, outras agendadas e gravações em lista                                                                                                            |
+| components/ProximaLive.tsx | Foto da profissional com dia e hora em coral; embaixo verde ORA: tema, Com Nome · Google Meet, data, contagem, Entrar · +pontos da regra, agenda (.ics) e sino do lembrete |
+| components/BotaoEntrar.tsx | "Entrar na live" (dourado) só de 30 min antes até o fim; fora disso, o horário (no destaque, o botão apagado)                                                              |
+| components/Gravacoes.tsx   | Gravações em lista: miniatura (capa do painel ou foto da profissional) com play, tema, profissional e data; Player.tsx abre o vídeo                                        |
+| components/LiveHoje.tsx    | Início: um aviso só (card dourado da live de hoje com Entrar, ou faixa ocre da próxima live)                                                                               |
+| api/lives.api.ts           | lives publicadas, lembretes, presenças e entrar_live                                                                                                                       |
 
 Pontos: entrar_live confere a janela no banco, registra a presença e dá os pontos da regra "Entrar na live" uma vez por live. Gravação não pontua.
 Agenda: .ics gerado no navegador (src/lib/ics.ts), com alarme 1 hora antes.

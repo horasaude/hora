@@ -74,10 +74,10 @@ export function LojaPage() {
           {visiveis.length === 0 ? (
             <EstadoLoja tipo="aviso" texto={t.vazio} />
           ) : (
-            <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 lg:gap-5">
-              {visiveis.map((p) => (
+            <ul className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 lg:gap-5">
+              {visiveis.map((p, i) => (
                 <li key={p.id}>
-                  <CartaoProduto p={p} />
+                  <CartaoProduto p={p} indice={i} />
                 </li>
               ))}
             </ul>

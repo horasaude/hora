@@ -6,15 +6,28 @@ import { textos as t } from '../textos'
 import { Denunciar } from './Denunciar'
 
 /** Foto da profissional; sem foto, a inicial do nome. */
-export function Avatar({ nome, foto }: { nome: string; foto?: string | null }) {
+export function Avatar({
+  nome,
+  foto,
+  pequeno = false,
+}: {
+  nome: string
+  foto?: string | null
+  pequeno?: boolean
+}) {
+  const tamanho = pequeno ? 'size-8' : 'size-10'
   if (foto)
     return (
-      <img src={fotoEquipe(foto)} alt="" className="size-10 shrink-0 rounded-full object-cover" />
+      <img
+        src={fotoEquipe(foto)}
+        alt=""
+        className={`${tamanho} shrink-0 rounded-full object-cover`}
+      />
     )
   return (
     <span
       aria-hidden
-      className="grid size-10 shrink-0 place-items-center rounded-full bg-terracota-suave text-sm font-bold text-terracota-escuro"
+      className={`grid ${tamanho} shrink-0 place-items-center rounded-full bg-terracota-suave text-sm font-bold text-terracota-escuro`}
     >
       {nome[0]?.toUpperCase()}
     </span>

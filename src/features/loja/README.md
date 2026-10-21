@@ -1,6 +1,6 @@
 # feature: loja
 
-Loja da aluna: /app/loja (faixa do parceiro, filtro por categoria, grade de 3 colunas no computador e 2 no celular, destaques primeiro) e /app/loja/:produtoId (foto grande, preços, descrição, cupom com Copiar cupom e Comprar com desconto, que abre o parceiro em nova aba e registra o clique). O banco só entrega produto publicado de parceiro ativo; as fotos vêm do espaço privado loja por link assinado.
+Loja da aluna: /app/loja (faixa terracota Exclusivo da comunidade com as marcas parceiras, cartões com foto quadrada, nome, descrição curta, etiqueta Cupom ORA e preços, filtro por categoria, grade de 3 colunas no computador e 2 no celular, destaques primeiro) e /app/loja/:produtoId (foto grande, preços, descrição, cupom com Copiar cupom e Comprar com desconto, que abre o parceiro em nova aba e registra o clique). O banco só entrega produto publicado de parceiro ativo; as fotos vêm do espaço privado loja por link assinado.
 
 | Arquivo                                                                    | Faz                                                         |
 | -------------------------------------------------------------------------- | ----------------------------------------------------------- |

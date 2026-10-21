@@ -2,15 +2,16 @@
 
 Ranking da aluna (/app/ranking) e o cartão do ranking no Início.
 
-| Arquivo                            | Faz                                                                                                                        |
-| ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| pages/RankingPage.tsx              | Abas Mês e Ano, cartão da posição dela e a lista                                                                           |
-| components/Podio.tsx               | Pódio do mês ou do ano: troféu no título, 2º, 1º e 3º com foto de perfil (espaço avatares) e coroinha ouro, prata e bronze |
-| components/MinhaPosicao.tsx        | Posição, pontos do período e quanto falta para subir uma posição                                                           |
-| components/ListaRanking.tsx        | Linhas com círculo de vidro; a dela em verde claro com "(você)", fixa no rodapé se sair da tela                            |
-| components/CirculoPosicao.tsx      | 1º dourado, 2º prata, 3º coral, demais cinza                                                                               |
-| components/CartaoRankingInicio.tsx | Início: "4º lugar" e "+10 pts no último treino"                                                                            |
-| api/ranking.api.ts                 | ranking_pontos (mes ou ano) e o último lançamento positivo dela                                                            |
+| Arquivo                            | Faz                                                                                                           |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| pages/RankingPage.tsx              | Abas Mês e Ano, pódio, quanto falta para subir, lista do 4º em diante e Como ganhar pontos                    |
+| components/Podio.tsx               | Pódio: 2º, 1º (mais alto, com coroa) e 3º, com foto ou inicial e base prata, dourada e terracota              |
+| components/ComoGanhar.tsx          | Como ganhar pontos: regras_pontos ligadas, na ordem do painel                                                 |
+| components/Inicial.tsx             | Foto de perfil ou inicial em círculo colorido                                                                 |
+| components/MinhaPosicao.tsx        | Linha curta: posição e quanto falta para subir uma posição                                                    |
+| components/ListaRanking.tsx        | Linhas com posição, foto ou inicial, nome e valor; a dela em verde com "Você", fixa no rodapé se sair da tela |
+| components/CartaoRankingInicio.tsx | Início: "4º lugar" e "+10 pts no último treino"                                                               |
+| api/ranking.api.ts                 | ranking_pontos (mes ou ano), o último lançamento positivo dela e as regras de pontos                          |
 
 O banco soma lancamentos_pontos do mês ou do ano (Brasília), só alunas; quem marcou "não aparecer" some para as outras e vê a própria posição. Peso e medidas nunca entram.
-Exporta (index.ts): RankingPage, CartaoRankingInicio, ListaRanking, useMinhaPosicao, useLugarNoPodio (coroinha na foto dela no Início e no Perfil), useRetratos.
+Exporta (index.ts): RankingPage, CartaoRankingInicio, ListaRanking, useMinhaPosicao, useLugarNoPodio (coroinha na foto dela no Início e no Perfil), useRetratos, useRegrasPontos e usePontosDaRegra (pontos de uma ação, ex.: Entrar · +75 nas lives).

@@ -10,8 +10,8 @@ import { ListaMedidas } from './ListaMedidas'
 
 const t = textos.evolucao
 
-/** Minha evolução: gráfico por medida, lista dos registros e o botão de registrar. */
-export function Evolucao() {
+/** Minha evolução: gráfico por medida, lista dos registros (comLista) e o botão de registrar. */
+export function Evolucao({ comLista = true }: { comLista?: boolean }) {
   const hoje = useHoje()
   const medidas = useMedidas()
   const [abrir, setAbrir] = useState(false)
@@ -64,7 +64,7 @@ export function Evolucao() {
           ) : (
             <p className="text-[13px] text-suave">{t.poucos}</p>
           )}
-          <ListaMedidas medidas={lista} />
+          {comLista && <ListaMedidas medidas={lista} />}
         </>
       )}
       {abrir && <JanelaMedida hoje={hoje} aoFechar={() => setAbrir(false)} />}

@@ -4,6 +4,8 @@ export const textos = {
   titulo: 'Fórum',
   daAula: 'Dúvidas desta aula',
   enviar: 'Enviar dúvida',
+  fazerPergunta: 'Fazer uma pergunta',
+  curtidas: 'Curtidas',
   tenhoDuvida: 'Tenho uma dúvida',
   enviando: 'Enviando',
   prazo: 'As profissionais respondem em até 72 horas.',

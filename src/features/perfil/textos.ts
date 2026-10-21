@@ -22,11 +22,50 @@ export const textos = {
   apelidoEmUso: 'Esse apelido já está em uso. Escolha outro.',
   fotoDe: (nome: string) => `Foto de ${nome}`,
   dia: (dia: number, semana: number) => `Dia ${dia} · Semana ${semana}`,
+  assinanteDesde: (mes: string) => `Assinante desde ${mes}`,
   resumo: {
     pontos: 'pontos no mês',
-    seguidos: 'dias seguidos',
-    aulas: 'aulas concluídas',
-    desafios: 'desafios completos',
+    peso: 'peso',
+    cintura: 'cintura',
+    variacao: (n: number | null, unidade: string) =>
+      n === null ? '-' : `${n > 0 ? '+' : ''}${n.toLocaleString('pt-BR')} ${unidade}`,
+    constancia: (seguidos: number, aulas: number, desafios: number) =>
+      [
+        seguidos === 1 ? '1 dia seguido' : `${seguidos} dias seguidos`,
+        aulas === 1 ? '1 aula concluída' : `${aulas} aulas concluídas`,
+        desafios === 1 ? '1 desafio completo' : `${desafios} desafios completos`,
+      ].join(' · '),
+  },
+  secoes: { evolucao: 'Minha evolução', antesDepois: 'Antes e depois' },
+  menu: {
+    rotulo: 'Mais opções',
+    avaliacoes: 'Avaliações',
+    indique: 'Indique e ganhe',
+    medidas: 'Minhas medidas',
+    instalar: 'Instalar o app',
+    conta: 'Minha conta',
+  },
+  instalar: {
+    titulo: 'Instalar o app no celular',
+    iphone: 'No iPhone (Safari)',
+    passosIphone: [
+      'Abra este site no Safari.',
+      'Toque no botão Compartilhar, o quadrado com a seta para cima.',
+      'Escolha "Adicionar à Tela de Início" e toque em Adicionar.',
+    ],
+    android: 'No Android (Chrome)',
+    passosAndroid: [
+      'Abra este site no Chrome.',
+      'Toque nos três pontinhos no canto de cima.',
+      'Escolha "Instalar app" ou "Adicionar à tela inicial".',
+    ],
+  },
+  indique: {
+    titulo: (pontos: number) =>
+      pontos > 0 ? `Traga uma amiga e ganhe ${pontos} pontos` : 'Traga uma amiga',
+    linha: 'Quando ela entrar pelo seu link e passar a garantia de 7 dias, os pontos caem na hora.',
+    voltar: 'Voltar para o perfil',
+    whatsapp: 'Mandar no WhatsApp',
   },
   indicar: {
     titulo: 'Indicar uma amiga',

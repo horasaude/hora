@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Cartao, EtiquetaBrilho } from '@/components/ui'
+import { EtiquetaBrilho } from '@/components/ui'
 import { CATEGORIAS, ehCategoria } from '@/domain/forum'
 import { formatarData } from '@/lib/datas'
 import type { Duvida } from '../api/forum.api'
@@ -26,22 +26,6 @@ export function CabecalhoDuvida({ d, linkAula }: { d: Duvida; linkAula?: string 
       <span aria-hidden>·</span>
       <span>{formatarData(new Date(d.created_at))}</span>
     </div>
-  )
-}
-
-/** Cartão da lista do fórum: abre a conversa. */
-export function CartaoDuvida({ d }: { d: Duvida }) {
-  return (
-    <Link to={`/app/forum/${d.id}`} aria-label={t.abrir(d.texto.slice(0, 60))}>
-      <Cartao className="flex h-full flex-col gap-3 transition hover:shadow-menu">
-        <CabecalhoDuvida d={d} />
-        <p className="line-clamp-3 text-[15px] leading-relaxed text-tinta">{d.texto}</p>
-        <div className="mt-auto flex items-center justify-between gap-2 text-[13px]">
-          <span className="text-suave">{t.respostas(d.total_respostas)}</span>
-          {d.respondida_em && <EtiquetaBrilho tom="verde">{t.respondida}</EtiquetaBrilho>}
-        </div>
-      </Cartao>
-    </Link>
   )
 }
 

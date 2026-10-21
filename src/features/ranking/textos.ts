@@ -5,6 +5,11 @@ export const textos = {
   abas: { mes: 'Mês', ano: 'Ano' },
   abasRotulo: 'Período do ranking',
   voce: '(você)',
+  voceLinha: 'Você',
+  comoGanhar: {
+    titulo: 'Como ganhar pontos',
+    pontos: (n: number) => `+${n.toLocaleString('pt-BR')}`,
+  },
   rodape: 'Ranking por apelido · peso nunca conta',
   carregando: 'Carregando o ranking',
   erro: 'Não foi possível carregar o ranking.',

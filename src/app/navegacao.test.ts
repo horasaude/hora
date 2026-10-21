@@ -17,6 +17,7 @@ describe('navegação da aluna', () => {
   it('a tela mais específica vence', () => {
     expect(telaAtiva('/app/perfil')?.nome).toBe('Minha evolução')
     expect(telaAtiva('/app/perfil/conta')?.nome).toBe('Minha conta')
+    expect(telaAtiva('/app/perfil/indique')?.nome).toBe('Minha evolução')
     expect(telaAtiva('/app/trilha/aula/1')?.nome).toBe('Comece por aqui')
   })
   it('o painel não é tela da aluna', () => {

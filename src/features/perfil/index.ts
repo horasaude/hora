@@ -1,4 +1,5 @@
 export { PerfilPage } from './pages/PerfilPage'
 export { ContaPage } from './pages/ContaPage'
+export { IndiquePage } from './pages/IndiquePage'
 export { Indicar } from './components/Indicar'
 export { ChamadaIndicar } from './components/ChamadaIndicar'

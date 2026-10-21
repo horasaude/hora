@@ -1,3 +1,6 @@
 export { Evolucao } from './components/Evolucao'
 export { JanelaMedida } from './components/JanelaMedida'
 export { useMedidas } from './hooks/useMedidas'
+export { AntesEDepois } from './components/AntesEDepois'
+export { JanelaMinhasMedidas } from './components/JanelaMinhasMedidas'
+export { useVariacao } from './hooks/useVariacao'

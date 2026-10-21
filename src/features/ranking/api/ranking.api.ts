@@ -26,6 +26,20 @@ export async function buscarUltimoPonto(): Promise<UltimoPonto | null> {
   return data
 }
 
+export type RegraPontos = { acao: string; nome: string; pontos: number }
+
+/** Regras de pontos ligadas, na ordem do painel (Como ganhar pontos). */
+export async function buscarRegras(): Promise<RegraPontos[]> {
+  const { data, error } = await supabase
+    .from('regras_pontos')
+    .select('acao, nome, pontos')
+    .eq('ativo', true)
+    .gt('pontos', 0)
+    .order('ordem')
+  if (error) throw error
+  return data ?? []
+}
+
 /** Links das fotos de perfil (espaço avatares, que a comunidade com acesso lê). */
 export async function linksDosRetratos(caminhos: (string | null | undefined)[]) {
   return linksDasFotos(

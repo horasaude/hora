@@ -54,7 +54,13 @@ export const SECOES: Secao[] = [
     nome: t.nav.perfil,
     icone: 'perfil',
     telas: [
-      { para: '/app/perfil', nome: t.nav.evolucao, cor: 'bg-[#b9a2c4]', exata: true },
+      {
+        para: '/app/perfil',
+        nome: t.nav.evolucao,
+        cor: 'bg-[#b9a2c4]',
+        exata: true,
+        tambem: ['/app/perfil/indique'],
+      },
       { para: '/app/perfil/conta', nome: t.nav.conta, cor: 'bg-[#8fa7c0]' },
     ],
   },

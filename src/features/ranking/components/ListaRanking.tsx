@@ -1,20 +1,29 @@
 import { useEffect, useRef, useState } from 'react'
 import { textos } from '../textos'
-import { CirculoPosicao } from './CirculoPosicao'
+import { Inicial } from './Inicial'
 
-export type Linha = { posicao: number; apelido: string; eu: boolean; valor: string }
+export type Linha = {
+  posicao: number
+  apelido: string
+  eu: boolean
+  valor: string
+  foto?: string | null
+}
 
 function LinhaItem({ l }: { l: Linha }) {
   return (
     <div
-      className={`flex min-h-14 items-center gap-3 rounded-[16px] border px-4 ${l.eu ? 'border-salvia bg-salvia-suave' : 'border-linha bg-white'}`}
+      className={`flex min-h-14 items-center gap-3 rounded-[16px] border px-3 py-2.5 ${l.eu ? 'border-verde-vivo bg-[#e2f4eb]' : 'border-linha bg-white'}`}
     >
-      <CirculoPosicao posicao={l.posicao} />
-      <span className="min-w-0 flex-1 truncate text-[15px] text-tinta">
-        {l.apelido}
-        {l.eu && <span className="font-bold"> {textos.voce}</span>}
+      <span className="w-6 shrink-0 text-center text-[15px] font-extrabold text-suave">
+        {l.posicao}
       </span>
-      <span className="text-[15px] font-bold text-verde-escuro">{l.valor}</span>
+      <Inicial nome={l.apelido} foto={l.foto} posicao={l.posicao} />
+      <span className="min-w-0 flex-1 truncate text-[15px] font-bold text-tinta">
+        {l.eu ? textos.voceLinha : l.apelido}
+        {l.eu && <span className="sr-only"> ({l.apelido})</span>}
+      </span>
+      <span className="text-[15px] font-bold text-tinta">{l.valor}</span>
     </div>
   )
 }
@@ -35,7 +44,7 @@ function useForaDaTela() {
   return { ref, fora }
 }
 
-/** Lista do ranking: a linha dela em verde claro e, se sair da tela, fixa no rodapé da lista. */
+/** Lista do ranking: a linha dela em verde e, se sair da tela, fixa no rodapé da lista. */
 export function ListaRanking({ linhas, rotulo }: { linhas: Linha[]; rotulo: string }) {
   const { ref, fora } = useForaDaTela()
   const eu = linhas.find((l) => l.eu)

@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { podio } from '@/domain/engajamento'
 import {
   buscarRanking,
+  buscarRegras,
   buscarUltimoPonto,
   linksDosRetratos,
   type Periodo,
@@ -15,6 +16,13 @@ export function useMinhaPosicao(periodo: Periodo = 'mes') {
   const q = useRanking(periodo)
   return { ...q, eu: q.data?.find((l) => l.eu) }
 }
+
+export const useRegrasPontos = () =>
+  useQuery({ queryKey: ['regras-pontos'], queryFn: buscarRegras, staleTime: 10 * 60_000 })
+
+/** Pontos de uma ação pela regra ligada (undefined enquanto carrega ou sem regra). */
+export const usePontosDaRegra = (acao: string) =>
+  useRegrasPontos().data?.find((r) => r.acao === acao)?.pontos
 
 export const useUltimoPonto = () =>
   useQuery({ queryKey: ['ultimo-ponto'], queryFn: buscarUltimoPonto })

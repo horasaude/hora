@@ -1,8 +1,8 @@
 import { Link, useLocation } from 'react-router-dom'
-import { ItemMenuLateral, LogoOra } from '@/components/ui'
+import { ItemMenuLateral, LogoOra, Segmento } from '@/components/ui'
 import { useTemLiveHoje } from '@/features/lives'
 import { IconeNavegacao } from './IconesNavegacao'
-import { destino, MENU_LATERAL, SECOES, secaoAtiva, telaAtiva } from './navegacao'
+import { destino, MENU_LATERAL, SECOES, secaoAtiva, telaAtiva, type Secao } from './navegacao'
 import { textosAluna as t } from './textosAluna'
 
 /** Ponto dourado que pulsa quando há live hoje. */
@@ -91,6 +91,8 @@ export function BarraLateral({ nome }: { nome: string }) {
 export function AbasDaSecao() {
   const { secao, tela, live } = useNavegacao()
   if (!secao || secao.telas.length < 2) return null
+  if (secao.id === 'comunidade')
+    return <TopoComunidade secao={secao} ativa={tela?.para} live={live} />
   return (
     <nav
       aria-label={secao.nome}
@@ -116,5 +118,23 @@ export function AbasDaSecao() {
         )
       })}
     </nav>
+  )
+}
+
+/** Comunidade no celular: o título da seção e o seletor Lives | Fórum | Ranking. */
+function TopoComunidade({ secao, ativa, live }: { secao: Secao; ativa?: string; live: boolean }) {
+  return (
+    <div className="mb-6 flex flex-col gap-4 lg:hidden">
+      <p className="text-[28px] leading-tight font-bold text-verde-escuro">{secao.nome}</p>
+      <Segmento
+        rotulo={secao.nome}
+        ativa={ativa}
+        opcoes={secao.telas.map((x) => ({
+          para: x.para,
+          nome: x.nome,
+          extra: x.dourada && live ? <PontoLive /> : undefined,
+        }))}
+      />
+    </div>
   )
 }
