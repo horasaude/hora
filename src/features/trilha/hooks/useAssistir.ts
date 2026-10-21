@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import {
   assistiuOSuficiente,
+  juntarTrechos,
   pausar,
   pontoDeRetomada,
   registrarTempo,
@@ -84,10 +85,12 @@ export function useAssistir({ aula, gravar, aoConcluir }: Opcoes) {
       ler: () => {
         const p = player.current
         if (!p) return
-        if (p.getPlayerState() === ESTADO_YT.tocando) {
-          estado.current = registrarTempo(estado.current, p.getCurrentTime())
+        const situacao = p.getPlayerState()
+        if (situacao === ESTADO_YT.tocando || situacao === ESTADO_YT.terminou) {
+          estado.current = registrarTempo(estado.current, p.getCurrentTime(), Date.now())
           mudou.current = true
-        } else estado.current = pausar(estado.current)
+        }
+        if (situacao !== ESTADO_YT.tocando) estado.current = pausar(estado.current)
         if (assistiuOSuficiente(estado.current.trechos, p.getDuration())) aoConcluir()
       },
       guardar: () => {
@@ -107,7 +110,11 @@ export function useAssistir({ aula, gravar, aoConcluir }: Opcoes) {
   }, [aula, gravar, aoConcluir, player])
 
   useEffect(() => {
-    if (salvo) estado.current = { trechos: salvo.trechos, ultimo: null }
+    if (salvo)
+      estado.current = {
+        ...estado.current,
+        trechos: juntarTrechos(estado.current.trechos, salvo.trechos),
+      }
   }, [salvo])
 
   useEffect(() => {

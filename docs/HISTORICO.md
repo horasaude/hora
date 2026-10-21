@@ -2,6 +2,14 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-21 · main · Aula: check automático com o vídeo em tela cheia no celular
+
+- No banco, a aula 2 da aluna de teste tinha só [109,112] de 119 s contados (e o mesmo padrão em outras contas): em tela cheia no celular o navegador espaça as leituras do player, e a regra recusava avanço maior que 3 s entre leituras (tratava como pulo). Só contava quando a tela cheia fechava, no fim.
+- Agora o avanço do vídeo é comparado com o tempo do relógio entre as leituras (até 2x, mais 1 s; nunca menos que 3 s): assistir em sequência conta mesmo com leituras espaçadas, e pulo para a frente continua não contando. O fim do vídeo (estado terminou) também registra o último trecho.
+- O progresso que chega do banco soma aos trechos já contados na tela, em vez de substituir.
+- buscarProgresso, aulaConcluida e o contador do perfil filtram pela própria conta (a equipe lê as de todas e, vendo como aluna, misturava).
+- Conferido num teste local com o VideoYoutube real: trocar de aula sem recarregar continua ligando o player e contando o tempo.
+
 ## 2026-10-21 · main · Área da aluna no layout do protótipo da apresentação
 
 - A dona aprovou o protótipo da apresentação do evento (~/ora-apresentacao, publicado à parte) e pediu o app igual: disposição, ordem e interações do protótipo; fonte Arial e botões do sistema (login segue Playfair + Montserrat).

@@ -82,10 +82,12 @@ export type ProgressoVideo = { trechos: [number, number][]; posicao: number; dur
 
 /** Onde a aluna parou no vídeo e os trechos que ela já assistiu. */
 export async function buscarProgresso(aula: string): Promise<ProgressoVideo | null> {
+  const { data: sessao } = await supabase.auth.getSession()
   const { data, error } = await supabase
     .from('aulas_progresso')
     .select('trechos, posicao, duracao')
     .eq('aula_id', aula)
+    .eq('perfil_id', sessao.session?.user.id ?? '')
     .maybeSingle()
   if (error) throw error
   if (!data) return null

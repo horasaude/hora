@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
   assistiuOSuficiente,
+  juntarTrechos,
   lerTrechos,
   pausar,
   pontoDeRetomada,
@@ -58,6 +59,27 @@ describe('tempo assistido', () => {
     expect(segundosAssistidos(a.trechos)).toBe(4)
     a = registrarTempo(a, 30)
     expect(segundosAssistidos(a.trechos)).toBe(4)
+  })
+
+  it('celular em tela cheia: leituras espaçadas contam pelo tempo do relógio', () => {
+    let a = registrarTempo(inicio, 0, 0)
+    a = registrarTempo(a, 40, 40_000)
+    a = registrarTempo(a, 119, 119_500)
+    expect(segundosAssistidos(a.trechos)).toBe(119)
+  })
+
+  it('com o relógio, pulo para a frente continua não contando', () => {
+    let a = registrarTempo(inicio, 0, 0)
+    a = registrarTempo(a, 1, 1000)
+    a = registrarTempo(a, 100, 2000)
+    expect(segundosAssistidos(a.trechos)).toBe(1)
+  })
+
+  it('o progresso do banco soma ao que já foi contado na tela', () => {
+    expect(juntarTrechos([[100, 112]], [[0, 50]])).toEqual([
+      [0, 50],
+      [100, 112],
+    ])
   })
 
   it('sem duração conhecida não conclui', () => {
