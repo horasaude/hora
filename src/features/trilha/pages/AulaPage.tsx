@@ -1,14 +1,15 @@
 import { useParams } from 'react-router-dom'
-import { LinkBrilho } from '@/components/ui'
 import { DuvidasDaAula } from '@/features/forum'
 import { sanitizarHtml, textoParaHtml } from '@/lib/html'
 import { idDoYoutube, linkDeIncorporacao } from '@/lib/video'
 import type { AulaAberta } from '../api/trilha.api'
+import { CabecalhoAula } from '../components/CabecalhoAula'
 import { Concluir } from '../components/Concluir'
 import { VideoYoutube } from '../components/VideoYoutube'
 import { useConclusao, type Conclusao } from '../hooks/useConclusao'
 import { MateriaisDaAula } from '../components/MateriaisDaAula'
 import { EstadoAluna } from '../components/EstadoAluna'
+import { LinkVoltar } from '../components/TopoVoltar'
 import { aulasDaMesmaLista } from '@/domain/trilha'
 import { NavegacaoAulas, ProximaAula } from '../components/NavegacaoAulas'
 import { useAula, useTrilha } from '../hooks/useTrilha'
@@ -44,18 +45,6 @@ function Video({ aula, c, gravar }: { aula: AulaAberta; c: Conclusao; gravar: bo
   )
 }
 
-function Cabecalho({ a }: { a: AulaAberta }) {
-  const detalhe = [a.profissional, a.duracao_minutos && textos.minutos(a.duracao_minutos)]
-    .filter(Boolean)
-    .join(' · ')
-  return (
-    <header>
-      <h1 className="text-[26px] leading-tight font-bold text-verde-escuro">{a.titulo}</h1>
-      {detalhe && <p className="mt-1 text-sm text-suave">{detalhe}</p>}
-    </header>
-  )
-}
-
 /** Descrição feita no editor do painel (negrito, listas, links); texto antigo sem marcação mantém as quebras. */
 function Descricao({ html }: { html: string }) {
   return (
@@ -82,14 +71,11 @@ function ConteudoDaAula({ aulaId }: { aulaId: string }) {
   const linkTema = useLinkTema()
   const tema = trilha?.temas.find((x) => x.aulas.some((y) => y.id === aulaId))
   const voltar = (
-    <LinkBrilho
-      to={tema ? linkTema(tema.id) : previa ? `/app/previa${previa.sufixo}` : '/app/trilha'}
-      tom="cinza"
-      tamanho="sm"
-      className="self-start"
+    <LinkVoltar
+      para={tema ? linkTema(tema.id) : previa ? `/app/previa${previa.sufixo}` : '/app/trilha'}
     >
       {t.voltar}
-    </LinkBrilho>
+    </LinkVoltar>
   )
   if (aula.isPending) return <EstadoAluna tipo="carregando" />
   if (aula.isError) return <EstadoAluna tipo="erro" tentar={() => aula.refetch()} />
@@ -101,27 +87,29 @@ function ConteudoDaAula({ aulaId }: { aulaId: string }) {
       </section>
     )
   const a = aula.data
+  const youtube = idDoYoutube(a.video_url) !== null
+  const numero = (tema?.aulas.findIndex((x) => x.id === a.id) ?? -1) + 1
   return (
     <article className="flex flex-col gap-5">
       {voltar}
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-start lg:gap-10">
         <div className="flex flex-col gap-5">
           <Video key={a.id} aula={a} c={conclusao} gravar={!previa} />
-          <Cabecalho a={a} />
-          <div className="flex flex-wrap items-center gap-3">
-            <Concluir c={conclusao} automatico={idDoYoutube(a.video_url) !== null} />
-            <ProximaAula aulas={lista} id={a.id} />
+          <CabecalhoAula a={a} tema={tema?.titulo} numero={numero} />
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-3">
+              <Concluir c={conclusao} automatico={youtube} />
+              <ProximaAula aulas={lista} id={a.id} />
+            </div>
+            {youtube && !conclusao.concluida && (
+              <p className="text-[13px] text-suave">{t.dicaVideo}</p>
+            )}
           </div>
           {a.descricao && <Descricao html={a.descricao} />}
-          <div className="lg:hidden">
-            <MateriaisDaAula aula={a.id} />
-          </div>
+          <MateriaisDaAula aula={a.id} />
           {!previa && <DuvidasDaAula aula={a.id} />}
         </div>
         <aside className="flex flex-col gap-5 lg:sticky lg:top-8">
-          <div className="hidden lg:block">
-            <MateriaisDaAula aula={a.id} />
-          </div>
           <NavegacaoAulas aulas={lista} id={a.id} />
         </aside>
       </div>

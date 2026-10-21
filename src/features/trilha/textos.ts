@@ -6,15 +6,6 @@ export const textos = {
   erro: 'Não foi possível carregar. Tente de novo.',
   tentar: 'Tentar de novo',
   semAcesso: 'Seu acesso começa assim que o pagamento for confirmado.',
-  dia: (dia: number, total: number) => `Dia ${dia} de ${total}`,
-  progresso: (pct: number, faltam: number) =>
-    `${pct}% do tema` +
-    (faltam === 0
-      ? ' · tema completo'
-      : faltam === 1
-        ? ' · falta 1 aula'
-        : ` · faltam ${faltam} aulas`),
-  rotuloProgresso: 'Progresso do tema',
   minutos: (n: number) => `${n} min`,
   diaN: (n: number) => `Dia ${n}`,
   concluida: 'Concluída',
@@ -68,9 +59,13 @@ export const textos = {
   },
   sequencia: {
     titulo: 'Comece por aqui',
+    linha: 'Um tema de cada vez. O próximo abre sozinho no dia certo.',
+    aulasEDias: (feitas: number, total: number, dias: number) =>
+      `${feitas} de ${total} ${total === 1 ? 'aula' : 'aulas'} · ${dias} ${dias === 1 ? 'dia' : 'dias'}`,
+    abreNoDia: (n: number) => `Abre no dia ${n}`,
+    abertoEtiqueta: 'Aberto',
+    voltarRotulo: 'Voltar',
     temaN: (n: number) => `Tema ${n}`,
-    aberto: (aulas: number) => (aulas === 1 ? 'Aberto · 1 aula' : `Aberto · ${aulas} aulas`),
-    feitas: (feitas: number, total: number) => `${feitas} de ${total} aulas concluídas`,
     abreEm: (n: number) => (n === 1 ? 'Abre amanhã' : `Abre em ${n} dias`),
     emBreve: 'Em breve',
     abrir: (titulo: string) => `Abrir o tema ${titulo}`,
@@ -100,7 +95,7 @@ export const textos = {
     treinos: 'Ver Treinos',
   },
   materiais: {
-    titulo: 'Arquivos da aula',
+    titulo: 'Materiais da aula',
     comece: 'Arquivos',
     vazioTema: 'Os materiais deste tema aparecem aqui em breve.',
     baixar: 'Baixar',
@@ -119,5 +114,8 @@ export const textos = {
     erroMarcar: 'Não foi possível salvar. Tente de novo.',
     semVideo: 'Não foi possível mostrar este vídeo.',
     navegacao: 'Aulas da etapa',
+    temaEAula: (tema: string, n: number) => `${tema} · Aula ${n}`,
+    com: (profissional: string) => `Com ${profissional}`,
+    dicaVideo: 'Assistiu o vídeo até o fim? O check aparece sozinho.',
   },
 }

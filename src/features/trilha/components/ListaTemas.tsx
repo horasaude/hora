@@ -1,50 +1,50 @@
 import { Link } from 'react-router-dom'
-import { IconeCadeado } from '@/components/ui'
-import { diasParaAbrir, progresso, type TemaTrilha } from '@/domain/trilha'
+import { EtiquetaBrilho, IconeCadeado, IconePlay } from '@/components/ui'
+import { diasParaAbrir, type TemaTrilha } from '@/domain/trilha'
 import { urlCapa } from '@/lib/capas'
 import { useLinkTema } from '../previa'
 import { textos } from '../textos'
 import { CapaAutomatica } from './CapaAutomatica'
+import { IconeRelogio } from './IconesTrilha'
 
 const t = textos.sequencia
 
-function Situacao({ tema, dia }: { tema: TemaTrilha; dia: number }) {
-  if (tema.em_breve)
+/** Faixa branca embaixo da capa: aulas e dias do tema aberto, ou quando abre, com a etiqueta. */
+function Situacao({ tema, dia, proximo }: { tema: TemaTrilha; dia: number; proximo: boolean }) {
+  if (tema.aberto) {
+    const feitas = tema.aulas.filter((a) => a.concluida).length
     return (
-      <span className="inline-flex items-center gap-1.5 text-[13px] text-suave">
-        <IconeCadeado className="size-3.5" />
-        {t.emBreve}
-      </span>
-    )
-  if (!tema.aberto)
-    return (
-      <span className="inline-flex items-center gap-1.5 text-[13px] text-suave">
-        <IconeCadeado className="size-3.5" />
-        {t.abreEm(diasParaAbrir(tema, dia))}
-      </span>
-    )
-  const feitas = tema.aulas.filter((a) => a.concluida).length
-  if (feitas > 0)
-    return (
-      <span className="flex flex-col gap-1.5">
-        <span className="text-[13px] font-bold text-verde-vivo">
-          {t.feitas(feitas, tema.aulas.length)}
+      <>
+        <span className="text-[13px] font-bold text-tinta">
+          {t.aulasEDias(feitas, tema.aulas.length, tema.dias)}
         </span>
-        <span className="h-1.5 overflow-hidden rounded-full bg-trilho">
-          <span
-            className="block h-full rounded-full bg-verde-vivo"
-            style={{ width: `${progresso(tema.aulas)}%` }}
-          />
-        </span>
-      </span>
+        <EtiquetaBrilho tom="verde">
+          <IconePlay className="mr-1 size-2.5" />
+          {t.abertoEtiqueta}
+        </EtiquetaBrilho>
+      </>
     )
+  }
+  const quando = tema.em_breve
+    ? ''
+    : proximo
+      ? t.abreEm(diasParaAbrir(tema, dia))
+      : t.abreNoDia(tema.inicio)
   return (
-    <span className="text-[13px] font-bold text-verde-vivo">{t.aberto(tema.aulas.length)}</span>
+    <>
+      <span className="text-[13px] text-suave">{quando}</span>
+      <EtiquetaBrilho tom="cinza">
+        <IconeRelogio className="mr-1 size-3" />
+        {t.emBreve}
+      </EtiquetaBrilho>
+    </>
   )
 }
 
-/** Cartão do tema: capa com o nome escrito, frase e se está aberto ou quando abre. */
-function CartaoTema({ tema, dia }: { tema: TemaTrilha; dia: number }) {
+type Cartao = { tema: TemaTrilha; dia: number; proximo: boolean }
+
+/** Cartão do tema: capa 16:9 com o nome escrito e, embaixo, se está aberto ou quando abre. */
+function CartaoTema({ tema, dia, proximo }: Cartao) {
   const link = useLinkTema()
   const capa = urlCapa(tema.capa)
   return (
@@ -52,7 +52,7 @@ function CartaoTema({ tema, dia }: { tema: TemaTrilha; dia: number }) {
       <Link
         to={link(tema.id)}
         aria-label={t.abrir(tema.titulo)}
-        className={`flex h-full flex-col overflow-hidden rounded-[20px] border border-linha bg-white transition hover:shadow-cartao active:scale-[0.99] ${tema.aberto ? '' : 'opacity-80'}`}
+        className={`flex h-full flex-col overflow-hidden rounded-[20px] border border-linha bg-white transition hover:shadow-cartao active:scale-[0.99]`}
       >
         <span className="relative flex aspect-video flex-col justify-end bg-verde-escuro p-4 text-white">
           {capa ? (
@@ -61,7 +61,7 @@ function CartaoTema({ tema, dia }: { tema: TemaTrilha; dia: number }) {
                 src={capa}
                 alt=""
                 loading="lazy"
-                className={`absolute inset-0 size-full object-cover ${tema.aberto ? '' : 'grayscale'}`}
+                className={`absolute inset-0 size-full object-cover ${tema.aberto ? '' : 'grayscale-[.55]'}`}
               />
               <span
                 aria-hidden
@@ -78,11 +78,8 @@ function CartaoTema({ tema, dia }: { tema: TemaTrilha; dia: number }) {
           )}
           <span className="relative text-[24px] leading-tight font-bold">{tema.titulo}</span>
         </span>
-        <span className="flex flex-1 flex-col gap-1 p-4">
-          {tema.frase && <span className="text-sm leading-snug text-suave">{tema.frase}</span>}
-          <span className="mt-auto pt-2">
-            <Situacao tema={tema} dia={dia} />
-          </span>
+        <span className="flex items-center justify-between gap-2 px-3.5 pt-2.5 pb-3">
+          <Situacao tema={tema} dia={dia} proximo={proximo} />
         </span>
       </Link>
     </li>
@@ -91,10 +88,11 @@ function CartaoTema({ tema, dia }: { tema: TemaTrilha; dia: number }) {
 
 /** Temas em ordem: abertos para entrar e rever, os próximos com cadeado e quando abrem. */
 export function ListaTemas({ temas, dia }: { temas: TemaTrilha[]; dia: number }) {
+  const proximo = temas.find((x) => !x.aberto && !x.em_breve && x.inicio > dia)
   return (
-    <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+    <ul className="grid gap-3.5 sm:grid-cols-2 sm:gap-4 xl:grid-cols-3">
       {temas.map((tema) => (
-        <CartaoTema key={tema.id} tema={tema} dia={dia} />
+        <CartaoTema key={tema.id} tema={tema} dia={dia} proximo={tema.id === proximo?.id} />
       ))}
     </ul>
   )
