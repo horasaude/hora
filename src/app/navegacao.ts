@@ -18,7 +18,9 @@ export const SECOES: Secao[] = [
     id: 'inicio',
     nome: t.nav.inicio,
     icone: 'inicio',
-    telas: [{ para: '/app', nome: t.nav.inicio, cor: 'bg-salvia', exata: true }],
+    telas: [
+      { para: '/app', nome: t.nav.inicio, cor: 'bg-salvia', exata: true, tambem: ['/app/dia'] },
+    ],
   },
   {
     id: 'comece',

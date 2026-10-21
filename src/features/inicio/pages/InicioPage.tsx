@@ -1,5 +1,5 @@
 import { Cartao, Carregando, ErroCarregar } from '@/components/ui'
-import { aulaDeHoje, temaAtual } from '@/domain/trilha'
+import { aulaParaContinuar, temaAtual } from '@/domain/trilha'
 import { useMeuPerfil } from '@/features/auth'
 import { AvisoAnamnese } from '@/features/avaliacoes'
 import { AvisosNovos } from '@/features/avisos'
@@ -31,7 +31,7 @@ function PedidoDaEquipe() {
   )
 }
 
-/** Continue de onde parou: a próxima aula não concluída do tema do momento. */
+/** Continue de onde parou: a próxima aula não concluída dos temas abertos. */
 function Continue() {
   const trilha = useTrilha()
   if (trilha.isPending) return <Carregando texto={textos.carregando} blocos={1} />
@@ -39,9 +39,8 @@ function Continue() {
     return (
       <ErroCarregar texto={textos.erro} tentar={textos.tentar} aoTentar={() => trilha.refetch()} />
     )
-  const tema = temaAtual(trilha.data)
-  const aula = tema ? aulaDeHoje(tema.aulas) : null
-  return tema && aula ? <ContinueAula aula={aula} tema={tema} /> : null
+  const achada = aulaParaContinuar(trilha.data)
+  return achada ? <ContinueAula aula={achada.aula} tema={achada.tema} /> : null
 }
 
 /** Início da aluna na ordem do protótipo: topo, pontos, pedido da equipe, seu dia, aula, desafio e live. */

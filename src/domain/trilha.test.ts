@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
   aulaDeHoje,
+  aulaParaContinuar,
   aulasDaMesmaLista,
   diasParaAbrir,
   progresso,
@@ -86,5 +87,26 @@ describe('progresso e semana', () => {
   })
   it('dias 1 a 7 são a semana 1', () => {
     expect([semanaDoAcesso(1), semanaDoAcesso(7), semanaDoAcesso(8)]).toEqual([1, 1, 2])
+  })
+})
+
+describe('aulaParaContinuar', () => {
+  it('tema novo sem aula não esconde a aula pendente do Detox', () => {
+    const detox = tema('detox', 1, {
+      aberto: true,
+      aulas: [aula('a', { concluida: true }), aula('b')],
+    })
+    const novo = tema('novo', 8, { aberto: true })
+    expect(aulaParaContinuar({ temas: [detox, novo] })?.aula.id).toBe('b')
+  })
+  it('prefere a pendente do tema mais novo', () => {
+    const detox = tema('detox', 1, { aberto: true, aulas: [aula('a')] })
+    const novo = tema('novo', 8, { aberto: true, aulas: [aula('n')] })
+    expect(aulaParaContinuar({ temas: [detox, novo] })?.aula.id).toBe('n')
+  })
+  it('tudo feito: a última liberada; nada aberto: nada', () => {
+    const feito = tema('d', 1, { aberto: true, aulas: [aula('a', { concluida: true })] })
+    expect(aulaParaContinuar({ temas: [feito] })?.aula.id).toBe('a')
+    expect(aulaParaContinuar({ temas: [tema('x', 1)] })).toBeNull()
   })
 })

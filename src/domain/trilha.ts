@@ -80,3 +80,20 @@ export const aulasEmAndamento = (t: Trilha) => temaAtual(t)?.aulas ?? []
 export function aulasDaMesmaLista(trilha: Trilha | undefined, id: string): AulaTrilha[] {
   return trilha?.temas.find((x) => x.aulas.some((a) => a.id === id))?.aulas ?? []
 }
+
+/** Continue de onde parou: a primeira aula liberada e não concluída, do tema mais novo para o mais antigo
+ * (tema novo ainda sem aula não esconde o Detox pendente); tudo feito, a última aula liberada do tema atual. */
+export function aulaParaContinuar(
+  t: Pick<Trilha, 'temas'>,
+): { tema: TemaTrilha; aula: AulaTrilha } | null {
+  const abertos = t.temas.filter((x) => x.aberto).reverse()
+  for (const tema of abertos) {
+    const aula = tema.aulas.find((a) => a.liberada && !a.concluida)
+    if (aula) return { tema, aula }
+  }
+  for (const tema of abertos) {
+    const aula = tema.aulas.filter((a) => a.liberada).at(-1)
+    if (aula) return { tema, aula }
+  }
+  return null
+}
