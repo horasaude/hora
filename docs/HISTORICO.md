@@ -2,6 +2,15 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-21 · main · Área da aluna no layout do protótipo da apresentação
+
+- A dona aprovou o protótipo da apresentação do evento (~/ora-apresentacao, publicado à parte) e pediu o app igual: disposição, ordem e interações do protótipo; fonte Arial e botões do sistema (login segue Playfair + Montserrat).
+- Login com foto das três, título e chips (BoasVindas). Início: topo com dia da jornada, pontos e posição, Pedido da equipe, Seu dia (4 bolinhas), Continue de onde parou, Desafio do mês com prêmio, Próxima live. Tela nova Seu dia (/app/dia) com hábitos, copos de água e Venci o dia. Anamnese com barrinhas e opções em cartão.
+- Comece por aqui com Dia N e faixa Aberto/Em breve; tema com progresso acima das abas; aula com etiqueta Tema · Aula N e "Com profissional · min".
+- Cardápio com refeições em cartão, trocas e PDF (impressão); treino em ficha com exercícios; desafio com o prêmio em destaque, calendário e Fiz hoje.
+- Comunidade com seletor Lives | Fórum | Ranking no celular (ui/Segmento); live em cartão grande; fórum com resposta da equipe no cartão; ranking com pódio e Como ganhar pontos; loja com faixa da parceira; perfil com números, antes e depois e menu; Indique e ganhe em /app/perfil/indique.
+- Pendências: cardápio de vários dias (pílulas só aparecem com mais de um dia); treino não guarda a profissional (mostra a Laís); /app/dia não acende item do menu; CartaoRankingInicio sem uso.
+
 ## 2026-10-21 · main · Capa do tema com o nome escrito; aula com a imagem do vídeo
 
 - Cartão do tema: "Tema N" e o nome escritos na capa (foto com sombra embaixo; sem foto, a capa automática com o ícone à direita); cadeado no canto.
