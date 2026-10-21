@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { IconeCadeado } from '@/components/ui'
-import { diasParaAbrir, type TemaTrilha } from '@/domain/trilha'
+import { diasParaAbrir, progresso, type TemaTrilha } from '@/domain/trilha'
 import { urlCapa } from '@/lib/capas'
 import { useLinkTema } from '../previa'
 import { textos } from '../textos'
@@ -21,6 +21,21 @@ function Situacao({ tema, dia }: { tema: TemaTrilha; dia: number }) {
       <span className="inline-flex items-center gap-1.5 text-[13px] text-suave">
         <IconeCadeado className="size-3.5" />
         {t.abreEm(diasParaAbrir(tema, dia))}
+      </span>
+    )
+  const feitas = tema.aulas.filter((a) => a.concluida).length
+  if (feitas > 0)
+    return (
+      <span className="flex flex-col gap-1.5">
+        <span className="text-[13px] font-bold text-verde-vivo">
+          {t.feitas(feitas, tema.aulas.length)}
+        </span>
+        <span className="h-1.5 overflow-hidden rounded-full bg-trilho">
+          <span
+            className="block h-full rounded-full bg-verde-vivo"
+            style={{ width: `${progresso(tema.aulas)}%` }}
+          />
+        </span>
       </span>
     )
   return (

@@ -1,6 +1,6 @@
 import { Link, useParams, useSearchParams } from 'react-router-dom'
-import { Abas, Cartao, IconeCadeado, Vazio } from '@/components/ui'
-import { diasParaAbrir, type TemaTrilha } from '@/domain/trilha'
+import { Abas, BarraProgresso, Cartao, IconeCadeado, Vazio } from '@/components/ui'
+import { diasParaAbrir, progresso, type TemaTrilha } from '@/domain/trilha'
 import { ListaCardapios } from '@/features/cardapios'
 import { DesafiosDoTema } from '@/features/desafios'
 import { TreinosDoTema } from '@/features/treinos'
@@ -43,7 +43,17 @@ function Conteudo({ tema, aba }: { tema: TemaTrilha; aba: Aba }) {
   if (aba === 'desafio') return <DesafiosDoTema temaId={tema.id} />
   if (aba === 'materiais') return <Materiais tema={tema.id} />
   if (tema.aulas.length === 0) return <Vazio>{t.semAulas}</Vazio>
-  return <ListaAulas aulas={tema.aulas} tema={tema} fechada={() => textos.emBreve} />
+  const feitas = tema.aulas.filter((a) => a.concluida).length
+  return (
+    <div className="flex flex-col gap-4">
+      <BarraProgresso
+        pct={progresso(tema.aulas)}
+        rotulo={textos.rotuloTema}
+        legenda={textos.concluidasDoTema(feitas, tema.aulas.length, progresso(tema.aulas))}
+      />
+      <ListaAulas aulas={tema.aulas} tema={tema} fechada={() => textos.emBreve} />
+    </div>
+  )
 }
 
 function Fechado({ tema, dia }: { tema: TemaTrilha; dia: number }) {

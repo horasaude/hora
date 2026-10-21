@@ -71,7 +71,7 @@ export function CartaoAula({ aula, numero, proxima, fechadaTexto, tema }: Props)
       <Miniatura aula={aula} tema={tema} />
       <span className="flex min-w-0 flex-1 flex-col gap-1">
         <span className="self-start rounded-full bg-trilho px-2.5 py-0.5 text-[11px] font-bold text-suave">
-          {textos.aulaN(numero, aula.dia_liberacao)}
+          {textos.aulaN(numero)}
         </span>
         <span className="line-clamp-2 text-[15px] leading-snug font-bold text-tinta">
           {aula.titulo}

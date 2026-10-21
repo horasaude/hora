@@ -11,7 +11,7 @@ import { EstadoAluna } from '../components/EstadoAluna'
 import { aulasDaMesmaLista } from '@/domain/trilha'
 import { NavegacaoAulas, ProximaAula } from '../components/NavegacaoAulas'
 import { useAula, useTrilha } from '../hooks/useTrilha'
-import { usePrevia } from '../previa'
+import { useLinkTema, usePrevia } from '../previa'
 import { textos } from '../textos'
 
 const t = textos.aula
@@ -55,16 +55,19 @@ function Cabecalho({ a }: { a: AulaAberta }) {
   )
 }
 
-/** Aula: vídeo grande, descrição, material, concluir, próxima e as aulas da etapa ao lado. */
+/** Aula: vídeo na largura toda (o YouTube escolhe a qualidade pelo tamanho), descrição, concluir, próxima e as aulas do tema ao lado. */
 export function AulaPage() {
   const { aulaId = '' } = useParams()
   const previa = usePrevia()
   const aula = useAula(aulaId)
   const conclusao = useConclusao(aulaId)
-  const lista = aulasDaMesmaLista(useTrilha().data, aulaId)
+  const trilha = useTrilha().data
+  const lista = aulasDaMesmaLista(trilha, aulaId)
+  const linkTema = useLinkTema()
+  const tema = trilha?.temas.find((x) => x.aulas.some((y) => y.id === aulaId))
   const voltar = (
     <LinkBrilho
-      to={previa ? `/app/previa${previa.sufixo}` : '/app/trilha'}
+      to={tema ? linkTema(tema.id) : previa ? `/app/previa${previa.sufixo}` : '/app/trilha'}
       tom="cinza"
       tamanho="sm"
       className="self-start"
@@ -85,9 +88,9 @@ export function AulaPage() {
   return (
     <article className="flex flex-col gap-5">
       {voltar}
+      <Video aula={a} c={conclusao} gravar={!previa} />
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-start lg:gap-10">
         <div className="flex flex-col gap-5">
-          <Video aula={a} c={conclusao} gravar={!previa} />
           <Cabecalho a={a} />
           <div className="flex flex-wrap items-center gap-3">
             {!previa && <Concluir c={conclusao} automatico={idDoYoutube(a.video_url) !== null} />}

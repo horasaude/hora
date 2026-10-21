@@ -21,7 +21,10 @@ export const textos = {
   liberaNoDia: (n: number) => `Libera no dia ${n}`,
   emBreve: 'Em breve',
   receitasEMateriais: 'Ver receitas e materiais da nutricionista',
-  aulaN: (n: number, dia: number) => `Aula ${n} · Dia ${dia}`,
+  aulaN: (n: number) => `Aula ${n}`,
+  concluidasDoTema: (feitas: number, total: number, pct: number) =>
+    `${feitas} de ${total} ${total === 1 ? 'aula concluída' : 'aulas concluídas'} · ${pct}%`,
+  rotuloTema: 'Progresso do tema',
   liberaEm: (n: number) => (n === 1 ? 'Libera amanhã' : `Libera em ${n} dias`),
   comece: {
     titulo: 'Primeiros passos',
@@ -67,6 +70,7 @@ export const textos = {
     titulo: 'Comece por aqui',
     temaN: (n: number) => `Tema ${n}`,
     aberto: (aulas: number) => (aulas === 1 ? 'Aberto · 1 aula' : `Aberto · ${aulas} aulas`),
+    feitas: (feitas: number, total: number) => `${feitas} de ${total} aulas concluídas`,
     abreEm: (n: number) => (n === 1 ? 'Abre amanhã' : `Abre em ${n} dias`),
     emBreve: 'Em breve',
     abrir: (titulo: string) => `Abrir o tema ${titulo}`,
@@ -104,7 +108,7 @@ export const textos = {
     ampliar: (nome: string) => `Ampliar ${nome}`,
   },
   aula: {
-    voltar: 'Voltar para a trilha',
+    voltar: 'Voltar para o tema',
     fechada: 'Esta aula ainda não abriu.',
     material: 'Baixar material (PDF)',
     concluir: 'Concluir aula',

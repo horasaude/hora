@@ -31,7 +31,7 @@ export function NavegacaoAulas({ aulas, id }: { aulas: AulaTrilha[]; id: string 
             <span
               className={`w-11 shrink-0 text-[11px] font-bold uppercase ${atual ? 'text-white/85' : 'text-suave'}`}
             >
-              {textos.diaN(a.dia_liberacao)}
+              {textos.aulaN(aulas.indexOf(a) + 1)}
             </span>
             <span className="min-w-0 flex-1 truncate">{a.titulo}</span>
             {a.concluida && <IconeCheck className="size-3.5 text-verde-vivo" />}

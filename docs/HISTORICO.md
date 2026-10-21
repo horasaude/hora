@@ -2,6 +2,12 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-21 · main · Aulas sem "Dia", progresso do tema e vídeo maior
+
+- Cartão da aula e lista lateral mostram só "Aula N" (o dia não vale mais na sequência de temas).
+- Aba Aulas do tema: barra "X de Y aulas concluídas · Z%"; cartão do tema aberto mostra a barra quando já tem aula concluída. A aula concluída continua com o check verde.
+- Página da aula: vídeo na largura toda, acima das colunas (o YouTube escolhe a qualidade pelo tamanho do player); "Voltar para o tema". Conferido: os vídeos do Detox têm até 1080p no YouTube; o player começa baixo e sobe conforme a internet.
+
 ## 2026-10-21 · main · Excluir tema e aula no Conteúdo
 
 - Cartão do tema: Excluir tema (dois toques); apaga as aulas e os materiais dele e limpa os arquivos e capas do espaço; cardápios e desafios ficam sem tema. Tema com treinos é barrado (treinos.tema_id é restrict) com aviso para excluir ou mudar os treinos antes.
