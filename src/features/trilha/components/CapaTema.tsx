@@ -2,17 +2,20 @@ import type { TemaOpcao } from '@/domain/trilha'
 import { urlCapa } from '@/lib/capas'
 import { CapaAutomatica } from './CapaAutomatica'
 
-/** Capa grande do tema no topo da trilha: imagem com o nome e a frase por cima; sem imagem, verde ORA com o ícone do tema. */
+/** Capa grande do tema no topo, no mesmo formato da miniatura (16:9, sem cortar): imagem com o nome e a frase por cima; sem imagem, verde ORA com o ícone do tema. */
 export function CapaTema({ tema, rotulo }: { tema: TemaOpcao; rotulo?: string }) {
   const capa = urlCapa(tema.capa)
   return (
     <section
-      className={`relative -mx-5 flex min-h-44 flex-col justify-end overflow-hidden p-5 text-white sm:mx-0 sm:min-h-56 sm:rounded-[24px] sm:p-7 ${capa ? 'bg-tinta' : ''}`}
+      className={`relative -mx-5 flex aspect-video flex-col justify-end overflow-hidden p-5 text-white sm:mx-0 sm:rounded-[24px] sm:p-7 lg:max-w-3xl ${capa ? 'bg-tinta' : ''}`}
     >
       {capa && (
         <>
           <img src={capa} alt="" className="absolute inset-0 size-full object-cover" />
-          <span aria-hidden className="absolute inset-0 bg-tinta/55" />
+          <span
+            aria-hidden
+            className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"
+          />
         </>
       )}
       {!capa && (
