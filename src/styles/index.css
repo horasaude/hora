@@ -56,6 +56,9 @@
 .texto-rico strong {
   font-weight: 700;
 }
+.texto-rico a {
+  text-decoration: underline;
+}
 
 /* Estilo brilho delicado (docs/referencias/estilo-aluna.html e estilo-painel.html): vidro só em botões, etiquetas e destaques. */
 @layer components {

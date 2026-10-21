@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom'
 import { LinkBrilho } from '@/components/ui'
 import { DuvidasDaAula } from '@/features/forum'
+import { sanitizarHtml, textoParaHtml } from '@/lib/html'
 import { idDoYoutube, linkDeIncorporacao } from '@/lib/video'
 import type { AulaAberta } from '../api/trilha.api'
 import { Concluir } from '../components/Concluir'
@@ -55,6 +56,16 @@ function Cabecalho({ a }: { a: AulaAberta }) {
   )
 }
 
+/** Descrição feita no editor do painel (negrito, listas, links); texto antigo sem marcação mantém as quebras. */
+function Descricao({ html }: { html: string }) {
+  return (
+    <div
+      className="texto-rico text-base leading-relaxed text-tinta"
+      dangerouslySetInnerHTML={{ __html: sanitizarHtml(textoParaHtml(html), { links: true }) }}
+    />
+  )
+}
+
 /** Aula: vídeo, descrição, concluir, próxima e as aulas do tema ao lado. Cada aula abre um player novo (key),
  * senão o YouTube perde a ligação com o acompanhamento ao trocar de aula e fica na qualidade baixa. */
 export function AulaPage() {
@@ -101,11 +112,7 @@ function ConteudoDaAula({ aulaId }: { aulaId: string }) {
             <Concluir c={conclusao} automatico={idDoYoutube(a.video_url) !== null} />
             <ProximaAula aulas={lista} id={a.id} />
           </div>
-          {a.descricao && (
-            <p className="text-base leading-relaxed whitespace-pre-line text-tinta">
-              {a.descricao}
-            </p>
-          )}
+          {a.descricao && <Descricao html={a.descricao} />}
           <div className="lg:hidden">
             <MateriaisDaAula aula={a.id} />
           </div>
