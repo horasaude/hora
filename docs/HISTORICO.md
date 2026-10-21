@@ -2,6 +2,14 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-21 · main · Refeição como no Dietbox, vários planos e tipos de treino por tema
+
+- Seta do cardápio e do desafio volta para o tema (não pelo histórico; quem passava pela lista de compras voltava para ela).
+- Editor de refeição do painel igual ao Dietbox (conferido na conta da nutricionista, sem salvar nada lá): "Alimentos selecionados" em tabela com macros, quantidade e total; Adicionar alimento sempre soma uma linha; substitutos ("ou") só dentro de Editar alimento; refeição substituta no rodapé do bloco. Formato do jsonb sem mudança. Aluna vê o "ou" na mesma linha.
+- Vários planos alimentares por tema: aluna escolhe na aba Cardápio do tema ("Escolha seu plano"); painel agrupa por tema e pede objetivo do plano. Migração 20261101190000_varios_planos_por_tema (o gatilho deixava todos com o nome do tema).
+- Treinos: tipos de treino (rotinas) por tema em cartões, com "Para você" para nível e local dela; dentro, a semana em lista com todos os exercícios e os aeróbicos; painel com "Tipos de treino" agrupados por tema, seção Aeróbicos com Adicionar aeróbico e pílulas Musculação | Aeróbico. Migração 20261101180000_treinos_tipos_aerobico (mesmo dia aceita musculação e aeróbico).
+- Pendências: observação na refeição substituta (precisa de campo no jsonb); trocar medida caseira ao editar a linha.
+
 ## 2026-10-21 · main · Aula: check automático com o vídeo em tela cheia no celular
 
 - No banco, a aula 2 da aluna de teste tinha só [109,112] de 119 s contados (e o mesmo padrão em outras contas): em tela cheia no celular o navegador espaça as leituras do player, e a regra recusava avanço maior que 3 s entre leituras (tratava como pulo). Só contava quando a tela cheia fechava, no fim.
