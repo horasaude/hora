@@ -68,6 +68,7 @@ export const tEscolher = {
   quantidade: 'Quantidade',
   adicionar: 'Adicionar',
   escolher: 'Escolha um item da lista',
+  carregandoMais: 'Carregando mais alimentos',
 }
 
 export const tCardapios = {

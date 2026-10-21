@@ -2,6 +2,10 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-21 · main · Adicionar alimento mostra todos os alimentos
+
+- A janela de adicionar alimento (refeição e receita) mostrava só os 30 primeiros em ordem alfabética. Agora carrega em levas de 60 ao rolar a lista (useInfiniteQuery em Resultados.tsx, buscarAlimentosParaEscolha com range), até os 597 da TACO e os próprios; a busca continua filtrando. Receitas aparecem primeiro em "Todas".
+
 ## 2026-10-20 · main · Capa automática dos temas
 
 - Tema sem imagem ganha capa montada sozinha (CapaAutomatica): cor do tema (escolhida no painel ou pela chave), dois círculos claros e o ícone grande; vale para cartões dos temas, topo da página do tema e miniaturas das aulas. Detox ganhou ícone de gota. Tema novo já nasce com capa; imagem enviada no painel substitui.

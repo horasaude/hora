@@ -1,6 +1,6 @@
 import { useDeferredValue } from 'react'
-import { useQuery } from '@tanstack/react-query'
-import { buscarAlimentosParaEscolha, type AlimentoComMedidas } from '../api/alimentos.api'
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
+import { buscarAlimentosParaEscolha, POR_LEVA, type AlimentoComMedidas } from '../api/alimentos.api'
 import { listarReceitas, type ReceitaCompleta } from '../api/receitas.api'
 import { porcaoDaReceita } from '../opcoes'
 import { tEscolher as t } from '../textos2'
@@ -12,13 +12,16 @@ export type Escolhido =
 /** Busca alimentos (TACO e próprios) e receitas conforme a fonte. */
 function useResultados(fonte: Fonte, busca: string) {
   const termo = useDeferredValue(busca)
-  const alimentos = useQuery({
+  const alimentos = useInfiniteQuery({
     queryKey: ['escolha-alimentos', fonte, termo],
-    queryFn: () =>
+    queryFn: ({ pageParam }) =>
       buscarAlimentosParaEscolha(
         termo,
         fonte === 'taco' || fonte === 'proprio' ? fonte : undefined,
+        pageParam,
       ),
+    initialPageParam: 0,
+    getNextPageParam: (ultima, todas) => (ultima.length === POR_LEVA ? todas.length : undefined),
     enabled: fonte !== 'receitas',
   })
   const receitas = useQuery({
@@ -27,14 +30,22 @@ function useResultados(fonte: Fonte, busca: string) {
     enabled: fonte === 'todas' || fonte === 'receitas',
   })
   const lista: Escolhido[] = [
-    ...(fonte !== 'receitas'
-      ? (alimentos.data ?? []).map((a) => ({ tipo: 'alimento' as const, a }))
-      : []),
     ...(fonte === 'todas' || fonte === 'receitas'
       ? (receitas.data ?? []).map((r) => ({ tipo: 'receita' as const, r }))
       : []),
+    ...(fonte !== 'receitas'
+      ? (alimentos.data?.pages.flat() ?? []).map((a) => ({ tipo: 'alimento' as const, a }))
+      : []),
   ]
-  return { lista, carregando: alimentos.isFetching || receitas.isFetching }
+  const maisAlimentos = () => {
+    if (alimentos.hasNextPage && !alimentos.isFetchingNextPage) void alimentos.fetchNextPage()
+  }
+  return {
+    lista,
+    carregando: alimentos.isFetching || receitas.isFetching,
+    buscandoMais: alimentos.isFetchingNextPage,
+    maisAlimentos,
+  }
 }
 
 const nome = (e: Escolhido) => (e.tipo === 'alimento' ? e.a.nome : e.r.nome)
@@ -51,13 +62,17 @@ type Props = {
   aoEscolher: (e: Escolhido) => void
 }
 
-/** Lista de resultados para escolher; o escolhido fica destacado. */
+/** Lista de resultados para escolher (todos os alimentos, carregando mais ao rolar); o escolhido fica destacado. */
 export function Resultados({ fonte, busca, escolhido, aoEscolher }: Props) {
-  const { lista, carregando } = useResultados(fonte, busca)
+  const { lista, carregando, buscandoMais, maisAlimentos } = useResultados(fonte, busca)
   return (
     <ul
       className="flex max-h-[46vh] flex-col overflow-y-auto rounded-xl border border-[#ECEFED]"
       aria-busy={carregando}
+      onScroll={(e) => {
+        const el = e.currentTarget
+        if (el.scrollHeight - el.scrollTop - el.clientHeight < 200) maisAlimentos()
+      }}
     >
       {lista.map((e) => (
         <li key={chave(e)} className="border-b border-[#F4F5F4] last:border-b-0">
@@ -81,6 +96,11 @@ export function Resultados({ fonte, busca, escolhido, aoEscolher }: Props) {
           </button>
         </li>
       ))}
+      {buscandoMais && (
+        <li role="status" className="px-3.5 py-2.5 text-xs text-suave">
+          {t.carregandoMais}
+        </li>
+      )}
     </ul>
   )
 }

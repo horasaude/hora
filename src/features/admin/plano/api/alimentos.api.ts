@@ -95,12 +95,21 @@ export async function removerAlimento(id: string): Promise<void> {
   if (error) throw error
 }
 
-/** Para escolher numa refeição ou receita: até 30 alimentos com as medidas caseiras. */
+/** Alimentos que vêm por vez na escolha; a lista carrega a próxima leva ao rolar. */
+export const POR_LEVA = 60
+
+/** Para escolher numa refeição ou receita: alimentos com as medidas caseiras, em levas de 60. */
 export async function buscarAlimentosParaEscolha(
   busca: string,
   origem?: Origem,
+  leva = 0,
 ): Promise<AlimentoComMedidas[]> {
-  let q = supabase.from('alimentos').select('*, medidas_caseiras(*)').order('nome').limit(30)
+  let q = supabase
+    .from('alimentos')
+    .select('*, medidas_caseiras(*)')
+    .order('nome')
+    .order('id')
+    .range(leva * POR_LEVA, (leva + 1) * POR_LEVA - 1)
   if (origem) q = q.eq('origem', origem)
   for (const p of palavrasBusca(busca)) q = q.like('busca', p)
   return ok(await q)
