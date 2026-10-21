@@ -2,6 +2,11 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-21 · main · Prévia simula check e barra; player pede 1080p
+
+- Os testes da equipe eram pela prévia (/app/previa), que não grava; agora a prévia marca a aula assistida (90%) só na tela, guardado na sessionStorage da aba, e a barra do tema anda; nada vai para o banco.
+- Os 11 vídeos do Detox têm até 1080p no YouTube; o player passa a pedir hd1080 (vq na URL e setPlaybackQualityRange/setPlaybackQuality ao começar a tocar; se o YouTube ignorar, fica no automático).
+
 ## 2026-10-21 · main · Abas coloridas, bolinha de concluída e pré-visualização clara
 
 - Abas do tema com cor própria quando escolhidas (Aulas verde, Cardápio coral, Treinos dourado, Desafio lilás, Materiais rosa); Abas aceita tom por opção; TomBrilho ganhou lilas e rosa.

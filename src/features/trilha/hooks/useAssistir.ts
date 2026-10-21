@@ -16,6 +16,16 @@ const GRAVAR_MS = 15000
 type Opcoes = { aula: string; gravar: boolean; aoConcluir: () => void }
 
 /** Liga o player ao iframe uma vez; no fim do vídeo, chama o aviso guardado na ref. */
+/** Pede 1080p ao YouTube (sem isso ele começa baixo e às vezes fica baixo); se ele ignorar, segue o automático. */
+function pedirHd(p: PlayerYT) {
+  try {
+    p.setPlaybackQualityRange?.('hd1080', 'hd1080')
+    p.setPlaybackQuality?.('hd1080')
+  } catch {
+    // versão do player sem esses comandos
+  }
+}
+
 function usePlayerYoutube(aoTerminar: () => void) {
   const fim = useRef(aoTerminar)
   useEffect(() => {
@@ -33,7 +43,10 @@ function usePlayerYoutube(aoTerminar: () => void) {
         player.current = new YT.Player(iframe, {
           events: {
             onStateChange: (e) => {
-              if (e.data === ESTADO_YT.tocando) setComecou(true)
+              if (e.data === ESTADO_YT.tocando) {
+                setComecou(true)
+                pedirHd(e.target)
+              }
               if (e.data === ESTADO_YT.terminou) fim.current()
             },
           },
@@ -75,7 +88,7 @@ export function useAssistir({ aula, gravar, aoConcluir }: Opcoes) {
           estado.current = registrarTempo(estado.current, p.getCurrentTime())
           mudou.current = true
         } else estado.current = pausar(estado.current)
-        if (gravar && assistiuOSuficiente(estado.current.trechos, p.getDuration())) aoConcluir()
+        if (assistiuOSuficiente(estado.current.trechos, p.getDuration())) aoConcluir()
       },
       guardar: () => {
         const p = player.current

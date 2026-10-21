@@ -5,6 +5,9 @@
 export const ESTADO_YT = { terminou: 0, tocando: 1, pausado: 2, carregando: 3 } as const
 
 export type PlayerYT = {
+  /** Antigas na API (o YouTube pode ignorar); pedem a qualidade alta em vez de começar baixa. */
+  setPlaybackQuality?: (q: string) => void
+  setPlaybackQualityRange?: (min: string, max?: string) => void
   getCurrentTime: () => number
   getDuration: () => number
   getPlayerState: () => number
@@ -55,6 +58,7 @@ export function linkComApi(id: string, inicio: number): string {
     rel: '0',
     playsinline: '1',
     iv_load_policy: '3',
+    vq: 'hd1080',
   })
   if (inicio > 0) p.set('start', String(Math.floor(inicio)))
   return `https://www.youtube-nocookie.com/embed/${id}?${p}`

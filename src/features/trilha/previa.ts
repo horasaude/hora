@@ -1,7 +1,13 @@
 // Pré-visualização do painel: a trilha como a aluna vê num dia escolhido, sem gravar nada.
 import { createContext, useContext } from 'react'
 
-export type Previa = { dia: number; sufixo: string }
+/** concluidas e concluir: na prévia a aula assistida ganha o check só na tela (nada é gravado). */
+export type Previa = {
+  dia: number
+  sufixo: string
+  concluidas: ReadonlySet<string>
+  concluir: (aula: string) => void
+}
 
 export const ContextoPrevia = createContext<Previa | null>(null)
 

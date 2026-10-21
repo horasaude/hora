@@ -95,7 +95,7 @@ export const textos = {
     tema: 'Tema',
     semTema: 'Sem tema',
     aviso:
-      'Pré-visualização: aqui não marca aula concluída, não move a barra nem dá pontos. Para testar isso, use a área da aluna.',
+      'Pré-visualização: o check e a barra aparecem só nesta tela; nada é gravado nem dá pontos.',
     sair: 'Voltar ao painel',
     treinos: 'Ver Treinos',
   },

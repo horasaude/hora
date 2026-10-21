@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import type { Trilha } from '@/domain/trilha'
 import { usePrevia } from '../previa'
 import { buscarComeceAqui, buscarRegras, marcarComece, type ItemComece } from '../api/comece.api'
 import {
@@ -13,9 +14,19 @@ import {
 /** Trilha da aluna; dentro da pré-visualização do painel, a do dia escolhido. */
 export function useTrilha() {
   const previa = usePrevia()
+  const feitas = previa?.concluidas
   return useQuery({
     queryKey: previa ? ['trilha-previa', previa.dia] : ['trilha'],
     queryFn: () => (previa ? buscarTrilhaPrevia(previa.dia) : buscarTrilha()),
+    select: feitas?.size
+      ? (t: Trilha) => ({
+          ...t,
+          temas: t.temas.map((x) => ({
+            ...x,
+            aulas: x.aulas.map((a) => (feitas.has(a.id) ? { ...a, concluida: true } : a)),
+          })),
+        })
+      : undefined,
   })
 }
 

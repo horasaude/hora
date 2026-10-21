@@ -98,7 +98,7 @@ function ConteudoDaAula({ aulaId }: { aulaId: string }) {
           <Video key={a.id} aula={a} c={conclusao} gravar={!previa} />
           <Cabecalho a={a} />
           <div className="flex flex-wrap items-center gap-3">
-            {!previa && <Concluir c={conclusao} automatico={idDoYoutube(a.video_url) !== null} />}
+            <Concluir c={conclusao} automatico={idDoYoutube(a.video_url) !== null} />
             <ProximaAula aulas={lista} id={a.id} />
           </div>
           {a.descricao && (
