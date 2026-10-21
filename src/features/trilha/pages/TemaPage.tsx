@@ -107,7 +107,7 @@ export function TemaPage() {
   return (
     <section className="flex flex-col gap-5">
       {voltar}
-      <CapaTema tema={tema} rotulo={t.temaN(i + 1)} />
+      <CapaTema tema={tema} />
       {tema.aberto ? (
         <>
           <Abas opcoes={ABAS} ativa={aba} aoEscolher={mudar} rotulo={t.abasRotulo} />

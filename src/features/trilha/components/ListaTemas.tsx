@@ -43,8 +43,8 @@ function Situacao({ tema, dia }: { tema: TemaTrilha; dia: number }) {
   )
 }
 
-/** Cartão do tema: capa com Tema N e o nome escritos, frase e se está aberto ou quando abre. */
-function CartaoTema({ tema, n, dia }: { tema: TemaTrilha; n: number; dia: number }) {
+/** Cartão do tema: capa com o nome escrito, frase e se está aberto ou quando abre. */
+function CartaoTema({ tema, dia }: { tema: TemaTrilha; dia: number }) {
   const link = useLinkTema()
   const capa = urlCapa(tema.capa)
   return (
@@ -76,9 +76,6 @@ function CartaoTema({ tema, n, dia }: { tema: TemaTrilha; n: number; dia: number
               <IconeCadeado />
             </span>
           )}
-          <span className="relative text-[11px] font-bold tracking-wide uppercase opacity-85">
-            {t.temaN(n)}
-          </span>
           <span className="relative text-[24px] leading-tight font-bold">{tema.titulo}</span>
         </span>
         <span className="flex flex-1 flex-col gap-1 p-4">
@@ -96,8 +93,8 @@ function CartaoTema({ tema, n, dia }: { tema: TemaTrilha; n: number; dia: number
 export function ListaTemas({ temas, dia }: { temas: TemaTrilha[]; dia: number }) {
   return (
     <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-      {temas.map((tema, i) => (
-        <CartaoTema key={tema.id} tema={tema} n={i + 1} dia={dia} />
+      {temas.map((tema) => (
+        <CartaoTema key={tema.id} tema={tema} dia={dia} />
       ))}
     </ul>
   )
