@@ -2,6 +2,10 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-21 · main · Aula: player novo a cada aula (check, progresso e qualidade)
+
+- Ao ir para a próxima aula, o React reaproveitava a página e o iframe do YouTube só trocava de vídeo: a API perdia a ligação (sem contar tempo, sem conclusão automática, progresso parado) e o player ficava na qualidade baixa do começo; o "pedido" de concluir também ficava preso da aula anterior. Agora AulaPage remonta por aula (key) e o vídeo também. Vídeo voltou para a coluna da esquerda, com as aulas ao lado.
+
 ## 2026-10-21 · main · Aulas sem "Dia", progresso do tema e vídeo maior
 
 - Cartão da aula e lista lateral mostram só "Aula N" (o dia não vale mais na sequência de temas).

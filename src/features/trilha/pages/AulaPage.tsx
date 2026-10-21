@@ -55,9 +55,14 @@ function Cabecalho({ a }: { a: AulaAberta }) {
   )
 }
 
-/** Aula: vídeo na largura toda (o YouTube escolhe a qualidade pelo tamanho), descrição, concluir, próxima e as aulas do tema ao lado. */
+/** Aula: vídeo, descrição, concluir, próxima e as aulas do tema ao lado. Cada aula abre um player novo (key),
+ * senão o YouTube perde a ligação com o acompanhamento ao trocar de aula e fica na qualidade baixa. */
 export function AulaPage() {
   const { aulaId = '' } = useParams()
+  return <ConteudoDaAula key={aulaId} aulaId={aulaId} />
+}
+
+function ConteudoDaAula({ aulaId }: { aulaId: string }) {
   const previa = usePrevia()
   const aula = useAula(aulaId)
   const conclusao = useConclusao(aulaId)
@@ -88,9 +93,9 @@ export function AulaPage() {
   return (
     <article className="flex flex-col gap-5">
       {voltar}
-      <Video aula={a} c={conclusao} gravar={!previa} />
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-start lg:gap-10">
         <div className="flex flex-col gap-5">
+          <Video key={a.id} aula={a} c={conclusao} gravar={!previa} />
           <Cabecalho a={a} />
           <div className="flex flex-wrap items-center gap-3">
             {!previa && <Concluir c={conclusao} automatico={idDoYoutube(a.video_url) !== null} />}
