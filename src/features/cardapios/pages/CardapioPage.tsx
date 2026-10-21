@@ -38,13 +38,17 @@ export function CardapioPage() {
   if (!c)
     return (
       <section className="flex flex-col gap-4">
-        <TopoVoltar titulo={textos.titulo} padrao="/app/cardapios" rotulo={textos.voltar} />
+        <TopoVoltar titulo={textos.titulo} para="/app/cardapios" rotulo={textos.voltar} />
         <Vazio>{textos.naoEncontrado}</Vazio>
       </section>
     )
   return (
     <section className="flex flex-col gap-4 lg:gap-5">
-      <TopoVoltar titulo={c.titulo} padrao="/app/cardapios" rotulo={textos.voltar} />
+      <TopoVoltar
+        titulo={c.titulo}
+        para={c.tema_id ? `/app/trilha/tema/${c.tema_id}?aba=cardapio` : '/app/cardapios'}
+        rotulo={textos.voltar}
+      />
       {(c.objetivo || c.descricao) && (
         <div className="flex flex-wrap items-center gap-2 text-[14px] text-suave">
           {c.objetivo && <EtiquetaBrilho tom="verde">{c.objetivo}</EtiquetaBrilho>}

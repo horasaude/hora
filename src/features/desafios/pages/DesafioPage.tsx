@@ -65,13 +65,17 @@ export function DesafioPage() {
   if (!d)
     return (
       <section className="flex flex-col gap-4">
-        <Topo titulo={textos.titulo} rotulo={textos.voltar} />
+        <Topo titulo={textos.titulo} rotulo={textos.voltar} para="/app/desafios" />
         <Vazio>{textos.naoEncontrado}</Vazio>
       </section>
     )
   return (
     <section className="flex flex-col gap-4 lg:gap-5">
-      <Topo titulo={d.tema_id ? textos.doTema : textos.doMesUm} rotulo={textos.voltar} />
+      <Topo
+        titulo={d.tema_id ? textos.doTema : textos.doMesUm}
+        rotulo={textos.voltar}
+        para={d.tema_id ? `/app/trilha/tema/${d.tema_id}?aba=desafio` : '/app/desafios'}
+      />
       <div className="grid items-start gap-5 lg:grid-cols-2 lg:gap-6">
         <div className="flex flex-col gap-4">
           <PremioDesafio d={d} />
