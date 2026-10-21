@@ -1,9 +1,10 @@
 import { useParams } from 'react-router-dom'
-import { AvisoErro, BarraProgresso, BotaoBrilho, LinkBrilho } from '@/components/ui'
+import { AvisoErro, BotaoBrilho, LinkBrilho } from '@/components/ui'
 import { textoResposta } from '@/domain/anamnese'
 import type { Avaliacao } from '../api/avaliacoes.api'
 import { CampoResposta } from '../components/CampoResposta'
 import { Estado } from '../components/Estado'
+import { IconeSalvo, Passos } from '../components/Passos'
 import { useAvaliacoes } from '../hooks/useAvaliacoes'
 import { useResponder } from '../hooks/useResponder'
 import { textos } from '../textos'
@@ -36,12 +37,12 @@ function Responder({ a }: { a: Avaliacao }) {
   const n = a.perguntas.length
   return (
     <div className="flex flex-col gap-5 rounded-[22px] bg-white p-5 shadow-cartao sm:p-6">
-      <BarraProgresso
-        pct={Math.round((r.passo / n) * 100)}
-        legenda={textos.perguntaDe(r.passo + 1, n)}
-      />
       <div>
-        <h2 className="text-[21px] leading-snug font-bold text-verde-escuro">{r.p.texto}</h2>
+        <Passos total={n} feitos={r.passo} />
+        <p className="mt-2.5 text-[13px] text-suave">{textos.perguntaDe(r.passo + 1, n)}</p>
+      </div>
+      <div>
+        <h2 className="text-[23px] leading-snug font-bold text-verde-escuro">{r.p.texto}</h2>
         {r.p.obrigatoria && <p className="mt-1 text-xs text-suave">{textos.obrigatoria}</p>}
       </div>
       <CampoResposta p={r.p} valor={r.respostas[r.p.id] ?? ''} aoMudar={r.responder} />
@@ -54,6 +55,10 @@ function Responder({ a }: { a: Avaliacao }) {
           {r.ocupado ? textos.salvando : r.ultimo ? textos.enviar : textos.avancar}
         </BotaoBrilho>
       </div>
+      <p className="flex items-center gap-1.5 text-[13px] text-suave">
+        <IconeSalvo />
+        {textos.salvo}
+      </p>
     </div>
   )
 }

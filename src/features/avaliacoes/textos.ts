@@ -17,6 +17,8 @@ export const textos = {
   pct: (n: number) => `${n}% respondida`,
   perguntaDe: (i: number, n: number) => `Pergunta ${i} de ${n}`,
   obrigatoria: 'Obrigatória',
+  progresso: 'Progresso da anamnese',
+  salvo: 'Salvo a cada pergunta. Pode parar e voltar depois.',
   sim: 'Sim',
   nao: 'Não',
   escreva: 'Escreva sua resposta',
@@ -28,7 +30,8 @@ export const textos = {
   erroSalvar: 'Não foi possível salvar. Tente de novo.',
   enviada: 'Respostas enviadas. A equipe já pode ver.',
   sair: 'Voltar para Avaliações',
-  aviso: 'Responda sua anamnese para a equipe montar treinos seguros para você.',
+  avisoTitulo: 'Responda sua anamnese',
+  aviso: 'Para a equipe montar treinos seguros para você.',
   privado: 'Só a equipe ORA vê suas respostas.',
   faltam: (n: number) =>
     n === 1 ? '1 avaliação para responder' : `${n} avaliações para responder`,

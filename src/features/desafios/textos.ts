@@ -73,5 +73,5 @@ export const textos = {
     ninguem: 'Ninguém completou desta vez.',
     voce: 'Você completou o desafio',
   },
-  inicio: { ver: 'Ver desafio' },
+  inicio: { titulo: 'Desafio do mês', ver: 'Ver desafio' },
 }

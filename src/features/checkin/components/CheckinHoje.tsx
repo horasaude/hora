@@ -33,8 +33,8 @@ function Topo({ numero }: { numero: number | null }) {
   )
 }
 
-/** Check-in da semana como a planilha da Laís: seis hábitos de segunda a domingo; marca só hoje. */
-export function CheckinHoje() {
+/** Check-in da semana como a planilha da Laís: seis hábitos de segunda a domingo; marca só hoje. semAgua: na tela Seu dia, onde a Água já está na lista. */
+export function CheckinHoje({ semAgua = false }: { semAgua?: boolean }) {
   const meus = useMeusCheckins()
   const fazer = useFazerCheckin()
   const hoje = useHoje()
@@ -73,7 +73,7 @@ export function CheckinHoje() {
         />
       )}
       <LegendaHabitos />
-      <CartaoAgua />
+      {!semAgua && <CartaoAgua />}
       {fazer.isError && !foto && <AvisoErro texto={textos.erro} />}
       <Sequencia />
       {foto && (

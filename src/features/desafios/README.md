@@ -13,7 +13,7 @@ Desafios da aluna (/app/desafios e /app/desafios/:id) e o cartão do desafio em 
 | components/CalendarioDesafio.tsx  | Dias do período em quadradinhos: feito verde, hoje tracejado dourado                                             |
 | components/Progresso.tsx          | Barra dourada "Dia X de N · faltam Y para o prêmio"                                                              |
 | components/RankingDesafio.tsx     | Quem está no desafio · N alunas, ranking pelo apelido (ListaRanking da feature ranking)                          |
-| components/CartaoDesafioAtivo.tsx | Início: desafio em andamento de que ela participa, com barra e check-in                                          |
+| components/CartaoDesafioAtivo.tsx | Início: "Desafio do mês" com troféu e prêmio; o que ela participa, senão o do tema dela (ou o geral) com Entrar  |
 | api/desafios.api.ts               | meus_desafios, desafio_checkins dela, ranking_desafio, entrar_desafio, checkin_desafio                           |
 
 Regras no banco: entrar e marcar só com acesso ativo, no período e com o dado do tipo (número ou foto); um check-in por dia; pontos do dia e bônus pelo gatilho pontos_do_desafio. Foto no espaço privado checkins, na pasta da aluna. Quem escolheu não aparecer no ranking some para as outras.

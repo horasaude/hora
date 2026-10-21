@@ -1,5 +1,15 @@
 export const textos = {
-  titulo: 'Chegou a sua hora de começar',
+  titulo: 'Entrar na comunidade',
+  boasVindas: {
+    titulo: 'Doze meses de cuidado com quem entende de você.',
+    subtitulo: 'Nutrição, saúde e movimento com a Ana, a Dra. Clara e a Laís, num só lugar.',
+    chips: [
+      { id: 'aulas', nome: 'Aulas em vídeo' },
+      { id: 'cardapios', nome: 'Cardápios' },
+      { id: 'treinos', nome: 'Treinos' },
+      { id: 'lives', nome: 'Lives' },
+    ],
+  },
   email: 'E-mail',
   senha: 'Senha',
   entrar: 'Entrar',

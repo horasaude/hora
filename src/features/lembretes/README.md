@@ -1,6 +1,6 @@
 # feature: lembretes
 
-Pedidos da equipe para a aluna: a profissional toca em Lembrar na ficha (painel > Alunas, "O que ela já fez") e a aluna vê no Início o cartão "A equipe pediu" com o botão Fazer; se ativou as notificações, também chega no celular (Edge Function lembrar-aluna).
+Pedidos da equipe para a aluna: a profissional toca em Lembrar na ficha (painel > Alunas, "O que ela já fez") e a aluna vê no Início um cartão coral por pedido (em "Pedido da equipe") com a etiqueta Fazer; se ativou as notificações, também chega no celular (Edge Function lembrar-aluna).
 
 | Arquivo                        | Faz                                                         |
 | ------------------------------ | ----------------------------------------------------------- |

@@ -1,13 +1,16 @@
 # feature: inicio
 
-Início da aluna (/app), seguindo docs/referencias/app-aluna.png.
+Início da aluna (/app), na ordem do protótipo (ora-apresentacao, tela inicio).
 
-| Arquivo                | Faz                                                                                                                                                                                            |
-| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| pages/InicioPage.tsx   | Saudação, resumo (pontos no mês, dias seguidos, posição), check-in, aula, um aviso de live só (LiveHoje: card dourado se há live hoje, senão a faixa ocre da próxima), ranking e desafio ativo |
-| components/Resumo.tsx  | Os três números do topo                                                                                                                                                                        |
-| components/Cartoes.tsx | Aula de hoje                                                                                                                                                                                   |
-| textos.ts              | Copy                                                                                                                                                                                           |
+| Arquivo                     | Faz                                                                                                                                                                 |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| pages/InicioPage.tsx        | Topo; pontos; Pedido da equipe (pedidos e anamnese, título some sem nada); avisos; Seu dia (ResumoDoDia do checkin); Continue de onde parou; desafio; live; indicar |
+| components/Topo.tsx         | Foto ou inicial com a coroinha, "Dia N da sua jornada", "Oi, Nome" e o sino (leva a Minha conta, onde ficam as notificações)                                        |
+| components/CartaoPontos.tsx | Cartão verde: pontos no mês, dias seguidos e posição no ranking; leva ao ranking                                                                                    |
+| components/Cartoes.tsx      | Continue de onde parou: próxima aula não concluída do tema do momento, com miniatura, tema e número da aula                                                         |
+| components/ProximaLive.tsx  | Próxima live com foto da profissional; com live hoje, o cartão dourado com Entrar (LiveHoje)                                                                        |
+| components/Icones.tsx       | Sino, estrela e seta                                                                                                                                                |
+| textos.ts                   | Copy                                                                                                                                                                |
 
-Aula de hoje vem de useTrilha (feature trilha). Sem acesso ativo, mostra só o aviso de que o acesso começa na confirmação do pagamento.
+No computador, duas colunas: à esquerda pontos, pedidos, avisos, Seu dia e aula; à direita desafio (CartaoDesafioAtivo), live e indicação. Sem acesso ativo, mostra só o aviso de que o acesso começa na confirmação do pagamento.
 Exporta (index.ts): InicioPage.

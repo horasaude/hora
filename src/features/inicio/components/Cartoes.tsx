@@ -1,25 +1,37 @@
 import { Link } from 'react-router-dom'
-import { Cartao, IconePlay } from '@/components/ui'
+import { Cartao, EtiquetaBrilho, IconePlay } from '@/components/ui'
+import type { AulaTrilha, TemaTrilha } from '@/domain/trilha'
+import { urlCapa } from '@/lib/capas'
 import { textos } from '../textos'
 
-type Aula = { id: string; titulo: string; duracao_minutos: number | null }
+const t = textos.aula
 
-/** Aula de hoje: play verde escuro, título e duração. */
-export function AulaDeHoje({ aula }: { aula: Aula }) {
+/** Continue de onde parou: miniatura do vídeo, tema e número da aula, título. */
+export function ContinueAula({ aula, tema }: { aula: AulaTrilha; tema: TemaTrilha }) {
+  const capa = urlCapa(aula.capa) ?? aula.miniatura ?? urlCapa(tema.capa)
+  const numero = tema.aulas.findIndex((a) => a.id === aula.id) + 1
   return (
-    <Link to={`/app/trilha/aula/${aula.id}`} aria-label={textos.aula.abrir(aula.titulo)}>
-      <Cartao className="flex items-center gap-4">
-        <span className="brilho brilho-escuro grid size-10 shrink-0 place-items-center rounded-full">
-          <IconePlay className="ml-0.5 size-3.5" />
-        </span>
-        <span className="min-w-0">
-          <span className="block text-base font-bold text-tinta">{textos.aula.titulo}</span>
-          <span className="block text-sm text-suave">
-            {aula.titulo}
-            {aula.duracao_minutos ? ` · ${aula.duracao_minutos} min` : ''}
+    <section className="flex flex-col gap-2.5">
+      <h2 className="text-[15px] font-bold text-tinta">{t.titulo}</h2>
+      <Link to={`/app/trilha/aula/${aula.id}`} aria-label={t.abrir(aula.titulo)}>
+        <Cartao className="flex items-center gap-3 p-3 transition hover:shadow-menu lg:p-4">
+          <span
+            className="relative grid aspect-video w-[104px] shrink-0 place-items-center overflow-hidden rounded-xl bg-verde-escuro bg-cover bg-center lg:w-36"
+            style={capa ? { backgroundImage: `url(${capa})` } : undefined}
+          >
+            <span className="brilho brilho-escuro grid size-8 place-items-center rounded-full">
+              <IconePlay className="ml-0.5 size-3" />
+            </span>
           </span>
-        </span>
-      </Cartao>
-    </Link>
+          <span className="flex min-w-0 flex-col items-start gap-1.5">
+            <EtiquetaBrilho tom="verde">{t.etiqueta(tema.titulo, numero)}</EtiquetaBrilho>
+            <span className="text-[15px] leading-snug font-bold text-tinta">{aula.titulo}</span>
+            {aula.duracao_minutos ? (
+              <span className="text-[13px] text-suave">{t.duracao(aula.duracao_minutos)}</span>
+            ) : null}
+          </span>
+        </Cartao>
+      </Link>
+    </section>
   )
 }

@@ -36,6 +36,19 @@ export const IconeTreino = (p: P) => (
     <path d="M6.5 8v8M4 10v4M17.5 8v8M20 10v4M6.5 12h11" />
   </svg>
 )
+export const IconeCamera = (p: P) => (
+  <svg {...base} {...p}>
+    <path d="M4 8h3l1.5-2.5h7L17 8h3v11H4z" />
+    <circle cx="12" cy="13.5" r="3.5" />
+  </svg>
+)
+export const IconePrato = (p: P) => (
+  <svg {...base} {...p}>
+    <circle cx="13" cy="12" r="7" />
+    <circle cx="13" cy="12" r="3.5" />
+    <path d="M3 4v5M4.5 9v11M6 4v5M3 9h3" />
+  </svg>
+)
 export const IconeVenci = (p: P) => (
   <svg {...base} {...p}>
     <path d="M7 4h10v4a5 5 0 0 1-10 0V4ZM7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4M12 13v4M8.5 20h7M9.5 17h5" />

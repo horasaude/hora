@@ -15,6 +15,10 @@ export const rotasAluna: RouteObject[] = [
     index: true,
     lazy: async () => ({ Component: (await import('@/features/inicio')).InicioPage }),
   },
+  {
+    path: 'dia',
+    lazy: async () => ({ Component: (await import('@/features/checkin')).DiaPage }),
+  },
   { path: 'trilha', lazy: async () => ({ Component: (await trilha()).TrilhaPage }) },
   { path: 'trilha/aula/:aulaId', lazy: async () => ({ Component: (await trilha()).AulaPage }) },
   { path: 'trilha/tema/:temaId', lazy: async () => ({ Component: (await trilha()).TemaPage }) },
