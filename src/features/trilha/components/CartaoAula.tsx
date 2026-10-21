@@ -51,7 +51,7 @@ function Bolinha({ feita }: { feita: boolean }) {
 
 /** Miniatura 16:9 com a capa da aula (ou do tema) e o estado no meio. */
 function Miniatura({ aula, tema }: { aula: AulaTrilha; tema?: DoTema }) {
-  const capa = urlCapa(aula.capa ?? tema?.capa)
+  const capa = urlCapa(aula.capa) ?? aula.miniatura ?? urlCapa(tema?.capa)
   return (
     <span className="relative grid aspect-video w-[40%] max-w-44 shrink-0 place-items-center overflow-hidden rounded-[12px] bg-verde-escuro sm:w-40">
       {!capa && tema && (

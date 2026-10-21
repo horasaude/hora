@@ -43,7 +43,7 @@ function Situacao({ tema, dia }: { tema: TemaTrilha; dia: number }) {
   )
 }
 
-/** Cartão do tema: capa, Tema N, nome, frase e se está aberto ou quando abre. */
+/** Cartão do tema: capa com Tema N e o nome escritos, frase e se está aberto ou quando abre. */
 function CartaoTema({ tema, n, dia }: { tema: TemaTrilha; n: number; dia: number }) {
   const link = useLinkTema()
   const capa = urlCapa(tema.capa)
@@ -54,32 +54,34 @@ function CartaoTema({ tema, n, dia }: { tema: TemaTrilha; n: number; dia: number
         aria-label={t.abrir(tema.titulo)}
         className={`flex h-full flex-col overflow-hidden rounded-[20px] border border-linha bg-white transition hover:shadow-cartao active:scale-[0.99] ${tema.aberto ? '' : 'opacity-80'}`}
       >
-        <span className="relative grid aspect-video place-items-center bg-verde-escuro text-white">
+        <span className="relative flex aspect-video flex-col justify-end bg-verde-escuro p-4 text-white">
           {capa ? (
-            <img
-              src={capa}
-              alt=""
-              loading="lazy"
-              className={`absolute inset-0 size-full object-cover ${tema.aberto ? '' : 'grayscale'}`}
-            />
+            <>
+              <img
+                src={capa}
+                alt=""
+                loading="lazy"
+                className={`absolute inset-0 size-full object-cover ${tema.aberto ? '' : 'grayscale'}`}
+              />
+              <span
+                aria-hidden
+                className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"
+              />
+            </>
           ) : (
-            <CapaAutomatica
-              chave={tema.chave}
-              cor={tema.cor}
-              icone={tema.aberto ? 'size-16' : 'size-16 opacity-0'}
-            />
+            <CapaAutomatica chave={tema.chave} cor={tema.cor} icone="size-12 opacity-50" direita />
           )}
           {!tema.aberto && (
-            <span className="absolute grid size-11 place-items-center rounded-full bg-white/90 text-verde-escuro">
+            <span className="absolute top-3 right-3 grid size-9 place-items-center rounded-full bg-white/90 text-verde-escuro">
               <IconeCadeado />
             </span>
           )}
-        </span>
-        <span className="flex flex-1 flex-col gap-1 p-4">
-          <span className="text-[11px] font-bold tracking-wide text-suave uppercase">
+          <span className="relative text-[11px] font-bold tracking-wide uppercase opacity-85">
             {t.temaN(n)}
           </span>
-          <span className="text-[17px] leading-snug font-bold text-tinta">{tema.titulo}</span>
+          <span className="relative text-[24px] leading-tight font-bold">{tema.titulo}</span>
+        </span>
+        <span className="flex flex-1 flex-col gap-1 p-4">
           {tema.frase && <span className="text-sm leading-snug text-suave">{tema.frase}</span>}
           <span className="mt-auto pt-2">
             <Situacao tema={tema} dia={dia} />

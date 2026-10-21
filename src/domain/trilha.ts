@@ -12,6 +12,8 @@ export type AulaTrilha = {
   liberada: boolean
   /** Miniatura da aula (espaço público capas); sem ela, a do tema ou um fundo de cor. */
   capa?: string | null
+  /** Imagem do próprio vídeo (YouTube); só vem quando a aula está liberada. */
+  miniatura?: string | null
   /** Fechada pelas profissionais (cadeado com "Em breve"). */
   em_breve?: boolean
   concluida: boolean

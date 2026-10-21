@@ -11,6 +11,7 @@ const aula = z.object({
   liberada: z.boolean(),
   em_breve: z.boolean().default(false),
   capa: z.string().nullable().default(null),
+  miniatura: z.string().nullable().default(null),
   concluida: z.boolean(),
 })
 

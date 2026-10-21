@@ -24,7 +24,7 @@ async function montar(db) {
     update public.perfis set acesso_inicio_em = ${diaAtras(9)} where id = '${ALUNA}';
     update public.perfis set acesso_inicio_em = ${diaAtras(2)} where id = '${NOVA}';
     insert into public.aulas (id, etapa_id, titulo, video_url, dia_liberacao, publicado) values
-      ('${D1}', ${etapaDe('preparacao')}, 'Boas-vindas ao Detox', 'https://v.t/d1', 1, true),
+      ('${D1}', ${etapaDe('preparacao')}, 'Boas-vindas ao Detox', 'https://youtu.be/d1aaaaaaaaa', 1, true),
       ('${E1}', ${etapaDe('emagrecimento')}, 'Emagrecer 1', 'https://v.t/e1', 1, true),
       ('${C1}', ${etapaDe('composicao')}, 'Composição 1', 'https://v.t/c1', 1, true);
   `)
@@ -41,6 +41,11 @@ async function sequencia(t) {
   await esperaValor('dia 3: Detox aberto', trilha('temas,0,aberto'), 'true')
   await esperaValor('dia 3: segundo tema fechado', trilha('temas,1,aberto'), 'false')
   await esperaValor('aula do Detox abre', ver(D1), 1)
+  await esperaValor(
+    'aula aberta traz a imagem do vídeo; a fechada não',
+    `select (public.trilha_aluna() #>> '{temas,0,aulas,0,miniatura}') || '|' || coalesce(public.trilha_aluna() #>> '{temas,1,aulas,0,miniatura}', 'nada')`,
+    'https://i.ytimg.com/vi/d1aaaaaaaaa/hqdefault.jpg|nada',
+  )
   await esperaValor('aula do tema fechado não devolve vídeo nem linha', ver(E1), 0)
   await esperaValor(
     'a lista mostra a aula fechada sem vídeo',

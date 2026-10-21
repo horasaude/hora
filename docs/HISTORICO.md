@@ -2,6 +2,11 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-21 · main · Capa do tema com o nome escrito; aula com a imagem do vídeo
+
+- Cartão do tema: "Tema N" e o nome escritos na capa (foto com sombra embaixo; sem foto, a capa automática com o ícone à direita); cadeado no canto.
+- Aula sem miniatura enviada usa a imagem do próprio vídeo do YouTube (i.ytimg.com hqdefault), que o banco só manda quando a aula está liberada (aulas_do_tema.miniatura; migração 20261101160000_miniatura_do_video.sql).
+
 ## 2026-10-21 · main · Prévia simula check e barra; player pede 1080p
 
 - Os testes da equipe eram pela prévia (/app/previa), que não grava; agora a prévia marca a aula assistida (90%) só na tela, guardado na sessionStorage da aba, e a barra do tema anda; nada vai para o banco.
