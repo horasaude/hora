@@ -2,6 +2,14 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-20 · main · Temas em sequência pela data de assinatura; tudo do tema dentro do tema
+
+- Regra nova (migração 20261101150000_temas_em_sequencia.sql): sem escolha de tema e sem etapas. Os temas abrem em sequência pela data de assinatura: o primeiro (Detox, antiga Preparação) no dia 1 por 7 dias, os seguintes conforme temas.dias_liberado (padrão 30); a ordem é a do painel (arrastar). Tema aberto continua aberto. Ao abrir, aulas, cardápios, treinos, desafio e materiais do tema aparecem juntos (tema_aberto, inicio_do_tema, aula_liberada, trilha_aluna/trilha_previa com temas[]).
+- Cada tema tem uma etapa interna só (etapa_do_tema); cardapios.tema_id (o objetivo segue o tema), desafios.tema_id com janela pessoal (janela_desafio: dias do tema de cada aluna), tema_materiais (salvar_materiais_tema; Edge Function materiais-aula aceita "tema:<id>").
+- Aluna: menu com Início, Comece aqui, Comunidade (Lives, Fórum, Ranking), Loja e Perfil; Cardápios, Treinos e Desafios saíram do menu. Comece por aqui mostra os primeiros passos e os temas (cartões com capa, aberto, "Abre em N dias" ou Em breve); a página do tema (/app/trilha/tema/:id) tem abas Aulas, Cardápio, Treinos, Desafio e Materiais.
+- Painel: tabela de temas com "Abre para a aluna" (Dia X · N dias); editar tema tem os dias; novo tema pede os dias e entra no fim; o cartão do tema reúne Aulas, Cardápios, Treinos, Desafio e Materiais com os botões de criar já dentro do tema. A aula pede só o tema. Desafio pode ser de um tema (sem datas) ou geral.
+- Testes de banco reescritos para a regra nova (trilha, conteúdo, materiais, cardápios, treinos, pendências, aula assistida, liberação).
+
 ## 2026-10-20 · main · Trilha no visual de área de membros (capas, módulos, miniaturas) e tampa no YouTube
 
 - Tema e aula ganham capa (temas.capa_path, aulas.capa_path; espaço público capas, só imagem até 5 MB; migração 20261101140000_capas_trilha.sql). Painel: "Capa do tema" na janela de editar tema e "Miniatura da aula" na janela da aula.

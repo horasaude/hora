@@ -11,5 +11,10 @@ export const liberacao = {
   salvo: 'Salvo.',
   erro: 'Não foi possível salvar.',
   arrastar: 'Arraste para mudar a ordem',
+  abre: 'Abre para a aluna',
+  diaEDuracao: (dia: number, dias: number) => `Dia ${dia} · ${dias} dias`,
+  campoDias: 'Dias até abrir o próximo tema',
+  erroDias: 'Use de 1 a 365 dias.',
+  abreNoDia: (dia: number) => `Dia ${dia} da aluna`,
   erroOrdem: 'Não foi possível mudar a ordem.',
 }

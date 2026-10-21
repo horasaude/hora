@@ -11,13 +11,13 @@ import {
   registrarFeito,
   salvarPreferencias,
 } from '../api/treinos.api'
-import { usePreviaTreinos } from '../previa'
+import { useFiltroTreinos, usePreviaTreinos } from '../previa'
 
 export const usePreferencias = () =>
   useQuery({ queryKey: ['treino-preferencias'], queryFn: buscarPreferencias })
 
 export function useRotina(nivel: string, local: string) {
-  const f = usePreviaTreinos()
+  const f = useFiltroTreinos()
   return useQuery({
     queryKey: ['rotina-aluna', nivel, local, f?.tema],
     queryFn: () => buscarRotina(nivel, local, f),
@@ -26,7 +26,7 @@ export function useRotina(nivel: string, local: string) {
 }
 
 export function useTreinosDoNivel(nivel: string, local: string) {
-  const f = usePreviaTreinos()
+  const f = useFiltroTreinos()
   return useQuery({
     queryKey: ['treinos-aluna', nivel, local, f?.tema],
     queryFn: () => listarTreinos(nivel, local, f),

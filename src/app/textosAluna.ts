@@ -8,6 +8,8 @@ export const textosAluna = {
   nav: {
     inicio: 'Início',
     trilhas: 'Trilhas',
+    comece: 'Comece aqui',
+    comecePorAqui: 'Comece por aqui',
     temas: 'Temas',
     desafioDoMes: 'Desafio do mês',
     comunidade: 'Comunidade',

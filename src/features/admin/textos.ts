@@ -90,7 +90,7 @@ export const textos = {
     titulo: 'Aulas',
     nova: 'Nova aula',
     editar: 'Editar aula',
-    vazio: 'Nenhuma aula nesta etapa.',
+    vazio: 'Nenhuma aula neste tema.',
     campoTitulo: 'Título da aula',
     campoDescricao: 'Descrição',
     campoVideo: 'Vídeo do YouTube',

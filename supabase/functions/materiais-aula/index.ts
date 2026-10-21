@@ -3,7 +3,7 @@ import { cabecalhosCors, origemPermitida } from '../_shared/cors.ts'
 
 // Materiais da aula para a aluna: lê a lista com o token dela (a regra de acesso só devolve material
 // de aula liberada) e só então gera links assinados de 10 minutos com a chave de serviço.
-// aula_id "comece" devolve os arquivos do Comece por aqui (para quem tem acesso).
+// aula_id "comece" devolve os arquivos do Comece por aqui; "tema:<id>" os do tema (só se o tema já abriu para ela).
 const URL_SUPABASE = Deno.env.get('SUPABASE_URL') ?? ''
 const servico = createClient(URL_SUPABASE, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '', {
   auth: { persistSession: false, autoRefreshToken: false },
@@ -64,7 +64,11 @@ Deno.serve(async (req) => {
     aula = ''
   }
   const comece = aula === 'comece'
-  if (!comece && !UUID.test(aula)) return responder({ ok: false, erro: 'invalido' }, 400, origem)
+  const tema = aula.startsWith('tema:') ? aula.slice(5) : null
+  if (tema !== null && !UUID.test(tema))
+    return responder({ ok: false, erro: 'invalido' }, 400, origem)
+  if (!comece && tema === null && !UUID.test(aula))
+    return responder({ ok: false, erro: 'invalido' }, 400, origem)
   const daAluna = createClient(URL_SUPABASE, Deno.env.get('SUPABASE_ANON_KEY') ?? '', {
     global: { headers: { Authorization: autorizacao } },
     auth: { persistSession: false, autoRefreshToken: false },

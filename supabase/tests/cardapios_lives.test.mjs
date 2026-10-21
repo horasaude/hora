@@ -20,6 +20,7 @@ async function montar(db) {
   )
   await db.exec(`
     update public.perfis set papel = 'admin' where id = '${ADMIN}';
+    update public.temas set publicado = true;
     update public.perfis set acesso_inicio_em = now() - interval '3 days' where id in ('${ALUNA}', '${OUTRA}');
     insert into public.cardapios (id, objetivo, titulo, publicado) values
       ('${PUBLICADO}', 'Emagrecimento', 'Semana leve', true),
@@ -40,7 +41,7 @@ async function cardapios(t) {
   const { esperaValor, esperaErro } = t
   await t.comoAluna(ALUNA)
   await esperaValor(
-    'sem tema, aluna vê só o cardápio de Preparação publicado',
+    'no Detox, aluna vê só o cardápio publicado do Detox',
     `select string_agg(titulo, ',') from public.cardapios`,
     'Primeira semana',
   )
@@ -126,17 +127,17 @@ async function comTema(t) {
   const { esperaValor } = t
   await t.comoDono()
   await t.db.query(
-    `update public.perfis set tema_atual_id = (select id from public.temas where chave = 'emagrecimento') where id = '${ALUNA}'`,
+    `update public.perfis set acesso_inicio_em = now() - interval '10 days' where id = '${ALUNA}'`,
   )
   await t.comoAluna(ALUNA)
   await esperaValor(
-    'com tema, vê só os cardápios do tema (a Preparação some)',
-    `select string_agg(titulo, ',') from public.cardapios`,
-    'Semana leve',
+    'com o segundo tema aberto, vê o novo e continua vendo o do Detox',
+    `select string_agg(titulo, ',' order by titulo) from public.cardapios`,
+    'Primeira semana,Semana leve',
   )
   await t.comoAluna(OUTRA)
   await esperaValor(
-    'outra aluna sem tema continua só na Preparação',
+    'outra aluna, ainda no Detox, vê só o do Detox',
     `select string_agg(titulo, ',') from public.cardapios`,
     'Primeira semana',
   )

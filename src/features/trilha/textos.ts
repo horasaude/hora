@@ -8,80 +8,25 @@ export const textos = {
   semAcesso: 'Seu acesso começa assim que o pagamento for confirmado.',
   dia: (dia: number, total: number) => `Dia ${dia} de ${total}`,
   progresso: (pct: number, faltam: number) =>
-    `${pct}% da etapa` +
+    `${pct}% do tema` +
     (faltam === 0
-      ? ' · etapa completa'
+      ? ' · tema completo'
       : faltam === 1
         ? ' · falta 1 aula'
         : ` · faltam ${faltam} aulas`),
-  rotuloProgresso: 'Progresso da etapa',
-  meta: (pct: number, aulas: number, dias: number, proxima: string | null) => {
-    const partes = [
-      aulas > 0 && (aulas === 1 ? '1 aula' : `${aulas} aulas`),
-      dias > 0 && (dias === 1 ? '1 dia' : `${dias} dias`),
-    ].filter(Boolean)
-    if (!proxima || partes.length === 0) return `${pct}% da etapa`
-    return `Faltam ${partes.join(' e ')} para abrir ${proxima}`
-  },
+  rotuloProgresso: 'Progresso do tema',
   minutos: (n: number) => `${n} min`,
   diaN: (n: number) => `Dia ${n}`,
   concluida: 'Concluída',
   liberaNoDia: (n: number) => `Libera no dia ${n}`,
   emBreve: 'Em breve',
+  receitasEMateriais: 'Ver receitas e materiais da nutricionista',
   aulaN: (n: number, dia: number) => `Aula ${n} · Dia ${dia}`,
-  modulo: (feitas: number, total: number) =>
-    total === 1
-      ? `1 aula · ${feitas} de 1 concluída`
-      : `${total} aulas · ${feitas} de ${total} concluídas`,
-  fechadaModulo: 'Fechada',
-  etapaN: (n: number, titulo: string) => `Etapa ${n}: ${titulo}`,
   liberaEm: (n: number) => (n === 1 ? 'Libera amanhã' : `Libera em ${n} dias`),
-  preparacao: {
-    titulo: 'Preparação',
-    subtitulo: 'Uma aula por dia, do dia 1 ao dia 7',
-    vazio: 'As aulas da preparação aparecem aqui assim que forem publicadas.',
-  },
-  escolhaEm: (n: number) =>
-    n === 1 ? 'Escolha do seu tema libera amanhã' : `Escolha do seu tema libera em ${n} dias`,
-  escolhaTexto: 'No dia 8 você escolhe o tema que vai guiar a sua trilha.',
-  verPreparacao: 'Rever a preparação',
-  abasRotulo: 'Etapas do tema',
-  etapaVazia: 'As aulas desta etapa aparecem aqui assim que forem publicadas.',
-  bloqueada: {
-    titulo: (etapa: string) => `${etapa} ainda está fechada`,
-    texto: (anterior: string) =>
-      `Ela abre quando as duas metas de ${anterior} estiverem completas.`,
-    aulas: (feitas: number, total: number, faltam: number) =>
-      `${feitas} de ${total} aulas` +
-      (faltam > 0 ? `, faltam ${faltam} para 80%` : ', meta cumprida'),
-    dias: (dia: number, meta: number) => `Dia ${Math.min(dia, meta)} de ${meta}`,
-    rotuloAulas: 'Aulas concluídas da etapa anterior',
-    rotuloDias: 'Dias na etapa anterior',
-  },
-  conquista: (etapa: string) => `${etapa} liberada. Você cumpriu as duas metas da etapa anterior.`,
-  tema: {
-    titulo: 'Escolha o seu tema',
-    texto: 'Ele guia as suas aulas e os seus cardápios. Dá para trocar depois em Perfil.',
-    confirmarTitulo: (tema: string) => `Confirmar ${tema}?`,
-    confirmarTexto:
-      'A Arrancada começa hoje. Se você voltar a um tema que já fez, continua de onde parou.',
-    trocarTexto: 'Ao trocar, a etapa recomeça no novo tema. O progresso deste tema fica guardado.',
-    continuar: 'Continuar',
-    confirmar: 'Confirmar tema',
-    confirmando: 'Salvando',
-    voltar: 'Voltar',
-    depois: 'Escolher depois',
-    erro: 'Não deu certo agora. Tente de novo.',
-    meu: 'Meu tema',
-    nenhum: 'Você ainda não escolheu um tema.',
-    trocar: 'Trocar tema',
-    escolher: 'Escolher tema',
-    aindaNao: (n: number) => `A escolha libera no dia 8 (faltam ${n} dias).`,
-  },
   comece: {
-    titulo: 'Comece por aqui',
+    titulo: 'Primeiros passos',
     progresso: (n: number, total: number) => `${n} de ${total} passos`,
-    recolhido: 'Comece por aqui',
+    recolhido: 'Primeiros passos',
     recolher: 'Recolher',
     feito: 'Feito',
     marcar: 'Marcar como feito',
@@ -118,6 +63,28 @@ export const textos = {
       ],
     },
   },
+  sequencia: {
+    titulo: 'Comece por aqui',
+    temaN: (n: number) => `Tema ${n}`,
+    aberto: (aulas: number) => (aulas === 1 ? 'Aberto · 1 aula' : `Aberto · ${aulas} aulas`),
+    abreEm: (n: number) => (n === 1 ? 'Abre amanhã' : `Abre em ${n} dias`),
+    emBreve: 'Em breve',
+    abrir: (titulo: string) => `Abrir o tema ${titulo}`,
+    vazio: 'Os temas aparecem aqui em breve.',
+    voltar: 'Voltar para os temas',
+    fechado: (n: number) => (n === 1 ? 'Este tema abre amanhã.' : `Este tema abre em ${n} dias.`),
+    fechadoBreve: 'Este tema chega em breve.',
+    naoEncontrado: 'Tema não encontrado.',
+    abas: {
+      aulas: 'Aulas',
+      cardapio: 'Cardápio',
+      treinos: 'Treinos',
+      desafio: 'Desafio',
+      materiais: 'Materiais',
+    },
+    abasRotulo: 'Partes do tema',
+    semAulas: 'As aulas deste tema aparecem aqui em breve.',
+  },
   previa: {
     titulo: 'Pré-visualização',
     dia: 'Dia',
@@ -130,6 +97,7 @@ export const textos = {
   materiais: {
     titulo: 'Arquivos da aula',
     comece: 'Arquivos',
+    vazioTema: 'Os materiais deste tema aparecem aqui em breve.',
     baixar: 'Baixar',
     abrir: 'Abrir',
     fechar: 'Fechar',

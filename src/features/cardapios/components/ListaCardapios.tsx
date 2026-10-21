@@ -3,8 +3,8 @@ import { useCardapios } from '../hooks/useCardapios'
 import { textos } from '../textos'
 import { CartaoCardapio } from './CartaoCardapio'
 
-/** Cardápios publicados do tema dela; sem tema, os de Preparação (o banco já entrega só esses). */
-export function ListaCardapios() {
+/** Cardápios publicados; com temaId, só os daquele tema (o banco já entrega só os de temas abertos). */
+export function ListaCardapios({ temaId }: { temaId?: string }) {
   const cardapios = useCardapios()
   if (cardapios.isPending) return <Carregando texto={textos.carregando} />
   if (cardapios.isError)
@@ -15,10 +15,11 @@ export function ListaCardapios() {
         aoTentar={() => cardapios.refetch()}
       />
     )
-  if (cardapios.data.length === 0) return <Vazio>{textos.vazio}</Vazio>
+  const lista = temaId ? cardapios.data.filter((c) => c.tema_id === temaId) : cardapios.data
+  if (lista.length === 0) return <Vazio>{textos.vazio}</Vazio>
   return (
     <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-      {cardapios.data.map((c) => (
+      {lista.map((c) => (
         <li key={c.id}>
           <CartaoCardapio c={c} />
         </li>

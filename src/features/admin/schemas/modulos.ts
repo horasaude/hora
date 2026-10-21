@@ -18,12 +18,17 @@ const DIA_MS = 86_400_000
 const diasEntre = (inicio: string, fim: string) =>
   Math.round((Date.parse(fim) - Date.parse(inicio)) / DIA_MS) + 1
 
+/** Desafio de tema não tem datas: vale nos dias do tema de cada aluna (o banco guarda um período aberto). */
+const SEM_DATA = { inicio: '2026-01-01', fim: '2099-12-31' }
+const dataSeGeral = z.string()
+
 export const esquemaDesafio = z
   .object({
+    tema_id: z.string(),
     nome: obrigatorio(120),
     descricao: texto(2000),
-    inicio: data,
-    fim: data,
+    inicio: dataSeGeral,
+    fim: dataSeGeral,
     tipo_checkin: z.enum(['sim_nao', 'foto', 'numero']),
     unidade: texto(40),
     meta_diaria: z.string().trim(),
@@ -34,20 +39,33 @@ export const esquemaDesafio = z
     premio_surpresa: z.boolean(),
     publico: z.enum(['todas', 'inscritas']),
   })
-  .refine((v) => v.fim >= v.inicio, { path: ['fim'], message: d.periodo })
-  .refine((v) => v.fim < v.inicio || v.meta_dias <= diasEntre(v.inicio, v.fim), {
-    path: ['meta_dias'],
-    message: d.metaDias,
+  .refine((v) => v.tema_id !== '' || data.safeParse(v.inicio).success, {
+    path: ['inicio'],
+    message: d.data,
   })
+  .refine((v) => v.tema_id !== '' || data.safeParse(v.fim).success, {
+    path: ['fim'],
+    message: d.data,
+  })
+  .refine((v) => v.tema_id !== '' || v.fim >= v.inicio, { path: ['fim'], message: d.periodo })
+  .refine(
+    (v) => v.tema_id !== '' || v.fim < v.inicio || v.meta_dias <= diasEntre(v.inicio, v.fim),
+    {
+      path: ['meta_dias'],
+      message: d.metaDias,
+    },
+  )
   .refine(
     (v) =>
       v.tipo_checkin !== 'numero' || (v.unidade !== '' && /^[1-9]\d{0,5}$/.test(v.meta_diaria)),
     { path: ['meta_diaria'], message: d.numero },
   )
-  .transform(({ unidade, meta_diaria, ...resto }) => {
+  .transform(({ unidade, meta_diaria, tema_id, ...resto }) => {
     const numero = resto.tipo_checkin === 'numero'
     return {
       ...resto,
+      ...(tema_id ? SEM_DATA : {}),
+      tema_id: tema_id || null,
       unidade: numero ? unidade : null,
       meta_diaria: numero ? Number(meta_diaria) : null,
     }

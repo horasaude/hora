@@ -78,14 +78,13 @@ async function temas(t) {
     `select (select x ->> 'em_breve' from jsonb_array_elements(public.trilha_aluna() -> 'temas') x where x ->> 'id' = ${ema}::text)::boolean`,
     true,
   )
-  await esperaErro('tema Em breve não pode ser escolhido', `select public.escolher_tema(${ema})`, '22023')
   await t.comoDono()
   await t.db.query(`update public.temas set libera_em = null where id = ${ema}`)
   await t.comoAluna(ALUNA)
   await esperaValor(
-    'tema liberado pode ser escolhido',
-    `select count(*)::int from (select public.escolher_tema(${ema})) x`,
-    1,
+    'sem a data, o tema volta a abrir no dia certo',
+    `select (select x ->> 'em_breve' from jsonb_array_elements(public.trilha_aluna() -> 'temas') x where x ->> 'id' = ${ema}::text)::boolean`,
+    false,
   )
 }
 

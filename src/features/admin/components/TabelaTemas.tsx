@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { iniciosDosTemas } from '@/domain/liberacao'
 import { ordenarTemas, type Tema } from '../api/conteudo.api'
 import { useAcoes } from '../hooks/usePainel'
 import { textos } from '../textos'
@@ -58,6 +59,7 @@ export function TabelaTemas({ temas, ativo }: { temas: Tema[]; ativo?: string })
   const { ordenar } = useAcoes()
   const arrastar = useArrastar(temas)
   const ocupado = ordenar.isPending || arrastar.ocupado
+  const inicios = iniciosDosTemas(arrastar.lista)
   return (
     <>
       {arrastar.erro && (
@@ -65,7 +67,7 @@ export function TabelaTemas({ temas, ativo }: { temas: Tema[]; ativo?: string })
           {tl.erroOrdem}
         </p>
       )}
-      <Tabela colunas={[textos.temas.coluna, textos.ordem, textos.status]}>
+      <Tabela colunas={[textos.temas.coluna, tl.abre, textos.ordem, textos.status]}>
         {arrastar.lista.map((tema, i, lista) => (
           <LinhaTabela
             key={tema.id}
@@ -74,6 +76,9 @@ export function TabelaTemas({ temas, ativo }: { temas: Tema[]; ativo?: string })
             titulo={tema.titulo}
             linha={arrastar.linha(tema.id)}
           >
+            <td className="px-3.5 py-3 whitespace-nowrap text-tinta">
+              {inicios[tema.id] ? tl.diaEDuracao(inicios[tema.id] ?? 1, tema.dias_liberado) : '-'}
+            </td>
             <CelulaAcao>
               <Ordem
                 titulo={tema.titulo}

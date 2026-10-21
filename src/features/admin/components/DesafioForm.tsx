@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { z } from 'zod'
 import { salvarDesafio, type Desafio } from '../api/modulos.api'
-import { useSalvar } from '../hooks/usePainel'
+import { useSalvar, useTemas } from '../hooks/usePainel'
 import { esquemaDesafio } from '../schemas/modulos'
 import { textos } from '../textos'
 import { FormAgenda, type CampoDef } from './FormAgenda'
@@ -12,11 +12,19 @@ type Entrada = z.input<typeof esquemaDesafio>
 const opcoes = (o: Record<string, string>) =>
   Object.entries(o).map(([valor, nome]) => ({ valor, nome }))
 const ehNumero = (v: Entrada) => v.tipo_checkin === 'numero'
-const CAMPOS: CampoDef<Entrada>[] = [
+const geral = (v: Entrada) => v.tema_id === ''
+const campos = (temas: { id: string; titulo: string }[]): CampoDef<Entrada>[] => [
+  {
+    nome: 'tema_id',
+    rotulo: t.campoTema,
+    tipo: 'escolha',
+    opcoes: [{ valor: '', nome: t.geral }, ...temas.map((x) => ({ valor: x.id, nome: x.titulo }))],
+    largura: 'inteira',
+  },
   { nome: 'nome', rotulo: t.campoNome },
   { nome: 'descricao', rotulo: t.campoDescricao, tipo: 'area' },
-  { nome: 'inicio', rotulo: t.campoInicio, tipo: 'data' },
-  { nome: 'fim', rotulo: t.campoFim, tipo: 'data' },
+  { nome: 'inicio', rotulo: t.campoInicio, tipo: 'data', quando: geral },
+  { nome: 'fim', rotulo: t.campoFim, tipo: 'data', quando: geral },
   { nome: 'tipo_checkin', rotulo: t.campoTipo, tipo: 'escolha', opcoes: opcoes(t.tipos) },
   { nome: 'unidade', rotulo: t.campoUnidade, quando: ehNumero },
   { nome: 'meta_diaria', rotulo: t.campoMetaDiaria, tipo: 'numero', quando: ehNumero },
@@ -28,12 +36,13 @@ const CAMPOS: CampoDef<Entrada>[] = [
   { nome: 'publico', rotulo: t.campoPublico, tipo: 'escolha', opcoes: opcoes(t.publicos) },
 ]
 
-function inicial(d?: Desafio): Entrada {
+function inicial(d?: Desafio, tema?: string): Entrada {
   return {
+    tema_id: d ? (d.tema_id ?? '') : (tema ?? ''),
     nome: d?.nome ?? '',
     descricao: d?.descricao ?? '',
-    inicio: d?.inicio ?? '',
-    fim: d?.fim ?? '',
+    inicio: d?.tema_id ? '' : (d?.inicio ?? ''),
+    fim: d?.tema_id ? '' : (d?.fim ?? ''),
     tipo_checkin: d?.tipo_checkin ?? 'sim_nao',
     unidade: d?.unidade ?? '',
     meta_diaria: d?.meta_diaria ? String(d.meta_diaria) : '',
@@ -47,14 +56,23 @@ function inicial(d?: Desafio): Entrada {
 }
 
 /** Janela de criar ou editar desafio. Ao criar, abre o desafio novo na lista. */
-export function DesafioForm({ desafio, aoFechar }: { desafio?: Desafio; aoFechar: () => void }) {
+export function DesafioForm({
+  desafio,
+  aoFechar,
+  temaId,
+}: {
+  desafio?: Desafio
+  aoFechar: () => void
+  temaId?: string
+}) {
   const salvar = useSalvar(salvarDesafio)
+  const temas = useTemas().data ?? []
   const navegar = useNavigate()
   return (
     <FormAgenda<Entrada, z.output<typeof esquemaDesafio>>
       titulo={desafio ? t.editar : t.novo}
-      campos={CAMPOS}
-      inicial={inicial(desafio)}
+      campos={campos(temas)}
+      inicial={inicial(desafio, temaId)}
       resolver={zodResolver(esquemaDesafio)}
       aoCancelar={aoFechar}
       aoSalvar={async (d) => {

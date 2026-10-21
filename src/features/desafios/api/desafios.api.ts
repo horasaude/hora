@@ -4,6 +4,8 @@ import { supabase, semValor } from '@/lib/supabase'
 
 export type Desafio = {
   id: string
+  /** Desafio de um tema: vale nos dias do tema dela; sem tema, é o desafio geral do mês. */
+  tema_id: string | null
   nome: string
   descricao: string
   inicio: string

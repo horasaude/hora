@@ -18,12 +18,14 @@ async function montar(db) {
   )
   await db.exec(`
     update public.perfis set papel = 'admin' where id = '${ADMIN}';
+    update public.temas set publicado = true;
     update public.perfis set acesso_inicio_em = (public.hoje_brasilia() - 1)::timestamp at time zone 'America/Sao_Paulo' where id = '${ALUNA}';
     insert into public.aulas (id, etapa_id, titulo, video_url, dia_liberacao, publicado) values
       ('${ABERTA}', ${prep}, 'Dia 1', 'https://v.t/1', 1, true),
       ('${FECHADA}', ${prep}, 'Dia 5', 'https://v.t/5', 5, true);
+    update public.aulas set bloqueado = true where id = '${FECHADA}';
     insert into public.aulas (etapa_id, titulo, video_url, dia_liberacao, publicado)
-      select e.id, 'Arrancada 1', 'https://v.t/a', 1, true from public.etapas e where e.tema_id = ${tema} and e.chave = 'arrancada';
+      select e.id, 'Emagrecer 1', 'https://v.t/a', 1, true from public.etapas e where e.tema_id = ${tema};
     insert into storage.objects (bucket_id, name) values
       ('materiais', 'aulas/${ABERTA}/aberta.pdf'), ('materiais', 'aulas/${FECHADA}/fechada.pdf'), ('materiais', 'capas/live.jpg');
   `)
@@ -75,28 +77,23 @@ async function previa(t) {
   const { esperaValor, esperaErro } = t
   await t.comoAluna(ADMIN)
   await esperaValor(
-    'admin sem acesso pago vê a pré-visualização do dia 10 com tema',
-    `select (public.trilha_previa(10, ${tema}) #>> '{etapas,0,dia_na_etapa}')`,
-    '3',
+    'admin sem acesso pago vê a pré-visualização do dia 10: segundo tema aberto',
+    `select (public.trilha_previa(10) #>> '{temas,1,aberto}')`,
+    'true',
   )
   await esperaValor(
-    'no dia 3, a aula do dia 5 aparece fechada',
-    `select (public.trilha_previa(3) #>> '{preparacao,1,liberada}')`,
+    'no dia 3, o segundo tema aparece fechado',
+    `select (public.trilha_previa(3) #>> '{temas,1,aberto}')`,
     'false',
   )
   await esperaValor(
-    'antes do dia 8 não há tema',
-    `select (public.trilha_previa(5, ${tema}) ->> 'tema_atual')`,
-    null,
+    'aula Em breve aparece fechada na prévia',
+    `select (public.trilha_previa(3) #>> '{temas,0,aulas,1,liberada}')`,
+    'false',
   )
   await esperaValor(
-    'Constância abre no dia 38 numa trilha ideal',
-    `select (public.trilha_previa(38, ${tema}) #>> '{etapas,1,dia_na_etapa}')`,
-    '1',
-  )
-  await esperaValor(
-    'a pré-visualização não grava conclusão, etapa nem pontos',
-    `select ((select count(*) from public.aulas_concluidas) + (select count(*) from public.etapas_iniciadas) + (select count(*) from public.lancamentos_pontos))::int`,
+    'a pré-visualização não grava conclusão nem pontos',
+    `select ((select count(*) from public.aulas_concluidas) + (select count(*) from public.lancamentos_pontos))::int`,
     0,
   )
   await esperaErro('dia fora de 1 a 365', `select public.trilha_previa(400)`, '22023')

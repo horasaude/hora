@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { esquemaDesafio } from './modulos'
 
 const base = {
+  tema_id: '',
   nome: '21 dias de água em dia',
   descricao: '',
   inicio: '2026-11-01',
@@ -36,5 +37,11 @@ describe('esquemaDesafio', () => {
     expect(esquemaDesafio.safeParse({ ...base, fim: '2026-10-31' }).success).toBe(false)
     expect(esquemaDesafio.safeParse({ ...base, meta_dias: '22' }).success).toBe(false)
     expect(esquemaDesafio.safeParse({ ...base, meta_diaria: '' }).success).toBe(false)
+  })
+
+  it('desafio de tema não pede datas e vale nos dias do tema', () => {
+    const d = esquemaDesafio.parse({ ...base, tema_id: 'tema-1', inicio: '', fim: '' })
+    expect(d).toMatchObject({ tema_id: 'tema-1', inicio: '2026-01-01', fim: '2099-12-31' })
+    expect(esquemaDesafio.safeParse({ ...base, inicio: '', fim: '' }).success).toBe(false)
   })
 })

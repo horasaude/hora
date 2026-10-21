@@ -5,7 +5,7 @@ import type { Tema } from '../api/conteudo.api'
 import { AulaJanela } from '../components/AulaJanela'
 import { Estado } from '../components/Estado'
 import { ComeceAquiJanela } from '../components/ComeceAquiJanela'
-import { NovaEtapa, NovoTema } from '../components/NovoTemaEtapa'
+import { NovoTema } from '../components/NovoTemaEtapa'
 import { Divisao, Quadro, type Numero } from '../components/Quadro'
 import { TabelaTemas } from '../components/TabelaTemas'
 import { TemaDetalhe } from '../components/TemaDetalhe'
@@ -32,9 +32,8 @@ function useDetalhe(lista: Tema[]) {
   const detalhe: ReactNode = ativo ? <TemaDetalhe key={ativo} temaId={ativo} /> : null
   const aula = pathname.includes('/aulas/') ? (
     <AulaJanela
-      key={aulaId ?? `nova-${busca.get('etapa')}`}
+      key={aulaId ?? `nova-${busca.get('tema')}`}
       aulaId={aulaId}
-      etapaId={busca.get('etapa') ?? ''}
       temaId={busca.get('tema')}
     />
   ) : null
@@ -45,7 +44,7 @@ function useDetalhe(lista: Tema[]) {
 export function ConteudoPage() {
   const temas = useTemas()
   const aulas = useSituacaoAulas()
-  const [janela, setJanela] = useState<'comece' | 'tema' | 'etapa' | null>(null)
+  const [janela, setJanela] = useState<'comece' | 'tema' | null>(null)
   const lista = temas.data ?? []
   const { ativo, detalhe, aula } = useDetalhe(lista)
   const c = textos.conteudo
@@ -59,9 +58,6 @@ export function ConteudoPage() {
       </Link>
       <button type="button" className={classeBrilho('cinza')} onClick={() => setJanela('tema')}>
         {c.novoTema}
-      </button>
-      <button type="button" className={classeBrilho('cinza')} onClick={() => setJanela('etapa')}>
-        {c.novaEtapa}
       </button>
       <button type="button" className={classeBrilho('dourado')} onClick={() => setJanela('comece')}>
         {t.comece}
@@ -81,7 +77,6 @@ export function ConteudoPage() {
       {corpo}
       {janela === 'comece' && <ComeceAquiJanela aoFechar={fechar} />}
       {janela === 'tema' && <NovoTema aoFechar={fechar} />}
-      {janela === 'etapa' && <NovaEtapa temaId={ativo} aoFechar={fechar} />}
       {aula}
     </Quadro>
   )

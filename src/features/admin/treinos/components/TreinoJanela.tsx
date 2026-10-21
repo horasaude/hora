@@ -10,7 +10,13 @@ import { BlocoOpcional, CamposTreino } from './CamposTreino'
 import { ItensTreino } from './ItensTreino'
 import { Rotulos } from './rotulos'
 
-type Props = { treino?: Treino; itensIniciais?: ItemTreino[]; aoFechar: () => void }
+type Props = {
+  treino?: Treino
+  itensIniciais?: ItemTreino[]
+  aoFechar: () => void
+  /** Treino novo criado de dentro de um tema já vem com ele. */
+  temaId?: string
+}
 
 function Rodape({
   editando,
@@ -83,9 +89,9 @@ function ExerciciosDoTreino({
 }
 
 /** Montar treino: dados, aquecimento, exercícios da biblioteca, alongamento; rascunho, publicar e duplicar. */
-export function TreinoJanela({ treino, itensIniciais = [], aoFechar }: Props) {
+export function TreinoJanela({ treino, itensIniciais = [], aoFechar, temaId }: Props) {
   const temas = useTemas().data ?? []
-  const { form, itens, setItens, gravar } = useTreinoForm(treino, itensIniciais, aoFechar)
+  const { form, itens, setItens, gravar } = useTreinoForm(treino, itensIniciais, aoFechar, temaId)
   const { register, formState } = form
   return (
     <Janela

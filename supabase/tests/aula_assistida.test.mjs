@@ -20,10 +20,12 @@ async function montar(db) {
   )
   await db.exec(`
     update public.perfis set papel = 'admin' where id = '${ADMIN}';
+    update public.temas set publicado = true;
     update public.perfis set acesso_inicio_em = (public.hoje_brasilia() - 1)::timestamp at time zone 'America/Sao_Paulo' where id in ('${ALUNA}', '${OUTRA}');
     insert into public.aulas (id, etapa_id, titulo, video_url, dia_liberacao, publicado) values
       ('${ABERTA}', ${prep}, 'Dia 1', 'https://youtu.be/abcdefghijk', 1, true),
       ('${FECHADA}', ${prep}, 'Dia 6', 'https://youtu.be/abcdefghijk', 6, true);
+    update public.aulas set bloqueado = true where id = '${FECHADA}';
   `)
 }
 

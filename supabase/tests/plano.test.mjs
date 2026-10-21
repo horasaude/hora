@@ -164,10 +164,10 @@ async function aluna(t) {
 
 async function formatos(t) {
   await t.comoAluna(ADMIN)
-  await t.esperaErro(
-    'objetivo fora da lista é recusado',
-    `insert into public.cardapios (titulo, objetivo) values ('x', 'Outro')`,
-    '23514',
+  await t.esperaValor(
+    'cardápio criado no tema leva o nome do tema',
+    `with c as (insert into public.cardapios (titulo, tema_id) values ('x', (select id from public.temas where chave = 'lipedema')) returning objetivo) select objetivo from c`,
+    'Lipedema',
   )
   await t.esperaErro(
     'refeições do cardápio são uma lista',

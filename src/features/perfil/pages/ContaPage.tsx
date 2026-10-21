@@ -1,6 +1,5 @@
 import { CartaoAvaliacoes } from '@/features/avaliacoes'
 import { Notificacoes } from '@/features/checkin'
-import { MeuTema } from '@/features/trilha'
 import { PreferenciasTreino } from '@/features/treinos'
 import { Configuracoes } from '../components/Configuracoes'
 import { Indicar } from '../components/Indicar'
@@ -13,7 +12,6 @@ export function ContaPage() {
       <Topo />
       <div className="grid items-start gap-5 lg:grid-cols-2 lg:gap-6">
         <div className="flex flex-col gap-5 lg:gap-6">
-          <MeuTema />
           <PreferenciasTreino />
           <CartaoAvaliacoes />
           <Notificacoes />

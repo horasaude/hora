@@ -18,8 +18,9 @@ async function montar(db) {
   )
   await db.exec(`
     update public.perfis set papel = 'admin' where id = '${ADMIN}';
-    update public.perfis set acesso_inicio_em = now() - interval '10 days' where id in ('${ALUNA}', '${NOVA}');
-    update public.perfis set tema_atual_id = ${tema('emagrecimento')} where id = '${ALUNA}';
+    update public.temas set publicado = true;
+    update public.perfis set acesso_inicio_em = now() - interval '10 days' where id = '${ALUNA}';
+    update public.perfis set acesso_inicio_em = now() - interval '2 days' where id = '${NOVA}';
     insert into public.treinos (id, nome, tema_id, nivel, local, publicado) values
       ('${PUB}', 'Treino A', ${tema('emagrecimento')}, 'iniciante', 'casa', true),
       ('${RASC}', 'Treino B rascunho', ${tema('emagrecimento')}, 'iniciante', 'casa', false),
@@ -39,7 +40,11 @@ const nomes = (tabela) =>
 async function visibilidade(t) {
   const { esperaValor } = t
   await t.comoAluna(ALUNA)
-  await esperaValor('aluna vê só o treino publicado do tema dela', nomes('treinos'), 'Treino A')
+  await esperaValor(
+    'dia 11: vê os treinos publicados do Detox e do segundo tema',
+    nomes('treinos'),
+    'Treino A,Treino da preparação',
+  )
   await esperaValor(
     'rascunho não aparece nem pela rotina',
     `select count(*)::int from public.rotina_treinos`,
@@ -48,8 +53,8 @@ async function visibilidade(t) {
   await esperaValor('vê só o exercício dos treinos dela', nomes('exercicios'), 'Agachamento livre')
   await esperaValor('vê a rotina publicada do tema', nomes('rotinas'), 'Iniciante em casa')
   await t.comoAluna(NOVA)
-  await esperaValor('sem tema, vê a Preparação', nomes('treinos'), 'Treino da preparação')
-  await esperaValor('sem tema, não vê rotina de tema', nomes('rotinas'), '')
+  await esperaValor('no Detox, vê só o treino do Detox', nomes('treinos'), 'Treino da preparação')
+  await esperaValor('no Detox, não vê rotina de tema fechado', nomes('rotinas'), '')
   await t.comoAluna(SEM_ACESSO)
   await esperaValor('sem acesso, não vê treino', nomes('treinos'), '')
   await esperaValor('sem acesso, não vê exercício', nomes('exercicios'), '')

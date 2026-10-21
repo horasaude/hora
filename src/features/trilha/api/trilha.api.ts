@@ -1,14 +1,11 @@
 import { lerTrechos } from '@/domain/assistido'
 import type { Trilha } from '@/domain/trilha'
-import { semValor, supabase } from '@/lib/supabase'
+import { supabase } from '@/lib/supabase'
 import { esquemaTrilha } from '../schemas/trilha.schema'
 
-/** Trilha como a aluna veria num dia e tema escolhidos (só admin; não grava nada). */
-export async function buscarTrilhaPrevia(dia: number, tema: string | null): Promise<Trilha> {
-  const { data, error } = await supabase.rpc('trilha_previa', {
-    p_dia: dia,
-    p_tema: tema ?? semValor,
-  })
+/** Trilha como a aluna veria num dia escolhido (só admin; não grava nada). */
+export async function buscarTrilhaPrevia(dia: number): Promise<Trilha> {
+  const { data, error } = await supabase.rpc('trilha_previa', { p_dia: dia })
   if (error) throw error
   return esquemaTrilha.parse(data)
 }
@@ -55,11 +52,6 @@ export async function marcarConcluida(id: string, concluida: boolean): Promise<v
     ? await supabase.from('aulas_concluidas').insert({ aula_id: id })
     : await supabase.from('aulas_concluidas').delete().eq('aula_id', id)
   if (error && error.code !== '23505') throw error
-}
-
-export async function escolherTema(tema: string): Promise<void> {
-  const { error } = await supabase.rpc('escolher_tema', { p_tema: tema })
-  if (error) throw error
 }
 
 export type MaterialAula = {

@@ -1,14 +1,14 @@
 import { useId, type ReactNode } from 'react'
-import { Controller, useForm, useWatch } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { z } from 'zod'
 import { Janela } from '@/components/ui'
-import type { Etapa, Tema } from '../api/conteudo.api'
-import { esquemaAula, esquemaAulaPara } from '../schemas/formularios'
+import type { Tema } from '../api/conteudo.api'
+import { esquemaAula } from '../schemas/formularios'
 import { textos } from '../textos'
 import { OndeFica } from './OndeFica'
 import { CampoLiberacao } from './CampoLiberacao'
-import { Descricao, Liberacao, QuemEQuanto, TituloEVideo } from './CamposAula'
+import { Descricao, QuemEQuanto, TituloEVideo } from './CamposAula'
 import { ErroForm } from './RodapeForm'
 import { RodapeAula } from './RodapeAula'
 
@@ -18,7 +18,6 @@ export type DadosAula = z.output<typeof esquemaAula>
 type Props = {
   materiais?: ReactNode
   temas: Tema[]
-  etapas: Etapa[]
   titulo: string
   inicial: EntradaAula
   /** publicar: true no botão Publicar, false no Salvar rascunho. */
@@ -26,10 +25,9 @@ type Props = {
   aoCancelar: () => void
 }
 
-function useFormAula({ temas, inicial, aoSalvar }: Pick<Props, 'temas' | 'inicial' | 'aoSalvar'>) {
-  const preparacoes = temas.filter((t) => t.tipo === 'preparacao').map((t) => t.id)
+function useFormAula({ inicial, aoSalvar }: Pick<Props, 'inicial' | 'aoSalvar'>) {
   const form = useForm<EntradaAula, unknown, DadosAula>({
-    resolver: zodResolver(esquemaAulaPara(preparacoes)),
+    resolver: zodResolver(esquemaAula),
     defaultValues: inicial,
   })
   const enviar = (publicar: boolean) =>
@@ -41,22 +39,13 @@ function useFormAula({ temas, inicial, aoSalvar }: Pick<Props, 'temas' | 'inicia
         form.setError('root', { message: esperar ? textos.arquivos.esperar : textos.erroSalvar })
       }
     })
-  const tema = useWatch({ control: form.control, name: 'tema' })
-  return { form, enviar, preparacao: preparacoes.includes(tema) }
+  return { form, enviar }
 }
 
-/** Aula numa janela: onde fica, título, vídeo com prévia grande, profissional e duração, texto, arquivos, dia em que libera e liberação (disponível, em breve ou data). */
-export function FormAula({
-  titulo,
-  inicial,
-  aoSalvar,
-  aoCancelar,
-  temas,
-  etapas,
-  materiais,
-}: Props) {
+/** Aula numa janela: onde fica, título, vídeo com prévia grande, profissional e duração, texto, arquivos e liberação (disponível, em breve ou data). */
+export function FormAula({ titulo, inicial, aoSalvar, aoCancelar, temas, materiais }: Props) {
   const id = useId()
-  const { form, enviar, preparacao } = useFormAula({ temas, inicial, aoSalvar })
+  const { form, enviar } = useFormAula({ inicial, aoSalvar })
   const { register, control, formState } = form
   const erros = formState.errors
   return (
@@ -74,21 +63,11 @@ export function FormAula({
       }
     >
       <form id={id} onSubmit={enviar(false)} noValidate className="grid gap-4 sm:grid-cols-2">
-        <OndeFica
-          temas={temas}
-          etapas={etapas}
-          register={register}
-          control={control}
-          setValue={form.setValue}
-          erros={{ tema: erros.tema?.message, etapa: erros.etapa?.message }}
-        />
+        <OndeFica temas={temas} register={register} erro={erros.tema?.message} />
         <TituloEVideo register={register} control={control} erros={erros} />
         <QuemEQuanto register={register} erro={erros.duracao?.message} />
         <Descricao control={control} />
         <div className="sm:col-span-2">{materiais}</div>
-        <div className="flex flex-col gap-3">
-          <Liberacao register={register} erroDia={erros.dia?.message} preparacao={preparacao} />
-        </div>
         <Controller
           control={control}
           name="liberacao"

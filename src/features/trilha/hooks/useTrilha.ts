@@ -7,16 +7,15 @@ import {
   buscarMateriaisAula,
   buscarTrilha,
   buscarTrilhaPrevia,
-  escolherTema,
   marcarConcluida,
 } from '../api/trilha.api'
 
-/** Trilha da aluna; dentro da pré-visualização do painel, a do dia e tema escolhidos. */
+/** Trilha da aluna; dentro da pré-visualização do painel, a do dia escolhido. */
 export function useTrilha() {
   const previa = usePrevia()
   return useQuery({
-    queryKey: previa ? ['trilha-previa', previa.dia, previa.tema] : ['trilha'],
-    queryFn: () => (previa ? buscarTrilhaPrevia(previa.dia, previa.tema) : buscarTrilha()),
+    queryKey: previa ? ['trilha-previa', previa.dia] : ['trilha'],
+    queryFn: () => (previa ? buscarTrilhaPrevia(previa.dia) : buscarTrilha()),
   })
 }
 
@@ -42,17 +41,6 @@ export function useMarcarConcluida(id: string) {
       ]) {
         cliente.invalidateQueries({ queryKey: [chave] })
       }
-    },
-  })
-}
-
-export function useEscolherTema() {
-  const cliente = useQueryClient()
-  return useMutation({
-    mutationFn: escolherTema,
-    onSuccess: () => {
-      cliente.invalidateQueries({ queryKey: ['trilha'] })
-      cliente.invalidateQueries({ queryKey: ['cardapios-aluna'] })
     },
   })
 }

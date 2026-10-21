@@ -10,6 +10,7 @@ export const textos = {
   diarios: 'Desafios diários',
   doMes: 'Desafios do mês',
   vazio: 'Nenhum desafio aberto agora. Assim que as profissionais lançarem um, ele aparece aqui.',
+  vazioTema: 'O desafio deste tema aparece aqui em breve.',
   vazioEncerrados: 'Os desafios de que você participar aparecem aqui quando terminarem.',
   naoEncontrado: 'Este desafio não está disponível.',
   voltar: 'Voltar para os desafios',

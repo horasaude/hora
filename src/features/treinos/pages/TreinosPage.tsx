@@ -18,7 +18,7 @@ import {
   useTreinosDoNivel,
 } from '../hooks/useTreinos'
 import { useLinkTreino } from '../hooks/useLinkTreino'
-import { usePreviaTreinos } from '../previa'
+import { ContextoTemaTreinos, usePreviaTreinos } from '../previa'
 import { textos } from '../textos'
 
 type Aba = keyof typeof CATEGORIAS
@@ -84,8 +84,17 @@ function Conteudo({ nivel, local, aba }: { nivel: string; local: string; aba: Ab
   )
 }
 
+/** Treinos de um tema, dentro da página do tema (sem o título da página). */
+export function TreinosDoTema({ temaId }: { temaId: string }) {
+  return (
+    <ContextoTemaTreinos.Provider value={temaId}>
+      <TreinosPage embutido />
+    </ContextoTemaTreinos.Provider>
+  )
+}
+
 /** Treinos da aluna: treino de hoje, a semana da rotina e outros treinos do nível e local dela. */
-export function TreinosPage() {
+export function TreinosPage({ embutido = false }: { embutido?: boolean }) {
   const prefs = usePreferencias()
   const perfil = useMeuPerfil()
   const previa = usePreviaTreinos()
@@ -98,7 +107,7 @@ export function TreinosPage() {
   const local = prefs.data.treino_local ?? (previa || perfil.data?.papel === 'admin' ? 'casa' : '')
   return (
     <section className="flex flex-col gap-6 font-sistema">
-      <h1 className="text-[26px] font-bold text-verde-escuro">{textos.titulo}</h1>
+      {!embutido && <h1 className="text-[26px] font-bold text-verde-escuro">{textos.titulo}</h1>}
       {!previa && <AvisoAnamnese />}
       {nivel && local ? (
         <>

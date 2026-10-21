@@ -26,9 +26,9 @@ async function equipe(t) {
   await esperaErro('aluna não vê a lista de outra', `select * from public.pendencias_aluna('${OUTRA}')`, '42501')
   await t.comoAluna(ADMIN)
   await esperaValor(
-    'ficha lista anamnese, 5 passos do Comece, tema (dia 10) e treino',
+    'ficha lista anamnese, 5 passos do Comece e treino',
     `select count(*)::int from public.pendencias_aluna('${ALUNA}')`,
-    8,
+    7,
   )
   await esperaValor('anamnese ainda não começada', situacao(`'anamnese:' || ${ANAMNESE}`), 'false:false')
   await t.comoAluna(ALUNA)
@@ -37,12 +37,12 @@ async function equipe(t) {
   await esperaValor('anamnese em andamento', situacao(`'anamnese:' || ${ANAMNESE}`), 'false:true')
   await esperaValor(
     'lembrar cria o aviso',
-    `select novo from public.lembrar_aluna('${ALUNA}', 'tema')`,
+    `select novo from public.lembrar_aluna('${ALUNA}', 'treino')`,
     true,
   )
   await esperaValor(
     'lembrar de novo no mesmo dia não repete',
-    `select novo from public.lembrar_aluna('${ALUNA}', 'tema')`,
+    `select novo from public.lembrar_aluna('${ALUNA}', 'treino')`,
     false,
   )
   await esperaErro(
@@ -55,8 +55,8 @@ async function equipe(t) {
 async function aluna(t) {
   const { esperaValor, esperaErro } = t
   await t.comoAluna(ALUNA)
-  await esperaValor('aluna vê o pedido da equipe', `select string_agg(item, ',') from public.meus_lembretes()`, 'tema')
-  await esperaErro('aluna não lembra ninguém', `select * from public.lembrar_aluna('${OUTRA}', 'tema')`, '42501')
+  await esperaValor('aluna vê o pedido da equipe', `select string_agg(item, ',') from public.meus_lembretes()`, 'treino')
+  await esperaErro('aluna não lembra ninguém', `select * from public.lembrar_aluna('${OUTRA}', 'treino')`, '42501')
   await esperaErro(
     'aluna não cria lembrete direto',
     `insert into public.lembretes_aluna (perfil_id, item) values ('${ALUNA}', 'x')`,
@@ -64,7 +64,7 @@ async function aluna(t) {
   )
   await t.comoDono()
   await t.db.query(
-    `update public.perfis set tema_atual_id = (select id from public.temas where tipo = 'tema' limit 1) where id = '${ALUNA}'`,
+    `update public.perfis set treino_nivel = 'iniciante', treino_local = 'casa' where id = '${ALUNA}'`,
   )
   await t.comoAluna(ALUNA)
   await esperaValor('feito, o pedido some', `select count(*)::int from public.meus_lembretes()`, 0)

@@ -85,6 +85,13 @@ export async function salvarEtapa(dados: TablesInsert<'etapas'>): Promise<Etapa>
   )
 }
 
+/** Etapa única do tema (as aulas ficam todas nela); o banco cria se ainda não existe. */
+export async function etapaDoTema(tema: string): Promise<string> {
+  const { data, error } = await supabase.rpc('etapa_do_tema', { p_tema: tema })
+  if (error) throw error
+  return data as string
+}
+
 export async function salvarAula(dados: TablesInsert<'aulas'>): Promise<Aula> {
   const { id, ...campos } = dados
   const consulta = id

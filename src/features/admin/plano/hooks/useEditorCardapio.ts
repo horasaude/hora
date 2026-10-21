@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { listaDeCompras } from '@/domain/listaCompras'
 import type { Refeicao } from '@/domain/nutricao'
 import { ingredientesDeReceitas, salvarCardapio, type CardapioLinha } from '../api/cardapios.api'
@@ -12,8 +12,9 @@ export const LISTA_CARDAPIOS = '/app/admin/plano/cardapios'
 /** Estado do cardápio aberto e as ações (salvar, publicar, duplicar, gerar lista). */
 export function useEditorCardapio(cardapio?: CardapioLinha) {
   const navegar = useNavigate()
-  const [f, setF] = useState<FormCardapio>(() => deCardapio(cardapio))
-  const [salvo, setSalvo] = useState(() => JSON.stringify(deCardapio(cardapio)))
+  const tema = useSearchParams()[0].get('tema') ?? ''
+  const [f, setF] = useState<FormCardapio>(() => deCardapio(cardapio, tema))
+  const [salvo, setSalvo] = useState(() => JSON.stringify(deCardapio(cardapio, tema)))
   const [erro, setErro] = useState<'' | 'nome' | 'salvar'>('')
   const salvar = useAcaoPlano((x: FormCardapio) => salvarCardapio(paraBanco(x, cardapio?.id)))
   const duplicar = useAcaoPlano((x: FormCardapio) =>

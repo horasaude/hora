@@ -14,10 +14,9 @@ const aula = z.object({
   concluida: z.boolean(),
 })
 
-/** Formato do jsonb devolvido por trilha_aluna(). */
+/** Formato do jsonb devolvido por trilha_aluna() e trilha_previa(). */
 export const esquemaTrilha: z.ZodType<Trilha> = z.object({
   dia: z.number().nullable(),
-  tema_atual: z.string().nullable().default(null),
   temas: z
     .array(
       z.object({
@@ -26,21 +25,11 @@ export const esquemaTrilha: z.ZodType<Trilha> = z.object({
         cor: z.string().nullable().default(null),
         titulo: z.string(),
         frase: z.string(),
-        em_breve: z.boolean().default(false),
         capa: z.string().nullable().default(null),
-      }),
-    )
-    .default([]),
-  preparacao: z.array(aula).default([]),
-  etapas: z
-    .array(
-      z.object({
-        id: z.string(),
-        chave: z.string().nullable(),
-        titulo: z.string(),
-        ordem: z.number(),
-        iniciada_em: z.string().nullable(),
-        dia_na_etapa: z.number().nullable(),
+        inicio: z.number(),
+        dias: z.number(),
+        aberto: z.boolean(),
+        em_breve: z.boolean().default(false),
         aulas: z.array(aula),
       }),
     )

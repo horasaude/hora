@@ -18,6 +18,8 @@ export const desafios = {
   situacao: { rascunho: 'Rascunho', agendado: 'Agendado', ativo: 'Ativo', encerrado: 'Encerrado' },
   tipos: { sim_nao: 'Sim ou não', foto: 'Foto', numero: 'Número' },
   publicos: { todas: 'Todas as alunas', inscritas: 'Só quem entrar no desafio' },
+  campoTema: 'Vale para',
+  geral: 'Desafio geral (datas fixas)',
   campoNome: 'Nome do desafio',
   campoDescricao: 'Descrição',
   campoInicio: 'Começa em',

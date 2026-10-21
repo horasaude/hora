@@ -39,3 +39,21 @@ export async function salvarMateriaisComece(itens: MaterialParaSalvar[], removid
   if (error) throw error
   if (removidos.length) await supabase.storage.from('materiais').remove(removidos)
 }
+
+export async function buscarMateriaisTema(tema: string): Promise<MaterialSalvo[]> {
+  const linhas = ok(
+    await supabase.from('tema_materiais').select('*').eq('tema_id', tema).order('ordem'),
+  )
+  return linhas.map((m) => ({ ...m, aula_id: tema }))
+}
+
+/** Grava os arquivos do tema na ordem dada e apaga do espaço os tirados. */
+export async function salvarMateriaisTema(
+  tema: string,
+  itens: MaterialParaSalvar[],
+  removidos: string[],
+) {
+  const { error } = await supabase.rpc('salvar_materiais_tema', { p_tema: tema, p_itens: itens })
+  if (error) throw error
+  if (removidos.length) await supabase.storage.from('materiais').remove(removidos)
+}

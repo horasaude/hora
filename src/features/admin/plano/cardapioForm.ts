@@ -4,25 +4,25 @@ import type { Refeicao, Substituta } from '@/domain/nutricao'
 import { buscarCardapio, type CardapioLinha, type RefeicaoModelo } from './api/cardapios.api'
 import type { Rascunho } from './components/RefeicaoJanela'
 import { lerItens, lerLista, lerRefeicoes } from './schemas/plano'
-import { OBJETIVOS_CARDAPIO } from './textos'
 
 export type Modelo = 'calculado' | 'texto'
 export type FormCardapio = {
   titulo: string
-  objetivo: (typeof OBJETIVOS_CARDAPIO)[number]
+  /** Tema do cardápio: a aluna vê quando o tema abre para ela. */
+  tema_id: string
+  /** Nome do tema (mostrado na visualização; o banco grava a partir do tema). */
+  objetivo: string
   modelo: Modelo
   refeicoes: Refeicao[]
   lista: ListaCompras
   publicado: boolean
 }
 
-const objetivoValido = (o?: string) =>
-  OBJETIVOS_CARDAPIO.find((x) => x === o) ?? OBJETIVOS_CARDAPIO[0]
-
-export function deCardapio(c?: CardapioLinha): FormCardapio {
+export function deCardapio(c?: CardapioLinha, tema = ''): FormCardapio {
   return {
     titulo: c?.titulo ?? '',
-    objetivo: objetivoValido(c?.objetivo),
+    tema_id: c?.tema_id ?? tema,
+    objetivo: c?.objetivo ?? '',
     modelo: c?.modelo === 'texto' ? 'texto' : 'calculado',
     refeicoes: lerRefeicoes(c?.refeicoes),
     lista: lerLista(c?.lista_compras),
@@ -34,7 +34,8 @@ export function paraBanco(f: FormCardapio, id?: string) {
   return {
     id,
     titulo: f.titulo.trim(),
-    objetivo: f.objetivo,
+    tema_id: f.tema_id || null,
+    objetivo: f.objetivo || 'Sem tema',
     modelo: f.modelo,
     refeicoes: f.refeicoes,
     lista_compras: f.lista,

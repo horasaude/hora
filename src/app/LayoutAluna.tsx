@@ -2,7 +2,6 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { LogoOra } from '@/components/ui'
 import { useMeuPerfil, useRegistrarAcesso } from '@/features/auth'
 import { PrimeiroAcesso } from '@/features/primeiro-acesso'
-import { EscolhaAoAbrir } from '@/features/trilha'
 import { AbasDaSecao, BarraInferior, BarraLateral } from './NavegacaoAluna'
 import { textosAluna as t } from './textosAluna'
 
@@ -51,7 +50,6 @@ export function LayoutAluna() {
             </div>
           </main>
           <BarraInferior />
-          {p?.papel !== 'admin' && <EscolhaAoAbrir />}
         </>
       )}
     </div>

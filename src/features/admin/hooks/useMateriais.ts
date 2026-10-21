@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { nomeSemExtensao, tipoMime, validarArquivo, type TipoMaterial } from '@/domain/arquivos'
 import { enviarComProgresso } from '@/lib/envio'
-import { buscarMateriais, buscarMateriaisComece } from '../api/materiais.api'
+import { buscarMateriais, buscarMateriaisComece, buscarMateriaisTema } from '../api/materiais.api'
 
 export type ItemMaterial = {
   chave: string
@@ -28,7 +28,12 @@ const extensao = (f: File) => {
 function useCarregar(aulaId: string | undefined, setItens: (l: ItemMaterial[]) => void) {
   useEffect(() => {
     if (!aulaId) return
-    const busca = aulaId === COMECE ? buscarMateriaisComece() : buscarMateriais(aulaId)
+    const busca =
+      aulaId === COMECE
+        ? buscarMateriaisComece()
+        : aulaId.startsWith(TEMA)
+          ? buscarMateriaisTema(aulaId.slice(TEMA.length))
+          : buscarMateriais(aulaId)
     busca.then((lista) =>
       setItens(
         lista.map((m) => ({
@@ -77,13 +82,21 @@ function enviarArquivos(
 
 /** Id especial: os arquivos do Comece por aqui, guardados em comece/. */
 export const COMECE = 'comece'
+/** Prefixo dos arquivos de um tema: "tema:<id>", guardados em temas/<id>/. */
+export const TEMA = 'tema:'
 
 /** Lista de materiais do modal da aula (ou do Comece por aqui): carrega os salvos, envia os novos com progresso, ordena e remove. */
 export function useMateriais(aulaId?: string) {
   const [itens, setItens] = useState<ItemMaterial[]>([])
   const [removidos, setRemovidos] = useState<string[]>([])
   const [recusas, setRecusas] = useState<string[]>([])
-  const pasta = useRef(aulaId === COMECE ? COMECE : `aulas/${aulaId ?? crypto.randomUUID()}`)
+  const pasta = useRef(
+    aulaId === COMECE
+      ? COMECE
+      : aulaId?.startsWith(TEMA)
+        ? `temas/${aulaId.slice(TEMA.length)}`
+        : `aulas/${aulaId ?? crypto.randomUUID()}`,
+  )
   useCarregar(aulaId, setItens)
   const mudar = (chave: string, p: Partial<ItemMaterial>) =>
     setItens((l) => l.map((i) => (i.chave === chave ? { ...i, ...p } : i)))

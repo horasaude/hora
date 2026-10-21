@@ -1,13 +1,14 @@
 import { Campo } from '@/components/ui'
 import type { FormCardapio, Modelo } from '../cardapioForm'
-import { OBJETIVOS_CARDAPIO } from '../textos'
+import { useTemas } from '../../hooks/usePainel'
 import { tCardapios as t } from '../textos2'
 import { Bloco } from './BarraTopo'
 
 type Props = { f: FormCardapio; mudar: (p: Partial<FormCardapio>) => void; erroNome: boolean }
 
-/** Nome e objetivo lado a lado, e o modelo do plano (alimentos calculados ou texto livre). */
+/** Nome e tema lado a lado, e o modelo do plano (alimentos calculados ou texto livre). */
 export function CardapioCampos({ f, mudar, erroNome }: Props) {
+  const temas = useTemas().data ?? []
   return (
     <Bloco>
       <div className="grid gap-4 sm:grid-cols-2">
@@ -21,11 +22,19 @@ export function CardapioCampos({ f, mudar, erroNome }: Props) {
           <span className="font-medium">{t.campoObjetivo}</span>
           <select
             className="min-h-12 rounded-xl border border-linha bg-white px-4"
-            value={f.objetivo}
-            onChange={(e) => mudar({ objetivo: e.target.value as FormCardapio['objetivo'] })}
+            value={f.tema_id}
+            onChange={(e) =>
+              mudar({
+                tema_id: e.target.value,
+                objetivo: temas.find((x) => x.id === e.target.value)?.titulo ?? '',
+              })
+            }
           >
-            {OBJETIVOS_CARDAPIO.map((o) => (
-              <option key={o}>{o}</option>
+            <option value="">{t.escolhaTema}</option>
+            {temas.map((x) => (
+              <option key={x.id} value={x.id}>
+                {x.titulo}
+              </option>
             ))}
           </select>
         </label>

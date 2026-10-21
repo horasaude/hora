@@ -1,5 +1,9 @@
 # feature: trilha
 
+Regra desde 2026-10-20: temas em sequência pela data de assinatura (Detox no dia 1 por 7 dias; depois cada tema abre quando acabam os dias do anterior, temas.dias_liberado). Sem escolha de tema nem etapas. O banco decide (trilha_aluna, tema_aberto, aula_liberada); a página Comece por aqui (pages/TrilhaPage.tsx, components/ListaTemas.tsx) lista os temas e a página do tema (pages/TemaPage.tsx) tem as abas Aulas, Cardápio (cardapios: ListaCardapios), Treinos (treinos: TreinosDoTema), Desafio (desafios: DesafiosDoTema) e Materiais (materiais-aula com "tema:<id>").
+
+# feature: trilha
+
 Trilha da aluna (/app/trilha) e aula (/app/trilha/aula/:id; o endereço antigo /app/aula/:id redireciona), seguindo docs/referencias/app-aluna.png.
 
 Fluxo: dias 1 a 7 preparação (uma aula por dia) e "Comece por aqui"; no dia 8 a escolha do tema (modal ao abrir o app e seletor na própria Trilha até escolher); depois as etapas do tema em abas (Arrancada, Constância, Para Sempre).

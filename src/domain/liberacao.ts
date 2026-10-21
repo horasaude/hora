@@ -17,3 +17,18 @@ export function liberacaoPara(modo: ModoLiberacao, quando: Date | null): Liberac
   if (modo === 'data' && quando) return { bloqueado: false, libera_em: quando.toISOString() }
   return { bloqueado: false, libera_em: null }
 }
+
+type TemaDaSequencia = { id: string; publicado: boolean; dias_liberado: number }
+
+/** Dia da aluna em que cada tema publicado abre, na ordem da lista (o primeiro no dia 1).
+ * Igual ao banco (public.inicio_do_tema); rascunho fica fora da conta. */
+export function iniciosDosTemas(temas: TemaDaSequencia[]): Record<string, number> {
+  const inicios: Record<string, number> = {}
+  let dia = 1
+  for (const t of temas) {
+    if (!t.publicado) continue
+    inicios[t.id] = dia
+    dia += t.dias_liberado
+  }
+  return inicios
+}

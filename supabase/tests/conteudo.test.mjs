@@ -61,10 +61,10 @@ async function alunaComAcesso(t) {
   await esperaValor('aluna está no dia 6 do acesso', 'select public.dia_de_acesso()', 6)
   await esperaValor('aluna vê só o tema publicado', contar('temas'), 1)
   await esperaValor('aluna vê só a etapa publicada de tema publicado', contar('etapas'), 1)
-  await esperaValor('aluna vê só as aulas liberadas até o dia 6', contar('aulas'), 2)
+  await esperaValor('tema aberto: aluna vê todas as aulas publicadas dele de uma vez', contar('aulas'), 4)
   await esperaValor(
-    'aula do dia 7 ainda não aparece',
-    `select count(*)::int from public.aulas where dia_liberacao = 7`,
+    'aula de tema em rascunho não aparece',
+    `select count(*)::int from public.aulas where id = '${ID(36)}'`,
     0,
   )
   await esperaValor('aluna vê só a live publicada', contar('lives'), 1)
@@ -149,11 +149,6 @@ async function viradaDoDia(t) {
   )
   await t.comoAluna(ALUNA)
   await esperaValor('seis dias depois da adesão é o dia 7', 'select public.dia_de_acesso()', 7)
-  await esperaValor(
-    'aula do dia 8 ainda fechada no dia 7',
-    `select count(*)::int from public.aulas where id = '${ID(33)}'`,
-    0,
-  )
   await t.comoDono()
   await db.query(
     `update public.perfis set acesso_inicio_em = (public.hoje_brasilia() - 7)::timestamp at time zone 'America/Sao_Paulo' + interval '23 hours 59 minutes' where id = '${ALUNA}'`,
@@ -163,11 +158,6 @@ async function viradaDoDia(t) {
     'adesão às 23h59 de sete dias atrás: hoje é o dia 8',
     'select public.dia_de_acesso()',
     8,
-  )
-  await esperaValor(
-    'aula do dia 8 libera no dia 8, sem esperar 24 h',
-    `select count(*)::int from public.aulas where id = '${ID(33)}'`,
-    1,
   )
   await esperaValor(
     'virada da meia-noite em Brasília muda o dia',

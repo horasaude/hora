@@ -5,6 +5,7 @@ import { supabase } from '@/lib/supabase'
 
 export type Cardapio = {
   id: string
+  tema_id: string | null
   objetivo: string
   titulo: string
   descricao: string
@@ -15,15 +16,16 @@ export type Cardapio = {
 const ordenar = (r: Refeicao[]) =>
   [...r].sort((a, b) => (a.horario || '99').localeCompare(b.horario || '99'))
 
-/** Cardápios publicados (o banco nunca entrega rascunho), com as refeições em ordem de horário. */
+/** Cardápios publicados dos temas abertos (o banco nunca entrega rascunho nem tema fechado), refeições em ordem de horário. */
 export async function listarCardapios(): Promise<Cardapio[]> {
   const { data, error } = await supabase
     .from('cardapios')
-    .select('id, objetivo, titulo, descricao, modelo, refeicoes')
+    .select('id, tema_id, objetivo, titulo, descricao, modelo, refeicoes')
     .order('titulo')
   if (error) throw error
   return (data ?? []).map((c) => ({
     id: c.id,
+    tema_id: c.tema_id,
     objetivo: c.objetivo,
     titulo: c.titulo,
     descricao: c.descricao,

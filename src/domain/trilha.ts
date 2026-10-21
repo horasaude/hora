@@ -1,5 +1,6 @@
-// Trilha da aluna: preparação (dias 1 a 7), escolha do tema (dia 8) e etapas do tema.
-// Quem libera aula e etapa é o banco (trilha_aluna, aula_liberada); aqui só se lê o que veio.
+// Trilha da aluna: temas em sequência pela data de assinatura (o primeiro, Detox, por 7 dias; os
+// seguintes conforme os dias de cada tema). Quem abre tema e aula é o banco (trilha_aluna,
+// tema_aberto, aula_liberada); aqui só se lê o que veio.
 
 export type AulaTrilha = {
   id: string
@@ -11,46 +12,35 @@ export type AulaTrilha = {
   liberada: boolean
   /** Miniatura da aula (espaço público capas); sem ela, a do tema ou um fundo de cor. */
   capa?: string | null
-  /** Fechada pelas profissionais (cadeado com "Em breve"), mesmo que o dia já tenha chegado. */
+  /** Fechada pelas profissionais (cadeado com "Em breve"). */
   em_breve?: boolean
   concluida: boolean
 }
 
-export type EtapaTrilha = {
+export type TemaTrilha = {
   id: string
   chave: string | null
-  titulo: string
-  ordem: number
-  iniciada_em: string | null
-  dia_na_etapa: number | null
-  aulas: AulaTrilha[]
-}
-
-export type TemaOpcao = {
-  id: string
-  chave: string | null
-  /** Cor escolhida no painel (temas novos); sem ela, vale a cor fixa pela chave. */
+  /** Cor escolhida no painel; sem ela, vale a cor fixa pela chave. */
   cor: string | null
   titulo: string
   frase: string
   /** Capa do tema (espaço público capas). */
   capa?: string | null
-  /** Fechado pelas profissionais: aparece com cadeado e não pode ser escolhido. */
+  /** Dia da aluna em que o tema abre e quantos dias ele dura até abrir o próximo. */
+  inicio: number
+  dias: number
+  aberto: boolean
+  /** Fechado pelas profissionais: cadeado e "Em breve". */
+  em_breve: boolean
+  aulas: AulaTrilha[]
+}
+
+/** O que os cartões de tema precisam. */
+export type TemaOpcao = Pick<TemaTrilha, 'id' | 'chave' | 'cor' | 'titulo' | 'frase' | 'capa'> & {
   em_breve?: boolean
 }
 
-export type Trilha = {
-  dia: number | null
-  tema_atual: string | null
-  temas: TemaOpcao[]
-  preparacao: AulaTrilha[]
-  etapas: EtapaTrilha[]
-}
-
-export const DIAS_DE_PREPARACAO = 7
-export const DIA_DA_ESCOLHA = 8
-export const DIAS_DA_ETAPA = 30
-export const PCT_PARA_AVANCAR = 80
+export type Trilha = { dia: number | null; temas: TemaTrilha[] }
 
 /** Primeira aula liberada e não concluída; se todas estão feitas, a última liberada. */
 export function aulaDeHoje(aulas: AulaTrilha[]): AulaTrilha | null {
@@ -69,70 +59,22 @@ export function semanaDoAcesso(dia: number): number {
   return Math.floor((Math.max(dia, 1) - 1) / 7) + 1
 }
 
-/** Dias que faltam para a escolha do tema (0 quando já pode escolher). */
-export const diasParaEscolha = (dia: number) => Math.max(0, DIA_DA_ESCOLHA - dia)
+/** Tema do momento: o último que já abriu (os anteriores continuam abertos para rever). */
+export const temaAtual = (t: Pick<Trilha, 'temas'>): TemaTrilha | null =>
+  t.temas.filter((x) => x.aberto).at(-1) ?? null
 
-/** No dia 8 em diante, sem tema escolhido, ela precisa escolher. */
-export const precisaEscolherTema = (t: Pick<Trilha, 'dia' | 'tema_atual'>) =>
-  t.dia !== null && t.dia >= DIA_DA_ESCOLHA && !t.tema_atual
+/** Próximo tema a abrir pela data (ignora os que estão Em breve). */
+export const proximoTema = (t: Trilha): TemaTrilha | null =>
+  t.temas.find((x) => !x.aberto && !x.em_breve && x.inicio > (t.dia ?? 0)) ?? null
 
-export type Condicoes = {
-  aulasOk: boolean
-  diasOk: boolean
-  pode: boolean
-  faltamAulas: number
-  dia: number
-}
+/** Dias que faltam para o tema abrir (0 quando já abriu pela data). */
+export const diasParaAbrir = (tema: Pick<TemaTrilha, 'inicio'>, dia: number) =>
+  Math.max(0, tema.inicio - dia)
 
-/** Próxima etapa abre com 80% das aulas concluídas E 30 dias desde o início da etapa (igual ao banco). */
-export function condicoesDaEtapa(total: number, concluidas: number, diaNaEtapa: number): Condicoes {
-  const aulasOk = total > 0 && concluidas * 10 >= total * 8
-  const diasOk = diaNaEtapa >= DIAS_DA_ETAPA
-  const faltamAulas = Math.max(0, Math.ceil((total * PCT_PARA_AVANCAR) / 100) - concluidas)
-  return { aulasOk, diasOk, pode: aulasOk && diasOk, faltamAulas, dia: diaNaEtapa }
-}
+/** Aulas do tema do momento (para a aula de hoje e o progresso). */
+export const aulasEmAndamento = (t: Trilha) => temaAtual(t)?.aulas ?? []
 
-/** Etapa em andamento: a última já iniciada. */
-export const etapaAtual = (etapas: EtapaTrilha[]) =>
-  [...etapas].reverse().find((e) => e.iniciada_em !== null) ?? null
-
-/** Etapa anterior de uma etapa bloqueada (a que precisa cumprir as condições). */
-export const etapaAnterior = (etapas: EtapaTrilha[], etapa: EtapaTrilha) =>
-  etapas.filter((e) => e.ordem < etapa.ordem).at(-1) ?? null
-
-/** Dias que faltam para uma aula abrir dentro da etapa. */
-export const faltamDias = (aula: AulaTrilha, diaNaEtapa: number | null) =>
-  Math.max(0, aula.dia_liberacao - (diaNaEtapa ?? 0))
-
-/** Aulas em andamento: as da etapa atual do tema ou, antes do tema, as da preparação. */
-export const aulasEmAndamento = (t: Trilha) =>
-  t.tema_atual ? (etapaAtual(t.etapas)?.aulas ?? []) : t.preparacao
-
-/** Aulas da mesma lista (preparação ou etapa) de uma aula. */
+/** Aulas da mesma lista da aula aberta (o tema dela), para navegar entre elas. */
 export function aulasDaMesmaLista(trilha: Trilha | undefined, id: string): AulaTrilha[] {
-  if (!trilha) return []
-  if (trilha.preparacao.some((a) => a.id === id)) return trilha.preparacao
-  return trilha.etapas.find((e) => e.aulas.some((a) => a.id === id))?.aulas ?? []
-}
-
-export type MetaDaEtapa = {
-  pct: number
-  faltamAulas: number
-  faltamDias: number
-  proxima: string | null
-}
-
-/** Barra da etapa atual: % concluída e o que falta (aulas para 80% e dias para 30) para abrir a próxima. */
-export function metaDaEtapa(etapas: EtapaTrilha[]): MetaDaEtapa | null {
-  const atual = etapaAtual(etapas)
-  if (!atual) return null
-  const proxima = etapas.find((e) => e.ordem > atual.ordem) ?? null
-  const feitas = atual.aulas.filter((a) => a.concluida).length
-  const c = condicoesDaEtapa(atual.aulas.length, feitas, atual.dia_na_etapa ?? 0)
-  return {
-    pct: progresso(atual.aulas),
-    faltamAulas: c.faltamAulas,
-    faltamDias: Math.max(0, DIAS_DA_ETAPA - c.dia),
-    proxima: proxima?.titulo ?? null,
-  }
+  return trilha?.temas.find((x) => x.aulas.some((a) => a.id === id))?.aulas ?? []
 }

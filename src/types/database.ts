@@ -513,6 +513,7 @@ export type Database = {
       }
       cardapios: {
         Row: {
+          tema_id: string | null
           busca: string | null
           created_at: string
           descricao: string
@@ -526,6 +527,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          tema_id?: string | null
           busca?: string | null
           created_at?: string
           descricao?: string
@@ -539,6 +541,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          tema_id?: string | null
           busca?: string | null
           created_at?: string
           descricao?: string
@@ -617,6 +620,12 @@ export type Database = {
         Row: { created_at: string; criado_por: string | null; id: string; item: string; perfil_id: string }
         Insert: { created_at?: string; criado_por?: string | null; id?: string; item: string; perfil_id: string }
         Update: { created_at?: string; criado_por?: string | null; id?: string; item?: string; perfil_id?: string }
+        Relationships: []
+      }
+      tema_materiais: {
+        Row: { caminho: string; created_at: string; id: string; nome: string; ordem: number; tamanho: number | null; tema_id: string; tipo: string }
+        Insert: { caminho: string; created_at?: string; id?: string; nome: string; ordem?: number; tamanho?: number | null; tema_id: string; tipo: string }
+        Update: { caminho?: string; created_at?: string; id?: string; nome?: string; ordem?: number; tamanho?: number | null; tema_id?: string; tipo?: string }
         Relationships: []
       }
       materiais_nutricao: {
@@ -911,6 +920,7 @@ export type Database = {
       }
       desafios: {
         Row: {
+          tema_id: string | null
           bonus_conclusao: number
           created_at: string
           descricao: string
@@ -931,6 +941,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          tema_id?: string | null
           bonus_conclusao?: number
           created_at?: string
           descricao?: string
@@ -951,6 +962,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          tema_id?: string | null
           bonus_conclusao?: number
           created_at?: string
           descricao?: string
@@ -2565,6 +2577,7 @@ export type Database = {
       }
       temas: {
         Row: {
+          dias_liberado: number
           capa_path: string | null
           bloqueado: boolean
           chave: string | null
@@ -2580,6 +2593,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          dias_liberado?: number
           capa_path?: string | null
           bloqueado?: boolean
           chave?: string | null
@@ -2595,6 +2609,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          dias_liberado?: number
           capa_path?: string | null
           bloqueado?: boolean
           chave?: string | null
@@ -3015,6 +3030,7 @@ export type Database = {
       meus_desafios: {
         Args: never
         Returns: {
+          tema_id: string | null
           bonus_conclusao: number
           descricao: string
           dias_feitos: number
@@ -3075,6 +3091,10 @@ export type Database = {
         Args: { p_perfil: string; p_item: string }
         Returns: { nome: string; novo: boolean; para: string }[]
       }
+      etapa_do_tema: { Args: { p_tema: string }; Returns: string }
+      inicio_do_tema: { Args: { p_tema: string }; Returns: number }
+      tema_aberto: { Args: { p_tema: string }; Returns: boolean }
+      salvar_materiais_tema: { Args: { p_tema: string; p_itens: Json }; Returns: undefined }
       ordenar_temas: {
         Args: { p_ids: string[] }
         Returns: undefined

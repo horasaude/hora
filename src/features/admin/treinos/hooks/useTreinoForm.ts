@@ -27,9 +27,9 @@ const esquema = z.object({
   categoria: z.string().refine((v) => v in CATEGORIAS),
 })
 
-const inicial = (x?: Treino): EntradaTreino => ({
+const inicial = (x?: Treino, tema?: string): EntradaTreino => ({
   nome: x?.nome ?? '',
-  tema_id: x?.tema_id ?? '',
+  tema_id: x?.tema_id ?? tema ?? '',
   nivel: x?.nivel ?? 'iniciante',
   local: x?.local ?? 'casa',
   duracao: x?.duracao_minutos ? String(x.duracao_minutos) : '',
@@ -45,12 +45,13 @@ export function useTreinoForm(
   treino: Treino | undefined,
   itensIniciais: ItemTreino[],
   aoFechar: () => void,
+  tema?: string,
 ) {
   const salvar = useAcaoTreinos(salvarTreino)
   const [itens, setItens] = useState<ItemTreino[]>(itensIniciais)
   const form = useForm<EntradaTreino>({
     resolver: zodResolver(esquema),
-    defaultValues: inicial(treino),
+    defaultValues: inicial(treino, tema),
   })
   const gravar = (publicado: boolean, copia = false) =>
     form.handleSubmit(async ({ duracao, ...d }) => {

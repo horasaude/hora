@@ -1,36 +1,38 @@
 import { useState } from 'react'
 import { BotaoBrilho } from '@/components/ui'
-import { modoDe } from '@/domain/liberacao'
+import { iniciosDosTemas, modoDe } from '@/domain/liberacao'
 import { paraCampoBrasilia } from '@/lib/datas'
 import { salvarTema, type Aula, type Tema } from '../api/conteudo.api'
-import { useSalvar, useTema } from '../hooks/usePainel'
+import { useSalvar, useTema, useTemas } from '../hooks/usePainel'
 import { textos } from '../textos'
+import { doTema as tt } from '../textos/doTema'
 import { BotaoPublicar } from './BotaoPublicar'
 import { CapaLive, type EstadoCapa } from './CapaLive'
 import { EtiquetaLiberacao } from './CampoLiberacao'
 import { CartaoDetalhe, Dados } from './CartaoDetalhe'
 import { Estado } from './Estado'
-import { EtapaCartao } from './EtapaCartao'
+import { ConteudoDoTema } from './ConteudoDoTema'
 import { FormNome } from './FormNome'
 import { Situacao } from './Tabela'
 
-function SobreTema({ tema, etapas, aulas }: { tema: Tema; etapas: number; aulas: Aula[] }) {
+/** Janela de editar tema: nome, frase, dias, liberação e capa. */
+function EditarTema({ tema, aoFechar }: { tema: Tema; aoFechar: () => void }) {
   const salvar = useSalvar(salvarTema)
-  const [editando, setEditando] = useState(false)
   const [capa, setCapa] = useState<EstadoCapa | null>(null)
-  const janela = editando && (
+  return (
     <FormNome
       titulo={textos.temas.editar}
       rotulo={textos.temas.campoTitulo}
       inicial={{
         titulo: tema.titulo,
         descricao: tema.descricao,
+        dias: String(tema.dias_liberado),
         liberacao: {
           modo: modoDe(tema),
           quando: tema.libera_em ? paraCampoBrasilia(new Date(tema.libera_em)) : '',
         },
       }}
-      aoCancelar={() => setEditando(false)}
+      aoCancelar={aoFechar}
       extra={
         <CapaLive
           inicial={tema.capa_path}
@@ -45,17 +47,22 @@ function SobreTema({ tema, etapas, aulas }: { tema: Tema; etapas: number; aulas:
           id: tema.id,
           capa_path: capa ? capa.caminho : tema.capa_path,
         })
-        setEditando(false)
+        aoFechar()
       }}
     />
   )
+}
+
+function SobreTema({ tema, aulas, inicio }: { tema: Tema; aulas: Aula[]; inicio?: number }) {
+  const [editando, setEditando] = useState(false)
   return (
     <>
-      {janela}
+      {editando && <EditarTema tema={tema} aoFechar={() => setEditando(false)} />}
       {tema.descricao && <p className="text-sm text-suave">{tema.descricao}</p>}
       <Dados
         itens={[
-          [textos.etapas.titulo, String(etapas)],
+          [tt.abre, inicio ? String(inicio) : '-'],
+          [tt.dura, tt.dias(tema.dias_liberado)],
           [textos.aulas.titulo, String(aulas.length)],
           [
             textos.status,
@@ -74,32 +81,18 @@ function SobreTema({ tema, etapas, aulas }: { tema: Tema; etapas: number; aulas:
   )
 }
 
-/** Cartão do tema aberto: dados, publicar, editar e as etapas com as aulas. */
+/** Cartão do tema aberto: dados, publicar, editar e tudo o que vai dentro dele. */
 export function TemaDetalhe({ temaId }: { temaId: string }) {
   const consulta = useTema(temaId)
+  const temas = useTemas()
   if (consulta.isPending) return <Estado tipo="carregando" />
   if (consulta.isError) return <Estado tipo="erro" tentar={() => consulta.refetch()} />
-  const { tema, etapas, aulas } = consulta.data
+  const { tema, aulas } = consulta.data
+  const inicio = iniciosDosTemas(temas.data ?? [])[tema.id]
   return (
     <CartaoDetalhe titulo={tema.titulo}>
-      <SobreTema tema={tema} etapas={etapas.length} aulas={aulas} />
-      <h3 className="border-t border-[#F0F2F1] pt-4 text-base font-bold text-verde-escuro">
-        {textos.etapas.titulo}
-      </h3>
-      {etapas.length === 0 && <p className="text-sm text-suave">{textos.etapas.vazio}</p>}
-      <ul className="flex flex-col gap-3">
-        {etapas.map((etapa, i) => (
-          <EtapaCartao
-            key={etapa.id}
-            etapa={etapa}
-            aulas={aulas.filter((a) => a.etapa_id === etapa.id)}
-            temaId={tema.id}
-            temaPublicado={tema.publicado}
-            primeira={i === 0}
-            ultima={i === etapas.length - 1}
-          />
-        ))}
-      </ul>
+      <SobreTema tema={tema} aulas={aulas} inicio={inicio} />
+      <ConteudoDoTema temaId={tema.id} temaPublicado={tema.publicado} aulas={aulas} />
     </CartaoDetalhe>
   )
 }

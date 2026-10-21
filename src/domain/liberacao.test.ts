@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { liberacaoPara, modoDe } from './liberacao'
+import { iniciosDosTemas, liberacaoPara, modoDe } from './liberacao'
 
 const agora = new Date('2026-10-20T12:00:00Z')
 
@@ -20,5 +20,17 @@ describe('liberação de conteúdo', () => {
     })
     expect(liberacaoPara('aberta', quando)).toEqual({ bloqueado: false, libera_em: null })
     expect(liberacaoPara('data', null)).toEqual({ bloqueado: false, libera_em: null })
+  })
+})
+
+describe('início de cada tema', () => {
+  it('Detox no dia 1 por 7 dias, depois um tema a cada 30; rascunho não conta', () => {
+    const temas = [
+      { id: 'detox', publicado: true, dias_liberado: 7 },
+      { id: 'a', publicado: true, dias_liberado: 30 },
+      { id: 'rascunho', publicado: false, dias_liberado: 30 },
+      { id: 'b', publicado: true, dias_liberado: 30 },
+    ]
+    expect(iniciosDosTemas(temas)).toEqual({ detox: 1, a: 8, b: 38 })
   })
 })

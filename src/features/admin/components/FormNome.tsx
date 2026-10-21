@@ -6,6 +6,7 @@ import type { z } from 'zod'
 import { esquemaNome } from '../schemas/formularios'
 import { textos } from '../textos'
 import { CampoArea } from './CampoArea'
+import { liberacao as tl } from '../textos/liberacao'
 import { CampoLiberacao } from './CampoLiberacao'
 import { ErroForm, RodapeForm } from './RodapeForm'
 
@@ -49,6 +50,17 @@ export function FormNome({ titulo, rotulo, inicial, aoSalvar, aoCancelar, extra 
       <form id={id} onSubmit={enviar} noValidate className="flex flex-col gap-4">
         <Campo rotulo={rotulo} erro={erros.titulo?.message} {...form.register('titulo')} />
         <CampoArea rotulo={textos.temas.campoDescricao} rows={4} {...form.register('descricao')} />
+        {inicial?.dias !== undefined && (
+          <Campo
+            rotulo={tl.campoDias}
+            type="number"
+            min={1}
+            max={365}
+            inputMode="numeric"
+            erro={erros.dias?.message}
+            {...form.register('dias')}
+          />
+        )}
         {inicial?.liberacao && (
           <Controller
             control={form.control}

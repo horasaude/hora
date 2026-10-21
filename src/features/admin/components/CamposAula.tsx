@@ -14,32 +14,6 @@ import { PreviaVideo } from './PreviaVideo'
 const t = textos.aulas
 type Controle = Control<EntradaAula, unknown, DadosAula>
 
-/** Dia em que a aula libera: da preparação (1 a 7) ou dentro da etapa do tema. */
-export function Liberacao({
-  register,
-  erroDia,
-  preparacao,
-}: {
-  register: UseFormRegister<EntradaAula>
-  erroDia?: string
-  preparacao: boolean
-}) {
-  return (
-    <div className="flex flex-col gap-1">
-      <Campo
-        rotulo={preparacao ? t.campoDiaPreparacao : t.campoDiaEtapa}
-        type="number"
-        min={1}
-        max={preparacao ? 7 : undefined}
-        inputMode="numeric"
-        erro={erroDia}
-        {...register('dia')}
-      />
-      <span className="text-xs text-suave">{preparacao ? t.ajudaPreparacao : t.ajudaEtapa}</span>
-    </div>
-  )
-}
-
 function Previa({ control }: { control: Controle }) {
   return <PreviaVideo link={useWatch({ control, name: 'video_url' }) ?? ''} />
 }

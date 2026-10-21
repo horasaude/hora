@@ -1,4 +1,4 @@
-// Navegação da aluna: 6 abas (seções) e as telas de cada uma. As rotas não mudam, só são agrupadas.
+// Navegação da aluna: 5 abas (seções) e as telas de cada uma. As rotas não mudam, só são agrupadas.
 import type { NomeIcone } from './IconesNavegacao'
 import { textosAluna as t } from './textosAluna'
 
@@ -21,22 +21,16 @@ export const SECOES: Secao[] = [
     telas: [{ para: '/app', nome: t.nav.inicio, cor: 'bg-salvia', exata: true }],
   },
   {
-    id: 'trilhas',
-    nome: t.nav.trilhas,
+    id: 'comece',
+    nome: t.nav.comece,
     icone: 'trilha',
     telas: [
-      { para: '/app/trilha', nome: t.nav.temas, cor: 'bg-terracota', tambem: ['/app/aula'] },
-      { para: '/app/cardapios', nome: t.nav.cardapios, cor: 'bg-salvia' },
-      { para: '/app/treinos', nome: t.nav.treinos, cor: 'bg-coral' },
-    ],
-  },
-  {
-    id: 'desafios',
-    nome: t.nav.desafios,
-    icone: 'desafios',
-    telas: [
-      { para: '/app/desafios', nome: t.nav.desafioDoMes, cor: 'bg-ocre' },
-      { para: '/app/ranking', nome: t.nav.ranking, cor: 'bg-[#8fa7c0]' },
+      {
+        para: '/app/trilha',
+        nome: t.nav.comecePorAqui,
+        cor: 'bg-terracota',
+        tambem: ['/app/aula', '/app/cardapios', '/app/treinos', '/app/desafios'],
+      },
     ],
   },
   {
@@ -46,6 +40,7 @@ export const SECOES: Secao[] = [
     telas: [
       { para: '/app/lives', nome: t.nav.lives, cor: 'bg-dourado', dourada: true },
       { para: '/app/forum', nome: t.nav.forum, cor: 'bg-[#e0a48f]' },
+      { para: '/app/ranking', nome: t.nav.ranking, cor: 'bg-[#8fa7c0]' },
     ],
   },
   {
@@ -70,13 +65,10 @@ export type ItemMenu = { para: string; nome: string; cor: string; fim?: boolean;
 /** Menu lateral do computador: lista simples, na ordem pedida, com a bolinha de cor de cada item. */
 export const MENU_LATERAL: ItemMenu[] = [
   { para: '/app', nome: t.nav.inicio, cor: '#7FB89E', fim: true },
-  { para: '/app/trilha', nome: t.nav.trilhas, cor: '#F2643A' },
-  { para: '/app/cardapios', nome: t.nav.cardapios, cor: '#6F9582' },
-  { para: '/app/treinos', nome: t.nav.treinos, cor: '#F2643A' },
-  { para: '/app/desafios', nome: t.nav.desafios, cor: '#F2A922' },
-  { para: '/app/ranking', nome: t.nav.ranking, cor: '#6E9BC9' },
+  { para: '/app/trilha', nome: t.nav.comecePorAqui, cor: '#F2643A' },
   { para: '/app/lives', nome: t.nav.lives, cor: '#E9B949', live: true },
   { para: '/app/forum', nome: t.nav.forum, cor: '#D98BA8' },
+  { para: '/app/ranking', nome: t.nav.ranking, cor: '#6E9BC9' },
   { para: '/app/loja', nome: t.nav.loja, cor: '#D9B56A' },
   { para: '/app/perfil', nome: t.nav.evolucao, cor: '#B9A2C4', fim: true },
   { para: '/app/perfil/conta', nome: t.nav.conta, cor: '#8FA7C0' },
