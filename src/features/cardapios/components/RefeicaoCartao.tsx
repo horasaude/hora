@@ -1,6 +1,13 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { macros, rotuloOpcao, totalItens, type Item, type Refeicao } from '@/domain/nutricao'
+import {
+  macros,
+  rotuloOpcao,
+  totalItens,
+  type Item,
+  type Opcao,
+  type Refeicao,
+} from '@/domain/nutricao'
 import { RegistrarRefeicao } from '@/features/checkin'
 import { textos } from '../textos'
 import { IconeRefeicao } from './IconeRefeicao'
@@ -17,40 +24,44 @@ function Totais({ itens }: { itens: Item[] }) {
   )
 }
 
-/** Itens: nome à esquerda, quantidade em cinza à direita; receita vira link. Com "ou", mostra as outras opções. */
-function Itens({ itens, comOu }: { itens: Item[]; comOu: boolean }) {
-  return (
-    <ul className="flex flex-col gap-1.5 text-[14px]">
-      {itens.flatMap((it, i) =>
-        it.opcoes.slice(0, comOu ? undefined : 1).map((o, j) => (
-          <li
-            key={`${i}-${j}`}
-            className={`flex justify-between gap-3 ${j > 0 ? 'pl-4 text-[13px]' : ''}`}
-          >
-            <span className="text-tinta">
-              {j > 0 && <b className="mr-1 text-[11px] text-suave uppercase">{textos.ou}</b>}
-              {o.tipo === 'receita' ? (
-                <Link
-                  to={`/app/cardapios/receitas/${o.ref_id}`}
-                  className="font-bold text-verde-escuro underline underline-offset-2"
-                >
-                  {o.nome}
-                </Link>
-              ) : (
-                o.nome
-              )}
-            </span>
-            <span className="shrink-0 text-right text-[12px] text-suave">{rotuloOpcao(o)}</span>
-          </li>
-        )),
-      )}
-    </ul>
+function NomeOpcao({ o }: { o: Opcao }) {
+  return o.tipo === 'receita' ? (
+    <Link
+      to={`/app/cardapios/receitas/${o.ref_id}`}
+      className="font-bold text-verde-escuro underline underline-offset-2"
+    >
+      {o.nome}
+    </Link>
+  ) : (
+    <>{o.nome}</>
   )
 }
 
-/** Quantas trocas a refeição tem: as opções "ou" dos itens e as refeições substitutas. */
-const contarTrocas = (r: Refeicao) =>
-  r.substitutas.length + r.itens.reduce((s, i) => s + Math.max(0, i.opcoes.length - 1), 0)
+/** Um alimento por linha (somam na refeição): nome à esquerda, quantidade à direita; o "ou" na mesma linha. */
+function Itens({ itens }: { itens: Item[] }) {
+  return (
+    <ul className="flex flex-col gap-1.5 text-[14px]">
+      {itens.map((it, i) => (
+        <li key={i} className="flex justify-between gap-3">
+          <span className="text-tinta">
+            {it.opcoes.map((o, j) => (
+              <span key={j}>
+                {j > 0 && <span className="text-[13px] text-suave"> {textos.ou} </span>}
+                <NomeOpcao o={o} />
+                {j > 0 && <span className="text-[12px] text-suave"> ({rotuloOpcao(o)})</span>}
+              </span>
+            ))}
+          </span>
+          {it.opcoes[0] && (
+            <span className="shrink-0 text-right text-[12px] text-suave">
+              {rotuloOpcao(it.opcoes[0])}
+            </span>
+          )}
+        </li>
+      ))}
+    </ul>
+  )
+}
 
 /** Uma refeição: ícone, nome, horário, itens, "N opções de troca", totais discretos e Registrar refeição. */
 export function RefeicaoCartao({
@@ -63,7 +74,7 @@ export function RefeicaoCartao({
   ordem: number
 }) {
   const [subs, setSubs] = useState(false)
-  const trocas = contarTrocas(r)
+  const trocas = r.substitutas.length
   return (
     <article className="flex h-full flex-col gap-2.5 rounded-[18px] border border-linha bg-white p-3.5">
       <header className="flex items-center gap-2">
@@ -74,7 +85,7 @@ export function RefeicaoCartao({
       {texto ? (
         <p className="text-[14px] leading-relaxed whitespace-pre-line text-tinta">{r.texto}</p>
       ) : (
-        <Itens itens={r.itens} comOu={subs} />
+        <Itens itens={r.itens} />
       )}
       {r.observacao && <p className="text-[13px] text-suave italic">{r.observacao}</p>}
       {trocas > 0 && (
@@ -95,7 +106,7 @@ export function RefeicaoCartao({
             {texto ? (
               <p className="text-[14px] whitespace-pre-line">{s.texto}</p>
             ) : (
-              <Itens itens={s.itens} comOu />
+              <Itens itens={s.itens} />
             )}
           </div>
         ))}

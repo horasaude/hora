@@ -48,7 +48,6 @@ export const tRefeicoes = {
   alimentos: 'Alimentos selecionados',
   semAlimentos: 'Nenhum alimento ainda.',
   adicionarAlimento: 'Adicionar alimento',
-  adicionarOu: 'Adicionar opção "ou"',
   ou: 'ou',
   removerItem: (n: string) => `Remover ${n}`,
   observacao: 'Observação',
@@ -59,7 +58,6 @@ export const tRefeicoes = {
 
 export const tEscolher = {
   titulo: 'Adicionar alimento',
-  tituloOu: 'Adicionar opção "ou"',
   fontes: { todas: 'Todas', taco: 'TACO', proprio: 'Meus alimentos', receitas: 'Receitas' },
   receita: 'Receita',
   medida: 'Medida caseira',
@@ -91,8 +89,6 @@ export const tCardapios = {
   duplicarRefeicao: (n: string) => `Duplicar ${n}`,
   editarRefeicao: (n: string) => `Editar ${n}`,
   removerRefeicao: (n: string) => `Remover ${n}`,
-  substitutas: (n: number) => (n === 1 ? 'Exibir 1 substituição' : `Exibir ${n} substituições`),
-  ocultarSubstitutas: 'Ocultar substituições',
   adicionarSubstituta: 'Adicionar substituição',
   substituta: 'Substituição',
   carregarSalvo: 'Carregar cardápio salvo',

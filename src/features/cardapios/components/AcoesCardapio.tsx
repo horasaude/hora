@@ -20,13 +20,11 @@ function ImpressaoCardapio({ c }: { c: Cardapio }) {
             <p className="text-sm whitespace-pre-line">{r.texto}</p>
           ) : (
             <ul>
-              {r.itens.map((it, i) =>
-                it.opcoes[0] ? (
-                  <li key={i} className="text-sm">
-                    {it.opcoes[0].nome} · {rotuloOpcao(it.opcoes[0])}
-                  </li>
-                ) : null,
-              )}
+              {r.itens.map((it, i) => (
+                <li key={i} className="text-sm">
+                  {it.opcoes.map((o) => `${o.nome} · ${rotuloOpcao(o)}`).join(` ${textos.ou} `)}
+                </li>
+              ))}
             </ul>
           )}
           {r.observacao && <p className="text-xs italic">{r.observacao}</p>}

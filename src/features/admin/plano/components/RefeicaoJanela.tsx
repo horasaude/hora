@@ -19,6 +19,8 @@ type Props = {
   inicial: Rascunho
   textoLivre?: boolean
   semHorario?: boolean
+  /** Refeição substituta: sem horário nem observação próprios. */
+  semObservacao?: boolean
   aoSalvar: (r: Rascunho) => Promise<void> | void
   aoFechar: () => void
 }
@@ -29,6 +31,7 @@ export function RefeicaoJanela({
   inicial,
   textoLivre,
   semHorario,
+  semObservacao,
   aoSalvar,
   aoFechar,
 }: Props) {
@@ -66,7 +69,7 @@ export function RefeicaoJanela({
     >
       <div className="flex flex-col gap-5">
         <CamposTopo r={r} mudar={mudar} semHorario={semHorario} erroNome={estado === 'nome'} />
-        <CamposConteudo r={r} mudar={mudar} textoLivre={textoLivre} />
+        <CamposConteudo r={r} mudar={mudar} textoLivre={textoLivre} semObservacao={semObservacao} />
         {estado === 'erro' && (
           <p role="alert" className="text-sm text-terracota-escuro">
             {textos.erro}

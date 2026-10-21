@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { Alimento } from './api/alimentos.api'
-import { opcaoDeAlimento, rotuloOpcao } from './opcoes'
+import { comQuantidade, mover, opcaoDeAlimento, rotuloOpcao } from './opcoes'
 
 const arroz = {
   id: 'a1',
@@ -22,6 +22,15 @@ describe('opções de item', () => {
   })
   it('sem medida, a quantidade é em gramas', () => {
     expect(rotuloOpcao(opcaoDeAlimento(arroz, null, 150))).toBe('150 g')
+  })
+  it('mudar a quantidade ao editar recalcula gramas e nutrientes na proporção', () => {
+    const o = comQuantidade(opcaoDeAlimento(arroz, { nome: '1 colher de sopa', gramas: 25 }, 4), 2)
+    expect(o.gramas).toBe(50)
+    expect(o.nutrientes.kcal).toBeCloseTo(61.765, 2)
+  })
+  it('reordenar leva a linha para a nova posição e ignora posição fora da lista', () => {
+    expect(mover(['pão', 'ovo', 'café'], 2, 0)).toEqual(['café', 'pão', 'ovo'])
+    expect(mover(['pão', 'ovo'], 1, 2)).toEqual(['pão', 'ovo'])
   })
 })
 

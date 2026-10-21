@@ -5,6 +5,7 @@ import { textos } from '../textos'
 import { tCardapios as t } from '../textos2'
 import { IconeDuplicar, IconeEditar, IconeRemover } from './Icones'
 import { ListaItens } from './ListaItens'
+import { RodapeSubstitutas } from './RodapeSubstitutas'
 
 function Icone({
   rotulo,
@@ -106,20 +107,12 @@ export function RefeicaoBloco({
       </header>
       <ListaItens itens={r.itens} texto={textoLivre ? r.texto : undefined} />
       {r.observacao && <p className="text-xs text-suave italic">{r.observacao}</p>}
-      <div className="flex flex-wrap items-center gap-3 border-t border-[#F4F5F4] pt-2 text-xs font-bold text-verde-escuro">
-        {r.substitutas.length > 0 && (
-          <button
-            type="button"
-            className="min-h-8 underline underline-offset-4"
-            onClick={() => setVerSubs((v) => !v)}
-          >
-            {verSubs ? t.ocultarSubstitutas : t.substitutas(r.substitutas.length)}
-          </button>
-        )}
-        <button type="button" className="min-h-8 underline underline-offset-4" onClick={aoNovaSub}>
-          + {t.adicionarSubstituta}
-        </button>
-      </div>
+      <RodapeSubstitutas
+        total={r.substitutas.length}
+        aberto={verSubs}
+        aoAlternar={() => setVerSubs((v) => !v)}
+        aoNova={aoNovaSub}
+      />
       {verSubs &&
         r.substitutas.map((s, i) => (
           <SubBloco

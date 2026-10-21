@@ -60,3 +60,23 @@ export { rotuloOpcao } from '@/domain/nutricao'
 export function montar(e: Escolhido, medida: MedidaEscolhida, qtd: number): Opcao {
   return e.tipo === 'alimento' ? opcaoDeAlimento(e.a, medida, qtd) : opcaoDeReceita(e.r, qtd)
 }
+
+/** A mesma opção com outra quantidade: gramas e nutrientes na mesma proporção. */
+export function comQuantidade(o: Opcao, quantidade: number): Opcao {
+  const fator = o.quantidade > 0 ? quantidade / o.quantidade : 0
+  return {
+    ...o,
+    quantidade,
+    gramas: o.tipo === 'alimento' ? o.gramas_medida * quantidade : 0,
+    nutrientes: multiplicar(o.nutrientes, fator),
+  }
+}
+
+/** Lista com o elemento da posição `de` levado para a posição `para`. */
+export function mover<T>(lista: T[], de: number, para: number): T[] {
+  if (de === para || de < 0 || para < 0 || de >= lista.length || para >= lista.length) return lista
+  const copia = [...lista]
+  const [x] = copia.splice(de, 1)
+  copia.splice(para, 0, x as T)
+  return copia
+}

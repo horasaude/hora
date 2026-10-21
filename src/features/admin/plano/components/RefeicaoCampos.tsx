@@ -1,6 +1,5 @@
 import { useId } from 'react'
 import { BotaoBrilho, Campo } from '@/components/ui'
-import { totalItens } from '@/domain/nutricao'
 import type { TipoRefeicao } from '../api/cardapios.api'
 import { textos, TIPOS_REFEICAO } from '../textos'
 import { tRefeicoes as t } from '../textos2'
@@ -68,15 +67,17 @@ export function CamposTopo({
   )
 }
 
-/** Alimentos (com total) ou texto livre, e a observação. */
+/** Alimentos selecionados (tabela com total) ou texto livre, e a observação. */
 export function CamposConteudo({
   r,
   mudar,
   textoLivre,
+  semObservacao,
 }: {
   r: Rascunho
   mudar: Mudar
   textoLivre?: boolean
+  semObservacao?: boolean
 }) {
   return (
     <>
@@ -89,19 +90,18 @@ export function CamposConteudo({
         />
       ) : (
         <section className="flex flex-col gap-2">
-          <h3 className="flex items-center justify-between text-[13px] font-bold text-verde-escuro">
-            {t.alimentos}
-            <span className="text-suave">{textos.kcal(totalItens(r.itens).kcal)}</span>
-          </h3>
+          <h3 className="text-[13px] font-bold text-verde-escuro">{t.alimentos}</h3>
           <ItensEditor itens={r.itens} aoMudar={(itens) => mudar({ itens })} />
         </section>
       )}
-      <CampoArea
-        rotulo={t.observacao}
-        rows={2}
-        value={r.observacao}
-        onChange={(e) => mudar({ observacao: e.target.value })}
-      />
+      {!semObservacao && (
+        <CampoArea
+          rotulo={t.observacao}
+          rows={2}
+          value={r.observacao}
+          onChange={(e) => mudar({ observacao: e.target.value })}
+        />
+      )}
     </>
   )
 }

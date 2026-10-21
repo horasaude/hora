@@ -3,26 +3,25 @@ import { rotuloOpcao } from '../opcoes'
 import { textos } from '../textos'
 import { tRefeicoes } from '../textos2'
 
-/** Itens com medida caseira; o "ou" aparece logo abaixo da opção principal. */
+/** Um alimento por linha, com medida caseira; os substitutos "ou" na mesma linha. */
 export function ListaItens({ itens, texto }: { itens: Item[]; texto?: string }) {
   if (texto !== undefined)
     return <p className="text-[13px] leading-relaxed whitespace-pre-line text-[#40504B]">{texto}</p>
   return (
     <ul className="flex flex-col gap-1 text-[13px]">
       {itens.map((it, i) => (
-        <li key={i}>
-          {it.opcoes.map((o, j) => (
-            <p
-              key={j}
-              className={`flex justify-between gap-3 ${j > 0 ? 'pl-4 text-suave' : 'text-tinta'}`}
-            >
-              <span>
-                {j > 0 && <b className="mr-1 text-[11px] uppercase">{tRefeicoes.ou}</b>}
-                {o.nome} <span className="text-suave">· {rotuloOpcao(o)}</span>
+        <li key={i} className="flex justify-between gap-3 text-tinta">
+          <span>
+            {it.opcoes.map((o, j) => (
+              <span key={j}>
+                {j > 0 && <span className="text-suave"> {tRefeicoes.ou} </span>}
+                {o.nome} <span className="text-suave">({rotuloOpcao(o)})</span>
               </span>
-              <span className="shrink-0 text-suave">{textos.kcal(o.nutrientes.kcal)}</span>
-            </p>
-          ))}
+            ))}
+          </span>
+          {it.opcoes[0] && (
+            <span className="shrink-0 text-suave">{textos.kcal(it.opcoes[0].nutrientes.kcal)}</span>
+          )}
         </li>
       ))}
     </ul>

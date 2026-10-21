@@ -25,6 +25,16 @@ export function IconeEditar() {
   )
 }
 
+export function IconeArrastar() {
+  return (
+    <svg viewBox="0 0 16 16" aria-hidden className="size-4" fill="currentColor">
+      {[4, 8, 12].flatMap((y) =>
+        [6, 10].map((x) => <circle key={`${x}-${y}`} cx={x} cy={y} r="1.1" />),
+      )}
+    </svg>
+  )
+}
+
 export function IconeRemover() {
   return (
     <svg viewBox="0 0 16 16" aria-hidden className="size-4" {...traco}>

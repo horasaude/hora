@@ -1,0 +1,37 @@
+// Textos do editor de refeição: tabela de alimentos, editar alimento, substitutos e refeições substitutas.
+
+const n1 = (v: number) => v.toLocaleString('pt-BR', { maximumFractionDigits: 1 })
+
+export const tEditor = {
+  colunas: ['Alimento', 'Proteínas', 'Carboidratos', 'Lipídeos', 'Calorias', 'Quantidade (g)'],
+  acoes: 'Ações',
+  total: 'Total',
+  ou: 'ou',
+  editar: (n: string) => `Editar ${n}`,
+  excluir: (n: string) => `Excluir ${n}`,
+  arrastar: (n: string) => `Reordenar ${n}`,
+  verNutrientes: 'Ver nutrientes',
+  ocultarNutrientes: 'Ocultar nutrientes',
+  energia: 'Energia',
+  proteinas: 'Proteínas',
+  carboidratos: 'Carboidratos',
+  lipideos: 'Lipídeos',
+  fibras: 'Fibras',
+  editarAlimento: 'Editar alimento',
+  adicionarAlimento: 'Adicionar alimento',
+  trocarAlimento: 'Trocar alimento',
+  quantidade: 'Quantidade',
+  substitutos: 'Alimentos substitutos',
+  semSubstitutos: 'Nenhum substituto.',
+  adicionarSubstituto: 'Adicionar substituto',
+  removerSubstituto: (n: string) => `Remover ${n}`,
+  salvar: 'Salvar',
+  escolhaAlimento: 'Escolha o alimento',
+  nenhumaSubstituta: 'Nenhuma refeição substituta',
+  substitutas: (n: number) => (n === 1 ? '1 refeição substituta' : `${n} refeições substitutas`),
+  exibir: 'Exibir',
+  ocultar: 'Ocultar',
+  gramas: (v: number) => `${n1(v)} g`,
+  kcal: (v: number) => `${Math.round(v).toLocaleString('pt-BR')} kcal`,
+  pct: (v: number) => `${v}%`,
+}
