@@ -2,6 +2,12 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-21 · main · Abas coloridas, bolinha de concluída e pré-visualização clara
+
+- Abas do tema com cor própria quando escolhidas (Aulas verde, Cardápio coral, Treinos dourado, Desafio lilás, Materiais rosa); Abas aceita tom por opção; TomBrilho ganhou lilas e rosa.
+- Cada aula liberada tem uma bolinha à direita: vazia, e com check verde quando concluída (automática ao assistir 90%).
+- O "não marcou" de 21/10 era a pré-visualização (Conteúdo > Ver como aluna), que por regra não grava nada; o botão virou "Pré-visualizar (não grava)" e a faixa explica.
+
 ## 2026-10-21 · main · Aula: player novo a cada aula (check, progresso e qualidade)
 
 - Ao ir para a próxima aula, o React reaproveitava a página e o iframe do YouTube só trocava de vídeo: a API perdia a ligação (sem contar tempo, sem conclusão automática, progresso parado) e o player ficava na qualidade baixa do começo; o "pedido" de concluir também ficava preso da aula anterior. Agora AulaPage remonta por aula (key) e o vídeo também. Vídeo voltou para a coluna da esquerda, com as aulas ao lado.

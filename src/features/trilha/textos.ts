@@ -94,7 +94,8 @@ export const textos = {
     dia: 'Dia',
     tema: 'Tema',
     semTema: 'Sem tema',
-    aviso: 'Nada aqui grava conclusão nem pontos.',
+    aviso:
+      'Pré-visualização: aqui não marca aula concluída, não move a barra nem dá pontos. Para testar isso, use a área da aluna.',
     sair: 'Voltar ao painel',
     treinos: 'Ver Treinos',
   },

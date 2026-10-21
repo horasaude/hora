@@ -54,7 +54,7 @@ export function ConteudoPage() {
         {c.novaAula}
       </Link>
       <Link to="/app/previa?dia=1" className={classeBrilho('escuro')}>
-        {t.verComoAluna}
+        {t.previsualizar}
       </Link>
       <button type="button" className={classeBrilho('cinza')} onClick={() => setJanela('tema')}>
         {c.novoTema}

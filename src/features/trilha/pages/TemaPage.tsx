@@ -13,9 +13,17 @@ import { usePrevia } from '../previa'
 import { textos } from '../textos'
 
 const t = textos.sequencia
+const CORES = {
+  aulas: 'verde',
+  cardapio: 'coral',
+  treinos: 'dourado',
+  desafio: 'lilas',
+  materiais: 'rosa',
+} as const
 const ABAS = (['aulas', 'cardapio', 'treinos', 'desafio', 'materiais'] as const).map((id) => ({
   id,
   nome: t.abas[id],
+  tom: CORES[id],
 }))
 type Aba = (typeof ABAS)[number]['id']
 const ehAba = (v: string | null): v is Aba => ABAS.some((a) => a.id === v)

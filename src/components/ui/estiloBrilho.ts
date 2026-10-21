@@ -1,6 +1,7 @@
 // Classes do estilo brilho delicado (docs/referencias/estilo-aluna.html e estilo-painel.html). Base de Brilho.tsx.
 
-export type TomBrilho = 'verde' | 'coral' | 'dourado' | 'escuro' | 'cinza' | 'prata'
+export type TomBrilho =
+  'verde' | 'coral' | 'dourado' | 'escuro' | 'cinza' | 'prata' | 'lilas' | 'rosa'
 export type TamanhoBrilho = 'sm' | 'md' | 'lg'
 
 const TOM: Record<TomBrilho, string> = {
@@ -10,6 +11,8 @@ const TOM: Record<TomBrilho, string> = {
   escuro: 'brilho-escuro',
   cinza: 'brilho-cinza',
   prata: 'brilho-prata',
+  lilas: 'brilho-lilas',
+  rosa: 'brilho-rosa',
 }
 
 const TAMANHO: Record<TamanhoBrilho, string> = {

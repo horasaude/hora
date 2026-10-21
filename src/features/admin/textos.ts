@@ -68,6 +68,7 @@ export const textos = {
     novo: 'Novo tema',
     comece: 'Comece por aqui',
     verComoAluna: 'Ver como aluna',
+    previsualizar: 'Pré-visualizar (não grava)',
     capa: 'Capa do tema (opcional)',
     comeceJanela: 'Comece por aqui (dia 1)',
     comeceVideo: 'Vídeo do YouTube',

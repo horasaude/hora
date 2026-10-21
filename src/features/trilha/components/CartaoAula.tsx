@@ -37,6 +37,18 @@ function Marca({ aula }: { aula: AulaTrilha }) {
   )
 }
 
+/** Bolinha à direita: vazia até a aula ser concluída; com check verde quando ela assiste até o fim. */
+function Bolinha({ feita }: { feita: boolean }) {
+  return feita ? (
+    <span className="grid size-7 shrink-0 place-items-center rounded-full bg-verde-vivo text-white">
+      <IconeCheck className="size-3.5" />
+      <span className="sr-only">{textos.concluida}</span>
+    </span>
+  ) : (
+    <span aria-hidden className="size-7 shrink-0 rounded-full border-2 border-linha" />
+  )
+}
+
 /** Miniatura 16:9 com a capa da aula (ou do tema) e o estado no meio. */
 function Miniatura({ aula, tema }: { aula: AulaTrilha; tema?: DoTema }) {
   const capa = urlCapa(aula.capa ?? tema?.capa)
@@ -80,7 +92,7 @@ export function CartaoAula({ aula, numero, proxima, fechadaTexto, tema }: Props)
           {aula.liberada ? detalhe : aula.em_breve ? textos.emBreve : fechadaTexto}
         </span>
       </span>
-      {aula.concluida && <span className="sr-only">{textos.concluida}</span>}
+      {aula.liberada && <Bolinha feita={aula.concluida} />}
     </>
   )
   const classe = `flex items-center gap-3 rounded-[18px] border bg-white p-2.5 pr-4 ${proxima ? 'border-verde-vivo/50 shadow-cartao' : 'border-linha'} ${aula.liberada ? '' : 'opacity-75'}`
