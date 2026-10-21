@@ -37,11 +37,14 @@ export async function buscarAula(id: string): Promise<AulaAberta | null> {
   return data
 }
 
+/** Só as dela: a equipe lê as conclusões de todas, e na visão de aluna contaria as das outras. */
 export async function aulaConcluida(id: string): Promise<boolean> {
+  const { data: sessao } = await supabase.auth.getSession()
   const { count, error } = await supabase
     .from('aulas_concluidas')
     .select('aula_id', { count: 'exact', head: true })
     .eq('aula_id', id)
+    .eq('perfil_id', sessao.session?.user.id ?? '')
   if (error) throw error
   return (count ?? 0) > 0
 }

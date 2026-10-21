@@ -1,11 +1,13 @@
 import { linksDasFotos, minhaPasta, subirFoto } from '@/lib/fotos'
 import { supabase } from '@/lib/supabase'
 
-/** Quantas aulas ela concluiu. */
+/** Quantas aulas ela concluiu (só as dela; a equipe lê as de todas). */
 export async function contarAulasConcluidas(): Promise<number> {
+  const { data: sessao } = await supabase.auth.getSession()
   const { count, error } = await supabase
     .from('aulas_concluidas')
     .select('aula_id', { count: 'exact', head: true })
+    .eq('perfil_id', sessao.session?.user.id ?? '')
   if (error) throw error
   return count ?? 0
 }
