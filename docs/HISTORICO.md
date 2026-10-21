@@ -2,6 +2,11 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-21 · main · Sala do Meet com Gmail comum
+
+- "Criar sala no Meet" dava erro: o Google responde 403 "updateAccessType is not available to the user" porque sala restrita é só do Workspace e a conta conectada é Gmail. criarSala tenta a restrita e, nessa recusa, cria a sala comum; ajustarSala ignora a mesma recusa; membro que o Google não aceitar não derruba a criação (só registra). Com o Workspace conectado, a restrição volta a valer sozinha.
+- Logs das Edge Functions agora saem pela API nova: GET /v1/projects/{ref}/analytics/endpoints/logs com sql em `logs` (event_message), sem logs.all nem tabelas por fonte.
+
 ## 2026-10-21 · main · Adicionar alimento mostra todos os alimentos
 
 - A janela de adicionar alimento (refeição e receita) mostrava só os 30 primeiros em ordem alfabética. Agora carrega em levas de 60 ao rolar a lista (useInfiniteQuery em Resultados.tsx, buscarAlimentosParaEscolha com range), até os 597 da TACO e os próprios; a busca continua filtrando. Receitas aparecem primeiro em "Todas".

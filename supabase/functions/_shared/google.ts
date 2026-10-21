@@ -84,16 +84,30 @@ export const CONFIG_SALA = { config: { accessType: 'RESTRICTED', entryPointAcces
 
 export type Sala = { name: string; meetingUri: string }
 
-export async function criarSala(acesso: string): Promise<Sala> {
+/** Conta Google sem Workspace (Gmail comum) não pode restringir a sala: o Google responde 403. */
+export const semWorkspace = (erro: unknown) =>
+  erro instanceof Error && /^meet 403\b/.test(erro.message) && /not available/i.test(erro.message)
+
+async function postarSala(acesso: string, corpo: unknown): Promise<Sala> {
   const r = await fetch('https://meet.googleapis.com/v2/spaces', {
     method: 'POST',
     headers: { Authorization: `Bearer ${acesso}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify(CONFIG_SALA),
+    body: JSON.stringify(corpo),
   })
   const j = (await r.json().catch(() => ({}))) as Partial<Sala> & { error?: { message?: string } }
   if (!r.ok || !j.name || !j.meetingUri)
     throw new Error(`meet ${r.status} ${j.error?.message ?? ''}`.trim())
   return { name: j.name, meetingUri: j.meetingUri }
+}
+
+/** Cria a sala restrita; na conta sem Workspace, cria a sala comum (a restrição entra quando assinarem). */
+export async function criarSala(acesso: string): Promise<Sala> {
+  try {
+    return await postarSala(acesso, CONFIG_SALA)
+  } catch (e) {
+    if (!semWorkspace(e)) throw e
+    return postarSala(acesso, {})
+  }
 }
 
 const MEET = 'https://meet.googleapis.com/v2'
@@ -109,9 +123,14 @@ async function chamarMeet(acesso: string, caminho: string, metodo: string, corpo
   throw new Error(`meet ${r.status} ${j.error?.message ?? ''}`.trim())
 }
 
-/** Deixa uma sala que já existe com a configuração atual (restrita). */
-export const ajustarSala = (acesso: string, sala: string) =>
-  chamarMeet(acesso, `${sala}?updateMask=config.accessType`, 'PATCH', CONFIG_SALA)
+/** Deixa uma sala que já existe restrita; sem Workspace o Google não deixa e a sala segue como está. */
+export async function ajustarSala(acesso: string, sala: string) {
+  try {
+    await chamarMeet(acesso, `${sala}?updateMask=config.accessType`, 'PATCH', CONFIG_SALA)
+  } catch (e) {
+    if (!semWorkspace(e)) throw e
+  }
+}
 
 /** Membro entra sem pedir; coanfitriã também aceita quem pedir para entrar. Já membro: segue. */
 export const adicionarMembro = (acesso: string, sala: string, email: string, coanfitria = false) =>

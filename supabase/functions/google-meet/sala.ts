@@ -37,7 +37,11 @@ export async function prepararSala(live: string): Promise<[Record<string, unknow
   if (error) throw new Error(error.message)
   for (const d of (destinos ?? []) as Destino[]) {
     if (d.papel === 'aluna') continue
-    await adicionarMembro(acesso, sala, d.email, d.papel === 'equipe')
+    try {
+      await adicionarMembro(acesso, sala, d.email, d.papel === 'equipe')
+    } catch (e) {
+      console.error('google-meet membro', d.papel, e instanceof Error ? e.message : e)
+    }
   }
   return [{ ok: true, link }, 200]
 }
