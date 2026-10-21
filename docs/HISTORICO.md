@@ -2,6 +2,10 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-20 · main · Capa automática dos temas
+
+- Tema sem imagem ganha capa montada sozinha (CapaAutomatica): cor do tema (escolhida no painel ou pela chave), dois círculos claros e o ícone grande; vale para cartões dos temas, topo da página do tema e miniaturas das aulas. Detox ganhou ícone de gota. Tema novo já nasce com capa; imagem enviada no painel substitui.
+
 ## 2026-10-20 · main · Temas em sequência pela data de assinatura; tudo do tema dentro do tema
 
 - Regra nova (migração 20261101150000_temas_em_sequencia.sql): sem escolha de tema e sem etapas. Os temas abrem em sequência pela data de assinatura: o primeiro (Detox, antiga Preparação) no dia 1 por 7 dias, os seguintes conforme temas.dias_liberado (padrão 30); a ordem é a do painel (arrastar). Tema aberto continua aberto. Ao abrir, aulas, cardápios, treinos, desafio e materiais do tema aparecem juntos (tema_aberto, inicio_do_tema, aula_liberada, trilha_aluna/trilha_previa com temas[]).

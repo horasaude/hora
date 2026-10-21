@@ -3,14 +3,17 @@ import { IconeCadeado, IconeCheck, IconePlay } from '@/components/ui'
 import type { AulaTrilha } from '@/domain/trilha'
 import { urlCapa } from '@/lib/capas'
 import { useLinkAula } from '../previa'
+import { CapaAutomatica } from './CapaAutomatica'
 import { textos } from '../textos'
+
+type DoTema = { capa?: string | null; chave: string | null; cor: string | null }
 
 type Props = {
   aula: AulaTrilha
   numero: number
   proxima: boolean
   fechadaTexto: string
-  capaTema?: string | null
+  tema?: DoTema
 }
 
 function Marca({ aula }: { aula: AulaTrilha }) {
@@ -35,10 +38,13 @@ function Marca({ aula }: { aula: AulaTrilha }) {
 }
 
 /** Miniatura 16:9 com a capa da aula (ou do tema) e o estado no meio. */
-function Miniatura({ aula, capaTema }: { aula: AulaTrilha; capaTema?: string | null }) {
-  const capa = urlCapa(aula.capa ?? capaTema)
+function Miniatura({ aula, tema }: { aula: AulaTrilha; tema?: DoTema }) {
+  const capa = urlCapa(aula.capa ?? tema?.capa)
   return (
     <span className="relative grid aspect-video w-28 shrink-0 place-items-center overflow-hidden rounded-[12px] bg-verde-escuro sm:w-40">
+      {!capa && tema && (
+        <CapaAutomatica chave={tema.chave} cor={tema.cor} icone="size-8 opacity-40" />
+      )}
       {capa && (
         <img
           src={capa}
@@ -55,14 +61,14 @@ function Miniatura({ aula, capaTema }: { aula: AulaTrilha; capaTema?: string | n
 }
 
 /** Aula na lista: miniatura, Aula N e dia, título e duração; fechada mostra quando libera ou Em breve. */
-export function CartaoAula({ aula, numero, proxima, fechadaTexto, capaTema }: Props) {
+export function CartaoAula({ aula, numero, proxima, fechadaTexto, tema }: Props) {
   const linkAula = useLinkAula()
   const detalhe = [aula.profissional, aula.duracao_minutos && textos.minutos(aula.duracao_minutos)]
     .filter(Boolean)
     .join(' · ')
   const corpo = (
     <>
-      <Miniatura aula={aula} capaTema={capaTema} />
+      <Miniatura aula={aula} tema={tema} />
       <span className="flex min-w-0 flex-1 flex-col gap-1">
         <span className="self-start rounded-full bg-trilho px-2.5 py-0.5 text-[11px] font-bold text-suave">
           {textos.aulaN(numero, aula.dia_liberacao)}
@@ -98,11 +104,11 @@ export function CartaoAula({ aula, numero, proxima, fechadaTexto, capaTema }: Pr
 export function ListaAulas({
   aulas,
   fechada,
-  capaTema,
+  tema,
 }: {
   aulas: AulaTrilha[]
   fechada: (a: AulaTrilha) => string
-  capaTema?: string | null
+  tema?: DoTema
 }) {
   const proxima = aulas.find((a) => a.liberada && !a.concluida)
   return (
@@ -114,7 +120,7 @@ export function ListaAulas({
           numero={i + 1}
           proxima={a.id === proxima?.id}
           fechadaTexto={fechada(a)}
-          capaTema={capaTema}
+          tema={tema}
         />
       ))}
     </ul>

@@ -4,7 +4,7 @@ import { diasParaAbrir, type TemaTrilha } from '@/domain/trilha'
 import { urlCapa } from '@/lib/capas'
 import { useLinkTema } from '../previa'
 import { textos } from '../textos'
-import { IconeTema } from './Temas'
+import { CapaAutomatica } from './CapaAutomatica'
 
 const t = textos.sequencia
 
@@ -48,7 +48,11 @@ function CartaoTema({ tema, n, dia }: { tema: TemaTrilha; n: number; dia: number
               className={`absolute inset-0 size-full object-cover ${tema.aberto ? '' : 'grayscale'}`}
             />
           ) : (
-            <IconeTema chave={tema.chave} className="size-12 opacity-60" />
+            <CapaAutomatica
+              chave={tema.chave}
+              cor={tema.cor}
+              icone={tema.aberto ? 'size-16' : 'size-16 opacity-0'}
+            />
           )}
           {!tema.aberto && (
             <span className="absolute grid size-11 place-items-center rounded-full bg-white/90 text-verde-escuro">

@@ -43,7 +43,7 @@ function Conteudo({ tema, aba }: { tema: TemaTrilha; aba: Aba }) {
   if (aba === 'desafio') return <DesafiosDoTema temaId={tema.id} />
   if (aba === 'materiais') return <Materiais tema={tema.id} />
   if (tema.aulas.length === 0) return <Vazio>{t.semAulas}</Vazio>
-  return <ListaAulas aulas={tema.aulas} capaTema={tema.capa} fechada={() => textos.emBreve} />
+  return <ListaAulas aulas={tema.aulas} tema={tema} fechada={() => textos.emBreve} />
 }
 
 function Fechado({ tema, dia }: { tema: TemaTrilha; dia: number }) {

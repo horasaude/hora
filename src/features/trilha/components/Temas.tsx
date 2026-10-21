@@ -11,6 +11,12 @@ const traco = {
 } as const
 
 const ICONES: Record<string, (p: Icone) => React.JSX.Element> = {
+  preparacao: (p) => (
+    <svg viewBox="0 0 24 24" aria-hidden {...p}>
+      <path {...traco} d="M12 3.5s-6 6.6-6 11a6 6 0 0 0 12 0c0-4.4-6-11-6-11Z" />
+      <path {...traco} d="M9.5 15.5c.6 1.4 1.7 2 3 2" />
+    </svg>
+  ),
   emagrecimento: (p) => (
     <svg viewBox="0 0 24 24" aria-hidden {...p}>
       <path {...traco} d="M5 19c9 0 14-5 14-14-9 0-14 5-14 14Zm0 0 8-8" />
