@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom'
-import { IconeCheck, LinkBrilho } from '@/components/ui'
 import { proximoDaSequencia } from '@/domain/series'
 import type { Feito, RotinaAluna } from '../api/treinos.api'
 import { detalhe } from '../formato'
 import { textos } from '../textos'
+import { FichaTreino } from './FichaTreino'
 
 type Props = { rotina: RotinaAluna; feitos: Feito[]; hoje: string; link: (id: string) => string }
 
@@ -15,28 +15,12 @@ export function TreinoDaSequencia({ rotina, feitos, hoje, link }: Props) {
   if (!daVez) return null
   return (
     <>
-      <section className="rounded-[24px] bg-gradient-to-br from-[#FFF1EA] to-white p-5 shadow-cartao sm:p-6">
-        <p className="text-xs font-bold tracking-[0.14em] text-coral uppercase">
-          {feitoHoje ? textos.hoje : textos.proximoTreino}
-        </p>
-        <div className="mt-2 flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <p className="text-sm font-bold text-suave">{textos.treinoN(indice + 1)}</p>
-            <h2 className="text-[22px] font-bold text-verde-escuro">{daVez.treino.nome}</h2>
-            <p className="mt-1 text-sm text-suave">{detalhe(daVez.treino)}</p>
-          </div>
-          {feitoHoje ? (
-            <span className="brilho brilho-verde inline-flex min-h-10 items-center gap-1 rounded-full px-5 text-[13px] font-bold">
-              <IconeCheck className="size-3.5" />
-              {textos.feito}
-            </span>
-          ) : (
-            <LinkBrilho to={link(daVez.treino.id)} tom="coral" tamanho="lg">
-              {textos.comecar}
-            </LinkBrilho>
-          )}
-        </div>
-      </section>
+      <FichaTreino
+        treino={daVez.treino}
+        rotulo={`${feitoHoje ? textos.hoje : textos.proximoTreino} · ${textos.treinoN(indice + 1)}`}
+        feito={feitoHoje}
+        link={link(daVez.treino.id)}
+      />
       <section className="flex flex-col gap-3">
         <h2 className="text-[19px] font-bold text-verde-escuro">{textos.sequencia}</h2>
         <ol className="grid gap-3 lg:grid-cols-2">

@@ -1,14 +1,9 @@
 import { useParams } from 'react-router-dom'
-import {
-  Carregando,
-  Cartao,
-  ErroCarregar,
-  EtiquetaBrilho,
-  LinkBrilho,
-  Vazio,
-} from '@/components/ui'
+import { Carregando, Cartao, ErroCarregar, EtiquetaBrilho, Vazio } from '@/components/ui'
 import { macros, totalCardapio } from '@/domain/nutricao'
+import { AcoesCardapio } from '../components/AcoesCardapio'
 import { RefeicaoCartao } from '../components/RefeicaoCartao'
+import { TopoVoltar } from '../components/TopoVoltar'
 import { useCardapios } from '../hooks/useCardapios'
 import { textos } from '../textos'
 
@@ -26,15 +21,10 @@ function TotalDia({ refeicoes }: { refeicoes: Parameters<typeof totalCardapio>[0
   )
 }
 
-/** Cardápio aberto: refeições em ordem de horário, total do dia e a lista de compras. */
+/** Cardápio aberto: topo com voltar, refeições em cartões (ordem de horário), total do dia, Lista de compras e PDF. */
 export function CardapioPage() {
   const { cardapioId = '' } = useParams()
   const cardapios = useCardapios()
-  const voltar = (
-    <LinkBrilho to="/app/cardapios" tom="cinza" tamanho="sm" className="self-start">
-      {textos.voltar}
-    </LinkBrilho>
-  )
   if (cardapios.isPending) return <Carregando texto={textos.carregando} />
   if (cardapios.isError)
     return (
@@ -48,37 +38,32 @@ export function CardapioPage() {
   if (!c)
     return (
       <section className="flex flex-col gap-4">
-        {voltar}
+        <TopoVoltar titulo={textos.titulo} padrao="/app/cardapios" rotulo={textos.voltar} />
         <Vazio>{textos.naoEncontrado}</Vazio>
       </section>
     )
   return (
-    <section className="flex flex-col gap-5 lg:gap-6">
-      {voltar}
-      <header className="flex flex-wrap items-end justify-between gap-4">
-        <div className="flex flex-col gap-2">
-          <span className="self-start">
-            <EtiquetaBrilho tom="verde">{c.objetivo}</EtiquetaBrilho>
-          </span>
-          <h1 className="text-[28px] leading-tight font-bold text-verde-escuro lg:text-[30px]">
-            {c.titulo}
-          </h1>
-          {c.descricao && <p className="max-w-2xl text-[15px] text-suave">{c.descricao}</p>}
+    <section className="flex flex-col gap-4 lg:gap-5">
+      <TopoVoltar titulo={c.titulo} padrao="/app/cardapios" rotulo={textos.voltar} />
+      {(c.objetivo || c.descricao) && (
+        <div className="flex flex-wrap items-center gap-2 text-[14px] text-suave">
+          {c.objetivo && <EtiquetaBrilho tom="verde">{c.objetivo}</EtiquetaBrilho>}
+          {c.descricao && <p className="max-w-2xl">{c.descricao}</p>}
         </div>
-        {!c.texto && (
-          <LinkBrilho to={`/app/cardapios/${c.id}/compras`} tom="escuro">
-            {textos.compras.botao}
-          </LinkBrilho>
-        )}
-      </header>
-      <ul className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
-        {c.refeicoes.map((r) => (
-          <li key={r.id}>
-            <RefeicaoCartao r={r} texto={c.texto} />
-          </li>
-        ))}
-      </ul>
+      )}
+      {c.refeicoes.length === 0 ? (
+        <Vazio>{textos.semRefeicoes}</Vazio>
+      ) : (
+        <ul className="grid gap-3 lg:grid-cols-2 lg:gap-4">
+          {c.refeicoes.map((r, i) => (
+            <li key={r.id}>
+              <RefeicaoCartao r={r} texto={c.texto} ordem={i} />
+            </li>
+          ))}
+        </ul>
+      )}
       {!c.texto && <TotalDia refeicoes={c.refeicoes} />}
+      <AcoesCardapio c={c} />
     </section>
   )
 }

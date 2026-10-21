@@ -77,6 +77,13 @@ export const textos = {
     foto: 'Registrar com foto',
     fechar: 'Fechar',
   },
+  ficha: {
+    montadoPor: (nome: string) => `Montado pela ${nome}`,
+    descanso: (s: number) => `descanso ${s} s`,
+    verVideo: (nome: string) => `Ver o vídeo de ${nome}`,
+    foto: 'Marcar treino com foto',
+    semExercicios: 'Os exercícios deste treino aparecem aqui em breve.',
+  },
   conta: { titulo: 'Treinos', nivel: 'Nível', local: 'Local', salvo: 'Salvo' },
   historico: {
     titulo: 'Treinos feitos',

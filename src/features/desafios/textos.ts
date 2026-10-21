@@ -42,7 +42,7 @@ export const textos = {
   comecaEm: (d: string) => `Começa em ${d}`,
   checkin: {
     titulo: 'Check-in de hoje',
-    simNao: 'Fiz hoje',
+    simNao: (pontos: number) => (pontos > 0 ? `Fiz hoje · +${pontos}` : 'Fiz hoje'),
     numero: (unidade: string) => `Quantos ${unidade} hoje?`,
     registrar: 'Registrar',
     foto: 'Tirar ou escolher foto',
@@ -56,6 +56,15 @@ export const textos = {
     numeroInvalido: 'Digite um número.',
   },
   ranking: 'Ranking do desafio',
+  quemEsta: 'Quem está no desafio',
+  alunas: (n: number) => (n === 1 ? '1 aluna' : `${n} alunas`),
+  doTema: 'Desafio do tema',
+  doMesUm: 'Desafio do mês',
+  premioCartao: {
+    paraQuem: (dias: number) =>
+      dias === 1 ? 'Para quem completar 1 dia' : `Para quem completar os ${dias} dias`,
+    maisSurpresa: ' + caixa surpresa',
+  },
   dias: (n: number, meta: number) => `${n}/${meta}`,
   semRanking: 'Ninguém entrou ainda. Seja a primeira.',
   encerrado: {

@@ -47,7 +47,7 @@ export function CheckinDesafio({ d, hoje }: { d: Desafio; hoje: string }) {
           disabled={marcar.isPending}
           onClick={() => enviar({})}
         >
-          {t.simNao}
+          {t.simNao(d.pontos_por_dia)}
         </BotaoBrilho>
       ) : d.tipo_checkin === 'numero' ? (
         <CampoNumero d={d} enviando={marcar.isPending} aoEnviar={(valor) => enviar({ valor })} />

@@ -4,8 +4,9 @@ import { diaMesDeData } from '@/lib/datas'
 import type { Desafio } from '../api/desafios.api'
 import { textoPremio } from '../premio'
 import { textos } from '../textos'
+import { FaixaPremio } from './PremioDesafio'
 
-/** Cartão da lista: nome, período, prêmio, participantes e Participando ou Entrar. */
+/** Cartão da lista: nome, período, participantes, Participando ou Entrar e a faixa dourada do prêmio. */
 export function CartaoDesafio({ d }: { d: Desafio }) {
   const premio = textoPremio(d)
   return (
@@ -25,10 +26,9 @@ export function CartaoDesafio({ d }: { d: Desafio }) {
           {textos.participantes(d.participantes)}
         </p>
         {premio && (
-          <p className="mt-auto text-sm text-tinta">
-            <span className="font-bold text-ocre">{textos.premio}: </span>
-            {premio}
-          </p>
+          <div className="mt-auto">
+            <FaixaPremio texto={premio} />
+          </div>
         )}
       </Cartao>
     </Link>

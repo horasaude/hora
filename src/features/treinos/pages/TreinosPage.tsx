@@ -60,14 +60,14 @@ function Conteudo({ nivel, local, aba }: { nivel: string; local: string; aba: Ab
     <div className="flex flex-col gap-7">
       {rotina.data?.tipo === 'numerico' ? (
         <>
-          <Orientacoes texto={rotina.data.orientacoes} />
           <TreinoDaSequencia rotina={rotina.data} feitos={recentes} hoje={hoje} link={link} />
+          <Orientacoes texto={rotina.data.orientacoes} />
           <SemanaTreinos rotina={rotina.data} dia={dia} datas={datas} link={link} />
         </>
       ) : rotina.data ? (
         <>
-          <Orientacoes texto={rotina.data.orientacoes} />
           <TreinoDeHoje rotina={rotina.data} dia={dia} feitos={feitosHoje} link={link} />
+          <Orientacoes texto={rotina.data.orientacoes} />
           <SemanaTreinos rotina={rotina.data} dia={dia} datas={datas} link={link} />
         </>
       ) : (

@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Cartao } from '@/components/ui'
 import { macros, rotuloOpcao, totalItens, type Item, type Refeicao } from '@/domain/nutricao'
 import { RegistrarRefeicao } from '@/features/checkin'
 import { textos } from '../textos'
+import { IconeRefeicao } from './IconeRefeicao'
+import { IconeTroca } from './IconesCardapio'
 
 function Totais({ itens }: { itens: Item[] }) {
   const total = totalItens(itens)
+  if (total.kcal <= 0) return null
   const m = macros(total)
   return (
     <p className="text-[12px] text-suave">
@@ -15,15 +17,18 @@ function Totais({ itens }: { itens: Item[] }) {
   )
 }
 
-/** Itens com medida caseira e gramas; receita vira link. Com "ou", mostra só se pedir as substituições. */
+/** Itens: nome à esquerda, quantidade em cinza à direita; receita vira link. Com "ou", mostra as outras opções. */
 function Itens({ itens, comOu }: { itens: Item[]; comOu: boolean }) {
   return (
-    <ul className="flex flex-col gap-1.5 text-[15px]">
-      {itens.map((it, i) => (
-        <li key={i}>
-          {it.opcoes.slice(0, comOu ? undefined : 1).map((o, j) => (
-            <p key={j} className={j > 0 ? 'pl-4 text-[14px] text-suave' : 'text-tinta'}>
-              {j > 0 && <b className="mr-1 text-[11px] uppercase">{textos.ou}</b>}
+    <ul className="flex flex-col gap-1.5 text-[14px]">
+      {itens.flatMap((it, i) =>
+        it.opcoes.slice(0, comOu ? undefined : 1).map((o, j) => (
+          <li
+            key={`${i}-${j}`}
+            className={`flex justify-between gap-3 ${j > 0 ? 'pl-4 text-[13px]' : ''}`}
+          >
+            <span className="text-tinta">
+              {j > 0 && <b className="mr-1 text-[11px] text-suave uppercase">{textos.ou}</b>}
               {o.tipo === 'receita' ? (
                 <Link
                   to={`/app/cardapios/receitas/${o.ref_id}`}
@@ -34,31 +39,55 @@ function Itens({ itens, comOu }: { itens: Item[]; comOu: boolean }) {
               ) : (
                 o.nome
               )}
-              <span className="text-suave"> · {rotuloOpcao(o)}</span>
-            </p>
-          ))}
-        </li>
-      ))}
+            </span>
+            <span className="shrink-0 text-right text-[12px] text-suave">{rotuloOpcao(o)}</span>
+          </li>
+        )),
+      )}
     </ul>
   )
 }
 
-/** Uma refeição: horário, itens, substituições sob demanda, totais discretos e Registrar refeição. */
-export function RefeicaoCartao({ r, texto }: { r: Refeicao; texto: boolean }) {
+/** Quantas trocas a refeição tem: as opções "ou" dos itens e as refeições substitutas. */
+const contarTrocas = (r: Refeicao) =>
+  r.substitutas.length + r.itens.reduce((s, i) => s + Math.max(0, i.opcoes.length - 1), 0)
+
+/** Uma refeição: ícone, nome, horário, itens, "N opções de troca", totais discretos e Registrar refeição. */
+export function RefeicaoCartao({
+  r,
+  texto,
+  ordem,
+}: {
+  r: Refeicao
+  texto: boolean
+  ordem: number
+}) {
   const [subs, setSubs] = useState(false)
-  const temOu = r.itens.some((i) => i.opcoes.length > 1) || r.substitutas.length > 0
+  const trocas = contarTrocas(r)
   return (
-    <Cartao className="flex h-full flex-col gap-3">
-      <header className="flex items-baseline justify-between gap-3">
-        <h2 className="text-[17px] font-bold text-verde-escuro">{r.nome}</h2>
-        {r.horario && <span className="text-sm font-bold text-suave">{r.horario}</span>}
+    <article className="flex h-full flex-col gap-2.5 rounded-[18px] border border-linha bg-white p-3.5">
+      <header className="flex items-center gap-2">
+        <IconeRefeicao nome={r.nome} ordem={ordem} />
+        <h2 className="text-[15px] font-bold text-tinta">{r.nome}</h2>
+        {r.horario && <span className="ml-auto text-[12px] font-bold text-suave">{r.horario}</span>}
       </header>
       {texto ? (
-        <p className="text-[15px] leading-relaxed whitespace-pre-line text-tinta">{r.texto}</p>
+        <p className="text-[14px] leading-relaxed whitespace-pre-line text-tinta">{r.texto}</p>
       ) : (
         <Itens itens={r.itens} comOu={subs} />
       )}
       {r.observacao && <p className="text-[13px] text-suave italic">{r.observacao}</p>}
+      {trocas > 0 && (
+        <button
+          type="button"
+          aria-expanded={subs}
+          onClick={() => setSubs((v) => !v)}
+          className="inline-flex min-h-7 items-center gap-1.5 self-start text-[12px] font-bold text-coral"
+        >
+          <IconeTroca className="size-3.5" />
+          {subs ? textos.esconder : textos.opcoesTroca(trocas)}
+        </button>
+      )}
       {subs &&
         r.substitutas.map((s) => (
           <div key={s.id} className="rounded-[14px] bg-trilho/60 p-3">
@@ -70,22 +99,10 @@ export function RefeicaoCartao({ r, texto }: { r: Refeicao; texto: boolean }) {
             )}
           </div>
         ))}
-      <div className="mt-auto flex flex-col gap-3 border-t border-linha pt-3">
+      <div className="mt-auto flex flex-wrap items-center justify-between gap-2 border-t border-linha pt-2.5">
         {!texto && <Totais itens={r.itens} />}
-        <div className="flex flex-wrap items-center gap-2">
-          <RegistrarRefeicao rotulo={textos.registrar} />
-          {temOu && (
-            <button
-              type="button"
-              aria-expanded={subs}
-              onClick={() => setSubs((v) => !v)}
-              className="text-sm font-bold text-verde-escuro underline underline-offset-2"
-            >
-              {subs ? textos.esconder : textos.substituicoes}
-            </button>
-          )}
-        </div>
+        <RegistrarRefeicao rotulo={textos.registrar} />
       </div>
-    </Cartao>
+    </article>
   )
 }
