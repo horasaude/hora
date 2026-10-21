@@ -167,6 +167,7 @@ Componentes do estilo (toda tela nova usa estes): BotaoBrilho, LinkBrilho, Etiqu
 | google-retorno           | volta do OAuth do Google: guarda o refresh token; erro volta com ?motivo= (sem código nem token)                           | desligado |
 | live-entrar              | aluna entra na live: entrar_live (janela e pontos), vira membro da sala e recebe o link                                    | ligado    |
 | convites-live            | convite .ics por e-mail (novo, atualização e cancelamento) para equipe, convidadas e alunas (cron a cada minuto)           | desligado |
+| lembrar-aluna            | profissional pede para a aluna fazer uma tarefa: lembrar_aluna no banco e push no celular dela                             | ligado    |
 | \_shared/cors.ts         | CORS pela lista ORIGENS_PERMITIDAS                                                                                         |           |
 | \_shared/pagamento       | regras puras testadas no Vitest: preço, status do MP, motivo da recusa, assinatura do webhook                              |           |
 | \_shared/asaas.ts, email | cliente da API do Asaas; e-mails pelo Resend (modelos.ts e enviar.ts, com anexo; conviteLive.ts gera o .ics)               |           |

@@ -5,6 +5,7 @@ import { aulaDeHoje, aulasEmAndamento } from '@/domain/trilha'
 import { useMeuPerfil } from '@/features/auth'
 import { AvisoAnamnese } from '@/features/avaliacoes'
 import { AvisosNovos } from '@/features/avisos'
+import { PedidosDaEquipe } from '@/features/lembretes'
 import { AvisoRespondida } from '@/features/forum'
 import { ChamadaIndicar } from '@/features/perfil'
 import { useTrilha } from '@/features/trilha'
@@ -65,6 +66,7 @@ export function InicioPage() {
         <Cartao className="text-sm text-tinta">{textos.semAcesso}</Cartao>
       ) : (
         <>
+          <PedidosDaEquipe />
           <AvisoAnamnese />
           <AvisosNovos />
           <Resumo />

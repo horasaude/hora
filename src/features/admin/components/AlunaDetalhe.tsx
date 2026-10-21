@@ -7,6 +7,7 @@ import { linkIndicacao, t as tPontos } from '../pontos/textos'
 import { textos } from '../textos'
 import { LiberarAcesso } from '../acesso/LiberarAcesso'
 import { ArquivosDaAluna } from '../arquivosAluna/ArquivosDaAluna'
+import { PendenciasAluna } from '../pendencias/PendenciasAluna'
 import { RespostasAnamnese } from '../treinos/components/RespostasAnamnese'
 import { CartaoDetalhe, Dados } from './CartaoDetalhe'
 import { Etiqueta } from './Tabela'
@@ -25,7 +26,7 @@ function LinkIndicacao({ perfil }: { perfil: string }) {
 
 const data = (iso: string | null) => (iso ? formatarData(new Date(iso)) : '-')
 
-/** Cartão da aluna (só leitura): dados do acesso e progresso nas aulas liberadas. */
+/** Cartão da aluna: dados do acesso, progresso nas aulas, o que ela já fez (com Lembrar) e as respostas da anamnese. */
 export function AlunaDetalhe({
   aluna: a,
   status,
@@ -60,6 +61,7 @@ export function AlunaDetalhe({
           legenda={t.aulas(a.aulas_concluidas, a.aulas_liberadas)}
         />
       </section>
+      <PendenciasAluna perfil={a.id} />
       <RespostasAnamnese perfil={a.id} />
       <ArquivosDaAluna perfil={a.id} />
       <LiberarAcesso perfil={a.id} />

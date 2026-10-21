@@ -610,6 +610,12 @@ export type Database = {
           },
         ]
       }
+      lembretes_aluna: {
+        Row: { created_at: string; criado_por: string | null; id: string; item: string; perfil_id: string }
+        Insert: { created_at?: string; criado_por?: string | null; id?: string; item: string; perfil_id: string }
+        Update: { created_at?: string; criado_por?: string | null; id?: string; item?: string; perfil_id?: string }
+        Relationships: []
+      }
       materiais_nutricao: {
         Row: {
           created_at: string
@@ -3044,6 +3050,24 @@ export type Database = {
       mover_etapa: {
         Args: { p_direcao: number; p_id: string }
         Returns: undefined
+      }
+      pendencias_aluna: {
+        Args: { p_perfil: string }
+        Returns: {
+          andamento: boolean
+          feito: boolean
+          item: string
+          lembrada_em: string | null
+          nome: string
+        }[]
+      }
+      meus_lembretes: {
+        Args: never
+        Returns: { item: string; lembrada_em: string; nome: string; para: string }[]
+      }
+      lembrar_aluna: {
+        Args: { p_perfil: string; p_item: string }
+        Returns: { nome: string; novo: boolean; para: string }[]
       }
       ordenar_temas: {
         Args: { p_ids: string[] }

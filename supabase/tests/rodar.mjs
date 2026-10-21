@@ -26,6 +26,7 @@ import { testarCancelamento } from './cancelamento.test.mjs'
 import { testarLivesSala } from './lives_sala.test.mjs'
 import { testarLiberacao } from './liberacao.test.mjs'
 import { testarMateriaisNutricao } from './materiais_nutricao.test.mjs'
+import { testarPendencias } from './pendencias.test.mjs'
 
 const suites = [
   testarPerfis,
@@ -45,6 +46,7 @@ const suites = [
   testarMateriais,
   testarLiberacao,
   testarMateriaisNutricao,
+  testarPendencias,
   testarPagamentos,
   testarCancelamento,
   testarAssinaturas,

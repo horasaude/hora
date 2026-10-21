@@ -2,6 +2,12 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-20 · main · Ficha da aluna: o que ela já fez e Lembrar
+
+- Painel > Alunas, ficha: "O que ela já fez" com a anamnese (Feito, Começou, Falta), os 5 passos do Comece por aqui, o tema (do dia 8) e nível e local do treino; no que falta, Lembrar (admin/pendencias). As respostas da anamnese continuam logo abaixo.
+- Lembrar: Edge Function lembrar-aluna (banco lembrar_aluna confere equipe e pendência, um por item a cada 12 h) e push no celular se ela ativou; a aluna vê "A equipe pediu" no Início (feature lembretes), que some quando faz.
+- Migração 20261101130000_pendencias_aluna.sql; testes supabase/tests/pendencias.test.mjs.
+
 ## 2026-10-20 · main · PAR-Q na anamnese inicial e aviso no Início
 
 - As 7 perguntas do PAR-Q (modelo do MFIT da Laís) entraram na Anamnese inicial, antes da última pergunta, todas sim ou não e obrigatórias; a anamnese foi publicada (migração 20261101120000_anamnese_parq.sql).
