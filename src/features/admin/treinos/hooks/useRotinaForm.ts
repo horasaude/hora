@@ -1,7 +1,10 @@
 import { useState } from 'react'
-import { salvarRotina, type Rotina } from '../api/treinos.api'
+import { salvarRotina, type DiaRotina, type Rotina } from '../api/treinos.api'
 import { t } from '../textos'
 import { useAcaoTreinos } from './useTreinosPainel'
+
+/** Aeróbico do tipo de treino: num dia da semana ou, na rotina numérica, sem dia. */
+export type AerobicoDaRotina = { dia: number | null; treino_id: string }
 
 export type DadosRotina = {
   nome: string
@@ -14,38 +17,56 @@ export type DadosRotina = {
   orientacoes: string
   dias: Record<number, string>
   sequencia: string[]
+  aerobicos: AerobicoDaRotina[]
 }
 
-const inicial = (r: Rotina | undefined, temaPadrao: string): DadosRotina => ({
-  nome: r?.nome ?? '',
-  tema_id: r?.tema_id ?? temaPadrao,
-  nivel: r?.nivel ?? 'iniciante',
-  local: r?.local ?? 'casa',
-  descricao: r?.descricao ?? '',
-  tipo: r?.tipo === 'numerico' ? 'numerico' : 'semana',
-  objetivo: r?.objetivo ?? '',
-  orientacoes: r?.orientacoes ?? '',
-  dias: Object.fromEntries(
-    (r?.dias ?? []).flatMap((x) => (x.dia_semana === null ? [] : [[x.dia_semana, x.treino_id]])),
-  ),
-  sequencia: (r?.dias ?? [])
-    .filter((x) => x.ordem !== null)
-    .sort((a, b) => (a.ordem ?? 0) - (b.ordem ?? 0))
-    .map((x) => x.treino_id),
-})
-
-/** Treinos da rotina no formato do banco: dia da semana ou a ordem (Treino 1, 2, 3). */
-function diasParaSalvar(d: DadosRotina) {
-  if (d.tipo === 'numerico')
-    return d.sequencia
-      .filter(Boolean)
-      .map((treino_id) => ({ treino_id, dia_semana: null, ordem: null }))
-  return Object.entries(d.dias)
-    .filter(([, id]) => id)
-    .map(([dia, treino_id]) => ({ dia_semana: Number(dia), treino_id, ordem: null }))
+function inicial(r: Rotina | undefined, temaPadrao: string): DadosRotina {
+  const lidos = r?.dias ?? []
+  const musculacao = lidos.filter((x) => x.categoria !== 'aerobico')
+  const numerica = r?.tipo === 'numerico'
+  return {
+    nome: r?.nome ?? '',
+    tema_id: r?.tema_id ?? temaPadrao,
+    nivel: r?.nivel ?? 'iniciante',
+    local: r?.local ?? 'casa',
+    descricao: r?.descricao ?? '',
+    tipo: numerica ? 'numerico' : 'semana',
+    objetivo: r?.objetivo ?? '',
+    orientacoes: r?.orientacoes ?? '',
+    dias: numerica
+      ? {}
+      : Object.fromEntries(
+          musculacao.flatMap((x) => (x.dia_semana === null ? [] : [[x.dia_semana, x.treino_id]])),
+        ),
+    sequencia: numerica
+      ? [...musculacao].sort((a, b) => (a.ordem ?? 0) - (b.ordem ?? 0)).map((x) => x.treino_id)
+      : [],
+    aerobicos: lidos
+      .filter((x) => x.categoria === 'aerobico')
+      .map((x) => ({ dia: numerica ? null : x.dia_semana, treino_id: x.treino_id })),
+  }
 }
 
-/** Estado da janela do modelo e o salvar (rascunho ou publicado). */
+/** Treinos da rotina no formato do banco: musculação primeiro, depois os aeróbicos. */
+function diasParaSalvar(d: DadosRotina): DiaRotina[] {
+  const numerica = d.tipo === 'numerico'
+  const musculacao = numerica
+    ? d.sequencia.filter(Boolean).map((treino_id) => ({ treino_id, dia_semana: null }))
+    : Object.entries(d.dias)
+        .filter(([, id]) => id)
+        .map(([dia, treino_id]) => ({ dia_semana: Number(dia), treino_id }))
+  const vistos = new Set<string>()
+  const aerobicos = d.aerobicos
+    .filter((a) => numerica || a.dia !== null)
+    .map((a) => ({ treino_id: a.treino_id, dia_semana: numerica ? null : a.dia }))
+    .filter((a) => {
+      const chave = `${a.dia_semana}-${a.treino_id}`
+      return vistos.has(chave) ? false : Boolean(vistos.add(chave))
+    })
+  return [...musculacao, ...aerobicos].map((x) => ({ ...x, ordem: null }))
+}
+
+/** Estado da janela do tipo de treino e o salvar (rascunho ou publicado). */
 export function useRotinaForm(
   rotina: Rotina | undefined,
   temaPadrao: string,
@@ -61,7 +82,7 @@ export function useRotinaForm(
     if (!d.tema_id) return setErro(t.erros.tema)
     if (dias.length === 0)
       return setErro(d.tipo === 'numerico' ? t.erros.semSequencia : t.erros.semDias)
-    const { dias: _d, sequencia: _s, ...campos } = d
+    const { dias: _d, sequencia: _s, aerobicos: _a, ...campos } = d
     try {
       await salvar.mutateAsync({
         rotina: {

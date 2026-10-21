@@ -201,7 +201,7 @@ async function estiloMfit(t) {
 }
 
 async function aerobico(t) {
-  const { esperaValor } = t
+  const { esperaValor, esperaErro } = t
   await t.comoAluna(ADMIN)
   await t.db.query(`select public.salvar_treino(
     jsonb_build_object('nome', 'Bike leve', 'tema_id', ${tema('emagrecimento')}, 'nivel', 'iniciante', 'local', 'academia',
@@ -221,6 +221,34 @@ async function aerobico(t) {
     'modalidades de cardio na biblioteca',
     `select (count(*) >= 10)::text from public.exercicios where grupo = 'cardio'`,
     'true',
+  )
+  await t.db.query(`select public.salvar_rotina(
+    jsonb_build_object('nome', 'Emagrecimento', 'tema_id', ${tema('emagrecimento')}, 'nivel', 'iniciante', 'local', 'casa',
+      'tipo', 'semana', 'objetivo', 'reducao_gordura', 'publicado', true),
+    jsonb_build_array(jsonb_build_object('treino_id', '${PUB}', 'dia_semana', 1),
+      jsonb_build_object('treino_id', (select id from public.treinos where nome = 'Bike leve'), 'dia_semana', 1),
+      jsonb_build_object('treino_id', (select id from public.treinos where nome = 'Bike leve'), 'dia_semana', 3)))`)
+  await esperaValor(
+    'rotina por dia aceita musculação e aeróbico no mesmo dia',
+    `select string_agg(tr.nome || '@' || rt.dia_semana, ',' order by rt.ordem) from public.rotina_treinos rt
+     join public.rotinas r on r.id = rt.rotina_id join public.treinos tr on tr.id = rt.treino_id where r.nome = 'Emagrecimento'`,
+    'Treino A@1,Bike leve@1,Bike leve@3',
+  )
+  await t.db.query(`select public.salvar_rotina(
+    jsonb_build_object('nome', 'Hipertrofia', 'tema_id', ${tema('emagrecimento')}, 'nivel', 'iniciante', 'local', 'casa',
+      'tipo', 'semana', 'objetivo', 'hipertrofia', 'publicado', true),
+    jsonb_build_array(jsonb_build_object('treino_id', '${PUB}', 'dia_semana', 2)))`)
+  await esperaValor(
+    'um tema guarda vários tipos de treino',
+    `select count(*)::int from public.rotinas where tema_id = ${tema('emagrecimento')} and nome in ('Emagrecimento', 'Hipertrofia')`,
+    2,
+  )
+  await esperaErro(
+    'o mesmo treino não entra duas vezes no mesmo dia',
+    `select public.salvar_rotina(
+      jsonb_build_object('nome', 'Dobrado', 'tema_id', ${tema('emagrecimento')}, 'nivel', 'iniciante', 'local', 'casa'),
+      jsonb_build_array(jsonb_build_object('treino_id', '${PUB}', 'dia_semana', 1), jsonb_build_object('treino_id', '${PUB}', 'dia_semana', 1)))`,
+    '23505',
   )
 }
 

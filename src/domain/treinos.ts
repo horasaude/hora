@@ -43,7 +43,7 @@ export const OBJETIVOS = {
   qualidade_vida: 'Qualidade de vida',
 } as const
 
-/** Musculação ou aeróbico (aba própria para a aluna, como no MFIT). */
+/** Musculação ou aeróbico: os dois entram na semana de cada tipo de treino (rotina). */
 export const CATEGORIAS = { musculacao: 'Musculação', aerobico: 'Aeróbico' } as const
 
 /** Rotina por dia da semana ou numérica (Treino 1, 2, 3 na ordem, sem dia fixo). */
@@ -104,6 +104,33 @@ export function semanaDe(agora: Date): string[] {
 
 /** Séries marcadas por exercício (índice do exercício como chave, como no banco). */
 export type SeriesMarcadas = Record<string, number>
+
+/** Semana para a aluna, começando na segunda e terminando no domingo. */
+export const ORDEM_SEMANA = [1, 2, 3, 4, 5, 6, 0] as const
+
+type TipoComPerfil = { nivel: string; local: string; nome: string }
+
+/** Quanto o tipo de treino combina com a aluna: nível e local (2), só o nível (1), nada (0). */
+export function combinaCom(tipo: TipoComPerfil, nivel: string, local: string): number {
+  if (tipo.nivel !== nivel) return 0
+  return tipo.local === local ? 2 : 1
+}
+
+/** Tipos de treino do tema: os que combinam com o nível e o local dela primeiro, depois pelo nome. */
+export function ordenarTipos<T extends TipoComPerfil>(tipos: T[], nivel: string, local: string) {
+  return [...tipos].sort(
+    (a, b) =>
+      combinaCom(b, nivel, local) - combinaCom(a, nivel, local) || a.nome.localeCompare(b.nome),
+  )
+}
+
+/** Treinos da rotina por dia, de segunda a domingo; dias sem nada ficam de fora. */
+export function porDiaDaSemana<T extends { dia_semana: number | null }>(dias: T[]) {
+  return ORDEM_SEMANA.map((dia) => ({
+    dia,
+    itens: dias.filter((d) => d.dia_semana === dia),
+  })).filter((d) => d.itens.length > 0)
+}
 
 export function progressoDoTreino(marcadas: SeriesMarcadas, series: number[]): number {
   const total = series.reduce((s, n) => s + n, 0)

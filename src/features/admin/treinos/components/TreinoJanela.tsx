@@ -16,6 +16,8 @@ type Props = {
   aoFechar: () => void
   /** Treino novo criado de dentro de um tema já vem com ele. */
   temaId?: string
+  /** Treino novo já como aeróbico (botão + Novo aeróbico). */
+  categoria?: 'musculacao' | 'aerobico'
 }
 
 function Rodape({
@@ -89,13 +91,22 @@ function ExerciciosDoTreino({
 }
 
 /** Montar treino: dados, aquecimento, exercícios da biblioteca, alongamento; rascunho, publicar e duplicar. */
-export function TreinoJanela({ treino, itensIniciais = [], aoFechar, temaId }: Props) {
+export function TreinoJanela({ treino, itensIniciais = [], aoFechar, temaId, categoria }: Props) {
   const temas = useTemas().data ?? []
-  const { form, itens, setItens, gravar } = useTreinoForm(treino, itensIniciais, aoFechar, temaId)
+  const { form, itens, setItens, gravar } = useTreinoForm(
+    treino,
+    itensIniciais,
+    aoFechar,
+    temaId,
+    categoria,
+  )
   const { register, formState } = form
+  const aerobico = form.watch('categoria') === 'aerobico'
   return (
     <Janela
-      titulo={treino ? t.editarTreino : t.novoTreino.replace('+ ', '')}
+      titulo={
+        treino ? t.editarTreino : (aerobico ? t.novoAerobico : t.novoTreino).replace('+ ', '')
+      }
       aoFechar={aoFechar}
       rotuloFechar={t.fechar}
       rodape={
@@ -108,7 +119,12 @@ export function TreinoJanela({ treino, itensIniciais = [], aoFechar, temaId }: P
       }
     >
       <form onSubmit={gravar(false)} noValidate className="grid gap-4 sm:grid-cols-2">
-        <CamposTreino register={register} erros={formState.errors} temas={temas} />
+        <CamposTreino
+          register={register}
+          erros={formState.errors}
+          temas={temas}
+          categoria={aerobico ? 'aerobico' : 'musculacao'}
+        />
         <div className="sm:col-span-2">
           <CampoArea
             id="treino-orientacoes"
@@ -122,11 +138,7 @@ export function TreinoJanela({ treino, itensIniciais = [], aoFechar, temaId }: P
           rotulo={t.campos.aquecimento}
           {...register('aquecimento')}
         />
-        <ExerciciosDoTreino
-          aerobico={form.watch('categoria') === 'aerobico'}
-          itens={itens}
-          setItens={setItens}
-        />
+        <ExerciciosDoTreino aerobico={aerobico} itens={itens} setItens={setItens} />
         <BlocoOpcional
           id="treino-alongamento"
           rotulo={t.campos.alongamento}

@@ -11,6 +11,7 @@ import { Descanso } from '../components/Descanso'
 import { Estado } from '../components/Estado'
 import { PassoExercicio, PassoTexto } from '../components/PassoExercicio'
 import { useExecucao } from '../hooks/useExecucao'
+import { useVoltarTreinos } from '../hooks/useLinkTreino'
 import { useRegistrarFeito, useTreino } from '../hooks/useTreinos'
 import { usePreviaTreinos } from '../previa'
 import { textos } from '../textos'
@@ -84,9 +85,8 @@ function Execucao({ treino, voltar }: { treino: TreinoCompleto; voltar: string }
 /** Treino em execução: tela cheia no celular, coluna central no computador. */
 export function ExecucaoPage() {
   const { treinoId = '' } = useParams()
-  const previa = usePreviaTreinos()
   const treino = useTreino(treinoId)
-  const voltar = previa ? `/app/previa/treinos${window.location.search}` : '/app/treinos'
+  const voltar = useVoltarTreinos()
   return (
     <div className="fixed inset-0 z-40 overflow-y-auto bg-white px-5 pt-5 font-sistema lg:static lg:z-auto lg:mx-auto lg:max-w-2xl lg:overflow-visible lg:p-0">
       {treino.isPending ? (

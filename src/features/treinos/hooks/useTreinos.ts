@@ -2,12 +2,11 @@ import { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { diaEmBrasilia } from '@/lib/datas'
 import { semanaDe } from '@/domain/treinos'
+import { listarTiposDeTreino, listarTreinosVisiveis } from '../api/tipos.api'
 import {
   buscarPreferencias,
-  buscarRotina,
   buscarTreino,
   listarFeitos,
-  listarTreinos,
   registrarFeito,
   salvarPreferencias,
 } from '../api/treinos.api'
@@ -16,21 +15,20 @@ import { useFiltroTreinos, usePreviaTreinos } from '../previa'
 export const usePreferencias = () =>
   useQuery({ queryKey: ['treino-preferencias'], queryFn: buscarPreferencias })
 
-export function useRotina(nivel: string, local: string) {
+/** Tipos de treino (rotinas) do tema aberto, da prévia ou de tudo o que o banco libera. */
+export function useTiposDeTreino() {
   const f = useFiltroTreinos()
   return useQuery({
-    queryKey: ['rotina-aluna', nivel, local, f?.tema],
-    queryFn: () => buscarRotina(nivel, local, f),
-    enabled: Boolean(nivel && local),
+    queryKey: ['tipos-treino-aluna', f?.tema],
+    queryFn: () => listarTiposDeTreino(f),
   })
 }
 
-export function useTreinosDoNivel(nivel: string, local: string) {
+export function useTreinosVisiveis() {
   const f = useFiltroTreinos()
   return useQuery({
-    queryKey: ['treinos-aluna', nivel, local, f?.tema],
-    queryFn: () => listarTreinos(nivel, local, f),
-    enabled: Boolean(nivel && local),
+    queryKey: ['treinos-aluna', f?.tema],
+    queryFn: () => listarTreinosVisiveis(f),
   })
 }
 

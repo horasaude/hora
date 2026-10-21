@@ -27,7 +27,7 @@ function Miniatura({ nome, foto }: { nome: string; foto: string | null }) {
   )
 }
 
-/** Exercício da ficha: imagem, nome, "séries x repetições · descanso" e o play quando há vídeo. */
+/** Exercício do treino: imagem, nome, "séries x repetições · descanso · carga", observação e o play quando há vídeo. */
 export function CartaoExercicio({
   item,
   aerobico,
@@ -42,6 +42,9 @@ export function CartaoExercicio({
   const linha = [
     aerobico ? textos.execucao.bloco(series.length, item.repeticoes) : resumoSeries(series),
     item.descanso_segundos ? textos.ficha.descanso(item.descanso_segundos) : '',
+    item.carga.trim()
+      ? (aerobico ? textos.ficha.intensidade : textos.ficha.carga)(item.carga.trim())
+      : '',
   ]
     .filter(Boolean)
     .join(' · ')
@@ -52,6 +55,9 @@ export function CartaoExercicio({
       <div className="min-w-0 flex-1">
         <p className="text-[14px] font-bold text-tinta">{e.nome}</p>
         <p className="text-[12.5px] text-suave">{linha}</p>
+        {item.observacao.trim() && (
+          <p className="text-[12.5px] text-tinta">{item.observacao.trim()}</p>
+        )}
       </div>
       {temVideo && (
         <Link

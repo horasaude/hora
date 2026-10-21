@@ -13,60 +13,6 @@ export type RotinaAluna = Tables<'rotinas'> & { dias: DiaRotina[] }
 /** Na pré-visualização do painel (admin lê tudo), filtra como a aluna veria: publicado e do tema. */
 export type Filtro = { tema: string | null }
 
-type ComContagem = Tables<'treinos'> & { treino_exercicios: { count: number }[] }
-const resumo = ({ treino_exercicios, ...t }: ComContagem): TreinoResumo => ({
-  ...t,
-  qtd: treino_exercicios[0]?.count ?? 0,
-})
-
-export async function listarTreinos(
-  nivel: string,
-  local: string,
-  f: Filtro | null,
-): Promise<TreinoResumo[]> {
-  let q = supabase
-    .from('treinos')
-    .select('*, treino_exercicios(count)')
-    .eq('nivel', nivel)
-    .eq('local', local)
-  if (f) q = q.eq('publicado', true).eq('tema_id', f.tema ?? '')
-  const { data, error } = await q.order('nome')
-  if (error) throw error
-  return (data as ComContagem[]).map(resumo)
-}
-
-/** Rotina do tema e do nível; com o local dela quando existir. */
-export async function buscarRotina(
-  nivel: string,
-  local: string,
-  f: Filtro | null,
-): Promise<RotinaAluna | null> {
-  let q = supabase
-    .from('rotinas')
-    .select('*, rotina_treinos(dia_semana, ordem, treinos(*, treino_exercicios(count)))')
-    .eq('nivel', nivel)
-  if (f) q = q.eq('publicado', true).eq('tema_id', f.tema ?? '')
-  const { data, error } = await q
-  if (error) throw error
-  type Linha = Tables<'rotinas'> & {
-    rotina_treinos: {
-      dia_semana: number | null
-      ordem: number | null
-      treinos: ComContagem | null
-    }[]
-  }
-  const linhas = data as Linha[]
-  const r = linhas.find((x) => x.local === local) ?? linhas[0]
-  if (!r) return null
-  const { rotina_treinos, ...rotina } = r
-  const dias = rotina_treinos
-    .flatMap((d) =>
-      d.treinos ? [{ dia_semana: d.dia_semana, ordem: d.ordem, treino: resumo(d.treinos) }] : [],
-    )
-    .sort((a, b) => (a.ordem ?? 0) - (b.ordem ?? 0))
-  return { ...rotina, dias }
-}
-
 export async function buscarTreino(id: string): Promise<TreinoCompleto | null> {
   const { data, error } = await supabase
     .from('treinos')

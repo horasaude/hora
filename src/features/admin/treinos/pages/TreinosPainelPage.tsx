@@ -13,11 +13,16 @@ export function TreinosPainelPage() {
   const lista = useTreinosPainel()
   const navegar = useNavigate()
   const novoNoEndereco = useLocation().pathname.endsWith('/novo')
-  const [novo, setNovo] = useState(false)
+  const [novo, setNovo] = useState<'musculacao' | 'aerobico' | null>(null)
   const botao = (
-    <button type="button" className={classeBrilho('verde')} onClick={() => setNovo(true)}>
-      {t.novoTreino}
-    </button>
+    <span className="flex flex-wrap gap-2">
+      <button type="button" className={classeBrilho('coral')} onClick={() => setNovo('aerobico')}>
+        {t.novoAerobico}
+      </button>
+      <button type="button" className={classeBrilho('verde')} onClick={() => setNovo('musculacao')}>
+        {t.novoTreino}
+      </button>
+    </span>
   )
   let corpo: ReactNode
   if (lista.isPending) corpo = <Estado tipo="carregando" />
@@ -30,8 +35,9 @@ export function TreinosPainelPage() {
       {corpo}
       {(novo || novoNoEndereco) && (
         <TreinoJanela
+          categoria={novo ?? 'musculacao'}
           aoFechar={() => {
-            setNovo(false)
+            setNovo(null)
             if (novoNoEndereco) navegar('/app/admin/treinos')
           }}
         />

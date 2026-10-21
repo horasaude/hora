@@ -1,5 +1,43 @@
 import { describe, expect, it } from 'vitest'
-import { diaDaSemanaBrasilia, progressoDoTreino, semanaDe, treinoDeHoje } from './treinos'
+import {
+  combinaCom,
+  diaDaSemanaBrasilia,
+  ordenarTipos,
+  porDiaDaSemana,
+  progressoDoTreino,
+  semanaDe,
+  treinoDeHoje,
+} from './treinos'
+
+describe('tipos de treino do tema', () => {
+  const tipos = [
+    { nome: 'Hipertrofia', nivel: 'avancado', local: 'academia' },
+    { nome: 'Emagrecimento', nivel: 'iniciante', local: 'academia' },
+    { nome: 'Casa leve', nivel: 'iniciante', local: 'casa' },
+  ]
+
+  it('os que combinam com nível e local vêm primeiro, mas todos aparecem', () => {
+    const lista = ordenarTipos(tipos, 'iniciante', 'casa').map((x) => x.nome)
+    expect(lista).toEqual(['Casa leve', 'Emagrecimento', 'Hipertrofia'])
+  })
+
+  it('combina pelo nível e pelo local', () => {
+    expect(combinaCom(tipos[2]!, 'iniciante', 'casa')).toBe(2)
+    expect(combinaCom(tipos[1]!, 'iniciante', 'casa')).toBe(1)
+    expect(combinaCom(tipos[0]!, 'iniciante', 'casa')).toBe(0)
+  })
+
+  it('agrupa a semana de segunda a domingo, sem os dias vazios', () => {
+    const dias = [
+      { dia_semana: 0, t: 'D' },
+      { dia_semana: 1, t: 'A' },
+      { dia_semana: 1, t: 'Bike' },
+      { dia_semana: 3, t: 'B' },
+    ]
+    const r = porDiaDaSemana(dias).map((d) => `${d.dia}:${d.itens.length}`)
+    expect(r).toEqual(['1:2', '3:1', '0:1'])
+  })
+})
 
 const rotina = [
   { dia_semana: 1, treino: 'A' },

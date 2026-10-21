@@ -1,12 +1,11 @@
-import { BotaoBrilho, Campo, Janela } from '@/components/ui'
-import { LOCAIS, NIVEIS, OBJETIVOS, TIPOS_ROTINA } from '@/domain/treinos'
-import { CampoArea } from '../../components/CampoArea'
+import { BotaoBrilho, Janela } from '@/components/ui'
 import { useTemas } from '../../hooks/usePainel'
-import type { Rotina } from '../api/treinos.api'
+import type { Rotina, TreinoLista } from '../api/treinos.api'
 import { useRotinaForm, type DadosRotina } from '../hooks/useRotinaForm'
 import { useTreinosPainel } from '../hooks/useTreinosPainel'
 import { t } from '../textos'
-import { Escolha } from './Escolha'
+import { AerobicosDaRotina } from './AerobicosDaRotina'
+import { DadosDaRotina, NivelEOrientacoes } from './CamposRotina'
 import { DiasDaRotina, SequenciaDaRotina } from './TreinosDaRotina'
 
 function Rodape({
@@ -33,86 +32,41 @@ function Rodape({
   )
 }
 
-type Campos = { d: DadosRotina; mudar: (x: Partial<DadosRotina>) => void }
+type Treinos = { d: DadosRotina; mudar: (x: Partial<DadosRotina>) => void; doTema: TreinoLista[] }
 
-function DadosDaRotina({ d, mudar }: Campos) {
-  const temas = useTemas().data ?? []
+/** Treinos do tipo: musculação por dia (ou na ordem) e os aeróbicos. */
+function TreinosDoTipo({ d, mudar, doTema }: Treinos) {
+  const musculacao = doTema.filter((x) => x.categoria !== 'aerobico')
   return (
     <>
-      <div className="sm:col-span-2">
-        <Campo
-          id="rotina-nome"
-          rotulo={t.campos.nomeModelo}
-          value={d.nome}
-          onChange={(e) => mudar({ nome: e.target.value })}
+      {d.tipo === 'numerico' ? (
+        <SequenciaDaRotina
+          sequencia={d.sequencia}
+          treinos={musculacao}
+          aoMudar={(sequencia) => mudar({ sequencia })}
         />
-      </div>
-      <Escolha
-        id="rotina-tipo"
-        rotulo={t.campos.tipo}
-        valor={d.tipo}
-        opcoes={Object.entries(TIPOS_ROTINA)}
-        aoMudar={(tipo) => mudar({ tipo: tipo === 'numerico' ? 'numerico' : 'semana' })}
-      />
-      <Escolha
-        id="rotina-tema"
-        rotulo={t.campos.tema}
-        valor={d.tema_id}
-        opcoes={temas.map((x) => [x.id, x.titulo])}
-        aoMudar={(tema_id) => mudar({ tema_id, dias: {}, sequencia: [] })}
-      />
-      <Escolha
-        id="rotina-objetivo"
-        rotulo={t.campos.objetivo}
-        valor={d.objetivo}
-        opcoes={[['', t.campos.semObjetivo], ...Object.entries(OBJETIVOS)]}
-        aoMudar={(objetivo) => mudar({ objetivo })}
+      ) : (
+        <DiasDaRotina dias={d.dias} treinos={musculacao} aoMudar={(dias) => mudar({ dias })} />
+      )}
+      <AerobicosDaRotina
+        base={{ tema_id: d.tema_id, nivel: d.nivel, local: d.local }}
+        comDias={d.tipo === 'semana'}
+        aerobicos={d.aerobicos}
+        treinos={doTema.filter((x) => x.categoria === 'aerobico')}
+        aoMudar={(aerobicos) => mudar({ aerobicos })}
       />
     </>
   )
 }
 
-function NivelEOrientacoes({ d, mudar }: Campos) {
-  return (
-    <>
-      <Escolha
-        id="rotina-nivel"
-        rotulo={t.campos.nivel}
-        valor={d.nivel}
-        opcoes={Object.entries(NIVEIS)}
-        aoMudar={(nivel) => mudar({ nivel })}
-      />
-      <Escolha
-        id="rotina-local"
-        rotulo={t.campos.local}
-        valor={d.local}
-        opcoes={Object.entries(LOCAIS)}
-        aoMudar={(local) => mudar({ local })}
-      />
-      <Campo
-        id="rotina-descricao"
-        rotulo={t.campos.descricao}
-        value={d.descricao}
-        onChange={(e) => mudar({ descricao: e.target.value })}
-      />
-      <div className="sm:col-span-2">
-        <CampoArea
-          id="rotina-orientacoes"
-          rotulo={t.campos.orientacoes}
-          rows={3}
-          value={d.orientacoes}
-          onChange={(e) => mudar({ orientacoes: e.target.value })}
-        />
-      </div>
-    </>
-  )
-}
+type Props = { rotina?: Rotina; temaId?: string; aoFechar: () => void }
 
-/** Modelo de rotina: por dia da semana ou numérica (Treino 1, 2, 3), com objetivo e orientações. */
-export function RotinaJanela({ rotina, aoFechar }: { rotina?: Rotina; aoFechar: () => void }) {
+/** Tipo de treino do tema (ex.: Emagrecimento): por dia da semana ou numérico, com musculação e aeróbicos. */
+export function RotinaJanela({ rotina, temaId, aoFechar }: Props) {
   const temas = useTemas().data ?? []
   const treinos = useTreinosPainel().data ?? []
-  const { d, mudar, gravar, erro, salvando } = useRotinaForm(rotina, temas[0]?.id ?? '', aoFechar)
+  const padrao = temaId ?? temas[0]?.id ?? ''
+  const { d, mudar, gravar, erro, salvando } = useRotinaForm(rotina, padrao, aoFechar)
   const doTema = treinos.filter((x) => x.tema_id === d.tema_id)
   return (
     <Janela
@@ -124,15 +78,7 @@ export function RotinaJanela({ rotina, aoFechar }: { rotina?: Rotina; aoFechar: 
       <div className="grid gap-4 sm:grid-cols-2">
         <DadosDaRotina d={d} mudar={mudar} />
         <NivelEOrientacoes d={d} mudar={mudar} />
-        {d.tipo === 'numerico' ? (
-          <SequenciaDaRotina
-            sequencia={d.sequencia}
-            treinos={doTema}
-            aoMudar={(sequencia) => mudar({ sequencia })}
-          />
-        ) : (
-          <DiasDaRotina dias={d.dias} treinos={doTema} aoMudar={(dias) => mudar({ dias })} />
-        )}
+        <TreinosDoTipo d={d} mudar={mudar} doTema={doTema} />
         {erro && (
           <p role="alert" className="text-sm text-terracota-escuro sm:col-span-2">
             {erro}

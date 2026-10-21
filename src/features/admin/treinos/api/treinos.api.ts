@@ -11,7 +11,9 @@ export type ItemTreino = Omit<Tables<'treino_exercicios'>, 'id' | 'treino_id' | 
 }
 export type TreinoLista = Treino & { qtd: number }
 export type DiaRotina = { dia_semana: number | null; ordem: number | null; treino_id: string }
-export type Rotina = Tables<'rotinas'> & { dias: DiaRotina[] }
+/** Dia da rotina como vem do banco, com a categoria do treino (musculação ou aeróbico). */
+export type DiaRotinaLido = DiaRotina & { categoria: string }
+export type Rotina = Tables<'rotinas'> & { dias: DiaRotinaLido[] }
 
 export async function listarExercicios(
   busca: string,
@@ -102,18 +104,27 @@ export async function removerTreino(id: string): Promise<void> {
 }
 
 export async function listarRotinas(): Promise<Rotina[]> {
+  type Linha = Tables<'rotinas'> & {
+    rotina_treinos: (DiaRotina & { treinos: { categoria: string } | null })[]
+  }
   const linhas = ok(
     await supabase
       .from('rotinas')
-      .select('*, rotina_treinos(dia_semana, ordem, treino_id)')
+      .select('*, rotina_treinos(dia_semana, ordem, treino_id, treinos(categoria))')
       .order('nome'),
-  ) as (Tables<'rotinas'> & { rotina_treinos: Rotina['dias'] })[]
-  return linhas.map(({ rotina_treinos, ...r }) => ({ ...r, dias: rotina_treinos }))
+  ) as Linha[]
+  return linhas.map(({ rotina_treinos, ...r }) => ({
+    ...r,
+    dias: rotina_treinos.map(({ treinos, ...d }) => ({
+      ...d,
+      categoria: treinos?.categoria ?? 'musculacao',
+    })),
+  }))
 }
 
 export async function salvarRotina(d: {
   rotina: Omit<TablesInsert<'rotinas'>, 'created_at' | 'updated_at'>
-  dias: Rotina['dias']
+  dias: DiaRotina[]
 }): Promise<string> {
   return ok(await supabase.rpc('salvar_rotina', { p_rotina: d.rotina, p_dias: d.dias }))
 }

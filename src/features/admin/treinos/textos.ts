@@ -1,5 +1,6 @@
 // Textos do módulo Treinos no painel. Os componentes só leem daqui.
 
+import { aerobicos } from './textosAerobico'
 import { anamnese } from './textosAnamnese'
 
 export const t = {
@@ -7,7 +8,7 @@ export const t = {
   abas: {
     treinos: 'Treinos',
     exercicios: 'Exercícios',
-    modelos: 'Modelos',
+    modelos: 'Tipos de treino',
     publicados: 'Publicados',
     anamnese: 'Anamnese',
   },
@@ -18,10 +19,11 @@ export const t = {
   },
   novoTreino: '+ Novo treino',
   novoExercicio: '+ Novo exercício',
-  novoModelo: '+ Novo modelo',
+  novoModelo: '+ Novo tipo de treino',
+  novoAerobico: '+ Novo aeróbico',
   editarTreino: 'Editar treino',
   editarExercicio: 'Editar exercício',
-  editarModelo: 'Editar modelo',
+  editarModelo: 'Editar tipo de treino',
   visivel: 'Visível para alunas',
   rascunho: 'Rascunho',
   salvarRascunho: 'Salvar rascunho',
@@ -39,12 +41,14 @@ export const t = {
   filtroEquipamento: 'Equipamento',
   vazioTreinos: 'Nenhum treino ainda.',
   vazioExercicios: 'Nenhum exercício na biblioteca.',
-  vazioModelos: 'Nenhum modelo de rotina ainda.',
+  vazioModelos: 'Nenhum tipo de treino ainda.',
   vazioPublicados: 'Nada publicado ainda.',
   semResultado: 'Nada encontrado com esses filtros.',
   colunasTreinos: ['Treino', 'Tema', 'Nível e local', 'Exercícios', 'Status', ''],
   colunasExercicios: ['Exercício', 'Grupo', 'Equipamento', 'Vídeo', ''],
-  colunasModelos: ['Modelo', 'Tema', 'Nível e local', 'Treinos', 'Status', ''],
+  colunasModelos: ['Tipo de treino', 'Objetivo', 'Nível e local', 'Treinos', 'Status', ''],
+  tiposNoTema: (n: number) => (n === 1 ? '1 tipo de treino' : `${n} tipos de treino`),
+  novoNoTema: '+ Novo tipo neste tema',
   comVideo: 'Com vídeo',
   semVideo: 'Sem vídeo',
   min: (n: number) => `${n} min`,
@@ -52,7 +56,7 @@ export const t = {
   campos: {
     nome: 'Nome',
     nomeTreino: 'Nome do treino (ex.: Treino A: inferiores)',
-    nomeModelo: 'Nome do modelo (ex.: Iniciante em casa 3x)',
+    nomeModelo: 'Nome do tipo de treino (ex.: Emagrecimento ou Hipertrofia)',
     grupo: 'Grupo muscular',
     equipamento: 'Equipamento',
     video: 'Vídeo do YouTube',
@@ -68,8 +72,8 @@ export const t = {
     aquecimento: 'Aquecimento (opcional)',
     alongamento: 'Alongamento (opcional)',
     orientacoes: 'Orientações gerais (opcional)',
-    categoria: 'Tipo de treino',
-    tipo: 'Tipo dos treinos',
+    categoria: 'Este treino é de',
+    tipo: 'Montagem da semana',
     objetivo: 'Objetivo',
     semObjetivo: 'Sem objetivo definido',
   },
@@ -124,7 +128,7 @@ export const t = {
       descanso: 'Pausa entre blocos (s)',
     },
   },
-  dias: 'Dias da semana',
+  dias: 'Musculação por dia da semana',
   sequencia: 'Treinos na ordem',
   treinosN: (n: number) => (n === 1 ? '1 treino em sequência' : `${n} treinos em sequência`),
   treinoN: (n: number) => `Treino ${n}`,
@@ -142,6 +146,7 @@ export const t = {
     semDias: 'Escolha o treino de pelo menos um dia',
     semSequencia: 'Escolha pelo menos um treino',
   },
+  aerobicos,
   removerConfirma: (n: string) => `Remover ${n}?`,
   anamnese,
 }

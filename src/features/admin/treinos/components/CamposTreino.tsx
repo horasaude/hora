@@ -66,16 +66,40 @@ function Opcoes({
   )
 }
 
+/** Musculação ou Aeróbico em pílulas, bem à vista no topo da janela. */
+function TipoDoTreino({
+  valor,
+  ...reg
+}: { valor: string } & ReturnType<UseFormRegister<EntradaTreino>>) {
+  return (
+    <fieldset className="flex flex-wrap items-center gap-2 sm:col-span-2">
+      <legend className="mb-1.5 text-sm font-medium">{t.campos.categoria}</legend>
+      {Object.entries(CATEGORIAS).map(([v, nome]) => (
+        <label key={v} className="cursor-pointer">
+          <input type="radio" value={v} className="peer sr-only" {...reg} />
+          <span
+            className={`brilho ${valor === v ? 'brilho-coral' : 'brilho-cinza'} inline-flex min-h-9 items-center rounded-full px-4 text-[13px] font-bold peer-focus-visible:ring-2 peer-focus-visible:ring-ora`}
+          >
+            {nome}
+          </span>
+        </label>
+      ))}
+    </fieldset>
+  )
+}
+
 type Props = {
   register: UseFormRegister<EntradaTreino>
   erros: FieldErrors<EntradaTreino>
   temas: Tema[]
+  categoria: string
 }
 
-/** Nome, tema, nível, local, duração e descrição do treino. */
-export function CamposTreino({ register, erros, temas }: Props) {
+/** Musculação ou aeróbico, nome, tema, nível, local, duração e descrição do treino. */
+export function CamposTreino({ register, erros, temas, categoria }: Props) {
   return (
     <>
+      <TipoDoTreino valor={categoria} {...register('categoria')} />
       <div className="sm:col-span-2">
         <Campo
           id="treino-nome"
@@ -84,12 +108,6 @@ export function CamposTreino({ register, erros, temas }: Props) {
           {...register('nome')}
         />
       </div>
-      <Opcoes
-        id="treino-categoria"
-        rotulo={t.campos.categoria}
-        opcoes={CATEGORIAS}
-        {...register('categoria')}
-      />
       <Escolha id="treino-tema" rotulo={t.campos.tema} erro={erros.tema_id?.message}>
         <select id="treino-tema" className={caixa} {...register('tema_id')}>
           <option value="">{t.erros.tema}</option>

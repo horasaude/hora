@@ -27,7 +27,7 @@ const esquema = z.object({
   categoria: z.string().refine((v) => v in CATEGORIAS),
 })
 
-const inicial = (x?: Treino, tema?: string): EntradaTreino => ({
+const inicial = (x?: Treino, tema?: string, categoria?: string): EntradaTreino => ({
   nome: x?.nome ?? '',
   tema_id: x?.tema_id ?? tema ?? '',
   nivel: x?.nivel ?? 'iniciante',
@@ -37,7 +37,7 @@ const inicial = (x?: Treino, tema?: string): EntradaTreino => ({
   aquecimento: x?.aquecimento ?? '',
   alongamento: x?.alongamento ?? '',
   orientacoes: x?.orientacoes ?? '',
-  categoria: x?.categoria ?? 'musculacao',
+  categoria: x?.categoria ?? categoria ?? 'musculacao',
 })
 
 /** Estado da janela do treino: formulário, exercícios e o salvar (rascunho, publicar ou cópia). */
@@ -46,12 +46,13 @@ export function useTreinoForm(
   itensIniciais: ItemTreino[],
   aoFechar: () => void,
   tema?: string,
+  categoria?: string,
 ) {
   const salvar = useAcaoTreinos(salvarTreino)
   const [itens, setItens] = useState<ItemTreino[]>(itensIniciais)
   const form = useForm<EntradaTreino>({
     resolver: zodResolver(esquema),
-    defaultValues: inicial(treino, tema),
+    defaultValues: inicial(treino, tema, categoria),
   })
   const gravar = (publicado: boolean, copia = false) =>
     form.handleSubmit(async ({ duracao, ...d }) => {

@@ -1,17 +1,12 @@
-import type { ReactNode } from 'react'
 import { Cartao, EtiquetaBrilho, IconeCheck, LinkBrilho } from '@/components/ui'
-import { PROFISSIONAIS } from '@/domain/lives'
-import { LOCAIS, NIVEIS, type Local, type Nivel } from '@/domain/treinos'
 import { RegistrarTreino } from '@/features/checkin'
 import type { TreinoCompleto, TreinoResumo } from '../api/treinos.api'
+import { detalhe } from '../formato'
 import { useTreino } from '../hooks/useTreinos'
 import { usePreviaTreinos } from '../previa'
 import { textos } from '../textos'
 import { CartaoExercicio } from './CartaoExercicio'
 import { Estado } from './Estado'
-import { IconeCasa, IconeNivel, IconeRelogio } from './IconesTreino'
-
-const lais = PROFISSIONAIS.lais
 
 /** Endereço da execução já no passo do exercício (orientações e aquecimento vêm antes). */
 function paraExercicio(link: string, t: TreinoCompleto, i: number) {
@@ -19,6 +14,7 @@ function paraExercicio(link: string, t: TreinoCompleto, i: number) {
   return `${link}${link.includes('?') ? '&' : '?'}passo=${antes + i}`
 }
 
+/** Todos os exercícios do treino em lista: imagem, nome, séries x repetições, descanso e carga. */
 function Exercicios({ id, link }: { id: string; link: string }) {
   const treino = useTreino(id)
   if (treino.isPending) return <Estado tipo="carregando" />
@@ -43,59 +39,38 @@ function Exercicios({ id, link }: { id: string; link: string }) {
 type Props = {
   treino: TreinoResumo
   rotulo: string
+  destaque: boolean
   feito: boolean
   link: string
-  aviso?: ReactNode
 }
 
-/** Treino em destaque: nível, local e duração; quem montou e o nome; os exercícios; Começar e Marcar com foto. */
-export function FichaTreino({ treino, rotulo, feito, link, aviso }: Props) {
+/** Um treino da semana aberto: nome, todos os exercícios, Começar treino e Marcar com foto. */
+export function TreinoEmLista({ treino, rotulo, destaque, feito, link }: Props) {
   const previa = usePreviaTreinos()
   return (
-    <section className="flex flex-col gap-3">
-      <div className="flex flex-wrap gap-2">
-        <EtiquetaBrilho tom="dourado">
-          <IconeNivel className="mr-1 size-3" />
-          {NIVEIS[treino.nivel as Nivel] ?? treino.nivel}
-        </EtiquetaBrilho>
-        <EtiquetaBrilho tom="verde">
-          <IconeCasa className="mr-1 size-3" />
-          {LOCAIS[treino.local as Local] ?? treino.local}
-        </EtiquetaBrilho>
-        {treino.duracao_minutos ? (
-          <EtiquetaBrilho tom="cinza">
-            <IconeRelogio className="mr-1 size-3" />
-            {textos.minutos(treino.duracao_minutos)}
-          </EtiquetaBrilho>
-        ) : null}
-      </div>
-      <Cartao className="flex items-center gap-3 p-4">
-        <img
-          src={lais.foto}
-          alt={lais.nome}
-          className="size-[46px] shrink-0 rounded-full object-cover"
-        />
+    <Cartao className={`flex flex-col gap-3 p-4 ${destaque ? 'ring-2 ring-coral' : ''}`}>
+      <div className="flex flex-wrap items-start gap-2">
         <div className="min-w-0 flex-1">
           <p className="text-[11px] font-bold tracking-[0.12em] text-coral uppercase">{rotulo}</p>
           <p className="text-[16px] leading-snug font-bold text-verde-escuro">{treino.nome}</p>
-          <p className="text-[12px] text-suave">{textos.ficha.montadoPor(lais.nome)}</p>
+          <p className="text-[13px] text-suave">{detalhe(treino)}</p>
         </div>
-      </Cartao>
-      {aviso}
-      <Exercicios id={treino.id} link={link} />
-      <div className="flex flex-wrap items-center gap-2">
-        {feito ? (
+        {feito && (
           <EtiquetaBrilho tom="verde">
             <IconeCheck className="mr-1 size-3" />
             {textos.feito}
           </EtiquetaBrilho>
-        ) : (
+        )}
+      </div>
+      <Exercicios id={treino.id} link={link} />
+      <div className="flex flex-wrap items-center gap-2">
+        {!feito && (
           <LinkBrilho to={link} tom="coral">
             {textos.comecar}
           </LinkBrilho>
         )}
         {!previa && <RegistrarTreino rotulo={textos.ficha.foto} />}
       </div>
-    </section>
+    </Cartao>
   )
 }

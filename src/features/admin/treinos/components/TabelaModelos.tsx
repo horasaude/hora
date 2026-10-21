@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import { DIAS_CURTOS, nivelLocal } from '@/domain/treinos'
-import { useTemas } from '../../hooks/usePainel'
+import { DIAS_CURTOS, OBJETIVOS, nivelLocal } from '@/domain/treinos'
 import { Tabela } from '../../components/Tabela'
 import { Confirmar } from '../../plano/components/Confirmar'
 import { MenuAcoes } from '../../plano/components/MenuAcoes'
@@ -10,25 +9,33 @@ import { t } from '../textos'
 import { StatusTreino } from './Etiquetas'
 import { RotinaJanela } from './RotinaJanela'
 
-/** Dias da semana do modelo, ou quantos treinos em sequência na rotina numérica. */
+/** Dias com musculação (ou quantos na ordem) e quantos aeróbicos o tipo de treino tem. */
 function DiasDoModelo({ r }: { r: Rotina }) {
-  if (r.tipo === 'numerico') return <>{t.treinosN(r.dias.length)}</>
+  const musculacao = r.dias.filter((x) => x.categoria !== 'aerobico')
+  const aerobicos = r.dias.length - musculacao.length
+  const dias =
+    r.tipo === 'numerico'
+      ? t.treinosN(musculacao.length)
+      : [...new Set(musculacao.flatMap((x) => (x.dia_semana === null ? [] : [x.dia_semana])))]
+          .sort((a, b) => a - b)
+          .map((x) => DIAS_CURTOS[x])
+          .join(', ')
   return (
     <>
-      {r.dias
-        .flatMap((x) => (x.dia_semana === null ? [] : [x.dia_semana]))
-        .sort((a, b) => a - b)
-        .map((x) => DIAS_CURTOS[x])
-        .join(', ')}
+      {dias}
+      {aerobicos > 0 && (
+        <span className="ml-2 text-[11px] font-bold text-coral">
+          {t.aerobicos.aerobicosN(aerobicos)}
+        </span>
+      )}
     </>
   )
 }
 
 type Aberta = { tipo: 'editar' | 'remover'; r: Rotina } | null
 
-/** Modelos de rotina semanal: dias com treino, status e ações. */
+/** Tipos de treino de um tema: objetivo, nível e local, treinos, status e ações. */
 export function TabelaModelos({ rotinas }: { rotinas: Rotina[] }) {
-  const temas = useTemas().data ?? []
   const [aberta, setAberta] = useState<Aberta>(null)
   const mudar = useAcaoTreinos(publicar)
   const remover = useAcaoTreinos(removerRotina)
@@ -43,7 +50,9 @@ export function TabelaModelos({ rotinas }: { rotinas: Rotina[] }) {
             onClick={() => setAberta({ tipo: 'editar', r })}
           >
             <td className="px-3.5 py-3 font-bold text-tinta">{r.nome}</td>
-            <td className="px-3.5 py-3">{temas.find((m) => m.id === r.tema_id)?.titulo}</td>
+            <td className="px-3.5 py-3">
+              {r.objetivo ? OBJETIVOS[r.objetivo as keyof typeof OBJETIVOS] : '-'}
+            </td>
             <td className="px-3.5 py-3">{nivelLocal(r.nivel, r.local)}</td>
             <td className="px-3.5 py-3">
               <DiasDoModelo r={r} />
