@@ -49,6 +49,25 @@ async function aulas(t) {
   await mudar('bloqueado = false', 'temas', prepTema)
 }
 
+async function capas(t) {
+  const { esperaValor, esperaErro } = t
+  const capa = 'aulas/11111111-1111-1111-1111-111111111111.webp'
+  await t.comoDono()
+  await t.db.query(`update public.aulas set capa_path = '${capa}' where id = '${AULA}'`)
+  await t.comoAluna(ALUNA)
+  await esperaValor(
+    'a lista da aluna leva a miniatura da aula',
+    `select public.aulas_da_etapa(${prep}) -> 0 ->> 'capa'`,
+    capa,
+  )
+  await t.comoDono()
+  await esperaErro(
+    'capa fora da pasta certa é recusada',
+    `update public.aulas set capa_path = 'outra/x.webp' where id = '${AULA}'`,
+    '23514',
+  )
+}
+
 async function temas(t) {
   const { esperaValor, esperaErro } = t
   await t.comoDono()
@@ -120,6 +139,7 @@ export async function testarLiberacao() {
   const t = await criarBanco()
   await montar(t.db)
   await aulas(t)
+  await capas(t)
   await temas(t)
   await ordem(t)
   await comece(t)

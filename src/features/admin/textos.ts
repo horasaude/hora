@@ -68,6 +68,7 @@ export const textos = {
     novo: 'Novo tema',
     comece: 'Comece por aqui',
     verComoAluna: 'Ver como aluna',
+    capa: 'Capa do tema (opcional)',
     comeceJanela: 'Comece por aqui (dia 1)',
     comeceVideo: 'Vídeo do YouTube',
     comeceTexto: 'Texto de boas-vindas',
@@ -105,6 +106,7 @@ export const textos = {
     ajudaPreparacao: 'Uma aula por dia: o dia 1 é o dia da compra.',
     ajudaEtapa: 'Dia 1 é o dia em que a etapa começa para a aluna.',
     dia: (n: number) => `Dia ${n}`,
+    capa: 'Miniatura da aula (opcional)',
   },
   lives: {
     titulo: 'Lives',

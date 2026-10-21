@@ -9,6 +9,8 @@ export type AulaTrilha = {
   dia_liberacao: number
   ordem: number
   liberada: boolean
+  /** Miniatura da aula (espaço público capas); sem ela, a do tema ou um fundo de cor. */
+  capa?: string | null
   /** Fechada pelas profissionais (cadeado com "Em breve"), mesmo que o dia já tenha chegado. */
   em_breve?: boolean
   concluida: boolean
@@ -31,6 +33,8 @@ export type TemaOpcao = {
   cor: string | null
   titulo: string
   frase: string
+  /** Capa do tema (espaço público capas). */
+  capa?: string | null
   /** Fechado pelas profissionais: aparece com cadeado e não pode ser escolhido. */
   em_breve?: boolean
 }

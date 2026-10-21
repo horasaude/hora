@@ -1,4 +1,4 @@
-import { useId } from 'react'
+import { useId, type ReactNode } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Campo, Janela } from '@/components/ui'
@@ -17,11 +17,13 @@ type Props = {
   /** Com liberacao, a janela mostra também Disponível, Em breve ou Liberar em (tema). */
   inicial?: Entrada
   aoSalvar: (dados: DadosNome) => Promise<unknown>
+  /** Parte que não é campo do formulário (ex.: a capa do tema), no fim da janela. */
+  extra?: ReactNode
   aoCancelar: () => void
 }
 
 /** Nome e descrição numa janela, usado em tema (com a liberação) e etapa. */
-export function FormNome({ titulo, rotulo, inicial, aoSalvar, aoCancelar }: Props) {
+export function FormNome({ titulo, rotulo, inicial, aoSalvar, aoCancelar, extra }: Props) {
   const id = useId()
   const form = useForm<Entrada, unknown, DadosNome>({
     resolver: zodResolver(esquemaNome),
@@ -60,6 +62,7 @@ export function FormNome({ titulo, rotulo, inicial, aoSalvar, aoCancelar }: Prop
             )}
           />
         )}
+        {extra}
         <ErroForm mensagem={erros.root?.message} />
       </form>
     </Janela>

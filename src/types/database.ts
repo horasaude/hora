@@ -346,6 +346,7 @@ export type Database = {
       }
       aulas: {
         Row: {
+          capa_path: string | null
           bloqueado: boolean
           created_at: string
           descricao: string
@@ -362,6 +363,7 @@ export type Database = {
           video_url: string
         }
         Insert: {
+          capa_path?: string | null
           bloqueado?: boolean
           created_at?: string
           descricao?: string
@@ -378,6 +380,7 @@ export type Database = {
           video_url: string
         }
         Update: {
+          capa_path?: string | null
           bloqueado?: boolean
           created_at?: string
           descricao?: string
@@ -2562,6 +2565,7 @@ export type Database = {
       }
       temas: {
         Row: {
+          capa_path: string | null
           bloqueado: boolean
           chave: string | null
           cor: string | null
@@ -2576,6 +2580,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          capa_path?: string | null
           bloqueado?: boolean
           chave?: string | null
           cor?: string | null
@@ -2590,6 +2595,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          capa_path?: string | null
           bloqueado?: boolean
           chave?: string | null
           cor?: string | null

@@ -5,12 +5,14 @@ import {
   etapaAtual,
   metaDaEtapa,
   precisaEscolherTema,
+  type TemaOpcao,
   type Trilha,
 } from '@/domain/trilha'
 import { ListaAulas } from '../components/CartaoAula'
 import { ComeceAqui } from '../components/ComeceAqui'
 import { EscolhaTema } from '../components/EscolhaTema'
-import { AbasEtapas, ConteudoEtapa } from '../components/Etapas'
+import { CapaTema } from '../components/CapaTema'
+import { ModulosEtapas } from '../components/Etapas'
 import { EstadoAluna } from '../components/EstadoAluna'
 import { TopoTrilha } from '../components/TopoTrilha'
 import { useTrilha } from '../hooks/useTrilha'
@@ -45,14 +47,13 @@ function AguardandoEscolha({ dia }: { dia: number }) {
   )
 }
 
-function DoTema({ trilha }: { trilha: Trilha }) {
-  const [aba, setAba] = useState(() => etapaAtual(trilha.etapas)?.id ?? trilha.etapas[0]?.id ?? '')
+function DoTema({ trilha, tema }: { trilha: Trilha; tema: TemaOpcao }) {
   const [preparo, setPreparo] = useState(false)
-  const etapa = trilha.etapas.find((e) => e.id === aba) ?? trilha.etapas[0]
+  const atual = etapaAtual(trilha.etapas)?.id ?? trilha.etapas[0]?.id ?? null
   return (
     <section className="flex flex-col gap-5">
-      <AbasEtapas etapas={trilha.etapas} ativa={etapa?.id ?? ''} aoEscolher={setAba} />
-      {etapa && <ConteudoEtapa key={etapa.id} etapa={etapa} etapas={trilha.etapas} />}
+      <CapaTema tema={tema} />
+      <ModulosEtapas etapas={trilha.etapas} atual={atual} capaTema={tema.capa} />
       <button
         type="button"
         onClick={() => setPreparo((v) => !v)}
@@ -84,7 +85,7 @@ export function TrilhaPage() {
       />
       <ComeceAqui />
       {tema ? (
-        <DoTema trilha={t} />
+        <DoTema trilha={t} tema={tema} />
       ) : precisaEscolherTema(t) ? (
         <section className="flex flex-col gap-4">
           <div>

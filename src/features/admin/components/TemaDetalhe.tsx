@@ -6,6 +6,7 @@ import { salvarTema, type Aula, type Tema } from '../api/conteudo.api'
 import { useSalvar, useTema } from '../hooks/usePainel'
 import { textos } from '../textos'
 import { BotaoPublicar } from './BotaoPublicar'
+import { CapaLive, type EstadoCapa } from './CapaLive'
 import { EtiquetaLiberacao } from './CampoLiberacao'
 import { CartaoDetalhe, Dados } from './CartaoDetalhe'
 import { Estado } from './Estado'
@@ -16,6 +17,7 @@ import { Situacao } from './Tabela'
 function SobreTema({ tema, etapas, aulas }: { tema: Tema; etapas: number; aulas: Aula[] }) {
   const salvar = useSalvar(salvarTema)
   const [editando, setEditando] = useState(false)
+  const [capa, setCapa] = useState<EstadoCapa | null>(null)
   const janela = editando && (
     <FormNome
       titulo={textos.temas.editar}
@@ -29,8 +31,20 @@ function SobreTema({ tema, etapas, aulas }: { tema: Tema; etapas: number; aulas:
         },
       }}
       aoCancelar={() => setEditando(false)}
+      extra={
+        <CapaLive
+          inicial={tema.capa_path}
+          aoMudar={setCapa}
+          destino={{ espaco: 'capas', pasta: 'temas', titulo: textos.temas.capa }}
+        />
+      }
       aoSalvar={async (d) => {
-        await salvar.mutateAsync({ ...d, id: tema.id })
+        if (capa?.enviando) throw new Error(textos.arquivos.esperar)
+        await salvar.mutateAsync({
+          ...d,
+          id: tema.id,
+          capa_path: capa ? capa.caminho : tema.capa_path,
+        })
         setEditando(false)
       }}
     />

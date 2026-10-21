@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { BotaoBrilho, Janela } from '@/components/ui'
 import { modoDe } from '@/domain/liberacao'
@@ -9,6 +10,7 @@ import { useAula, useEtapas, useSalvar, useTemas } from '../hooks/usePainel'
 import { textos } from '../textos'
 import { Estado } from './Estado'
 import { FormAula, type EntradaAula } from './FormAula'
+import { CapaLive, type EstadoCapa } from './CapaLive'
 import { MateriaisAula } from './MateriaisAula'
 
 type Props = { aulaId?: string; etapaId: string; temaId: string | null }
@@ -62,6 +64,7 @@ export function AulaJanela({ aulaId, etapaId, temaId }: Props) {
   const etapas = useEtapas()
   const salvar = useSalvar(salvarAula)
   const materiais = useMateriais(aulaId)
+  const [capa, setCapa] = useState<EstadoCapa | null>(null)
   const irPara = (tema: string | null) =>
     navegar(tema ? `/app/admin/conteudo/${tema}` : '/app/admin/conteudo')
   if ((aulaId && aula.isPending) || temas.isPending || etapas.isPending) return null
@@ -75,10 +78,26 @@ export function AulaJanela({ aulaId, etapaId, temaId }: Props) {
       titulo={aulaId ? textos.aulas.editar : textos.aulas.nova}
       inicial={inicialDa(aula.data, lista, etapaId, temaId)}
       aoCancelar={() => irPara(temaId)}
-      materiais={<MateriaisAula m={materiais} />}
+      materiais={
+        <div className="flex flex-col gap-5">
+          <CapaLive
+            key={aula.data?.id ?? 'nova'}
+            inicial={aula.data?.capa_path ?? null}
+            aoMudar={setCapa}
+            destino={{ espaco: 'capas', pasta: 'aulas', titulo: textos.aulas.capa }}
+          />
+          <MateriaisAula m={materiais} />
+        </div>
+      }
       aoSalvar={async (d, publicar) => {
-        if (materiais.enviando) throw new Error(textos.arquivos.esperar)
-        const salva = await salvar.mutateAsync({ ...d, id: aulaId, publicado: publicar })
+        if (materiais.enviando || capa?.enviando) throw new Error(textos.arquivos.esperar)
+        const capaPath = capa ? capa.caminho : (aula.data?.capa_path ?? null)
+        const salva = await salvar.mutateAsync({
+          ...d,
+          id: aulaId,
+          publicado: publicar,
+          capa_path: capaPath,
+        })
         await salvarMateriais(salva.id, materiais.paraSalvar, materiais.removidos)
         irPara(lista.find((e) => e.id === salva.etapa_id)?.tema_id ?? temaId)
       }}

@@ -10,6 +10,7 @@ const aula = z.object({
   ordem: z.number(),
   liberada: z.boolean(),
   em_breve: z.boolean().default(false),
+  capa: z.string().nullable().default(null),
   concluida: z.boolean(),
 })
 
@@ -26,6 +27,7 @@ export const esquemaTrilha: z.ZodType<Trilha> = z.object({
         titulo: z.string(),
         frase: z.string(),
         em_breve: z.boolean().default(false),
+        capa: z.string().nullable().default(null),
       }),
     )
     .default([]),

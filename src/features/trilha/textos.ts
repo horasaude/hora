@@ -28,6 +28,13 @@ export const textos = {
   concluida: 'Concluída',
   liberaNoDia: (n: number) => `Libera no dia ${n}`,
   emBreve: 'Em breve',
+  aulaN: (n: number, dia: number) => `Aula ${n} · Dia ${dia}`,
+  modulo: (feitas: number, total: number) =>
+    total === 1
+      ? `1 aula · ${feitas} de 1 concluída`
+      : `${total} aulas · ${feitas} de ${total} concluídas`,
+  fechadaModulo: 'Fechada',
+  etapaN: (n: number, titulo: string) => `Etapa ${n}: ${titulo}`,
   liberaEm: (n: number) => (n === 1 ? 'Libera amanhã' : `Libera em ${n} dias`),
   preparacao: {
     titulo: 'Preparação',

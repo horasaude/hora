@@ -11,42 +11,6 @@ import { ListaAulas } from './CartaoAula'
 
 const t = textos.bloqueada
 
-/** Abas Arrancada, Constância e Para Sempre; a fechada leva cadeado. */
-export function AbasEtapas({
-  etapas,
-  ativa,
-  aoEscolher,
-}: {
-  etapas: EtapaTrilha[]
-  ativa: string
-  aoEscolher: (id: string) => void
-}) {
-  return (
-    <div
-      role="tablist"
-      aria-label={textos.abasRotulo}
-      className="grid grid-cols-3 gap-2 sm:flex sm:flex-wrap"
-    >
-      {etapas.map((e) => {
-        const ativo = e.id === ativa
-        return (
-          <button
-            key={e.id}
-            type="button"
-            role="tab"
-            aria-selected={ativo}
-            onClick={() => aoEscolher(e.id)}
-            className={`brilho ${ativo ? 'brilho-verde' : 'brilho-cinza'} inline-flex min-h-9 items-center justify-center gap-1.5 rounded-full px-4 text-[13px] font-bold`}
-          >
-            {!e.iniciada_em && <IconeCadeado className="size-3.5" />}
-            {e.titulo}
-          </button>
-        )
-      })}
-    </div>
-  )
-}
-
 /** Etapa fechada: as duas metas da etapa anterior, cada uma com sua barra. */
 function Bloqueada({ etapa, anterior }: { etapa: EtapaTrilha; anterior: EtapaTrilha | null }) {
   const total = anterior?.aulas.length ?? 0
@@ -75,8 +39,16 @@ function Bloqueada({ etapa, anterior }: { etapa: EtapaTrilha; anterior: EtapaTri
   )
 }
 
-/** Conteúdo da aba: aviso de conquista, metas da etapa fechada ou as aulas. */
-export function ConteudoEtapa({ etapa, etapas }: { etapa: EtapaTrilha; etapas: EtapaTrilha[] }) {
+/** Conteúdo do módulo: aviso de conquista, metas da etapa fechada ou as aulas. */
+function ConteudoEtapa({
+  etapa,
+  etapas,
+  capaTema,
+}: {
+  etapa: EtapaTrilha
+  etapas: EtapaTrilha[]
+  capaTema?: string | null
+}) {
   if (!etapa.iniciada_em) return <Bloqueada etapa={etapa} anterior={etapaAnterior(etapas, etapa)} />
   const recemAberta = etapa.ordem > 1 && (etapa.dia_na_etapa ?? 0) <= 1
   return (
@@ -94,9 +66,59 @@ export function ConteudoEtapa({ etapa, etapas }: { etapa: EtapaTrilha; etapas: E
       ) : (
         <ListaAulas
           aulas={etapa.aulas}
+          capaTema={capaTema}
           fechada={(a) => textos.liberaEm(faltamDias(a, etapa.dia_na_etapa))}
         />
       )}
+    </div>
+  )
+}
+
+/** Etapas como módulos que abrem e fecham (a atual já vem aberta), com quantas aulas ela concluiu. */
+export function ModulosEtapas({
+  etapas,
+  atual,
+  capaTema,
+}: {
+  etapas: EtapaTrilha[]
+  atual: string | null
+  capaTema?: string | null
+}) {
+  return (
+    <div className="flex flex-col gap-3">
+      {etapas.map((e, i) => {
+        const feitas = e.aulas.filter((a) => a.concluida).length
+        return (
+          <details
+            key={e.id}
+            open={e.id === atual}
+            className="group rounded-[20px] border border-linha bg-[#F8FAF9]"
+          >
+            <summary className="flex min-h-16 cursor-pointer list-none items-center gap-3 px-4 py-3">
+              <span
+                className={`brilho ${e.iniciada_em ? 'brilho-verde' : 'brilho-cinza'} grid size-10 shrink-0 place-items-center rounded-full text-[15px] font-bold`}
+              >
+                {e.iniciada_em ? i + 1 : <IconeCadeado />}
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-[16px] font-bold text-tinta">
+                  {textos.etapaN(i + 1, e.titulo)}
+                </span>
+                <span className="block text-[13px] text-suave">
+                  {e.iniciada_em ? textos.modulo(feitas, e.aulas.length) : textos.fechadaModulo}
+                </span>
+              </span>
+              <span
+                aria-hidden
+                className="size-2.5 shrink-0 rotate-45 border-r-2 border-b-2 border-suave transition group-open:rotate-[225deg]"
+              />
+            </summary>
+            <div className="px-3 pb-3">
+              <ConteudoEtapa etapa={e} etapas={etapas} capaTema={capaTema} />
+            </div>
+          </details>
+        )
+      })}
     </div>
   )
 }

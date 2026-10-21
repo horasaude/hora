@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import {
   assistiuOSuficiente,
@@ -22,6 +22,7 @@ function usePlayerYoutube(aoTerminar: () => void) {
     fim.current = aoTerminar
   })
   const player = useRef<PlayerYT | null>(null)
+  const [comecou, setComecou] = useState(false)
   const ligar = useCallback((iframe: HTMLIFrameElement | null) => {
     if (!iframe) {
       player.current = null
@@ -32,6 +33,7 @@ function usePlayerYoutube(aoTerminar: () => void) {
         player.current = new YT.Player(iframe, {
           events: {
             onStateChange: (e) => {
+              if (e.data === ESTADO_YT.tocando) setComecou(true)
               if (e.data === ESTADO_YT.terminou) fim.current()
             },
           },
@@ -39,7 +41,7 @@ function usePlayerYoutube(aoTerminar: () => void) {
       })
       .catch(() => undefined)
   }, [])
-  return { player, ligar }
+  return { player, ligar, comecou }
 }
 
 /** Progresso guardado: de onde retomar e os trechos já vistos (só fora da pré-visualização). */
@@ -62,7 +64,7 @@ export function useAssistir({ aula, gravar, aoConcluir }: Opcoes) {
   const mudou = useRef(false)
   const salvo = progresso.data
   const passos = useRef({ ler: () => undefined as void, guardar: () => undefined as void })
-  const { player, ligar } = usePlayerYoutube(() => passos.current.ler())
+  const { player, ligar, comecou } = usePlayerYoutube(() => passos.current.ler())
 
   useEffect(() => {
     passos.current = {
@@ -110,5 +112,5 @@ export function useAssistir({ aula, gravar, aoConcluir }: Opcoes) {
 
   const pronto = !gravar || !progresso.isPending
   const inicio = salvo ? pontoDeRetomada(salvo.posicao, salvo.duracao) : 0
-  return { pronto, inicio, ligar }
+  return { pronto, inicio, ligar, comecou }
 }

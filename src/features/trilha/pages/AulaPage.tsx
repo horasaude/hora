@@ -98,10 +98,15 @@ export function AulaPage() {
               {a.descricao}
             </p>
           )}
-          <MateriaisDaAula aula={a.id} />
+          <div className="lg:hidden">
+            <MateriaisDaAula aula={a.id} />
+          </div>
           {!previa && <DuvidasDaAula aula={a.id} />}
         </div>
-        <aside className="lg:sticky lg:top-8">
+        <aside className="flex flex-col gap-5 lg:sticky lg:top-8">
+          <div className="hidden lg:block">
+            <MateriaisDaAula aula={a.id} />
+          </div>
           <NavegacaoAulas aulas={lista} id={a.id} />
         </aside>
       </div>

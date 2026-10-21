@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { AvisoErro, BotaoBrilho, IconeCadeado } from '@/components/ui'
 import type { TemaOpcao } from '@/domain/trilha'
+import { urlCapa } from '@/lib/capas'
 import { useEscolherTema } from '../hooks/useTrilha'
 import { usePrevia } from '../previa'
 import { textos } from '../textos'
@@ -28,8 +29,16 @@ function CartaoTema({
       aria-disabled={tema.em_breve}
       disabled={tema.em_breve}
       onClick={aoEscolher}
-      className={`flex h-full flex-col items-start gap-3 rounded-[20px] border-2 bg-white p-4 text-left transition ${tema.em_breve ? 'opacity-70' : 'hover:shadow-cartao'} ${escolhido ? 'border-verde-vivo shadow-cartao' : 'border-linha'}`}
+      className={`flex h-full flex-col items-start gap-3 overflow-hidden rounded-[20px] border-2 bg-white p-4 text-left transition ${tema.em_breve ? 'opacity-70' : 'hover:shadow-cartao'} ${escolhido ? 'border-verde-vivo shadow-cartao' : 'border-linha'}`}
     >
+      {urlCapa(tema.capa) && (
+        <img
+          src={urlCapa(tema.capa) ?? ''}
+          alt=""
+          loading="lazy"
+          className="-mx-4 -mt-4 aspect-video w-[calc(100%+2rem)] max-w-none object-cover"
+        />
+      )}
       <span
         className={`brilho ${tomDoTema(tema.chave, tema.cor)} grid size-11 place-items-center rounded-full`}
       >

@@ -122,7 +122,7 @@ export function MateriaisDaAula({ aula, titulo = t.titulo }: { aula: string; tit
   return (
     <section className="flex flex-col gap-3">
       <h2 className="text-[19px] font-bold text-verde-escuro">{titulo}</h2>
-      <ul className="grid gap-3 sm:grid-cols-2">
+      <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
         {materiais.data.map((m) => (
           <li key={m.id}>
             <Item m={m} aoAmpliar={() => setAberta(m)} />

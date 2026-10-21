@@ -2,6 +2,13 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-20 · main · Trilha no visual de área de membros (capas, módulos, miniaturas) e tampa no YouTube
+
+- Tema e aula ganham capa (temas.capa_path, aulas.capa_path; espaço público capas, só imagem até 5 MB; migração 20261101140000_capas_trilha.sql). Painel: "Capa do tema" na janela de editar tema e "Miniatura da aula" na janela da aula.
+- Aluna: capa grande do tema no topo (CapaTema; sem imagem, verde ORA com o ícone), etapas como módulos que abrem e fecham com "x de y concluídas" (ModulosEtapas, a atual aberta), aulas em cartões com miniatura, "Aula N · Dia X", duração, cadeado ou Em breve (CartaoAula). Escolha de tema mostra a capa. Na aula, os arquivos foram para a coluna da direita no computador.
+- Vídeo continua no YouTube (Panda achado caro): tampa transparente por cima do título e do "Assista no YouTube" antes do play e do logo durante (VideoYoutube), iv_load_policy=3. Não impede quem souber pegar o link pelo navegador.
+- Sem chat de IA na aula (o fórum já cobre as dúvidas).
+
 ## 2026-10-20 · main · Ficha da aluna: o que ela já fez e Lembrar
 
 - Painel > Alunas, ficha: "O que ela já fez" com a anamnese (Feito, Começou, Falta), os 5 passos do Comece por aqui, o tema (do dia 8) e nível e local do treino; no que falta, Lembrar (admin/pendencias). As respostas da anamnese continuam logo abaixo.

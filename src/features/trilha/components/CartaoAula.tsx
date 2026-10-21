@@ -1,13 +1,20 @@
 import { Link } from 'react-router-dom'
 import { IconeCadeado, IconeCheck, IconePlay } from '@/components/ui'
 import type { AulaTrilha } from '@/domain/trilha'
+import { urlCapa } from '@/lib/capas'
 import { useLinkAula } from '../previa'
 import { textos } from '../textos'
 
-type Props = { aula: AulaTrilha; proxima: boolean; fechadaTexto: string }
+type Props = {
+  aula: AulaTrilha
+  numero: number
+  proxima: boolean
+  fechadaTexto: string
+  capaTema?: string | null
+}
 
 function Marca({ aula }: { aula: AulaTrilha }) {
-  const base = 'brilho grid size-10 shrink-0 place-items-center rounded-full'
+  const base = 'brilho grid size-9 place-items-center rounded-full'
   if (aula.concluida)
     return (
       <span className={`${base} brilho-verde`}>
@@ -21,38 +28,63 @@ function Marca({ aula }: { aula: AulaTrilha }) {
       </span>
     )
   return (
-    <span className={`${base} brilho-escuro`}>
+    <span className="grid size-9 place-items-center rounded-full bg-white text-verde-escuro shadow-cartao">
       <IconePlay className="ml-0.5 size-3.5" />
     </span>
   )
 }
 
-/** Aula na lista: dia, título, duração e estado (liberada, concluída com check, bloqueada com cadeado; fechada pelas profissionais mostra Em breve). */
-export function CartaoAula({ aula, proxima, fechadaTexto }: Props) {
+/** Miniatura 16:9 com a capa da aula (ou do tema) e o estado no meio. */
+function Miniatura({ aula, capaTema }: { aula: AulaTrilha; capaTema?: string | null }) {
+  const capa = urlCapa(aula.capa ?? capaTema)
+  return (
+    <span className="relative grid aspect-video w-28 shrink-0 place-items-center overflow-hidden rounded-[12px] bg-verde-escuro sm:w-40">
+      {capa && (
+        <img
+          src={capa}
+          alt=""
+          loading="lazy"
+          className={`absolute inset-0 size-full object-cover ${aula.liberada ? '' : 'grayscale'}`}
+        />
+      )}
+      <span className="relative">
+        <Marca aula={aula} />
+      </span>
+    </span>
+  )
+}
+
+/** Aula na lista: miniatura, Aula N e dia, título e duração; fechada mostra quando libera ou Em breve. */
+export function CartaoAula({ aula, numero, proxima, fechadaTexto, capaTema }: Props) {
   const linkAula = useLinkAula()
   const detalhe = [aula.profissional, aula.duracao_minutos && textos.minutos(aula.duracao_minutos)]
     .filter(Boolean)
     .join(' · ')
   const corpo = (
     <>
-      <span className="w-12 shrink-0 text-center text-[11px] font-bold tracking-wide text-suave uppercase">
-        {textos.diaN(aula.dia_liberacao)}
-      </span>
-      <Marca aula={aula} />
-      <span className="min-w-0 flex-1">
-        <span className="block text-[15px] font-bold text-tinta">{aula.titulo}</span>
-        <span className="block text-[13px] text-suave">
+      <Miniatura aula={aula} capaTema={capaTema} />
+      <span className="flex min-w-0 flex-1 flex-col gap-1">
+        <span className="self-start rounded-full bg-trilho px-2.5 py-0.5 text-[11px] font-bold text-suave">
+          {textos.aulaN(numero, aula.dia_liberacao)}
+        </span>
+        <span className="line-clamp-2 text-[15px] leading-snug font-bold text-tinta">
+          {aula.titulo}
+        </span>
+        <span className="text-[13px] text-suave">
           {aula.liberada ? detalhe : aula.em_breve ? textos.emBreve : fechadaTexto}
         </span>
       </span>
       {aula.concluida && <span className="sr-only">{textos.concluida}</span>}
     </>
   )
-  const classe = `flex min-h-[72px] items-center gap-3 rounded-[18px] border bg-white px-3 py-3 ${proxima ? 'border-verde-vivo/50 shadow-cartao' : 'border-linha'} ${aula.liberada ? '' : 'opacity-70'}`
+  const classe = `flex items-center gap-3 rounded-[18px] border bg-white p-2.5 pr-4 ${proxima ? 'border-verde-vivo/50 shadow-cartao' : 'border-linha'} ${aula.liberada ? '' : 'opacity-75'}`
   return (
     <li>
       {aula.liberada ? (
-        <Link to={linkAula(aula.id)} className={`${classe} transition hover:shadow-cartao`}>
+        <Link
+          to={linkAula(aula.id)}
+          className={`${classe} transition hover:shadow-cartao active:scale-[0.99]`}
+        >
           {corpo}
         </Link>
       ) : (
@@ -62,19 +94,28 @@ export function CartaoAula({ aula, proxima, fechadaTexto }: Props) {
   )
 }
 
-/** Lista de aulas em grade (2 colunas no computador). */
+/** Lista de aulas, uma embaixo da outra, como numa área de membros. */
 export function ListaAulas({
   aulas,
   fechada,
+  capaTema,
 }: {
   aulas: AulaTrilha[]
   fechada: (a: AulaTrilha) => string
+  capaTema?: string | null
 }) {
   const proxima = aulas.find((a) => a.liberada && !a.concluida)
   return (
-    <ul className="grid gap-3 lg:grid-cols-2">
-      {aulas.map((a) => (
-        <CartaoAula key={a.id} aula={a} proxima={a.id === proxima?.id} fechadaTexto={fechada(a)} />
+    <ul className="flex flex-col gap-3">
+      {aulas.map((a, i) => (
+        <CartaoAula
+          key={a.id}
+          aula={a}
+          numero={i + 1}
+          proxima={a.id === proxima?.id}
+          fechadaTexto={fechada(a)}
+          capaTema={capaTema}
+        />
       ))}
     </ul>
   )

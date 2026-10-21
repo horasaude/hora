@@ -54,6 +54,7 @@ export function linkComApi(id: string, inicio: number): string {
     origin: window.location.origin,
     rel: '0',
     playsinline: '1',
+    iv_load_policy: '3',
   })
   if (inicio > 0) p.set('start', String(Math.floor(inicio)))
   return `https://www.youtube-nocookie.com/embed/${id}?${p}`
