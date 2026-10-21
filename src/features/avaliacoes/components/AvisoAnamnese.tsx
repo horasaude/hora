@@ -2,7 +2,7 @@ import { LinkBrilho } from '@/components/ui'
 import { useAvaliacoesPendentes } from '../hooks/useAvaliacoes'
 import { textos } from '../textos'
 
-/** Aviso em Treinos enquanto houver anamnese sem enviar. */
+/** Aviso no Início e em Treinos enquanto houver anamnese sem enviar (aparece desde o dia 1). */
 export function AvisoAnamnese() {
   const pendentes = useAvaliacoesPendentes()
   const primeira = pendentes[0]

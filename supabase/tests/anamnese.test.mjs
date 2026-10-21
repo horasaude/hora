@@ -20,6 +20,8 @@ async function montar(db) {
 
 async function painel(t) {
   const { esperaValor, esperaErro } = t
+  await t.comoDono()
+  await t.db.query(`update public.anamneses set publicada = false`)
   await t.comoAluna(ALUNA)
   await esperaValor(
     'rascunho não aparece para a aluna',
@@ -28,9 +30,9 @@ async function painel(t) {
   )
   await t.comoAluna(ADMIN)
   await esperaValor(
-    'anamnese inicial semeada com 9 perguntas',
-    `select jsonb_array_length(perguntas) from public.anamneses`,
-    9,
+    'anamnese inicial com 9 perguntas e as 7 do PAR-Q antes da última',
+    `select jsonb_array_length(perguntas) || ':' || (perguntas -> 8 ->> 'id') || ':' || (perguntas -> 15 ->> 'id') from public.anamneses`,
+    '16:parq_coracao:observacoes',
   )
   await esperaErro(
     'pergunta de escolha sem opções é recusada',

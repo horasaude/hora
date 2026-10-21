@@ -2,6 +2,12 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-20 · main · PAR-Q na anamnese inicial e aviso no Início
+
+- As 7 perguntas do PAR-Q (modelo do MFIT da Laís) entraram na Anamnese inicial, antes da última pergunta, todas sim ou não e obrigatórias; a anamnese foi publicada (migração 20261101120000_anamnese_parq.sql).
+- Início da aluna mostra "Responda sua anamnese" desde o dia 1 enquanto ela não enviar (AvisoAnamnese, que já aparecia em Treinos).
+- Conferido em produção: aulas 0, cardápios 0, receitas 0, desafios 0, treinos 0 de 8 publicados, loja 0 de 68, vídeo do Comece por aqui vazio; por isso a área da aluna aparece vazia.
+
 ## 2026-10-20 · main · Materiais no plano alimentar (vindos do Dietbox)
 
 - Painel > Plano alimentar > Materiais (/app/admin/plano/materiais): lista, criar e editar (nome e texto), publicar e excluir. Tabela materiais_nutricao (migração 20261101110000_materiais_nutricao.sql) com os 5 materiais do Dietbox já publicados: Chás diuréticos, Lista de frutas, Manejo de ansiedade, Molhos para salada, Monte sua salada.
