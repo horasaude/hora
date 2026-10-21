@@ -2,6 +2,12 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-21 · main · Excluir tema e aula no Conteúdo
+
+- Cartão do tema: Excluir tema (dois toques); apaga as aulas e os materiais dele e limpa os arquivos e capas do espaço; cardápios e desafios ficam sem tema. Tema com treinos é barrado (treinos.tema_id é restrict) com aviso para excluir ou mudar os treinos antes.
+- Janela da aula: Excluir aula à esquerda do rodapé (dois toques), com os arquivos e a miniatura.
+- admin/api/excluir.api.ts, components/BotaoExcluir.tsx, textos/excluir.ts; teste de banco em liberacao.test.mjs.
+
 ## 2026-10-21 · main · Sala do Meet com Gmail comum
 
 - "Criar sala no Meet" dava erro: o Google responde 403 "updateAccessType is not available to the user" porque sala restrita é só do Workspace e a conta conectada é Gmail. criarSala tenta a restrita e, nessa recusa, cria a sala comum; ajustarSala ignora a mesma recusa; membro que o Google não aceitar não derruba a criação (só registra). Com o Workspace conectado, a restrição volta a valer sozinha.

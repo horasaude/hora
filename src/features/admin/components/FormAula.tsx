@@ -17,6 +17,8 @@ export type DadosAula = z.output<typeof esquemaAula>
 
 type Props = {
   materiais?: ReactNode
+  /** Botão de excluir (só na aula já salva). */
+  excluir?: ReactNode
   temas: Tema[]
   titulo: string
   inicial: EntradaAula
@@ -43,7 +45,15 @@ function useFormAula({ inicial, aoSalvar }: Pick<Props, 'inicial' | 'aoSalvar'>)
 }
 
 /** Aula numa janela: onde fica, título, vídeo com prévia grande, profissional e duração, texto, arquivos e liberação (disponível, em breve ou data). */
-export function FormAula({ titulo, inicial, aoSalvar, aoCancelar, temas, materiais }: Props) {
+export function FormAula({
+  titulo,
+  inicial,
+  aoSalvar,
+  aoCancelar,
+  temas,
+  materiais,
+  excluir,
+}: Props) {
   const id = useId()
   const { form, enviar } = useFormAula({ inicial, aoSalvar })
   const { register, control, formState } = form
@@ -55,6 +65,7 @@ export function FormAula({ titulo, inicial, aoSalvar, aoCancelar, temas, materia
       rotuloFechar={textos.fechar}
       rodape={
         <RodapeAula
+          excluir={excluir}
           salvando={formState.isSubmitting}
           aoCancelar={aoCancelar}
           aoRascunho={enviar(false)}

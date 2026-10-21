@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useQueryClient } from '@tanstack/react-query'
 import { BotaoBrilho } from '@/components/ui'
 import { iniciosDosTemas, modoDe } from '@/domain/liberacao'
 import { paraCampoBrasilia } from '@/lib/datas'
@@ -6,6 +8,9 @@ import { salvarTema, type Aula, type Tema } from '../api/conteudo.api'
 import { useSalvar, useTema, useTemas } from '../hooks/usePainel'
 import { textos } from '../textos'
 import { doTema as tt } from '../textos/doTema'
+import { excluirTema, TemaComTreinos } from '../api/excluir.api'
+import { excluir as tx } from '../textos/excluir'
+import { BotaoExcluir } from './BotaoExcluir'
 import { BotaoPublicar } from './BotaoPublicar'
 import { CapaLive, type EstadoCapa } from './CapaLive'
 import { EtiquetaLiberacao } from './CampoLiberacao'
@@ -53,6 +58,25 @@ function EditarTema({ tema, aoFechar }: { tema: Tema; aoFechar: () => void }) {
   )
 }
 
+/** Excluir o tema (com as aulas e materiais dele) e voltar para a lista. */
+function ExcluirTema({ id }: { id: string }) {
+  const navegar = useNavigate()
+  const cliente = useQueryClient()
+  return (
+    <BotaoExcluir
+      rotulo={tx.tema}
+      confirmar={tx.confirmarTema}
+      excluindo={tx.excluindo}
+      mensagemDe={(e) => (e instanceof TemaComTreinos ? tx.temTreinos : tx.erro)}
+      aoExcluir={async () => {
+        await excluirTema(id)
+        await cliente.invalidateQueries()
+        navegar('/app/admin/conteudo')
+      }}
+    />
+  )
+}
+
 function SobreTema({ tema, aulas, inicio }: { tema: Tema; aulas: Aula[]; inicio?: number }) {
   const [editando, setEditando] = useState(false)
   return (
@@ -76,6 +100,7 @@ function SobreTema({ tema, aulas, inicio }: { tema: Tema; aulas: Aula[]; inicio?
       <div className="flex flex-wrap gap-2">
         <BotaoBrilho onClick={() => setEditando(true)}>{textos.editar}</BotaoBrilho>
         <BotaoPublicar tabela="temas" id={tema.id} publicado={tema.publicado} />
+        <ExcluirTema id={tema.id} />
       </div>
     </>
   )

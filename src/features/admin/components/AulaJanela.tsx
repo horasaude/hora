@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useQueryClient } from '@tanstack/react-query'
 import { BotaoBrilho, Janela } from '@/components/ui'
 import { modoDe } from '@/domain/liberacao'
 import { paraCampoBrasilia } from '@/lib/datas'
@@ -12,6 +13,9 @@ import { Estado } from './Estado'
 import { FormAula, type EntradaAula } from './FormAula'
 import { CapaLive, type EstadoCapa } from './CapaLive'
 import { MateriaisAula } from './MateriaisAula'
+import { excluirAula } from '../api/excluir.api'
+import { excluir as tx } from '../textos/excluir'
+import { BotaoExcluir } from './BotaoExcluir'
 
 type Props = { aulaId?: string; temaId: string | null }
 
@@ -48,6 +52,24 @@ function Falha({ voltar, tentar }: { voltar: () => void; tentar: () => void }) {
   )
 }
 
+/** Excluir a aula (com os arquivos e a miniatura dela). */
+function ExcluirAula({ id, aoExcluir }: { id: string; aoExcluir: () => void }) {
+  const cliente = useQueryClient()
+  return (
+    <BotaoExcluir
+      rotulo={tx.aula}
+      confirmar={tx.confirmarAula}
+      excluindo={tx.excluindo}
+      mensagemDe={() => tx.erro}
+      aoExcluir={async () => {
+        await excluirAula(id)
+        await cliente.invalidateQueries()
+        aoExcluir()
+      }}
+    />
+  )
+}
+
 /** Janela de criar ou editar aula. Ao salvar, volta para o tema da aula, que já aparece na lista. */
 export function AulaJanela({ aulaId, temaId }: Props) {
   const navegar = useNavigate()
@@ -69,6 +91,16 @@ export function AulaJanela({ aulaId, temaId }: Props) {
       titulo={aulaId ? textos.aulas.editar : textos.aulas.nova}
       inicial={inicialDa(aula.data, lista, temaId)}
       aoCancelar={() => irPara(temaId)}
+      excluir={
+        aulaId && (
+          <ExcluirAula
+            id={aulaId}
+            aoExcluir={() =>
+              irPara(lista.find((e) => e.id === aula.data?.etapa_id)?.tema_id ?? temaId)
+            }
+          />
+        )
+      }
       materiais={
         <div className="flex flex-col gap-5">
           <CapaLive

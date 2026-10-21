@@ -1,7 +1,10 @@
+import type { ReactNode } from 'react'
 import { BotaoBrilho } from '@/components/ui'
 import { textos } from '../textos'
 
 type Props = {
+  /** Na aula já salva, o Excluir fica à esquerda. */
+  excluir?: ReactNode
   salvando: boolean
   aoCancelar: () => void
   aoRascunho: () => void
@@ -9,9 +12,10 @@ type Props = {
 }
 
 /** Rodapé da janela da aula: Cancelar, Salvar rascunho e Publicar (verde). */
-export function RodapeAula({ salvando, aoCancelar, aoRascunho, aoPublicar }: Props) {
+export function RodapeAula({ excluir, salvando, aoCancelar, aoRascunho, aoPublicar }: Props) {
   return (
     <>
+      {excluir && <span className="mr-auto">{excluir}</span>}
       <BotaoBrilho tom="cinza" onClick={aoCancelar}>
         {textos.cancelar}
       </BotaoBrilho>

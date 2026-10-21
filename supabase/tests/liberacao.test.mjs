@@ -134,6 +134,34 @@ async function comece(t) {
   await esperaValor('sem acesso não lê', `select count(*)::int from public.comece_materiais`, 0)
 }
 
+async function excluir(t) {
+  const { esperaValor, esperaErro } = t
+  const contar = `select count(*)::int from public.temas where chave = 'menopausa'`
+  await t.comoDono()
+  await t.db.query(`insert into public.aulas (etapa_id, titulo, video_url, dia_liberacao, publicado)
+    select e.id, 'Aula da menopausa', 'https://v.t/m', 1, true from public.etapas e join public.temas t on t.id = e.tema_id where t.chave = 'menopausa'`)
+  await t.db.query(`insert into public.treinos (nome, tema_id, nivel, local) select 'Treino', id, 'iniciante', 'casa' from public.temas where chave = 'lipedema'`)
+  await t.comoAluna(ALUNA)
+  await esperaValor(
+    'aluna não exclui tema',
+    `with x as (delete from public.temas where chave = 'menopausa' returning 1) select count(*)::int from x`,
+    0,
+  )
+  await t.comoAluna(ADMIN)
+  await esperaValor(
+    'equipe exclui o tema',
+    `with x as (delete from public.temas where chave = 'menopausa' returning 1) select count(*)::int from x`,
+    1,
+  )
+  await esperaValor('as aulas do tema saem junto', `select count(*)::int from public.aulas where titulo = 'Aula da menopausa'`, 0)
+  await esperaValor('o tema sumiu', contar, 0)
+  await esperaErro(
+    'tema com treinos não é excluído',
+    `delete from public.temas where chave = 'lipedema'`,
+    '23001',
+  )
+}
+
 export async function testarLiberacao() {
   const t = await criarBanco()
   await montar(t.db)
@@ -142,5 +170,6 @@ export async function testarLiberacao() {
   await temas(t)
   await ordem(t)
   await comece(t)
+  await excluir(t)
   return t.fim('liberação de tema e aula, ordem dos temas e arquivos do Comece')
 }
