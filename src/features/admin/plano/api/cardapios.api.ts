@@ -8,10 +8,12 @@ export type CardapioLinha = Tables<'cardapios'>
 export type RefeicaoModelo = Tables<'refeicoes_modelo'>
 export type TipoRefeicao = RefeicaoModelo['tipo']
 
-export async function listarCardapios(busca: string, objetivo: string): Promise<CardapioLinha[]> {
-  let q = supabase.from('cardapios').select('*').order('titulo')
+/** Cardápios por nome; com tema, só os daquele tema ('sem' para os sem tema). */
+export async function listarCardapios(busca: string, tema: string): Promise<CardapioLinha[]> {
+  let q = supabase.from('cardapios').select('*').order('objetivo').order('titulo')
   for (const p of palavrasBusca(busca)) q = q.like('busca', p)
-  if (objetivo) q = q.eq('objetivo', objetivo)
+  if (tema === 'sem') q = q.is('tema_id', null)
+  else if (tema) q = q.eq('tema_id', tema)
   return ok(await q)
 }
 

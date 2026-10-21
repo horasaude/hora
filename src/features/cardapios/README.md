@@ -5,7 +5,7 @@ Cardápios e receitas da aluna (/app/cardapios, /app/cardapios/:id, /app/cardapi
 | Arquivo                       | Faz                                                                                                                                                                                                                  |
 | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | pages/CardapiosPage.tsx       | Abas sublinhadas Meu cardápio e Receitas (?aba=receitas)                                                                                                                                                             |
-| components/ListaCardapios.tsx | Cardápios publicados do tema dela (antes do tema, todos, com aviso)                                                                                                                                                  |
+| components/ListaCardapios.tsx | Planos alimentares em cartões. Com temaId (aba Cardápio do tema): os planos do tema, "Escolha seu plano" quando há mais de um. Sem temaId: todos, separados por tema (planosPorTema.ts)                              |
 | pages/CardapioPage.tsx        | Topo com voltar (TopoVoltar) e nome, refeições em cartões por horário, total do dia, Lista de compras e PDF                                                                                                          |
 | components/AcoesCardapio.tsx  | Lista de compras e PDF lado a lado; PDF abre a impressão com a versão limpa do cardápio (area-impressao)                                                                                                             |
 | components/IconeRefeicao.tsx  | Ícone colorido da refeição pelo nome (café dourado, almoço verde, lanche coral, jantar lilás)                                                                                                                        |
@@ -17,4 +17,5 @@ Cardápios e receitas da aluna (/app/cardapios, /app/cardapios/:id, /app/cardapi
 
 Formato do cardápio em src/domain/formatoCardapio.ts (o mesmo do painel); lista em src/domain/listaCompras.ts; nutrição em src/domain/nutricao.ts. "Registrar refeição" usa RegistrarRefeicao da feature checkin (mesma regra de pontos).
 Cardápio hoje tem um dia só (o painel monta um dia); as abas de dia da semana entram quando o painel tiver cardápio de vários dias.
-Exporta (index.ts): CardapiosPage, CardapioPage, ListaComprasPage, ReceitaPage.
+Vários planos por tema (desde 2026-10-21): cada cardápio tem tema_id e objetivo (nome do plano, ex.: Emagrecimento, Hipertrofia, Vegetariano); o cartão mostra objetivo, título, kcal do dia (modelo calculado) e quantas refeições, e abre o CardapioPage.
+Exporta (index.ts): CardapiosPage, CardapioPage, ListaComprasPage, ReceitaPage, ListaCardapios.

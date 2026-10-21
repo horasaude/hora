@@ -30,10 +30,10 @@ export const useRefeicoes = (busca: string, tipo: string) =>
     queryFn: () => listarRefeicoes(busca, tipo),
     placeholderData: keepPreviousData,
   })
-export const useCardapios = (busca: string, objetivo: string) =>
+export const useCardapios = (busca: string, tema: string) =>
   useQuery({
-    queryKey: ['cardapios', busca, objetivo],
-    queryFn: () => listarCardapios(busca, objetivo),
+    queryKey: ['cardapios', busca, tema],
+    queryFn: () => listarCardapios(busca, tema),
     placeholderData: keepPreviousData,
   })
 export const useCardapio = (id?: string) =>

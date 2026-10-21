@@ -11,6 +11,8 @@ export const textos = {
   erro: 'Não foi possível carregar.',
   tentar: 'Tentar de novo',
   vazio: 'Seu cardápio aparece aqui em breve',
+  escolhaPlano: 'Escolha seu plano',
+  outrosPlanos: 'Outros planos',
   kcalDia: (k: number) => `${n(k)} kcal por dia`,
   refeicoes: (q: number) => (q === 1 ? '1 refeição' : `${q} refeições`),
   abrir: (titulo: string) => `Abrir o cardápio ${titulo}`,

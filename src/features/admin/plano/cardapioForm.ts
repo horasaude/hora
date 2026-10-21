@@ -10,7 +10,7 @@ export type FormCardapio = {
   titulo: string
   /** Tema do cardápio: a aluna vê quando o tema abre para ela. */
   tema_id: string
-  /** Nome do tema (mostrado na visualização; o banco grava a partir do tema). */
+  /** Objetivo do plano (ex.: Emagrecimento, Hipertrofia); o tema pode ter vários. Vazio, o banco grava o nome do tema. */
   objetivo: string
   modelo: Modelo
   refeicoes: Refeicao[]
@@ -35,7 +35,7 @@ export function paraBanco(f: FormCardapio, id?: string) {
     id,
     titulo: f.titulo.trim(),
     tema_id: f.tema_id || null,
-    objetivo: f.objetivo || 'Sem tema',
+    objetivo: f.objetivo.trim() || (f.tema_id ? '' : 'Sem tema'),
     modelo: f.modelo,
     refeicoes: f.refeicoes,
     lista_compras: f.lista,

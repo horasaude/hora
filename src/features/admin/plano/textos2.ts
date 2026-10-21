@@ -76,9 +76,14 @@ export const tCardapios = {
   colunas: ['Cardápio', 'Objetivo', 'Refeições', 'Energia', 'Status'],
   publicados: 'Cardápios publicados',
   rascunhos: 'Em rascunho',
-  filtroObjetivo: 'Objetivo',
+  filtroTema: 'Tema',
+  semTema: 'Sem tema',
+  planos: (n: number) => (n === 1 ? '1 plano' : `${n} planos`),
+  novoNoTema: 'Novo plano neste tema',
   campoNome: 'Nome do cardápio',
-  campoObjetivo: 'Tema',
+  campoTema: 'Tema',
+  campoObjetivo: 'Objetivo do plano',
+  exemploObjetivo: 'Ex.: Emagrecimento',
   escolhaTema: 'Escolha o tema',
   campoModelo: 'Modelo do plano',
   modelos: { calculado: 'Alimentos calculados', texto: 'Texto livre' },
@@ -109,3 +114,14 @@ export const tCardapios = {
   copia: (n: string) => `${n} (cópia)`,
   observacao: 'Observação',
 }
+
+/** Sugestões de objetivo do plano (a profissional pode digitar outro). */
+export const SUGESTOES_OBJETIVO = [
+  'Emagrecimento',
+  'Hipertrofia',
+  'Vegetariano',
+  'Composição corporal',
+  'Lipedema',
+  'Menopausa',
+  'Ganho de massa',
+]

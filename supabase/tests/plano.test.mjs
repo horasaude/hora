@@ -181,6 +181,30 @@ async function formatos(t) {
   )
 }
 
+async function variosPlanos(t) {
+  await t.comoAluna(ADMIN)
+  const tema = `(select id from public.temas where chave = 'lipedema')`
+  await t.db.exec(`
+    insert into public.cardapios (titulo, tema_id, objetivo) values
+      ('Plano A', ${tema}, 'Emagrecimento'), ('Plano B', ${tema}, 'Hipertrofia'), ('Plano C', ${tema}, '');
+  `)
+  await t.esperaValor(
+    'tema aceita vários planos, cada um com o seu objetivo',
+    `select string_agg(objetivo, ',' order by titulo) from public.cardapios where titulo in ('Plano A', 'Plano B', 'Plano C')`,
+    'Emagrecimento,Hipertrofia,Lipedema',
+  )
+  await t.esperaValor(
+    'trocar o tema não apaga o objetivo do plano',
+    `with c as (update public.cardapios set tema_id = (select id from public.temas where chave = 'menopausa') where titulo = 'Plano B' returning objetivo) select objetivo from c`,
+    'Hipertrofia',
+  )
+  await t.esperaValor(
+    'objetivo com nome de tema, sem tema, ainda liga ao tema',
+    `with c as (insert into public.cardapios (titulo, objetivo) values ('Antigo', 'Lipedema') returning tema_id = ${tema} as ok) select ok from c`,
+    true,
+  )
+}
+
 export async function testarPlano() {
   const t = await criarBanco()
   await montar(t.db)
@@ -188,6 +212,7 @@ export async function testarPlano() {
   await alimentosProprios(t)
   await aluna(t)
   await formatos(t)
+  await variosPlanos(t)
   await t.comoDono()
   return t.fim('plano alimentar')
 }
