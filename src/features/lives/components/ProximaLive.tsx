@@ -72,9 +72,15 @@ export function ProximaLive({ live, agora }: { live: Live; agora: Date }) {
   const foto = primeira ? PROFISSIONAIS[primeira].foto : live.capa
   const nome = nomesDasProfissionais(live.profissionais)
   return (
-    <article className="overflow-hidden rounded-[22px] bg-verde-escuro text-white shadow-cartao lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
-      <div className="relative h-[150px] bg-trilho sm:h-52 lg:h-full lg:min-h-64">
-        {foto && <img src={foto} alt="" className="size-full object-cover object-[center_20%]" />}
+    <article className="overflow-hidden rounded-[22px] bg-verde-escuro text-white shadow-cartao lg:grid lg:max-w-4xl lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
+      <div className="relative h-[150px] bg-trilho sm:h-52 lg:h-auto lg:min-h-64">
+        {foto && (
+          <img
+            src={foto}
+            alt=""
+            className="size-full object-cover object-[center_20%] lg:absolute lg:inset-0"
+          />
+        )}
         <span className="absolute top-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-coral px-2.5 py-1 text-[11px] font-bold text-white">
           <IconeRadio />
           {aoVivo ? textos.aoVivo : capitalizar(diaSemanaEHora(inicio))}
