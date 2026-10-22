@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
-import { ItemMenuLateral, LogoOra, Segmento } from '@/components/ui'
+import { BotaoBrilho, ItemMenuLateral, LogoOra, Segmento } from '@/components/ui'
+import { useSair } from '@/features/auth'
 import { useTemLiveHoje } from '@/features/lives'
 import { IconeNavegacao } from './IconesNavegacao'
 import { destino, MENU_LATERAL, SECOES, secaoAtiva, telaAtiva, type Secao } from './navegacao'
@@ -60,6 +61,7 @@ export function BarraInferior() {
 /** Computador: lista simples de botões, igual ao menu do painel; o ativo em vidro verde. */
 export function BarraLateral({ nome }: { nome: string }) {
   const { tela, live } = useNavegacao()
+  const sair = useSair()
   return (
     <aside className="fixed top-4 bottom-4 left-4 hidden w-60 flex-col rounded-[24px] border border-linha/60 bg-white px-3.5 py-6 shadow-menu lg:flex">
       <LogoOra largura={118} className="mx-2.5 mb-2" />
@@ -81,7 +83,14 @@ export function BarraLateral({ nome }: { nome: string }) {
       </nav>
       <div className="mt-3 flex shrink-0 flex-col gap-2 border-t border-linha px-3 pt-4">
         <span className="text-xs text-suave">{t.logadaComo}</span>
-        <span className="rounded-xl bg-trilho px-3 py-2 text-sm text-tinta">{nome}</span>
+        <div className="flex items-center gap-2">
+          <span className="min-w-0 flex-1 truncate rounded-xl bg-trilho px-3 py-2 text-sm text-tinta">
+            {nome}
+          </span>
+          <BotaoBrilho tom="cinza" onClick={() => sair.mutate()} disabled={sair.isPending}>
+            {sair.isPending ? t.saindo : t.sair}
+          </BotaoBrilho>
+        </div>
       </div>
     </aside>
   )
