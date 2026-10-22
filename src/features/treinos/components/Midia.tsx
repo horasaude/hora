@@ -1,3 +1,4 @@
+import { VideoIncorporado } from '@/components/ui'
 import { useQuery } from '@tanstack/react-query'
 import { ehVideo } from '@/domain/arquivos'
 import { linkDeIncorporacao } from '@/lib/video'
@@ -16,13 +17,7 @@ export function Midia({ nome, video, foto }: { nome: string; video: string; foto
   if (link)
     return (
       <div className="aspect-video overflow-hidden rounded-[20px] bg-tinta">
-        <iframe
-          src={link}
-          title={nome}
-          className="h-full w-full"
-          allow="encrypted-media; picture-in-picture; fullscreen"
-          allowFullScreen
-        />
+        <VideoIncorporado src={link} titulo={nome} />
       </div>
     )
   if (url && ehVideo(foto))

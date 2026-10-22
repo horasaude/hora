@@ -50,6 +50,7 @@ export function LiveDetalhe({ live }: { live: Live }) {
           ),
           [meet.sala, live.sala ?? meet.semSala],
           ...opcional(t.gravacao, live.gravacao_url),
+          ...opcional(t.campoDescricao, live.descricao || null),
           ...opcional(t.capa, live.capa_path ? t.capaEnviada : null),
           [textos.status, <Situacao key="s" publicado={live.publicado} />],
         ]}

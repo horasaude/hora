@@ -9,6 +9,7 @@ export type Live = {
   profissionais: Profissional[]
   duracao_minutos: number
   gravacao_url: string | null
+  descricao: string
   capa_path: string | null
   capa: string | null
   lembrete: boolean
@@ -20,7 +21,7 @@ export async function listarLives(): Promise<Live[]> {
   const [lives, lembretes, presencas] = await Promise.all([
     supabase
       .from('lives')
-      .select('id, tema, data, profissionais, duracao_minutos, gravacao_url, capa_path')
+      .select('id, tema, data, profissionais, duracao_minutos, gravacao_url, capa_path, descricao')
       .order('data'),
     supabase.from('lives_lembretes').select('live_id'),
     supabase.from('lives_presencas').select('live_id'),

@@ -1633,6 +1633,7 @@ export type Database = {
           convite_seq: number
           created_at: string
           data: string
+          descricao: string
           duracao_minutos: number
           gravacao_url: string | null
           id: string
@@ -1647,6 +1648,7 @@ export type Database = {
           convite_seq?: number
           created_at?: string
           data: string
+          descricao?: string
           duracao_minutos?: number
           gravacao_url?: string | null
           id?: string
@@ -1661,6 +1663,7 @@ export type Database = {
           convite_seq?: number
           created_at?: string
           data?: string
+          descricao?: string
           duracao_minutos?: number
           gravacao_url?: string | null
           id?: string

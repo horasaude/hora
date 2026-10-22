@@ -1,3 +1,4 @@
+import { VideoIncorporado } from '@/components/ui'
 import { useParams } from 'react-router-dom'
 import { DuvidasDaAula } from '@/features/forum'
 import { sanitizarHtml, textoParaHtml } from '@/lib/html'
@@ -34,13 +35,7 @@ function Video({ aula, c, gravar }: { aula: AulaAberta; c: Conclusao; gravar: bo
   if (!link) return <EstadoAluna tipo="aviso" texto={t.semVideo} />
   return (
     <div className="-mx-5 aspect-video overflow-hidden bg-tinta sm:mx-0 sm:rounded-[22px] sm:shadow-cartao">
-      <iframe
-        src={link}
-        title={aula.titulo}
-        className="h-full w-full"
-        allow="encrypted-media; picture-in-picture; fullscreen"
-        allowFullScreen
-      />
+      <VideoIncorporado src={link} titulo={aula.titulo} />
     </div>
   )
 }

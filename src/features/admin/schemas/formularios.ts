@@ -104,6 +104,7 @@ export const esquemaLive = z.object({
     .transform(Number),
   data: quando,
   gravacao_url: linkOpcional,
+  descricao: z.string().trim().max(2000),
 })
 
 /** Convidada da live: nome no cartão e e-mail para entrar na sala e receber o convite. */

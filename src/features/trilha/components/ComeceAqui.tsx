@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { BarraProgresso, Cartao, classeBrilho } from '@/components/ui'
+import { BarraProgresso, Cartao, classeBrilho, VideoIncorporado } from '@/components/ui'
 import { linkDeIncorporacao } from '@/lib/video'
 import { ITENS_COMECE } from '../api/comece.api'
 import { useComeceAqui } from '../hooks/useTrilha'
@@ -47,13 +47,7 @@ export function ComeceAqui() {
         </div>
         {video && (
           <div className="aspect-video overflow-hidden rounded-[18px] bg-tinta">
-            <iframe
-              src={video}
-              title={t.titulo}
-              className="h-full w-full"
-              allow="encrypted-media; picture-in-picture; fullscreen"
-              allowFullScreen
-            />
+            <VideoIncorporado src={video} titulo={t.titulo} />
           </div>
         )}
         {texto && (

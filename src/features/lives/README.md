@@ -7,6 +7,7 @@ Lives da aluna (/app/lives) e o cartão de live do dia no Início. No celular, o
 | pages/LivesPage.tsx        | Próxima live em destaque, outras agendadas e gravações em lista                                                                                                            |
 | components/ProximaLive.tsx | Foto da profissional com dia e hora em coral; embaixo verde ORA: tema, Com Nome · Google Meet, data, contagem, Entrar · +pontos da regra, agenda (.ics) e sino do lembrete |
 | components/BotaoEntrar.tsx | "Entrar na live" (dourado) só de 30 min antes até o fim; fora disso, o horário (no destaque, o botão apagado)                                                              |
+| components/Player.tsx      | Janela com o vídeo (VideoIncorporado: no Drive tapa o abrir em outra janela) e a descrição da live                                                                         |
 | components/Gravacoes.tsx   | Gravações em lista: miniatura (capa do painel ou foto da profissional) com play, tema, profissional e data; Player.tsx abre o vídeo                                        |
 | components/LiveHoje.tsx    | Início: um aviso só (card dourado da live de hoje com Entrar, ou faixa ocre da próxima live)                                                                               |
 | api/lives.api.ts           | lives publicadas, lembretes, presenças e entrar_live                                                                                                                       |

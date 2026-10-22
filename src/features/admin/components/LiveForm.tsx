@@ -28,6 +28,7 @@ const CAMPOS: CampoDef<Entrada>[] = [
     ajuda: textos.aulas.ajudaVideo,
     previaVideo: true,
   },
+  { nome: 'descricao', rotulo: t.campoDescricao, tipo: 'area' },
   { nome: 'data', rotulo: t.campoData, tipo: 'datahora' },
   { nome: 'duracao_minutos', rotulo: t.campoDuracao, tipo: 'numero' },
 ]
@@ -57,6 +58,7 @@ export function LiveForm({ live, aoFechar }: { live?: Live; aoFechar: () => void
         duracao_minutos: String(live?.duracao_minutos ?? 60),
         data: live ? paraCampoBrasilia(new Date(live.data)) : '',
         gravacao_url: live?.gravacao_url ?? '',
+        descricao: live?.descricao ?? '',
       }}
       resolver={zodResolver(esquemaLive)}
       aoCancelar={aoFechar}

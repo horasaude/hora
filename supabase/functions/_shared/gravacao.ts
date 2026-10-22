@@ -1,5 +1,5 @@
 // Gravação da live: quando a reunião acaba, o Meet salva o vídeo no Drive da conta conectada.
-// Aqui achamos o arquivo, deixamos visível para quem tem o link e devolvemos o endereço do player.
+// Aqui achamos o arquivo, travamos o download, deixamos visível para quem tem o link e devolvemos o player.
 const MEET = 'https://meet.googleapis.com/v2'
 const DRIVE = 'https://www.googleapis.com/drive/v3'
 
@@ -27,9 +27,14 @@ export function reunioesDaLive(lista: Reuniao[], inicio: string): Reuniao[] {
   return lista.filter((r) => r.endTime && Date.parse(r.startTime ?? '') >= desde)
 }
 
-async function google<T>(acesso: string, url: string, corpo?: unknown): Promise<T> {
+async function google<T>(
+  acesso: string,
+  url: string,
+  corpo?: unknown,
+  metodo = 'POST',
+): Promise<T> {
   const r = await fetch(url, {
-    method: corpo ? 'POST' : 'GET',
+    method: corpo ? metodo : 'GET',
     headers: { Authorization: `Bearer ${acesso}`, 'Content-Type': 'application/json' },
     ...(corpo ? { body: JSON.stringify(corpo) } : {}),
   })
@@ -55,6 +60,13 @@ export async function gravacaoDaSala(acesso: string, sala: string, inicio: strin
   }
   const arquivo = escolherGravacao(gravacoes)
   if (!arquivo) return null
+  // Sem baixar, imprimir nem copiar para quem só assiste; depois abre para quem tem o link.
+  await google(
+    acesso,
+    `${DRIVE}/files/${arquivo}?supportsAllDrives=true`,
+    { copyRequiresWriterPermission: true },
+    'PATCH',
+  )
   await google(acesso, `${DRIVE}/files/${arquivo}/permissions?supportsAllDrives=true`, {
     role: 'reader',
     type: 'anyone',

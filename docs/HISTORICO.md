@@ -2,6 +2,11 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-22 · main · Vídeo sem baixar e descrição da live
+
+- VideoIncorporado (src/components/ui): todos os players (aula, Comece por aqui, treino, gravação da live) passam por ele; no Drive, tampa invisível no botão de abrir em outra janela. gravacao-live marca o arquivo com copyRequiresWriterPermission (sem baixar, imprimir ou copiar) antes de liberar por link.
+- Descrição da live: migração 20261102110000_descricao_live (lives.descricao até 2000), campo no painel, aparece no player da gravação.
+
 ## 2026-10-22 · main · Lives gravadas e postadas sozinhas
 
 - Sala do Meet criada já gravando (artifactConfig.recordingConfig.autoRecordingGeneration ON; sem aceitar, cai para restrita sem gravar). Escopos novos meetings.space.settings e drive: precisa reconectar a conta Google.
