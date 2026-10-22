@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { textos } from '../textos'
+import { ExcluirLinha } from './ExcluirLinha'
 import { Ordem } from './Ordem'
 
 type Props = {
@@ -12,6 +13,8 @@ type Props = {
   aoSubir?: () => void
   aoDescer?: () => void
   ocupado?: boolean
+  /** Quando vem, mostra Excluir (dois toques) ao lado da situação. */
+  aoExcluir?: () => Promise<unknown>
   /** Etiqueta extra ao lado do título (ex.: se a aluna vê a aula). */
   extra?: ReactNode
 }
@@ -49,6 +52,7 @@ export function Linha({
   aoDescer,
   ocupado,
   extra,
+  aoExcluir,
 }: Props) {
   const conteudo = (
     <>
@@ -67,7 +71,10 @@ export function Linha({
       )}
       {extra && <span className="self-start">{extra}</span>}
       <div className="flex items-center justify-between gap-2">
-        <BotaoSituacao publicado={publicado} aoPublicar={aoPublicar} ocupado={ocupado} />
+        <span className="flex flex-wrap items-center gap-2">
+          <BotaoSituacao publicado={publicado} aoPublicar={aoPublicar} ocupado={ocupado} />
+          {aoExcluir && <ExcluirLinha aoExcluir={aoExcluir} />}
+        </span>
         {(aoSubir || aoDescer) && (
           <Ordem titulo={titulo} aoSubir={aoSubir} aoDescer={aoDescer} ocupado={ocupado} />
         )}

@@ -5,6 +5,8 @@ export const excluir = {
   aula: 'Excluir aula',
   confirmarTema: 'Confirmar: apagar o tema e as aulas dele',
   confirmarAula: 'Confirmar exclusão',
+  curto: 'Excluir',
+  confirmarLinha: 'Tocar de novo para excluir',
   excluindo: 'Excluindo',
   temTreinos: 'Este tema tem treinos. Exclua os treinos dele ou mude para outro tema antes.',
   erro: 'Não foi possível excluir. Tente de novo.',

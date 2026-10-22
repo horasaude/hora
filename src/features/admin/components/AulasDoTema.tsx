@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useQueryClient } from '@tanstack/react-query'
 import { classeBrilho } from '@/components/ui'
 import type { Aula } from '../api/conteudo.api'
+import { excluirAula } from '../api/excluir.api'
 import { useAcoes } from '../hooks/usePainel'
 import { textos } from '../textos'
 import { Linha } from './Linha'
@@ -38,6 +40,7 @@ function usePublicarAula(temaId: string, temaPublicado: boolean) {
 /** Aulas do tema: editar, publicar, reordenar e criar (todas abrem juntas com o tema para a aluna). */
 export function AulasDoTema({ aulas, temaId, temaPublicado }: Props) {
   const { ordenar } = useAcoes()
+  const cliente = useQueryClient()
   const pub = usePublicarAula(temaId, temaPublicado)
   const ocupado = pub.ocupado || ordenar.isPending
   return (
@@ -56,6 +59,10 @@ export function AulasDoTema({ aulas, temaId, temaPublicado }: Props) {
               <EtiquetasAula s={{ aula: a.publicado, etapa: true, tema: temaPublicado }} l={a} />
             }
             aoPublicar={() => pub.aoPublicar(a)}
+            aoExcluir={async () => {
+              await excluirAula(a.id)
+              await cliente.invalidateQueries()
+            }}
             aoSubir={
               i > 0 ? () => ordenar.mutate({ tipo: 'aula', id: a.id, direcao: -1 }) : undefined
             }
