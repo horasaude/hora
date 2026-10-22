@@ -3,6 +3,8 @@ import { cleanup, fireEvent, render, screen, within } from '@testing-library/rea
 import type { Item, Opcao } from '@/domain/nutricao'
 import { ItensEditor } from './ItensEditor'
 
+vi.mock('../hooks/useAlimentoDaLinha', () => ({ useAlimentoDaLinha: () => ({ data: undefined }) }))
+
 const opcao = (nome: string, gramas: number, kcal: number): Opcao => ({
   tipo: 'alimento',
   ref_id: nome,
