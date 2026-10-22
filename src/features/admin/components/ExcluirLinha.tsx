@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { excluir as tx } from '../textos/excluir'
 
-/** Excluir pequeno, na linha da lista: o primeiro toque pede confirmação, o segundo apaga. */
+/** Excluir na linha da lista, pílula coral igual à de Publicado · Tirar do ar: o primeiro toque pede confirmação, o segundo apaga. */
 export function ExcluirLinha({ aoExcluir }: { aoExcluir: () => Promise<unknown> }) {
   const [etapa, setEtapa] = useState<'inicio' | 'confirmar' | 'indo'>('inicio')
   const [erro, setErro] = useState(false)
@@ -22,7 +22,7 @@ export function ExcluirLinha({ aoExcluir }: { aoExcluir: () => Promise<unknown> 
         onClick={clicar}
         onBlur={() => etapa === 'confirmar' && setEtapa('inicio')}
         disabled={etapa === 'indo'}
-        className={`inline-flex min-h-7 items-center rounded-full px-3 text-[11px] font-bold whitespace-nowrap disabled:opacity-50 ${etapa === 'inicio' ? 'text-terracota-escuro underline underline-offset-2' : 'brilho brilho-coral'}`}
+        className="brilho brilho-coral inline-flex min-h-7 items-center rounded-full px-3 text-[11px] font-bold whitespace-nowrap disabled:opacity-50"
       >
         {etapa === 'indo' ? tx.excluindo : etapa === 'confirmar' ? tx.confirmarLinha : tx.curto}
       </button>

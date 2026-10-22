@@ -7,10 +7,11 @@ import { formatarDataHora } from '@/lib/datas'
 import type { Live } from '../api/agenda.api'
 import { excluirLive } from '../api/excluir.api'
 import { textos } from '../textos'
+import { excluir as tx } from '../textos/excluir'
 import { meet } from '../textos/meet'
 import { BotaoPublicar } from './BotaoPublicar'
 import { CartaoDetalhe, Dados } from './CartaoDetalhe'
-import { ExcluirLinha } from './ExcluirLinha'
+import { BotaoExcluir } from './BotaoExcluir'
 import { LiveForm } from './LiveForm'
 import { SalaMeet } from './SalaMeet'
 import { Situacao } from './Tabela'
@@ -57,7 +58,15 @@ export function LiveDetalhe({ live }: { live: Live }) {
         <BotaoBrilho onClick={() => setEditando(true)}>{textos.editar}</BotaoBrilho>
         <BotaoPublicar tabela="lives" id={live.id} publicado={live.publicado} />
         {!live.sala && <SalaMeet live={live.id} />}
-        {podeExcluir(live) && <ExcluirLinha aoExcluir={excluir} />}
+        {podeExcluir(live) && (
+          <BotaoExcluir
+            rotulo={tx.live}
+            confirmar={tx.confirmarLive}
+            excluindo={tx.excluindo}
+            mensagemDe={() => tx.erro}
+            aoExcluir={excluir}
+          />
+        )}
       </div>
       {editando && <LiveForm live={live} aoFechar={() => setEditando(false)} />}
     </CartaoDetalhe>
