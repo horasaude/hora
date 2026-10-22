@@ -2,6 +2,11 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-22 · main · PDF do cardápio
+
+- Editor do cardápio no painel ganhou o bloco "PDF do cardápio" (enviar, trocar, remover). Aluna: o botão PDF abre o PDF da nutricionista quando existe; sem PDF continua a impressão. Migração 20261102090000_cardapio_pdf (colunas pdf_path e pdf_nome, bucket privado cardapios) e teste supabase/tests/cardapio_pdf.test.mjs.
+- Pendências: montar as refeições automaticamente a partir do PDF (precisa de um PDF de exemplo e decidir IA ou leitor fixo).
+
 ## 2026-10-22 · main · E-mails pelo Google Workspace
 
 - Envio dos e-mails das Edge Functions (boas-vindas, lembrete do Pix, cancelamento, convite de live) trocado do Resend para o SMTP do Google (smtp.gmail.com, 465, nodemailer). Secrets novos SMTP_USUARIO e SMTP_SENHA (senha de app); RESEND_API_KEY sai.

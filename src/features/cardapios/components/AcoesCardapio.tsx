@@ -1,7 +1,7 @@
 import { createPortal } from 'react-dom'
 import { BotaoBrilho, LinkBrilho } from '@/components/ui'
 import { rotuloOpcao } from '@/domain/nutricao'
-import type { Cardapio } from '../api/cardapios.api'
+import { linkPdfCardapio, type Cardapio } from '../api/cardapios.api'
 import { textos } from '../textos'
 import { IconeBaixar, IconeCarrinho } from './IconesCardapio'
 
@@ -34,7 +34,15 @@ function ImpressaoCardapio({ c }: { c: Cardapio }) {
   )
 }
 
-/** Lista de compras e PDF lado a lado, no fim do cardápio. */
+/** Abre o PDF da nutricionista numa aba nova (aberta antes do link para o navegador não bloquear). */
+async function abrirPdf(caminho: string) {
+  const aba = window.open('', '_blank')
+  const link = await linkPdfCardapio(caminho)
+  if (aba && link) aba.location.href = link
+  else aba?.close()
+}
+
+/** Lista de compras e PDF lado a lado; com PDF enviado pela nutricionista, o botão abre ele. */
 export function AcoesCardapio({ c }: { c: Cardapio }) {
   return (
     <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
@@ -44,7 +52,10 @@ export function AcoesCardapio({ c }: { c: Cardapio }) {
           {textos.compras.botao}
         </LinkBrilho>
       )}
-      <BotaoBrilho tom="cinza" onClick={() => window.print()}>
+      <BotaoBrilho
+        tom="cinza"
+        onClick={() => (c.pdf_path ? void abrirPdf(c.pdf_path) : window.print())}
+      >
         <IconeBaixar className="size-4" />
         {textos.pdf}
       </BotaoBrilho>

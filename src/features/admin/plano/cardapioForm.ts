@@ -16,6 +16,9 @@ export type FormCardapio = {
   refeicoes: Refeicao[]
   lista: ListaCompras
   publicado: boolean
+  /** PDF do cardápio no bucket cardapios; a aluna baixa para imprimir. */
+  pdf_path: string
+  pdf_nome: string
 }
 
 export function deCardapio(c?: CardapioLinha, tema = ''): FormCardapio {
@@ -27,6 +30,8 @@ export function deCardapio(c?: CardapioLinha, tema = ''): FormCardapio {
     refeicoes: lerRefeicoes(c?.refeicoes),
     lista: lerLista(c?.lista_compras),
     publicado: c?.publicado ?? false,
+    pdf_path: c?.pdf_path ?? '',
+    pdf_nome: c?.pdf_nome ?? '',
   }
 }
 
@@ -40,6 +45,8 @@ export function paraBanco(f: FormCardapio, id?: string) {
     refeicoes: f.refeicoes,
     lista_compras: f.lista,
     publicado: f.publicado,
+    pdf_path: f.pdf_path || null,
+    pdf_nome: f.pdf_nome || null,
   }
 }
 

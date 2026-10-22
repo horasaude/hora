@@ -56,7 +56,7 @@ export function CardapioPage() {
         </div>
       )}
       {c.refeicoes.length === 0 ? (
-        <Vazio>{textos.semRefeicoes}</Vazio>
+        !c.pdf_path && <Vazio>{textos.semRefeicoes}</Vazio>
       ) : (
         <ul className="grid gap-3 lg:grid-cols-2 lg:gap-4">
           {c.refeicoes.map((r, i) => (

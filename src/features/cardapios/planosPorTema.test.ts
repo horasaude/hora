@@ -10,6 +10,7 @@ const plano = (id: string, tema_id: string | null): Cardapio => ({
   descricao: '',
   texto: false,
   refeicoes: [],
+  pdf_path: null,
 })
 
 describe('planosPorTema', () => {

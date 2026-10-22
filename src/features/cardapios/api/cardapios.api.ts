@@ -11,6 +11,8 @@ export type Cardapio = {
   descricao: string
   texto: boolean
   refeicoes: Refeicao[]
+  /** PDF enviado pela nutricionista; a aluna baixa para imprimir. */
+  pdf_path: string | null
 }
 
 const ordenar = (r: Refeicao[]) =>
@@ -20,7 +22,7 @@ const ordenar = (r: Refeicao[]) =>
 export async function listarCardapios(): Promise<Cardapio[]> {
   const { data, error } = await supabase
     .from('cardapios')
-    .select('id, tema_id, objetivo, titulo, descricao, modelo, refeicoes')
+    .select('id, tema_id, objetivo, titulo, descricao, modelo, refeicoes, pdf_path')
     .order('titulo')
   if (error) throw error
   return (data ?? []).map((c) => ({
@@ -31,6 +33,7 @@ export async function listarCardapios(): Promise<Cardapio[]> {
     descricao: c.descricao,
     texto: c.modelo === 'texto',
     refeicoes: ordenar(lerRefeicoes(c.refeicoes)),
+    pdf_path: c.pdf_path,
   }))
 }
 
@@ -73,4 +76,9 @@ export async function marcarItem(cardapio: string, item: string, marcado: boolea
         .eq('cardapio_id', cardapio)
         .eq('item', item)
   if (error && error.code !== '23505') throw error
+}
+
+export async function linkPdfCardapio(caminho: string): Promise<string | null> {
+  const { data } = await supabase.storage.from('cardapios').createSignedUrl(caminho, 3600)
+  return data?.signedUrl ?? null
 }

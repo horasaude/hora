@@ -521,6 +521,8 @@ export type Database = {
           lista_compras: Json
           modelo: string
           objetivo: string
+          pdf_nome: string | null
+          pdf_path: string | null
           publicado: boolean
           refeicoes: Json
           titulo: string
@@ -535,6 +537,8 @@ export type Database = {
           lista_compras?: Json
           modelo?: string
           objetivo: string
+          pdf_nome?: string | null
+          pdf_path?: string | null
           publicado?: boolean
           refeicoes?: Json
           titulo: string
@@ -549,6 +553,8 @@ export type Database = {
           lista_compras?: Json
           modelo?: string
           objetivo?: string
+          pdf_nome?: string | null
+          pdf_path?: string | null
           publicado?: boolean
           refeicoes?: Json
           titulo?: string

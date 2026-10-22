@@ -10,6 +10,7 @@ import { CardapioVisual } from '../components/CardapioVisual'
 import { CarregarJanela } from '../components/CarregarJanela'
 import { Impressao } from '../components/Impressao'
 import { ListaComprasEditor } from '../components/ListaComprasEditor'
+import { PdfCardapio } from '../components/PdfCardapio'
 import { RefeicoesCardapio } from '../components/RefeicoesCardapio'
 import { ResumoNutrientes } from '../components/ResumoNutrientes'
 import { LISTA_CARDAPIOS, useEditorCardapio } from '../hooks/useEditorCardapio'
@@ -112,6 +113,7 @@ function Editor({ cardapio }: { cardapio?: CardapioLinha }) {
       >
         <div className="flex min-w-0 flex-col gap-5">
           <CardapioCampos f={f} mudar={e.mudar} erroNome={e.erro === 'nome'} />
+          <PdfCardapio f={f} mudar={e.mudar} />
           <RefeicoesCardapio
             refeicoes={f.refeicoes}
             textoLivre={!calculado}
