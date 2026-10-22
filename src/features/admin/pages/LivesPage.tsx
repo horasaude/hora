@@ -8,9 +8,10 @@ import { Estado } from '../components/Estado'
 import { LiveDetalhe } from '../components/LiveDetalhe'
 import { LiveForm } from '../components/LiveForm'
 import { Divisao, Quadro, type Numero } from '../components/Quadro'
-import { celula, Etiqueta, LinhaTabela, Situacao, Tabela } from '../components/Tabela'
+import { CelulaAcao, celula, Etiqueta, LinhaTabela, Situacao, Tabela } from '../components/Tabela'
 import { useLives } from '../hooks/usePainel'
 import { textos } from '../textos'
+import { meet } from '../textos/meet'
 
 const t = textos.lives
 const semAno = (d: Date) => formatarDataHora(d).replace(/\/\d{4}/, '')
@@ -30,9 +31,26 @@ function numeros(lista: Live[], agora: number): Numero[] {
   ]
 }
 
+/** Sala aberta até o fim da live: a profissional entra por aqui. */
+const salaAberta = (l: Live, agora = Date.now()) =>
+  l.sala && new Date(l.data).getTime() + l.duracao_minutos * 60_000 > agora ? l.sala : null
+
+function EntrarNaLive({ live }: { live: Live }) {
+  const sala = salaAberta(live)
+  return (
+    <CelulaAcao>
+      {sala && (
+        <a href={sala} target="_blank" rel="noreferrer" className={classeBrilho('dourado', 'sm')}>
+          {meet.entrarLive}
+        </a>
+      )}
+    </CelulaAcao>
+  )
+}
+
 function TabelaLives({ lista, ativa }: { lista: Live[]; ativa?: string }) {
   return (
-    <Tabela colunas={[t.coluna, t.colunaData, textos.status]}>
+    <Tabela colunas={[t.coluna, t.colunaData, textos.status, meet.sala]}>
       {lista.map((l) => (
         <LinhaTabela
           key={l.id}
@@ -49,6 +67,7 @@ function TabelaLives({ lista, ativa }: { lista: Live[]; ativa?: string }) {
           <td className="px-3.5 py-3">
             <Situacao publicado={l.publicado} />
           </td>
+          <EntrarNaLive live={l} />
         </LinhaTabela>
       ))}
     </Tabela>

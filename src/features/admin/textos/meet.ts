@@ -11,6 +11,7 @@ export const meet = {
   falha: 'Não deu para criar a sala agora. Tente de novo.',
   sala: 'Sala do Meet',
   entrarSala: 'Entrar na sala',
+  entrarLive: 'Entrar na live',
   semSala: 'Ainda sem sala',
   profissionais: 'Profissionais da live',
   convidadas: 'Convidadas',
