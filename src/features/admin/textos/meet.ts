@@ -1,5 +1,6 @@
 export const meet = {
   conectar: 'Conectar Google Meet',
+  reconectar: 'Trocar conta Google',
   conectando: 'Abrindo o Google',
   conectado: (conta: string) => `Meet: ${conta}`,
   conectou: 'Conta Google conectada. As próximas lives já ganham a sala do Meet.',
