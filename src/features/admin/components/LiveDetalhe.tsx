@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
-import { BotaoBrilho } from '@/components/ui'
+import { BotaoBrilho, classeBrilho } from '@/components/ui'
 import { nomesDasProfissionais, type Profissional } from '@/domain/lives'
 import { formatarDataHora } from '@/lib/datas'
 import type { Live } from '../api/agenda.api'
@@ -55,6 +55,11 @@ export function LiveDetalhe({ live }: { live: Live }) {
         ]}
       />
       <div className="flex flex-wrap gap-2">
+        {live.sala && (
+          <a href={live.sala} target="_blank" rel="noreferrer" className={classeBrilho('dourado')}>
+            {meet.entrarSala}
+          </a>
+        )}
         <BotaoBrilho onClick={() => setEditando(true)}>{textos.editar}</BotaoBrilho>
         <BotaoPublicar tabela="lives" id={live.id} publicado={live.publicado} />
         {!live.sala && <SalaMeet live={live.id} />}

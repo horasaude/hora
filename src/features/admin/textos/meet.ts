@@ -10,6 +10,7 @@ export const meet = {
   semConexao: 'Conecte a conta Google em Lives antes de criar a sala.',
   falha: 'Não deu para criar a sala agora. Tente de novo.',
   sala: 'Sala do Meet',
+  entrarSala: 'Entrar na sala',
   semSala: 'Ainda sem sala',
   profissionais: 'Profissionais da live',
   convidadas: 'Convidadas',
