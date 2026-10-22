@@ -29,6 +29,7 @@ const substituta = z.object({
   nome: z.string(),
   itens: z.array(item),
   texto: z.string(),
+  observacao: z.string().optional(),
 })
 const refeicao = z.object({
   id: z.string(),

@@ -66,14 +66,19 @@ export function JanelasRefeicao({ ed, setEd, refeicoes, textoLivre, mudar, troca
         horario: '',
         itens: sub?.itens ?? [],
         texto: sub?.texto ?? '',
-        observacao: '',
+        observacao: sub?.observacao ?? '',
       })}
       textoLivre={textoLivre}
       semHorario
-      semObservacao
       aoFechar={fechar}
       aoSalvar={(r) => {
-        const nova = { id: sub?.id ?? novoId(), nome: r.nome, itens: r.itens, texto: r.texto }
+        const nova = {
+          id: sub?.id ?? novoId(),
+          nome: r.nome,
+          itens: r.itens,
+          texto: r.texto,
+          observacao: r.observacao,
+        }
         trocar(ed.i, (x) => ({
           ...x,
           substitutas:

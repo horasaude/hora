@@ -58,6 +58,7 @@ function SubBloco({
         </span>
       </div>
       <ListaItens itens={s.itens} texto={textoLivre ? s.texto : undefined} />
+      {s.observacao && <p className="mt-1 text-[12px] text-suave">{s.observacao}</p>}
     </div>
   )
 }

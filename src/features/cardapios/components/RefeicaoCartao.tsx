@@ -108,6 +108,7 @@ export function RefeicaoCartao({
             ) : (
               <Itens itens={s.itens} />
             )}
+            {s.observacao && <p className="mt-1 text-[13px] text-suave">{s.observacao}</p>}
           </div>
         ))}
       <div className="mt-auto flex flex-wrap items-center justify-between gap-2 border-t border-linha pt-2.5">

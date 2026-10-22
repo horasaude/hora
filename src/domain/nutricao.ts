@@ -62,7 +62,13 @@ export type Opcao = {
 
 /** Item da refeição: a primeira opção é a principal; as outras são o "ou". */
 export type Item = { opcoes: Opcao[] }
-export type Substituta = { id: string; nome: string; itens: Item[]; texto: string }
+export type Substituta = {
+  id: string
+  nome: string
+  itens: Item[]
+  texto: string
+  observacao?: string
+}
 export type Refeicao = {
   id: string
   nome: string
