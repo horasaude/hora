@@ -45,3 +45,12 @@ export async function excluirTema(id: string) {
   await limpar('materiais', [...arquivos(deAulas), ...arquivos(doTema)])
   await limpar('capas', [tema.capa_path, ...aulas.map((a) => a.capa_path)])
 }
+
+/** Apaga a live (sala, convidadas, presenças e lembretes vão junto) e a capa; pontos já dados ficam. */
+export async function excluirLive(id: string) {
+  const live: { capa_path: string | null } = ok(
+    await supabase.from('lives').select('capa_path').eq('id', id).single(),
+  )
+  ok(await supabase.from('lives').delete().eq('id', id))
+  await limpar('materiais', [live.capa_path])
+}
