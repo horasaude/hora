@@ -1,5 +1,5 @@
 import { useSearchParams } from 'react-router-dom'
-import { AbasSublinhadas } from '@/components/ui'
+import { AbasSublinhadas, Voltar } from '@/components/ui'
 import { ListaCardapios } from '../components/ListaCardapios'
 import { ListaMateriais } from '../components/ListaMateriais'
 import { ListaReceitas } from '../components/ListaReceitas'
@@ -21,6 +21,7 @@ export function CardapiosPage() {
   const aba: Aba = ehAba(pedida) ? pedida : 'cardapios'
   return (
     <section className="flex flex-col gap-5 lg:gap-6">
+      <Voltar para="/app" historico rotulo="Voltar" />
       <h1 className="text-[28px] leading-tight font-bold text-verde-escuro lg:text-[30px]">
         {textos.titulo}
       </h1>

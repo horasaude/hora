@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { EtiquetaBrilho } from '@/components/ui'
+import { EtiquetaBrilho, Voltar } from '@/components/ui'
 import { OBJETIVOS, diaDaSemanaBrasilia, nivelLocal } from '@/domain/treinos'
 import { diaEmBrasilia } from '@/lib/datas'
 import type { RotinaAluna } from '../api/treinos.api'
@@ -36,13 +36,9 @@ export function TipoDeTreino({ rotina, aoVoltar }: { rotina: RotinaAluna; aoVolt
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-col gap-2">
-        <button
-          type="button"
-          onClick={aoVoltar}
-          className="min-h-9 self-start text-[13px] font-bold text-suave underline"
-        >
+        <Voltar aoClicar={aoVoltar} rotulo={textos.tipos.voltar}>
           {textos.tipos.voltar}
-        </button>
+        </Voltar>
         <h2 className="text-[22px] leading-tight font-bold text-verde-escuro">{rotina.nome}</h2>
         <div className="flex flex-wrap gap-2">
           {objetivo && <EtiquetaBrilho tom="coral">{objetivo}</EtiquetaBrilho>}

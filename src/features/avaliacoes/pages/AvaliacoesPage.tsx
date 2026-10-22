@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { BarraProgresso } from '@/components/ui'
+import { BarraProgresso, Voltar } from '@/components/ui'
 import { progresso } from '@/domain/anamnese'
 import { formatarData } from '@/lib/datas'
 import type { Avaliacao } from '../api/avaliacoes.api'
@@ -49,6 +49,7 @@ export function AvaliacoesPage() {
   const lista = (q.data ?? []).filter((a) => a.perguntas.length > 0)
   return (
     <section className="flex flex-col gap-6 font-sistema">
+      <Voltar para="/app/perfil" historico rotulo={textos.voltar} />
       <h1 className="text-[26px] font-bold text-verde-escuro">{textos.titulo}</h1>
       {q.isPending ? (
         <Estado tipo="carregando" />

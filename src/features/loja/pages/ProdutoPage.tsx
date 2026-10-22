@@ -1,6 +1,6 @@
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { linkComCupom } from '@/domain/loja'
-import { classeBrilho } from '@/components/ui'
+import { classeBrilho, Voltar } from '@/components/ui'
 import { registrarClique } from '../api/loja.api'
 import { Cupom } from '../components/Cupom'
 import { EstadoLoja } from '../components/Estado'
@@ -16,12 +16,9 @@ export function ProdutoPage() {
   const cupom = p?.cupom ?? p?.loja_parceiros?.cupom
   return (
     <section className="flex flex-col gap-4">
-      <Link
-        to="/app/loja"
-        className="inline-flex min-h-11 items-center self-start text-sm text-suave underline underline-offset-4"
-      >
+      <Voltar para="/app/loja" rotulo={t.voltar}>
         {t.voltar}
-      </Link>
+      </Voltar>
       {vitrine.isPending ? (
         <EstadoLoja tipo="carregando" />
       ) : vitrine.isError ? (

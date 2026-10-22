@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { BotaoBrilho } from '@/components/ui'
+import { BotaoBrilho, Voltar } from '@/components/ui'
 import { useMeuPerfil } from '@/features/auth'
 import { AvisoAnamnese } from '@/features/avaliacoes'
 import { EscolhaNivelLocal } from '../components/EscolhaNivelLocal'
@@ -73,7 +73,12 @@ export function TreinosPage({ embutido = false }: { embutido?: boolean }) {
   const local = prefs.data.treino_local ?? (previa || perfil.data?.papel === 'admin' ? 'casa' : '')
   return (
     <section className="flex flex-col gap-6 font-sistema">
-      {!embutido && <h1 className="text-[26px] font-bold text-verde-escuro">{textos.titulo}</h1>}
+      {!embutido && (
+        <div className="flex flex-col gap-2">
+          <Voltar para="/app" historico rotulo={textos.escolha.voltar} />
+          <h1 className="text-[26px] font-bold text-verde-escuro">{textos.titulo}</h1>
+        </div>
+      )}
       {!previa && <AvisoAnamnese />}
       {!(nivel && local) && (
         <BotaoBrilho tom="cinza" className="self-start" onClick={() => setEscolhendo(true)}>

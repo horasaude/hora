@@ -42,3 +42,18 @@ export function IconeCadeado({ className = 'size-4' }: Props) {
     </svg>
   )
 }
+
+export function IconeVoltar({ className = 'size-5' }: Props) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden className={className}>
+      <path
+        d="m15 18-6-6 6-6"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}

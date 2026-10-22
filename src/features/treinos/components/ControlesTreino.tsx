@@ -1,5 +1,4 @@
-import { Link } from 'react-router-dom'
-import { BotaoBrilho } from '@/components/ui'
+import { BotaoBrilho, Voltar } from '@/components/ui'
 import type { useExecucao } from '../hooks/useExecucao'
 import { textos } from '../textos'
 
@@ -21,9 +20,7 @@ export function Topo({
   return (
     <>
       <div className="flex items-center gap-3">
-        <Link to={voltar} className="min-h-10 text-[13px] font-bold text-suave underline">
-          {t.sair}
-        </Link>
+        <Voltar para={voltar} rotulo={t.sair} />
         <span className="ml-auto text-[13px] text-suave">{passo}</span>
       </div>
       <div

@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom'
-import { AvisoErro, BotaoBrilho, LinkBrilho } from '@/components/ui'
+import { AvisoErro, BotaoBrilho, LinkBrilho, Voltar } from '@/components/ui'
 import { textoResposta } from '@/domain/anamnese'
 import type { Avaliacao } from '../api/avaliacoes.api'
 import { CampoResposta } from '../components/CampoResposta'
@@ -70,9 +70,9 @@ export function AnamnesePage() {
   const a = q.data?.find((x) => x.id === anamneseId)
   return (
     <section className="mx-auto flex w-full max-w-2xl flex-col gap-5 font-sistema">
-      <LinkBrilho to="/app/avaliacoes" tom="cinza" className="self-start">
+      <Voltar para="/app/avaliacoes" rotulo={textos.sair}>
         {textos.sair}
-      </LinkBrilho>
+      </Voltar>
       {q.isPending ? (
         <Estado tipo="carregando" />
       ) : q.isError ? (

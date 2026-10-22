@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { Cartao } from '@/components/ui'
+import { useParams } from 'react-router-dom'
+import { Cartao, Voltar } from '@/components/ui'
 import { marcarVista } from '../api/forum.api'
 import { Conteudo } from '../components/Conteudo'
 import { Conversa } from '../components/Duvida'
@@ -21,12 +21,9 @@ export function DuvidaPage() {
   }, [minhaRespondida, duvidaId, mutate])
   return (
     <section className="flex flex-col gap-4">
-      <Link
-        to="/app/forum"
-        className="inline-flex min-h-11 items-center self-start text-sm text-suave underline underline-offset-4"
-      >
+      <Voltar para="/app/forum" rotulo={t.voltar}>
         {t.voltar}
-      </Link>
+      </Voltar>
       <Conteudo consulta={duvida} itens={duvida.data ? [duvida.data] : []} vazio={t.naoEncontrada}>
         {([d]) =>
           d && (

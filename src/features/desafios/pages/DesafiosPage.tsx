@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Abas, Carregando, ErroCarregar, Vazio } from '@/components/ui'
+import { Abas, Carregando, ErroCarregar, Vazio, Voltar } from '@/components/ui'
 import { CheckinHoje, PontosDoDia } from '@/features/checkin'
 import { Indicar } from '@/features/perfil'
 import { useDesafios } from '../hooks/useDesafios'
@@ -38,6 +38,7 @@ export function DesafiosPage() {
       : todos.filter((d) => d.encerrado && d.participando)
   return (
     <section className="flex flex-col gap-5 lg:gap-6">
+      <Voltar para="/app" historico rotulo="Voltar" />
       <h1 className="text-[28px] leading-tight font-bold text-verde-escuro lg:text-[30px]">
         {textos.titulo}
       </h1>

@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom'
-import { BotaoBrilho, Carregando, Cartao, ErroCarregar, LinkBrilho, Vazio } from '@/components/ui'
+import { BotaoBrilho, Carregando, Cartao, ErroCarregar, Vazio, Voltar } from '@/components/ui'
 import { macros } from '@/domain/nutricao'
 import { sanitizarHtml } from '@/lib/html'
 import { useFavoritar, useReceita } from '../hooks/useCardapios'
@@ -66,9 +66,9 @@ export function ReceitaPage() {
   const { receitaId = '' } = useParams()
   const receita = useReceita(receitaId)
   const voltar = (
-    <LinkBrilho to="/app/cardapios?aba=receitas" tom="cinza" tamanho="sm" className="self-start">
+    <Voltar para="/app/cardapios?aba=receitas" historico rotulo={t.voltar}>
       {t.voltar}
-    </LinkBrilho>
+    </Voltar>
   )
   if (receita.isPending) return <Carregando texto={textos.carregando} />
   if (receita.isError)

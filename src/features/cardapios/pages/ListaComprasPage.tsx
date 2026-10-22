@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useParams } from 'react-router-dom'
-import { Abas, BotaoBrilho, Carregando, ErroCarregar, LinkBrilho, Vazio } from '@/components/ui'
+import { Abas, BotaoBrilho, Carregando, ErroCarregar, Vazio, Voltar } from '@/components/ui'
 import type { ListaCompras } from '@/domain/listaCompras'
 import { linkWhatsAppMensagem } from '@/lib/whatsapp'
 import { ImpressaoCompras, ItensCompra } from '../components/ItensCompra'
@@ -88,14 +88,9 @@ export function ListaComprasPage() {
   const feitos = todos.filter((i) => marcados.includes(i.nome)).length
   return (
     <section className="flex flex-col gap-5 lg:gap-6">
-      <LinkBrilho
-        to={`/app/cardapios/${cardapioId}`}
-        tom="cinza"
-        tamanho="sm"
-        className="self-start"
-      >
+      <Voltar para={`/app/cardapios/${cardapioId}`} rotulo={t.voltar}>
         {t.voltar}
-      </LinkBrilho>
+      </Voltar>
       <Cabecalho titulo={c.titulo} />
       {todos.length === 0 ? (
         <Vazio>{t.vazio}</Vazio>
