@@ -8,7 +8,9 @@ const TONS = ['bg-[#E3EFE8]', 'bg-[#E2F3EC]', 'bg-[#F6EAD2]', 'bg-[#F7E1D9]']
 /** Cartões de resumo, lado a lado no topo, cada um num tom suave diferente. */
 export function Resumo({ numeros }: { numeros: Numero[] }) {
   return (
-    <ul className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+    <ul
+      className={`grid grid-cols-2 gap-3 ${numeros.length > 4 ? 'lg:grid-cols-5' : 'lg:grid-cols-4'}`}
+    >
       {numeros.map((n, i) => (
         <li key={n.rotulo} className={`rounded-2xl p-4 ${TONS[i % TONS.length]}`}>
           <span className="block text-[26px] leading-tight font-bold text-verde-escuro">

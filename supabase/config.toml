@@ -443,3 +443,6 @@ verify_jwt = false
 
 [functions.gravacao-live]
 verify_jwt = false
+
+[functions.cobranca-diaria]
+verify_jwt = false

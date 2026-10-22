@@ -39,4 +39,10 @@ export const textos = {
     expirado: 'Este link expirou ou já foi usado. Na tela de entrar, toque em Esqueci minha senha.',
     entrar: 'Ir para a tela de entrar',
   },
+  pagamento: {
+    emAberto: 'Sua mensalidade está em aberto. Pague para não ter o acesso pausado.',
+    pausado:
+      'Seu acesso está pausado por falta de pagamento. Assim que o pagamento cair, ele volta na hora.',
+    pagar: 'Pagar agora',
+  },
 }

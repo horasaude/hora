@@ -65,8 +65,8 @@ async function avulsa(c: CobrancaAsaas, situacao: string) {
   })
 }
 
-/** Cobrança da assinatura mensal: aprova, conta a parcela paga ou avisa a recusa. */
-async function mensal(c: CobrancaAsaas, situacao: string) {
+/** Cobrança da assinatura mensal: aprova, conta a parcela paga ou avisa a recusa (também usada na conferência diária). */
+export async function mensal(c: CobrancaAsaas, situacao: string) {
   const pedido = await pedidoPor('mp_assinatura_id', c.subscription)
   const novo = statusDoPagamento(situacao)
   if (!pedido || !novo || novo === 'pendente') return 'ignorado'
@@ -86,6 +86,12 @@ async function mensal(c: CobrancaAsaas, situacao: string) {
       p_quando: quando(c),
       p_proxima: a.nextDueDate ?? null,
     })
+    // Link da fatura em aberto para a régua e para a tela de acesso pausado; pago, sai.
+    const { error } = await servico
+      .from('assinaturas')
+      .update({ fatura_url: aprovada ? null : (c.invoiceUrl ?? null) })
+      .eq('pedido_id', pedido.id)
+    if (error) throw new Error(error.message)
     if (!aprovada && pedido.status === 'aprovado') await avisarRecusa(pedido, c.id, c.invoiceUrl)
     if (!aprovada && pedido.status !== 'aprovado')
       await rpc('marcar_pedido', { p_pedido: pedido.id, p_status: 'recusado', p_detalhe: situacao })

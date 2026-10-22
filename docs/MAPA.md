@@ -167,6 +167,7 @@ Componentes do estilo (toda tela nova usa estes): BotaoBrilho, LinkBrilho, Etiqu
 | google-meet              | painel: conectar a conta Google; criar a sala restrita da live e pôr equipe (coanfitriã) e convidadas como membros                                | ligado    |
 | google-retorno           | volta do OAuth do Google: guarda o refresh token e cria salas na conta nova para as lives futuras; erro volta com ?motivo= (sem código nem token) | desligado |
 | gravacao-live            | cron a cada 10 min: live encerrada sem gravação (até 3 dias) ganha o link da gravação do Drive                                                    | desligado |
+| cobranca-diaria          | cron de hora em hora: às 8h confere as assinaturas no Asaas; das 8h às 20h régua da mensalidade (3º, 6º dia e pausado)                            | desligado |
 | live-entrar              | aluna entra na live: entrar_live (janela e pontos), vira membro da sala e recebe o link                                                           | ligado    |
 | convites-live            | convite .ics por e-mail (novo, atualização e cancelamento) para equipe, convidadas e alunas (cron a cada minuto)                                  | desligado |
 | lembrar-aluna            | profissional pede para a aluna fazer uma tarefa: lembrar_aluna no banco e push no celular dela                                                    | ligado    |

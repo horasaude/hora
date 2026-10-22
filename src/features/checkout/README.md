@@ -22,7 +22,8 @@ Checkout próprio (rota /checkout), no formato do Hotmart e na identidade do ORA
 1. A tela manda dados e plano para criar-pedido. Valor nunca sai da tela: o servidor calcula pela tabela configuracoes (oferta do ORA só na janela do dia 24/10, horário de Brasília).
 2. criar-pedido grava o pedido, cria a cliente no Asaas (sem avisos do Asaas) e a cobrança com externalReference = id do pedido: Pix em POST /payments + /pixQrCode; parcelado em POST /payments com creditCard, creditCardHolderInfo e remoteIp (installmentCount escolhido sobre o mesmo total; 1x vai como value); mensal em POST /subscriptions com o cartão (MONTHLY, maxPayments 12, primeira cobrança na hora e cartão guardado pelo Asaas). Cartão aprovado ou em análise vai para /obrigada?pedido=; recusado volta erro 'cartao' (código do Asaas com creditCard) ou 'dados'. O cartão nunca é gravado nem logado: só existe na requisição.
 3. O acesso só nasce no pagamento-webhook: confere o token asaas-access-token, busca a cobrança ou a assinatura na API e chama as funções do banco. Aprovado (CONFIRMED ou RECEIVED) cria ou reaproveita a conta, libera 12 meses (13 com a oferta) e manda o e-mail com "Criar minha senha". Mensalidade recusada manda o e-mail com o link da própria cobrança no Asaas.
-4. /obrigada?pedido= consulta situacao_pedido e mostra aprovado, esperando o pagamento ou recusado.
+4. Mensalidade em atraso: o webhook marca inadimplente e guarda a fatura (assinaturas.fatura_url); a Edge Function cobranca-diaria confere no Asaas todo dia às 8h (pega aviso perdido) e manda a régua (3º dia, 6º dia, pausado no 7º); suspender_inadimplentes pausa o acesso com 7 dias e o pagamento devolve na hora. A aluna vê Pagar agora no Início e na Trilha.
+5. /obrigada?pedido= consulta situacao_pedido e mostra aprovado, esperando o pagamento ou recusado.
 
 As colunas pedidos.mp_pagamento_id e mp_assinatura_id guardam os ids do Asaas (nome antigo, mantido para não mexer no banco às vésperas do lançamento).
 

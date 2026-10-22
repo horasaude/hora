@@ -6,7 +6,7 @@ import type { AlunaPainel } from '../api/modulos.api'
 import { AlunaDetalhe, EtiquetaAluna } from '../components/AlunaDetalhe'
 import { Estado } from '../components/Estado'
 import { Divisao, Quadro, type Numero } from '../components/Quadro'
-import { celula, LinhaTabela, Tabela } from '../components/Tabela'
+import { celula, Etiqueta, LinhaTabela, Tabela } from '../components/Tabela'
 import { useAlunas } from '../hooks/useModulos'
 import { textos } from '../textos'
 
@@ -21,10 +21,13 @@ function numeros(linhas: Linha[], agora: Date): Numero[] {
     (l) => l.aluna.ultimo_acesso_em && diaEmBrasilia(new Date(l.aluna.ultimo_acesso_em)) === hoje,
   )
   const atencao = ativas.filter((l) => l.status === 'atencao' || l.status === 'sumiu')
+  const cobranca = (c: string) => String(linhas.filter((l) => l.aluna.cobranca === c).length)
   return [
     { valor: String(ativas.length), rotulo: t.ativas, tom: 'salvia' },
     { valor: String(entraram.length), rotulo: t.hoje, tom: 'ocre' },
     { valor: String(atencao.length), rotulo: t.atencao, tom: 'terracota' },
+    { valor: cobranca('inadimplente'), rotulo: t.emAtraso, tom: 'ocre' },
+    { valor: cobranca('suspensa'), rotulo: t.pausadas, tom: 'terracota' },
   ]
 }
 
@@ -38,6 +41,7 @@ function TabelaAlunas({ linhas, ativa, agora }: { linhas: Linha[]; ativa?: strin
           para={`/app/admin/alunas/${a.id}`}
           semQuebra
           titulo={a.nome || '-'}
+          marca={a.cobranca ? <Etiqueta tom="rosa">{t.cobranca[a.cobranca]}</Etiqueta> : undefined}
         >
           <td className={nowrap}>{a.apelido ?? '-'}</td>
           <td className={nowrap}>

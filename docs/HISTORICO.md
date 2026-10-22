@@ -2,6 +2,13 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-22 · main · Cobrança rigorosa da mensalidade
+
+- Edge Function cobranca-diaria (pg_cron de hora em hora): às 8h de Brasília confere no Asaas todas as assinaturas vivas pelo mesmo caminho do webhook (mensal, exportada de pagamento-webhook/processar.ts), sem depender do aviso; das 8h às 20h manda a régua (lembrete no 3º dia, véspera no 6º com a data da pausa, acesso pausado no 7º), uma vez por atraso (avisos_cobranca).
+- Webhook guarda a fatura em aberto (assinaturas.fatura_url) e limpa ao pagar. Lista de cobranças da assinatura com limit=100.
+- Aluna: Início mostra "mensalidade em aberto" com Pagar agora; pausada vê "acesso pausado por falta de pagamento" com Pagar agora no Início e na Trilha (minha_pendencia). Painel: cartões Mensalidade em atraso e Acesso pausado e etiqueta na aluna (painel_alunas.cobranca).
+- Migração 20261102120000_regua_cobranca; testes regua_cobranca.test.mjs e _shared/email/cobranca.test.ts.
+
 ## 2026-10-22 · main · Vídeo sem baixar e descrição da live
 
 - VideoIncorporado (src/components/ui): todos os players (aula, Comece por aqui, treino, gravação da live) passam por ele; no Drive, tampa invisível no botão de abrir em outra janela. gravacao-live marca o arquivo com copyRequiresWriterPermission (sem baixar, imprimir ou copiar) antes de liberar por link.

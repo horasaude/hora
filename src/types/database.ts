@@ -3036,6 +3036,13 @@ export type Database = {
         Args: { p_detalhe: string; p_pedido: string; p_status: string }
         Returns: boolean
       }
+      minha_pendencia: {
+        Args: never
+        Returns: {
+          fatura_url: string
+          pausado: boolean
+        }[]
+      }
       meus_desafios: {
         Args: never
         Returns: {
@@ -3121,6 +3128,7 @@ export type Database = {
           apelido: string
           aulas_concluidas: number
           aulas_liberadas: number
+          cobranca: string
           dia: number
           id: string
           nome: string

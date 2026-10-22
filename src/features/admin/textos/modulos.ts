@@ -72,6 +72,12 @@ export const alunas = {
   ativas: 'Alunas ativas',
   hoje: 'Entraram hoje',
   atencao: 'Precisam de atenção',
+  emAtraso: 'Mensalidade em atraso',
+  pausadas: 'Acesso pausado',
+  cobranca: { inadimplente: 'Mensalidade em atraso', suspensa: 'Acesso pausado' } as Record<
+    string,
+    string
+  >,
   status: { em_dia: 'Em dia', atencao: 'Atenção', sumiu: 'Sumiu', sem_acesso: 'Sem acesso' },
   nunca: 'Ainda não entrou',
   diaN: (n: number) => `Dia ${n}`,

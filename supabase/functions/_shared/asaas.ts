@@ -67,7 +67,7 @@ export const asaas = {
     chamar<AssinaturaAsaas>('/subscriptions', { metodo: 'POST', corpo }),
   assinatura: (a: string) => chamar<AssinaturaAsaas>(`/subscriptions/${id(a)}`),
   cobrancasDaAssinatura: (a: string) =>
-    chamar<Lista<CobrancaAsaas>>(`/subscriptions/${id(a)}/payments`),
+    chamar<Lista<CobrancaAsaas>>(`/subscriptions/${id(a)}/payments?limit=100`),
   /** Estorno integral de uma cobrança (cartão volta na fatura, Pix volta na conta de quem pagou). */
   estornar: (c: string) =>
     chamar<CobrancaAsaas>(`/payments/${id(c)}/refund`, { metodo: 'POST', corpo: {} }),

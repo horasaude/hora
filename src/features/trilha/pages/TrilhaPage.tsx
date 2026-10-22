@@ -1,4 +1,5 @@
 import { EtiquetaBrilho, Vazio } from '@/components/ui'
+import { AcessoPausado } from '@/features/auth'
 import { ComeceAqui } from '../components/ComeceAqui'
 import { EstadoAluna } from '../components/EstadoAluna'
 import { ListaTemas } from '../components/ListaTemas'
@@ -13,7 +14,8 @@ export function TrilhaPage() {
   if (trilha.isPending) return <EstadoAluna tipo="carregando" />
   if (trilha.isError) return <EstadoAluna tipo="erro" tentar={() => trilha.refetch()} />
   const dados = trilha.data
-  if (dados.dia === null) return <EstadoAluna tipo="aviso" texto={textos.semAcesso} />
+  if (dados.dia === null)
+    return <AcessoPausado padrao={<EstadoAluna tipo="aviso" texto={textos.semAcesso} />} />
   return (
     <section className="flex flex-col gap-5 lg:gap-6">
       <header className="flex flex-col gap-2">

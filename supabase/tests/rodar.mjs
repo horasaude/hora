@@ -29,6 +29,7 @@ import { testarMateriaisNutricao } from './materiais_nutricao.test.mjs'
 import { testarPendencias } from './pendencias.test.mjs'
 import { testarCardapioPdf } from './cardapio_pdf.test.mjs'
 import { testarGravacaoLive } from './gravacao_live.test.mjs'
+import { testarReguaCobranca } from './regua_cobranca.test.mjs'
 
 const suites = [
   testarPerfis,
@@ -54,6 +55,7 @@ const suites = [
   testarPagamentos,
   testarCancelamento,
   testarAssinaturas,
+  testarReguaCobranca,
   testarAulaAssistida,
   testarTreinos,
   testarAnamnese,

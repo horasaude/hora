@@ -1,6 +1,6 @@
 import { Cartao, Carregando, ErroCarregar } from '@/components/ui'
 import { aulaParaContinuar, temaAtual } from '@/domain/trilha'
-import { useMeuPerfil } from '@/features/auth'
+import { AcessoPausado, MensalidadeEmAberto, useMeuPerfil } from '@/features/auth'
 import { AvisoAnamnese } from '@/features/avaliacoes'
 import { AvisosNovos } from '@/features/avisos'
 import { PedidosDaEquipe } from '@/features/lembretes'
@@ -55,8 +55,11 @@ export function InicioPage() {
   return (
     <section className="flex flex-col gap-5 lg:gap-7">
       <Topo nome={nome} dia={dia} />
+      {!semAcesso && <MensalidadeEmAberto />}
       {semAcesso ? (
-        <Cartao className="text-sm text-tinta">{textos.semAcesso}</Cartao>
+        <AcessoPausado
+          padrao={<Cartao className="text-sm text-tinta">{textos.semAcesso}</Cartao>}
+        />
       ) : (
         <div className="grid items-start gap-5 lg:grid-cols-[1.4fr_1fr] lg:gap-7">
           <div className="flex flex-col gap-5">
