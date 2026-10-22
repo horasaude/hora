@@ -1,13 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import {
-  assinarEstado,
-  CONFIG_SALA,
-  criarSala,
-  RETORNO,
-  semWorkspace,
-  urlAutorizacao,
-  validarEstado,
-} from './google.ts'
+import { assinarEstado, RETORNO, urlAutorizacao, validarEstado } from './google.ts'
+import { CONFIG_GRAVANDO, CONFIG_SALA, criarSala, semWorkspace } from './meet.ts'
 
 const segredo = 'segredo-de-teste'
 const agora = 1_800_000_000_000
@@ -34,6 +27,12 @@ describe('conexão com o Google', () => {
     expect(u.searchParams.get('scope')).not.toContain('calendar')
   })
 
+  it('pede o ajuste da gravação automática e o Drive para liberar a gravação', () => {
+    const u = new URL(urlAutorizacao('estado', 'cliente-x'))
+    expect(u.searchParams.get('scope')).toContain('meetings.space.settings')
+    expect(u.searchParams.get('scope')).toContain('auth/drive')
+  })
+
   it('cria a sala restrita: link repassado pede para participar', () => {
     expect(CONFIG_SALA.config.accessType).toBe('RESTRICTED')
   })
@@ -44,6 +43,21 @@ const resposta = (status: number, corpo: unknown) =>
 
 describe('sala do Meet sem Workspace', () => {
   afterEach(() => vi.unstubAllGlobals())
+  vi.spyOn(console, 'error').mockImplementation(() => {})
+
+  it('Workspace: cria a sala restrita já gravando', async () => {
+    const chamadas: unknown[] = []
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (_u: string, init: { body: string }) => {
+        chamadas.push(JSON.parse(init.body))
+        return resposta(200, { name: 'spaces/g', meetingUri: 'https://meet.google.com/g' })
+      }),
+    )
+    await criarSala('token')
+    expect(chamadas).toEqual([CONFIG_GRAVANDO])
+    expect(CONFIG_GRAVANDO.config.artifactConfig.recordingConfig.autoRecordingGeneration).toBe('ON')
+  })
 
   it('reconhece a recusa do Google para conta sem Workspace', () => {
     expect(semWorkspace(new Error('meet 403 updateAccessType is not available to the user.'))).toBe(
@@ -58,7 +72,7 @@ describe('sala do Meet sem Workspace', () => {
       'fetch',
       vi.fn(async (_u: string, init: { body: string }) => {
         chamadas.push(JSON.parse(init.body))
-        return chamadas.length === 1
+        return chamadas.length <= 2
           ? resposta(403, { error: { message: 'updateAccessType is not available to the user.' } })
           : resposta(200, { name: 'spaces/abc', meetingUri: 'https://meet.google.com/abc' })
       }),
@@ -67,7 +81,7 @@ describe('sala do Meet sem Workspace', () => {
       name: 'spaces/abc',
       meetingUri: 'https://meet.google.com/abc',
     })
-    expect(chamadas).toEqual([CONFIG_SALA, {}])
+    expect(chamadas).toEqual([CONFIG_GRAVANDO, CONFIG_SALA, {}])
   })
 
   it('outro erro do Google continua sendo erro', async () => {

@@ -2,6 +2,7 @@
 // e devolve para as Lives do painel com ?google=ok ou ?google=erro.
 import { trocarCodigo, validarEstado } from '../_shared/google.ts'
 import { servico, SITE } from '../_shared/servico.ts'
+import { prepararSala } from '../google-meet/sala.ts'
 
 /** Motivo da falha (sem código nem token): vai para o log e para o endereço de volta. */
 let motivo = ''
@@ -34,7 +35,25 @@ async function conectar(url: URL): Promise<boolean> {
   const { error } = await servico
     .from('conexao_google')
     .upsert({ id: 1, conta, refresh_token: refresh, conectado_em: new Date().toISOString() })
-  return error ? falhou(`banco: ${error.message}`) : true
+  if (error) return falhou(`banco: ${error.message}`)
+  await salasNovas()
+  return true
+}
+
+/** Depois de conectar (ou trocar de conta), as lives que ainda vão acontecer ganham sala na conta nova, gravando. */
+async function salasNovas() {
+  const { data } = await servico
+    .from('lives')
+    .select('id')
+    .eq('publicado', true)
+    .gt('data', new Date().toISOString())
+  for (const l of data ?? []) {
+    try {
+      await prepararSala(l.id)
+    } catch (e) {
+      console.error('google-retorno sala', l.id, e instanceof Error ? e.message : e)
+    }
+  }
 }
 
 Deno.serve(async (req) => {

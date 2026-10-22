@@ -21,4 +21,6 @@ Lembrete ("Me lembrar"): por enquanto só dentro do app (o cartão da live apare
 
 Sala do Meet: o painel cria sozinha ao salvar a live (admin/api/meet.api.ts, Edge Function google-meet), restrita, com a equipe (coanfitriã) e as convidadas como membros. A aluna não lê o link: "Entrar" chama a Edge Function live-entrar, que passa por entrar_live (janela e pontos), põe a aluna como membro e devolve o link. Repassado, o link cai no "Pedir para participar".
 
+Gravação: a sala nasce gravando sozinha (artifactConfig do Meet; a gravação vai para o Drive da conta conectada). A Edge Function gravacao-live (cron a cada 10 min, gravacoes_pendentes) acha o vídeo depois que a live acaba, libera para quem tem o link e grava em lives.gravacao_url; a live aparece em Gravações. Sala criada por outra conta (lives_salas.conta) é trocada ao reconectar ou salvar.
+
 Convite na agenda: ao publicar (e ao mudar tema, horário ou duração, ou tirar do ar), equipe, convidadas e alunas com acesso recebem por e-mail o convite .ics, com a atualização ou o cancelamento (Edge Function convites-live, chamada pelo cron).

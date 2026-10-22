@@ -2,6 +2,13 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-22 · main · Lives gravadas e postadas sozinhas
+
+- Sala do Meet criada já gravando (artifactConfig.recordingConfig.autoRecordingGeneration ON; sem aceitar, cai para restrita sem gravar). Escopos novos meetings.space.settings e drive: precisa reconectar a conta Google.
+- Edge Function gravacao-live (cron a cada 10 min só quando há pendente): acha a gravação da reunião no Drive, libera por link e grava lives.gravacao_url. Migração 20261102100000_gravacao_automatica (lives_salas.conta, gravacoes_pendentes, cron). Testes gravacao_live.test.mjs e _shared/gravacao.test.ts.
+- Reconectar troca as salas das lives futuras para a conta nova. _shared/google.ts dividido em google.ts (OAuth) e meet.ts (salas).
+- Pendências: projeto do Google Cloud interno no Workspace, reconectar com hora.adm@, gravação ligada e compartilhamento externo do Drive no admin; testar numa live curta.
+
 ## 2026-10-22 · main · PDF do cardápio
 
 - Editor do cardápio no painel ganhou o bloco "PDF do cardápio" (enviar, trocar, remover). Aluna: o botão PDF abre o PDF da nutricionista quando existe; sem PDF continua a impressão. Migração 20261102090000_cardapio_pdf (colunas pdf_path e pdf_nome, bucket privado cardapios) e teste supabase/tests/cardapio_pdf.test.mjs.

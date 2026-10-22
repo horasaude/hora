@@ -4,7 +4,8 @@
 import { createClient } from '@supabase/supabase-js'
 import { z } from 'zod'
 import { cabecalhosCors, origemPermitida } from '../_shared/cors.ts'
-import { acessoPor, adicionarMembro } from '../_shared/google.ts'
+import { acessoPor } from '../_shared/google.ts'
+import { adicionarMembro } from '../_shared/meet.ts'
 import { json, servico } from '../_shared/servico.ts'
 
 const entrada = z.object({ live: z.uuid() })

@@ -28,6 +28,7 @@ import { testarLiberacao } from './liberacao.test.mjs'
 import { testarMateriaisNutricao } from './materiais_nutricao.test.mjs'
 import { testarPendencias } from './pendencias.test.mjs'
 import { testarCardapioPdf } from './cardapio_pdf.test.mjs'
+import { testarGravacaoLive } from './gravacao_live.test.mjs'
 
 const suites = [
   testarPerfis,
@@ -45,6 +46,7 @@ const suites = [
   testarCardapiosLives,
   testarCardapioPdf,
   testarLivesSala,
+  testarGravacaoLive,
   testarMateriais,
   testarLiberacao,
   testarMateriaisNutricao,

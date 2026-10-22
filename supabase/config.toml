@@ -440,3 +440,6 @@ verify_jwt = false
 
 [functions.convites-live]
 verify_jwt = false
+
+[functions.gravacao-live]
+verify_jwt = false

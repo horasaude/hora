@@ -9,6 +9,9 @@ Código comum das Edge Functions. Cada função fica em supabase/functions/<nome
 | asaas.ts            | API do Asaas v3: clientes, cobranças, Pix, assinaturas (ASAAS_API_KEY; prefixo define o ambiente)    |
 | pagamento/regras.ts | preço decidido no servidor, fim do acesso, formato de valor e data, CPF (testado no Vitest)          |
 | pagamento/status.ts | status do MP para o pedido, motivo da recusa, ação do webhook (testado)                              |
+| google.ts           | OAuth da conta Google da ORA (Meet com gravação automática e Drive)                                  |
+| meet.ts             | sala do Meet restrita gravando sozinha; sem aceitar gravação, restrita; sem Workspace, comum         |
+| gravacao.ts         | acha a gravação da live no Drive, libera por link e devolve o player                                 |
 | email/boasVindas.ts | pagamento confirmado: resumo da compra, plataforma, usuário, criar senha (24 h), instalar no celular |
 | email/modelos.ts    | boas-vindas, lembrete do Pix e cobrança recusada (HTML simples, Arial, botão verde ORA)              |
 | email/enviar.ts     | envio único pelo SMTP do Google Workspace (SMTP_USUARIO, SMTP_SENHA, EMAIL_REMETENTE, EMAIL_TESTE)   |

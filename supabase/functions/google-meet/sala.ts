@@ -1,23 +1,25 @@
 // Sala do Meet da live: cria (restrita) se ainda não existe e põe equipe e convidadas como membros.
-import { acessoPor, adicionarMembro, ajustarSala, criarSala } from '../_shared/google.ts'
+import { acessoPor } from '../_shared/google.ts'
+import { adicionarMembro, ajustarSala, criarSala } from '../_shared/meet.ts'
 import { servico } from '../_shared/servico.ts'
 
 type Destino = { email: string; papel: string }
 
-async function salaDaLive(live: string, acesso: string) {
+/** Sala da live na conta conectada; sala de outra conta (antes de reconectar) é trocada por uma nova. */
+async function salaDaLive(live: string, acesso: string, conta: string) {
   const { data: s } = await servico
     .from('lives_salas')
-    .select('link_url, google_sala')
+    .select('link_url, google_sala, conta')
     .eq('live_id', live)
-    .maybeSingle<{ link_url: string | null; google_sala: string | null }>()
-  if (s?.link_url && s.google_sala) {
+    .maybeSingle<{ link_url: string | null; google_sala: string | null; conta: string | null }>()
+  if (s?.link_url && s.google_sala && s.conta === conta) {
     await ajustarSala(acesso, s.google_sala)
     return { link: s.link_url, sala: s.google_sala }
   }
   const nova = await criarSala(acesso)
   const { error } = await servico
     .from('lives_salas')
-    .upsert({ live_id: live, link_url: nova.meetingUri, google_sala: nova.name })
+    .upsert({ live_id: live, link_url: nova.meetingUri, google_sala: nova.name, conta })
   if (error) throw new Error(error.message)
   return { link: nova.meetingUri, sala: nova.name }
 }
@@ -28,11 +30,11 @@ export async function prepararSala(live: string): Promise<[Record<string, unknow
   if (!l) return [{ ok: false, erro: 'sem_live' }, 404]
   const { data: c } = await servico
     .from('conexao_google')
-    .select('refresh_token')
-    .maybeSingle<{ refresh_token: string }>()
+    .select('refresh_token, conta')
+    .maybeSingle<{ refresh_token: string; conta: string }>()
   if (!c) return [{ ok: false, erro: 'sem_conexao' }, 409]
   const acesso = await acessoPor(c.refresh_token)
-  const { link, sala } = await salaDaLive(live, acesso)
+  const { link, sala } = await salaDaLive(live, acesso, c.conta)
   const { data: destinos, error } = await servico.rpc('destinos_da_live', { p_live: live })
   if (error) throw new Error(error.message)
   for (const d of (destinos ?? []) as Destino[]) {
