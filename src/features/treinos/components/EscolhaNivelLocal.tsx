@@ -30,7 +30,7 @@ function Opcao({
   )
 }
 
-/** Primeiro acesso aos treinos: dois passos, nível e depois local, em cartões grandes. Fechar sem escolher sai dos treinos. */
+/** Escolha opcional de nível e local (Ver os indicados para mim): dois passos em cartões grandes; fechar só fecha. */
 export function EscolhaNivelLocal({ aoFechar }: { aoFechar: () => void }) {
   const [passo, setPasso] = useState<1 | 2>(1)
   const [nivel, setNivel] = useState<Nivel | null>(null)

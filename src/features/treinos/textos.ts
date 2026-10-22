@@ -2,6 +2,7 @@
 
 export const textos = {
   titulo: 'Treinos',
+  indicados: 'Ver os indicados para mim',
   estados: {
     carregando: 'Carregando',
     erro: 'Não foi possível carregar.',

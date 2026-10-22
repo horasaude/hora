@@ -1,5 +1,5 @@
-import { useMemo } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useMemo, useState } from 'react'
+import { BotaoBrilho } from '@/components/ui'
 import { useMeuPerfil } from '@/features/auth'
 import { AvisoAnamnese } from '@/features/avaliacoes'
 import { EscolhaNivelLocal } from '../components/EscolhaNivelLocal'
@@ -35,7 +35,7 @@ function Conteudo({ nivel, local }: { nivel: string; local: string }) {
   if (aberto) return <TipoDeTreino rotina={aberto} aoVoltar={() => abrir(null)} />
   const naRotina = new Set(tipos.data.flatMap((r) => r.dias.map((d) => d.treino.id)))
   const avulsos = todos.data.filter(
-    (x) => !naRotina.has(x.id) && x.nivel === nivel && x.local === local,
+    (x) => !naRotina.has(x.id) && (!nivel || (x.nivel === nivel && x.local === local)),
   )
   return (
     <ListaTipos
@@ -59,12 +59,13 @@ export function TreinosDoTema({ temaId }: { temaId: string }) {
   )
 }
 
-/** Treinos da aluna: os tipos de treino do tema e, dentro de cada um, a semana em lista. */
+/** Treinos da aluna: os tipos de treino do tema e, dentro de cada um, a semana em lista.
+ * Nível e local são opcionais: ela vê todos os tipos e escolhe; quem escolhe ganha o "Para você". */
 export function TreinosPage({ embutido = false }: { embutido?: boolean }) {
   const prefs = usePreferencias()
   const perfil = useMeuPerfil()
   const previa = usePreviaTreinos()
-  const navegar = useNavigate()
+  const [escolhendo, setEscolhendo] = useState(false)
   if (prefs.isPending || perfil.isPending) return <Estado tipo="carregando" />
   if (prefs.isError) return <Estado tipo="erro" tentar={() => prefs.refetch()} />
   const nivel =
@@ -74,10 +75,14 @@ export function TreinosPage({ embutido = false }: { embutido?: boolean }) {
     <section className="flex flex-col gap-6 font-sistema">
       {!embutido && <h1 className="text-[26px] font-bold text-verde-escuro">{textos.titulo}</h1>}
       {!previa && <AvisoAnamnese />}
-      {nivel && local ? (
-        <Conteudo nivel={nivel} local={local} />
-      ) : (
-        <EscolhaNivelLocal aoFechar={() => navegar('/app')} />
+      {!(nivel && local) && (
+        <BotaoBrilho tom="cinza" className="self-start" onClick={() => setEscolhendo(true)}>
+          {textos.indicados}
+        </BotaoBrilho>
+      )}
+      <Conteudo nivel={nivel && local ? nivel : ''} local={nivel && local ? local : ''} />
+      {escolhendo && !(nivel && local) && (
+        <EscolhaNivelLocal aoFechar={() => setEscolhendo(false)} />
       )}
     </section>
   )
