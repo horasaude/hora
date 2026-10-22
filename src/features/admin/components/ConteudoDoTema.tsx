@@ -10,7 +10,7 @@ import { TreinoJanela } from '../treinos/components/TreinoJanela'
 import { AulasDoTema } from './AulasDoTema'
 import { DesafioForm } from './DesafioForm'
 import { MateriaisTemaJanela } from './MateriaisTemaJanela'
-import { Situacao } from './Tabela'
+import { ItensDoTema } from './ItensDoTema'
 
 function Parte({ titulo, children }: { titulo: string; children: ReactNode }) {
   return (
@@ -18,22 +18,6 @@ function Parte({ titulo, children }: { titulo: string; children: ReactNode }) {
       <h3 className="text-base font-bold text-verde-escuro">{titulo}</h3>
       {children}
     </section>
-  )
-}
-
-/** Lista de itens do tema: o nome abre o editor (link ou janela) e a etiqueta mostra a situação. */
-function Itens({ lista, abrir }: { lista: ItemDoTema[]; abrir: (i: ItemDoTema) => ReactNode }) {
-  if (lista.length === 0) return <p className="text-sm text-suave">{t.vazio}</p>
-  return (
-    <ul className="flex flex-col divide-y divide-linha">
-      {lista.map((i) => (
-        <li key={i.id} className="flex flex-wrap items-center gap-2 py-2 text-sm">
-          <span className="min-w-0 flex-1">{abrir(i)}</span>
-          {i.detalhe && <span className="text-xs text-suave">{i.detalhe}</span>}
-          <Situacao publicado={i.publicado} />
-        </li>
-      ))}
-    </ul>
   )
 }
 
@@ -81,11 +65,47 @@ function Janelas({
   return null
 }
 
+/** Tipos de treino e treinos do tema, cada um com a chave de publicar ou tirar do ar. */
+function PartesTreino(p: {
+  tipos: ItemDoTema[]
+  treinos: ItemDoTema[]
+  abrir: (j: Janela) => void
+}) {
+  const { abrir } = p
+  return (
+    <>
+      <Parte titulo={t.tipos}>
+        <ItensDoTema
+          lista={p.tipos}
+          tabela="rotinas"
+          abrir={(i) => <span className="font-semibold text-tinta">{i.titulo}</span>}
+        />
+      </Parte>
+      <Parte titulo={t.treinos}>
+        <ItensDoTema
+          lista={p.treinos}
+          tabela="treinos"
+          abrir={(i) => (
+            <button
+              type="button"
+              className={nome}
+              onClick={() => abrir({ tipo: 'treino', id: i.id })}
+            >
+              {i.titulo}
+            </button>
+          )}
+        />
+        <Criar rotulo={t.novoTreino} aoClicar={() => abrir({ tipo: 'treino' })} />
+      </Parte>
+    </>
+  )
+}
+
 /** Dentro do tema: cada profissional cria a sua parte (aulas, cardápio, treinos, desafio e materiais). */
 export function ConteudoDoTema(p: { temaId: string; temaPublicado: boolean; aulas: Aula[] }) {
   const q = useQuery({ queryKey: ['do-tema', p.temaId], queryFn: () => listarDoTema(p.temaId) })
   const [janela, setJanela] = useState<Janela>(null)
-  const d = q.data ?? { cardapios: [], treinos: [], desafios: [] }
+  const d = q.data ?? { cardapios: [], tipos: [], treinos: [], desafios: [] }
   const link = (para: string) => (i: ItemDoTema) => (
     <Link to={`${para}/${i.id}`} className={nome}>
       {i.titulo}
@@ -97,26 +117,16 @@ export function ConteudoDoTema(p: { temaId: string; temaPublicado: boolean; aula
         <AulasDoTema aulas={p.aulas} temaId={p.temaId} temaPublicado={p.temaPublicado} />
       </Parte>
       <Parte titulo={t.cardapios}>
-        <Itens lista={d.cardapios} abrir={link('/app/admin/plano/cardapios')} />
+        <ItensDoTema
+          lista={d.cardapios}
+          tabela="cardapios"
+          abrir={link('/app/admin/plano/cardapios')}
+        />
         <Criar rotulo={t.novoCardapio} para={`/app/admin/plano/cardapios/novo?tema=${p.temaId}`} />
       </Parte>
-      <Parte titulo={t.treinos}>
-        <Itens
-          lista={d.treinos}
-          abrir={(i) => (
-            <button
-              type="button"
-              className={nome}
-              onClick={() => setJanela({ tipo: 'treino', id: i.id })}
-            >
-              {i.titulo}
-            </button>
-          )}
-        />
-        <Criar rotulo={t.novoTreino} aoClicar={() => setJanela({ tipo: 'treino' })} />
-      </Parte>
+      <PartesTreino tipos={d.tipos} treinos={d.treinos} abrir={setJanela} />
       <Parte titulo={t.desafio}>
-        <Itens lista={d.desafios} abrir={link('/app/admin/desafios')} />
+        <ItensDoTema lista={d.desafios} tabela="desafios" abrir={link('/app/admin/desafios')} />
         <Criar rotulo={t.novoDesafio} aoClicar={() => setJanela({ tipo: 'desafio' })} />
       </Parte>
       <Parte titulo={t.materiais}>

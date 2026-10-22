@@ -13,6 +13,8 @@ export type TabelaConteudo =
   | 'cardapios'
   | 'desafios'
   | 'materiais_nutricao'
+  | 'treinos'
+  | 'rotinas'
 
 /** Resposta do Supabase: devolve os dados ou lança o erro. */
 export function ok<D>({ data, error }: { data: D | null; error: unknown }): D {

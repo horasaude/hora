@@ -3,6 +3,7 @@
 export const doTema = {
   aulas: 'Aulas',
   cardapios: 'Cardápios',
+  tipos: 'Tipos de treino',
   treinos: 'Treinos',
   desafio: 'Desafio do tema',
   materiais: 'Materiais para baixar',
