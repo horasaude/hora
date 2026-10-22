@@ -29,3 +29,17 @@ export function ordemVitrine<T extends Ordenavel>(lista: T[]): T[] {
     (a, b) => Number(b.destaque) - Number(a.destaque) || a.nome.localeCompare(b.nome, 'pt-BR'),
   )
 }
+
+/** Link de compra que já entra na loja com o cupom aplicado (rota /discount do Shopify); outro formato segue como veio. */
+export function linkComCupom(link: string, cupom?: string | null): string {
+  const codigo = cupom?.trim()
+  if (!codigo) return link
+  try {
+    const url = new URL(link)
+    if (!url.pathname.startsWith('/products/')) return link
+    const destino = encodeURIComponent(url.pathname + url.search)
+    return `${url.origin}/discount/${encodeURIComponent(codigo)}?redirect=${destino}`
+  } catch {
+    return link
+  }
+}

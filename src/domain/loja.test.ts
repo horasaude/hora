@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { ordemVitrine, percentualDesconto, precoComDesconto } from './loja'
+import { linkComCupom, ordemVitrine, percentualDesconto, precoComDesconto } from './loja'
 
 describe('loja', () => {
   it('percentual de desconto arredonda para baixo', () => {
@@ -19,5 +19,17 @@ describe('loja', () => {
       { nome: 'Aveia', destaque: false },
     ])
     expect(l.map((x) => x.nome)).toEqual(['Creatina', 'Aveia', 'Whey'])
+  })
+
+  it('linkComCupom entra na loja com o cupom e volta para o produto', () => {
+    expect(linkComCupom('https://loja.com.br/products/creatina?utm_source=ora', 'ALUNAORA')).toBe(
+      'https://loja.com.br/discount/ALUNAORA?redirect=%2Fproducts%2Fcreatina%3Futm_source%3Dora',
+    )
+    expect(linkComCupom('https://loja.com.br/products/creatina', null)).toBe(
+      'https://loja.com.br/products/creatina',
+    )
+    expect(linkComCupom('https://outra.com.br/p/123', 'ALUNAORA')).toBe(
+      'https://outra.com.br/p/123',
+    )
   })
 })

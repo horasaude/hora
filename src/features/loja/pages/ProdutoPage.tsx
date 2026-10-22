@@ -1,4 +1,5 @@
 import { Link, useParams } from 'react-router-dom'
+import { linkComCupom } from '@/domain/loja'
 import { classeBrilho } from '@/components/ui'
 import { registrarClique } from '../api/loja.api'
 import { Cupom } from '../components/Cupom'
@@ -42,7 +43,7 @@ export function ProdutoPage() {
             <Precos cheio={p.preco_centavos} final={p.preco_final_centavos} grande />
             {cupom && <Cupom codigo={cupom} />}
             <a
-              href={p.link_url}
+              href={linkComCupom(p.link_url, cupom)}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => void registrarClique(p.id).catch(() => undefined)}
