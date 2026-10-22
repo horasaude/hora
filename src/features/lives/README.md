@@ -17,7 +17,7 @@ Agenda: .ics gerado no navegador (src/lib/ics.ts), com alarme 1 hora antes.
 Lembrete ("Me lembrar"): por enquanto só dentro do app (o cartão da live aparece no Início no dia). Falta para ir além:
 
 - notificação push: o PWA não tem push configurado (precisa de chaves VAPID, inscrição do navegador e uma Edge Function que envie);
-- e-mail 1 hora antes: não existe envio de e-mail próprio (o e-mail padrão do Supabase só entrega para a equipe); precisa de um serviço como Resend e uma rotina no cron que leia lives_lembretes.
+- e-mail 1 hora antes: não existe envio de e-mail próprio (o e-mail padrão do Supabase só entrega para a equipe); o envio já existe (SMTP do Google Workspace em _shared/email); falta uma rotina no cron que leia lives_lembretes.
 
 Sala do Meet: o painel cria sozinha ao salvar a live (admin/api/meet.api.ts, Edge Function google-meet), restrita, com a equipe (coanfitriã) e as convidadas como membros. A aluna não lê o link: "Entrar" chama a Edge Function live-entrar, que passa por entrar_live (janela e pontos), põe a aluna como membro e devolve o link. Repassado, o link cai no "Pedir para participar".
 

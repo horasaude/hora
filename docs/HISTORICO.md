@@ -2,6 +2,11 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-22 · main · E-mails pelo Google Workspace
+
+- Envio dos e-mails das Edge Functions (boas-vindas, lembrete do Pix, cancelamento, convite de live) trocado do Resend para o SMTP do Google (smtp.gmail.com, 465, nodemailer). Secrets novos SMTP_USUARIO e SMTP_SENHA (senha de app); RESEND_API_KEY sai.
+- Pendências: criar a senha de app, gravar os secrets, publicar as funções, SPF do Google no lugar do ImprovMX, DKIM e SMTP do Auth do Supabase.
+
 ## 2026-10-21 · main · Refeição como no Dietbox, vários planos e tipos de treino por tema
 
 - Seta do cardápio e do desafio volta para o tema (não pelo histórico; quem passava pela lista de compras voltava para ela).

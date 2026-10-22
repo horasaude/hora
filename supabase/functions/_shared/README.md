@@ -11,6 +11,6 @@ Código comum das Edge Functions. Cada função fica em supabase/functions/<nome
 | pagamento/status.ts | status do MP para o pedido, motivo da recusa, ação do webhook (testado)                              |
 | email/boasVindas.ts | pagamento confirmado: resumo da compra, plataforma, usuário, criar senha (24 h), instalar no celular |
 | email/modelos.ts    | boas-vindas, lembrete do Pix e cobrança recusada (HTML simples, Arial, botão verde ORA)              |
-| email/enviar.ts     | envio único pelo Resend (RESEND_API_KEY, EMAIL_REMETENTE, EMAIL_TESTE)                               |
+| email/enviar.ts     | envio único pelo SMTP do Google Workspace (SMTP_USUARIO, SMTP_SENHA, EMAIL_REMETENTE, EMAIL_TESTE)   |
 
 Arquivos sem Deno (pagamento/ e email/modelos.ts) rodam no Vitest; o resto só no Deno.

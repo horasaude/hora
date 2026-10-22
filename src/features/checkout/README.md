@@ -33,7 +33,7 @@ As colunas pedidos.mp_pagamento_id e mp_assinatura_id guardam os ids do Asaas (n
 
 ## Chaves
 
-- Supabase secrets: ASAAS_API_KEY (o prefixo $aact_prod_ liga a produção), ASAAS_WEBHOOK_TOKEN, RESEND_API_KEY, EMAIL_REMETENTE, SITE_URL, WHATSAPP_NUMERO. Gravados pelo script ligar-asaas.sh, que também cria o webhook pela API.
+- Supabase secrets: ASAAS_API_KEY (o prefixo $aact_prod_ liga a produção), ASAAS_WEBHOOK_TOKEN, SMTP_USUARIO, SMTP_SENHA, EMAIL_REMETENTE, SITE_URL, WHATSAPP_NUMERO. Gravados pelo script ligar-asaas.sh, que também cria o webhook pela API.
 - Webhook do Asaas: https://zijtjwhvnhfarmfscmnr.supabase.co/functions/v1/pagamento-webhook, eventos de cobrança e de assinatura.
 
 Exporta (index.ts): CheckoutPage, salvarInscricao.

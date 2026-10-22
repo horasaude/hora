@@ -5,7 +5,7 @@ export const VERDE = '#2c4c44'
 export const TINTA = '#1f2a27'
 const SUAVE = '#5d6b67'
 
-/** Anexo em texto (ex.: convite .ics); o envio converte para base64. */
+/** Anexo em texto (ex.: convite .ics); o envio anexa como arquivo. */
 export type Anexo = { nome: string; conteudo: string; tipo: string }
 
 export type Email = { assunto: string; html: string; anexos?: Anexo[] }
