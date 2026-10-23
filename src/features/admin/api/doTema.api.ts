@@ -1,4 +1,5 @@
 // O que cada profissional criou dentro do tema: cardápios, receitas, materiais, tipos de treino e desafios.
+import { nivelLocal } from '@/domain/treinos'
 import { supabase } from '@/lib/supabase'
 import { ok } from './conteudo.api'
 
@@ -36,7 +37,7 @@ export async function listarDoTema(tema: string): Promise<DoTema> {
     cardapios: ok(cardapios),
     receitas: ok(receitas).map(nomeado),
     materiais: ok(materiais),
-    tipos: ok(tipos).map((x) => ({ ...nomeado(x), detalhe: `${x.nivel} · ${x.local}` })),
+    tipos: ok(tipos).map((x) => ({ ...nomeado(x), detalhe: nivelLocal(x.nivel, x.local) })),
     desafios: ok(desafios).map(nomeado),
   }
 }
