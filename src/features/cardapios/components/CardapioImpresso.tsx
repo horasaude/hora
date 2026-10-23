@@ -65,7 +65,8 @@ function Receitas({ lista }: { lista: ReceitaImpressa[] }) {
 /**
  * Cardápio para o papel, no modelo dos guias da ORA: logo e guia no topo de cada página,
  * título grande, refeições com as opções e, no fim, as receitas usadas. O topo se repete por página
- * (thead); rodapé e número da página vêm do @page (src/styles/index.css).
+ * (thead) e o rodapé é fixo no pé de cada página; margem zero no @page para o navegador não
+ * imprimir o endereço da página (src/styles/index.css).
  */
 export function CardapioImpresso(p: Props) {
   return (
@@ -81,6 +82,11 @@ export function CardapioImpresso(p: Props) {
             </td>
           </tr>
         </thead>
+        <tfoot>
+          <tr>
+            <td />
+          </tr>
+        </tfoot>
         <tbody>
           <tr>
             <td>
@@ -103,6 +109,7 @@ export function CardapioImpresso(p: Props) {
           </tr>
         </tbody>
       </table>
+      <div className="impresso-rodape">{t.rodape}</div>
     </div>
   )
 }

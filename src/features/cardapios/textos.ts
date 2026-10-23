@@ -30,6 +30,7 @@ export const textos = {
     receitasSub: 'Preparações simples que podem entrar nas opções do cardápio.',
     ingredientes: 'Ingredientes',
     preparo: 'Modo de preparo',
+    rodape: 'ORA  ·  Um momento para estar presente.',
   },
   semSubstituicoes: 'Sem substituições cadastradas para esta refeição.',
   ou: 'ou',

@@ -45,28 +45,13 @@
 
 /* Cardápio impresso no modelo dos guias da ORA (CardapioImpresso). */
 @media print {
+  /* Margem zero: o navegador não tem onde pôr o endereço, a data e o título da página. */
   @page {
     size: A4;
-    margin: 12mm 16mm 14mm;
-    @bottom-left {
-      content: 'ORA  ·  Um momento para estar presente.';
-      font:
-        9px Arial,
-        Helvetica,
-        sans-serif;
-      color: #8a948f;
-    }
-    @bottom-right {
-      content: counter(page, decimal-leading-zero);
-      font:
-        9px Arial,
-        Helvetica,
-        sans-serif;
-      color: #8a948f;
-    }
+    margin: 0;
   }
   .area-impressao.impresso {
-    padding: 0;
+    padding: 0 16mm;
     font-family: Arial, Helvetica, sans-serif;
     color: #1f2a27;
     -webkit-print-color-adjust: exact;
@@ -80,6 +65,23 @@
 .impresso-folha td {
   padding: 0;
   vertical-align: top;
+}
+.impresso-folha thead td {
+  padding-top: 12mm;
+}
+.impresso-folha tfoot td {
+  height: 18mm;
+}
+/* Rodapé fixo: no papel, repete no pé de cada página. */
+.impresso-rodape {
+  position: fixed;
+  left: 16mm;
+  right: 16mm;
+  bottom: 8mm;
+  padding-top: 6px;
+  border-top: 1px solid #e6e2da;
+  font-size: 9px;
+  color: #8a948f;
 }
 .impresso-topo {
   display: flex;
