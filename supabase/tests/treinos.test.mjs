@@ -31,6 +31,7 @@ async function montar(db) {
     insert into public.rotinas (id, nome, tema_id, nivel, local, publicado) values
       ('${ROTINA}', 'Iniciante em casa', ${tema('emagrecimento')}, 'iniciante', 'casa', true);
     insert into public.rotina_treinos (rotina_id, treino_id, dia_semana) values ('${ROTINA}', '${PUB}', 1), ('${ROTINA}', '${RASC}', 3);
+    update public.treinos set publicado = false where id = '${RASC}';
   `)
 }
 

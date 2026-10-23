@@ -17,6 +17,7 @@ import { testarPagamentos } from './pagamentos.test.mjs'
 import { testarAssinaturas } from './assinaturas.test.mjs'
 import { testarAulaAssistida } from './aula_assistida.test.mjs'
 import { testarTreinos } from './treinos.test.mjs'
+import { testarPublicarTipo } from './publicar_tipo.test.mjs'
 import { testarAnamnese } from './anamnese.test.mjs'
 import { testarArquivosAluna } from './arquivos_aluna.test.mjs'
 import { testarLembreteAgua } from './lembrete_agua.test.mjs'
@@ -58,6 +59,7 @@ const suites = [
   testarReguaCobranca,
   testarAulaAssistida,
   testarTreinos,
+  testarPublicarTipo,
   testarAnamnese,
   testarArquivosAluna,
   testarLembreteAgua,
