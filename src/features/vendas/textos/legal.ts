@@ -11,7 +11,7 @@ const contato =
 
 export const termos: Documento = {
   titulo: 'Termos de uso',
-  atualizado: 'Atualizado em 05/10/2026',
+  atualizado: 'Atualizado em 23/10/2026',
   secoes: [
     {
       titulo: 'Quem somos',
@@ -49,12 +49,12 @@ export const termos: Documento = {
 
 export const privacidade: Documento = {
   titulo: 'Política de privacidade',
-  atualizado: 'Atualizado em 05/10/2026',
+  atualizado: 'Atualizado em 23/10/2026',
   secoes: [
     {
       titulo: 'Quais dados coletamos',
       texto:
-        'Na compra: nome, e-mail, WhatsApp, a forma de pagamento escolhida e de onde você chegou ao site (como o nome da campanha). Na plataforma: os dados que você mesma registra, como check-ins, fotos e medidas.',
+        'Na compra: nome, e-mail, WhatsApp, a forma de pagamento escolhida e de onde você chegou ao site (como o nome da campanha). No site de vendas e no checkout usamos cookies e o Pixel da Meta para medir visitas, cadastros e compras. Na plataforma: os dados que você mesma registra, como check-ins, fotos e medidas.',
     },
     {
       titulo: 'Para que usamos',
@@ -64,7 +64,7 @@ export const privacidade: Documento = {
     {
       titulo: 'Com quem compartilhamos',
       texto:
-        'Com os serviços que fazem a ORA funcionar: Asaas (pagamento), Supabase (banco de dados) e Vercel (hospedagem). Não vendemos seus dados.',
+        'Com os serviços que fazem a ORA funcionar: Asaas (pagamento), Supabase (banco de dados), Vercel (hospedagem) e Meta (medição das campanhas, pelo Pixel, só nas páginas de venda). Não vendemos seus dados. Você pode recusar os cookies de medição no aviso do site.',
     },
     {
       titulo: 'Pagamento',

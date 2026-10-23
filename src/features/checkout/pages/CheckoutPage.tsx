@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { descontoOferta, precosVigentes } from '@/domain/precos'
 import { useConfiguracao } from '@/features/configuracao'
+import { AvisoCookies } from '@/components/ui'
+import { eventoMeta } from '@/lib/pixelMeta'
 import { iniciarRevelar } from '@/lib/revelar'
 import { Banner } from '../components/Banner'
 import { DadosCartao } from '../components/DadosCartao'
@@ -14,6 +16,14 @@ import { useCheckout } from '../hooks/useCheckout'
 import { useFinalizar } from '../hooks/useFinalizar'
 import { textos } from '../textos'
 
+/** Pixel da Meta: visita e início da compra. */
+function useEventosCheckout() {
+  useEffect(() => {
+    eventoMeta('PageView')
+    eventoMeta('InitiateCheckout', { currency: 'BRL' })
+  }, [])
+}
+
 /** Checkout próprio, no formato do Hotmart: resumo, dados, pagamento e lateral de confiança. */
 export function CheckoutPage() {
   const config = useConfiguracao()
@@ -24,6 +34,7 @@ export function CheckoutPage() {
   const parcelas = Number(form.watch('parcelas'))
   const { finalizar, enviando, erro, resultado, recomecar } = useFinalizar(plano)
   useEffect(() => iniciarRevelar(), [])
+  useEventosCheckout()
   return (
     <main className="min-h-dvh bg-creme px-5 py-8 sm:px-6 sm:py-10">
       <div className="mx-auto flex max-w-5xl flex-col gap-6">
@@ -70,6 +81,7 @@ export function CheckoutPage() {
           {textos.voltar}
         </a>
       </div>
+      <AvisoCookies />
     </main>
   )
 }

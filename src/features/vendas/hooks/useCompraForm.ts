@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { salvarInscricao } from '@/features/checkout'
 import type { Plano } from '@/domain/precos'
 import { irPara } from '@/lib/navegacao'
+import { eventoMeta } from '@/lib/pixelMeta'
 import { mascararTelefone } from '@/lib/telefone'
 import { registrarLead } from '../api/registrarLead'
 import { esquemaCompra, type Compra, type EntradaCompra } from '../schemas/compra'
@@ -18,6 +19,7 @@ export function useCompraForm(planoInicial: Plano) {
 
   const enviar = form.handleSubmit(async (dados) => {
     await registrarLead(dados)
+    eventoMeta('Lead', { content_name: dados.plano })
     const { plano, nome, email, whatsapp } = dados
     salvarInscricao({ plano, nome, email, whatsapp })
     setSaindo(true)

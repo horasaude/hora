@@ -1,4 +1,6 @@
 import { useEffect } from 'react'
+import { AvisoCookies } from '@/components/ui'
+import { eventoMeta } from '@/lib/pixelMeta'
 import { iniciarRevelar } from '@/lib/revelar'
 import { guardarIndicacao } from '@/lib/indicacao'
 import { guardarUtms } from '@/lib/utm'
@@ -19,6 +21,7 @@ export function VendasPage() {
   useEffect(() => {
     guardarUtms(window.location.search)
     guardarIndicacao(window.location.search)
+    eventoMeta('PageView')
   }, [])
   useEffect(() => iniciarRevelar(), [])
   return (
@@ -40,6 +43,7 @@ export function VendasPage() {
       </main>
       <Rodape />
       <WhatsAppFlutuante numero={WHATSAPP_SUPORTE} />
+      <AvisoCookies />
     </CompraProvider>
   )
 }
