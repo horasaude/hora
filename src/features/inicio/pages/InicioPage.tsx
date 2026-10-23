@@ -11,6 +11,7 @@ import { ResumoDoDia, useHoje } from '@/features/checkin'
 import { CartaoDesafioAtivo } from '@/features/desafios'
 import { CartaoPontos } from '../components/CartaoPontos'
 import { ContinueAula } from '../components/Cartoes'
+import { ConsultaIndividual } from '../components/ConsultaIndividual'
 import { ProximaLive } from '../components/ProximaLive'
 import { Topo } from '../components/Topo'
 import { textos } from '../textos'
@@ -43,7 +44,7 @@ function Continue() {
   return achada ? <ContinueAula aula={achada.aula} tema={achada.tema} /> : null
 }
 
-/** Início da aluna na ordem do protótipo: topo, pontos, pedido da equipe, seu dia, aula, desafio e live. */
+/** Início da aluna na ordem do protótipo: topo, pontos, pedido da equipe, seu dia, aula, desafio, live, indicação e consulta individual. */
 export function InicioPage() {
   const hoje = useHoje()
   const perfil = useMeuPerfil()
@@ -74,6 +75,7 @@ export function InicioPage() {
             <CartaoDesafioAtivo hoje={hoje} temaId={tema?.id ?? null} />
             <ProximaLive />
             <ChamadaIndicar />
+            <ConsultaIndividual />
           </div>
         </div>
       )}

@@ -107,4 +107,4 @@ Venda inicial por links do Mercado Pago; o checkout integrado da Sprint 2 substi
 
 - [ ] Menu "Saúde" no painel: anamnese com área (saúde, treino, nutrição), materiais da médica ligados ao tema e respostas no cartão da aluna
 - [ ] Parte "Saúde" dentro do tema (painel) e aba "Saúde" no tema da aluna, com as orientações da Dra. Clara
-- [ ] Antes de fazer: confirmar quem vê as respostas da anamnese de saúde (só a Dra. Clara ou as três sócias; dado sensível pela LGPD)
+- [ ] Respostas da anamnese de saúde: as três sócias veem (decidido em 23/10)

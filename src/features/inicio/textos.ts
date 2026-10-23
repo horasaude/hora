@@ -21,6 +21,16 @@ export const textos = {
     duracao: (min: number) => `${min} min`,
   },
   live: { titulo: 'Próxima live' },
+  consulta: {
+    titulo: 'Quero agendar uma consulta individual',
+    botao: 'Chamar no WhatsApp',
+    mensagem: 'Sou aluna da ORA e gostaria de agendar uma consulta individual.',
+    profissionais: [
+      { nome: 'Ana Milhomem', area: 'Nutricionista', whatsapp: '34993159319' },
+      { nome: 'Dra. Clara Maria', area: 'Médica', whatsapp: '34991463277' },
+      { nome: 'Laís Moraes', area: 'Personal trainer', whatsapp: '34998333744' },
+    ],
+  },
   semAcesso: 'Seu acesso começa assim que o pagamento for confirmado.',
   carregando: 'Carregando o Início',
   erro: 'Não foi possível carregar o Início.',
