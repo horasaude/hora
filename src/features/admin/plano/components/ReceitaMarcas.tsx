@@ -1,5 +1,6 @@
 import { classeBrilho } from '@/components/ui'
-import { OBJETIVOS, TIPOS_REFEICAO } from '@/domain/plano'
+import { TIPOS_REFEICAO } from '@/domain/plano'
+import { useTemas } from '../../hooks/usePainel'
 import type { FormReceita } from '../receitaForm'
 import { tReceitas as t } from '../textos2'
 
@@ -41,8 +42,9 @@ function Pilulas({
   )
 }
 
-/** Refeições e temas da receita (filtros da aluna). */
+/** Refeições da receita (filtro da aluna) e o tema onde ela aparece. */
 export function ReceitaMarcas({ f, mudar }: Props) {
+  const temas = useTemas().data ?? []
   return (
     <>
       <Pilulas
@@ -53,9 +55,9 @@ export function ReceitaMarcas({ f, mudar }: Props) {
       />
       <Pilulas
         rotulo={t.objetivos}
-        opcoes={OBJETIVOS.map((o) => [o, o])}
-        marcadas={f.objetivos}
-        aoMudar={(objetivos) => mudar({ objetivos })}
+        opcoes={temas.map((x) => [x.id, x.titulo])}
+        marcadas={f.tema_id ? [f.tema_id] : []}
+        aoMudar={(v) => mudar({ tema_id: v.find((x) => x !== f.tema_id) ?? '' })}
       />
     </>
   )

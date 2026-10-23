@@ -2,6 +2,11 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-22 · main · Receitas e materiais dentro do tema; setas de voltar
+
+- Receitas e materiais da nutricionista ganharam tema (migração 20261102140000_receitas_materiais_por_tema); no painel, a receita escolhe o tema nas pílulas (no lugar dos objetivos) e o material num campo Tema. Aluna: aba Receitas ao lado de Cardápio e materiais da nutricionista na aba Materiais do tema, só do próprio tema. Saiu o link "Ver receitas e materiais da nutricionista" e a página /app/cardapios (redireciona para a trilha).
+- Seta de voltar também no carregando, erro e não encontrado: tema, aula, cardápio, lista de compras, receita, desafio, treinos e execução do treino; Seu dia com seta no computador.
+
 ## 2026-10-22 · main · Cobrança rigorosa da mensalidade
 
 - Edge Function cobranca-diaria (pg_cron de hora em hora): às 8h de Brasília confere no Asaas todas as assinaturas vivas pelo mesmo caminho do webhook (mensal, exportada de pagamento-webhook/processar.ts), sem depender do aviso; das 8h às 20h manda a régua (lembrete no 3º dia, véspera no 6º com a data da pausa, acesso pausado no 7º), uma vez por atraso (avisos_cobranca).

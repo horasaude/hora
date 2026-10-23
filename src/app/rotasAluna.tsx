@@ -1,4 +1,4 @@
-import type { RouteObject } from 'react-router-dom'
+import { Navigate, type RouteObject } from 'react-router-dom'
 import { AulaAntiga } from './AulaAntiga'
 
 // Área da aluna (/app): moldura com a barra de baixo; cada tela carrega sob demanda.
@@ -32,7 +32,8 @@ export const rotasAluna: RouteObject[] = [
     path: 'previa/aula/:aulaId',
     lazy: async () => ({ Component: (await trilha()).PreviaAulaPage }),
   },
-  { path: 'cardapios', lazy: async () => ({ Component: (await cardapios()).CardapiosPage }) },
+  // Cardápio, receitas e materiais ficam só dentro de cada tema.
+  { path: 'cardapios', element: <Navigate to="/app/trilha" replace /> },
   { path: 'avaliacoes', lazy: async () => ({ Component: (await avaliacoes()).AvaliacoesPage }) },
   {
     path: 'avaliacoes/:anamneseId',

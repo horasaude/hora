@@ -53,20 +53,21 @@ export function DesafioPage() {
   const desafios = useDesafios()
   const dias = useMeusDias(desafioId)
   const d = desafios.data?.find((x) => x.id === desafioId)
-  if (desafios.isPending) return <Carregando texto={textos.carregando} />
-  if (desafios.isError)
-    return (
-      <ErroCarregar
-        texto={textos.erro}
-        tentar={textos.tentar}
-        aoTentar={() => desafios.refetch()}
-      />
-    )
   if (!d)
     return (
       <section className="flex flex-col gap-4">
-        <Topo titulo={textos.titulo} rotulo={textos.voltar} para="/app/desafios" />
-        <Vazio>{textos.naoEncontrado}</Vazio>
+        <Topo titulo={textos.titulo} rotulo={textos.voltar} para="/app/trilha" />
+        {desafios.isPending ? (
+          <Carregando texto={textos.carregando} />
+        ) : desafios.isError ? (
+          <ErroCarregar
+            texto={textos.erro}
+            tentar={textos.tentar}
+            aoTentar={() => desafios.refetch()}
+          />
+        ) : (
+          <Vazio>{textos.naoEncontrado}</Vazio>
+        )}
       </section>
     )
   return (

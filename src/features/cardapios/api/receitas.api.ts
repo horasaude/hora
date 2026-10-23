@@ -9,6 +9,8 @@ export type ReceitaResumo = {
   porcoes: number
   refeicoes: string[]
   objetivos: string[]
+  /** Tema onde a receita aparece (aba Receitas do tema). */
+  tema_id: string | null
   favorita: boolean
 }
 
@@ -37,7 +39,7 @@ export async function listarReceitas(): Promise<ReceitaResumo[]> {
   const [r, fav] = await Promise.all([
     supabase
       .from('receitas')
-      .select('id, nome, foto_path, tempo_minutos, porcoes, refeicoes, objetivos')
+      .select('id, nome, foto_path, tempo_minutos, porcoes, refeicoes, objetivos, tema_id')
       .order('nome'),
     favoritas(),
   ])
@@ -56,7 +58,7 @@ export async function buscarReceita(id: string): Promise<ReceitaCompleta | null>
     supabase
       .from('receitas')
       .select(
-        'id, nome, foto_path, tempo_minutos, porcoes, refeicoes, objetivos, ingredientes, preparo, calcular, receita_itens(gramas, alimentos(kcal, proteina, carboidrato, gordura, fibra))',
+        'id, nome, foto_path, tempo_minutos, porcoes, refeicoes, objetivos, tema_id, ingredientes, preparo, calcular, receita_itens(gramas, alimentos(kcal, proteina, carboidrato, gordura, fibra))',
       )
       .eq('id', id)
       .maybeSingle(),

@@ -15,7 +15,7 @@ function Topo() {
       <Link
         to="/app"
         aria-label={t.voltar}
-        className="grid size-9 shrink-0 place-items-center rounded-full border border-linha bg-white text-verde-escuro lg:hidden"
+        className="grid size-9 shrink-0 place-items-center rounded-full border border-linha bg-white text-verde-escuro"
       >
         <svg viewBox="0 0 24 24" aria-hidden className="size-5" fill="none" stroke="currentColor">
           <path d="m14.5 6-6 6 6 6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />

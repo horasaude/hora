@@ -66,8 +66,17 @@ export function TreinosPage({ embutido = false }: { embutido?: boolean }) {
   const perfil = useMeuPerfil()
   const previa = usePreviaTreinos()
   const [escolhendo, setEscolhendo] = useState(false)
-  if (prefs.isPending || perfil.isPending) return <Estado tipo="carregando" />
-  if (prefs.isError) return <Estado tipo="erro" tentar={() => prefs.refetch()} />
+  if (prefs.isPending || perfil.isPending || prefs.isError)
+    return (
+      <section className="flex flex-col gap-6 font-sistema">
+        {!embutido && <Voltar para="/app" historico rotulo={textos.escolha.voltar} />}
+        {prefs.isError ? (
+          <Estado tipo="erro" tentar={() => prefs.refetch()} />
+        ) : (
+          <Estado tipo="carregando" />
+        )}
+      </section>
+    )
   const nivel =
     prefs.data.treino_nivel ?? (previa || perfil.data?.papel === 'admin' ? 'iniciante' : '')
   const local = prefs.data.treino_local ?? (previa || perfil.data?.papel === 'admin' ? 'casa' : '')

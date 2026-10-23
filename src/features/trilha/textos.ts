@@ -11,7 +11,6 @@ export const textos = {
   concluida: 'Concluída',
   liberaNoDia: (n: number) => `Libera no dia ${n}`,
   emBreve: 'Em breve',
-  receitasEMateriais: 'Ver receitas e materiais da nutricionista',
   aulaN: (n: number) => `Aula ${n}`,
   concluidasDoTema: (feitas: number, total: number, pct: number) =>
     `${feitas} de ${total} ${total === 1 ? 'aula concluída' : 'aulas concluídas'} · ${pct}%`,
@@ -77,6 +76,7 @@ export const textos = {
     abas: {
       aulas: 'Aulas',
       cardapio: 'Cardápio',
+      receitas: 'Receitas',
       treinos: 'Treinos',
       desafio: 'Desafio',
       materiais: 'Materiais',

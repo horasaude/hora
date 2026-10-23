@@ -25,28 +25,29 @@ function TotalDia({ refeicoes }: { refeicoes: Parameters<typeof totalCardapio>[0
 export function CardapioPage() {
   const { cardapioId = '' } = useParams()
   const cardapios = useCardapios()
-  if (cardapios.isPending) return <Carregando texto={textos.carregando} />
-  if (cardapios.isError)
-    return (
-      <ErroCarregar
-        texto={textos.erro}
-        tentar={textos.tentar}
-        aoTentar={() => cardapios.refetch()}
-      />
-    )
-  const c = cardapios.data.find((x) => x.id === cardapioId)
+  const c = cardapios.data?.find((x) => x.id === cardapioId)
   if (!c)
     return (
       <section className="flex flex-col gap-4">
-        <TopoVoltar titulo={textos.titulo} para="/app/cardapios" rotulo={textos.voltar} />
-        <Vazio>{textos.naoEncontrado}</Vazio>
+        <TopoVoltar titulo={textos.titulo} para="/app/trilha" rotulo={textos.voltar} />
+        {cardapios.isPending ? (
+          <Carregando texto={textos.carregando} />
+        ) : cardapios.isError ? (
+          <ErroCarregar
+            texto={textos.erro}
+            tentar={textos.tentar}
+            aoTentar={() => cardapios.refetch()}
+          />
+        ) : (
+          <Vazio>{textos.naoEncontrado}</Vazio>
+        )}
       </section>
     )
   return (
     <section className="flex flex-col gap-4 lg:gap-5">
       <TopoVoltar
         titulo={c.titulo}
-        para={c.tema_id ? `/app/trilha/tema/${c.tema_id}?aba=cardapio` : '/app/cardapios'}
+        para={c.tema_id ? `/app/trilha/tema/${c.tema_id}?aba=cardapio` : '/app/trilha'}
         rotulo={textos.voltar}
       />
       {(c.objetivo || c.descricao) && (

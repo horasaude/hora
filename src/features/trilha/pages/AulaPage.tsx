@@ -72,13 +72,17 @@ function ConteudoDaAula({ aulaId }: { aulaId: string }) {
       {t.voltar}
     </LinkVoltar>
   )
-  if (aula.isPending) return <EstadoAluna tipo="carregando" />
-  if (aula.isError) return <EstadoAluna tipo="erro" tentar={() => aula.refetch()} />
   if (!aula.data)
     return (
       <section className="flex flex-col gap-3">
         {voltar}
-        <EstadoAluna tipo="aviso" texto={t.fechada} />
+        {aula.isPending ? (
+          <EstadoAluna tipo="carregando" />
+        ) : aula.isError ? (
+          <EstadoAluna tipo="erro" tentar={() => aula.refetch()} />
+        ) : (
+          <EstadoAluna tipo="aviso" texto={t.fechada} />
+        )}
       </section>
     )
   const a = aula.data

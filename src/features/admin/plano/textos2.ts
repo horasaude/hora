@@ -19,7 +19,7 @@ export const tReceitas = {
   tagsAjuda: 'Separe por vírgula',
   tempo: 'Tempo de preparo (min)',
   refeicoes: 'Serve para',
-  objetivos: 'Temas',
+  objetivos: 'Tema (a aluna vê dentro dele)',
   calcular: 'Calcular pelos alimentos cadastrados',
   itens: 'Ingredientes calculados',
   porPorcao: 'Por porção',

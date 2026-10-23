@@ -12,7 +12,8 @@ export type FormReceita = {
   tags: string
   tempo: string
   refeicoes: string[]
-  objetivos: string[]
+  /** Tema da receita: a aluna vê na aba Receitas dele. */
+  tema_id: string
   calcular: boolean
   itens: IngredienteLocal[]
   publicado: boolean
@@ -28,7 +29,7 @@ export function deReceita(r?: ReceitaCompleta): FormReceita {
     tags: (r?.tags ?? []).join(', '),
     tempo: r?.tempo_minutos ? String(r.tempo_minutos) : '',
     refeicoes: r?.refeicoes ?? [],
-    objetivos: r?.objetivos ?? [],
+    tema_id: r?.tema_id ?? '',
     calcular: r?.calcular ?? false,
     itens: (r?.receita_itens ?? []).map((i) => ({
       alimento_id: i.alimento_id,
@@ -63,7 +64,7 @@ export function paraBanco(f: FormReceita, id?: string) {
       tags: lerTags(f.tags),
       tempo_minutos: /^[1-9]\d{0,3}$/.test(f.tempo.trim()) ? Math.min(Number(f.tempo), 1440) : null,
       refeicoes: f.refeicoes,
-      objetivos: f.objetivos,
+      tema_id: f.tema_id || null,
       calcular: f.calcular,
       publicado: f.publicado,
     },

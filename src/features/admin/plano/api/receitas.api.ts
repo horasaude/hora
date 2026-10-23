@@ -95,7 +95,7 @@ export async function duplicarReceita(r: ReceitaCompleta, nome: string): Promise
       tags: r.tags,
       tempo_minutos: r.tempo_minutos,
       refeicoes: r.refeicoes,
-      objetivos: r.objetivos,
+      tema_id: r.tema_id,
       calcular: r.calcular,
       publicado: false,
     },

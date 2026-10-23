@@ -66,14 +66,24 @@ export function ReceitaPage() {
   const { receitaId = '' } = useParams()
   const receita = useReceita(receitaId)
   const voltar = (
-    <Voltar para="/app/cardapios?aba=receitas" historico rotulo={t.voltar}>
+    <Voltar para="/app/trilha" historico rotulo={t.voltar}>
       {t.voltar}
     </Voltar>
   )
-  if (receita.isPending) return <Carregando texto={textos.carregando} />
-  if (receita.isError)
+  if (receita.isPending || receita.isError)
     return (
-      <ErroCarregar texto={textos.erro} tentar={textos.tentar} aoTentar={() => receita.refetch()} />
+      <section className="flex flex-col gap-4">
+        {voltar}
+        {receita.isPending ? (
+          <Carregando texto={textos.carregando} />
+        ) : (
+          <ErroCarregar
+            texto={textos.erro}
+            tentar={textos.tentar}
+            aoTentar={() => receita.refetch()}
+          />
+        )}
+      </section>
     )
   const r = receita.data
   if (!r)

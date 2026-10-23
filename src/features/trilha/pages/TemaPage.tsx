@@ -1,7 +1,7 @@
-import { Link, useParams, useSearchParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 import { BarraProgresso, Cartao, IconeCadeado, Vazio } from '@/components/ui'
 import { diasParaAbrir, progresso, type TemaTrilha } from '@/domain/trilha'
-import { ListaCardapios } from '@/features/cardapios'
+import { ListaCardapios, ListaMateriais, ListaReceitas, useMateriais } from '@/features/cardapios'
 import { DesafiosDoTema } from '@/features/desafios'
 import { TreinosDoTema } from '@/features/treinos'
 import { AbasTema } from '../components/AbasTema'
@@ -17,25 +17,24 @@ import { textos } from '../textos'
 
 const t = textos.sequencia
 
+/** Arquivos do tema e os materiais da nutricionista ligados a ele; sem nenhum dos dois, o aviso. */
 function Materiais({ tema }: { tema: string }) {
   const lista = useMateriaisAula(`tema:${tema}`, true)
-  if (lista.isSuccess && lista.data.length === 0) return <Vazio>{textos.materiais.vazioTema}</Vazio>
-  return <MateriaisDaAula aula={`tema:${tema}`} titulo={t.abas.materiais} />
+  const nutricao = useMateriais()
+  const semArquivos = lista.isSuccess && lista.data.length === 0
+  const semNutricao = nutricao.isSuccess && !nutricao.data.some((m) => m.tema_id === tema)
+  if (semArquivos && semNutricao) return <Vazio>{textos.materiais.vazioTema}</Vazio>
+  return (
+    <div className="flex flex-col gap-4">
+      {!semArquivos && <MateriaisDaAula aula={`tema:${tema}`} titulo={t.abas.materiais} />}
+      <ListaMateriais temaId={tema} />
+    </div>
+  )
 }
 
 function Conteudo({ tema, aba }: { tema: TemaTrilha; aba: AbaTema }) {
-  if (aba === 'cardapio')
-    return (
-      <div className="flex flex-col gap-4">
-        <ListaCardapios temaId={tema.id} />
-        <Link
-          to="/app/cardapios?aba=receitas"
-          className="self-start text-sm font-bold text-ora underline"
-        >
-          {textos.receitasEMateriais}
-        </Link>
-      </div>
-    )
+  if (aba === 'cardapio') return <ListaCardapios temaId={tema.id} />
+  if (aba === 'receitas') return <ListaReceitas temaId={tema.id} />
   if (aba === 'treinos') return <TreinosDoTema temaId={tema.id} />
   if (aba === 'desafio') return <DesafiosDoTema temaId={tema.id} />
   if (aba === 'materiais') return <Materiais tema={tema.id} />
@@ -71,7 +70,7 @@ function Fechado({ tema, dia }: { tema: TemaTrilha; dia: number }) {
   )
 }
 
-/** Página do tema: capa e, quando aberto, aulas, cardápio, treinos, desafio e materiais em abas. */
+/** Página do tema: capa e, quando aberto, aulas, cardápio, receitas, treinos, desafio e materiais em abas. */
 export function TemaPage() {
   const { temaId } = useParams()
   const trilha = useTrilha()
@@ -79,11 +78,19 @@ export function TemaPage() {
   const [busca, setBusca] = useSearchParams()
   const pedida = busca.get('aba')
   const aba: AbaTema = ehAbaTema(pedida) ? pedida : 'aulas'
-  if (trilha.isPending) return <EstadoAluna tipo="carregando" />
-  if (trilha.isError) return <EstadoAluna tipo="erro" tentar={() => trilha.refetch()} />
-  const i = trilha.data.temas.findIndex((x) => x.id === temaId)
-  const tema = trilha.data.temas[i]
   const lista = previa ? `/app/previa${previa.sufixo}` : '/app/trilha'
+  if (trilha.isPending || trilha.isError)
+    return (
+      <section className="flex flex-col gap-4">
+        <TopoVoltar para={lista}>{t.voltar}</TopoVoltar>
+        {trilha.isPending ? (
+          <EstadoAluna tipo="carregando" />
+        ) : (
+          <EstadoAluna tipo="erro" tentar={() => trilha.refetch()} />
+        )}
+      </section>
+    )
+  const tema = trilha.data.temas.find((x) => x.id === temaId)
   if (!tema)
     return (
       <section className="flex flex-col gap-4">

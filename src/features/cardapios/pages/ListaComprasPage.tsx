@@ -62,6 +62,13 @@ function Cabecalho({ titulo }: { titulo: string }) {
   )
 }
 
+/** Carregando, erro ou cardápio não encontrado (a seta de voltar fica em cima). */
+function SemLista(p: { carregando: boolean; erro: boolean; tentar: () => unknown }) {
+  if (p.carregando) return <Carregando texto={textos.carregando} />
+  if (p.erro) return <ErroCarregar texto={textos.erro} tentar={textos.tentar} aoTentar={p.tentar} />
+  return <Vazio>{textos.naoEncontrado}</Vazio>
+}
+
 /** Lista de compras do cardápio: soma do período, marcar itens (salvo no banco), WhatsApp e imprimir. */
 export function ListaComprasPage() {
   const { cardapioId = '' } = useParams()
@@ -74,23 +81,23 @@ export function ListaComprasPage() {
     marcados,
   } = useListaCompras(cardapioId, Number(dias))
   const marcar = useMarcarItem(cardapioId)
-  if (carregando) return <Carregando texto={textos.carregando} />
-  if (cardapios.isError)
+  const voltar = (
+    <Voltar para={`/app/cardapios/${cardapioId}`} rotulo={t.voltar}>
+      {t.voltar}
+    </Voltar>
+  )
+  if (carregando || cardapios.isError || !c)
     return (
-      <ErroCarregar
-        texto={textos.erro}
-        tentar={textos.tentar}
-        aoTentar={() => cardapios.refetch()}
-      />
+      <section className="flex flex-col gap-4">
+        {voltar}
+        <SemLista carregando={carregando} erro={cardapios.isError} tentar={cardapios.refetch} />
+      </section>
     )
-  if (!c) return <Vazio>{textos.naoEncontrado}</Vazio>
   const todos = lista.flatMap((g) => g.itens)
   const feitos = todos.filter((i) => marcados.includes(i.nome)).length
   return (
     <section className="flex flex-col gap-5 lg:gap-6">
-      <Voltar para={`/app/cardapios/${cardapioId}`} rotulo={t.voltar}>
-        {t.voltar}
-      </Voltar>
+      {voltar}
       <Cabecalho titulo={c.titulo} />
       {todos.length === 0 ? (
         <Vazio>{t.vazio}</Vazio>

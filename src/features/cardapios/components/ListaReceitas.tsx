@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import { Carregando, ErroCarregar, Vazio } from '@/components/ui'
-import { OBJETIVOS, TIPOS_REFEICAO } from '@/domain/plano'
+import { TIPOS_REFEICAO } from '@/domain/plano'
 import { useReceitas } from '../hooks/useCardapios'
-import { useObjetivo } from '../hooks/useObjetivo'
 import { textos } from '../textos'
 import { CartaoReceita } from './CartaoReceita'
 
@@ -16,13 +15,12 @@ type Filtros = ReturnType<typeof useFiltros>
 function useFiltros() {
   const [busca, setBusca] = useState('')
   const [refeicao, setRefeicao] = useState('')
-  const [tema, setTema] = useState<string | null>(null)
   const [favoritas, setFavoritas] = useState(false)
-  return { busca, setBusca, refeicao, setRefeicao, tema, setTema, favoritas, setFavoritas }
+  return { busca, setBusca, refeicao, setRefeicao, favoritas, setFavoritas }
 }
 
-function FiltrosReceitas({ f, temaAtivo }: { f: Filtros; temaAtivo: string }) {
-  const { busca, setBusca, refeicao, setRefeicao, setTema, favoritas, setFavoritas } = f
+function FiltrosReceitas({ f }: { f: Filtros }) {
+  const { busca, setBusca, refeicao, setRefeicao, favoritas, setFavoritas } = f
   return (
     <div className="flex flex-wrap items-center gap-2">
       <input
@@ -45,19 +43,6 @@ function FiltrosReceitas({ f, temaAtivo }: { f: Filtros; temaAtivo: string }) {
           </option>
         ))}
       </select>
-      <select
-        aria-label={t.tema}
-        value={temaAtivo}
-        onChange={(e) => setTema(e.target.value)}
-        className={campo}
-      >
-        <option value="">{`${t.tema}: ${t.todos}`}</option>
-        {OBJETIVOS.map((o) => (
-          <option key={o} value={o}>
-            {o}
-          </option>
-        ))}
-      </select>
       <label className="flex min-h-10 items-center gap-2 text-sm text-tinta">
         <input
           type="checkbox"
@@ -71,12 +56,11 @@ function FiltrosReceitas({ f, temaAtivo }: { f: Filtros; temaAtivo: string }) {
   )
 }
 
-/** Receitas em grade com busca, filtro por refeição e por tema, e só favoritas. */
-export function ListaReceitas() {
+/** Receitas do tema em grade, com busca, filtro por refeição e só favoritas. */
+export function ListaReceitas({ temaId }: { temaId: string }) {
   const receitas = useReceitas()
-  const { objetivo } = useObjetivo()
   const f = useFiltros()
-  const { busca, refeicao, tema, favoritas } = f
+  const { busca, refeicao, favoritas } = f
   if (receitas.isPending) return <Carregando texto={textos.carregando} />
   if (receitas.isError)
     return (
@@ -86,19 +70,18 @@ export function ListaReceitas() {
         aoTentar={() => receitas.refetch()}
       />
     )
-  if (receitas.data.length === 0) return <Vazio>{t.nenhuma}</Vazio>
-  const temaAtivo = tema ?? objetivo ?? ''
+  const doTema = receitas.data.filter((r) => r.tema_id === temaId)
+  if (doTema.length === 0) return <Vazio>{t.nenhuma}</Vazio>
   const termos = semAcento(busca).split(/\s+/).filter(Boolean)
-  const lista = receitas.data.filter(
+  const lista = doTema.filter(
     (r) =>
       termos.every((p) => semAcento(r.nome).includes(p)) &&
       (!refeicao || r.refeicoes.includes(refeicao)) &&
-      (!temaAtivo || r.objetivos.length === 0 || r.objetivos.includes(temaAtivo)) &&
       (!favoritas || r.favorita),
   )
   return (
     <div className="flex flex-col gap-4">
-      <FiltrosReceitas f={f} temaAtivo={temaAtivo} />
+      <FiltrosReceitas f={f} />
       {lista.length === 0 ? (
         <Vazio>{t.vazio}</Vazio>
       ) : (

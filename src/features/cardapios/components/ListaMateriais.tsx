@@ -1,9 +1,9 @@
-import { Carregando, ErroCarregar, Vazio } from '@/components/ui'
+import { Carregando, ErroCarregar } from '@/components/ui'
 import { useMateriais } from '../hooks/useMateriais'
 import { textos } from '../textos'
 
-/** Materiais da nutricionista em cartões que abrem e fecham com um toque. */
-export function ListaMateriais() {
+/** Materiais da nutricionista do tema em cartões que abrem e fecham com um toque; sem nenhum, não mostra nada. */
+export function ListaMateriais({ temaId }: { temaId: string }) {
   const materiais = useMateriais()
   if (materiais.isPending) return <Carregando texto={textos.carregando} />
   if (materiais.isError)
@@ -14,10 +14,11 @@ export function ListaMateriais() {
         aoTentar={() => materiais.refetch()}
       />
     )
-  if (materiais.data.length === 0) return <Vazio>{textos.materiais.vazio}</Vazio>
+  const lista = materiais.data.filter((m) => m.tema_id === temaId)
+  if (lista.length === 0) return null
   return (
     <ul className="grid items-start gap-3 lg:grid-cols-2">
-      {materiais.data.map((m) => (
+      {lista.map((m) => (
         <li key={m.id}>
           <details className="group rounded-[18px] border border-linha bg-white shadow-cartao">
             <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-[15px] font-bold text-tinta">

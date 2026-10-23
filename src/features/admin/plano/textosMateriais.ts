@@ -10,6 +10,8 @@ export const materiais = {
   publicados: 'Publicados',
   campoTitulo: 'Nome do material',
   campoTexto: 'Texto',
+  campoTema: 'Tema (a aluna vê dentro dele)',
+  semTema: 'Escolha o tema',
   excluir: 'Excluir',
   confirmarExcluir: 'Confirmar exclusão',
 }

@@ -1,5 +1,7 @@
-export { CardapiosPage } from './pages/CardapiosPage'
 export { CardapioPage } from './pages/CardapioPage'
 export { ListaComprasPage } from './pages/ListaComprasPage'
 export { ReceitaPage } from './pages/ReceitaPage'
 export { ListaCardapios } from './components/ListaCardapios'
+export { ListaReceitas } from './components/ListaReceitas'
+export { ListaMateriais } from './components/ListaMateriais'
+export { useMateriais } from './hooks/useMateriais'

@@ -39,6 +39,12 @@ const ABAS = {
       <path {...traco} d="M8 12c0-3 1.5-5 4-6m0 6c.5-2.5 2.5-4 5-4" />
     </>
   ),
+  receitas: (
+    <>
+      <path {...traco} d="M5 21h14M6 21V11h12v10" />
+      <path {...traco} d="M8 11a4 4 0 1 1 3-6.6A3.5 3.5 0 1 1 16 11" />
+    </>
+  ),
   treinos: <path {...traco} d="M6.5 7v10M4 9.5v5M17.5 7v10M20 9.5v5M6.5 12h11" />,
   desafio: (
     <>
@@ -54,7 +60,7 @@ const ABAS = {
   ),
 }
 
-/** Ícone de cada aba do tema (Aulas, Cardápio, Treinos, Desafio, Materiais). */
+/** Ícone de cada aba do tema (Aulas, Cardápio, Receitas, Treinos, Desafio, Materiais). */
 export function IconeAba({ aba, className = 'size-4' }: Props & { aba: keyof typeof ABAS }) {
   return (
     <svg viewBox="0 0 24 24" aria-hidden className={className}>

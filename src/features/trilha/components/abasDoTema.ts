@@ -3,6 +3,7 @@
 export const CORES_ABAS = {
   aulas: 'verde',
   cardapio: 'coral',
+  receitas: 'prata',
   treinos: 'dourado',
   desafio: 'lilas',
   materiais: 'rosa',

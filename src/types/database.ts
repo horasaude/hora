@@ -636,6 +636,7 @@ export type Database = {
       }
       materiais_nutricao: {
         Row: {
+          tema_id: string | null
           created_at: string
           id: string
           ordem: number
@@ -645,6 +646,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          tema_id?: string | null
           created_at?: string
           id?: string
           ordem?: number
@@ -654,6 +656,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          tema_id?: string | null
           created_at?: string
           id?: string
           ordem?: number
@@ -2335,6 +2338,7 @@ export type Database = {
       }
       receitas: {
         Row: {
+          tema_id: string | null
           busca: string | null
           calcular: boolean
           created_at: string
@@ -2352,6 +2356,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          tema_id?: string | null
           busca?: string | null
           calcular?: boolean
           created_at?: string
@@ -2369,6 +2374,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          tema_id?: string | null
           busca?: string | null
           calcular?: boolean
           created_at?: string

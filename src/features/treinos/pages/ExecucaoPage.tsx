@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { AvisoErro } from '@/components/ui'
+import { AvisoErro, Voltar } from '@/components/ui'
 import { letraCombinado, parceiros } from '@/domain/combinados'
 import { seriesDoItem } from '@/domain/series'
 import { progressoDoTreino } from '@/domain/treinos'
@@ -89,6 +89,11 @@ export function ExecucaoPage() {
   const voltar = useVoltarTreinos()
   return (
     <div className="fixed inset-0 z-40 overflow-y-auto bg-white px-5 pt-5 font-sistema lg:static lg:z-auto lg:mx-auto lg:max-w-2xl lg:overflow-visible lg:p-0">
+      {!treino.data && (
+        <Voltar para={voltar} rotulo={textos.execucao.sair}>
+          {textos.execucao.sair}
+        </Voltar>
+      )}
       {treino.isPending ? (
         <Estado tipo="carregando" />
       ) : treino.isError ? (
