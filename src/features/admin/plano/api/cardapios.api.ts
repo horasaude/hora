@@ -29,6 +29,17 @@ export async function salvarCardapio(dados: TablesInsert<'cardapios'>): Promise<
   return ok(await consulta.select('*').single())
 }
 
+/** Apaga o plano (as marcações da lista de compras vão junto) e o PDF, se nenhum outro plano usa o mesmo arquivo. */
+export async function excluirCardapio(id: string): Promise<void> {
+  const { pdf_path }: { pdf_path: string | null } = ok(
+    await supabase.from('cardapios').select('pdf_path').eq('id', id).single(),
+  )
+  ok(await supabase.from('cardapios').delete().eq('id', id))
+  if (!pdf_path) return
+  const outros = ok(await supabase.from('cardapios').select('id').eq('pdf_path', pdf_path))
+  if (outros.length === 0) await supabase.storage.from('cardapios').remove([pdf_path])
+}
+
 export async function listarRefeicoes(busca: string, tipo: string): Promise<RefeicaoModelo[]> {
   let q = supabase.from('refeicoes_modelo').select('*').order('nome')
   for (const p of palavrasBusca(busca)) q = q.like('busca', p)

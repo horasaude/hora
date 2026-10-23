@@ -73,7 +73,7 @@ export const tCardapios = {
   titulo: 'Cardápios',
   novo: 'Novo cardápio',
   vazio: 'Nenhum cardápio ainda.',
-  colunas: ['Cardápio', 'Objetivo', 'Refeições', 'Energia', 'Status'],
+  colunas: ['Cardápio', 'Objetivo', 'Refeições', 'Energia', 'Status', ''],
   publicados: 'Cardápios publicados',
   rascunhos: 'Em rascunho',
   filtroTema: 'Tema',
