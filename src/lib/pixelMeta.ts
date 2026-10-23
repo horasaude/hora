@@ -1,6 +1,9 @@
 // Pixel da Meta (conjunto de dados "Comunidade ORA - Site", BM da Comunidade Ora). Só nas páginas
 // públicas (vendas, checkout e obrigada); nunca dentro de /app, onde há dado de saúde.
 // Liga desde a primeira visita; quem recusa no aviso de cookies fica com o pixel desligado.
+// Cada evento também vai para o Google Analytics (googleAnalytics.ts), com a mesma recusa.
+
+import { eventoGoogle } from './googleAnalytics'
 
 export const PIXEL_META = '2586011068587810'
 const RECUSA = 'ora:cookies-recusados'
@@ -63,6 +66,11 @@ export function eventoMeta(nome: string, dados?: Record<string, unknown>, id?: s
   if (typeof window === 'undefined' || cookiesRecusados()) return
   try {
     carregar()('track', nome, dados ?? {}, id ? { eventID: id } : undefined)
+  } catch {
+    // o pixel nunca pode atrapalhar a venda
+  }
+  try {
+    eventoGoogle(nome, dados, id)
   } catch {
     // o pixel nunca pode atrapalhar a venda
   }
