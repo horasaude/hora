@@ -7,6 +7,7 @@ export const doTema = {
   tipos: 'Tipos de treino',
   receitas: 'Receitas',
   materiaisNutri: 'Materiais da nutricionista',
+  saude: 'Saúde (Dra. Clara)',
   desafio: 'Desafio do tema',
   materiais: 'Arquivos para baixar',
   novoCardapio: 'Criar novo cardápio',

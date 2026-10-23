@@ -22,7 +22,8 @@ function Materiais({ tema }: { tema: string }) {
   const lista = useMateriaisAula(`tema:${tema}`, true)
   const nutricao = useMateriais()
   const semArquivos = lista.isSuccess && lista.data.length === 0
-  const semNutricao = nutricao.isSuccess && !nutricao.data.some((m) => m.tema_id === tema)
+  const semNutricao =
+    nutricao.isSuccess && !nutricao.data.some((m) => m.tema_id === tema && m.area === 'nutricao')
   if (semArquivos && semNutricao) return <Vazio>{textos.materiais.vazioTema}</Vazio>
   return (
     <div className="flex flex-col gap-4">
@@ -32,11 +33,20 @@ function Materiais({ tema }: { tema: string }) {
   )
 }
 
+/** Aba Saúde: orientações da Dra. Clara para o tema; sem nenhuma, o aviso. */
+function Saude({ tema }: { tema: string }) {
+  const m = useMateriais()
+  if (m.isSuccess && !m.data.some((x) => x.tema_id === tema && x.area === 'saude'))
+    return <Vazio>{textos.materiais.vazioSaude}</Vazio>
+  return <ListaMateriais temaId={tema} area="saude" />
+}
+
 function Conteudo({ tema, aba }: { tema: TemaTrilha; aba: AbaTema }) {
   if (aba === 'cardapio') return <ListaCardapios temaId={tema.id} />
   if (aba === 'receitas') return <ListaReceitas temaId={tema.id} />
   if (aba === 'treinos') return <TreinosDoTema temaId={tema.id} />
   if (aba === 'desafio') return <DesafiosDoTema temaId={tema.id} />
+  if (aba === 'saude') return <Saude tema={tema.id} />
   if (aba === 'materiais') return <Materiais tema={tema.id} />
   if (tema.aulas.length === 0) return <Vazio>{t.semAulas}</Vazio>
   return <ListaAulas aulas={tema.aulas} tema={tema} fechada={() => textos.emBreve} />
@@ -70,7 +80,7 @@ function Fechado({ tema, dia }: { tema: TemaTrilha; dia: number }) {
   )
 }
 
-/** Página do tema: capa e, quando aberto, aulas, cardápio, receitas, treinos, desafio e materiais em abas. */
+/** Página do tema: capa e, quando aberto, aulas, cardápio, receitas, treinos, desafio, saúde e materiais em abas. */
 export function TemaPage() {
   const { temaId } = useParams()
   const trilha = useTrilha()

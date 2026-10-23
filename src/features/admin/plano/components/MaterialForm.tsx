@@ -5,6 +5,7 @@ import { FormAgenda, type CampoDef } from '../../components/FormAgenda'
 import { useSalvar, useTemas } from '../../hooks/usePainel'
 import { textos } from '../../textos'
 import { salvarMaterialNutricao, type MaterialNutricao } from '../api/materiais.api'
+import { caminhoMateriais, type AreaMaterial } from '../areaMaterial'
 import { materiais as t } from '../textosMateriais'
 
 const esquema = z.object({
@@ -32,10 +33,12 @@ const campos = (temas: { id: string; titulo: string }[]): CampoDef<Entrada>[] =>
 export function MaterialForm({
   material,
   temaId,
+  area = 'nutricao',
   aoFechar,
 }: {
   material?: MaterialNutricao
   temaId?: string
+  area?: AreaMaterial
   aoFechar: () => void
 }) {
   const salvar = useSalvar(salvarMaterialNutricao)
@@ -53,9 +56,9 @@ export function MaterialForm({
       resolver={zodResolver(esquema)}
       aoCancelar={aoFechar}
       aoSalvar={async (d) => {
-        const salvo = await salvar.mutateAsync({ ...d, id: material?.id })
+        const salvo = await salvar.mutateAsync({ ...d, id: material?.id, area })
         if (material || temaId) aoFechar()
-        else navegar(`/app/admin/plano/materiais/${salvo.id}`)
+        else navegar(`${caminhoMateriais(area)}/${salvo.id}`)
       }}
     />
   )

@@ -6,6 +6,7 @@ export const CORES_ABAS = {
   receitas: 'prata',
   treinos: 'dourado',
   desafio: 'lilas',
+  saude: 'verde',
   materiais: 'rosa',
 } as const
 export type AbaTema = keyof typeof CORES_ABAS

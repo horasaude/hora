@@ -21,6 +21,8 @@ const pagina =
       | 'ReceitaPage'
       | 'AlimentosPage'
       | 'MateriaisPage'
+      | 'SaudeMateriaisPage'
+      | 'SaudeAnamnesePage'
       | 'PontosPage'
       | 'ForumPainelPage'
       | 'DuvidaPainelPage'
@@ -71,6 +73,12 @@ const rotasAdmin: RouteObject[] = [
   { path: 'treinos/modelos', lazy: pagina('ModelosPage') },
   { path: 'treinos/publicados', lazy: pagina('PublicadosPage') },
   { path: 'treinos/anamnese', lazy: pagina('AnamnesesPage') },
+  { path: 'saude', element: <Navigate to="materiais" replace /> },
+  ...['saude/materiais', 'saude/materiais/novo', 'saude/materiais/:materialId'].map((path) => ({
+    path,
+    lazy: pagina('SaudeMateriaisPage'),
+  })),
+  { path: 'saude/anamnese', lazy: pagina('SaudeAnamnesePage') },
   ...['desafios', 'desafios/novo', 'desafios/:desafioId'].map((path) => ({ path, lazy: desafios })),
   ...['alunas', 'alunas/:alunaId'].map((path) => ({ path, lazy: alunas })),
   { path: 'cancelamentos', lazy: pagina('CancelamentosPage') },

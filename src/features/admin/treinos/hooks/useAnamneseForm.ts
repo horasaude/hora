@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { erroPergunta, novaPergunta, type Pergunta } from '@/domain/anamnese'
-import { salvarAnamnese, type Anamnese } from '../api/anamnese.api'
+import { salvarAnamnese, type Anamnese, type AreaAnamnese } from '../api/anamnese.api'
 import { t } from '../textos'
 import { useAcaoTreinos } from './useTreinosPainel'
 
 /** Estado da janela da anamnese: título, abertura, perguntas e o salvar (rascunho ou publicada). */
-export function useAnamneseForm(x: Anamnese | undefined, aoFechar: () => void) {
+export function useAnamneseForm(x: Anamnese | undefined, area: AreaAnamnese, aoFechar: () => void) {
   const salvar = useAcaoTreinos(salvarAnamnese)
   const [titulo, setTitulo] = useState(x?.titulo ?? '')
   const [descricao, setDescricao] = useState(x?.descricao ?? '')
@@ -39,6 +39,7 @@ export function useAnamneseForm(x: Anamnese | undefined, aoFechar: () => void) {
     try {
       await salvar.mutateAsync({
         id: x?.id,
+        area: x?.area ?? area,
         titulo: titulo.trim(),
         descricao: descricao.trim(),
         perguntas: limpas,

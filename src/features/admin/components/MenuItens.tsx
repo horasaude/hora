@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom'
 import { BolinhaMenu as Bolinha, classeItemMenu as item, ItemMenuLateral } from '@/components/ui'
 import { materiais } from '../plano/textosMateriais'
 import { textos } from '../textos'
+import { saude } from '../textos/saude'
 
 const a = textos.abas
 
@@ -30,9 +31,27 @@ const PLANO: Item[] = [
   { para: 'plano/materiais', nome: materiais.menu, cor: '#D98BA8' },
 ]
 
-/** Grupo "Plano alimentar" que abre e fecha; fica aberto quando uma das telas dele está aberta. */
-export function GrupoPlano({ aoNavegar }: { aoNavegar?: () => void }) {
-  const dentro = useLocation().pathname.startsWith('/app/admin/plano')
+const SAUDE: Item[] = [
+  { para: 'saude/materiais', nome: materiais.menu, cor: '#D98BA8' },
+  { para: 'saude/anamnese', nome: saude.anamnese, cor: '#6E9BC9' },
+]
+
+type Grupo = { prefixo: string; nome: string; cor: string; itens: Item[] }
+const GRUPOS: Record<'plano' | 'saude', Grupo> = {
+  plano: { prefixo: 'plano', nome: a.plano, cor: '#F2643A', itens: PLANO },
+  saude: { prefixo: 'saude', nome: saude.menu, cor: '#7FB89E', itens: SAUDE },
+}
+
+/** Grupo do menu (Plano alimentar ou Saúde) que abre e fecha; fica aberto quando uma das telas dele está aberta. */
+export function GrupoMenu({
+  qual,
+  aoNavegar,
+}: {
+  qual: 'plano' | 'saude'
+  aoNavegar?: () => void
+}) {
+  const g = GRUPOS[qual]
+  const dentro = useLocation().pathname.startsWith(`/app/admin/${g.prefixo}`)
   const [aberto, setAberto] = useState(dentro)
   const visivel = aberto || dentro
   return (
@@ -43,8 +62,8 @@ export function GrupoPlano({ aoNavegar }: { aoNavegar?: () => void }) {
         onClick={() => setAberto(!visivel)}
         className={`${item(false)} w-full`}
       >
-        <Bolinha cor="#F2643A" />
-        <span className="flex-1 text-left">{a.plano}</span>
+        <Bolinha cor={g.cor} />
+        <span className="flex-1 text-left">{g.nome}</span>
         <svg
           viewBox="0 0 16 16"
           aria-hidden
@@ -62,7 +81,7 @@ export function GrupoPlano({ aoNavegar }: { aoNavegar?: () => void }) {
       </button>
       {visivel && (
         <ul className="mt-1 ml-4 flex flex-col gap-0.5 border-l border-white/10 pl-2">
-          {PLANO.map((p) => (
+          {g.itens.map((p) => (
             <ItemMenu key={p.para} i={p} aoNavegar={aoNavegar} />
           ))}
         </ul>

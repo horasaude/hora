@@ -4,7 +4,12 @@ import { Estado } from '../../components/Estado'
 import { Tabela } from '../../components/Tabela'
 import { Confirmar } from '../../plano/components/Confirmar'
 import { MenuAcoes } from '../../plano/components/MenuAcoes'
-import { removerAnamnese, salvarAnamnese, type Anamnese } from '../api/anamnese.api'
+import {
+  removerAnamnese,
+  salvarAnamnese,
+  type Anamnese,
+  type AreaAnamnese,
+} from '../api/anamnese.api'
 import { AnamneseJanela } from '../components/AnamneseJanela'
 import { StatusTreino } from '../components/Etiquetas'
 import { QuadroTreinos } from '../components/QuadroTreinos'
@@ -48,9 +53,16 @@ function Linhas({ lista, abrir }: { lista: Anamnese[]; abrir: (x: Aberta) => voi
   )
 }
 
-/** Anamnese: questionários que a aluna responde em Avaliações; respostas no cartão dela em Alunas. */
-export function AnamnesesPage() {
-  const lista = useAnamneses()
+/** Anamneses de uma área: questionários que a aluna responde em Avaliações; respostas no cartão dela
+ * em Alunas. A moldura é a tela de Treinos ou a de Saúde. */
+export function Anamneses({
+  area,
+  moldura: Moldura,
+}: {
+  area: AreaAnamnese
+  moldura: (p: { acao: ReactNode; children: ReactNode }) => ReactNode
+}) {
+  const lista = useAnamneses(area)
   const remover = useAcaoTreinos(removerAnamnese)
   const [aberta, setAberta] = useState<Aberta>(null)
   const fechar = () => setAberta(null)
@@ -70,10 +82,12 @@ export function AnamnesesPage() {
     corpo = <Estado tipo="vazio" texto={t.anamnese.vazio} acao={botao} />
   else corpo = <Linhas lista={lista.data} abrir={setAberta} />
   return (
-    <QuadroTreinos acao={botao}>
+    <Moldura acao={botao}>
       {corpo}
-      {aberta?.tipo === 'nova' && <AnamneseJanela aoFechar={fechar} />}
-      {aberta?.tipo === 'editar' && <AnamneseJanela anamnese={aberta.a} aoFechar={fechar} />}
+      {aberta?.tipo === 'nova' && <AnamneseJanela area={area} aoFechar={fechar} />}
+      {aberta?.tipo === 'editar' && (
+        <AnamneseJanela anamnese={aberta.a} area={area} aoFechar={fechar} />
+      )}
       {aberta?.tipo === 'remover' && (
         <Confirmar
           nome={aberta.a.titulo}
@@ -81,6 +95,11 @@ export function AnamnesesPage() {
           aoFechar={fechar}
         />
       )}
-    </QuadroTreinos>
+    </Moldura>
   )
+}
+
+/** Treinos > Anamnese (Laís). */
+export function AnamnesesPage() {
+  return <Anamneses area="treino" moldura={QuadroTreinos} />
 }

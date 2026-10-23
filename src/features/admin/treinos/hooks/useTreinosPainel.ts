@@ -1,4 +1,4 @@
-import { listarAnamneses, respostasDaAluna } from '../api/anamnese.api'
+import { listarAnamneses, respostasDaAluna, type AreaAnamnese } from '../api/anamnese.api'
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
   buscarTreino,
@@ -45,6 +45,7 @@ export function useAcaoTreinos<E, S>(fn: (dados: E) => Promise<S>) {
   return useMutation({ mutationFn: fn, onSuccess: () => cliente.invalidateQueries() })
 }
 
-export const useAnamneses = () => useQuery({ queryKey: ['anamneses'], queryFn: listarAnamneses })
+export const useAnamneses = (area: AreaAnamnese) =>
+  useQuery({ queryKey: ['anamneses', area], queryFn: () => listarAnamneses(area) })
 export const useRespostasDaAluna = (perfil: string) =>
   useQuery({ queryKey: ['anamnese-aluna', perfil], queryFn: () => respostasDaAluna(perfil) })

@@ -55,6 +55,26 @@ async function regras(t) {
     `with x as (delete from public.materiais_nutricao where titulo = 'Rascunho' returning 1) select count(*)::int from x`,
     1,
   )
+  await esperaValor(
+    'material novo é da nutricionista por padrão',
+    `with x as (insert into public.materiais_nutricao (titulo) values ('Padrão') returning area) select area from x`,
+    'nutricao',
+  )
+  await esperaValor(
+    'equipe cria material de saúde',
+    `with x as (insert into public.materiais_nutricao (titulo, area) values ('Hidratação', 'saude') returning area) select area from x`,
+    'saude',
+  )
+  await esperaErro(
+    'área desconhecida não entra',
+    `insert into public.materiais_nutricao (titulo, area) values ('x', 'outra')`,
+    '23514',
+  )
+  await esperaValor(
+    'anamnese nova é de treino por padrão',
+    `with x as (insert into public.anamneses (titulo) values ('PAR-Q 2') returning area) select area from x`,
+    'treino',
+  )
 }
 
 export async function testarMateriaisNutricao() {

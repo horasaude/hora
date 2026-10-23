@@ -3,6 +3,7 @@
 export const materiais = {
   menu: 'Materiais',
   pagina: 'Materiais',
+  paginaSaude: 'Materiais da médica',
   coluna: 'Material',
   novo: 'Novo material',
   editar: 'Editar material',

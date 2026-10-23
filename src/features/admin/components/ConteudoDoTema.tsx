@@ -76,10 +76,10 @@ function PartesNutri({
   )
 }
 
-const vazio = { cardapios: [], receitas: [], materiais: [], tipos: [], desafios: [] }
+const vazio = { cardapios: [], receitas: [], materiais: [], saude: [], tipos: [], desafios: [] }
 
 /** Dentro do tema, em tela cheia: cada profissional cria a sua parte (aulas, cardápios, receitas,
- * materiais, tipos de treino, desafio e arquivos). */
+ * materiais, saúde da Dra. Clara, tipos de treino, desafio e arquivos). */
 export function ConteudoDoTema(p: { temaId: string; temaPublicado: boolean; aulas: Aula[] }) {
   const q = useQuery({ queryKey: ['do-tema', p.temaId], queryFn: () => listarDoTema(p.temaId) })
   const [janela, setJanela] = useState<Janela>(null)
@@ -111,6 +111,17 @@ export function ConteudoDoTema(p: { temaId: string; temaPublicado: boolean; aula
           <Criar rotulo={t.novoDesafio} aoClicar={() => setJanela({ tipo: 'desafio' })} />
         </Parte>
         <PartesNutri d={d} abrir={setJanela} />
+        <Parte titulo={t.saude}>
+          <ItensDoTema
+            lista={d.saude}
+            tabela="materiais_nutricao"
+            abrir={link('/app/admin/saude/materiais')}
+          />
+          <Criar
+            rotulo={t.maisMaterial}
+            aoClicar={() => setJanela({ tipo: 'usarMaterial', area: 'saude' })}
+          />
+        </Parte>
         <Parte titulo={t.materiais}>
           <button
             type="button"

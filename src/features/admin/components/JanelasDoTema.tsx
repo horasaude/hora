@@ -2,6 +2,7 @@
 import { Link } from 'react-router-dom'
 import { classeBrilho } from '@/components/ui'
 import { doTema as t } from '../textos/doTema'
+import type { AreaMaterial } from '../plano/areaMaterial'
 import { MaterialForm } from '../plano/components/MaterialForm'
 import { RotinaJanela } from '../treinos/components/RotinaJanela'
 import { useRotinas } from '../treinos/hooks/useTreinosPainel'
@@ -25,6 +26,7 @@ export type Janela = {
     | 'usarReceita'
     | 'usarMaterial'
   id?: string
+  area?: AreaMaterial
 } | null
 
 /** Botão dourado de criar, no fim de cada parte. */
@@ -89,7 +91,13 @@ function Escolhas({ janela, temaId, fechar, abrir }: Props) {
     return (
       <AdicionarMaterial
         {...base}
-        criar={<Criar rotulo={t.novoMaterial} aoClicar={() => abrir({ tipo: 'material' })} />}
+        area={janela.area ?? 'nutricao'}
+        criar={
+          <Criar
+            rotulo={t.novoMaterial}
+            aoClicar={() => abrir({ tipo: 'material', area: janela.area })}
+          />
+        }
       />
     )
   return null
@@ -98,7 +106,8 @@ function Escolhas({ janela, temaId, fechar, abrir }: Props) {
 export function Janelas(p: Props) {
   const { janela, temaId, fechar } = p
   if (janela?.tipo === 'tipo') return <TipoJanela id={janela.id} temaId={temaId} fechar={fechar} />
-  if (janela?.tipo === 'material') return <MaterialForm temaId={temaId} aoFechar={fechar} />
+  if (janela?.tipo === 'material')
+    return <MaterialForm temaId={temaId} area={janela.area} aoFechar={fechar} />
   if (janela?.tipo === 'desafio') return <DesafioForm temaId={temaId} aoFechar={fechar} />
   if (janela?.tipo === 'materiais') return <MateriaisTemaJanela tema={temaId} aoFechar={fechar} />
   return <Escolhas {...p} />

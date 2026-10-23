@@ -1,6 +1,6 @@
 import { BotaoBrilho, Campo, Janela } from '@/components/ui'
 import { CampoArea } from '../../components/CampoArea'
-import type { Anamnese } from '../api/anamnese.api'
+import type { Anamnese, AreaAnamnese } from '../api/anamnese.api'
 import { useAnamneseForm } from '../hooks/useAnamneseForm'
 import { t } from '../textos'
 import { PerguntaEditor } from './PerguntaEditor'
@@ -37,12 +37,14 @@ function BotaoAdicionar({ f }: { f: ReturnType<typeof useAnamneseForm> }) {
 /** Criar e editar a anamnese: título, abertura e perguntas; Salvar rascunho ou Publicar. */
 export function AnamneseJanela({
   anamnese,
+  area,
   aoFechar,
 }: {
   anamnese?: Anamnese
+  area: AreaAnamnese
   aoFechar: () => void
 }) {
-  const f = useAnamneseForm(anamnese, aoFechar)
+  const f = useAnamneseForm(anamnese, area, aoFechar)
   const a = t.anamnese
   return (
     <Janela

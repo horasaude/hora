@@ -9,18 +9,14 @@ import { textos } from '../../textos'
 import { listarMateriaisNutricao, type MaterialNutricao } from '../api/materiais.api'
 import { MaterialDetalhe } from '../components/MaterialDetalhe'
 import { MaterialForm } from '../components/MaterialForm'
+import { caminhoMateriais, type AreaMaterial } from '../areaMaterial'
 import { materiais as t } from '../textosMateriais'
 
-function TabelaMateriais({ lista, ativo }: { lista: MaterialNutricao[]; ativo?: string }) {
+function TabelaMateriais({ lista, base }: { lista: MaterialNutricao[]; base: string }) {
   return (
     <Tabela colunas={[t.coluna, textos.status]}>
       {lista.map((m) => (
-        <LinhaTabela
-          key={m.id}
-          ativa={m.id === ativo}
-          para={`/app/admin/plano/materiais/${m.id}`}
-          titulo={m.titulo}
-        >
+        <LinhaTabela key={m.id} ativa={false} para={`${base}/${m.id}`} titulo={m.titulo}>
           <td className="px-3.5 py-3">
             <Situacao publicado={m.publicado} />
           </td>
@@ -30,17 +26,22 @@ function TabelaMateriais({ lista, ativo }: { lista: MaterialNutricao[]; ativo?: 
   )
 }
 
-/** Plano alimentar > Materiais: textos de apoio para as alunas (chás, listas, molhos...). */
-export function MateriaisPage() {
-  const consulta = useQuery({ queryKey: ['materiais-nutricao'], queryFn: listarMateriaisNutricao })
+/** Materiais de apoio para as alunas (chás, listas, orientações): Plano alimentar > Materiais e Saúde > Materiais. */
+export function MateriaisPage({ area = 'nutricao' }: { area?: AreaMaterial }) {
+  const base = caminhoMateriais(area)
+  const consulta = useQuery({
+    queryKey: ['materiais-nutricao', area],
+    queryFn: () => listarMateriaisNutricao(area),
+  })
   const { materialId } = useParams()
   const novo = useLocation().pathname.endsWith('/novo')
   const navegar = useNavigate()
   const lista = consulta.data ?? []
   const atual = lista.find((m) => m.id === materialId) ?? lista[0]
   const aberto = Boolean(materialId) && atual?.id === materialId
+  const titulo = area === 'saude' ? t.paginaSaude : t.pagina
   const acao = (
-    <Link to="/app/admin/plano/materiais/novo" className={classeBrilho('dourado')}>
+    <Link to={`${base}/novo`} className={classeBrilho('dourado')}>
       {t.novo}
     </Link>
   )
@@ -52,21 +53,21 @@ export function MateriaisPage() {
     corpo = (
       <Divisao
         aberto={aberto}
-        voltar={{ para: '/app/admin/plano/materiais', rotulo: t.pagina }}
-        tabela={<TabelaMateriais lista={lista} ativo={atual.id} />}
-        detalhe={<MaterialDetalhe key={atual.id} material={atual} />}
+        voltar={{ para: base, rotulo: titulo }}
+        tabela={<TabelaMateriais lista={lista} base={base} />}
+        detalhe={<MaterialDetalhe key={atual.id} material={atual} area={area} />}
       />
     )
   const publicados = lista.filter((m) => m.publicado).length
   return (
     <Quadro
-      titulo={t.pagina}
+      titulo={titulo}
       acao={acao}
       numeros={[{ valor: String(publicados), rotulo: t.publicados, tom: 'salvia' }]}
       aberto={aberto}
     >
       {corpo}
-      {novo && <MaterialForm aoFechar={() => navegar('/app/admin/plano/materiais')} />}
+      {novo && <MaterialForm area={area} aoFechar={() => navegar(base)} />}
     </Quadro>
   )
 }

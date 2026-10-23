@@ -2,7 +2,8 @@ import { Link } from 'react-router-dom'
 import { LogoOra } from '@/components/ui'
 import { useMeuPerfil, useNome, useSair } from '@/features/auth'
 import { textos } from '../textos'
-import { GrupoPlano, ItemMenu } from './MenuItens'
+import { saude } from '../textos/saude'
+import { GrupoMenu, ItemMenu } from './MenuItens'
 import { t as textosCancelamentos } from '../cancelamentos/textos'
 
 const a = textos.abas
@@ -11,6 +12,7 @@ const ITENS = [
   { para: 'conteudo', nome: a.conteudo, cor: '#F2A922' },
   { para: 'plano', nome: a.plano, cor: '#F2643A' },
   { para: 'treinos', nome: a.treinos, cor: '#F2643A' },
+  { para: 'saude', nome: saude.menu, cor: '#7FB89E' },
   { para: 'lives', nome: a.lives, cor: '#7FB89E' },
   { para: 'desafios', nome: a.desafios, cor: '#F2A922' },
   { para: 'pontos', nome: a.pontos, cor: '#6E9BC9' },
@@ -23,7 +25,7 @@ const ITENS = [
   { para: 'configuracoes', nome: a.configuracoes, cor: '#B9C3BF' },
 ] as const
 
-/** Menu lateral verde escuro: logo clara, itens com bolinha de cor própria, o grupo Plano alimentar quem está logada e sair da conta. */
+/** Menu lateral verde escuro: logo clara, itens com bolinha de cor própria, os grupos Plano alimentar e Saúde, quem está logada e sair da conta. */
 export function MenuLateral({ aoNavegar }: { aoNavegar?: () => void }) {
   const nome = useNome()
   const sair = useSair()
@@ -34,8 +36,8 @@ export function MenuLateral({ aoNavegar }: { aoNavegar?: () => void }) {
       <nav className="mt-6 min-h-0 flex-1 overflow-y-auto">
         <ul className="flex flex-col gap-1">
           {ITENS.map((i) =>
-            i.para === 'plano' ? (
-              <GrupoPlano key={i.para} aoNavegar={aoNavegar} />
+            i.para === 'plano' || i.para === 'saude' ? (
+              <GrupoMenu key={i.para} qual={i.para} aoNavegar={aoNavegar} />
             ) : (
               <ItemMenu key={i.para} i={i} aoNavegar={aoNavegar} />
             ),

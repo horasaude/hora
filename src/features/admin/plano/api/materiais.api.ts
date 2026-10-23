@@ -2,12 +2,20 @@
 import { supabase } from '@/lib/supabase'
 import type { Tables, TablesInsert } from '@/types/database'
 import { ok } from '../../api/conteudo.api'
+import type { AreaMaterial } from '../areaMaterial'
 
 export type MaterialNutricao = Tables<'materiais_nutricao'>
 
-export async function listarMateriaisNutricao(): Promise<MaterialNutricao[]> {
+export async function listarMateriaisNutricao(
+  area: AreaMaterial = 'nutricao',
+): Promise<MaterialNutricao[]> {
   return ok(
-    await supabase.from('materiais_nutricao').select('*').order('ordem').order('created_at'),
+    await supabase
+      .from('materiais_nutricao')
+      .select('*')
+      .eq('area', area)
+      .order('ordem')
+      .order('created_at'),
   )
 }
 

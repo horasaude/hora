@@ -3,6 +3,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { BotaoBrilho, Janela } from '@/components/ui'
 import { listarCardapios } from '../plano/api/cardapios.api'
 import { listarMateriaisNutricao } from '../plano/api/materiais.api'
+import type { AreaMaterial } from '../plano/areaMaterial'
 import { listarReceitas } from '../plano/api/receitas.api'
 import { useRotinas } from '../treinos/hooks/useTreinosPainel'
 import { usarCardapio, usarMaterial, usarReceita, usarTipo } from '../api/usarExistente.api'
@@ -112,9 +113,12 @@ export function AdicionarReceita(p: Props) {
   )
 }
 
-/** Materiais da nutricionista: escolher traz o material para este tema. */
-export function AdicionarMaterial(p: Props) {
-  const q = useQuery({ queryKey: ['materiais-nutricao-todos'], queryFn: listarMateriaisNutricao })
+/** Materiais da nutricionista ou da médica: escolher traz o material para este tema. */
+export function AdicionarMaterial(p: Props & { area: AreaMaterial }) {
+  const q = useQuery({
+    queryKey: ['materiais-nutricao', p.area],
+    queryFn: () => listarMateriaisNutricao(p.area),
+  })
   const itens = q.data?.map((x) => ({ id: x.id, titulo: x.titulo, tema_id: x.tema_id }))
   return (
     <Escolher

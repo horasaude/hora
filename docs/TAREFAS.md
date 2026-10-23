@@ -103,8 +103,8 @@ Venda inicial por links do Mercado Pago; o checkout integrado da Sprint 2 substi
 - [x] Módulo de Treinos no painel e na aluna (2026-10-15)
 - [ ] Laís completar vídeos, fotos e instruções dos 30 exercícios e montar os treinos e modelos reais
 
-## Saúde (Dra. Clara), logo depois do lançamento de 24/10
+## Saúde (Dra. Clara)
 
-- [ ] Menu "Saúde" no painel: anamnese com área (saúde, treino, nutrição), materiais da médica ligados ao tema e respostas no cartão da aluna
-- [ ] Parte "Saúde" dentro do tema (painel) e aba "Saúde" no tema da aluna, com as orientações da Dra. Clara
-- [ ] Respostas da anamnese de saúde: as três sócias veem (decidido em 23/10)
+- [x] Menu "Saúde" no painel: anamnese com área (saúde, treino, nutrição), materiais da médica ligados ao tema e respostas no cartão da aluna
+- [x] Parte "Saúde" dentro do tema (painel) e aba "Saúde" no tema da aluna, com as orientações da Dra. Clara
+- [x] Respostas da anamnese de saúde: as três sócias veem (decidido em 23/10)

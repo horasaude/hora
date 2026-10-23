@@ -7,11 +7,18 @@ import { Situacao } from '../../components/Tabela'
 import { useSalvar } from '../../hooks/usePainel'
 import { textos } from '../../textos'
 import { excluirMaterialNutricao, type MaterialNutricao } from '../api/materiais.api'
+import { caminhoMateriais, type AreaMaterial } from '../areaMaterial'
 import { materiais as t } from '../textosMateriais'
 import { MaterialForm } from './MaterialForm'
 
 /** Material aberto: texto, editar, publicar e excluir (excluir pede confirmação). */
-export function MaterialDetalhe({ material }: { material: MaterialNutricao }) {
+export function MaterialDetalhe({
+  material,
+  area,
+}: {
+  material: MaterialNutricao
+  area: AreaMaterial
+}) {
   const [editando, setEditando] = useState(false)
   const [confirmar, setConfirmar] = useState(false)
   const excluir = useSalvar(excluirMaterialNutricao)
@@ -35,7 +42,7 @@ export function MaterialDetalhe({ material }: { material: MaterialNutricao }) {
           onClick={() =>
             confirmar
               ? excluir.mutate(material.id, {
-                  onSuccess: () => navegar('/app/admin/plano/materiais'),
+                  onSuccess: () => navegar(caminhoMateriais(area)),
                 })
               : setConfirmar(true)
           }
@@ -43,7 +50,9 @@ export function MaterialDetalhe({ material }: { material: MaterialNutricao }) {
           {confirmar ? t.confirmarExcluir : t.excluir}
         </BotaoBrilho>
       </div>
-      {editando && <MaterialForm material={material} aoFechar={() => setEditando(false)} />}
+      {editando && (
+        <MaterialForm material={material} area={area} aoFechar={() => setEditando(false)} />
+      )}
     </CartaoDetalhe>
   )
 }

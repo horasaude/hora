@@ -180,6 +180,7 @@ export type Database = {
       }
       anamneses: {
         Row: {
+          area: string
           created_at: string
           descricao: string
           id: string
@@ -189,6 +190,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          area?: string
           created_at?: string
           descricao?: string
           id?: string
@@ -198,6 +200,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          area?: string
           created_at?: string
           descricao?: string
           id?: string
@@ -636,6 +639,7 @@ export type Database = {
       }
       materiais_nutricao: {
         Row: {
+          area: string
           tema_id: string | null
           created_at: string
           id: string
@@ -646,6 +650,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          area?: string
           tema_id?: string | null
           created_at?: string
           id?: string
@@ -656,6 +661,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          area?: string
           tema_id?: string | null
           created_at?: string
           id?: string

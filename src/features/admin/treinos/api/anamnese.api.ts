@@ -2,8 +2,12 @@ import { supabase } from '@/lib/supabase'
 import { lerPerguntas, lerRespostas, type Pergunta, type Respostas } from '@/domain/anamnese'
 import { ok } from '../../api/conteudo.api'
 
+/** Treino (Laís), nutrição (Ana) ou saúde (Dra. Clara): cada área tem as suas anamneses no painel. */
+export type AreaAnamnese = 'treino' | 'nutricao' | 'saude'
+
 export type Anamnese = {
   id: string
+  area: string
   titulo: string
   descricao: string
   perguntas: Pergunta[]
@@ -11,11 +15,12 @@ export type Anamnese = {
   enviadas: number
 }
 
-export async function listarAnamneses(): Promise<Anamnese[]> {
+export async function listarAnamneses(area: AreaAnamnese): Promise<Anamnese[]> {
   const linhas = ok(
     await supabase
       .from('anamneses')
-      .select('id, titulo, descricao, perguntas, publicada, anamnese_respostas(enviada_em)')
+      .select('id, area, titulo, descricao, perguntas, publicada, anamnese_respostas(enviada_em)')
+      .eq('area', area)
       .order('created_at'),
   ) as (Omit<Anamnese, 'perguntas' | 'enviadas'> & {
     perguntas: unknown
@@ -29,8 +34,8 @@ export async function listarAnamneses(): Promise<Anamnese[]> {
 }
 
 export async function salvarAnamnese(d: Omit<Anamnese, 'enviadas' | 'id'> & { id?: string }) {
-  const { id, titulo, descricao, perguntas, publicada } = d
-  const campos = { titulo, descricao, perguntas, publicada }
+  const { id, area, titulo, descricao, perguntas, publicada } = d
+  const campos = { area, titulo, descricao, perguntas, publicada }
   ok(
     id
       ? await supabase.from('anamneses').update(campos).eq('id', id)
