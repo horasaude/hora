@@ -27,7 +27,7 @@ function useNavegacao() {
 export function BarraInferior() {
   const { secao, live } = useNavegacao()
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-20 border-t border-linha bg-white pb-[env(safe-area-inset-bottom)] lg:hidden">
+    <nav className="relative z-20 shrink-0 border-t border-linha bg-white pb-[env(safe-area-inset-bottom)] lg:hidden">
       <ul className="mx-auto grid max-w-xl grid-cols-5">
         {SECOES.map((s) => {
           const ativa = s.id === secao?.id

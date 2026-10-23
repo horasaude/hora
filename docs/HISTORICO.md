@@ -2,6 +2,10 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-22 · main · Barra de baixo presa no celular
+
+- No iPhone (app instalado) a barra de baixo, com position fixed, subia para o meio da tela ao puxar o fim da página. No celular o layout da aluna virou coluna com altura da tela: o conteúdo rola numa área própria e a barra fica embaixo sem fixed (src/app/LayoutAluna.tsx, NavegacaoAluna.tsx). Ranking: faixa da posição dela com bottom-4.
+
 ## 2026-10-22 · main · Cardápio impresso no modelo dos guias da ORA
 
 - CardapioImpresso (cardapios): A4 com a logo e "GUIAS DE BEM-ESTAR / tema" no topo de cada página, chapéu ALIMENTAÇÃO, título grande verde, refeições com "Opção I, II..." (principal e substitutas), observação, e "Receitas para a semana" com ingredientes e preparo das receitas usadas; rodapé "ORA · Um momento para estar presente." e número da página pelo @page. Usado pela aluna (botão PDF sem PDF da nutricionista) e pelo Gerar PDF do painel. Conferido imprimindo uma página de exemplo no Chrome headless.

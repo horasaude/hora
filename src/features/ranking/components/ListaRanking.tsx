@@ -58,7 +58,7 @@ export function ListaRanking({ linhas, rotulo }: { linhas: Linha[]; rotulo: stri
         ))}
       </ol>
       {eu && fora && (
-        <div aria-hidden className="sticky bottom-[88px] z-10 shadow-cartao lg:bottom-4">
+        <div aria-hidden className="sticky bottom-4 z-10 shadow-cartao lg:bottom-4">
           <LinhaItem l={eu} />
         </div>
       )}
