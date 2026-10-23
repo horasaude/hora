@@ -20,6 +20,7 @@ import { textos } from '../textos'
 const t = textos.aula
 
 function Video({ aula, c, gravar }: { aula: AulaAberta; c: Conclusao; gravar: boolean }) {
+  if (!aula.video_url) return null
   const youtube = idDoYoutube(aula.video_url)
   if (youtube)
     return (

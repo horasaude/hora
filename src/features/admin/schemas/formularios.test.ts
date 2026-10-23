@@ -32,6 +32,10 @@ describe('formulários do painel', () => {
     expect(esquemaAula.safeParse({ ...aula, video_url: 'http://x.com' }).success).toBe(false)
   })
 
+  it('aula pode ser salva sem vídeo', () => {
+    expect(esquemaAula.parse({ ...aula, video_url: '  ' }).video_url).toBe('')
+  })
+
   it('aviso guarda o horário de Brasília em UTC', () => {
     const r = esquemaAviso.parse({ titulo: 'Oi', texto: 'Texto', publicar_em: '2026-10-24T19:00' })
     expect(r.publicar_em).toBe('2026-10-24T22:00:00.000Z')

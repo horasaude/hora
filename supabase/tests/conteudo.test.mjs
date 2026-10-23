@@ -127,6 +127,11 @@ async function admin(t) {
     `insert into public.aulas (etapa_id, titulo, video_url, dia_liberacao) values ('${ID(21)}', 'x', 'http://v.t', 1)`,
     '23514',
   )
+  await esperaValor(
+    'aula sem vídeo é salva',
+    `insert into public.aulas (etapa_id, titulo, dia_liberacao) values ('${ID(21)}', 'sem vídeo', 2) returning video_url`,
+    '',
+  )
   await esperaErro(
     'dia de liberação começa no 1',
     `insert into public.aulas (etapa_id, titulo, video_url, dia_liberacao) values ('${ID(21)}', 'x', 'https://v.t', 0)`,

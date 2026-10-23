@@ -6,10 +6,10 @@ import { liberacao as tl } from '../textos/liberacao'
 
 const e = textos.erros
 const titulo = (max: number) => z.string().trim().min(1, e.titulo).max(max, e.titulo)
-const linkObrigatorio = z
+const linkOuVazio = z
   .string()
   .trim()
-  .regex(/^https:\/\/\S+$/, e.link)
+  .refine((v) => v === '' || /^https:\/\/\S+$/.test(v), e.link)
 const linkOpcional = z
   .string()
   .trim()
@@ -61,7 +61,7 @@ export const esquemaAula = z
     tema: z.string().min(1, c.erroTema),
     titulo: titulo(160),
     descricao: z.string().trim().max(5000),
-    video_url: linkObrigatorio,
+    video_url: linkOuVazio,
     profissional: z
       .string()
       .trim()
