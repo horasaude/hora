@@ -57,3 +57,24 @@ export async function salvarMateriaisTema(
   if (error) throw error
   if (removidos.length) await supabase.storage.from('materiais').remove(removidos)
 }
+
+export async function buscarMateriaisApoio(material: string): Promise<MaterialSalvo[]> {
+  const linhas = ok(
+    await supabase.from('material_arquivos').select('*').eq('material_id', material).order('ordem'),
+  )
+  return linhas.map((m) => ({ ...m, aula_id: material }))
+}
+
+/** Grava os anexos do material da nutricionista ou da Dra. Clara e apaga do espaço os tirados. */
+export async function salvarMateriaisApoio(
+  material: string,
+  itens: MaterialParaSalvar[],
+  removidos: string[],
+) {
+  const { error } = await supabase.rpc('salvar_materiais_apoio', {
+    p_material: material,
+    p_itens: itens,
+  })
+  if (error) throw error
+  if (removidos.length) await supabase.storage.from('materiais').remove(removidos)
+}

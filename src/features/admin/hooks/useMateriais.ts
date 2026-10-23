@@ -1,39 +1,27 @@
 import { useEffect, useRef, useState } from 'react'
-import { nomeSemExtensao, tipoMime, validarArquivo, type TipoMaterial } from '@/domain/arquivos'
-import { enviarComProgresso } from '@/lib/envio'
-import { buscarMateriais, buscarMateriaisComece, buscarMateriaisTema } from '../api/materiais.api'
+import type { TipoMaterial } from '@/domain/arquivos'
+import {
+  buscarMateriais,
+  buscarMateriaisApoio,
+  buscarMateriaisComece,
+  buscarMateriaisTema,
+} from '../api/materiais.api'
+import { enviarArquivos, type ItemMaterial } from './envioMateriais'
 
-export type ItemMaterial = {
-  chave: string
-  tipo: TipoMaterial
-  caminho: string | null
-  nome: string
-  tamanho: number | null
-  progresso: number | null
-  falhou?: boolean
-}
-
-const extensao = (f: File) => {
-  const mime = tipoMime(f.name, f.type)
-  if (mime === 'application/msword') return 'doc'
-  if (mime.includes('wordprocessingml')) return 'docx'
-  return mime === 'application/pdf'
-    ? 'pdf'
-    : mime.split('/')[1] === 'jpeg'
-      ? 'jpg'
-      : (mime.split('/')[1] ?? 'bin')
-}
+export type { ItemMaterial }
 
 /** Materiais já salvos da aula (ou do Comece por aqui), ao abrir para editar. */
 function useCarregar(aulaId: string | undefined, setItens: (l: ItemMaterial[]) => void) {
   useEffect(() => {
-    if (!aulaId) return
+    if (!aulaId || aulaId === APOIO) return
     const busca =
       aulaId === COMECE
         ? buscarMateriaisComece()
         : aulaId.startsWith(TEMA)
           ? buscarMateriaisTema(aulaId.slice(TEMA.length))
-          : buscarMateriais(aulaId)
+          : aulaId.startsWith(APOIO)
+            ? buscarMateriaisApoio(aulaId.slice(APOIO.length))
+            : buscarMateriais(aulaId)
     busca.then((lista) =>
       setItens(
         lista.map((m) => ({
@@ -49,54 +37,37 @@ function useCarregar(aulaId: string | undefined, setItens: (l: ItemMaterial[]) =
   }, [aulaId, setItens])
 }
 
-/** Confere e envia os arquivos escolhidos; devolve as recusas ("nome|motivo"). */
-function enviarArquivos(
-  arquivos: File[],
-  pasta: string,
-  incluir: (item: ItemMaterial) => void,
-  mudar: (chave: string, p: Partial<ItemMaterial>) => void,
-): string[] {
-  const recusas: string[] = []
-  for (const f of arquivos) {
-    const v = validarArquivo(f, 'material')
-    if (!v.ok) {
-      recusas.push(`${f.name}|${v.motivo}`)
-      continue
-    }
-    const chave = crypto.randomUUID()
-    const caminho = `${pasta}/${chave}.${extensao(f)}`
-    incluir({
-      chave,
-      tipo: v.tipo,
-      caminho,
-      nome: nomeSemExtensao(f.name),
-      tamanho: f.size,
-      progresso: 0,
-    })
-    enviarComProgresso('materiais', caminho, f, (pct) =>
-      mudar(chave, { progresso: pct < 100 ? pct : null }),
-    ).catch(() => mudar(chave, { falhou: true, progresso: null }))
-  }
-  return recusas
-}
-
 /** Id especial: os arquivos do Comece por aqui, guardados em comece/. */
 export const COMECE = 'comece'
 /** Prefixo dos arquivos de um tema: "tema:<id>", guardados em temas/<id>/. */
 export const TEMA = 'tema:'
+/** Prefixo dos anexos de um material de apoio (nutrição ou saúde): "apoio:<id>", guardados em apoio/. */
+export const APOIO = 'apoio:'
+
+/** Pasta no espaço materiais: comece/, temas/<id>/, apoio/<id>/ ou aulas/<id>/. */
+function pastaDe(aulaId?: string): string {
+  if (aulaId === COMECE) return COMECE
+  if (aulaId?.startsWith(TEMA)) return `temas/${aulaId.slice(TEMA.length)}`
+  if (aulaId?.startsWith(APOIO)) return `apoio/${aulaId.slice(APOIO.length) || crypto.randomUUID()}`
+  return `aulas/${aulaId ?? crypto.randomUUID()}`
+}
+
+/** Link de vídeo ou página que entra na lista junto com os arquivos. */
+const itemLink = (link: string, nome: string): ItemMaterial => ({
+  chave: crypto.randomUUID(),
+  tipo: 'link',
+  caminho: link.trim(),
+  nome: nome.trim() || 'Vídeo',
+  tamanho: null,
+  progresso: null,
+})
 
 /** Lista de materiais do modal da aula (ou do Comece por aqui): carrega os salvos, envia os novos com progresso, ordena e remove. */
 export function useMateriais(aulaId?: string) {
   const [itens, setItens] = useState<ItemMaterial[]>([])
   const [removidos, setRemovidos] = useState<string[]>([])
   const [recusas, setRecusas] = useState<string[]>([])
-  const pasta = useRef(
-    aulaId === COMECE
-      ? COMECE
-      : aulaId?.startsWith(TEMA)
-        ? `temas/${aulaId.slice(TEMA.length)}`
-        : `aulas/${aulaId ?? crypto.randomUUID()}`,
-  )
+  const pasta = useRef(pastaDe(aulaId))
   useCarregar(aulaId, setItens)
   const mudar = (chave: string, p: Partial<ItemMaterial>) =>
     setItens((l) => l.map((i) => (i.chave === chave ? { ...i, ...p } : i)))
@@ -109,6 +80,8 @@ export function useMateriais(aulaId?: string) {
     if (item?.caminho && item.tipo !== 'link') setRemovidos((r) => [...r, item.caminho as string])
     setItens((l) => l.filter((i) => i.chave !== chave))
   }
+  const adicionarLink = (link: string, nome: string) =>
+    setItens((l) => [...l, itemLink(link, nome)])
   const mover = (de: number, para: number) =>
     setItens((l) => {
       if (para < 0 || para >= l.length) return l
@@ -132,6 +105,7 @@ export function useMateriais(aulaId?: string) {
     paraSalvar,
     removidos,
     adicionar,
+    adicionarLink,
     remover,
     mover,
     mudar,

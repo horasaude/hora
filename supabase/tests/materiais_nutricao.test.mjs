@@ -70,6 +70,26 @@ async function regras(t) {
     `insert into public.materiais_nutricao (titulo, area) values ('x', 'outra')`,
     '23514',
   )
+  await t.db.query(
+    `select public.salvar_materiais_apoio((select id from public.materiais_nutricao where titulo = 'Hidratação'), '[{"tipo":"pdf","caminho":"apoio/x/a.pdf","nome":"Guia"},{"tipo":"link","caminho":"https://youtu.be/abc","nome":"Vídeo"}]'::jsonb)`,
+  )
+  await esperaValor(
+    'equipe anexa arquivo e link ao material',
+    `select count(*)::int from public.material_arquivos`,
+    2,
+  )
+  await esperaErro(
+    'anexo fora da pasta apoio não entra',
+    `insert into public.material_arquivos (material_id, tipo, caminho, nome) values ((select id from public.materiais_nutricao where titulo = 'Hidratação'), 'pdf', 'aulas/x.pdf', 'x')`,
+    '23514',
+  )
+  await t.comoAluna(SEM_ACESSO)
+  await esperaValor(
+    'sem acesso não vê anexos',
+    `select count(*)::int from public.material_arquivos`,
+    0,
+  )
+  await t.comoAluna(ADMIN)
   await esperaValor(
     'anamnese nova é de treino por padrão',
     `with x as (insert into public.anamneses (titulo) values ('PAR-Q 2') returning area) select area from x`,

@@ -83,6 +83,7 @@ export const textos = {
       materiais: 'Materiais',
     },
     abasRotulo: 'Partes do tema',
+    anexos: 'Arquivos e vídeos',
     semAulas: 'As aulas deste tema aparecem aqui em breve.',
   },
   previa: {

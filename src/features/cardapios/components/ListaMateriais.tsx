@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { Carregando, ErroCarregar } from '@/components/ui'
 import { useMateriais } from '../hooks/useMateriais'
 import { textos } from '../textos'
@@ -7,9 +8,12 @@ import { textos } from '../textos'
 export function ListaMateriais({
   temaId,
   area = 'nutricao',
+  anexos,
 }: {
   temaId: string
   area?: 'nutricao' | 'saude'
+  /** Arquivos e links do material (PDF, Word, foto, vídeo), mostrados quando ele abre. */
+  anexos?: (id: string) => ReactNode
 }) {
   const materiais = useMateriais()
   if (materiais.isPending) return <Carregando texto={textos.carregando} />
@@ -35,9 +39,14 @@ export function ListaMateriais({
                 className="size-2.5 shrink-0 rotate-45 border-r-2 border-b-2 border-suave transition group-open:rotate-[225deg]"
               />
             </summary>
-            <p className="border-t border-linha px-4 py-4 text-[15px] leading-relaxed whitespace-pre-line text-tinta">
-              {m.texto}
-            </p>
+            <div className="flex flex-col gap-4 border-t border-linha px-4 py-4">
+              {m.texto && (
+                <p className="text-[15px] leading-relaxed whitespace-pre-line text-tinta">
+                  {m.texto}
+                </p>
+              )}
+              {anexos?.(m.id)}
+            </div>
           </details>
         </li>
       ))}

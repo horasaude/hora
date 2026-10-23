@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { formatarTamanho } from '@/domain/arquivos'
 import type { ItemMaterial, Materiais } from '../hooks/useMateriais'
 import { textos } from '../textos'
+import { AdicionarLink } from './AdicionarLink'
 import { AreaArquivos } from './AreaArquivos'
 import { BarraEnvio } from './BarraEnvio'
 import { IconeArquivo } from './IconeArquivo'
@@ -101,6 +102,7 @@ export function MateriaisAula({ m }: { m: Materiais }) {
         dica={t.dicaMateriais}
         aoEscolher={m.adicionar}
       />
+      <AdicionarLink aoAdicionar={m.adicionarLink} />
       {m.recusas.map((r) => {
         const [nome = '', motivo = ''] = r.split('|')
         return (

@@ -28,17 +28,20 @@ function Materiais({ tema }: { tema: string }) {
   return (
     <div className="flex flex-col gap-4">
       {!semArquivos && <MateriaisDaAula aula={`tema:${tema}`} titulo={t.abas.materiais} />}
-      <ListaMateriais temaId={tema} />
+      <ListaMateriais temaId={tema} anexos={anexos} />
     </div>
   )
 }
+
+/** Anexos do material (PDF, Word, foto, link de vídeo), com links assinados pela função materiais-aula. */
+const anexos = (id: string) => <MateriaisDaAula aula={`apoio:${id}`} titulo={t.anexos} />
 
 /** Aba Saúde: orientações da Dra. Clara para o tema; sem nenhuma, o aviso. */
 function Saude({ tema }: { tema: string }) {
   const m = useMateriais()
   if (m.isSuccess && !m.data.some((x) => x.tema_id === tema && x.area === 'saude'))
     return <Vazio>{textos.materiais.vazioSaude}</Vazio>
-  return <ListaMateriais temaId={tema} area="saude" />
+  return <ListaMateriais temaId={tema} area="saude" anexos={anexos} />
 }
 
 function Conteudo({ tema, aba }: { tema: TemaTrilha; aba: AbaTema }) {

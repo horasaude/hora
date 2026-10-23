@@ -637,6 +637,39 @@ export type Database = {
         Update: { caminho?: string; created_at?: string; id?: string; nome?: string; ordem?: number; tamanho?: number | null; tema_id?: string; tipo?: string }
         Relationships: []
       }
+      material_arquivos: {
+        Row: {
+          caminho: string
+          created_at: string
+          id: string
+          material_id: string
+          nome: string
+          ordem: number
+          tamanho: number | null
+          tipo: string
+        }
+        Insert: {
+          caminho: string
+          created_at?: string
+          id?: string
+          material_id: string
+          nome: string
+          ordem?: number
+          tamanho?: number | null
+          tipo: string
+        }
+        Update: {
+          caminho?: string
+          created_at?: string
+          id?: string
+          material_id?: string
+          nome?: string
+          ordem?: number
+          tamanho?: number | null
+          tipo?: string
+        }
+        Relationships: []
+      }
       materiais_nutricao: {
         Row: {
           area: string
@@ -3126,6 +3159,10 @@ export type Database = {
       etapa_do_tema: { Args: { p_tema: string }; Returns: string }
       inicio_do_tema: { Args: { p_tema: string }; Returns: number }
       tema_aberto: { Args: { p_tema: string }; Returns: boolean }
+      salvar_materiais_apoio: {
+        Args: { p_itens: Json; p_material: string }
+        Returns: undefined
+      }
       salvar_materiais_tema: { Args: { p_tema: string; p_itens: Json }; Returns: undefined }
       ordenar_temas: {
         Args: { p_ids: string[] }

@@ -10,7 +10,7 @@ export const materiais = {
   vazio: 'Nenhum material ainda.',
   publicados: 'Publicados',
   campoTitulo: 'Nome do material',
-  campoTexto: 'Texto',
+  campoTexto: 'Texto (opcional)',
   campoTema: 'Tema (a aluna vê dentro dele)',
   semTema: 'Escolha o tema',
   excluir: 'Excluir',
