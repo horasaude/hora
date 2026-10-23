@@ -4,6 +4,7 @@ import type { AulaTrilha } from '@/domain/trilha'
 import { urlCapa } from '@/lib/capas'
 import { useLinkAula } from '../previa'
 import { CapaAutomatica } from './CapaAutomatica'
+import { FotoInteira } from './FotoInteira'
 import { textos } from '../textos'
 
 type DoTema = { capa?: string | null; chave: string | null; cor: string | null }
@@ -51,23 +52,7 @@ function Miniatura({ aula, tema }: { aula: AulaTrilha; tema?: DoTema }) {
       {!capa && tema && (
         <CapaAutomatica chave={tema.chave} cor={tema.cor} icone="size-8 opacity-40" />
       )}
-      {capa && (
-        <span className={`absolute inset-0 ${aula.liberada ? '' : 'grayscale'}`}>
-          <img
-            src={capa}
-            alt=""
-            aria-hidden
-            loading="lazy"
-            className="absolute inset-0 size-full scale-110 object-cover opacity-60 blur-md"
-          />
-          <img
-            src={capa}
-            alt=""
-            loading="lazy"
-            className="absolute inset-0 size-full object-contain"
-          />
-        </span>
-      )}
+      {capa && <FotoInteira src={capa} className={aula.liberada ? '' : 'grayscale'} />}
       <span className="relative">
         <Marca aula={aula} />
       </span>
