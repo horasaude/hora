@@ -17,7 +17,6 @@ Página de vendas pública (rota /), feita para tráfego pago no celular. Estrut
 | components/Confianca.tsx         | Prêmios do ranking, garantia e perguntas (acordeão)                    |
 | components/Fechamento.tsx        | CTA final e rodapé                                                     |
 | components/VideoFundo.tsx        | Vídeos de fundo da primeira dobra (public/videos), em sequência        |
-| components/WhatsAppFlutuante.tsx | Botão flutuante; some sem VITE_WHATSAPP_NUMERO                         |
 | components/Destaque.tsx          | `*palavra*` no texto vira serifa itálica colorida                      |
 | components/Secao.tsx             | Moldura dos blocos (branco, areia ou verde)                            |
 | components/BotaoCompra.tsx       | Todo botão de compra: abre o popup                                     |

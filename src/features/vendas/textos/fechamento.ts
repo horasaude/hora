@@ -92,6 +92,7 @@ export const fechamento = {
     cnpj: 'CNPJ 52.877.749/0001-15',
     termos: 'Termos de uso',
     privacidade: 'Política de privacidade',
+    whatsapp: 'WhatsApp',
     direitos: '© 2026 ORA. Todos os direitos reservados.',
   },
   whatsapp: {

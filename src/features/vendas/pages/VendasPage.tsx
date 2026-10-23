@@ -14,8 +14,6 @@ import { ParaQuem, Recebe } from '../components/Oferta'
 import { Preco } from '../components/Preco'
 import { Depoimentos, Profissionais } from '../components/Pessoas'
 import { ComoFunciona, OQueE } from '../components/Produto'
-import { WhatsAppFlutuante } from '../components/WhatsAppFlutuante'
-import { WHATSAPP_SUPORTE } from '@/lib/contato'
 
 export function VendasPage() {
   useEffect(() => {
@@ -42,7 +40,6 @@ export function VendasPage() {
         <Perguntas />
       </main>
       <Rodape />
-      <WhatsAppFlutuante numero={WHATSAPP_SUPORTE} />
       <AvisoCookies />
     </CompraProvider>
   )
