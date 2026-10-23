@@ -43,6 +43,127 @@
   }
 }
 
+/* Cardápio impresso no modelo dos guias da ORA (CardapioImpresso). */
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm 16mm 14mm;
+    @bottom-left {
+      content: 'ORA  ·  Um momento para estar presente.';
+      font:
+        9px Arial,
+        Helvetica,
+        sans-serif;
+      color: #8a948f;
+    }
+    @bottom-right {
+      content: counter(page, decimal-leading-zero);
+      font:
+        9px Arial,
+        Helvetica,
+        sans-serif;
+      color: #8a948f;
+    }
+  }
+  .area-impressao.impresso {
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #1f2a27;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+.impresso-folha {
+  width: 100%;
+  border-collapse: collapse;
+}
+.impresso-folha td {
+  padding: 0;
+  vertical-align: top;
+}
+.impresso-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid #e6e2da;
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  color: #8a948f;
+}
+.impresso-logo {
+  width: 80px;
+  height: auto;
+}
+.impresso-chapeu {
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  color: #6b7571;
+  margin-bottom: 6px;
+}
+.impresso-titulo {
+  font-size: 28px;
+  font-weight: bold;
+  color: #2c4c44;
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+.impresso-sub {
+  font-size: 12px;
+  color: #6b7571;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+.impresso-traco {
+  border: 0;
+  border-top: 1px solid #e6e2da;
+  margin: 12px 0 18px;
+}
+.impresso-bloco {
+  break-inside: avoid;
+  margin-bottom: 16px;
+}
+.impresso-refeicao {
+  font-size: 15px;
+  font-weight: bold;
+  color: #2c4c44;
+  margin-bottom: 8px;
+}
+.impresso-hora {
+  font-weight: normal;
+  color: #6b7571;
+}
+.impresso-linha,
+.impresso-rico {
+  font-size: 11px;
+  line-height: 1.55;
+  margin-bottom: 6px;
+}
+.impresso-obs {
+  font-size: 10px;
+  font-style: italic;
+  color: #6b7571;
+}
+.impresso-receitas {
+  break-before: page;
+}
+.impresso-receita {
+  font-size: 12.5px;
+  font-weight: bold;
+  color: #2c4c44;
+  margin-bottom: 6px;
+}
+.impresso-rico ul {
+  list-style: disc;
+  padding-left: 1.1rem;
+}
+.impresso-rico ol {
+  list-style: decimal;
+  padding-left: 1.1rem;
+}
+
 /* Texto rico das receitas (editor e visualização). */
 .texto-rico ul {
   list-style: disc;

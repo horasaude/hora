@@ -2,6 +2,10 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-22 · main · Cardápio impresso no modelo dos guias da ORA
+
+- CardapioImpresso (cardapios): A4 com a logo e "GUIAS DE BEM-ESTAR / tema" no topo de cada página, chapéu ALIMENTAÇÃO, título grande verde, refeições com "Opção I, II..." (principal e substitutas), observação, e "Receitas para a semana" com ingredientes e preparo das receitas usadas; rodapé "ORA · Um momento para estar presente." e número da página pelo @page. Usado pela aluna (botão PDF sem PDF da nutricionista) e pelo Gerar PDF do painel. Conferido imprimindo uma página de exemplo no Chrome headless.
+
 ## 2026-10-22 · main · Cardápio e treino existentes no tema; excluir cardápio
 
 - Painel, dentro do tema: "+ Adicionar cardápio" e "+ Adicionar treino" abrem a lista dos que já existem (busca, tema de cada um) com Adicionar e, no rodapé, Criar novo. Sem tema, o item passa a ser deste tema; de outro tema, ganha uma cópia em rascunho aqui (api/usarExistente.api.ts, components/AdicionarExistente.tsx, JanelasDoTema.tsx).

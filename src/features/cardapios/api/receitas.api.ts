@@ -83,3 +83,17 @@ export async function favoritar(id: string, favorita: boolean): Promise<void> {
     : await supabase.from('receitas_favoritas').delete().eq('receita_id', id)
   if (error && error.code !== '23505') throw error
 }
+
+export type ReceitaImpressa = { id: string; nome: string; ingredientes: string; preparo: string }
+
+/** Receitas usadas no cardápio, para a parte "Receitas para a semana" da impressão. */
+export async function receitasParaImpressao(ids: string[]): Promise<ReceitaImpressa[]> {
+  if (ids.length === 0) return []
+  const { data, error } = await supabase
+    .from('receitas')
+    .select('id, nome, ingredientes, preparo')
+    .in('id', ids)
+    .order('nome')
+  if (error) throw error
+  return data ?? []
+}
