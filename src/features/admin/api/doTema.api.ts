@@ -1,21 +1,27 @@
-// O que cada profissional criou dentro do tema: cardápios, tipos de treino, treinos e desafios.
+// O que cada profissional criou dentro do tema: cardápios, receitas, materiais, tipos de treino e desafios.
 import { supabase } from '@/lib/supabase'
 import { ok } from './conteudo.api'
 
 export type ItemDoTema = { id: string; titulo: string; publicado: boolean; detalhe?: string }
 export type DoTema = {
   cardapios: ItemDoTema[]
+  receitas: ItemDoTema[]
+  materiais: ItemDoTema[]
   tipos: ItemDoTema[]
-  treinos: ItemDoTema[]
   desafios: ItemDoTema[]
 }
 
 export async function listarDoTema(tema: string): Promise<DoTema> {
-  const [cardapios, tipos, treinos, desafios] = await Promise.all([
+  const [cardapios, receitas, materiais, tipos, desafios] = await Promise.all([
     supabase.from('cardapios').select('id, titulo, publicado').eq('tema_id', tema).order('titulo'),
-    supabase.from('rotinas').select('id, nome, publicado').eq('tema_id', tema).order('nome'),
+    supabase.from('receitas').select('id, nome, publicado').eq('tema_id', tema).order('nome'),
     supabase
-      .from('treinos')
+      .from('materiais_nutricao')
+      .select('id, titulo, publicado')
+      .eq('tema_id', tema)
+      .order('ordem'),
+    supabase
+      .from('rotinas')
       .select('id, nome, publicado, nivel, local')
       .eq('tema_id', tema)
       .order('nome'),
@@ -28,8 +34,9 @@ export async function listarDoTema(tema: string): Promise<DoTema> {
   })
   return {
     cardapios: ok(cardapios),
-    tipos: ok(tipos).map(nomeado),
-    treinos: ok(treinos).map((x) => ({ ...nomeado(x), detalhe: `${x.nivel} · ${x.local}` })),
+    receitas: ok(receitas).map(nomeado),
+    materiais: ok(materiais),
+    tipos: ok(tipos).map((x) => ({ ...nomeado(x), detalhe: `${x.nivel} · ${x.local}` })),
     desafios: ok(desafios).map(nomeado),
   }
 }

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import {
   duplicarReceita,
   removerReceita,
@@ -14,8 +14,9 @@ export const LISTA_RECEITAS = '/app/admin/plano/receitas'
 /** Estado da receita aberta e as ações (salvar, publicar, duplicar, remover). */
 export function useEditorReceita(receita?: ReceitaCompleta) {
   const navegar = useNavigate()
-  const [f, setF] = useState<FormReceita>(() => deReceita(receita))
-  const [salvo, setSalvo] = useState(() => JSON.stringify(deReceita(receita)))
+  const tema = useSearchParams()[0].get('tema') ?? ''
+  const [f, setF] = useState<FormReceita>(() => deReceita(receita, tema))
+  const [salvo, setSalvo] = useState(() => JSON.stringify(deReceita(receita, tema)))
   const [erro, setErro] = useState<'' | 'nome' | 'salvar'>('')
   const salvar = useAcaoPlano((x: FormReceita) => {
     const { dados, itens } = paraBanco(x, receita?.id)

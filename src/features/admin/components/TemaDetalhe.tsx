@@ -106,7 +106,7 @@ function SobreTema({ tema, aulas, inicio }: { tema: Tema; aulas: Aula[]; inicio?
   )
 }
 
-/** Cartão do tema aberto: dados, publicar, editar e tudo o que vai dentro dele. */
+/** Tema aberto em tela cheia: o cartão com dados, publicar e editar, e embaixo tudo o que vai dentro dele. */
 export function TemaDetalhe({ temaId }: { temaId: string }) {
   const consulta = useTema(temaId)
   const temas = useTemas()
@@ -115,9 +115,11 @@ export function TemaDetalhe({ temaId }: { temaId: string }) {
   const { tema, aulas } = consulta.data
   const inicio = iniciosDosTemas(temas.data ?? [])[tema.id]
   return (
-    <CartaoDetalhe titulo={tema.titulo}>
-      <SobreTema tema={tema} aulas={aulas} inicio={inicio} />
+    <>
+      <CartaoDetalhe titulo={tema.titulo}>
+        <SobreTema tema={tema} aulas={aulas} inicio={inicio} />
+      </CartaoDetalhe>
       <ConteudoDoTema temaId={tema.id} temaPublicado={tema.publicado} aulas={aulas} />
-    </CartaoDetalhe>
+    </>
   )
 }

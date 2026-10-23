@@ -2,8 +2,10 @@ import { useState, type ReactNode } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { BotaoBrilho, Janela } from '@/components/ui'
 import { listarCardapios } from '../plano/api/cardapios.api'
-import { listarTreinos } from '../treinos/api/treinos.api'
-import { usarCardapio, usarTreino } from '../api/usarExistente.api'
+import { listarMateriaisNutricao } from '../plano/api/materiais.api'
+import { listarReceitas } from '../plano/api/receitas.api'
+import { useRotinas } from '../treinos/hooks/useTreinosPainel'
+import { usarCardapio, usarMaterial, usarReceita, usarTipo } from '../api/usarExistente.api'
 import { useTemas } from '../hooks/usePainel'
 import { doTema as t } from '../textos/doTema'
 
@@ -85,16 +87,41 @@ export function AdicionarCardapio(p: Props) {
   )
 }
 
-/** Treinos que já existem: escolhe um para este tema ou cria um novo. */
-export function AdicionarTreino(p: Props) {
-  const q = useQuery({ queryKey: ['treinos-todos'], queryFn: listarTreinos })
+/** Tipos de treino de outros temas: escolhe um (vem com os treinos dele) ou cria um novo. */
+export function AdicionarTipo(p: Props) {
+  const q = useRotinas()
+  const itens = q.data?.map((x) => ({ id: x.id, titulo: x.nome, tema_id: x.tema_id }))
+  const usar = async (id: string) => {
+    const r = q.data?.find((x) => x.id === id)
+    if (r) await usarTipo(r, p.temaId)
+  }
+  return <Escolher {...p} titulo={t.adicionarTipo} itens={itens} usar={usar} />
+}
+
+/** Receitas da nutricionista: escolher traz a receita para este tema. */
+export function AdicionarReceita(p: Props) {
+  const q = useQuery({ queryKey: ['receitas-todas'], queryFn: () => listarReceitas('', '') })
   const itens = q.data?.map((x) => ({ id: x.id, titulo: x.nome, tema_id: x.tema_id }))
   return (
     <Escolher
       {...p}
-      titulo={t.adicionarTreino}
+      titulo={t.adicionarReceita}
       itens={itens}
-      usar={(id) => usarTreino(id, p.temaId)}
+      usar={(id) => usarReceita(id, p.temaId)}
+    />
+  )
+}
+
+/** Materiais da nutricionista: escolher traz o material para este tema. */
+export function AdicionarMaterial(p: Props) {
+  const q = useQuery({ queryKey: ['materiais-nutricao-todos'], queryFn: listarMateriaisNutricao })
+  const itens = q.data?.map((x) => ({ id: x.id, titulo: x.titulo, tema_id: x.tema_id }))
+  return (
+    <Escolher
+      {...p}
+      titulo={t.adicionarMaterial}
+      itens={itens}
+      usar={(id) => usarMaterial(id, p.temaId)}
     />
   )
 }

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { trazerTreinos } from '../../api/usarExistente.api'
 import { salvarRotina, type DiaRotina, type Rotina } from '../api/treinos.api'
 import { t } from '../textos'
 import { useAcaoTreinos } from './useTreinosPainel'
@@ -72,7 +73,9 @@ export function useRotinaForm(
   temaPadrao: string,
   aoFechar: () => void,
 ) {
-  const salvar = useAcaoTreinos(salvarRotina)
+  const salvar = useAcaoTreinos(async (x: Parameters<typeof salvarRotina>[0]) =>
+    salvarRotina({ ...x, dias: await trazerTreinos(x.dias, x.rotina.tema_id) }),
+  )
   const [erro, setErro] = useState('')
   const [d, setD] = useState<DadosRotina>(() => inicial(rotina, temaPadrao))
   const mudar = (x: Partial<DadosRotina>) => setD((a) => ({ ...a, ...x }))

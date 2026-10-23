@@ -138,6 +138,7 @@ export const t = {
   tirar: (n: number) => `Tirar o treino ${n}`,
   escolhaTreino: 'Escolha o treino',
   descanso: 'Descanso',
+  semTema: 'Sem tema',
   erros: {
     nome: 'Escreva o nome',
     tema: 'Escolha o tema',

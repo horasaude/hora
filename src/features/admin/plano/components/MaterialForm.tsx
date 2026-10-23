@@ -28,12 +28,14 @@ const campos = (temas: { id: string; titulo: string }[]): CampoDef<Entrada>[] =>
   { nome: 'texto', rotulo: t.campoTexto, tipo: 'area', linhas: 16 },
 ]
 
-/** Janela de criar ou editar material. Ao criar, abre o material novo na lista. */
+/** Janela de criar ou editar material. Ao criar na lista, abre o material novo; dentro do tema, só fecha. */
 export function MaterialForm({
   material,
+  temaId,
   aoFechar,
 }: {
   material?: MaterialNutricao
+  temaId?: string
   aoFechar: () => void
 }) {
   const salvar = useSalvar(salvarMaterialNutricao)
@@ -46,13 +48,13 @@ export function MaterialForm({
       inicial={{
         titulo: material?.titulo ?? '',
         texto: material?.texto ?? '',
-        tema_id: material?.tema_id ?? '',
+        tema_id: material?.tema_id ?? temaId ?? '',
       }}
       resolver={zodResolver(esquema)}
       aoCancelar={aoFechar}
       aoSalvar={async (d) => {
         const salvo = await salvar.mutateAsync({ ...d, id: material?.id })
-        if (material) aoFechar()
+        if (material || temaId) aoFechar()
         else navegar(`/app/admin/plano/materiais/${salvo.id}`)
       }}
     />

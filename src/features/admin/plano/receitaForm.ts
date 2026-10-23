@@ -19,7 +19,7 @@ export type FormReceita = {
   publicado: boolean
 }
 
-export function deReceita(r?: ReceitaCompleta): FormReceita {
+export function deReceita(r?: ReceitaCompleta, tema = ''): FormReceita {
   return {
     nome: r?.nome ?? '',
     foto_path: r?.foto_path ?? null,
@@ -29,7 +29,7 @@ export function deReceita(r?: ReceitaCompleta): FormReceita {
     tags: (r?.tags ?? []).join(', '),
     tempo: r?.tempo_minutos ? String(r.tempo_minutos) : '',
     refeicoes: r?.refeicoes ?? [],
-    tema_id: r?.tema_id ?? '',
+    tema_id: r?.tema_id ?? tema,
     calcular: r?.calcular ?? false,
     itens: (r?.receita_itens ?? []).map((i) => ({
       alimento_id: i.alimento_id,

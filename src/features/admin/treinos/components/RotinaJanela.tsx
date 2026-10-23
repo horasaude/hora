@@ -32,11 +32,23 @@ function Rodape({
   )
 }
 
-type Treinos = { d: DadosRotina; mudar: (x: Partial<DadosRotina>) => void; doTema: TreinoLista[] }
+type Treinos = {
+  d: DadosRotina
+  mudar: (x: Partial<DadosRotina>) => void
+  todos: TreinoLista[]
+  nomeTema: (id: string | null) => string
+}
 
-/** Treinos do tipo: musculação por dia (ou na ordem) e os aeróbicos. */
-function TreinosDoTipo({ d, mudar, doTema }: Treinos) {
-  const musculacao = doTema.filter((x) => x.categoria !== 'aerobico')
+/** Treinos do tipo: musculação por dia (ou na ordem), de qualquer tema (os de outro tema viram cópia
+ * deste ao salvar), e os aeróbicos do tema. */
+function TreinosDoTipo({ d, mudar, todos, nomeTema }: Treinos) {
+  const doTema = todos.filter((x) => x.tema_id === d.tema_id)
+  const musculacao = [
+    ...doTema,
+    ...todos
+      .filter((x) => x.tema_id !== d.tema_id)
+      .map((x) => ({ ...x, nome: `${x.nome} · ${nomeTema(x.tema_id)}` })),
+  ].filter((x) => x.categoria !== 'aerobico')
   return (
     <>
       {d.tipo === 'numerico' ? (
@@ -67,7 +79,7 @@ export function RotinaJanela({ rotina, temaId, aoFechar }: Props) {
   const treinos = useTreinosPainel().data ?? []
   const padrao = temaId ?? temas[0]?.id ?? ''
   const { d, mudar, gravar, erro, salvando } = useRotinaForm(rotina, padrao, aoFechar)
-  const doTema = treinos.filter((x) => x.tema_id === d.tema_id)
+  const nomeTema = (id: string | null) => temas.find((x) => x.id === id)?.titulo ?? t.semTema
   return (
     <Janela
       titulo={rotina ? t.editarModelo : t.novoModelo.replace('+ ', '')}
@@ -78,7 +90,7 @@ export function RotinaJanela({ rotina, temaId, aoFechar }: Props) {
       <div className="grid gap-4 sm:grid-cols-2">
         <DadosDaRotina d={d} mudar={mudar} />
         <NivelEOrientacoes d={d} mudar={mudar} />
-        <TreinosDoTipo d={d} mudar={mudar} doTema={doTema} />
+        <TreinosDoTipo d={d} mudar={mudar} todos={treinos} nomeTema={nomeTema} />
         {erro && (
           <p role="alert" className="text-sm text-terracota-escuro sm:col-span-2">
             {erro}

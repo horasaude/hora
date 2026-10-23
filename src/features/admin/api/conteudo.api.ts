@@ -13,6 +13,7 @@ export type TabelaConteudo =
   | 'cardapios'
   | 'desafios'
   | 'materiais_nutricao'
+  | 'receitas'
   | 'treinos'
   | 'rotinas'
 
