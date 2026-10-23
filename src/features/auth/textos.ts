@@ -1,8 +1,8 @@
 export const textos = {
   titulo: 'Entrar na comunidade',
   boasVindas: {
-    titulo: 'Doze meses de cuidado com quem entende de você.',
-    subtitulo: 'Nutrição, saúde e movimento com a Ana, a Dra. Clara e a Laís, num só lugar.',
+    titulo: 'Um espaço para cuidar de você, em cada fase da sua jornada.',
+    subtitulo: 'Nutrição, saúde e movimento com Ana, Dra. Clara e Laís, em um só lugar.',
     chips: [
       { id: 'aulas', nome: 'Aulas em vídeo' },
       { id: 'cardapios', nome: 'Cardápios' },
