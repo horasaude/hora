@@ -43,7 +43,7 @@ function Bolinha({ feita }: { feita: boolean }) {
   )
 }
 
-/** Miniatura 16:9 com a capa da aula (ou do tema) e o estado no meio. */
+/** Miniatura 16:9 com a capa inteira da aula (ou do tema), sem cortar, e o estado no meio. */
 function Miniatura({ aula, tema }: { aula: AulaTrilha; tema?: DoTema }) {
   const capa = urlCapa(aula.capa) ?? aula.miniatura ?? urlCapa(tema?.capa)
   return (
@@ -52,12 +52,21 @@ function Miniatura({ aula, tema }: { aula: AulaTrilha; tema?: DoTema }) {
         <CapaAutomatica chave={tema.chave} cor={tema.cor} icone="size-8 opacity-40" />
       )}
       {capa && (
-        <img
-          src={capa}
-          alt=""
-          loading="lazy"
-          className={`absolute inset-0 size-full object-cover ${aula.liberada ? '' : 'grayscale'}`}
-        />
+        <span className={`absolute inset-0 ${aula.liberada ? '' : 'grayscale'}`}>
+          <img
+            src={capa}
+            alt=""
+            aria-hidden
+            loading="lazy"
+            className="absolute inset-0 size-full scale-110 object-cover opacity-60 blur-md"
+          />
+          <img
+            src={capa}
+            alt=""
+            loading="lazy"
+            className="absolute inset-0 size-full object-contain"
+          />
+        </span>
       )}
       <span className="relative">
         <Marca aula={aula} />
