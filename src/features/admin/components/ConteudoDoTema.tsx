@@ -9,7 +9,8 @@ import { AulasDoTema } from './AulasDoTema'
 import { ItensDoTema } from './ItensDoTema'
 import { Criar, Janelas, type Janela } from './JanelasDoTema'
 
-/** Cartão de uma parte do tema; Aulas ocupa a largura toda. */
+/** Cartão de uma parte do tema; Aulas ocupa a largura toda e as outras se encaixam em duas colunas,
+ * cada uma crescendo conforme o que tem dentro, sem buraco entre os cartões. */
 function Parte({
   titulo,
   largo,
@@ -21,7 +22,7 @@ function Parte({
 }) {
   return (
     <section
-      className={`flex flex-col gap-3 rounded-[18px] border border-[#ECEFED] bg-white p-5 shadow-painel ${largo ? 'lg:col-span-2' : ''}`}
+      className={`flex flex-col gap-3 rounded-[18px] border border-[#ECEFED] bg-white p-5 shadow-painel ${largo ? '' : 'mb-5 break-inside-avoid'}`}
     >
       <h2 className="text-[17px] font-bold text-verde-escuro">{titulo}</h2>
       {children}
@@ -84,40 +85,42 @@ export function ConteudoDoTema(p: { temaId: string; temaPublicado: boolean; aula
   const [janela, setJanela] = useState<Janela>(null)
   const d = q.data ?? vazio
   return (
-    <div className="grid items-start gap-5 lg:grid-cols-2">
+    <div className="flex flex-col gap-5">
       <Parte titulo={t.aulas} largo>
         <AulasDoTema aulas={p.aulas} temaId={p.temaId} temaPublicado={p.temaPublicado} />
       </Parte>
-      <Parte titulo={t.tipos}>
-        <ItensDoTema
-          lista={d.tipos}
-          tabela="rotinas"
-          abrir={(i) => (
-            <button
-              type="button"
-              className={nome}
-              onClick={() => setJanela({ tipo: 'tipo', id: i.id })}
-            >
-              {i.titulo}
-            </button>
-          )}
-        />
-        <Criar rotulo={t.maisTipo} aoClicar={() => setJanela({ tipo: 'usarTipo' })} />
-      </Parte>
-      <Parte titulo={t.desafio}>
-        <ItensDoTema lista={d.desafios} tabela="desafios" abrir={link('/app/admin/desafios')} />
-        <Criar rotulo={t.novoDesafio} aoClicar={() => setJanela({ tipo: 'desafio' })} />
-      </Parte>
-      <PartesNutri d={d} abrir={setJanela} />
-      <Parte titulo={t.materiais}>
-        <button
-          type="button"
-          className={`self-start ${classeBrilho('cinza')}`}
-          onClick={() => setJanela({ tipo: 'materiais' })}
-        >
-          {t.editarMateriais}
-        </button>
-      </Parte>
+      <div className="gap-5 lg:columns-2">
+        <Parte titulo={t.tipos}>
+          <ItensDoTema
+            lista={d.tipos}
+            tabela="rotinas"
+            abrir={(i) => (
+              <button
+                type="button"
+                className={nome}
+                onClick={() => setJanela({ tipo: 'tipo', id: i.id })}
+              >
+                {i.titulo}
+              </button>
+            )}
+          />
+          <Criar rotulo={t.maisTipo} aoClicar={() => setJanela({ tipo: 'usarTipo' })} />
+        </Parte>
+        <Parte titulo={t.desafio}>
+          <ItensDoTema lista={d.desafios} tabela="desafios" abrir={link('/app/admin/desafios')} />
+          <Criar rotulo={t.novoDesafio} aoClicar={() => setJanela({ tipo: 'desafio' })} />
+        </Parte>
+        <PartesNutri d={d} abrir={setJanela} />
+        <Parte titulo={t.materiais}>
+          <button
+            type="button"
+            className={`self-start ${classeBrilho('cinza')}`}
+            onClick={() => setJanela({ tipo: 'materiais' })}
+          >
+            {t.editarMateriais}
+          </button>
+        </Parte>
+      </div>
       <Janelas janela={janela} temaId={p.temaId} fechar={() => setJanela(null)} abrir={setJanela} />
     </div>
   )
