@@ -2,6 +2,11 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-10-22 · main · Cardápio e treino existentes no tema; excluir cardápio
+
+- Painel, dentro do tema: "+ Adicionar cardápio" e "+ Adicionar treino" abrem a lista dos que já existem (busca, tema de cada um) com Adicionar e, no rodapé, Criar novo. Sem tema, o item passa a ser deste tema; de outro tema, ganha uma cópia em rascunho aqui (api/usarExistente.api.ts, components/AdicionarExistente.tsx, JanelasDoTema.tsx).
+- Lista de Cardápios com Excluir em dois toques (apaga o PDF se nenhum outro plano usa).
+
 ## 2026-10-22 · main · Receitas e materiais dentro do tema; setas de voltar
 
 - Receitas e materiais da nutricionista ganharam tema (migração 20261102140000_receitas_materiais_por_tema); no painel, a receita escolhe o tema nas pílulas (no lugar dos objetivos) e o material num campo Tema. Aluna: aba Receitas ao lado de Cardápio e materiais da nutricionista na aba Materiais do tema, só do próprio tema. Saiu o link "Ver receitas e materiais da nutricionista" e a página /app/cardapios (redireciona para a trilha).

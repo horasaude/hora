@@ -5,12 +5,9 @@ import { classeBrilho } from '@/components/ui'
 import type { Aula } from '../api/conteudo.api'
 import { listarDoTema, type ItemDoTema } from '../api/doTema.api'
 import { doTema as t } from '../textos/doTema'
-import { EditarTreino } from '../treinos/components/TabelaTreinos'
-import { TreinoJanela } from '../treinos/components/TreinoJanela'
 import { AulasDoTema } from './AulasDoTema'
-import { DesafioForm } from './DesafioForm'
-import { MateriaisTemaJanela } from './MateriaisTemaJanela'
 import { ItensDoTema } from './ItensDoTema'
+import { Criar, Janelas, type Janela } from './JanelasDoTema'
 
 function Parte({ titulo, children }: { titulo: string; children: ReactNode }) {
   return (
@@ -22,48 +19,6 @@ function Parte({ titulo, children }: { titulo: string; children: ReactNode }) {
 }
 
 const nome = 'text-left font-semibold text-tinta underline-offset-4 hover:underline'
-
-type Janela = { tipo: 'treino' | 'desafio' | 'materiais'; id?: string } | null
-
-/** Botão dourado de criar, no fim de cada parte. */
-const Criar = ({
-  rotulo,
-  para,
-  aoClicar,
-}: {
-  rotulo: string
-  para?: string
-  aoClicar?: () => void
-}) =>
-  para ? (
-    <Link to={para} className={`self-start ${classeBrilho('dourado')}`}>
-      {rotulo}
-    </Link>
-  ) : (
-    <button type="button" className={`self-start ${classeBrilho('dourado')}`} onClick={aoClicar}>
-      {rotulo}
-    </button>
-  )
-
-function Janelas({
-  janela,
-  temaId,
-  fechar,
-}: {
-  janela: Janela
-  temaId: string
-  fechar: () => void
-}) {
-  if (janela?.tipo === 'treino')
-    return janela.id ? (
-      <EditarTreino id={janela.id} aoFechar={fechar} />
-    ) : (
-      <TreinoJanela temaId={temaId} aoFechar={fechar} />
-    )
-  if (janela?.tipo === 'desafio') return <DesafioForm temaId={temaId} aoFechar={fechar} />
-  if (janela?.tipo === 'materiais') return <MateriaisTemaJanela tema={temaId} aoFechar={fechar} />
-  return null
-}
 
 /** Tipos de treino e treinos do tema, cada um com a chave de publicar ou tirar do ar. */
 function PartesTreino(p: {
@@ -95,7 +50,7 @@ function PartesTreino(p: {
             </button>
           )}
         />
-        <Criar rotulo={t.novoTreino} aoClicar={() => abrir({ tipo: 'treino' })} />
+        <Criar rotulo={t.maisTreino} aoClicar={() => abrir({ tipo: 'usarTreino' })} />
       </Parte>
     </>
   )
@@ -122,7 +77,7 @@ export function ConteudoDoTema(p: { temaId: string; temaPublicado: boolean; aula
           tabela="cardapios"
           abrir={link('/app/admin/plano/cardapios')}
         />
-        <Criar rotulo={t.novoCardapio} para={`/app/admin/plano/cardapios/novo?tema=${p.temaId}`} />
+        <Criar rotulo={t.maisCardapio} aoClicar={() => setJanela({ tipo: 'usarCardapio' })} />
       </Parte>
       <PartesTreino tipos={d.tipos} treinos={d.treinos} abrir={setJanela} />
       <Parte titulo={t.desafio}>
@@ -138,7 +93,7 @@ export function ConteudoDoTema(p: { temaId: string; temaPublicado: boolean; aula
           {t.editarMateriais}
         </button>
       </Parte>
-      <Janelas janela={janela} temaId={p.temaId} fechar={() => setJanela(null)} />
+      <Janelas janela={janela} temaId={p.temaId} fechar={() => setJanela(null)} abrir={setJanela} />
     </>
   )
 }
