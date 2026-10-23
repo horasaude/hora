@@ -54,7 +54,7 @@ export function FormNome({ titulo, rotulo, inicial, aoSalvar, aoCancelar, extra 
           <Campo
             rotulo={tl.campoDias}
             type="number"
-            min={1}
+            min={0}
             max={365}
             inputMode="numeric"
             erro={erros.dias?.message}

@@ -12,9 +12,10 @@ export const liberacao = {
   erro: 'Não foi possível salvar.',
   arrastar: 'Arraste para mudar a ordem',
   abre: 'Abre para a aluna',
-  diaEDuracao: (dia: number, dias: number) => `Dia ${dia} · ${dias} dias`,
-  campoDias: 'Dias até abrir o próximo tema',
-  erroDias: 'Use de 1 a 365 dias.',
+  diaEDuracao: (dia: number, dias: number) =>
+    dias === 0 ? `Dia ${dia} · junto com o próximo` : `Dia ${dia} · ${dias} dias`,
+  campoDias: 'Dias até abrir o próximo tema (0 abre junto com ele)',
+  erroDias: 'Use de 0 a 365 dias.',
   abreNoDia: (dia: number) => `Dia ${dia} da aluna`,
   erroOrdem: 'Não foi possível mudar a ordem.',
 }

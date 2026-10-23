@@ -32,10 +32,26 @@ async function montar(db) {
 
 async function sequencia(t) {
   const { esperaValor } = t
-  await esperaValor('Detox é o primeiro tema, por 7 dias', `select titulo || ':' || dias_liberado from public.temas order by ordem limit 1`, 'Detox:7')
-  await esperaValor('cada tema tem uma etapa só', `select count(*)::int from public.etapas group by tema_id order by 1 desc limit 1`, 1)
-  await esperaValor('o segundo tema abre no dia 8', `select public.inicio_do_tema(${tema('emagrecimento')})`, 8)
-  await esperaValor('o terceiro abre 30 dias depois, no dia 38', `select public.inicio_do_tema(${tema('composicao')})`, 38)
+  await esperaValor(
+    'Detox é o primeiro tema, por 7 dias',
+    `select titulo || ':' || dias_liberado from public.temas order by ordem limit 1`,
+    'Detox:7',
+  )
+  await esperaValor(
+    'cada tema tem uma etapa só',
+    `select count(*)::int from public.etapas group by tema_id order by 1 desc limit 1`,
+    1,
+  )
+  await esperaValor(
+    'o segundo tema abre no dia 8',
+    `select public.inicio_do_tema(${tema('emagrecimento')})`,
+    8,
+  )
+  await esperaValor(
+    'o terceiro abre 30 dias depois, no dia 38',
+    `select public.inicio_do_tema(${tema('composicao')})`,
+    38,
+  )
   await t.comoAluna(NOVA)
   await esperaValor('dia 3 da aluna nova', trilha('dia'), '3')
   await esperaValor('dia 3: Detox aberto', trilha('temas,0,aberto'), 'true')
@@ -67,11 +83,22 @@ async function ajustes(t) {
   await esperaValor('mudar a duração do tema puxa o próximo', ver(C1), 1)
   await t.comoDono()
   await t.db.query(`update public.temas set dias_liberado = 30 where id = ${tema('emagrecimento')}`)
+  await t.db.query(`update public.temas set dias_liberado = 0 where id = ${tema('preparacao')}`)
+  await esperaValor(
+    'tema com 0 dias abre junto com o próximo',
+    `select public.inicio_do_tema(${tema('emagrecimento')})`,
+    1,
+  )
+  await t.db.query(`update public.temas set dias_liberado = 7 where id = ${tema('preparacao')}`)
   await t.db.query(`update public.temas set bloqueado = true where id = ${tema('emagrecimento')}`)
   await t.comoAluna(ALUNA)
   await esperaValor('tema Em breve fecha as aulas, mesmo no dia certo', ver(E1), 0)
   await esperaValor('a trilha marca Em breve', trilha('temas,1,em_breve'), 'true')
-  await esperaErro('a escolha de tema não existe mais', `select public.escolher_tema(${tema('menopausa')})`, '22023')
+  await esperaErro(
+    'a escolha de tema não existe mais',
+    `select public.escolher_tema(${tema('menopausa')})`,
+    '22023',
+  )
 }
 
 async function doTema(t) {
@@ -96,7 +123,11 @@ async function doTema(t) {
     `select count(*)::int from (select public.checkin_desafio('${DES}')) x`,
     1,
   )
-  await esperaValor('vê só os materiais dos temas abertos', `select string_agg(nome, ',') from public.tema_materiais`, 'Guia do Detox')
+  await esperaValor(
+    'vê só os materiais dos temas abertos',
+    `select string_agg(nome, ',') from public.tema_materiais`,
+    'Guia do Detox',
+  )
   await t.comoAluna(ALUNA)
   await esperaErro(
     'depois dos 7 dias dela, o desafio do Detox fecha',

@@ -33,5 +33,5 @@ export const doTema = {
   vazio: 'Nada ainda.',
   abre: 'Abre no dia da aluna',
   dura: 'Dura',
-  dias: (n: number) => (n === 1 ? '1 dia' : `${n} dias`),
+  dias: (n: number) => (n === 0 ? 'Junto com o próximo' : n === 1 ? '1 dia' : `${n} dias`),
 }

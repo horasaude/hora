@@ -24,7 +24,8 @@ describe('formulários do painel', () => {
     const tema = { titulo: 'Sono', descricao: 'Durma melhor', cor: 'lilas', dias: '30' }
     expect(esquemaNovoTema.parse(tema)).toMatchObject({ cor: 'lilas', dias_liberado: 30 })
     expect(esquemaNovoTema.safeParse({ ...tema, cor: 'roxo' }).success).toBe(false)
-    expect(esquemaNovoTema.safeParse({ ...tema, dias: '0' }).success).toBe(false)
+    expect(esquemaNovoTema.safeParse({ ...tema, dias: '0' }).success).toBe(true)
+    expect(esquemaNovoTema.safeParse({ ...tema, dias: '366' }).success).toBe(false)
   })
 
   it('link do vídeo precisa ser https', () => {

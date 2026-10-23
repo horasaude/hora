@@ -43,7 +43,7 @@ export const esquemaNome = esquemaTema
     dias: z
       .string()
       .trim()
-      .refine((v) => /^\d{1,3}$/.test(v) && Number(v) >= 1 && Number(v) <= 365, tl.erroDias)
+      .refine((v) => /^\d{1,3}$/.test(v) && Number(v) >= 0 && Number(v) <= 365, tl.erroDias)
       .optional(),
   })
   .transform(({ liberacao, dias, ...resto }) => ({
@@ -91,7 +91,7 @@ export const esquemaNovoTema = z
     dias: z
       .string()
       .trim()
-      .refine((v) => /^\d{1,3}$/.test(v) && Number(v) >= 1 && Number(v) <= 365, tl.erroDias),
+      .refine((v) => /^\d{1,3}$/.test(v) && Number(v) >= 0 && Number(v) <= 365, tl.erroDias),
   })
   .transform(({ dias, ...resto }) => ({ ...resto, dias_liberado: Number(dias) }))
 
