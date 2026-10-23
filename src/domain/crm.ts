@@ -70,3 +70,29 @@ export function resumoVendas(pedidos: Venda[], agora: Date): ResumoVendas {
     devolvidas: pedidos.filter((p) => DEVOLVIDO.includes(p.status)).length,
   }
 }
+
+export const FILTROS_MEMBROS = [
+  'fazendo',
+  'atencao',
+  'paradas',
+  'sem_acesso',
+  'atraso',
+  'pausadas',
+] as const
+export type FiltroMembros = (typeof FILTROS_MEMBROS)[number]
+export const ehFiltroMembros = (v: string | null): v is FiltroMembros =>
+  FILTROS_MEMBROS.some((f) => f === v)
+
+const STATUS_DO_FILTRO: Partial<Record<FiltroMembros, string>> = {
+  fazendo: 'em_dia',
+  atencao: 'atencao',
+  paradas: 'sumiu',
+  sem_acesso: 'sem_acesso',
+}
+
+/** A aluna entra no filtro do cartão clicado no painel do CRM (mesmas contas de resumoMembros). */
+export function noFiltro(m: Membro, filtro: FiltroMembros, agora: Date): boolean {
+  if (filtro === 'atraso') return m.cobranca === 'inadimplente'
+  if (filtro === 'pausadas') return m.cobranca === 'suspensa'
+  return statusAluna(m, agora) === STATUS_DO_FILTRO[filtro]
+}

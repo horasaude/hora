@@ -1,10 +1,26 @@
 import type { ReactNode } from 'react'
+import { Link } from 'react-router-dom'
 import { Voltar } from '@/components/ui'
 
-export type Numero = { valor: string; rotulo: string; tom: 'salvia' | 'ocre' | 'terracota' }
+/** Cartão de resumo; com para, o cartão vira link (ex.: abre a lista filtrada). */
+export type Numero = {
+  valor: string
+  rotulo: string
+  tom: 'salvia' | 'ocre' | 'terracota'
+  para?: string
+}
 
 // Tons suaves da referência do painel, na ordem: sálvia, menta, areia, rosado.
 const TONS = ['bg-[#E3EFE8]', 'bg-[#E2F3EC]', 'bg-[#F6EAD2]', 'bg-[#F7E1D9]']
+
+function ValorResumo({ n }: { n: Numero }) {
+  return (
+    <>
+      <span className="block text-[26px] leading-tight font-bold text-verde-escuro">{n.valor}</span>
+      <span className="mt-0.5 block text-xs text-[#40504B]">{n.rotulo}</span>
+    </>
+  )
+}
 
 /** Cartões de resumo, lado a lado no topo, cada um num tom suave diferente. */
 export function Resumo({ numeros }: { numeros: Numero[] }) {
@@ -13,11 +29,16 @@ export function Resumo({ numeros }: { numeros: Numero[] }) {
       className={`grid grid-cols-2 gap-3 ${numeros.length > 4 ? 'lg:grid-cols-5' : 'lg:grid-cols-4'}`}
     >
       {numeros.map((n, i) => (
-        <li key={n.rotulo} className={`rounded-2xl p-4 ${TONS[i % TONS.length]}`}>
-          <span className="block text-[26px] leading-tight font-bold text-verde-escuro">
-            {n.valor}
-          </span>
-          <span className="mt-0.5 block text-xs text-[#40504B]">{n.rotulo}</span>
+        <li key={n.rotulo} className={`rounded-2xl ${TONS[i % TONS.length]}`}>
+          {n.para ? (
+            <Link to={n.para} className="block rounded-2xl p-4 transition hover:brightness-95">
+              <ValorResumo n={n} />
+            </Link>
+          ) : (
+            <div className="p-4">
+              <ValorResumo n={n} />
+            </div>
+          )}
         </li>
       ))}
     </ul>

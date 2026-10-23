@@ -14,6 +14,7 @@ import { listarVendas } from './financeiro.api'
 import { t } from './textos'
 
 const c = t.cartoes
+const lista = (filtro: string) => `/app/admin/alunas${filtro ? `?filtro=${filtro}` : ''}`
 
 /** Alunas paradas (7 dias ou mais sem entrar), da mais antiga para a mais recente. */
 function Paradas({ alunas, agora }: { alunas: AlunaPainel[]; agora: Date }) {
@@ -66,11 +67,16 @@ export function CrmPainelPage() {
     <Quadro
       titulo={t.titulo}
       numeros={[
-        { valor: String(m.inscritas), rotulo: c.inscritas, tom: 'salvia' },
-        { valor: String(m.fazendo), rotulo: c.fazendo, tom: 'salvia' },
-        { valor: String(m.atencao), rotulo: c.atencao, tom: 'ocre' },
-        { valor: String(m.paradas), rotulo: c.paradas, tom: 'terracota' },
-        { valor: String(m.semAcesso), rotulo: c.semAcesso, tom: 'terracota' },
+        { valor: String(m.inscritas), rotulo: c.inscritas, tom: 'salvia', para: lista('') },
+        { valor: String(m.fazendo), rotulo: c.fazendo, tom: 'salvia', para: lista('fazendo') },
+        { valor: String(m.atencao), rotulo: c.atencao, tom: 'ocre', para: lista('atencao') },
+        { valor: String(m.paradas), rotulo: c.paradas, tom: 'terracota', para: lista('paradas') },
+        {
+          valor: String(m.semAcesso),
+          rotulo: c.semAcesso,
+          tom: 'terracota',
+          para: lista('sem_acesso'),
+        },
       ]}
     >
       <AbasCrm />
@@ -79,8 +85,13 @@ export function CrmPainelPage() {
         numeros={[
           { valor: formatarCentavos(v.valorMes), rotulo: c.valorMes, tom: 'salvia' },
           { valor: String(v.vendasMes), rotulo: c.vendasMes, tom: 'salvia' },
-          { valor: String(m.emAtraso), rotulo: c.emAtraso, tom: 'ocre' },
-          { valor: String(m.pausadas), rotulo: c.pausadas, tom: 'terracota' },
+          { valor: String(m.emAtraso), rotulo: c.emAtraso, tom: 'ocre', para: lista('atraso') },
+          {
+            valor: String(m.pausadas),
+            rotulo: c.pausadas,
+            tom: 'terracota',
+            para: lista('pausadas'),
+          },
           { valor: String(v.devolvidas), rotulo: c.devolvidas, tom: 'terracota' },
         ]}
       />

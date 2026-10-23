@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
+import { ehFiltroMembros, noFiltro } from '@/domain/crm'
 import { acessoAtivo, statusAluna, type StatusAluna } from '@/domain/painel'
 import { diaEmBrasilia, formatarData, quandoFoi } from '@/lib/datas'
 import type { AlunaPainel } from '../api/modulos.api'
@@ -9,6 +10,7 @@ import { Divisao, Quadro, type Numero } from '../components/Quadro'
 import { celula, Etiqueta, LinhaTabela, Tabela } from '../components/Tabela'
 import { useAlunas } from '../hooks/useModulos'
 import { AbasCrm } from '../crm/AbasCrm'
+import { FiltroAtivo } from '../crm/FiltroAtivo'
 import { textos } from '../textos'
 
 const t = textos.alunas
@@ -70,6 +72,9 @@ export function AlunasPage() {
     aluna: a,
     status: statusAluna(a, agora),
   }))
+  const pedido = useSearchParams()[0].get('filtro')
+  const filtro = ehFiltroMembros(pedido) ? pedido : null
+  const vistas = filtro ? linhas.filter((l) => noFiltro(l.aluna, filtro, agora)) : linhas
   const atual = linhas.find((l) => l.aluna.id === alunaId) ?? linhas[0]
   const aberta = Boolean(alunaId) && atual?.aluna.id === alunaId
   let corpo: ReactNode
@@ -81,7 +86,7 @@ export function AlunasPage() {
       <Divisao
         aberto={aberta}
         voltar={{ para: '/app/admin/alunas', rotulo: t.pagina }}
-        tabela={<TabelaAlunas linhas={linhas} ativa={atual.aluna.id} agora={agora} />}
+        tabela={<TabelaAlunas linhas={vistas} ativa={atual.aluna.id} agora={agora} />}
         detalhe={
           <AlunaDetalhe
             key={atual.aluna.id}
@@ -96,6 +101,7 @@ export function AlunasPage() {
   return (
     <Quadro titulo={t.pagina} numeros={numeros(linhas, agora)} aberto={aberta}>
       {!aberta && <AbasCrm />}
+      {!aberta && filtro && <FiltroAtivo filtro={filtro} total={vistas.length} />}
       {corpo}
     </Quadro>
   )

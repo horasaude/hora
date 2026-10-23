@@ -27,6 +27,15 @@ export const t = {
   paradasTitulo: 'Paradas há 7 dias ou mais',
   semParadas: 'Nenhuma aluna parada.',
   verTodas: 'Ver todas as alunas',
+  total: (n: number) => (n === 1 ? '1 aluna' : `${n} alunas`),
+  filtros: {
+    fazendo: 'Fazendo o processo',
+    atencao: 'Atenção (3 a 6 dias sem entrar)',
+    paradas: 'Paradas (7 dias ou mais)',
+    sem_acesso: 'Sem acesso',
+    atraso: 'Mensalidade em atraso',
+    pausadas: 'Pausadas por falta de pagamento',
+  },
   financeiro: {
     titulo: 'Financeiro',
     colunas: ['Aluna', 'Forma', 'Valor', 'Aprovado em', 'Situação'],

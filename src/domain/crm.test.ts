@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { resumoMembros, resumoVendas } from './crm'
+import { noFiltro, resumoMembros, resumoVendas } from './crm'
 
 const agora = new Date('2026-10-23T15:00:00Z')
 const diasAtras = (n: number) => new Date(agora.getTime() - n * 86_400_000).toISOString()
@@ -65,5 +65,16 @@ describe('resumoVendas', () => {
       porPlano: { pix: 1, parcelado: 1, recorrente: 1 },
       devolvidas: 1,
     })
+  })
+})
+
+describe('noFiltro', () => {
+  it('cada cartão do painel filtra as mesmas alunas que conta', () => {
+    expect(noFiltro(membro(0), 'fazendo', agora)).toBe(true)
+    expect(noFiltro(membro(4), 'atencao', agora)).toBe(true)
+    expect(noFiltro(membro(10), 'paradas', agora)).toBe(true)
+    expect(noFiltro(membro(10), 'fazendo', agora)).toBe(false)
+    expect(noFiltro(membro(0, { cobranca: 'inadimplente' }), 'atraso', agora)).toBe(true)
+    expect(noFiltro(membro(0, { cobranca: 'suspensa' }), 'pausadas', agora)).toBe(true)
   })
 })
