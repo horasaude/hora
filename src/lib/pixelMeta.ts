@@ -39,6 +39,18 @@ export function recusarCookies(): void {
   window.fbq?.('consent', 'revoke')
 }
 
+const cookie = (nome: string) =>
+  document.cookie
+    .split('; ')
+    .find((c) => c.startsWith(`${nome}=`))
+    ?.slice(nome.length + 1)
+
+/** Cookies da Meta que vão junto com o pedido, para a compra do servidor casar com a visita. */
+export function rastreioMeta(): { fbp?: string; fbc?: string; recusou?: boolean } {
+  if (cookiesRecusados()) return { recusou: true }
+  return { fbp: cookie('_fbp'), fbc: cookie('_fbc') }
+}
+
 /** Carrega o script da Meta uma vez (o trecho oficial, sem o noscript). */
 function carregar(): Fbq {
   if (window.fbq) return window.fbq

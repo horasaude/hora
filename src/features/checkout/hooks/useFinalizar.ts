@@ -3,6 +3,7 @@ import type { Plano } from '@/domain/precos'
 import { lerValidade } from '@/lib/cartao'
 import { indicacaoGuardada } from '@/lib/indicacao'
 import { soDigitos } from '@/lib/telefone'
+import { rastreioMeta } from '@/lib/pixelMeta'
 import { utmsGuardadas } from '@/lib/utm'
 import { criarPedido, type CartaoPedido, type Pix } from '../api/pedido.api'
 import type { DadosCheckout } from '../schemas/checkout'
@@ -51,6 +52,7 @@ export function useFinalizar(plano: Plano) {
       whatsapp: soDigitos(d.whatsapp),
       indicacao: indicacaoGuardada(),
       utms: utmsGuardadas(),
+      rastreio: rastreioMeta(),
       ...(d.plano !== 'pix' && { cartao: cartaoDe(d) }),
       ...(d.plano === 'parcelado' && { parcelas: d.parcelas }),
     })

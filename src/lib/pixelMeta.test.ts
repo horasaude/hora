@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { eventoMeta, PIXEL_META, recusarCookies } from './pixelMeta'
+import { eventoMeta, PIXEL_META, rastreioMeta, recusarCookies } from './pixelMeta'
 
 describe('pixelMeta', () => {
   afterEach(() => {
@@ -27,5 +27,12 @@ describe('pixelMeta', () => {
     eventoMeta('PageView')
     expect(window.fbq).toBeUndefined()
     expect(espia).not.toHaveBeenCalled()
+  })
+
+  it('manda os cookies da Meta com o pedido, menos para quem recusou', () => {
+    document.cookie = '_fbp=fb.1.123.456'
+    expect(rastreioMeta()).toEqual({ fbp: 'fb.1.123.456', fbc: undefined })
+    recusarCookies()
+    expect(rastreioMeta()).toEqual({ recusou: true })
   })
 })

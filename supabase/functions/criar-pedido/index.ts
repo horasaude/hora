@@ -14,7 +14,7 @@ import {
   type Resultado,
 } from './pagar.ts'
 
-async function criar(dados: EntradaPedido, ip: string): Promise<[Resultado, number]> {
+async function criar(dados: EntradaPedido, ip: string, ua: string): Promise<[Resultado, number]> {
   const { data: config, error } = await servico
     .from('configuracoes')
     .select(
@@ -40,6 +40,7 @@ async function criar(dados: EntradaPedido, ip: string): Promise<[Resultado, numb
       meses_acesso: preco.mesesAcesso,
       codigo_indicacao: dados.indicacao ?? null,
       utms,
+      rastreio: { ...dados.rastreio, ip, ua: ua.slice(0, 400) },
     })
     .select('id')
     .single<{ id: string }>()
@@ -75,7 +76,7 @@ Deno.serve(async (req) => {
     return json({ ok: false, erro: 'dados' }, 400, cors)
   }
   try {
-    const [corpo, status] = await criar(lido.data, ipDe(req))
+    const [corpo, status] = await criar(lido.data, ipDe(req), req.headers.get('user-agent') ?? '')
     return json(corpo, status, cors)
   } catch (e) {
     console.error('criar-pedido', e instanceof Error ? e.message : e)

@@ -1,6 +1,7 @@
 import { enviarEmail } from '../_shared/email/enviar.ts'
 import { boasVindas } from '../_shared/email/boasVindas.ts'
 import { cobrancaRecusada, linkWhatsApp } from '../_shared/email/modelos.ts'
+import { enviarCompraMeta, type Rastreio } from '../_shared/metaConversoes.ts'
 import { servico, SITE } from '../_shared/servico.ts'
 import { rpc } from './eventos.ts'
 
@@ -8,6 +9,8 @@ export type Pedido = {
   id: string
   nome: string
   email: string
+  whatsapp: string
+  rastreio: Rastreio
   plano: 'pix' | 'parcelado' | 'recorrente'
   status: string
   perfil_id: string | null
@@ -20,7 +23,7 @@ export type Pedido = {
 }
 
 export const CAMPOS_PEDIDO =
-  'id, nome, email, plano, status, perfil_id, boas_vindas_em, mp_assinatura_id, valor_centavos, parcelas, meses_acesso, codigo_acesso'
+  'id, nome, email, whatsapp, rastreio, plano, status, perfil_id, boas_vindas_em, mp_assinatura_id, valor_centavos, parcelas, meses_acesso, codigo_acesso'
 
 const whatsapp = () => linkWhatsApp(Deno.env.get('WHATSAPP_NUMERO'))
 
@@ -67,6 +70,17 @@ export async function liberar(p: Pedido, aprovadoEm: string): Promise<boolean> {
     p_aprovado_em: aprovadoEm,
   })
   if (!p.boas_vindas_em) await mandarBoasVindas(p)
+  if (novo)
+    await enviarCompraMeta({
+      pedido: p.id,
+      nome: p.nome,
+      email: p.email,
+      whatsapp: p.whatsapp,
+      valorCentavos: p.valor_centavos,
+      plano: p.plano,
+      rastreio: p.rastreio ?? {},
+      site: SITE,
+    })
   return novo
 }
 
