@@ -53,7 +53,7 @@ type Linha = {
   children: ReactNode
 }
 
-/** Linha que abre o detalhe à direita; a linha aberta fica destacada. */
+/** Linha que abre o detalhe do item em página inteira. */
 export function LinhaTabela({ ativa, para, titulo, marca, semQuebra, linha, children }: Linha) {
   const navegar = useNavigate()
   return (

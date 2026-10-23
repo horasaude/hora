@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { Voltar } from '@/components/ui'
 
 export type Numero = { valor: string; rotulo: string; tom: 'salvia' | 'ocre' | 'terracota' }
 
@@ -23,10 +24,18 @@ export function Resumo({ numeros }: { numeros: Numero[] }) {
   )
 }
 
-type Props = { titulo: string; acao?: ReactNode; numeros: Numero[]; children: ReactNode }
+type Props = {
+  titulo: string
+  acao?: ReactNode
+  numeros: Numero[]
+  /** Item aberto em página inteira: some o título e o resumo, fica só o detalhe com a seta. */
+  aberto?: boolean
+  children: ReactNode
+}
 
 /** Tela do painel: título grande, botão principal, resumo e o conteúdo. */
-export function Quadro({ titulo, acao, numeros, children }: Props) {
+export function Quadro({ titulo, acao, numeros, aberto, children }: Props) {
+  if (aberto) return <section className="flex flex-col gap-5">{children}</section>
   return (
     <section className="flex flex-col gap-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -39,23 +48,26 @@ export function Quadro({ titulo, acao, numeros, children }: Props) {
   )
 }
 
-/** Tabela à esquerda e cartão de detalhe à direita (um embaixo do outro no celular). */
+/** Lista em tela cheia; com um item aberto, ele ocupa a tela inteira com a seta para voltar à lista
+ * (o mesmo jeito do Conteúdo, igual no computador e no celular). */
 export function Divisao({
   tabela,
   detalhe,
-  estreito = false,
+  aberto,
+  voltar,
 }: {
   tabela: ReactNode
   detalhe: ReactNode
-  estreito?: boolean
+  aberto: boolean
+  voltar: { para: string; rotulo: string }
 }) {
-  const colunas = estreito
-    ? 'xl:grid-cols-[minmax(0,1fr)_minmax(0,21rem)]'
-    : 'xl:grid-cols-[minmax(0,1fr)_minmax(0,27rem)]'
+  if (!aberto) return <div className="min-w-0">{tabela}</div>
   return (
-    <div className={`grid items-start gap-5 ${colunas}`}>
-      <div className="min-w-0">{tabela}</div>
-      <div className="min-w-0 xl:sticky xl:top-6">{detalhe}</div>
-    </div>
+    <>
+      <Voltar para={voltar.para} rotulo={voltar.rotulo}>
+        {voltar.rotulo}
+      </Voltar>
+      <div className="min-w-0">{detalhe}</div>
+    </>
   )
 }

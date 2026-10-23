@@ -38,6 +38,7 @@ export function ConfiguracoesPage() {
   const config = useConfiguracoes()
   const { item: param } = useParams()
   const item: Item = ITENS.find((i) => i === param) ?? 'precos'
+  const aberto = item === param
   let corpo: ReactNode
   if (config.isPending) corpo = <Estado tipo="carregando" />
   else if (config.isError) corpo = <Estado tipo="erro" tentar={() => config.refetch()} />
@@ -45,6 +46,8 @@ export function ConfiguracoesPage() {
     const c = config.data
     corpo = (
       <Divisao
+        aberto={aberto}
+        voltar={{ para: '/app/admin/configuracoes', rotulo: t.pagina }}
         tabela={
           <Tabela colunas={t.colunas}>
             {ITENS.map((i) => (
@@ -67,6 +70,7 @@ export function ConfiguracoesPage() {
     <Quadro
       titulo={t.pagina}
       numeros={numeros(config.data)}
+      aberto={aberto}
       acao={
         <LinkBrilho tom="escuro" to="/app/admin/configuracoes/equipe">
           {t.equipe}

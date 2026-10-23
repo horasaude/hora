@@ -38,7 +38,7 @@ function TabelaAvisos({ lista, ativo }: { lista: Aviso[]; ativo?: string }) {
   )
 }
 
-/** Avisos: resumo, tabela e o aviso aberto à direita; criar e editar abrem a janela. */
+/** Avisos: resumo, tabela e o aviso aberto em página inteira; criar e editar abrem a janela. */
 export function AvisosPage() {
   const avisos = useAvisos()
   const { avisoId } = useParams()
@@ -48,6 +48,7 @@ export function AvisosPage() {
   const navegar = useNavigate()
   const novo = pathname.endsWith('/novo')
   const atual = lista.find((x) => x.id === avisoId) ?? lista[0]
+  const aberto = Boolean(avisoId) && atual?.id === avisoId
   const acao = (
     <Link to="/app/admin/avisos/novo" className={classeBrilho('dourado')}>
       {t.novo}
@@ -60,13 +61,15 @@ export function AvisosPage() {
   else {
     corpo = (
       <Divisao
+        aberto={aberto}
+        voltar={{ para: '/app/admin/avisos', rotulo: t.pagina }}
         tabela={<TabelaAvisos lista={lista} ativo={atual.id} />}
         detalhe={<AvisoDetalhe key={atual.id} aviso={atual} />}
       />
     )
   }
   return (
-    <Quadro titulo={t.pagina} acao={acao} numeros={numeros(lista, agora)}>
+    <Quadro titulo={t.pagina} acao={acao} numeros={numeros(lista, agora)} aberto={aberto}>
       {corpo}
       {novo && <AvisoForm aoFechar={() => navegar('/app/admin/avisos')} />}
     </Quadro>

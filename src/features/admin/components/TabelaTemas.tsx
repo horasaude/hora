@@ -54,7 +54,7 @@ function useArrastar(temas: Tema[]) {
   return { lista, linha, ocupado: salvar.isPending, erro: salvar.isError }
 }
 
-/** Temas em tabela: abrir à direita, arrastar ou usar as setas para mudar a ordem e ver a situação. */
+/** Temas em tabela: abrir o tema, arrastar ou usar as setas para mudar a ordem e ver a situação. */
 export function TabelaTemas({ temas, ativo }: { temas: Tema[]; ativo?: string }) {
   const { ordenar } = useAcoes()
   const arrastar = useArrastar(temas)

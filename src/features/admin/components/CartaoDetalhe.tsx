@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-/** Cartão branco à direita com o detalhe e o formulário do item aberto. */
+/** Cartão branco com o detalhe e o formulário do item aberto. */
 export function CartaoDetalhe({ titulo, children }: { titulo: string; children: ReactNode }) {
   return (
     <article className="flex flex-col gap-4 rounded-[18px] border border-[#ECEFED] bg-white p-5 shadow-painel">

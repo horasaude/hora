@@ -87,7 +87,7 @@ function TabelaProdutos({
   )
 }
 
-/** Produtos: tabela com miniatura e o produto aberto à direita com os cliques por semana. */
+/** Produtos: tabela com miniatura; o produto abre em página inteira com os cliques por semana. */
 export function AbaProdutos({
   editar,
   criar,
@@ -119,6 +119,8 @@ export function AbaProdutos({
   const foto = (p: Produto) => (p.foto_path ? fotos[p.foto_path] : undefined)
   return (
     <Divisao
+      aberto={atual.id === produtoId}
+      voltar={{ para: '/app/admin/loja', rotulo: t.titulo }}
       tabela={<TabelaProdutos lista={lista} atual={atual.id} foto={foto} />}
       detalhe={<Detalhe p={atual} foto={foto(atual)} editar={() => editar(atual)} />}
     />

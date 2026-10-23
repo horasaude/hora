@@ -74,7 +74,7 @@ function TabelaLives({ lista, ativa }: { lista: Live[]; ativa?: string }) {
   )
 }
 
-/** Lives: resumo, tabela e a live aberta à direita; criar e editar abrem a janela. */
+/** Lives: resumo, tabela e a live aberta em página inteira; criar e editar abrem a janela. */
 export function LivesPage() {
   const lives = useLives()
   const { liveId } = useParams()
@@ -84,6 +84,7 @@ export function LivesPage() {
   const navegar = useNavigate()
   const nova = pathname.endsWith('/nova')
   const atual = lista.find((x) => x.id === liveId) ?? lista[0]
+  const aberta = Boolean(liveId) && atual?.id === liveId
   const acao = (
     <Link to="/app/admin/lives/nova" className={classeBrilho('dourado')}>
       {t.nova}
@@ -96,6 +97,8 @@ export function LivesPage() {
   else {
     corpo = (
       <Divisao
+        aberto={aberta}
+        voltar={{ para: '/app/admin/lives', rotulo: t.pagina }}
         tabela={<TabelaLives lista={lista} ativa={atual.id} />}
         detalhe={<LiveDetalhe key={atual.id} live={atual} />}
       />
@@ -111,6 +114,7 @@ export function LivesPage() {
         </div>
       }
       numeros={numeros(lista, agora)}
+      aberto={aberta}
     >
       {corpo}
       {nova && <LiveForm aoFechar={() => navegar('/app/admin/lives')} />}

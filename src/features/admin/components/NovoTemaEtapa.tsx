@@ -18,7 +18,7 @@ const CAMPOS: CampoDef<EntradaTema>[] = [
   { nome: 'dias', rotulo: tl.campoDias, tipo: 'numero' },
 ]
 
-/** Novo tema: nome, frase, cor e dias. Entra em rascunho, no fim da sequência, e abre à direita. */
+/** Novo tema: nome, frase, cor e dias. Entra em rascunho, no fim da sequência, e abre em página inteira. */
 export function NovoTema({ aoFechar }: { aoFechar: () => void }) {
   const salvar = useSalvar(salvarTema)
   const navegar = useNavigate()

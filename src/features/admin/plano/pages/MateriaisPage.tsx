@@ -38,6 +38,7 @@ export function MateriaisPage() {
   const navegar = useNavigate()
   const lista = consulta.data ?? []
   const atual = lista.find((m) => m.id === materialId) ?? lista[0]
+  const aberto = Boolean(materialId) && atual?.id === materialId
   const acao = (
     <Link to="/app/admin/plano/materiais/novo" className={classeBrilho('dourado')}>
       {t.novo}
@@ -50,6 +51,8 @@ export function MateriaisPage() {
   else
     corpo = (
       <Divisao
+        aberto={aberto}
+        voltar={{ para: '/app/admin/plano/materiais', rotulo: t.pagina }}
         tabela={<TabelaMateriais lista={lista} ativo={atual.id} />}
         detalhe={<MaterialDetalhe key={atual.id} material={atual} />}
       />
@@ -60,6 +63,7 @@ export function MateriaisPage() {
       titulo={t.pagina}
       acao={acao}
       numeros={[{ valor: String(publicados), rotulo: t.publicados, tom: 'salvia' }]}
+      aberto={aberto}
     >
       {corpo}
       {novo && <MaterialForm aoFechar={() => navegar('/app/admin/plano/materiais')} />}

@@ -60,7 +60,7 @@ function TabelaAlunas({ linhas, ativa, agora }: { linhas: Linha[]; ativa?: strin
   )
 }
 
-/** Alunas (só leitura): resumo, tabela e a aluna aberta à direita com o progresso. */
+/** Alunas (só leitura): resumo e tabela; a aluna abre em página inteira com o progresso. */
 export function AlunasPage() {
   const alunas = useAlunas()
   const { alunaId } = useParams()
@@ -70,6 +70,7 @@ export function AlunasPage() {
     status: statusAluna(a, agora),
   }))
   const atual = linhas.find((l) => l.aluna.id === alunaId) ?? linhas[0]
+  const aberta = Boolean(alunaId) && atual?.aluna.id === alunaId
   let corpo: ReactNode
   if (alunas.isPending) corpo = <Estado tipo="carregando" />
   else if (alunas.isError) corpo = <Estado tipo="erro" tentar={() => alunas.refetch()} />
@@ -77,7 +78,8 @@ export function AlunasPage() {
   else {
     corpo = (
       <Divisao
-        estreito
+        aberto={aberta}
+        voltar={{ para: '/app/admin/alunas', rotulo: t.pagina }}
         tabela={<TabelaAlunas linhas={linhas} ativa={atual.aluna.id} agora={agora} />}
         detalhe={
           <AlunaDetalhe
@@ -91,7 +93,7 @@ export function AlunasPage() {
     )
   }
   return (
-    <Quadro titulo={t.pagina} numeros={numeros(linhas, agora)}>
+    <Quadro titulo={t.pagina} numeros={numeros(linhas, agora)} aberto={aberta}>
       {corpo}
     </Quadro>
   )

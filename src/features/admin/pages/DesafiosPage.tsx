@@ -54,7 +54,7 @@ function TabelaDesafios({ linhas, ativo }: { linhas: Linha[]; ativo?: string }) 
   )
 }
 
-/** Desafios e prêmios: resumo, tabela e o desafio aberto à direita. */
+/** Desafios e prêmios: resumo, tabela e o desafio aberto em página inteira. */
 export function DesafiosPage() {
   const desafios = useDesafios()
   const contas = useNumerosDesafios()
@@ -68,6 +68,7 @@ export function DesafiosPage() {
     numeros: contas.data?.porDesafio.find((n) => n.id === d.id),
   }))
   const atual = linhas.find((l) => l.desafio.id === desafioId) ?? linhas[0]
+  const aberto = Boolean(desafioId) && atual?.desafio.id === desafioId
   const acao = (
     <Link to="/app/admin/desafios/novo" className={classeBrilho('dourado')}>
       {t.novo}
@@ -80,6 +81,8 @@ export function DesafiosPage() {
   else {
     corpo = (
       <Divisao
+        aberto={aberto}
+        voltar={{ para: '/app/admin/desafios', rotulo: t.pagina }}
         tabela={<TabelaDesafios linhas={linhas} ativo={atual.desafio.id} />}
         detalhe={
           <DesafioDetalhe
@@ -93,7 +96,12 @@ export function DesafiosPage() {
     )
   }
   return (
-    <Quadro titulo={t.pagina} acao={acao} numeros={numeros(linhas, contas.data?.alunas ?? 0)}>
+    <Quadro
+      titulo={t.pagina}
+      acao={acao}
+      numeros={numeros(linhas, contas.data?.alunas ?? 0)}
+      aberto={aberto}
+    >
       {corpo}
       {novo && <DesafioForm aoFechar={() => navegar('/app/admin/desafios')} />}
     </Quadro>
