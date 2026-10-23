@@ -8,6 +8,7 @@ import { Estado } from '../components/Estado'
 import { Divisao, Quadro, type Numero } from '../components/Quadro'
 import { celula, Etiqueta, LinhaTabela, Tabela } from '../components/Tabela'
 import { useAlunas } from '../hooks/useModulos'
+import { AbasCrm } from '../crm/AbasCrm'
 import { textos } from '../textos'
 
 const t = textos.alunas
@@ -94,6 +95,7 @@ export function AlunasPage() {
   }
   return (
     <Quadro titulo={t.pagina} numeros={numeros(linhas, agora)} aberto={aberta}>
+      {!aberta && <AbasCrm />}
       {corpo}
     </Quadro>
   )

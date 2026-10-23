@@ -9,16 +9,23 @@ const a = textos.abas
 
 type Item = { para: string; nome: string; cor: string }
 
-/** Item do menu com bolinha de cor própria; a aula conta como Conteúdo. */
+const CRM = ['membros', 'alunas', 'financeiro', 'cancelamentos'].map((p) => `/app/admin/${p}`)
+
+/** Item do menu com bolinha de cor própria; a aula conta como Conteúdo e Alunas, Financeiro e
+ * Cancelamentos contam como Membros (CRM). */
 export function ItemMenu({ i, aoNavegar }: { i: Item; aoNavegar?: () => void }) {
-  const emAula = useLocation().pathname.startsWith('/app/admin/aulas')
+  const caminho = useLocation().pathname
+  const emAula = caminho.startsWith('/app/admin/aulas')
+  const noCrm = CRM.some((p) => caminho.startsWith(p))
   return (
     <ItemMenuLateral
       para={i.para}
       nome={i.nome}
       cor={i.cor}
       aoNavegar={aoNavegar}
-      ativo={emAula && i.para === 'conteudo' ? true : undefined}
+      ativo={
+        (emAula && i.para === 'conteudo') || (noCrm && i.para === 'membros') ? true : undefined
+      }
     />
   )
 }

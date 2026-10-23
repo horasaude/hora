@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { EtiquetaBrilho } from '@/components/ui'
 import { formatarDataHora } from '@/lib/datas'
 import { curtir, fotoEquipe, type RespostaForum } from '../api/forum.api'
@@ -55,10 +56,12 @@ export function Resposta({
   r,
   util,
   painel = false,
+  acao,
 }: {
   r: RespostaForum
   util: boolean
   painel?: boolean
+  acao?: ReactNode
 }) {
   const caixa = r.da_equipe
     ? 'rounded-[18px] border border-[#D5E8DC] bg-[#F1F8F3] p-4'
@@ -80,6 +83,7 @@ export function Resposta({
       <div className="flex items-center gap-4">
         <Curtir r={r} painel={painel} />
         {!painel && !r.minha && !r.da_equipe && <Denunciar resposta={r.id} />}
+        {acao}
       </div>
     </li>
   )

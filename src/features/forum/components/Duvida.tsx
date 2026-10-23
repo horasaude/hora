@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { EtiquetaBrilho } from '@/components/ui'
 import { CATEGORIAS, ehCategoria } from '@/domain/forum'
@@ -34,10 +35,13 @@ export function Conversa({
   d,
   painel = false,
   linkAula,
+  acaoResposta,
 }: {
   d: Duvida
   painel?: boolean
   linkAula?: string
+  /** No painel: botão extra em cada resposta (ex.: Excluir). */
+  acaoResposta?: (id: string) => ReactNode
 }) {
   return (
     <div className="flex flex-col gap-4">
@@ -51,7 +55,7 @@ export function Conversa({
       {d.respostas.length > 0 && (
         <ul className="flex flex-col gap-3">
           {d.respostas.map((r) => (
-            <Resposta key={r.id} r={r} util={d.util} painel={painel} />
+            <Resposta key={r.id} r={r} util={d.util} painel={painel} acao={acaoResposta?.(r.id)} />
           ))}
         </ul>
       )}

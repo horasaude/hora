@@ -205,6 +205,43 @@ async function equipe(t, { topico, resposta }) {
     `select count(*) from public.painel_denuncias_forum()`,
     '42501',
   )
+  await esperaErro(
+    'aluna não exclui dúvida',
+    `select public.forum_excluir((select id from public.forum_topicos order by created_at desc limit 1), null)`,
+    '42501',
+  )
+  await t.comoAluna(ADMIN)
+  await esperaErro(
+    'excluir pede a dúvida ou a resposta',
+    `select public.forum_excluir(null, null)`,
+    '22023',
+  )
+  const antes = (await db.query(soma(ALUNA))).rows[0]
+  const alvo = (
+    await db.query(
+      `select t.id from public.forum_topicos t where t.oculto_em is null and t.perfil_id = '${ALUNA}' order by t.created_at limit 1`,
+    )
+  ).rows[0].id
+  await db.query(`select public.forum_excluir('${alvo}', null)`)
+  await esperaValor(
+    'equipe exclui a dúvida de vez',
+    `select count(*)::int from public.forum_topicos where id = '${alvo}'`,
+    0,
+  )
+  await esperaValor(
+    'excluir estorna os pontos da dúvida',
+    `select (${soma(ALUNA)}) < ${Object.values(antes)[0]}`,
+    true,
+  )
+  const resp = (await db.query(`select id from public.forum_respostas limit 1`)).rows[0]
+  if (resp) {
+    await db.query(`select public.forum_excluir(null, '${resp.id}')`)
+    await esperaValor(
+      'equipe exclui a resposta',
+      `select count(*)::int from public.forum_respostas where id = '${resp.id}'`,
+      0,
+    )
+  }
 }
 
 export async function testarForum() {

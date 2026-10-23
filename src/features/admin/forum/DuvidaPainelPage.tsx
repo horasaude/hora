@@ -1,9 +1,11 @@
 import { useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { BotaoBrilho, Cartao, EtiquetaBrilho } from '@/components/ui'
 import { Conversa, Responder, type Duvida } from '@/features/forum'
 import { Estado } from '../components/Estado'
-import { marcarUtil } from './api/forum.api'
+import { BotaoExcluir } from '../components/BotaoExcluir'
+import { ExcluirLinha } from '../components/ExcluirLinha'
+import { excluirDoForum, marcarUtil } from './api/forum.api'
 import { OcultarJanela } from './components/OcultarJanela'
 import { Prazo } from './components/Prazo'
 import { useAcaoForumPainel, useDuvidaPainel } from './hooks/useForumPainel'
@@ -12,7 +14,21 @@ import { t } from './textos'
 function Acoes({ d }: { d: Duvida }) {
   const util = useAcaoForumPainel(marcarUtil)
   const [ocultando, setOcultando] = useState(false)
-  if (d.oculto) return null
+  const excluir = useAcaoForumPainel(excluirDoForum)
+  const navegar = useNavigate()
+  const apagar = (
+    <BotaoExcluir
+      rotulo={t.excluir}
+      confirmar={t.confirmarExcluir}
+      excluindo={t.excluindo}
+      mensagemDe={() => t.erroExcluir}
+      aoExcluir={async () => {
+        await excluir.mutateAsync({ topico: d.id })
+        navegar('/app/admin/forum')
+      }}
+    />
+  )
+  if (d.oculto) return <div className="flex flex-wrap gap-2">{apagar}</div>
   return (
     <div className="flex flex-wrap gap-2">
       {d.util ? (
@@ -25,12 +41,19 @@ function Acoes({ d }: { d: Duvida }) {
       <BotaoBrilho tom="coral" onClick={() => setOcultando(true)}>
         {t.ocultar}
       </BotaoBrilho>
+      {apagar}
       {ocultando && <OcultarJanela topico={d.id} aoFechar={() => setOcultando(false)} />}
     </div>
   )
 }
 
-/** Dúvida aberta no painel: conversa inteira, aula de origem, resposta, útil e ocultar. */
+/** Excluir uma resposta da conversa (dois toques). */
+function ExcluirResposta({ id }: { id: string }) {
+  const excluir = useAcaoForumPainel(excluirDoForum)
+  return <ExcluirLinha aoExcluir={() => excluir.mutateAsync({ resposta: id })} />
+}
+
+/** Dúvida aberta no painel: conversa inteira, aula de origem, resposta, útil, ocultar e excluir. */
 export function DuvidaPainelPage() {
   const { duvidaId = '' } = useParams()
   const duvida = useDuvidaPainel(duvidaId)
@@ -57,7 +80,12 @@ export function DuvidaPainelPage() {
         />
       </div>
       <Cartao className="flex flex-col gap-6 lg:p-8">
-        <Conversa d={d} painel linkAula={d.aula_id ? `/app/admin/aulas/${d.aula_id}` : undefined} />
+        <Conversa
+          d={d}
+          painel
+          linkAula={d.aula_id ? `/app/admin/aulas/${d.aula_id}` : undefined}
+          acaoResposta={(id) => <ExcluirResposta id={id} />}
+        />
         {!d.oculto && <Responder topico={d.id} />}
         <Acoes d={d} />
       </Cartao>

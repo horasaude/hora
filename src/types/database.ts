@@ -2988,6 +2988,10 @@ export type Database = {
           texto: string
         }[]
       }
+      forum_excluir: {
+        Args: { p_resposta: string; p_topico: string }
+        Returns: undefined
+      }
       forum_ocultar: {
         Args: { p_motivo: string; p_resposta: string; p_topico: string }
         Returns: undefined

@@ -22,6 +22,8 @@ const pagina =
       | 'AlimentosPage'
       | 'MateriaisPage'
       | 'SaudeMateriaisPage'
+      | 'CrmPainelPage'
+      | 'FinanceiroPage'
       | 'SaudeAnamnesePage'
       | 'PontosPage'
       | 'ForumPainelPage'
@@ -41,10 +43,6 @@ const pagina =
 const desafios = async () => ({ Component: (await admin()).DesafiosPage })
 const alunas = async () => ({ Component: (await admin()).AlunasPage })
 const configuracoes = async () => ({ Component: (await admin()).ConfiguracoesPage })
-const vazio = (modulo: 'financeiro') => async () => {
-  const { ModuloVazioPage } = await admin()
-  return { Component: () => <ModuloVazioPage modulo={modulo} /> }
-}
 // O detalhe abre num cartão ao lado da lista, então cada endereço mostra a mesma tela.
 const rotasAdmin: RouteObject[] = [
   { index: true, element: <Navigate to="conteudo" replace /> },
@@ -82,6 +80,8 @@ const rotasAdmin: RouteObject[] = [
   ...['desafios', 'desafios/novo', 'desafios/:desafioId'].map((path) => ({ path, lazy: desafios })),
   ...['alunas', 'alunas/:alunaId'].map((path) => ({ path, lazy: alunas })),
   { path: 'cancelamentos', lazy: pagina('CancelamentosPage') },
+  { path: 'membros', lazy: pagina('CrmPainelPage') },
+  { path: 'financeiro', lazy: pagina('FinanceiroPage') },
   { path: 'configuracoes/equipe', lazy: pagina('EquipePage') },
   ...['configuracoes', 'configuracoes/:item'].map((path) => ({ path, lazy: configuracoes })),
   { path: 'pontos', lazy: pagina('PontosPage') },
@@ -89,7 +89,6 @@ const rotasAdmin: RouteObject[] = [
   { path: 'forum/:duvidaId', lazy: pagina('DuvidaPainelPage') },
   { path: 'loja', lazy: pagina('LojaPage') },
   { path: 'loja/:produtoId', lazy: pagina('LojaPage') },
-  ...(['financeiro'] as const).map((m) => ({ path: m, lazy: vazio(m) })),
 ]
 
 export const router = createBrowserRouter([

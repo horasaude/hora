@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { formatarData } from '@/lib/datas'
 import { Estado } from '../components/Estado'
 import { Quadro } from '../components/Quadro'
+import { AbasCrm } from '../crm/AbasCrm'
 import { celula, Etiqueta, Tabela } from '../components/Tabela'
 import { estornoPendente, listarCancelamentos, type Cancelamento } from './cancelamentos.api'
 import { t } from './textos'
@@ -58,6 +59,7 @@ export function CancelamentosPage() {
         { valor: String(pendentes.length), rotulo: t.cartoes.pendentes, tom: 'terracota' },
       ]}
     >
+      <AbasCrm />
       {q.isPending && <Estado tipo="carregando" />}
       {q.isError && <Estado tipo="erro" tentar={() => q.refetch()} />}
       {q.isSuccess && !lista.length && <Estado tipo="vazio" texto={t.vazio} />}

@@ -64,6 +64,16 @@ export async function ocultar(d: { topico?: string; resposta?: string; motivo: s
   )
 }
 
+/** Apaga de vez a dúvida (com as respostas; os pontos dela são estornados) ou só uma resposta. */
+export async function excluirDoForum(d: { topico?: string; resposta?: string }) {
+  ok(
+    await supabase.rpc('forum_excluir', {
+      p_topico: d.topico ?? semValor,
+      p_resposta: d.resposta ?? semValor,
+    }),
+  )
+}
+
 export async function manter(d: { topico?: string; resposta?: string }) {
   ok(
     await supabase.rpc('forum_manter', {
