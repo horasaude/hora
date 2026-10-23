@@ -46,8 +46,8 @@ async function umaVez(
 const quando = (c: CobrancaAsaas) =>
   c.confirmedDate ?? c.clientPaymentDate ?? c.paymentDate ?? new Date().toISOString()
 
-/** Pix e parcelado: cada parcela do parcelado chega aqui, mas só a primeira aprovação libera. */
-async function avulsa(c: CobrancaAsaas, situacao: string) {
+/** Pix e parcelado: cada parcela do parcelado chega aqui, mas só a primeira aprovação libera (também usada na conferência diária). */
+export async function avulsa(c: CobrancaAsaas, situacao: string) {
   const pedido = await pedidoPor('id', c.externalReference)
   if (!pedido) return 'sem_pedido'
   const novo = statusDoPagamento(situacao)

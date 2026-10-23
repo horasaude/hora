@@ -1,5 +1,6 @@
 // Mensalidade em atraso, de hora em hora pelo pg_cron (x-cron-segredo).
-// Às 8h (Brasília) confere no Asaas cada assinatura viva, sem depender do aviso do webhook;
+// Às 8h (Brasília) confere no Asaas cada assinatura viva e as compras avulsas dos últimos 60 dias
+// (estorno e chargeback), sem depender do aviso do webhook;
 // das 8h às 20h manda a régua: lembrete no 3º dia, véspera no 6º e acesso pausado no 7º.
 import { asaas } from '../_shared/asaas.ts'
 import { emailCobranca, type EtapaCobranca } from '../_shared/email/cobranca.ts'
@@ -7,7 +8,7 @@ import { enviarEmail } from '../_shared/email/enviar.ts'
 import { linkWhatsApp } from '../_shared/email/modelos.ts'
 import { situacaoDaCobranca } from '../_shared/pagamento/status.ts'
 import { json, servico, SITE } from '../_shared/servico.ts'
-import { mensal } from '../pagamento-webhook/processar.ts'
+import { avulsa, mensal } from '../pagamento-webhook/processar.ts'
 
 type Pendente = {
   pedido: string
@@ -51,6 +52,24 @@ async function conferir(): Promise<number> {
   return falhas
 }
 
+/** Pix e parcelado aprovados nos últimos 60 dias: pega estorno ou chargeback cujo aviso se perdeu. */
+async function conferirAvulsas(): Promise<number> {
+  const { data, error } = await servico.rpc('avulsas_para_conferir')
+  if (error) throw new Error(error.message)
+  let falhas = 0
+  for (const p of (data ?? []) as { pedido: string; cobranca: string }[]) {
+    try {
+      const c = await asaas.cobranca(p.cobranca)
+      await avulsa(c, situacaoDaCobranca('', c))
+    } catch (e) {
+      falhas++
+      console.error('cobranca-diaria avulsa', p.pedido, e instanceof Error ? e.message : e)
+    }
+    await espera(100)
+  }
+  return falhas
+}
+
 async function regua(): Promise<number> {
   const { data, error } = await servico.rpc('cobrancas_pendentes')
   if (error) throw new Error(error.message)
@@ -81,7 +100,8 @@ Deno.serve(async (req) => {
   const corpo = (await req.json().catch(() => ({}))) as { conferir?: boolean }
   const hora = horaEmBrasilia()
   try {
-    const falhas = hora === 8 || corpo.conferir ? await conferir() : null
+    const falhas =
+      hora === 8 || corpo.conferir ? (await conferir()) + (await conferirAvulsas()) : null
     const enviados = hora >= 8 && hora <= 20 ? await regua() : 0
     return json({ ok: true, falhas, enviados })
   } catch (e) {

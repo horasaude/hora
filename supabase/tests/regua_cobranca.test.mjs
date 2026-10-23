@@ -12,13 +12,33 @@ async function preparar(t) {
   await montar(t.db)
   await t.db.exec(`${pedido(MENSAL, 'recorrente', false)};`)
   await t.comoServico()
-  await t.db.query(`select public.registrar_assinatura('${MENSAL}', 'mp-a1', now() + interval '1 month')`)
-  await t.db.query(`select public.aprovar_pedido('${MENSAL}', '${ALUNA}', now() - interval '40 days')`)
+  await t.db.query(
+    `select public.registrar_assinatura('${MENSAL}', 'mp-a1', now() + interval '1 month')`,
+  )
+  await t.db.query(
+    `select public.aprovar_pedido('${MENSAL}', '${ALUNA}', now() - interval '40 days')`,
+  )
 }
 
 async function regua(t) {
   const { esperaValor, db } = t
   await esperaValor('em dia: nada a avisar', etapas, '')
+  await esperaValor(
+    'mensal não entra na conferência das avulsas',
+    `select count(*)::int from public.avulsas_para_conferir()`,
+    0,
+  )
+  await db.exec(`
+    ${pedido(ID(71), 'pix', false)};
+    ${pedido(ID(72), 'parcelado', false)};
+    update public.pedidos set status = 'aprovado', aprovado_em = now() - interval '5 days', mp_pagamento_id = 'pay_novo' where id = '${ID(71)}';
+    update public.pedidos set status = 'aprovado', aprovado_em = now() - interval '90 days', mp_pagamento_id = 'pay_velho' where id = '${ID(72)}';
+  `)
+  await esperaValor(
+    'Pix aprovado recente entra na conferência; antigo não',
+    `select string_agg(cobranca, ',') from public.avulsas_para_conferir()`,
+    'pay_novo',
+  )
   await esperaValor(
     'assinatura viva entra na conferência diária',
     `select assinatura from public.assinaturas_para_conferir()`,
@@ -56,9 +76,15 @@ async function telas(t) {
     'suspensa',
   )
   await t.comoServico()
-  await t.db.query(`update public.assinaturas set status = 'ativa', inadimplente_desde = null, fatura_url = null`)
+  await t.db.query(
+    `update public.assinaturas set status = 'ativa', inadimplente_desde = null, fatura_url = null`,
+  )
   await t.comoAluna(ALUNA)
-  await esperaValor('em dia: sem pendência', `select count(*)::int from public.minha_pendencia()`, 0)
+  await esperaValor(
+    'em dia: sem pendência',
+    `select count(*)::int from public.minha_pendencia()`,
+    0,
+  )
 }
 
 export async function testarReguaCobranca() {

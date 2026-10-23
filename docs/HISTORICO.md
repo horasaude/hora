@@ -8,6 +8,7 @@ Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquiv
 - Webhook guarda a fatura em aberto (assinaturas.fatura_url) e limpa ao pagar. Lista de cobranças da assinatura com limit=100.
 - Aluna: Início mostra "mensalidade em aberto" com Pagar agora; pausada vê "acesso pausado por falta de pagamento" com Pagar agora no Início e na Trilha (minha_pendencia). Painel: cartões Mensalidade em atraso e Acesso pausado e etiqueta na aluna (painel_alunas.cobranca).
 - Migração 20261102120000_regua_cobranca; testes regua_cobranca.test.mjs e _shared/email/cobranca.test.ts.
+- Conferência diária também passa Pix e parcelado aprovados nos últimos 60 dias pelo caminho do webhook (avulsa), para pegar estorno ou chargeback com aviso perdido. Migração 20261102130000_conferir_avulsas. Achado: compra real estornada no Asaas manteve o acesso (causa em investigação).
 
 ## 2026-10-22 · main · Vídeo sem baixar e descrição da live
 
