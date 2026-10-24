@@ -1,11 +1,9 @@
-import { useEffect, useState } from 'react'
 import { BotaoBrilho } from '@/components/ui'
-import { ehVideo, extensaoDe, validarArquivo } from '@/domain/arquivos'
-import { enviarComProgresso } from '@/lib/envio'
-import { supabase } from '@/lib/supabase'
 import { textos } from '../textos'
+import { AjustarFoto } from './AjustarFoto'
 import { AreaArquivos } from './AreaArquivos'
 import { BarraEnvio } from './BarraEnvio'
+import { useCapa } from './useCapa'
 
 const t = textos.arquivos
 
@@ -16,63 +14,37 @@ export type EstadoCapa = { caminho: string | null; enviando: boolean }
 export type Destino = { espaco: string; pasta: string; titulo?: string; uso?: 'capa' | 'exercicio' }
 const CAPAS: Destino = { espaco: 'materiais', pasta: 'capas' }
 
-/** Link de leitura da imagem já salva (o painel lê o espaço). */
-function usePreviaSalva(caminho: string | null, local: string | null, espaco: string) {
-  const [url, setUrl] = useState<string | null>(null)
-  useEffect(() => {
-    if (!caminho || local) return
-    supabase.storage
-      .from(espaco)
-      .createSignedUrl(caminho, 3600)
-      .then(({ data }) => setUrl(data?.signedUrl ?? null))
-  }, [caminho, local, espaco])
-  return local ?? (caminho ? url : null)
-}
-
-/** Estado da capa: envio com progresso, prévia local e tirar. */
-function useCapa(inicial: string | null, aoMudar: (c: EstadoCapa) => void, d: Destino) {
-  const [caminho, setCaminho] = useState(inicial)
-  const [local, setLocal] = useState<string | null>(null)
-  const [video, setVideo] = useState(() => ehVideo(inicial))
-  const [progresso, setProgresso] = useState<number | null>(null)
-  const [aviso, setAviso] = useState<string | null>(null)
-  const escolher = (arquivos: File[]) => {
-    const f = arquivos[0]
-    if (!f) return
-    const v = validarArquivo(f, d.uso ?? 'capa')
-    if (!v.ok) return setAviso(t.recusado(f.name, v.motivo))
-    setAviso(null)
-    const ext = extensaoDe(f.name, f.type)
-    const novo = `${d.pasta}/${crypto.randomUUID()}.${ext}`
-    setLocal(URL.createObjectURL(f))
-    setVideo(ext === 'mp4' || ext === 'webm' || ext === 'mov')
-    setProgresso(0)
-    aoMudar({ caminho: novo, enviando: true })
-    enviarComProgresso(d.espaco, novo, f, setProgresso)
-      .then(() => {
-        setCaminho(novo)
-        aoMudar({ caminho: novo, enviando: false })
-      })
-      .catch(() => {
-        setLocal(null)
-        setAviso(t.falhou)
-        aoMudar({ caminho, enviando: false })
-      })
-      .finally(() => setProgresso(null))
-  }
-  const tirar = () => {
-    setCaminho(null)
-    setLocal(null)
-    aoMudar({ caminho: null, enviando: false })
-  }
-  return {
-    previa: usePreviaSalva(caminho, local, d.espaco),
-    video,
-    progresso,
-    aviso,
-    escolher,
-    tirar,
-  }
+/** Capa já escolhida: prévia, Ajustar foto (só imagem) e Tirar capa. */
+function Previa({ c }: { c: ReturnType<typeof useCapa> }) {
+  if (!c.previa) return null
+  return (
+    <div className="flex flex-wrap items-end gap-3">
+      {c.video ? (
+        <video
+          src={c.previa}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="aspect-video w-64 rounded-[14px] bg-tinta object-contain"
+        />
+      ) : (
+        <img
+          src={c.previa}
+          alt={t.previaCapa}
+          className="aspect-video w-64 rounded-[14px] object-cover"
+        />
+      )}
+      {c.podeAjustar && (
+        <BotaoBrilho tom="escuro" tamanho="sm" onClick={c.ajustar} disabled={c.progresso !== null}>
+          {t.ajustar}
+        </BotaoBrilho>
+      )}
+      <BotaoBrilho tom="coral" tamanho="sm" onClick={c.tirar} disabled={c.progresso !== null}>
+        {t.tirarCapa}
+      </BotaoBrilho>
+    </div>
+  )
 }
 
 /** Capa da gravação: arrastar e soltar uma imagem (até 5 MB), com prévia e progresso. */
@@ -89,28 +61,10 @@ export function CapaLive({
   return (
     <section className="flex flex-col gap-3">
       <h3 className="text-sm font-medium">{destino.titulo ?? t.capa}</h3>
-      {c.previa ? (
-        <div className="flex flex-wrap items-end gap-3">
-          {c.video ? (
-            <video
-              src={c.previa}
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="aspect-video w-64 rounded-[14px] bg-tinta object-contain"
-            />
-          ) : (
-            <img
-              src={c.previa}
-              alt={t.previaCapa}
-              className="aspect-video w-64 rounded-[14px] object-cover"
-            />
-          )}
-          <BotaoBrilho tom="coral" tamanho="sm" onClick={c.tirar} disabled={c.progresso !== null}>
-            {t.tirarCapa}
-          </BotaoBrilho>
-        </div>
+      {c.ajustando ? (
+        <AjustarFoto src={c.ajustando} aoUsar={c.usarAjuste} aoCancelar={c.cancelarAjuste} />
+      ) : c.previa ? (
+        <Previa c={c} />
       ) : (
         <AreaArquivos
           aceita={

@@ -41,6 +41,11 @@ export const arquivos = {
   trocarCapa: 'Trocar capa',
   tirarCapa: 'Tirar capa',
   previaCapa: 'Prévia da capa',
+  ajustar: 'Ajustar foto',
+  aproximar: 'Aproximar',
+  usarFoto: 'Usar esta foto',
+  cancelarAjuste: 'Cancelar',
+  ajusteFalhou: 'Não deu para ajustar esta foto. Tente outra.',
 }
 
 export const acesso = {
