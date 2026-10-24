@@ -8,7 +8,7 @@ import { AvisoRespondida } from '@/features/forum'
 import { ChamadaIndicar } from '@/features/perfil'
 import { useTrilha } from '@/features/trilha'
 import { ResumoDoDia, useHoje } from '@/features/checkin'
-import { CartaoDesafioAtivo } from '@/features/desafios'
+import { AlertaDesafio, CartaoDesafioAtivo } from '@/features/desafios'
 import { CartaoPontos } from '../components/CartaoPontos'
 import { ContinueAula } from '../components/Cartoes'
 import { ConsultaIndividual } from '../components/ConsultaIndividual'
@@ -57,6 +57,7 @@ export function InicioPage() {
     <section className="flex flex-col gap-5 lg:gap-7">
       <Topo nome={nome} dia={dia} />
       {!semAcesso && <MensalidadeEmAberto />}
+      {!semAcesso && <AlertaDesafio hoje={hoje} temaId={tema?.id ?? null} />}
       {semAcesso ? (
         <AcessoPausado
           padrao={<Cartao className="text-sm text-tinta">{textos.semAcesso}</Cartao>}

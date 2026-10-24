@@ -429,6 +429,9 @@ verify_jwt = false
 [functions.lembrete-agua]
 verify_jwt = false
 
+[functions.lembrete-desafio]
+verify_jwt = false
+
 [functions.lembrete-live]
 verify_jwt = false
 

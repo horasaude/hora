@@ -18,3 +18,8 @@ Desafios da aluna (/app/desafios e /app/desafios/:id) e o cartão do desafio em 
 
 Regras no banco: entrar e marcar só com acesso ativo, no período e com o dado do tipo (número ou foto); um check-in por dia; pontos do dia e bônus pelo gatilho pontos_do_desafio. Foto no espaço privado checkins, na pasta da aluna. Quem escolheu não aparecer no ranking some para as outras.
 Exporta (index.ts): DesafiosPage, DesafioPage, CartaoDesafioAtivo, useDesafios.
+
+## Alerta e lembrete do check-in
+
+- AlertaDesafio: faixa dourada no topo do Início enquanto o check-in de hoje do desafio do mês não foi feito (ou ela ainda não entrou). Some depois do check-in.
+- Edge Function lembrete-desafio (pg_cron às 19h de Brasília): push para quem entrou no desafio em andamento e ainda não fez o check-in do dia (banco: lembretes_de_desafio; texto em _shared/desafio.ts).

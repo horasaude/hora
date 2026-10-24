@@ -70,10 +70,38 @@ async function live(t) {
   )
 }
 
+async function desafio(t) {
+  const { esperaValor } = t
+  const D = ID(90)
+  await t.comoDono()
+  await t.db.exec(`
+    insert into public.desafios (id, nome, premio, inicio, fim, tipo_checkin, meta_dias, publicado)
+      values ('${D}', 'Água', 'Kit ORA', public.hoje_brasilia() - 1, public.hoje_brasilia() + 5, 'sim_nao', 3, true);
+    insert into public.desafio_participantes (desafio_id, perfil_id) values ('${D}', '${ALUNA}');
+  `)
+  await t.comoServico()
+  await esperaValor(
+    'lembra só quem entrou no desafio e ainda não fez o check-in de hoje',
+    `select endpoint || ':' || nome || ':' || premio from public.lembretes_de_desafio()`,
+    'https://push.t/a:Água:Kit ORA',
+  )
+  await t.comoDono()
+  await t.db.exec(
+    `insert into public.desafio_checkins (desafio_id, perfil_id, dia) values ('${D}', '${ALUNA}', public.hoje_brasilia())`,
+  )
+  await t.comoServico()
+  await esperaValor(
+    'depois do check-in de hoje não lembra mais',
+    `select count(*)::int from public.lembretes_de_desafio()`,
+    0,
+  )
+}
+
 export async function testarLembreteAgua() {
   const t = await criarBanco()
   await montar(t.db)
   await testes(t)
   await live(t)
+  await desafio(t)
   return t.fim('lembrete de água')
 }

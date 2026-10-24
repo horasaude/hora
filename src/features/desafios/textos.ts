@@ -74,4 +74,11 @@ export const textos = {
     voce: 'Você completou o desafio',
   },
   inicio: { titulo: 'Desafio do mês', ver: 'Ver desafio' },
+  alerta: {
+    falta: 'Falta o seu check-in de hoje',
+    entrar: 'O desafio do mês já começou',
+    naoPerca: 'Não perca o prêmio do mês',
+    fazer: 'Fazer check-in',
+    ver: 'Ver desafio',
+  },
 }

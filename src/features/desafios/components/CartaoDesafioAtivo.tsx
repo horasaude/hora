@@ -1,6 +1,5 @@
 import { Cartao, LinkBrilho } from '@/components/ui'
-import { desafioEmAndamento } from '@/domain/engajamento'
-import type { Desafio } from '../api/desafios.api'
+import { escolher } from '../escolher'
 import { useDesafios } from '../hooks/useDesafios'
 import { textoPremio } from '../premio'
 import { textos } from '../textos'
@@ -21,16 +20,6 @@ function IconeTrofeu() {
     >
       <path d="M7 4h10v4a5 5 0 0 1-10 0V4ZM7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4M12 13v4M8.5 20h7M9.5 17h5" />
     </svg>
-  )
-}
-
-/** O desafio em andamento de que ela participa; senão, o do tema dela (ou o geral do mês) para entrar. */
-function escolher(lista: Desafio[], hoje: string, temaId: string | null) {
-  const aberto = (x: Desafio) => !x.participando && desafioEmAndamento(x, hoje)
-  return (
-    lista.find((x) => x.participando && desafioEmAndamento(x, hoje)) ??
-    lista.find((x) => aberto(x) && temaId !== null && x.tema_id === temaId) ??
-    lista.find((x) => aberto(x) && x.tema_id === null)
   )
 }
 
