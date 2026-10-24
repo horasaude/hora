@@ -4,7 +4,6 @@ import type { AulaTrilha } from '@/domain/trilha'
 import { urlCapa } from '@/lib/capas'
 import { useLinkAula } from '../previa'
 import { CapaAutomatica } from './CapaAutomatica'
-import { FotoInteira } from './FotoInteira'
 import { textos } from '../textos'
 
 type DoTema = { capa?: string | null; chave: string | null; cor: string | null }
@@ -44,7 +43,7 @@ function Bolinha({ feita }: { feita: boolean }) {
   )
 }
 
-/** Miniatura 16:9 com a capa inteira da aula (ou do tema), sem cortar, e o estado no meio. */
+/** Miniatura 16:9 com a capa da aula (ou do tema) presa no topo e o estado no meio. */
 function Miniatura({ aula, tema }: { aula: AulaTrilha; tema?: DoTema }) {
   const capa = urlCapa(aula.capa) ?? aula.miniatura ?? urlCapa(tema?.capa)
   return (
@@ -52,7 +51,14 @@ function Miniatura({ aula, tema }: { aula: AulaTrilha; tema?: DoTema }) {
       {!capa && tema && (
         <CapaAutomatica chave={tema.chave} cor={tema.cor} icone="size-8 opacity-40" />
       )}
-      {capa && <FotoInteira src={capa} className={aula.liberada ? '' : 'grayscale'} />}
+      {capa && (
+        <img
+          src={capa}
+          alt=""
+          loading="lazy"
+          className={`absolute inset-0 size-full object-cover object-top ${aula.liberada ? '' : 'grayscale'}`}
+        />
+      )}
       <span className="relative">
         <Marca aula={aula} />
       </span>

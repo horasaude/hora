@@ -5,7 +5,6 @@ import { urlCapa } from '@/lib/capas'
 import { useLinkTema } from '../previa'
 import { textos } from '../textos'
 import { CapaAutomatica } from './CapaAutomatica'
-import { FotoInteira } from './FotoInteira'
 import { IconeRelogio } from './IconesTrilha'
 
 const t = textos.sequencia
@@ -58,7 +57,12 @@ function CartaoTema({ tema, dia, proximo }: Cartao) {
         <span className="relative flex aspect-video flex-col justify-end bg-verde-escuro p-4 text-white">
           {capa ? (
             <>
-              <FotoInteira src={capa} className={tema.aberto ? '' : 'grayscale-[.55]'} />
+              <img
+                src={capa}
+                alt=""
+                loading="lazy"
+                className={`absolute inset-0 size-full object-cover object-top ${tema.aberto ? '' : 'grayscale-[.55]'}`}
+              />
               <span
                 aria-hidden
                 className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"
