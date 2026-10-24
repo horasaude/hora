@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from 'react'
 import { AvisoErro } from '@/components/ui'
 import { useFazerCheckin, useMeusCheckins, usePontosDoDia } from '../hooks/useCheckin'
-import { textos, type Habito } from '../textos'
+import { REFEICOES, textos, type Habito } from '../textos'
 import { IconeCamera, IconeDieta, IconePrato, IconeSono } from './IconesHabito'
 import { JanelaFoto } from './JanelaFoto'
 import { LinhaAgua } from './LinhaAgua'
@@ -19,6 +19,12 @@ const ACAO: Record<string, string> = {
 
 const sub = (texto: string, pontos: number) =>
   texto ? `${texto} · ${t.pontos(pontos)}` : t.pontos(pontos)
+
+/** Antes da primeira foto, os pontos; depois, quais refeições já foram enviadas hoje. */
+const subRefeicao = (enviadas: string[], pontos: number) =>
+  enviadas.length
+    ? t.enviadas(REFEICOES.filter((r) => enviadas.includes(r.id)).map((r) => r.nome))
+    : sub(t.refeicao.sub, pontos)
 
 type ComFoto = 'treino' | 'refeicao'
 
@@ -51,8 +57,9 @@ export function ListaHabitos() {
   const regras = usePontosDoDia().data ?? []
   const m = useMarcar()
   const hoje = meus.data?.hoje ?? []
+  const enviadas = meus.data?.refeicoesHoje ?? []
   const valor = (h: string) => regras.find((r) => r.acao === ACAO[h])?.pontos ?? 0
-  const linha = (tipo: 'sono' | 'dieta' | 'treino' | 'refeicao', icone: ReactNode, cor: string) => (
+  const linha = (tipo: 'sono' | 'dieta' | 'treino', icone: ReactNode, cor: string) => (
     <LinhaHabito
       icone={icone}
       cor={cor}
@@ -71,13 +78,24 @@ export function ListaHabitos() {
         <LinhaAgua feito={hoje.includes('agua')} pontos={valor('agua')} />
         {linha('dieta', <IconeDieta className="size-6" />, 'bg-[#fde7df] text-[#c8471f]')}
         {linha('treino', <IconeCamera className="size-6" />, 'bg-[#fdf1d8] text-[#a86d05]')}
-        {linha('refeicao', <IconePrato className="size-6" />, 'bg-trilho text-verde-escuro')}
+        <LinhaHabito
+          icone={<IconePrato className="size-6" />}
+          cor="bg-trilho text-verde-escuro"
+          nome={t.refeicao.nome}
+          sub={subRefeicao(enviadas, valor('refeicao'))}
+          feito={hoje.includes('refeicao')}
+          repetir={enviadas.length < REFEICOES.length}
+          ganho={m.ganho?.tipo === 'refeicao' ? m.ganho : null}
+          desligado={meus.isPending || m.fazer.isPending}
+          aoTocar={() => m.tocar('refeicao')}
+        />
       </ul>
       <AvisoErro texto={meus.isError || (m.fazer.isError && !m.foto) ? textos.erro : null} />
       {m.foto && (
         <JanelaFoto
           tipo={m.foto}
           enviando={m.fazer.isPending}
+          enviadas={enviadas}
           erro={m.fazer.isError ? textos.erro : null}
           aoFechar={() => m.setFoto(null)}
           aoSalvar={(d) => m.registrar(m.foto ?? 'treino', d)}

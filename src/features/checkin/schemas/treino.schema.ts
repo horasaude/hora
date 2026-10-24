@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { TIPOS_TREINO, textos } from '../textos'
+import { REFEICOES, TIPOS_TREINO, textos } from '../textos'
 
 const t = textos.foto
 const tipos = TIPOS_TREINO.map((x) => x.id) as [string, ...string[]]
@@ -15,5 +15,10 @@ export const esquemaTreino = z.object({
     .refine((v) => v === null || (Number.isInteger(v) && v >= 1 && v <= 600), t.duracaoInvalida),
 })
 
-/** Refeição: só a foto. */
-export const esquemaRefeicao = z.object({ arquivo: z.instanceof(File, { message: t.falta }) })
+const refeicoes = REFEICOES.map((x) => x.id) as [string, ...string[]]
+
+/** Refeição: foto e qual refeição é (café, almoço, lanche ou jantar). */
+export const esquemaRefeicao = z.object({
+  arquivo: z.instanceof(File, { message: t.falta }),
+  refeicao: z.enum(refeicoes, { message: t.faltaRefeicao }),
+})

@@ -2,19 +2,26 @@ import { subirFoto } from '@/lib/fotos'
 import { supabase, semValor } from '@/lib/supabase'
 import type { Habito } from '../textos'
 
-export type MeusCheckins = { hoje: Habito[]; dias: string[]; porDia: Record<string, Habito[]> }
+export type MeusCheckins = {
+  hoje: Habito[]
+  /** Refeições com foto já enviadas hoje (cafe, almoco, lanche, jantar). */
+  refeicoesHoje: string[]
+  dias: string[]
+  porDia: Record<string, Habito[]>
+}
 
 /** Check-ins válidos desde a data (AAAA-MM-DD): os hábitos de hoje e os dias com algum check-in. */
 export async function buscarMeusCheckins(desde: string, hoje: string): Promise<MeusCheckins> {
   const { data, error } = await supabase
     .from('checkins')
-    .select('tipo, dia')
+    .select('tipo, dia, refeicao')
     .gte('dia', desde)
     .is('invalidado_em', null)
   if (error) throw error
   const linhas = data ?? []
   return {
     hoje: linhas.filter((l) => l.dia === hoje).map((l) => l.tipo as Habito),
+    refeicoesHoje: linhas.filter((l) => l.dia === hoje && l.refeicao).map((l) => l.refeicao ?? ''),
     dias: [...new Set(linhas.map((l) => l.dia))],
     porDia: linhas.reduce<Record<string, Habito[]>>((acc, l) => {
       acc[l.dia] = [...(acc[l.dia] ?? []), l.tipo as Habito]
@@ -28,6 +35,7 @@ export type NovoCheckin = {
   arquivo?: File
   tipoTreino?: string
   duracao?: number | null
+  refeicao?: string
 }
 
 /** Registra o hábito do dia (foto comprimida antes); devolve os pontos ganhos (0 se já tinha). */
@@ -37,6 +45,7 @@ export async function fazerCheckin(d: NovoCheckin): Promise<number> {
     p_tipo: d.tipo,
     p_foto_path: foto ?? semValor,
     p_tipo_treino: d.tipoTreino ?? semValor,
+    p_refeicao: d.refeicao ?? semValor,
     p_duracao: d.duracao ?? (semValor as unknown as number),
   })
   if (error) throw error

@@ -3,6 +3,7 @@ import { AvisoErro, EscolherFoto, Janela, RodapeSalvar } from '@/components/ui'
 import type { NovoCheckin } from '../api/checkin.api'
 import { esquemaRefeicao, esquemaTreino } from '../schemas/treino.schema'
 import { textos } from '../textos'
+import { CamposRefeicao } from './CamposRefeicao'
 import { CamposTreino } from './CamposTreino'
 
 const t = textos.foto
@@ -10,6 +11,8 @@ const t = textos.foto
 type Props = {
   tipo: 'treino' | 'refeicao'
   enviando: boolean
+  /** Refeições já enviadas hoje (não podem ser escolhidas de novo). */
+  enviadas?: string[]
   erro: string | null
   aoFechar: () => void
   aoSalvar: (d: Omit<NovoCheckin, 'tipo'>) => void
@@ -43,17 +46,18 @@ function Previa({ url }: { url: string | null }) {
 }
 
 /** Foto do treino ou da refeição: abre a câmera no celular e a escolha de arquivo no computador. */
-export function JanelaFoto({ tipo, enviando, erro, aoFechar, aoSalvar }: Props) {
+export function JanelaFoto({ tipo, enviando, enviadas = [], erro, aoFechar, aoSalvar }: Props) {
   const [arquivo, setArquivo] = useState<File | null>(null)
   const [tipoTreino, setTipoTreino] = useState('')
   const [duracao, setDuracao] = useState('')
+  const [refeicao, setRefeicao] = useState('')
   const [aviso, setAviso] = useState<string | null>(null)
   const previa = usePrevia(arquivo)
   const salvar = () => {
     const r =
       tipo === 'treino'
         ? esquemaTreino.safeParse({ arquivo, tipoTreino, duracao })
-        : esquemaRefeicao.safeParse({ arquivo })
+        : esquemaRefeicao.safeParse({ arquivo, refeicao })
     if (!r.success) return setAviso(r.error.issues[0]?.message ?? t.falta)
     setAviso(null)
     aoSalvar(r.data)
@@ -82,6 +86,9 @@ export function JanelaFoto({ tipo, enviando, erro, aoFechar, aoSalvar }: Props) 
           />
           <p className="text-[13px] text-suave">{t.privado}</p>
         </div>
+        {tipo === 'refeicao' && (
+          <CamposRefeicao refeicao={refeicao} setRefeicao={setRefeicao} enviadas={enviadas} />
+        )}
         {tipo === 'treino' && (
           <CamposTreino
             tipoTreino={tipoTreino}

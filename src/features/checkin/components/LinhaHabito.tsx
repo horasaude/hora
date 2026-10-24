@@ -28,6 +28,8 @@ type Props = {
   /** Com para, a linha leva a outra tela (Refeição abre os cardápios). */
   para?: string
   desligado?: boolean
+  /** Feito, mas ainda dá para tocar de novo (Refeição aceita uma foto por refeição). */
+  repetir?: boolean
   /** O que vai à direita no lugar da bolinha. */
   lado?: ReactNode
   children?: ReactNode
@@ -60,7 +62,7 @@ export function LinhaHabito(p: Props) {
         </Link>
       </li>
     )
-  if (!p.aoTocar || p.feito) return <li className={classe}>{corpo}</li>
+  if (!p.aoTocar || (p.feito && !p.repetir)) return <li className={classe}>{corpo}</li>
   return (
     <li>
       <button

@@ -577,6 +577,7 @@ export type Database = {
           invalidado_por: string | null
           motivo_invalidacao: string | null
           perfil_id: string
+          refeicao: string | null
           tipo: string
           tipo_treino: string | null
         }
@@ -591,6 +592,7 @@ export type Database = {
           invalidado_por?: string | null
           motivo_invalidacao?: string | null
           perfil_id: string
+          refeicao?: string | null
           tipo: string
           tipo_treino?: string | null
         }
@@ -605,6 +607,7 @@ export type Database = {
           invalidado_por?: string | null
           motivo_invalidacao?: string | null
           perfil_id?: string
+          refeicao?: string | null
           tipo?: string
           tipo_treino?: string | null
         }
@@ -2963,6 +2966,7 @@ export type Database = {
         Args: {
           p_duracao?: number
           p_foto_path?: string
+          p_refeicao?: string
           p_tipo: string
           p_tipo_treino?: string
         }

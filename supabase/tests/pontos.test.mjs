@@ -69,15 +69,36 @@ async function checkins(t) {
   await esperaValor('ainda 5', soma(ALUNA), 5)
   await esperaErro(
     'foto precisa estar na pasta da aluna',
-    `select public.fazer_checkin('refeicao', '${AMIGA}/x.jpg')`,
+    `select public.fazer_checkin('refeicao', '${AMIGA}/x.jpg', null, null, 'cafe')`,
     '42501',
+  )
+  await esperaErro(
+    'refeição sem dizer qual é recusada',
+    `select public.fazer_checkin('refeicao', '${ALUNA}/prato.jpg')`,
+    '22023',
   )
   await esperaValor(
     'foto da refeição pontua',
-    `select pontos from public.fazer_checkin('refeicao', '${ALUNA}/prato.jpg')`,
+    `select pontos from public.fazer_checkin('refeicao', '${ALUNA}/prato.jpg', null, null, 'almoco')`,
     5,
   )
   await esperaValor('soma 10', soma(ALUNA), 10)
+  await esperaValor(
+    'outra refeição no mesmo dia é registrada sem pontos',
+    `select pontos from public.fazer_checkin('refeicao', '${ALUNA}/janta.jpg', null, null, 'jantar')`,
+    0,
+  )
+  await esperaValor(
+    'mesma refeição duas vezes não repete',
+    `select pontos from public.fazer_checkin('refeicao', '${ALUNA}/p2.jpg', null, null, 'almoco')`,
+    0,
+  )
+  await esperaValor(
+    'ficam as duas refeições do dia',
+    `select string_agg(refeicao, ',' order by refeicao) from public.checkins where tipo = 'refeicao'`,
+    'almoco,jantar',
+  )
+  await esperaValor('ainda soma 10', soma(ALUNA), 10)
   await esperaErro(
     'aluna não insere ponto direto',
     `insert into public.lancamentos_pontos (perfil_id, acao, pontos, origem) values ('${ALUNA}', 'ajuste', 999, 'x')`,
@@ -164,9 +185,9 @@ async function admin(t) {
   await esperaValor('soma continua 130', soma(ALUNA), 130)
   await t.comoAluna(ADMIN)
   await esperaValor(
-    'painel conta check-ins válidos de hoje (sem o invalidado)',
+    'painel conta check-ins válidos de hoje (sem o invalidado), cada refeição conta',
     `select checkins_hoje from public.painel_pontos()`,
-    2,
+    3,
   )
   await esperaValor(
     'participantes do desafio com os dias cumpridos',

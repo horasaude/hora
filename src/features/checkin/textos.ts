@@ -20,6 +20,13 @@ export const TIPOS_TREINO = [
   { id: 'outro', nome: 'Outro' },
 ] as const
 
+export const REFEICOES = [
+  { id: 'cafe', nome: 'Café da manhã' },
+  { id: 'almoco', nome: 'Almoço' },
+  { id: 'lanche', nome: 'Lanche' },
+  { id: 'jantar', nome: 'Jantar' },
+] as const
+
 export const textos = {
   titulo: 'Check-in de hoje',
   semana: (n: number) => `Semana ${String(n).padStart(2, '0')}`,
@@ -50,6 +57,8 @@ export const textos = {
     cancelar: 'Cancelar',
     falta: 'Escolha uma foto para continuar.',
     faltaTipo: 'Escolha o tipo de treino.',
+    qualRefeicao: 'Qual refeição?',
+    faltaRefeicao: 'Escolha a refeição.',
     duracaoInvalida: 'Use de 1 a 600 minutos.',
   },
   agua: {
@@ -110,6 +119,7 @@ export const textos = {
     dieta: { nome: 'Segui o cardápio', sub: '' },
     treino: { nome: 'Treino com foto', sub: 'Tire uma foto do treino' },
     refeicao: { nome: 'Foto da refeição', sub: 'Tire uma foto do prato' },
+    enviadas: (nomes: string[]) => `Enviada: ${nomes.join(', ')}`,
     mini: (nome: string, feito: boolean) => `${nome}: ${feito ? 'feito' : 'não feito'}`,
     venci: {
       titulo: 'Venci o dia',
