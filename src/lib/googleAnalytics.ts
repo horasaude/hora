@@ -19,7 +19,7 @@ const NOMES: Record<string, string> = {
   Purchase: 'purchase',
 }
 
-/** Carrega o gtag uma vez. A visita vai à mão (sem o endereço com ?pedido=), por isso send_page_view desligado. */
+/** Carrega o gtag uma vez. A visita vai à mão (sem ?pedido=, só com as utm_), por isso send_page_view desligado. */
 function carregar(): Gtag {
   if (window.gtag) return window.gtag
   window.dataLayer = window.dataLayer ?? []
@@ -39,13 +39,23 @@ function carregar(): Gtag {
   return gtag
 }
 
+/** Só os parâmetros utm_ do endereço (origem da visita, como o QR Code do telão); o resto fica de fora. */
+function soUtms(): string {
+  const utms = new URLSearchParams()
+  new URLSearchParams(window.location.search).forEach((v, k) => {
+    if (k.startsWith('utm_')) utms.set(k, v)
+  })
+  const texto = utms.toString()
+  return texto ? `?${texto}` : ''
+}
+
 /** Manda ao Google o mesmo evento que vai para a Meta. Na compra, o id do pedido evita contar em dobro. */
 export function eventoGoogle(nome: string, dados?: Record<string, unknown>, id?: string): void {
   const evento = NOMES[nome]
   if (!evento) return
   const extra: Record<string, unknown> = { ...dados }
   if (evento === 'page_view') {
-    extra.page_location = window.location.origin + window.location.pathname
+    extra.page_location = window.location.origin + window.location.pathname + soUtms()
     extra.page_title = document.title
   }
   if (evento === 'purchase' && id) extra.transaction_id = id

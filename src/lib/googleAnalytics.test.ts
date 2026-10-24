@@ -32,6 +32,15 @@ describe('googleAnalytics', () => {
     expect(document.head.innerHTML).toContain(`gtag/js?id=${GA4}`)
   })
 
+  it('a visita leva as utm_ (QR Code do telão) e nada mais do endereço', () => {
+    window.history.replaceState(null, '', '/?utm_source=telao&pedido=abc')
+    eventoMeta('PageView')
+    const [visita] = eventos()
+    expect((visita![2] as { page_location: string }).page_location).toBe(
+      `${window.location.origin}/?utm_source=telao`,
+    )
+  })
+
   it('quem recusou os cookies não manda nada ao Google', () => {
     recusarCookies()
     eventoMeta('Lead')
