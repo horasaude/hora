@@ -20,37 +20,39 @@ const ACAO: Record<string, string> = {
 const sub = (texto: string, pontos: number) =>
   texto ? `${texto} · ${t.pontos(pontos)}` : t.pontos(pontos)
 
-/** Marcar um hábito (Treino abre a foto antes) e o "+5" que sobe ao lado dele. */
+type ComFoto = 'treino' | 'refeicao'
+
+/** Marcar um hábito (Treino e Refeição abrem a foto antes) e o "+5" que sobe ao lado dele. */
 function useMarcar() {
   const fazer = useFazerCheckin()
-  const [foto, setFoto] = useState(false)
+  const [foto, setFoto] = useState<ComFoto | null>(null)
   const [ganho, setGanho] = useState<{ tipo: Habito; pontos: number; chave: number } | null>(null)
   const registrar = (tipo: Habito, extra = {}) =>
     fazer.mutate(
       { tipo, ...extra },
       {
         onSuccess: (pontos) => {
-          setFoto(false)
+          setFoto(null)
           setGanho({ tipo, pontos, chave: Date.now() })
         },
       },
     )
   const tocar = (tipo: Habito) => {
     fazer.reset()
-    if (tipo === 'treino') setFoto(true)
+    if (tipo === 'treino' || tipo === 'refeicao') setFoto(tipo)
     else registrar(tipo)
   }
   return { fazer, foto, setFoto, ganho, registrar, tocar }
 }
 
-/** Sono, Água, Dieta e Treino com foto; embaixo a Refeição, que se registra no cardápio. */
+/** Sono, Água, Dieta, Treino com foto e Foto da refeição (as duas abrem a câmera antes). */
 export function ListaHabitos() {
   const meus = useMeusCheckins()
   const regras = usePontosDoDia().data ?? []
   const m = useMarcar()
   const hoje = meus.data?.hoje ?? []
   const valor = (h: string) => regras.find((r) => r.acao === ACAO[h])?.pontos ?? 0
-  const linha = (tipo: 'sono' | 'dieta' | 'treino', icone: ReactNode, cor: string) => (
+  const linha = (tipo: 'sono' | 'dieta' | 'treino' | 'refeicao', icone: ReactNode, cor: string) => (
     <LinhaHabito
       icone={icone}
       cor={cor}
@@ -69,23 +71,16 @@ export function ListaHabitos() {
         <LinhaAgua feito={hoje.includes('agua')} pontos={valor('agua')} />
         {linha('dieta', <IconeDieta className="size-6" />, 'bg-[#fde7df] text-[#c8471f]')}
         {linha('treino', <IconeCamera className="size-6" />, 'bg-[#fdf1d8] text-[#a86d05]')}
-        <LinhaHabito
-          icone={<IconePrato className="size-6" />}
-          cor="bg-trilho text-verde-escuro"
-          nome={t.refeicao.nome}
-          sub={sub(t.refeicao.sub, valor('refeicao'))}
-          feito={hoje.includes('refeicao')}
-          para="/app/cardapios"
-        />
+        {linha('refeicao', <IconePrato className="size-6" />, 'bg-trilho text-verde-escuro')}
       </ul>
       <AvisoErro texto={meus.isError || (m.fazer.isError && !m.foto) ? textos.erro : null} />
       {m.foto && (
         <JanelaFoto
-          tipo="treino"
+          tipo={m.foto}
           enviando={m.fazer.isPending}
           erro={m.fazer.isError ? textos.erro : null}
-          aoFechar={() => m.setFoto(false)}
-          aoSalvar={(d) => m.registrar('treino', d)}
+          aoFechar={() => m.setFoto(null)}
+          aoSalvar={(d) => m.registrar(m.foto ?? 'treino', d)}
         />
       )}
     </>

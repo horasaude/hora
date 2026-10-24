@@ -90,7 +90,7 @@ export const textos = {
     dieta: { texto: 'Marque Dieta no quadro da semana' },
     treino_foto: { texto: 'Marque Treino com a foto do treino', para: '/app/treinos' },
     venci: { texto: 'Marque Sono, Hidratar-se, Dieta e Treino no mesmo dia' },
-    foto_refeicao: { texto: 'Mande a foto de uma refeição do cardápio', para: '/app/cardapios' },
+    foto_refeicao: { texto: 'Mande a foto de uma refeição em Seu dia', para: '/app/dia' },
     aula_concluida: { texto: 'Conclua uma aula da trilha', para: '/app/trilha' },
     duvida_forum: { texto: 'Mande uma dúvida no fórum', para: '/app/forum' },
     duvida_util: { texto: 'Tenha sua dúvida marcada como útil' },
@@ -109,7 +109,7 @@ export const textos = {
     agua: { nome: 'Água', copo: 'Copo de 250 ml' },
     dieta: { nome: 'Segui o cardápio', sub: '' },
     treino: { nome: 'Treino com foto', sub: 'Tire uma foto do treino' },
-    refeicao: { nome: 'Foto da refeição', sub: 'Pelo cardápio' },
+    refeicao: { nome: 'Foto da refeição', sub: 'Tire uma foto do prato' },
     mini: (nome: string, feito: boolean) => `${nome}: ${feito ? 'feito' : 'não feito'}`,
     venci: {
       titulo: 'Venci o dia',
