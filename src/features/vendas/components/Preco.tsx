@@ -9,7 +9,7 @@ import { Secao } from './Secao'
 
 const t = textos.preco
 
-/** Três planos lado a lado, com o preço de antes riscado; no dia 24/10, o 13º mês grátis. */
+/** Três planos lado a lado (no celular: menor parcela, mensal e o Pix por último), com o preço de antes riscado; no dia 24/10, o 13º mês grátis. */
 export function Preco() {
   const p = usePrecos()
   const cheio = useConfiguracao().cheio
@@ -28,14 +28,6 @@ export function Preco() {
       ordem: 'md:order-2',
     },
     {
-      plano: 'pix',
-      valor: formatarPreco(p.pixCentavos),
-      riscado: riscar(formatarPreco(cheio.pix)),
-      acesso,
-      mesGratis: p.emOferta,
-      ordem: 'md:order-1',
-    },
-    {
       plano: 'recorrente',
       vezes,
       valor: formatarPreco(p.recorrenteCentavos),
@@ -43,6 +35,14 @@ export function Preco() {
       acesso,
       mesGratis: p.emOferta,
       ordem: 'md:order-3',
+    },
+    {
+      plano: 'pix',
+      valor: formatarPreco(p.pixCentavos),
+      riscado: riscar(formatarPreco(cheio.pix)),
+      acesso,
+      mesGratis: p.emOferta,
+      ordem: 'md:order-1',
     },
   ]
   return (
