@@ -61,7 +61,7 @@ function CartaoTema({ tema, dia, proximo }: Cartao) {
                 src={capa}
                 alt=""
                 loading="lazy"
-                className={`absolute inset-0 size-full object-cover object-top ${tema.aberto ? '' : 'grayscale-[.55]'}`}
+                className={`absolute inset-0 size-full object-cover object-[center_35%] ${tema.aberto ? '' : 'grayscale-[.55]'}`}
               />
               <span
                 aria-hidden
