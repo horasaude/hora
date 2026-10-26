@@ -2,7 +2,13 @@
 // mensal. O cartão é digitado no nosso checkout e segue direto para o Asaas, sem ser gravado.
 // O preço é decidido aqui, pela tabela configuracoes; o acesso só é liberado pelo webhook.
 import { cabecalhosCors, origemPermitida } from '../_shared/cors.ts'
-import { precoPedido, type ConfiguracaoPrecos } from '../_shared/pagamento/regras.ts'
+import {
+  aplicarCupom,
+  precoPedido,
+  type ConfiguracaoPrecos,
+  type CupomPedido,
+  type PrecoPedido,
+} from '../_shared/pagamento/regras.ts'
 import { json, servico } from '../_shared/servico.ts'
 import { esquemaPedido, type EntradaPedido } from './entrada.ts'
 import {
@@ -14,6 +20,17 @@ import {
   type Resultado,
 } from './pagar.ts'
 
+/** Cupom digitado: confere no banco (ativo, no prazo, com uso livre) e se vale para o plano. */
+async function buscarCupom(dados: EntradaPedido): Promise<CupomPedido | null | 'invalido'> {
+  if (!dados.cupom) return null
+  const { data } = await servico.rpc('consultar_cupom', { p_codigo: dados.cupom })
+  const c = (data as CupomPedido[] | null)?.[0]
+  return c && c.planos.includes(dados.plano) ? c : 'invalido'
+}
+
+const comCupom = (preco: PrecoPedido, c: CupomPedido | null) =>
+  c ? { ...preco, valorCentavos: aplicarCupom(preco.valorCentavos, c) } : preco
+
 async function criar(dados: EntradaPedido, ip: string, ua: string): Promise<[Resultado, number]> {
   const { data: config, error } = await servico
     .from('configuracoes')
@@ -22,9 +39,13 @@ async function criar(dados: EntradaPedido, ip: string, ua: string): Promise<[Res
     )
     .single<ConfiguracaoPrecos>()
   if (error || !config) return [{ ok: false, erro: 'falha' }, 500]
+  const cupom = await buscarCupom(dados)
+  if (cupom === 'invalido') return [{ ok: false, erro: 'cupom' }, 200]
   const base = precoPedido(dados.plano, new Date(), config)
-  const preco =
-    dados.plano === 'parcelado' ? { ...base, parcelas: dados.parcelas ?? base.parcelas } : base
+  const preco = comCupom(
+    dados.plano === 'parcelado' ? { ...base, parcelas: dados.parcelas ?? base.parcelas } : base,
+    cupom,
+  )
   const utms = Object.fromEntries(Object.entries(dados.utms).filter(([, v]) => v))
   const { data: pedido, error: erroPedido } = await servico
     .from('pedidos')
@@ -39,6 +60,8 @@ async function criar(dados: EntradaPedido, ip: string, ua: string): Promise<[Res
       oferta: preco.oferta,
       meses_acesso: preco.mesesAcesso,
       codigo_indicacao: dados.indicacao ?? null,
+      cupom_id: cupom?.id ?? null,
+      desconto_centavos: base.valorCentavos - preco.valorCentavos,
       utms,
       rastreio: { ...dados.rastreio, ip, ua: ua.slice(0, 400) },
     })

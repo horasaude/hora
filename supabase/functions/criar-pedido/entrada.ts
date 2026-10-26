@@ -57,6 +57,12 @@ export const esquemaPedido = z
     rastreio: z
       .object({ fbp: texto(200), fbc: texto(500), recusou: z.boolean().optional() })
       .default({}),
+    cupom: z
+      .string()
+      .trim()
+      .toUpperCase()
+      .regex(/^[A-Z0-9]{3,20}$/)
+      .nullish(),
     cartao: cartao.optional(),
     parcelas: z.number().int().min(1).max(12).optional(),
   })

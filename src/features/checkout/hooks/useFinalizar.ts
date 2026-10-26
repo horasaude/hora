@@ -33,10 +33,11 @@ const ERROS: Record<string, string> = {
   cartao: textos.pagamento.recusado,
   cep: textos.pagamento.cep,
   dados: textos.pagamento.dados,
+  cupom: textos.pagamento.cupom,
 }
 
 /** Envia o pedido: Pix devolve o QR na tela; cartão aprovado ou em análise vai para /obrigada. */
-export function useFinalizar(plano: Plano) {
+export function useFinalizar(plano: Plano, cupom: string | null = null) {
   const [enviando, setEnviando] = useState(false)
   const [erro, setErro] = useState<string | null>(null)
   const [resultado, setResultado] = useState<Resultado | null>(null)
@@ -51,6 +52,7 @@ export function useFinalizar(plano: Plano) {
       cpf: soDigitos(d.cpf),
       whatsapp: soDigitos(d.whatsapp),
       indicacao: indicacaoGuardada(),
+      cupom,
       utms: utmsGuardadas(),
       rastreio: rastreioMeta(),
       ...(d.plano !== 'pix' && { cartao: cartaoDe(d) }),

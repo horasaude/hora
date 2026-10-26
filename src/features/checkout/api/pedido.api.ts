@@ -35,6 +35,7 @@ export type NovoPedido = {
   cpf: string
   whatsapp: string
   indicacao: string | null
+  cupom: string | null
   utms: Utms
   rastreio: { fbp?: string; fbc?: string; recusou?: boolean }
   cartao?: CartaoPedido

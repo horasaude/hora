@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest'
 import { CONFIGURACAO_PADRAO as P } from '../../../../src/domain/configuracao'
+import { aplicarCupom as cupomTela } from '../../../../src/domain/cupom'
 import { precosPara } from '../../../../src/domain/precos'
 import {
+  aplicarCupom,
   cpfValido,
   dataAsaas,
   fimDoAcesso,
@@ -87,5 +89,20 @@ describe('formatos da API', () => {
     expect(cpfValido('529.982.247-25')).toBe(true)
     expect(cpfValido('529.982.247-24')).toBe(false)
     expect(cpfValido('111.111.111-11')).toBe(false)
+  })
+})
+
+describe('cupom', () => {
+  it('tira o % ou o valor, nunca abaixo de R$ 5, igual à tela', () => {
+    const casos = [
+      [189700, { tipo: 'porcentagem', valor: 10 }, 170730],
+      [21770, { tipo: 'valor', valor: 5000 }, 16770],
+      [21770, { tipo: 'valor', valor: 50000 }, 500],
+      [225240, { tipo: 'porcentagem', valor: 15 }, 191454],
+    ] as const
+    for (const [base, c, esperado] of casos) {
+      expect(aplicarCupom(base, c)).toBe(esperado)
+      expect(cupomTela(base, c)).toBe(esperado)
+    }
   })
 })

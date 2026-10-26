@@ -861,6 +861,45 @@ export type Database = {
         }
         Relationships: []
       }
+      cupons: {
+        Row: {
+          ativo: boolean
+          codigo: string
+          created_at: string
+          id: string
+          limite_usos: number | null
+          planos: string[]
+          tipo: string
+          updated_at: string
+          valido_ate: string | null
+          valor: number
+        }
+        Insert: {
+          ativo?: boolean
+          codigo: string
+          created_at?: string
+          id?: string
+          limite_usos?: number | null
+          planos?: string[]
+          tipo: string
+          updated_at?: string
+          valido_ate?: string | null
+          valor: number
+        }
+        Update: {
+          ativo?: boolean
+          codigo?: string
+          created_at?: string
+          id?: string
+          limite_usos?: number | null
+          planos?: string[]
+          tipo?: string
+          updated_at?: string
+          valido_ate?: string | null
+          valor?: number
+        }
+        Relationships: []
+      }
       denuncias_checkin: {
         Row: {
           checkin_id: string
@@ -2105,7 +2144,9 @@ export type Database = {
           codigo_acesso: string
           codigo_indicacao: string | null
           cpf: string
+          cupom_id: string | null
           created_at: string
+          desconto_centavos: number
           email: string
           encerrado_em: string | null
           id: string
@@ -2136,7 +2177,9 @@ export type Database = {
           codigo_acesso?: string
           codigo_indicacao?: string | null
           cpf: string
+          cupom_id?: string | null
           created_at?: string
+          desconto_centavos?: number
           email: string
           encerrado_em?: string | null
           id?: string
@@ -2167,7 +2210,9 @@ export type Database = {
           codigo_acesso?: string
           codigo_indicacao?: string | null
           cpf?: string
+          cupom_id?: string | null
           created_at?: string
+          desconto_centavos?: number
           email?: string
           encerrado_em?: string | null
           id?: string
@@ -2859,6 +2904,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      usos: {
+        Args: { c: Database["public"]["Tables"]["cupons"]["Row"] }
+        Returns: number
+      }
       acesso_do_link: {
         Args: { p_codigo: string }
         Returns: {
@@ -2911,6 +2960,16 @@ export type Database = {
           p_referencia?: string
         }
         Returns: string
+      }
+      consultar_cupom: {
+        Args: { p_codigo: string }
+        Returns: {
+          codigo: string
+          id: string
+          planos: string[]
+          tipo: string
+          valor: number
+        }[]
       }
       confirmar_indicacoes: { Args: never; Returns: number }
       criar_acao: {

@@ -71,3 +71,17 @@ export function cpfValido(valor: string): boolean {
   }
   return digito(9) === Number(d[9]) && digito(10) === Number(d[10])
 }
+
+/** Cupom do checkout. Mesma conta de src/domain/cupom.ts (o teste confere). */
+export type CupomPedido = {
+  id: string
+  tipo: 'porcentagem' | 'valor'
+  valor: number
+  planos: Plano[]
+}
+
+export function aplicarCupom(centavos: number, c: Pick<CupomPedido, 'tipo' | 'valor'>): number {
+  const desconto =
+    c.tipo === 'porcentagem' ? Math.round((centavos * c.valor) / 100) : Math.round(c.valor)
+  return Math.max(500, centavos - desconto)
+}

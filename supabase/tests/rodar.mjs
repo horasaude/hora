@@ -31,6 +31,7 @@ import { testarPendencias } from './pendencias.test.mjs'
 import { testarCardapioPdf } from './cardapio_pdf.test.mjs'
 import { testarGravacaoLive } from './gravacao_live.test.mjs'
 import { testarReguaCobranca } from './regua_cobranca.test.mjs'
+import { testarCupons } from './cupons.test.mjs'
 
 const suites = [
   testarPerfis,
@@ -57,6 +58,7 @@ const suites = [
   testarCancelamento,
   testarAssinaturas,
   testarReguaCobranca,
+  testarCupons,
   testarAulaAssistida,
   testarTreinos,
   testarPublicarTipo,

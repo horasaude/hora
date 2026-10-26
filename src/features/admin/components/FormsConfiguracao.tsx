@@ -16,14 +16,24 @@ type Moldura = {
   aoSalvar: () => Promise<unknown>
   children: ReactNode
   valido?: boolean
+  /** Chamado a cada tentativa de salvar, válida ou não (para mostrar os erros). */
+  aoTentar?: () => void
 }
 
 /** Janela de editar configuração: formulário, erro e Cancelar e Salvar no rodapé; fecha ao salvar. */
-export function JanelaSalvar({ titulo, aoFechar, aoSalvar, children, valido = true }: Moldura) {
+export function JanelaSalvar({
+  titulo,
+  aoFechar,
+  aoSalvar,
+  children,
+  valido = true,
+  aoTentar,
+}: Moldura) {
   const id = useId()
   const [estado, setEstado] = useState<'parado' | 'salvando' | 'erro'>('parado')
   const enviar = async (e: FormEvent) => {
     e.preventDefault()
+    aoTentar?.()
     if (!valido) return
     setEstado('salvando')
     try {

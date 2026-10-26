@@ -5,18 +5,22 @@ import { formatarPreco } from '@/lib/moeda'
 import { LinkBrilho } from '@/components/ui'
 import type { Configuracoes } from '../api/modulos.api'
 import { ConfigDetalhe } from '../components/ConfigDetalhe'
+import { CuponsDetalhe } from '../components/CuponsDetalhe'
 import { Estado } from '../components/Estado'
 import { Divisao, Quadro, type Numero } from '../components/Quadro'
 import { celula, LinhaTabela, Tabela } from '../components/Tabela'
+import { useCupons } from '../hooks/useCupons'
 import { useConfiguracoes } from '../hooks/useModulos'
 import { lerSecoes } from '../secoes'
 import { textos } from '../textos'
+import { cupons as tc } from '../textos/cupons'
 
 const t = textos.configuracoes
-const ITENS = ['precos', 'oferta', 'termos', 'privacidade'] as const
+const ITENS = ['precos', 'oferta', 'cupons', 'termos', 'privacidade'] as const
 type Item = (typeof ITENS)[number]
 
-function valorAtual(item: Item, c: Configuracoes): string {
+function valorAtual(item: Item, c: Configuracoes, cupons: number): string {
+  if (item === 'cupons') return tc.resumo(cupons)
   if (item === 'precos')
     return `Pix ${formatarPreco(c.pix_cheio)} · 12x ${formatarPreco(c.parcelado_cheio)}`
   if (item === 'oferta')
@@ -36,6 +40,7 @@ function numeros(c?: Configuracoes): Numero[] {
 /** Configurações: preços, oferta do ORA, termos e privacidade; o cartão mostra, a janela edita. */
 export function ConfiguracoesPage() {
   const config = useConfiguracoes()
+  const ativos = (useCupons().data ?? []).filter((x) => x.ativo).length
   const { item: param } = useParams()
   const item: Item = ITENS.find((i) => i === param) ?? 'precos'
   const aberto = item === param
@@ -55,14 +60,16 @@ export function ConfiguracoesPage() {
                 key={i}
                 ativa={i === item}
                 para={`/app/admin/configuracoes/${i}`}
-                titulo={t.itens[i]}
+                titulo={i === 'cupons' ? tc.item : t.itens[i]}
               >
-                <td className={celula}>{valorAtual(i, c)}</td>
+                <td className={celula}>{valorAtual(i, c, ativos)}</td>
               </LinhaTabela>
             ))}
           </Tabela>
         }
-        detalhe={<ConfigDetalhe key={item} item={item} c={c} />}
+        detalhe={
+          item === 'cupons' ? <CuponsDetalhe /> : <ConfigDetalhe key={item} item={item} c={c} />
+        }
       />
     )
   }
