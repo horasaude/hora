@@ -6,7 +6,7 @@ Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquiv
 
 - Painel, Configurações > Cupons de desconto: criar e editar cupom (código, % de 1 a 90 ou valor em reais, formas de pagamento, limite de usos, válido até, ligado), ligar e desligar na lista, usos contados pelos pedidos pagos (CuponsDetalhe, CupomJanela, CupomCampos, schemas/cupomForm.ts, api/cupons.api.ts).
 - Checkout: campo Cupom de desconto abaixo do plano (aceita ?cupom=CODIGO no link); o valor dos planos já muda com ele. Pix e parcelado: desconto no total; mensal: em cada mensalidade; nunca abaixo de R$ 5 (src/domain/cupom.ts, CampoCupom, useCupom, api/cupom.api.ts).
-- Servidor: criar-pedido confere o cupom em consultar_cupom e calcula o valor (regras.ts aplicarCupom); pedido guarda cupom_id e desconto_centavos. Migração 20261102240000_cupons (tabela cupons com RLS só admin, consultar_cupom para o visitante, usos()). O limite conta pagos mais pagamentos em andamento dos últimos 40 minutos.
+- Servidor: criar-pedido confere o cupom em consultar_cupom e se a pessoa já pagou com ele (um por CPF e por e-mail, erro cupom_usado) e calcula o valor (regras.ts aplicarCupom); pedido guarda cupom_id e desconto_centavos. Migração 20261102240000_cupons (tabela cupons com RLS só admin, consultar_cupom para o visitante, usos()). O limite conta pagos mais pagamentos em andamento dos últimos 40 minutos.
 
 ## 2026-10-22 · main · Barra de baixo presa no celular
 

@@ -15,7 +15,7 @@ export const cupons = {
   quantoReais: 'Desconto (R$)',
   planos: 'Vale para',
   nomesPlanos: { pix: 'Pix', parcelado: 'Parcelado', recorrente: 'Mensal' },
-  limite: 'Limite de usos',
+  limite: 'Limite total de usos',
   limiteDica: 'Vazio: sem limite',
   validoAte: 'Válido até',
   validoDica: 'Vazio: sem prazo',

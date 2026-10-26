@@ -20,12 +20,34 @@ import {
   type Resultado,
 } from './pagar.ts'
 
-/** Cupom digitado: confere no banco (ativo, no prazo, com uso livre) e se vale para o plano. */
-async function buscarCupom(dados: EntradaPedido): Promise<CupomPedido | null | 'invalido'> {
+/** Já pagou um pedido com esse cupom, pelo mesmo CPF ou pelo mesmo e-mail. */
+async function jaUsou(cupom: string, dados: EntradaPedido): Promise<boolean> {
+  const pagos = (campo: 'cpf' | 'email', valor: string) =>
+    servico
+      .from('pedidos')
+      .select('id', { count: 'exact', head: true })
+      .eq('cupom_id', cupom)
+      .eq('status', 'aprovado')
+      .eq(campo, valor)
+  const [porCpf, porEmail] = await Promise.all([
+    pagos('cpf', dados.cpf),
+    pagos('email', dados.email),
+  ])
+  return Boolean(porCpf.count || porEmail.count)
+}
+
+/**
+ * Cupom digitado: confere no banco (ativo, no prazo, com uso livre), se vale para o plano e se a
+ * pessoa ainda não usou (um por CPF e por e-mail).
+ */
+async function buscarCupom(
+  dados: EntradaPedido,
+): Promise<CupomPedido | null | 'cupom' | 'cupom_usado'> {
   if (!dados.cupom) return null
   const { data } = await servico.rpc('consultar_cupom', { p_codigo: dados.cupom })
   const c = (data as CupomPedido[] | null)?.[0]
-  return c && c.planos.includes(dados.plano) ? c : 'invalido'
+  if (!c || !c.planos.includes(dados.plano)) return 'cupom'
+  return (await jaUsou(c.id, dados)) ? 'cupom_usado' : c
 }
 
 const comCupom = (preco: PrecoPedido, c: CupomPedido | null) =>
@@ -40,7 +62,7 @@ async function criar(dados: EntradaPedido, ip: string, ua: string): Promise<[Res
     .single<ConfiguracaoPrecos>()
   if (error || !config) return [{ ok: false, erro: 'falha' }, 500]
   const cupom = await buscarCupom(dados)
-  if (cupom === 'invalido') return [{ ok: false, erro: 'cupom' }, 200]
+  if (typeof cupom === 'string') return [{ ok: false, erro: cupom }, 200]
   const base = precoPedido(dados.plano, new Date(), config)
   const preco = comCupom(
     dados.plano === 'parcelado' ? { ...base, parcelas: dados.parcelas ?? base.parcelas } : base,

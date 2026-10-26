@@ -61,6 +61,7 @@ export const textos = {
     cep: 'Não achamos esse CEP. Confira o CEP do endereço da fatura do cartão.',
     falha: 'Não conseguimos gerar o pagamento agora. Tente de novo em instantes.',
     cupom: 'Esse cupom não vale mais. Remova o cupom ou confira o código.',
+    cupomUsado: 'Você já usou este cupom em outra compra. Remova o cupom para continuar.',
     concordo: ['Ao finalizar, você concorda com os ', ' e a ', '.'] as const,
     termos: 'Termos de uso',
     privacidade: 'Política de privacidade',

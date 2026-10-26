@@ -34,6 +34,7 @@ const ERROS: Record<string, string> = {
   cep: textos.pagamento.cep,
   dados: textos.pagamento.dados,
   cupom: textos.pagamento.cupom,
+  cupom_usado: textos.pagamento.cupomUsado,
 }
 
 /** Envia o pedido: Pix devolve o QR na tela; cartão aprovado ou em análise vai para /obrigada. */
