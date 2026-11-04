@@ -449,3 +449,9 @@ verify_jwt = false
 
 [functions.cobranca-diaria]
 verify_jwt = false
+
+[functions.convidar-profissional]
+verify_jwt = false
+
+[functions.cadastrar-parceira]
+verify_jwt = false
