@@ -80,8 +80,11 @@ export function AlunaDetalhe({
       <PendenciasAluna perfil={a.id} />
       <RespostasAnamnese perfil={a.id} />
       <ArquivosDaAluna perfil={a.id} />
-      {a.parceira && <SecaoParceria perfil={a.id} ativa={status !== 'sem_acesso'} />}
-      <LiberarAcesso perfil={a.id} />
+      {a.parceira ? (
+        <SecaoParceria perfil={a.id} ativa={status !== 'sem_acesso'} />
+      ) : (
+        <LiberarAcesso perfil={a.id} />
+      )}
     </CartaoDetalhe>
   )
 }
