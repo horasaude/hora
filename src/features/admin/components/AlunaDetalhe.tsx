@@ -8,7 +8,7 @@ import { linkIndicacao, t as tPontos } from '../pontos/textos'
 import { textos } from '../textos'
 import { LiberarAcesso } from '../acesso/LiberarAcesso'
 import { ArquivosDaAluna } from '../arquivosAluna/ArquivosDaAluna'
-import { ReenviarEmail } from '../parceiras/Parceria'
+import { SecaoParceria } from '../parceiras/Parceria'
 import { t as tParceira } from '../parceiras/textos'
 import { PendenciasAluna } from '../pendencias/PendenciasAluna'
 import { RespostasAnamnese } from '../treinos/components/RespostasAnamnese'
@@ -80,7 +80,7 @@ export function AlunaDetalhe({
       <PendenciasAluna perfil={a.id} />
       <RespostasAnamnese perfil={a.id} />
       <ArquivosDaAluna perfil={a.id} />
-      {a.parceira && <ReenviarEmail perfil={a.id} />}
+      {a.parceira && <SecaoParceria perfil={a.id} ativa={status !== 'sem_acesso'} />}
       <LiberarAcesso perfil={a.id} />
     </CartaoDetalhe>
   )

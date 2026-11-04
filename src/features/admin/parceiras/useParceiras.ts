@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { cadastrarParceira, reenviarEmailParceira } from './parceiras.api'
+import { cadastrarParceira, encerrarParceria, reenviarEmailParceira } from './parceiras.api'
 
 export function useCadastrarParceira() {
   const cliente = useQueryClient()
@@ -10,3 +10,11 @@ export function useCadastrarParceira() {
 }
 
 export const useReenviarEmail = () => useMutation({ mutationFn: reenviarEmailParceira })
+
+export function useEncerrarParceria() {
+  const cliente = useQueryClient()
+  return useMutation({
+    mutationFn: encerrarParceria,
+    onSuccess: () => cliente.invalidateQueries({ queryKey: ['alunas'] }),
+  })
+}

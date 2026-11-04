@@ -19,6 +19,10 @@ export const t = {
   reenviar: 'Reenviar e-mail',
   reenviando: 'Enviando',
   reenviado: 'E-mail enviado.',
+  encerrar: 'Encerrar parceria',
+  confirmarEncerrar: 'Toque de novo para encerrar',
+  encerrando: 'Encerrando',
+  encerrada: 'Parceria encerrada. Para voltar, cadastre de novo com o mesmo e-mail.',
   erros: {
     nome: 'Preencha o nome',
     email: 'Confira o e-mail',
@@ -26,5 +30,6 @@ export const t = {
     equipe: 'Esse e-mail é de alguém da equipe.',
     falha: 'Não foi possível cadastrar. Tente de novo.',
     reenviar: 'Não foi possível enviar. Tente de novo.',
+    encerrar: 'Não foi possível encerrar. Tente de novo.',
   },
 }

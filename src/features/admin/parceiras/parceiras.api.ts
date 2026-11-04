@@ -28,3 +28,9 @@ export const cadastrarParceira = (d: { nome: string; email: string; meses: Prazo
 
 /** Manda de novo o e-mail com o botão de criar a senha. */
 export const reenviarEmailParceira = (perfil: string) => chamar({ acao: 'reenviar', perfil })
+
+/** Corta o acesso da parceira na hora; a conta e o histórico ficam. */
+export async function encerrarParceria(perfil: string): Promise<void> {
+  const { error } = await supabase.rpc('encerrar_parceria', { p_perfil: perfil })
+  if (error) throw error
+}

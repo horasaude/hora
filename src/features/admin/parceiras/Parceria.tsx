@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { BotaoBrilho } from '@/components/ui'
+import { BotaoExcluir } from '../components/BotaoExcluir'
 import { ParceiraJanela } from './ParceiraJanela'
 import { t } from './textos'
-import { useReenviarEmail } from './useParceiras'
+import { useEncerrarParceria, useReenviarEmail } from './useParceiras'
 
 /** Botão dourado no topo de Alunas que abre o cadastro da parceira. */
 export function BotaoParceira() {
@@ -17,25 +18,46 @@ export function BotaoParceira() {
   )
 }
 
-/** Ficha da parceira: reenviar o e-mail com o botão de criar a senha. */
-export function ReenviarEmail({ perfil }: { perfil: string }) {
+function ReenviarEmail({ perfil }: { perfil: string }) {
   const reenviar = useReenviarEmail()
   const aviso = reenviar.isError || reenviar.data === false ? t.erros.reenviar : t.reenviado
   return (
-    <section className="flex flex-col gap-2 border-t border-linha pt-5">
-      <h3 className="text-sm font-semibold text-suave">{t.secao}</h3>
+    <span className="flex flex-col gap-1">
       <BotaoBrilho
         tom="cinza"
-        className="self-start"
         disabled={reenviar.isPending}
         onClick={() => reenviar.mutate(perfil)}
       >
         {reenviar.isPending ? t.reenviando : t.reenviar}
       </BotaoBrilho>
       {(reenviar.isSuccess || reenviar.isError) && (
-        <p role="status" className="text-sm text-tinta">
+        <span role="status" className="text-xs text-tinta">
           {aviso}
-        </p>
+        </span>
+      )}
+    </span>
+  )
+}
+
+/** Ficha da parceira: com acesso, reenviar o e-mail e encerrar a parceria (dois toques). */
+export function SecaoParceria({ perfil, ativa }: { perfil: string; ativa: boolean }) {
+  const encerrar = useEncerrarParceria()
+  return (
+    <section className="flex flex-col gap-2 border-t border-linha pt-5">
+      <h3 className="text-sm font-semibold text-suave">{t.secao}</h3>
+      {ativa ? (
+        <div className="flex flex-wrap items-start gap-2">
+          <ReenviarEmail perfil={perfil} />
+          <BotaoExcluir
+            rotulo={t.encerrar}
+            confirmar={t.confirmarEncerrar}
+            excluindo={t.encerrando}
+            aoExcluir={() => encerrar.mutateAsync(perfil)}
+            mensagemDe={() => t.erros.encerrar}
+          />
+        </div>
+      ) : (
+        <p className="text-sm text-tinta">{t.encerrada}</p>
       )}
     </section>
   )

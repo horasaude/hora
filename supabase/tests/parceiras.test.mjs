@@ -86,11 +86,39 @@ async function link(t) {
   )
 }
 
+async function encerrar(t) {
+  const { esperaValor, esperaErro } = t
+  const fim = (id) => `select acesso_fim_em <= now() from public.perfis where id = '${id}'`
+  await t.comoAluna(NOVA)
+  await esperaErro(
+    'aluna não encerra parceria',
+    `select public.encerrar_parceria('${NOVA}')`,
+    '42501',
+  )
+  await t.comoAluna(ADMIN)
+  await esperaErro(
+    'só encerra quem é parceira',
+    `select public.encerrar_parceria('${PAGANTE}')`,
+    'P0002',
+  )
+  await t.db.query(`select public.encerrar_parceria('${NOVA}')`)
+  await esperaValor('encerrar corta o acesso na hora', fim(NOVA), true)
+  await esperaValor(
+    'sem acesso ativo depois de encerrar',
+    `select count(*)::int from public.painel_alunas() where id = '${NOVA}' and acesso_fim_em > now()`,
+    0,
+  )
+  await t.comoServico()
+  await t.db.query(registrar(NOVA, 1))
+  await esperaValor('cadastrar de novo devolve o acesso', fim(NOVA), false)
+}
+
 export async function testarParceiras() {
   const t = await criarBanco()
   await montar(t.db)
   await permissoes(t)
   await regras(t)
   await link(t)
+  await encerrar(t)
   return t.fim('parceiras')
 }

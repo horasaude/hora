@@ -3005,6 +3005,7 @@ export type Database = {
         Returns: undefined
       }
       eh_admin: { Args: never; Returns: boolean }
+      encerrar_parceria: { Args: { p_perfil: string }; Returns: undefined }
       encerrar_pedido: {
         Args: { p_pedido: string; p_status: string }
         Returns: boolean

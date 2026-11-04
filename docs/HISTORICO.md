@@ -2,6 +2,11 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-11-04 · main · Encerrar parceria
+
+- Ficha da parceira (Membros > Alunas), seção Parceria: Reenviar e-mail e Encerrar parceria em dois toques (BotaoExcluir, coral). Corta o acesso na hora (acesso_fim_em = agora); conta e histórico ficam. Para voltar, cadastrar de novo com o mesmo e-mail. Sem acesso, a seção só avisa que a parceria foi encerrada.
+- Migração 20261104120000_encerrar_parceria (encerrar_parceria, só admin e só para quem está em parceiras).
+
 ## 2026-11-04 · main · Cadastrar parceira (blogueiras sem pagamento)
 
 - Painel, Membros > Alunas: botão dourado Cadastrar parceira (nome, e-mail, acesso por 1, 3, 6 ou 12 meses). A Edge Function cadastrar-parceira confere que quem pede é profissional, cria a conta confirmada (ou usa a que já existe), chama registrar_parceira (acesso a partir de agora, histórico em acessos_liberados) e manda o e-mail da ORA com Criar minha senha pelo link /acesso/<código> que não vence (primeiro-acesso, via acesso_do_link). Recusa quem já tem acesso pago e quem é da equipe.
