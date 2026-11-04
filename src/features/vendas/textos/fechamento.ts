@@ -57,12 +57,8 @@ export const fechamento = {
     titulo: 'Perguntas *frequentes*',
     itens: [
       {
-        p: 'Preciso ter participado da Imersão ORA?',
-        r: 'Não. A ORA é aberta para quem quer começar agora.',
-      },
-      {
         p: 'Como funcionam os valores promocionais do ORA?',
-        r: 'O desconto vale em todos os planos. Quem assinar no dia 24/10, dia da Imersão ORA, até as 23h59 (horário de Brasília), ganhará 1 mês grátis: serão 13 meses de acesso à plataforma.',
+        r: 'O desconto vale em todos os planos: Pix à vista, parcelado no cartão ou mensal. Em qualquer um deles, você tem 12 meses de acesso à comunidade.',
       },
       {
         p: 'Quando recebo o acesso?',
