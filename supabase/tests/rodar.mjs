@@ -32,6 +32,7 @@ import { testarCardapioPdf } from './cardapio_pdf.test.mjs'
 import { testarGravacaoLive } from './gravacao_live.test.mjs'
 import { testarReguaCobranca } from './regua_cobranca.test.mjs'
 import { testarCupons } from './cupons.test.mjs'
+import { testarParceiras } from './parceiras.test.mjs'
 
 const suites = [
   testarPerfis,
@@ -67,6 +68,7 @@ const suites = [
   testarLembreteAgua,
   testarConexaoGoogle,
   testarLinkAcesso,
+  testarParceiras,
 ]
 let falhas = 0
 for (const suite of suites) falhas += await suite()

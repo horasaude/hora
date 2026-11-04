@@ -3248,6 +3248,7 @@ export type Database = {
           dia: number
           id: string
           nome: string
+          parceira: boolean
           ultimo_acesso_em: string
         }[]
       }

@@ -18,6 +18,8 @@ export type AlunaPainel = {
   aulas_concluidas: number
   /** Mensalidade: 'inadimplente' (em atraso) ou 'suspensa' (acesso pausado); em dia, null. */
   cobranca: string | null
+  /** Cadastrada pelo painel como parceira (acesso de cortesia, sem pagamento). */
+  parceira: boolean
 }
 
 export async function listarDesafios(): Promise<Desafio[]> {

@@ -11,6 +11,8 @@ import { celula, Etiqueta, LinhaTabela, Tabela } from '../components/Tabela'
 import { useAlunas } from '../hooks/useModulos'
 import { AbasCrm } from '../crm/AbasCrm'
 import { FiltroAtivo } from '../crm/FiltroAtivo'
+import { BotaoParceira } from '../parceiras/Parceria'
+import { t as tParceira } from '../parceiras/textos'
 import { textos } from '../textos'
 
 const t = textos.alunas
@@ -34,6 +36,12 @@ function numeros(linhas: Linha[], agora: Date): Numero[] {
   ]
 }
 
+function marcaAluna(a: AlunaPainel): ReactNode {
+  if (a.cobranca) return <Etiqueta tom="rosa">{t.cobranca[a.cobranca]}</Etiqueta>
+  if (a.parceira) return <Etiqueta tom="ocre">{tParceira.etiqueta}</Etiqueta>
+  return undefined
+}
+
 function TabelaAlunas({ linhas, ativa, agora }: { linhas: Linha[]; ativa?: string; agora: Date }) {
   return (
     <Tabela colunas={t.colunas}>
@@ -44,7 +52,7 @@ function TabelaAlunas({ linhas, ativa, agora }: { linhas: Linha[]; ativa?: strin
           para={`/app/admin/alunas/${a.id}`}
           semQuebra
           titulo={a.nome || '-'}
-          marca={a.cobranca ? <Etiqueta tom="rosa">{t.cobranca[a.cobranca]}</Etiqueta> : undefined}
+          marca={marcaAluna(a)}
         >
           <td className={nowrap}>{a.apelido ?? '-'}</td>
           <td className={nowrap}>
@@ -99,7 +107,12 @@ export function AlunasPage() {
     )
   }
   return (
-    <Quadro titulo={t.pagina} numeros={numeros(linhas, agora)} aberto={aberta}>
+    <Quadro
+      titulo={t.pagina}
+      acao={<BotaoParceira />}
+      numeros={numeros(linhas, agora)}
+      aberto={aberta}
+    >
       {!aberta && <AbasCrm />}
       {!aberta && filtro && <FiltroAtivo filtro={filtro} total={vistas.length} />}
       {corpo}

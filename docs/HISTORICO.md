@@ -2,6 +2,12 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-11-04 · main · Cadastrar parceira (blogueiras sem pagamento)
+
+- Painel, Membros > Alunas: botão dourado Cadastrar parceira (nome, e-mail, acesso por 1, 3, 6 ou 12 meses). A Edge Function cadastrar-parceira confere que quem pede é profissional, cria a conta confirmada (ou usa a que já existe), chama registrar_parceira (acesso a partir de agora, histórico em acessos_liberados) e manda o e-mail da ORA com Criar minha senha pelo link /acesso/<código> que não vence (primeiro-acesso, via acesso_do_link). Recusa quem já tem acesso pago e quem é da equipe.
+- Lista e ficha mostram a etiqueta Parceira; na ficha, Reenviar e-mail. Parceira não entra no Financeiro (não tem pedido).
+- Arquivos: migração 20261104090000_parceiras (tabela parceiras, registrar_parceira, acesso_do_link e painel_alunas com parceira), supabase/functions/cadastrar-parceira, _shared/email/parceria.ts, src/features/admin/parceiras.
+
 ## 2026-10-26 · main · Cupom de desconto
 
 - Painel, Configurações > Cupons de desconto: criar e editar cupom (código, % de 1 a 90 ou valor em reais, formas de pagamento, limite de usos, válido até, ligado), ligar e desligar na lista, usos contados pelos pedidos pagos (CuponsDetalhe, CupomJanela, CupomCampos, schemas/cupomForm.ts, api/cupons.api.ts).

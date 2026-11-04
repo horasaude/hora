@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { BarraProgresso } from '@/components/ui'
 import type { StatusAluna } from '@/domain/painel'
 import { formatarData, quandoFoi } from '@/lib/datas'
@@ -7,6 +8,8 @@ import { linkIndicacao, t as tPontos } from '../pontos/textos'
 import { textos } from '../textos'
 import { LiberarAcesso } from '../acesso/LiberarAcesso'
 import { ArquivosDaAluna } from '../arquivosAluna/ArquivosDaAluna'
+import { ReenviarEmail } from '../parceiras/Parceria'
+import { t as tParceira } from '../parceiras/textos'
 import { PendenciasAluna } from '../pendencias/PendenciasAluna'
 import { RespostasAnamnese } from '../treinos/components/RespostasAnamnese'
 import { CartaoDetalhe, Dados } from './CartaoDetalhe'
@@ -23,6 +26,18 @@ function LinkIndicacao({ perfil }: { perfil: string }) {
   const codigo = useCodigoIndicacao(perfil).data
   return codigo ? <span className="break-all">{linkIndicacao(codigo)}</span> : '-'
 }
+
+const parceria = (sim: boolean): [string, ReactNode][] =>
+  sim
+    ? [
+        [
+          tParceira.secao,
+          <Etiqueta key="p" tom="ocre">
+            {tParceira.etiqueta}
+          </Etiqueta>,
+        ],
+      ]
+    : []
 
 const data = (iso: string | null) => (iso ? formatarData(new Date(iso)) : '-')
 
@@ -50,6 +65,7 @@ export function AlunaDetalhe({
             a.ultimo_acesso_em ? quandoFoi(new Date(a.ultimo_acesso_em), agora) : t.nunca,
           ],
           [t.dadoStatus, <EtiquetaAluna key="s" status={status} />],
+          ...parceria(a.parceira),
           [tPontos.link, <LinkIndicacao key="l" perfil={a.id} />],
         ]}
       />
@@ -64,6 +80,7 @@ export function AlunaDetalhe({
       <PendenciasAluna perfil={a.id} />
       <RespostasAnamnese perfil={a.id} />
       <ArquivosDaAluna perfil={a.id} />
+      {a.parceira && <ReenviarEmail perfil={a.id} />}
       <LiberarAcesso perfil={a.id} />
     </CartaoDetalhe>
   )

@@ -41,7 +41,7 @@ const passos = (titulo: string, itens: string[]) =>
   `<p style="margin:16px 0 6px;font-size:15px;font-weight:bold;color:${TINTA}">${titulo}</p>
 <ol style="margin:0 0 8px;padding-left:20px;font-size:15px;line-height:1.6;color:${TINTA}">${itens.map((i) => `<li>${i}</li>`).join('')}</ol>`
 
-function instalar(endereco: string): string {
+export function instalar(endereco: string): string {
   return [
     `<h2 style="margin:28px 0 8px;font-size:18px;color:${VERDE}">Instale o ORA no seu celular</h2>`,
     p('Depois de criar a senha, deixe o ORA na tela do celular, como um aplicativo:'),
