@@ -4,10 +4,10 @@
 export const abertura = {
   hero: {
     logo: 'ORA',
-    etiqueta: 'Imersão ORA',
+    etiqueta: 'Comunidade ORA',
     titulo: 'Chegou a *HORA* de cuidar de você',
     subtitulo:
-      'Um ano com nutricionista, médica e personal trainer no mesmo lugar. Para você parar de recomeçar toda semana.',
+      'Medicina, Nutrição e Treinamento em um só lugar.\n\nNão é um programa com começo e fim. É uma comunidade para fazer do cuidado com você um hábito para a vida.\n\nConhecimento, orientação e incentivo para construir uma rotina mais saudável, respeitando seu tempo e cada fase da sua jornada.',
     botao: 'Quero entrar na ORA',
   },
   // Provisórios (fatos do produto). TODO(clientes): trocar por números de autoridade quando vierem.
