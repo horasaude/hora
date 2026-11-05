@@ -75,7 +75,8 @@ function TabelaAlunas({ linhas, ativa, agora }: { linhas: Linha[]; ativa?: strin
 export function AlunasPage() {
   const alunas = useAlunas()
   const { alunaId } = useParams()
-  const [agora] = useState(() => new Date())
+  const [abertaEm] = useState(() => Date.now())
+  const agora = new Date(Math.max(abertaEm, alunas.dataUpdatedAt))
   const linhas: Linha[] = (alunas.data ?? []).map((a) => ({
     aluna: a,
     status: statusAluna(a, agora),
