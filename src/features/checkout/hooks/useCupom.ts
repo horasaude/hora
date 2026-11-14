@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { Cupom } from '@/domain/cupom'
 import { consultarCupom } from '../api/cupom.api'
 
@@ -29,6 +29,13 @@ export function useCupom() {
       setEstado('falha')
     }
   }
+
+  // Cupom que veio no link (anúncio) já entra aplicado, sem a aluna clicar em Aplicar.
+  const doLink = useRef(codigo)
+  useEffect(() => {
+    if (doLink.current.length >= 3) void aplicar()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const remover = () => {
     setAplicado(null)

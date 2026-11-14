@@ -43,4 +43,15 @@ describe('cupom no checkout', () => {
     await screen.findByText('Cupom inválido ou expirado.')
     tem('Total12x de R$ 187,70')
   })
+
+  it('cupom que vem no link já entra aplicado, sem clicar', async () => {
+    responder([
+      { codigo: 'BLACKORA', tipo: 'porcentagem', valor: 30, planos: ['pix', 'parcelado'] },
+    ])
+    window.history.replaceState(null, '', '/checkout?cupom=BLACKORA')
+    render(<CheckoutPage />)
+    await screen.findByText('Cupom BLACKORA: 30% de desconto')
+    tem('Total12x de R$ 131,39')
+    window.history.replaceState(null, '', '/')
+  })
 })
