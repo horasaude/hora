@@ -1,7 +1,7 @@
 export { Botao } from './Botao'
 export { Campo } from './Campo'
 export { Cartao } from './Cartao'
-export { IconeCadeado, IconeCheck, IconePlay, IconeVoltar } from './Icones'
+export { IconeCadeado, IconeCheck, IconeInstagram, IconePlay, IconeVoltar } from './Icones'
 export { Voltar } from './Voltar'
 export { LogoOra } from './LogoOra'
 export { BarraProgresso, BotaoBrilho, EtiquetaBrilho, LinkBrilho } from './Brilho'

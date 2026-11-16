@@ -57,3 +57,33 @@ export function IconeVoltar({ className = 'size-5' }: Props) {
     </svg>
   )
 }
+
+/** Logo do Instagram nas cores da marca. */
+export function IconeInstagram({ className = 'size-5' }: Props) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden className={className}>
+      <defs>
+        <linearGradient id="ig-cores" x1="0" y1="1" x2="1" y2="0">
+          <stop offset="0" stopColor="#FEDA75" />
+          <stop offset="0.3" stopColor="#FA7E1E" />
+          <stop offset="0.55" stopColor="#D62976" />
+          <stop offset="0.8" stopColor="#962FBF" />
+          <stop offset="1" stopColor="#4F5BD5" />
+        </linearGradient>
+      </defs>
+      <rect x="2" y="2" width="20" height="20" rx="6" fill="url(#ig-cores)" />
+      <rect
+        x="6"
+        y="6"
+        width="12"
+        height="12"
+        rx="3.6"
+        fill="none"
+        stroke="#fff"
+        strokeWidth="1.7"
+      />
+      <circle cx="12" cy="12" r="2.9" fill="none" stroke="#fff" strokeWidth="1.7" />
+      <circle cx="16" cy="8" r="1" fill="#fff" />
+    </svg>
+  )
+}
