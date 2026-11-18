@@ -1,6 +1,7 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { LogoOra } from '@/components/ui'
 import { useMeuPerfil, useRegistrarAcesso } from '@/features/auth'
+import { AvisoLiveNova } from '@/features/lives'
 import { PrimeiroAcesso } from '@/features/primeiro-acesso'
 import { AbasDaSecao, BarraInferior, BarraLateral } from './NavegacaoAluna'
 import { textosAluna as t } from './textosAluna'
@@ -54,6 +55,7 @@ export function LayoutAluna() {
             </main>
           </div>
           <BarraInferior />
+          <AvisoLiveNova />
         </>
       )}
     </div>

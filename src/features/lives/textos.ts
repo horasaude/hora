@@ -43,4 +43,9 @@ export const textos = {
   entrarCurto: (pontos?: number) => (pontos ? `Entrar · +${pontos}` : 'Entrar'),
   abreAntes: 'A sala abre 30 minutos antes',
   duracao: (n: number) => `${n} min`,
+  novaTitulo: 'Tem live nova',
+  novaQuando: (quando: string, dia: string) => `${quando} · ${dia}`,
+  novaChamada: 'Já deixa anotado para não perder. Esperamos você lá.',
+  novaVer: 'Ver a live',
+  novaEntendi: 'Entendi',
 }

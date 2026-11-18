@@ -2,6 +2,11 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-11-18 · main · Aviso de live nova ao abrir o app
+
+- Ao entrar na área da aluna (qualquer tela), se há live na agenda que ela ainda não viu, abre uma janelinha com a foto, o tema, dia e hora, a profissional, "Entendi" e "Ver a live". Aparece uma vez por live em cada aparelho (localStorage ora-lives-vistas); live marcada depois avisa de novo. Live encerrada não avisa.
+- Arquivos: src/features/lives/components/AvisoLiveNova.tsx, hooks/useLiveNova.ts, textos.ts; ligado em src/app/LayoutAluna.tsx.
+
 ## 2026-11-18 · main · Nome da profissional na lista de aulas
 
 - Página do tema, aba Aulas: ao lado de "Aula N" aparece o nome da profissional da aula (campo Profissional da aula no painel). Aula sem o campo preenchido segue só com "Aula N".
