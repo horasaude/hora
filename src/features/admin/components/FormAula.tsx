@@ -76,7 +76,7 @@ export function FormAula({
       <form id={id} onSubmit={enviar(false)} noValidate className="grid gap-4 sm:grid-cols-2">
         <OndeFica temas={temas} register={register} erro={erros.tema?.message} />
         <TituloEVideo register={register} control={control} erros={erros} />
-        <QuemEQuanto register={register} erro={erros.duracao?.message} />
+        <QuemEQuanto register={register} control={control} erro={erros.duracao?.message} />
         <Descricao control={control} />
         <div className="sm:col-span-2">{materiais}</div>
         <Controller

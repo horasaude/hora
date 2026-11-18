@@ -2,6 +2,12 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-11-18 · main · Profissionais da aula por caixa de marcar
+
+- Painel, janela da aula: o campo de texto "Profissional (opcional)" virou "Profissionais da aula", com Ana Milhomem, Dra. Clara Maria e Laís Moraes para marcar (uma ou mais). Salva os nomes juntos em aulas.profissional ("Ana Milhomem e Laís Moraes"), sem mudança no banco; é o que aparece ao lado de "Aula N" e na página da aula.
+- Aula antiga com texto livre ("Ana") abre com a profissional reconhecida já marcada (profissionaisDoTexto em src/domain/lives.ts).
+- Arquivos: src/features/admin/components/CamposAula.tsx, AulaJanela.tsx, FormAula.tsx, textos.ts; src/domain/lives.ts.
+
 ## 2026-11-18 · main · Aviso de live nova ao abrir o app
 
 - Ao entrar na área da aluna (qualquer tela), se há live na agenda que ela ainda não viu, abre uma janelinha com a foto, o tema, dia e hora, a profissional, "Entendi" e "Ver a live". Aparece uma vez por live em cada aparelho (localStorage ora-lives-vistas); live marcada depois avisa de novo. Live encerrada não avisa.

@@ -6,6 +6,12 @@ import {
   type UseFormRegister,
 } from 'react-hook-form'
 import { Campo } from '@/components/ui'
+import {
+  PROFISSIONAIS,
+  nomesDasProfissionais,
+  profissionaisDoTexto,
+  type Profissional,
+} from '@/domain/lives'
 import { EditorTexto } from '../plano/components/EditorTexto'
 import { textos } from '../textos'
 import type { DadosAula, EntradaAula } from './FormAula'
@@ -18,20 +24,53 @@ function Previa({ control }: { control: Controle }) {
   return <PreviaVideo link={useWatch({ control, name: 'video_url' }) ?? ''} />
 }
 
-/** Profissional e duração (as duas colunas da janela). */
+const TODAS = Object.keys(PROFISSIONAIS) as Profissional[]
+
+/** Uma ou mais profissionais da aula; o que vai para a aluna são os nomes, na ordem fixa. */
+function QuemDaAula({ valor, aoMudar }: { valor: string; aoMudar: (v: string) => void }) {
+  const marcadas = profissionaisDoTexto(valor)
+  return (
+    <fieldset className="flex flex-col gap-1">
+      <legend className="mb-1 text-sm font-medium">{t.campoProfissional}</legend>
+      <div className="flex min-h-12 flex-wrap items-center gap-x-5 gap-y-1">
+        {TODAS.map((p) => (
+          <label key={p} className="flex min-h-10 items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              className="size-5 accent-ora"
+              checked={marcadas.includes(p)}
+              onChange={(e) =>
+                aoMudar(
+                  nomesDasProfissionais(
+                    TODAS.filter((q) => (q === p ? e.target.checked : marcadas.includes(q))),
+                  ),
+                )
+              }
+            />
+            {PROFISSIONAIS[p].nome}
+          </label>
+        ))}
+      </div>
+    </fieldset>
+  )
+}
+
+/** Profissionais (marcar uma ou mais) e duração (as duas colunas da janela). */
 export function QuemEQuanto({
   register,
+  control,
   erro,
 }: {
   register: UseFormRegister<EntradaAula>
+  control: Controle
   erro?: string
 }) {
   return (
     <>
-      <Campo
-        rotulo={t.campoProfissional}
-        placeholder={t.exemploProfissional}
-        {...register('profissional')}
+      <Controller
+        control={control}
+        name="profissional"
+        render={({ field }) => <QuemDaAula valor={field.value} aoMudar={field.onChange} />}
       />
       <Campo
         rotulo={t.campoDuracao}

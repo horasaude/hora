@@ -77,6 +77,18 @@ describe('FormAula', () => {
     expect(aoSalvar.mock.calls[0]?.[1]).toBe(true)
   })
 
+  it('marcar mais de uma profissional salva os nomes juntos', async () => {
+    const aoSalvar = abrir({ tema: 'ema', profissional: 'Ana Milhomem' })
+    preencher()
+    expect(screen.getByLabelText('Ana Milhomem')).toBeChecked()
+    fireEvent.click(screen.getByLabelText('Laís Moraes'))
+    fireEvent.click(screen.getByRole('button', { name: 'Salvar rascunho' }))
+    await vi.waitFor(() => expect(aoSalvar).toHaveBeenCalled())
+    expect(aoSalvar.mock.calls[0]?.[0]).toMatchObject({
+      profissional: 'Ana Milhomem e Laís Moraes',
+    })
+  })
+
   it('sem tema escolhido não salva', async () => {
     const aoSalvar = abrir()
     preencher()

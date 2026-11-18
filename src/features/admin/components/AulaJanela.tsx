@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query'
 import { BotaoBrilho, Janela } from '@/components/ui'
 import { modoDe } from '@/domain/liberacao'
+import { nomesDasProfissionais, profissionaisDoTexto } from '@/domain/lives'
 import { paraCampoBrasilia } from '@/lib/datas'
 import { etapaDoTema, salvarAula, type Aula, type Etapa } from '../api/conteudo.api'
 import { salvarMateriais } from '../api/materiais.api'
@@ -19,6 +20,11 @@ import { BotaoExcluir } from './BotaoExcluir'
 
 type Props = { aulaId?: string; temaId: string | null }
 
+/** Texto antigo ("Ana") vira o nome completo de quem foi reconhecida; sem ninguém, fica como está. */
+function textoDasProfissionais(texto: string | null | undefined): string {
+  return nomesDasProfissionais(profissionaisDoTexto(texto)) || (texto ?? '')
+}
+
 function inicialDa(a: Aula | undefined, etapas: Etapa[], temaId: string | null): EntradaAula {
   const tema = etapas.find((e) => e.id === a?.etapa_id)?.tema_id ?? temaId ?? ''
   return {
@@ -26,7 +32,7 @@ function inicialDa(a: Aula | undefined, etapas: Etapa[], temaId: string | null):
     titulo: a?.titulo ?? '',
     descricao: a?.descricao ?? '',
     video_url: a?.video_url ?? '',
-    profissional: a?.profissional ?? '',
+    profissional: textoDasProfissionais(a?.profissional),
     duracao: a?.duracao_minutos ? String(a.duracao_minutos) : '',
     liberacao: {
       modo: a ? modoDe(a) : 'aberta',

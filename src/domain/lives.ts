@@ -40,3 +40,15 @@ export function nomesDasProfissionais(quem: readonly Profissional[]): string {
   const nomes = quem.map((q) => PROFISSIONAIS[q].nome)
   return nomes.length > 1 ? `${nomes.slice(0, -1).join(', ')} e ${nomes.at(-1)}` : (nomes[0] ?? '')
 }
+
+const semAcento = (t: string) =>
+  t
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+
+/** Quem aparece num texto livre ("Ana", "Dra. Clara e Laís Moraes"), na ordem fixa do cadastro. */
+export function profissionaisDoTexto(texto: string | null | undefined): Profissional[] {
+  const palavras = semAcento(texto ?? '').split(/[^a-z]+/)
+  return (Object.keys(PROFISSIONAIS) as Profissional[]).filter((p) => palavras.includes(p))
+}

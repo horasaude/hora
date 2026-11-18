@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { contagem, janelaDaLive, nomesDasProfissionais } from './lives'
+import { contagem, janelaDaLive, nomesDasProfissionais, profissionaisDoTexto } from './lives'
 
 const inicio = new Date('2026-10-23T19:00:00-03:00')
 const as = (hora: string) => new Date(`2026-10-23T${hora}:00-03:00`)
@@ -39,5 +39,19 @@ describe('nomes das profissionais', () => {
     expect(nomesDasProfissionais(['ana', 'clara', 'lais'])).toBe(
       'Ana Milhomem, Dra. Clara Maria e Laís Moraes',
     )
+  })
+})
+
+describe('profissionais de um texto', () => {
+  it('reconhece pelo primeiro nome, com ou sem acento, na ordem fixa', () => {
+    expect(profissionaisDoTexto(null)).toEqual([])
+    expect(profissionaisDoTexto('Ana')).toEqual(['ana'])
+    expect(profissionaisDoTexto('Lais e dra. clara')).toEqual(['clara', 'lais'])
+    expect(profissionaisDoTexto('Ana Milhomem, Dra. Clara Maria e Laís Moraes')).toEqual([
+      'ana',
+      'clara',
+      'lais',
+    ])
+    expect(profissionaisDoTexto('Juliana')).toEqual([])
   })
 })
