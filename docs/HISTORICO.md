@@ -2,6 +2,11 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-11-18 · main · Nome da profissional na lista de aulas
+
+- Página do tema, aba Aulas: ao lado de "Aula N" aparece o nome da profissional da aula (campo Profissional da aula no painel). Aula sem o campo preenchido segue só com "Aula N".
+- Arquivo: src/features/trilha/components/CartaoAula.tsx.
+
 ## 2026-11-04 · main · Encerrar parceria
 
 - Ficha da parceira (Membros > Alunas), seção Parceria: Reenviar e-mail e Encerrar parceria em dois toques (BotaoExcluir, coral). Corta o acesso na hora (acesso_fim_em = agora); conta e histórico ficam. Para voltar, cadastrar de novo com o mesmo e-mail. Sem acesso, a seção só avisa que a parceria foi encerrada.

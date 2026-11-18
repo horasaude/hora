@@ -66,15 +66,22 @@ function Miniatura({ aula, tema }: { aula: AulaTrilha; tema?: DoTema }) {
   )
 }
 
-/** Aula na lista: miniatura com play, Aula N, título e a bolinha; fechada mostra quando libera ou Em breve. */
+/** Aula na lista: miniatura com play, Aula N com o nome da profissional, título e a bolinha; fechada mostra quando libera ou Em breve. */
 export function CartaoAula({ aula, numero, proxima, fechadaTexto, tema }: Props) {
   const linkAula = useLinkAula()
   const corpo = (
     <>
       <Miniatura aula={aula} tema={tema} />
       <span className="flex min-w-0 flex-1 flex-col gap-[3px]">
-        <span className="self-start rounded-full bg-trilho px-2 py-px text-[11px] font-bold text-suave">
-          {textos.aulaN(numero)}
+        <span className="flex min-w-0 items-center gap-2">
+          <span className="shrink-0 rounded-full bg-trilho px-2 py-px text-[11px] font-bold text-suave">
+            {textos.aulaN(numero)}
+          </span>
+          {aula.profissional && (
+            <span className="truncate text-[12px] font-semibold text-suave">
+              {aula.profissional}
+            </span>
+          )}
         </span>
         <span className="line-clamp-2 text-[14px] leading-snug font-bold text-tinta">
           {aula.titulo}
