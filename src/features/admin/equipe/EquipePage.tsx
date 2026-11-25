@@ -74,6 +74,7 @@ export function EquipePage() {
   return (
     <Quadro
       titulo={textos.configuracoes.pagina}
+      menu={<AbasConfig atual="equipe" />}
       numeros={[
         {
           valor: equipe.data ? String(lista.length - pendentes) : '-',
@@ -87,7 +88,6 @@ export function EquipePage() {
         },
       ]}
     >
-      <AbasConfig atual="equipe" />
       <BotaoBrilho tom="dourado" className="self-start" onClick={() => setAberta({ tipo: 'nova' })}>
         {t.convidar}
       </BotaoBrilho>

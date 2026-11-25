@@ -88,8 +88,8 @@ export function ConfiguracoesPage() {
       titulo={t.pagina}
       numeros={aba === 'planos' ? numeros(config.data) : []}
       aberto={Boolean(item)}
+      menu={<AbasConfig atual={aba} />}
     >
-      {!item && <AbasConfig atual={aba} />}
       {corpo}
     </Quadro>
   )

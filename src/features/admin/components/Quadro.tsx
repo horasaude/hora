@@ -51,11 +51,13 @@ type Props = {
   numeros: Numero[]
   /** Item aberto em página inteira: some o título e o resumo, fica só o detalhe com a seta. */
   aberto?: boolean
+  /** Menu de abas logo abaixo do título, antes do resumo (fica sempre no mesmo lugar). */
+  menu?: ReactNode
   children: ReactNode
 }
 
 /** Tela do painel: título grande, botão principal, resumo e o conteúdo. */
-export function Quadro({ titulo, acao, numeros, aberto, children }: Props) {
+export function Quadro({ titulo, acao, numeros, aberto, menu, children }: Props) {
   if (aberto) return <section className="flex flex-col gap-5">{children}</section>
   return (
     <section className="flex flex-col gap-5">
@@ -63,6 +65,7 @@ export function Quadro({ titulo, acao, numeros, aberto, children }: Props) {
         <h1 className="text-[26px] leading-tight font-bold text-verde-escuro">{titulo}</h1>
         {acao}
       </div>
+      {menu}
       {numeros.length > 0 && <Resumo numeros={numeros} />}
       {children}
     </section>
