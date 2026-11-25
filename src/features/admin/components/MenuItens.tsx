@@ -11,28 +11,21 @@ type Item = { para: string; nome: string; cor: string }
 
 const CRM = ['membros', 'alunas', 'financeiro', 'cancelamentos'].map((p) => `/app/admin/${p}`)
 
-/** Qual item fica aceso quando o caminho não bate sozinho: a aula conta como Conteúdo; Alunas,
- * Financeiro e Cancelamentos contam como Membros; a lista de parceiras e os cupons têm item próprio. */
-function aceso(para: string, caminho: string, busca: string): boolean | undefined {
-  const parceiras = caminho === '/app/admin/alunas' && busca.includes('filtro=parceiras')
-  const cupons = caminho.startsWith('/app/admin/configuracoes/cupons')
-  if (para === 'alunas?filtro=parceiras') return parceiras
-  if (para === 'conteudo' && caminho.startsWith('/app/admin/aulas')) return true
-  if (para === 'membros' && CRM.some((p) => caminho.startsWith(p))) return !parceiras
-  if (para === 'configuracoes' && cupons) return false
-  return undefined
-}
-
-/** Item do menu com bolinha de cor própria. */
+/** Item do menu com bolinha de cor própria; a aula conta como Conteúdo e Alunas, Financeiro e
+ * Cancelamentos contam como Membros (CRM). */
 export function ItemMenu({ i, aoNavegar }: { i: Item; aoNavegar?: () => void }) {
-  const { pathname, search } = useLocation()
+  const caminho = useLocation().pathname
+  const emAula = caminho.startsWith('/app/admin/aulas')
+  const noCrm = CRM.some((p) => caminho.startsWith(p))
   return (
     <ItemMenuLateral
       para={i.para}
       nome={i.nome}
       cor={i.cor}
       aoNavegar={aoNavegar}
-      ativo={aceso(i.para, pathname, search)}
+      ativo={
+        (emAula && i.para === 'conteudo') || (noCrm && i.para === 'membros') ? true : undefined
+      }
     />
   )
 }

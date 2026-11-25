@@ -7,7 +7,6 @@ type Membro = {
   acesso_fim_em: string | null
   ultimo_acesso_em: string | null
   cobranca: string | null
-  parceira?: boolean
 }
 
 export type ResumoMembros = {
@@ -79,7 +78,6 @@ export const FILTROS_MEMBROS = [
   'sem_acesso',
   'atraso',
   'pausadas',
-  'parceiras',
 ] as const
 export type FiltroMembros = (typeof FILTROS_MEMBROS)[number]
 export const ehFiltroMembros = (v: string | null): v is FiltroMembros =>
@@ -96,6 +94,5 @@ const STATUS_DO_FILTRO: Partial<Record<FiltroMembros, string>> = {
 export function noFiltro(m: Membro, filtro: FiltroMembros, agora: Date): boolean {
   if (filtro === 'atraso') return m.cobranca === 'inadimplente'
   if (filtro === 'pausadas') return m.cobranca === 'suspensa'
-  if (filtro === 'parceiras') return m.parceira === true
   return statusAluna(m, agora) === STATUS_DO_FILTRO[filtro]
 }

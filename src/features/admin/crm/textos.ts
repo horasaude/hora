@@ -35,7 +35,6 @@ export const t = {
     sem_acesso: 'Sem acesso',
     atraso: 'Mensalidade em atraso',
     pausadas: 'Pausadas por falta de pagamento',
-    parceiras: 'Parceiras',
   },
   financeiro: {
     titulo: 'Financeiro',
