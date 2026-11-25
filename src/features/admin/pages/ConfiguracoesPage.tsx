@@ -2,25 +2,26 @@ import type { ReactNode } from 'react'
 import { useParams } from 'react-router-dom'
 import { diaEMes, formatarData, formatarDataHora } from '@/lib/datas'
 import { formatarPreco } from '@/lib/moeda'
-import { LinkBrilho } from '@/components/ui'
 import type { Configuracoes } from '../api/modulos.api'
 import { ConfigDetalhe } from '../components/ConfigDetalhe'
 import { CuponsDetalhe } from '../components/CuponsDetalhe'
 import { Estado } from '../components/Estado'
 import { Divisao, Quadro, type Numero } from '../components/Quadro'
 import { celula, LinhaTabela, Tabela } from '../components/Tabela'
-import { useCupons } from '../hooks/useCupons'
+import { caminhoAba, type AbaConfig } from '../configuracoes/abas'
+import { AbasConfig } from '../configuracoes/AbasConfig'
+import { ParceirasConfig } from '../configuracoes/ParceirasConfig'
 import { useConfiguracoes } from '../hooks/useModulos'
 import { lerSecoes } from '../secoes'
 import { textos } from '../textos'
-import { cupons as tc } from '../textos/cupons'
 
 const t = textos.configuracoes
-const ITENS = ['precos', 'oferta', 'cupons', 'termos', 'privacidade'] as const
-type Item = (typeof ITENS)[number]
+const GRUPOS = { planos: ['precos', 'oferta'], documentos: ['termos', 'privacidade'] } as const
+type Grupo = keyof typeof GRUPOS
+type Item = (typeof GRUPOS)[Grupo][number]
+const ITENS: Item[] = [...GRUPOS.planos, ...GRUPOS.documentos]
 
-function valorAtual(item: Item, c: Configuracoes, cupons: number): string {
-  if (item === 'cupons') return tc.resumo(cupons)
+function valorAtual(item: Item, c: Configuracoes): string {
   if (item === 'precos')
     return `Pix ${formatarPreco(c.pix_cheio)} · 12x ${formatarPreco(c.parcelado_cheio)}`
   if (item === 'oferta')
@@ -37,53 +38,58 @@ function numeros(c?: Configuracoes): Numero[] {
   ]
 }
 
-/** Configurações: preços, oferta do ORA, termos e privacidade; o cartão mostra, a janela edita. */
+/** Em que aba está o endereço e se é um item aberto (preços, oferta, termos ou privacidade). */
+function lerEndereco(param?: string): { aba: AbaConfig; item?: Item } {
+  const item = ITENS.find((i) => i === param)
+  if (item) return { aba: GRUPOS.planos.some((i) => i === item) ? 'planos' : 'documentos', item }
+  if (param === 'cupons' || param === 'parceiras' || param === 'documentos') return { aba: param }
+  return { aba: 'planos' }
+}
+
+function ListaItens({ grupo, c }: { grupo: Grupo; c: Configuracoes }) {
+  return (
+    <Tabela colunas={t.colunas}>
+      {GRUPOS[grupo].map((i) => (
+        <LinhaTabela
+          key={i}
+          ativa={false}
+          para={`/app/admin/configuracoes/${i}`}
+          titulo={t.itens[i]}
+        >
+          <td className={celula}>{valorAtual(i, c)}</td>
+        </LinhaTabela>
+      ))}
+    </Tabela>
+  )
+}
+
+/** Configurações com menu próprio: planos e oferta, cupons, parceiras, equipe, termos e privacidade. */
 export function ConfiguracoesPage() {
   const config = useConfiguracoes()
-  const ativos = (useCupons().data ?? []).filter((x) => x.ativo).length
-  const { item: param } = useParams()
-  const item: Item = ITENS.find((i) => i === param) ?? 'precos'
-  const aberto = item === param
+  const { aba, item } = lerEndereco(useParams().item)
   let corpo: ReactNode
-  if (config.isPending) corpo = <Estado tipo="carregando" />
+  if (aba === 'cupons') corpo = <CuponsDetalhe />
+  else if (aba === 'parceiras') corpo = <ParceirasConfig />
+  else if (config.isPending) corpo = <Estado tipo="carregando" />
   else if (config.isError) corpo = <Estado tipo="erro" tentar={() => config.refetch()} />
-  else {
-    const c = config.data
+  else
     corpo = (
       <Divisao
-        aberto={aberto}
-        voltar={{ para: '/app/admin/configuracoes', rotulo: t.pagina }}
+        aberto={Boolean(item)}
+        voltar={{ para: caminhoAba(aba), rotulo: t.pagina }}
         tabela={
-          <Tabela colunas={t.colunas}>
-            {ITENS.map((i) => (
-              <LinhaTabela
-                key={i}
-                ativa={i === item}
-                para={`/app/admin/configuracoes/${i}`}
-                titulo={i === 'cupons' ? tc.item : t.itens[i]}
-              >
-                <td className={celula}>{valorAtual(i, c, ativos)}</td>
-              </LinhaTabela>
-            ))}
-          </Tabela>
+          <ListaItens grupo={aba === 'documentos' ? 'documentos' : 'planos'} c={config.data} />
         }
-        detalhe={
-          item === 'cupons' ? <CuponsDetalhe /> : <ConfigDetalhe key={item} item={item} c={c} />
-        }
+        detalhe={item && <ConfigDetalhe key={item} item={item} c={config.data} />}
       />
     )
-  }
   return (
     <Quadro
       titulo={t.pagina}
-      numeros={numeros(config.data)}
-      aberto={aberto}
-      acao={
-        <LinkBrilho tom="escuro" to="/app/admin/configuracoes/equipe">
-          {t.equipe}
-        </LinkBrilho>
-      }
+      numeros={aba === 'planos' ? numeros(config.data) : []}
+      aberto={Boolean(item)}
     >
+      {!item && <AbasConfig atual={aba} />}
       {corpo}
     </Quadro>
   )

@@ -63,7 +63,7 @@ export function Quadro({ titulo, acao, numeros, aberto, children }: Props) {
         <h1 className="text-[26px] leading-tight font-bold text-verde-escuro">{titulo}</h1>
         {acao}
       </div>
-      <Resumo numeros={numeros} />
+      {numeros.length > 0 && <Resumo numeros={numeros} />}
       {children}
     </section>
   )

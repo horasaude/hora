@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
 import { BotaoBrilho, EtiquetaBrilho } from '@/components/ui'
 import { ESPECIALIDADES, type Especialidade } from '@/domain/forum'
 import { Avatar } from '@/features/forum'
@@ -7,6 +6,8 @@ import { formatarData } from '@/lib/datas'
 import { Estado } from '../components/Estado'
 import { Quadro } from '../components/Quadro'
 import { celula, Tabela } from '../components/Tabela'
+import { AbasConfig } from '../configuracoes/AbasConfig'
+import { textos } from '../textos'
 import { MenuAcoes } from '../plano/components/MenuAcoes'
 import { novoLinkDeAcesso, type Profissional } from './api/equipe.api'
 import { useAcaoEquipe, useEquipe } from './hooks/useEquipe'
@@ -64,7 +65,7 @@ function Linha({ p, abrir }: { p: Profissional; abrir: (a: Aberta) => void }) {
   )
 }
 
-/** Equipe: profissionais com acesso ao painel, convite com link, editar e tirar acesso. */
+/** Equipe (aba de Configurações): profissionais com acesso ao painel, convite com link, editar e tirar acesso. */
 export function EquipePage() {
   const equipe = useEquipe()
   const [aberta, setAberta] = useState<Aberta | null>(null)
@@ -72,12 +73,7 @@ export function EquipePage() {
   const pendentes = lista.filter((p) => p.convite_pendente).length
   return (
     <Quadro
-      titulo={t.titulo}
-      acao={
-        <BotaoBrilho tom="dourado" onClick={() => setAberta({ tipo: 'nova' })}>
-          {t.convidar}
-        </BotaoBrilho>
-      }
+      titulo={textos.configuracoes.pagina}
       numeros={[
         {
           valor: equipe.data ? String(lista.length - pendentes) : '-',
@@ -91,12 +87,10 @@ export function EquipePage() {
         },
       ]}
     >
-      <Link
-        to="/app/admin/configuracoes"
-        className="self-start text-sm text-suave underline underline-offset-4"
-      >
-        {t.voltar}
-      </Link>
+      <AbasConfig atual="equipe" />
+      <BotaoBrilho tom="dourado" className="self-start" onClick={() => setAberta({ tipo: 'nova' })}>
+        {t.convidar}
+      </BotaoBrilho>
       {equipe.isPending ? (
         <Estado tipo="carregando" />
       ) : equipe.isError ? (
