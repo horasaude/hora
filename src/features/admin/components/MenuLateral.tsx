@@ -5,6 +5,7 @@ import { textos } from '../textos'
 import { saude } from '../textos/saude'
 import { GrupoMenu, ItemMenu } from './MenuItens'
 import { t as crm } from '../crm/textos'
+import { cupons as tCupons } from '../textos/cupons'
 
 const a = textos.abas
 // Bolinhas com as cores da referência do painel (docs/referencias/estilo-painel.html).
@@ -20,6 +21,8 @@ const ITENS = [
   { para: 'avisos', nome: a.avisos, cor: '#7FB89E' },
   { para: 'membros', nome: crm.menu, cor: '#F2643A' },
   { para: 'loja', nome: a.loja, cor: '#D98BA8' },
+  { para: 'configuracoes/cupons', nome: tCupons.item, cor: '#F2A922' },
+  { para: 'alunas?filtro=parceiras', nome: crm.filtros.parceiras, cor: '#D98BA8' },
   { para: 'configuracoes', nome: a.configuracoes, cor: '#B9C3BF' },
 ] as const
 

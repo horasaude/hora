@@ -77,4 +77,9 @@ describe('noFiltro', () => {
     expect(noFiltro(membro(0, { cobranca: 'inadimplente' }), 'atraso', agora)).toBe(true)
     expect(noFiltro(membro(0, { cobranca: 'suspensa' }), 'pausadas', agora)).toBe(true)
   })
+
+  it('o item Parceiras do menu mostra só quem foi cadastrada como parceira', () => {
+    expect(noFiltro(membro(0, { parceira: true }), 'parceiras', agora)).toBe(true)
+    expect(noFiltro(membro(0, { parceira: false }), 'parceiras', agora)).toBe(false)
+  })
 })
