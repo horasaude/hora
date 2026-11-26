@@ -25,5 +25,7 @@ describe('CheckoutPage: cupom de um plano só', () => {
       await screen.findByRole('radio', { name: /Mensal/, checked: true }, { timeout: 4000 }),
     ).toBeChecked()
     expect(screen.queryByText('Este cupom não vale para essa forma de pagamento.')).toBeNull()
+    expect(document.body.textContent).not.toMatch(/\d+x de R\$\s?87,90/)
+    expect(document.body.textContent).toMatch(/R\$\s?87,90/)
   })
 })
