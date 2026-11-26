@@ -111,8 +111,8 @@ describe('Popup de compra da Black', () => {
   })
 
   it('com a oferta da Black, mostra o valor dela e leva o cupom ao checkout', async () => {
-    await abrir(ok, 'recorrente', { cupom: 'BLACK87', valor: 'R$ 87,90' })
-    expect(screen.getByText('R$ 87,90')).toBeInTheDocument()
+    await abrir(ok, 'recorrente', { cupom: 'BLACK87', valor: 'R$ 79,90' })
+    expect(screen.getByText('R$ 79,90')).toBeInTheDocument()
     preencher()
     await vi.waitFor(() => expect(irPara).toHaveBeenCalledWith('/checkout?cupom=BLACK87'))
   })

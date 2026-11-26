@@ -2,32 +2,32 @@
 
 Página de vendas pública (rota /), feita para tráfego pago no celular. Estrutura no estilo da Comunidade Subido de Tráfego, visual no estilo PAIN, nas cores do ORA. Não importa Supabase nem nada da área da aluna.
 
-| Arquivo                          | Faz                                                                                              |
-| -------------------------------- | ------------------------------------------------------------------------------------------------ |
-| pages/VendasPage.tsx             | Monta os blocos na ordem da página e guarda as UTMs                                              |
-| pages/ObrigadaPage.tsx           | /obrigada?pedido=: situação real (aprovado, esperando Pix, recusado)                             |
-| hooks/useSituacaoPedido.ts       | consulta situacao_pedido a cada 5 s enquanto pendente                                            |
-| pages/DocumentoPage.tsx          | /termos e /privacidade (textos em textos/legal.ts)                                               |
-| components/Faixa.tsx             | Faixa fixa da oferta com contagem; some no fim da oferta                                         |
-| components/Abertura.tsx          | Primeira dobra, números de prova e o problema                                                    |
-| components/Produto.tsx           | O que é a ORA e como funciona                                                                    |
-| components/Pessoas.tsx           | As três profissionais (iniciais até chegar a foto) e depoimentos                                 |
-| components/Oferta.tsx            | Para quem é e tudo o que recebe (selos BÔNUS)                                                    |
-| components/Preco.tsx             | Preço ancorado; troca sozinho no fim da oferta                                                   |
-| components/Confianca.tsx         | Prêmios do ranking, garantia e perguntas (acordeão)                                              |
-| components/Fechamento.tsx        | CTA final e rodapé                                                                               |
-| components/VideoFundo.tsx        | Vídeos de fundo da primeira dobra (public/videos), em sequência                                  |
-| components/Destaque.tsx          | `*palavra*` no texto vira serifa itálica colorida                                                |
-| components/Secao.tsx             | Moldura dos blocos (branco, areia ou verde)                                                      |
-| components/BotaoCompra.tsx       | Todo botão de compra: abre o popup                                                               |
-| components/compra/CompraProvider | Popup (`<dialog>` nativo), trava a rolagem, pré-carrega o formulário                             |
-| components/compra/CompraForm     | Forma de pagamento, nome, e-mail, WhatsApp e a linha de termos (lazy)                            |
-| hooks/useCompraForm.ts           | Grava o lead e vai para o checkout com o plano                                                   |
-| hooks/useEmOferta.ts, usePrecos  | Oferta e preços vigentes, trocam sozinhos no fim da oferta                                       |
-| api/registrarLead.ts             | Edge Function cadastrar-interessada; nunca lança, espera no máximo 4 s                           |
-| black/                           | Página da Black ORA (/black, VSL, prova social, oferta 12x R$ 87,90 com cupom BLACK87 até 30/11) |
-| flags.ts                         | LOJA_PARCEIRA_CONFIRMADA (bônus da loja, desligado)                                              |
-| textos.ts e textos/              | Toda a copy. Itens com TODO(clientes) dependem das três                                          |
+| Arquivo                          | Faz                                                                                                 |
+| -------------------------------- | --------------------------------------------------------------------------------------------------- |
+| pages/VendasPage.tsx             | Monta os blocos na ordem da página e guarda as UTMs                                                 |
+| pages/ObrigadaPage.tsx           | /obrigada?pedido=: situação real (aprovado, esperando Pix, recusado)                                |
+| hooks/useSituacaoPedido.ts       | consulta situacao_pedido a cada 5 s enquanto pendente                                               |
+| pages/DocumentoPage.tsx          | /termos e /privacidade (textos em textos/legal.ts)                                                  |
+| components/Faixa.tsx             | Faixa fixa da oferta com contagem; some no fim da oferta                                            |
+| components/Abertura.tsx          | Primeira dobra, números de prova e o problema                                                       |
+| components/Produto.tsx           | O que é a ORA e como funciona                                                                       |
+| components/Pessoas.tsx           | As três profissionais (iniciais até chegar a foto) e depoimentos                                    |
+| components/Oferta.tsx            | Para quem é e tudo o que recebe (selos BÔNUS)                                                       |
+| components/Preco.tsx             | Preço ancorado; troca sozinho no fim da oferta                                                      |
+| components/Confianca.tsx         | Prêmios do ranking, garantia e perguntas (acordeão)                                                 |
+| components/Fechamento.tsx        | CTA final e rodapé                                                                                  |
+| components/VideoFundo.tsx        | Vídeos de fundo da primeira dobra (public/videos), em sequência                                     |
+| components/Destaque.tsx          | `*palavra*` no texto vira serifa itálica colorida                                                   |
+| components/Secao.tsx             | Moldura dos blocos (branco, areia ou verde)                                                         |
+| components/BotaoCompra.tsx       | Todo botão de compra: abre o popup                                                                  |
+| components/compra/CompraProvider | Popup (`<dialog>` nativo), trava a rolagem, pré-carrega o formulário                                |
+| components/compra/CompraForm     | Forma de pagamento, nome, e-mail, WhatsApp e a linha de termos (lazy)                               |
+| hooks/useCompraForm.ts           | Grava o lead e vai para o checkout com o plano                                                      |
+| hooks/useEmOferta.ts, usePrecos  | Oferta e preços vigentes, trocam sozinhos no fim da oferta                                          |
+| api/registrarLead.ts             | Edge Function cadastrar-interessada; nunca lança, espera no máximo 4 s                              |
+| black/                           | Página da Black ORA (/black, VSL, prova social, oferta R$ 79,90 mensal com cupom BLACK87 até 30/11) |
+| flags.ts                         | LOJA_PARCEIRA_CONFIRMADA (bônus da loja, desligado)                                                 |
+| textos.ts e textos/              | Toda a copy. Itens com TODO(clientes) dependem das três                                             |
 
 Compra: o lead é gravado antes de sair, mas a venda nunca depende dele. Se a função falhar ou demorar, o redirecionamento acontece do mesmo jeito. Sem link configurado, o popup avisa e oferece o WhatsApp.
 Fotos: public/fotos (ensaio de 01/10/2026). Vídeos: public/videos (Pexels 8045825, 7026643, 6812958). Identidade visual: decisão 0004.

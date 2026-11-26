@@ -1,17 +1,17 @@
-// Página da Black ORA (até 30/11/2026). Preço: 12 mensalidades de R$ 87,90 no cartão.
+// Página da Black ORA (até 30/11/2026). Preço: 12 mensalidades de R$ 79,90 no cartão.
 
 export const FIM_BLACK = new Date('2026-11-30T23:59:59-03:00')
 
-/** Cupom criado no painel: R$ 129,80 de desconto só no mensal (217,70 - 129,80 = 87,90). */
-export const OFERTA_BLACK = { cupom: 'BLACK87', valor: 'R$ 87,90' }
+/** Cupom criado no painel: R$ 137,80 de desconto só no mensal (217,70 - 137,80 = 79,90). */
+export const OFERTA_BLACK = { cupom: 'BLACK87', valor: 'R$ 79,90' }
 
 export const black = {
   faixa: 'Black ORA termina em',
   encerrada: 'A Black ORA terminou',
   hero: {
     etiqueta: 'Black Friday ORA · só até 30/11',
-    titulo: 'Médica, nutricionista e educadora física cuidando de você por',
-    preco: 'R$ 87,90',
+    titulo: 'Médica, nutricionista e personal cuidando de você por',
+    preco: 'R$ 79,90',
     porMes: 'mensal',
     subtitulo:
       'O menor valor que a ORA já teve. São 12 meses com a gente, num app só, para você parar de recomeçar toda segunda.',
@@ -49,11 +49,11 @@ export const black = {
     pessoas: [
       { nome: 'Dra. Clara Maria', papel: 'Médica', foto: '/fotos/clara.webp' },
       { nome: 'Ana Milhomem', papel: 'Nutricionista', foto: '/fotos/ana.webp' },
-      { nome: 'Laís Moraes', papel: 'Educadora física', foto: '/fotos/lais.webp' },
+      { nome: 'Laís Moraes', papel: 'Personal trainer', foto: '/fotos/lais.webp' },
     ],
   },
   recebe: {
-    etiqueta: 'Tudo isso por R$ 87,90',
+    etiqueta: 'Tudo isso por R$ 79,90',
     titulo: 'O que você',
     destaque: 'recebe',
     itens: [
@@ -71,12 +71,12 @@ export const black = {
     etiqueta: 'Black ORA',
     de: 'De R$ 217,70',
     mensal: 'mensal',
-    preco: 'R$ 87,90',
+    preco: 'R$ 79,90',
     dia: 'Menos de R$ 3 por dia',
-    economia: 'Você economiza R$ 1.557,60 no ano',
+    economia: 'Você economiza R$ 1.653,60 no ano',
     contagem: 'Esse valor acaba em',
     unidades: ['dias', 'horas', 'min', 'seg'],
-    botao: 'Garantir meu lugar por R$ 87,90',
+    botao: 'Garantir meu lugar por R$ 79,90',
     seguro: 'Compra segura. O acesso chega no seu e-mail assim que o pagamento for aprovado.',
   },
   garantia: {
@@ -90,12 +90,12 @@ export const black = {
     destaque: 'dúvida?',
     itens: [
       {
-        p: 'Até quando vale o valor de R$ 87,90?',
+        p: 'Até quando vale o valor de R$ 79,90?',
         r: 'Até 30/11, às 23h59. Depois disso a mensalidade volta para R$ 217,70.',
       },
       {
-        p: 'Os R$ 87,90 valem só no primeiro mês?',
-        r: 'Não. Você paga R$ 87,90 em cada uma das 12 mensalidades.',
+        p: 'Os R$ 79,90 valem só no primeiro mês?',
+        r: 'Não. Você paga R$ 79,90 em cada uma das 12 mensalidades.',
       },
       {
         p: 'Vai ocupar o limite do meu cartão?',
