@@ -15,7 +15,7 @@ import { PixGerado } from '../components/PixGerado'
 import { Resumo } from '../components/Resumo'
 import { totalParcelado, valorDoPlano } from '../components/valores'
 import { useCheckout } from '../hooks/useCheckout'
-import { useCupom } from '../hooks/useCupom'
+import { useCupom, usePlanoDoCupom } from '../hooks/useCupom'
 import { useFinalizar } from '../hooks/useFinalizar'
 import { textos } from '../textos'
 
@@ -45,6 +45,7 @@ export function CheckoutPage() {
   const { form, cpf, whatsapp, cartao } = useCheckout()
   const plano = form.watch('plano')
   const parcelas = Number(form.watch('parcelas'))
+  usePlanoDoCupom(cupom.aplicado, plano, (p) => form.setValue('plano', p))
   const codigoCupom =
     cupom.aplicado && cupomVale(cupom.aplicado, plano) ? cupom.aplicado.codigo : null
   const { finalizar, enviando, erro, resultado, recomecar } = useFinalizar(plano, codigoCupom)

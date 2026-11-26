@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { Cupom } from '@/domain/cupom'
+import type { Plano } from '@/domain/precos'
 import { consultarCupom } from '../api/cupom.api'
 
 export type EstadoCupom = 'parado' | 'buscando' | 'invalido' | 'falha'
@@ -49,4 +50,17 @@ export function useCupom() {
   }
 
   return { codigo, digitar, aplicado, estado, aplicar, remover }
+}
+
+/** Cupom que só vale numa forma de pagamento (ex.: BLACK87 no mensal) troca o plano para ela ao entrar. */
+export function usePlanoDoCupom(
+  aplicado: Cupom | null,
+  plano: Plano,
+  escolher: (p: Plano) => void,
+) {
+  const unico = aplicado?.planos.length === 1 ? aplicado.planos[0] : null
+  useEffect(() => {
+    if (unico && unico !== plano) escolher(unico)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [unico])
 }
