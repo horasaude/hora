@@ -9,8 +9,8 @@ import { mascararTelefone } from '@/lib/telefone'
 import { registrarLead } from '../api/registrarLead'
 import { esquemaCompra, type Compra, type EntradaCompra } from '../schemas/compra'
 
-/** Grava o lead (sem travar a venda) e leva ao checkout já com os dados preenchidos. */
-export function useCompraForm(planoInicial: Plano) {
+/** Grava o lead (sem travar a venda) e leva ao checkout já com os dados preenchidos (e o cupom, se a página tiver). */
+export function useCompraForm(planoInicial: Plano, cupom?: string) {
   const [saindo, setSaindo] = useState(false)
   const form = useForm<EntradaCompra, unknown, Compra>({
     resolver: zodResolver(esquemaCompra),
@@ -23,7 +23,7 @@ export function useCompraForm(planoInicial: Plano) {
     const { plano, nome, email, whatsapp } = dados
     salvarInscricao({ plano, nome, email, whatsapp })
     setSaindo(true)
-    irPara('/checkout')
+    irPara(cupom ? `/checkout?cupom=${encodeURIComponent(cupom)}` : '/checkout')
   })
 
   const whatsapp = form.register('whatsapp', {

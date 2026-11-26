@@ -2,6 +2,15 @@
 
 Entradas mais novas no topo. Cada entrada: data, branch, o que foi feito, arquivos principais, pendências.
 
+## 2026-11-26 · main · Página da Black ORA (VSL) e menu de Configurações
+
+- /black: página preta com o verde da comunidade, válida até 30/11 23h59 (FIM_BLACK). VSL em pé de 1min36 (public/black/vsl.mp4, montada dos anúncios e do Boas-vindas das três), começa muda com "Toque para ouvir". Prova social com 14 antes e depois de pacientes da Ana, só as de roupa (public/black). Preço 12x R$ 87,90 no mensal (assinatura, não ocupa o limite).
+- Botão abre o popup já no mensal mostrando 12x R$ 87,90 e leva ?cupom=BLACK87 ao checkout (CompraProvider aceita oferta). O cupom BLACK87 (R$ 129,80 só no mensal, até 30/11 23h59) é criado no painel.
+- black.comunidadeora.com.br redireciona para www.comunidadeora.com.br/black (vercel.json, por host): o checkout e as funções só aceitam o domínio principal (ORIGENS_PERMITIDAS).
+- Montserrat 700 e 800 carregadas (preço mais encorpado).
+- 25/11: Configurações com menu próprio (Planos e oferta, Cupons, Parceiras, Equipe, Termos e privacidade).
+- Pendências: domínio black no projeto da Vercel e CNAME no Registro.br; alerta dado sobre a Resolução CFN 856/2026 (antes e depois); tirar a página depois de 30/11.
+
 ## 2026-11-18 · main · Profissionais da aula por caixa de marcar
 
 - Painel, janela da aula: o campo de texto "Profissional (opcional)" virou "Profissionais da aula", com Ana Milhomem, Dra. Clara Maria e Laís Moraes para marcar (uma ou mais). Salva os nomes juntos em aulas.profissional ("Ana Milhomem e Laís Moraes"), sem mudança no banco; é o que aparece ao lado de "Aula N" e na página da aula.

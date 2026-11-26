@@ -1,5 +1,5 @@
 import { createBrowserRouter, Navigate, type RouteObject } from 'react-router-dom'
-import { ObrigadaPage, PrivacidadePage, TermosPage, VendasPage } from '@/features/vendas'
+import { BlackPage, ObrigadaPage, PrivacidadePage, TermosPage, VendasPage } from '@/features/vendas'
 import { rotasAluna } from './rotasAluna'
 import { TelaErro } from './TelaErro'
 
@@ -97,6 +97,7 @@ export const router = createBrowserRouter([
     errorElement: <TelaErro tipo="geral" />,
     children: [
       { path: '/', element: <VendasPage /> },
+      { path: '/black', element: <BlackPage /> },
       { path: '/obrigada', element: <ObrigadaPage /> },
       { path: '/termos', element: <TermosPage /> },
       { path: '/privacidade', element: <PrivacidadePage /> },

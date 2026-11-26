@@ -1,4 +1,17 @@
 {
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "black.comunidadeora.com.br"
+        }
+      ],
+      "destination": "https://www.comunidadeora.com.br/black",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     {
       "source": "/acesso/:codigo",

@@ -1,13 +1,20 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import type { Plano } from '@/domain/precos'
 import { CompraContexto } from '../../hooks/compraContexto'
+import type { OfertaCompra } from './CompraForm'
 import { textos } from '../../textos'
 
 const carregarForm = () => import('./CompraForm')
 const CompraForm = lazy(() => carregarForm().then((m) => ({ default: m.CompraForm })))
 
-/** Popup de compra (<dialog> nativo: foco preso, Esc fecha, foco volta ao botão). */
-export function CompraProvider({ children }: { children: ReactNode }) {
+/** Popup de compra (<dialog> nativo: foco preso, Esc fecha, foco volta ao botão). Com oferta, mostra o valor dela e leva o cupom. */
+export function CompraProvider({
+  children,
+  oferta,
+}: {
+  children: ReactNode
+  oferta?: OfertaCompra
+}) {
   const dialogo = useRef<HTMLDialogElement>(null)
   const [plano, setPlano] = useState<Plano | null>(null)
 
@@ -56,7 +63,7 @@ export function CompraProvider({ children }: { children: ReactNode }) {
             <Suspense
               fallback={<p className="py-10 text-center text-suave">{textos.compra.carregando}</p>}
             >
-              <CompraForm planoInicial={plano} />
+              <CompraForm planoInicial={plano} oferta={oferta} />
             </Suspense>
           </div>
         )}

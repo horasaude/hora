@@ -9,11 +9,12 @@ vi.mock('@/lib/navegacao', () => ({ irPara: vi.fn() }))
 async function abrir(
   respostaFuncao: () => Promise<Response>,
   plano?: 'pix' | 'parcelado' | 'recorrente',
+  oferta?: { cupom: string; valor: string },
 ) {
   const fetch = vi.fn(respostaFuncao)
   vi.stubGlobal('fetch', fetch)
   render(
-    <CompraProvider>
+    <CompraProvider oferta={oferta}>
       <BotaoCompra plano={plano}>Quero este</BotaoCompra>
     </CompraProvider>,
   )
@@ -98,5 +99,21 @@ describe('Popup de compra', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Fechar', hidden: true }))
     expect(screen.getByRole('dialog', { hidden: true })).not.toHaveAttribute('open')
     expect(document.documentElement).not.toHaveClass('overflow-hidden')
+  })
+})
+
+describe('Popup de compra da Black', () => {
+  afterEach(() => {
+    cleanup()
+    vi.clearAllMocks()
+    vi.unstubAllGlobals()
+    sessionStorage.clear()
+  })
+
+  it('com a oferta da Black, mostra o valor dela e leva o cupom ao checkout', async () => {
+    await abrir(ok, 'recorrente', { cupom: 'BLACK87', valor: '12x R$ 87,90' })
+    expect(screen.getByText('12x R$ 87,90')).toBeInTheDocument()
+    preencher()
+    await vi.waitFor(() => expect(irPara).toHaveBeenCalledWith('/checkout?cupom=BLACK87'))
   })
 })

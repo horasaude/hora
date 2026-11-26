@@ -8,6 +8,7 @@ Fonte única de "onde está cada coisa". Atualizado ao fim de cada tarefa (/fim)
 | Rota                                                            | Página                                                     | Feature                       | Acesso                 | Carga                    |
 | --------------------------------------------------------------- | ---------------------------------------------------------- | ----------------------------- | ---------------------- | ------------------------ |
 | /                                                               | VendasPage                                                 | vendas                        | público                | pacote inicial           |
+| /black                                                          | BlackPage                                                  | vendas                        | público                | sob demanda              |
 | /obrigada                                                       | ObrigadaPage                                               | vendas                        | público                | pacote inicial           |
 | /termos                                                         | TermosPage                                                 | vendas                        | público                | pacote inicial           |
 | /privacidade                                                    | PrivacidadePage                                            | vendas                        | público                | pacote inicial           |

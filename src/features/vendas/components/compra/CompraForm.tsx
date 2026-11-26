@@ -25,9 +25,12 @@ function Concordo() {
   )
 }
 
-function PlanoEscolhido({ plano }: { plano: Plano }) {
-  const escolhida = opcoesPagamento(usePrecos()).find((o) => o.plano === plano)
-  if (!escolhida) return null
+export type OfertaCompra = { cupom: string; valor: string }
+
+function PlanoEscolhido({ plano, oferta }: { plano: Plano; oferta?: OfertaCompra }) {
+  const achada = opcoesPagamento(usePrecos()).find((o) => o.plano === plano)
+  if (!achada) return null
+  const escolhida = oferta ? { ...achada, valor: oferta.valor } : achada
   return (
     <p className="mb-1 rounded-2xl bg-white px-4 py-3 text-sm text-tinta">
       <span className="block text-[0.65rem] font-semibold tracking-[0.18em] text-suave uppercase">
@@ -39,13 +42,19 @@ function PlanoEscolhido({ plano }: { plano: Plano }) {
 }
 
 /** Só os três campos: o plano já veio do cartão escolhido na página. */
-export function CompraForm({ planoInicial }: { planoInicial: Plano }) {
-  const { form, enviar, whatsapp, ocupado } = useCompraForm(planoInicial)
+export function CompraForm({
+  planoInicial,
+  oferta,
+}: {
+  planoInicial: Plano
+  oferta?: OfertaCompra
+}) {
+  const { form, enviar, whatsapp, ocupado } = useCompraForm(planoInicial, oferta?.cupom)
   const { register } = form
   const erros = form.formState.errors
   return (
     <form onSubmit={enviar} noValidate className="flex flex-col gap-3">
-      <PlanoEscolhido plano={planoInicial} />
+      <PlanoEscolhido plano={planoInicial} oferta={oferta} />
       <Campo
         rotulo={t.nome.rotulo}
         rotuloOculto
