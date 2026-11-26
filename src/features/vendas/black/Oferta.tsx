@@ -33,10 +33,10 @@ export function Oferta() {
           {t.etiqueta}
         </p>
         <p className="mt-6 text-creme/50 line-through">{t.de}</p>
-        <p className="mt-2 text-creme/80">{t.por}</p>
         <p className="font-texto text-7xl leading-none font-extrabold tracking-tight text-verde-vivo sm:text-8xl">
           {t.preco}
         </p>
+        <p className="mt-1 text-sm text-creme/60">{t.mensal}</p>
         <p className="mt-3 font-semibold text-creme">{t.dia}</p>
         <p className="mt-1 text-sm text-verde-vivo">{t.economia}</p>
         <Contagem />

@@ -3,7 +3,7 @@
 export const FIM_BLACK = new Date('2026-11-30T23:59:59-03:00')
 
 /** Cupom criado no painel: R$ 129,80 de desconto só no mensal (217,70 - 129,80 = 87,90). */
-export const OFERTA_BLACK = { cupom: 'BLACK87', valor: '12x R$ 87,90' }
+export const OFERTA_BLACK = { cupom: 'BLACK87', valor: 'R$ 87,90' }
 
 export const black = {
   faixa: 'Black ORA termina em',
@@ -12,12 +12,12 @@ export const black = {
     etiqueta: 'Black Friday ORA · só até 30/11',
     titulo: 'Médica, nutricionista e educadora física cuidando de você por',
     preco: 'R$ 87,90',
-    porMes: 'por mês',
+    porMes: 'mensal',
     subtitulo:
       'O menor valor que a ORA já teve. São 12 meses com a gente, num app só, para você parar de recomeçar toda segunda.',
     video: 'Toque para ouvir',
     botao: 'Quero entrar na Black ORA',
-    apoio: ['12x de R$ 87,90', 'Não ocupa o limite do cartão', 'Garantia de 7 dias'],
+    apoio: ['Assinatura mensal', 'Não ocupa o limite do cartão', 'Garantia de 7 dias'],
   },
   prova: {
     etiqueta: 'Resultados reais',
@@ -69,8 +69,8 @@ export const black = {
   },
   oferta: {
     etiqueta: 'Black ORA',
-    de: 'De 12x R$ 217,70',
-    por: 'por 12x',
+    de: 'De R$ 217,70',
+    mensal: 'mensal',
     preco: 'R$ 87,90',
     dia: 'Menos de R$ 3 por dia',
     economia: 'Você economiza R$ 1.557,60 no ano',

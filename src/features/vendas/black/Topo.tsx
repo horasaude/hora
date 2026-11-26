@@ -38,7 +38,7 @@ export function Hero() {
         <span className="mt-2 block font-texto text-6xl font-extrabold tracking-tight text-verde-vivo sm:text-8xl">
           {t.preco}
         </span>
-        <span className="font-texto text-lg font-light text-creme/70 italic sm:text-2xl">
+        <span className="mt-1 block font-texto text-sm font-normal text-creme/60 sm:text-base">
           {t.porMes}
         </span>
       </h1>
